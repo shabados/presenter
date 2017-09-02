@@ -1,0 +1,12 @@
+*.swp
+*.go~
+data
+data-journal
+*.DS_Store
+tmux*
+.file_tags.kaktmp
+.kak.tags.namecache
+tags
+.vscode*
+settings.json
+nohup.out

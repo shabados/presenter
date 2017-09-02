@@ -1,0 +1,15 @@
+{{define "titlebarCloseable"}}
+<div id="titlebar" class="closeable">
+	<div>
+		<div class="title"><span class="usual">Shabad OS</span><span class="secret">{{.IP}}:8080</span></div>
+		<div class="buttons right">
+			<i id="title-minimize" class="fa fa-window-minimize fa-fw hoverable" aria-hidden="true" data-hover="Minimize"></i>
+			<i id="title-maximize" class="fa fa-expand fa-fw hoverable" aria-hidden="true" data-hover="Full Screen"></i>
+			<i id="title-close" class="fa fa-times fa-fw hoverable" aria-hidden="true" data-hover="Close Window"></i>
+		</div>
+	</div>
+</div>
+
+<script src="includes/default.js"></script>
+
+{{end}}

@@ -1,0 +1,22 @@
+body.presentation .gurmukhifont {
+    font-size: 10.666666666666666666666666664vh;
+    line-height: 14.033333333333333333333333329vh;
+}
+
+body.presentation .translation {
+	line-height: 10.466666666666666666666666664vh;
+	font-size: 6.666666666666666666666666665vh;
+	margin-top: 1.633333333333333333333333332vh; /* .4 */
+}
+
+body.presentation .darpan {
+	font-size: 5.333333333333333333333333332vh;
+	margin-top: .999999999999999999999999999vh;
+	line-height: 10.33333333333333333333333333vh;
+}
+
+body.presentation .transliteration {
+	font-size: 5.333333333333333333333333332vh;
+	margin-top: 1.999999999999999999999999999vh;
+	line-height: 6.833333333333333333333333331vh;
+}

@@ -1,0 +1,2 @@
+body.presentation .vishraamLight, body.presentation .active .vishraamLight {color: inherit;}
+.vishraamLight > .vishraamChar {display: none;}

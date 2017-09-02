@@ -1,0 +1,25 @@
+{{define "titlebar"}}
+{{$mod:="Ctrl+"}}
+<div id="titlebar">
+	<div>
+		<div class="buttons left">
+			<i id="title-menu" class="fa fa-bars fa-fw hoverable" aria-hidden="true" data-hover="Menu" data-hover-hotkey="{{$mod}},"></i>
+			<i id="title-backward" class="fa fa-arrow-left fa-fw hoverable" aria-hidden="true" data-hover="Back" data-hover-hotkey="{{$mod}}Left"></i>
+			<i id="title-forward" class="fa fa-arrow-right fa-fw hoverable" aria-hidden="true" data-hover="Forward" data-hover-hotkey="{{$mod}}Right"></i>
+		</div>
+		<div class="title">
+			<span class="usual">{{.Title}}</span>
+			<span class="secret">{{.IP}}:8080</span>
+		</div>
+		<div class="buttons right">
+			<i id="title-minimize" class="fa fa-window-minimize fa-fw hoverable" aria-hidden="true" data-hover="Minimize"></i>
+			<i id="title-shade" class="fa fa-window-minimize fa-fw hoverable" aria-hidden="true" data-hover="Hide" data-hover-hotkey="{{$mod}}H"></i>
+			<i id="title-popout" class="fa fa-external-link fa-fw hoverable" aria-hidden="true" data-hover="Pop Out" data-hover-hotkey="{{$mod}}N"></i>
+			<i id="title-popin" class="fa fa-sign-in fa-fw hoverable" aria-hidden="true" data-hover="Pop In"></i>
+		</div>
+	</div>
+</div>
+
+<script src="includes/default.js"></script>
+
+{{end}}

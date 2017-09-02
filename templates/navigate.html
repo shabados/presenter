@@ -1,0 +1,79 @@
+{{define "navigatePage"}}
+<!DOCTYPE html>
+<html>
+    <head>
+        {{template "header"}}
+    </head>
+<body class="navigate">
+    {{template "titlebar" .}}
+        <div id="humsg"></div>
+        <div id="spline"></div>
+        <div class="scrollBetweenBars shabad">
+    		{{.Body}}
+		</div>
+
+        <script>
+            var shabad = '{{.ShabadJSON}}';
+            var shabadID = '{{.ID}}';
+            var firstID = Number($('.navigationForDisplay').first().data("lineid"));
+            var lastID =  Number($('.navigationForDisplay').last().data("lineid"));
+            var lineID = ""
+            var toggleLines = '{{.ToggleLines}}'.split("-");
+            var mainID = Number(toggleLines[0]);
+            var secondID = Number(toggleLines[1]);
+            var toggleID = Number(toggleLines[2]);
+            var totalPages = {{.TotalPages}}
+            
+            if (lineID == "") {
+                try {
+                    lineID = Number(location.hash.match(/[-0-9]+/)[0]);
+                    if (lineID < 0) { lineID = lastID; }
+                    else if ($("#"+lineID).length) { lineID = $("#"+lineID).data("lineid"); }
+                    else { lineID = 0; }
+                } catch (err) {    
+                    if (shabadID == "adv") {
+                        lineID = $("#"+'{{.CurrentPK}}').data("lineid");
+                    }
+                    else {
+                        lineID = firstID;
+                    }
+                }
+            }
+
+            if ({{.AkhandPaathView}}) { checkScroll(); }
+
+            //Add: if another user found the shabad first (shabad is already loaded) just getJSON and update this page's line, and don't post line
+
+            $(window).load(function() {
+                $(document).keyup(function(e) {
+                    if ({{.AkhandPaathView}}) { checkScroll(); }
+                });
+                hotkeys();
+                hotkeysNavigate();
+                $(".navigationForDisplay").click(function () {
+                    goToID($(this).data('lineid'));
+                });
+                if (shabadID == "adv") {
+                    $("#toggleLine").text("Pauri / Chhant");
+                } else if (shabadID.isNumberic) {
+                    if (mainID == 0) { $("#toggleLine").text("Set Main"); }
+                    else { $("#toggleLine").text("Toggle Line"); }
+                }
+                else {
+                    $("#toggleLine").text("Next Section");
+                }
+                $("#toggleLine").click(function () {
+                    toggleLine();
+                });
+                // the hash tag in the address bar sets where the page is scrolling to, we wait 1 ms and run again. note: function is required for whatever reason. This was from a stack overflow answer and there are other ways around it. For instance we could have set a different hash tag in the address bar like XXX-noscroll and then removed the -noscroll and used the XXX to find the correct id.
+                setTimeout(function() {
+                    // $(window).scrollTop(e.offset().top - ($(window).innerHeight() / 2) + (e.outerHeight() / 2) + $('.navigationBar').outerHeight()/2);
+                    goToID(lineID);
+                }, 1);
+            });
+
+        </script>
+    {{template "navibar"}}
+    </body>
+</html>
+{{end}}

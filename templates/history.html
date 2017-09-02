@@ -1,0 +1,24 @@
+{{define "historyPage"}}
+<!DOCTYPE html>
+<html>
+    <head>
+        {{template "header"}}
+    </head>
+<body class="History">
+    {{template "titlebar" .}}
+    	<div class="scrollBetweenBars history">
+    		{{.Body}}
+    		<a id="-3" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="history.csv"><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-download fa-fw" aria-hidden="true"></i></span>Export</p></div></a>
+            <a id="-2" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="history.csv?lines=complete"><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-server fa-fw" aria-hidden="true"></i></span>Export (All Lines)</p></div></a>
+            <a id="-1" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="newHistory" ><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-file fa-fw" aria-hidden="true"></i></span>New History</p></div></a>
+        </div>
+        <script>
+            $(window).load(function() {
+                hotkeys();
+                hotkeysHistory();
+            });
+        </script>
+    {{template "navibar"}}
+    </body>
+</html>
+{{end}}

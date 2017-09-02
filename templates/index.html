@@ -1,0 +1,189 @@
+{{define "indexPage"}}
+<!DOCTYPE html>
+<html>
+	<head>
+		{{template "header"}}
+		<script>
+			var xhr;
+
+			(function(a){(jQuery.browser=jQuery.browser||{}).mobile=/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))})(navigator.userAgent||navigator.vendor||window.opera);
+
+			function searchResultUpdateHistory() {
+				$(".searchResultUpdateHistory").on("click", function() {
+					//get input typed
+					var input = $("#filter").val();
+					// alert(input);
+					// history.replaceState({}, 'GuruSearch - '+input, 'index.php#'+input);
+					history.replaceState(undefined, undefined, "#"+input);
+				});
+			}
+			
+			function search(filter) {
+				
+				$(".loader").show();
+				$("#keyboardHelp").hide();
+				if(xhr && xhr.readyState != 4){
+					xhr.abort();
+				}
+				xhr = $.ajax({
+				url : "searchresults",
+				type: "POST",
+				async: true,
+				data: {search: filter},
+				dataType: "html",
+				success : function (data) {
+					$("#results").html(data);
+					// $(document).off( "keydown" );
+					// hotkeys();
+					// hotkeysIndex();
+					// try to re-apply keybindings here perhaps?
+					searchResultUpdateHistory();
+					$(".loader").hide();
+				}
+				});
+			}
+
+			// re-implement if browser mobile functions
+			if (jQuery.browser.mobile) {
+				window.onpageshow = function(evt) {
+				if (evt.persisted) {
+					document.body.style.display = "none";
+					location.reload();
+				}
+				};
+			}
+			
+			$(document).ready(function(){
+				var input = $("#filter");
+				var q = $("#filter").val();
+				var keyboard = $("#keyboardHelp");
+				
+				$(".loader").hide();
+				keyboard.hide();
+
+				//bind enter key on input#filter to simply re-search and not actually submit form
+				input.bind("keypress", function(e){
+					// enter key code is 13
+					if(e.which === 13){
+						// if($("#0").length != 0) { $("#0").click(); }
+						event.preventDefault();
+						event.stopPropagation();
+					}
+				});
+				//when the input has focus, then show the keyboard help screen
+				//var STKb = setTimeout(function() {}, 0);
+				//function DelayKeyboard(){
+					//window.eto = setTimeout(function() {
+							//$("#subscribe-floating-box").animate({"height": "toggle"}, { duration: 300 });
+					//}, 3000);
+				//}
+				//input.focus(function() {
+						//STKb = setTimeout(function() {
+							//if (q.length == 0) {
+								//keyboard.slideDown();
+							//}
+						//}, 1000);
+				//});
+				//on key up of input, check if there are 3+ characters and search, if 0 then clear results, don't search if starts with $ (must hit enter)
+				input.keyup(function(){
+					q = $("#filter").val();
+					if (q.length > 0) {
+    					dohml('<div class="msg"><span class="gurmukhifont"><i class="fa fa-search fa-fw" aria-hidden="true"></i> ' + q + '</span></div>');
+    				} else {
+                        dohm('search', 'Search');
+    				}
+					if(q.substring(0,1) != "$" && q.substring(0,1) != "\"") {
+						if ($("#filter").val().length > 0) {
+							// alert('b');
+							search(q);
+						} else {
+							$("#results").html("");
+							//keyboard.slideDown();
+						}
+					}
+				});
+				//when the search input loses focus, then hide the keyboard help as well
+				//input.focusout(function(){
+					//clearTimeout(STKb);
+					//keyboard.hide();
+				//});
+				//on first load, check if there is anything in hash, if so, fill in input and search it
+				try { 
+					var hash = location.hash.split("#")[1];
+					$("#filter").val(hash);
+					search(hash);
+				} catch (e) { }
+				
+			});
+			$(window).load(function() {
+				hotkeys();
+				hotkeysIndex();
+			});
+		</script>
+	</head>
+	<body class="dindex">
+    {{template "titlebar" .}}
+<!-- <form action="search.php" method="GET">Search: <input type="text" name="search" class="gurmukhifont search" autocorrect="off" autocapitalize="off"></form> -->
+<form action="searchresults" method="GET" id="live-search">
+	<input id="filter" type="text" name="search" class="gurmukhifont search hoverable" data-hover='<i class="fa fa-search fa-fw" aria-hidden="true"></i> Search' autocorrect="off" autocapitalize="off" autocomplete='off' placeholder='Koj'>
+	<div class="background"></div>
+</form>
+<!-- Append this to display.html and trigger outside iframe if iframe is display:block and input is focused -->
+<!-- <div id="keyboardHelp">
+  <div class="col1">
+	<div class="row1">
+	  <div class="gurmukhifont"><span>a</span><span>A</span><span>e</span><span>s</span><span>h</span></div>
+	  <div><span>a</span><span>A</span><span>e</span><span>s</span><span>h</span></div>
+	</div>
+	<div class="row2">
+	  <div class="gurmukhifont"><span>k</span><span>K</span><span>g</span><span>G</span><span>|</div>
+	  <div><span>k</span><span>K</span><span>g</span><span>G</span><span>|</div>
+	</div>
+	<div class="row3">
+	  <div class="gurmukhifont"><span>c</span><span>C</span><span>j</span><span>J</span><span>\</div>
+	  <div><span>c</span><span>C</span><span>j</span><span>J</span><span>\</div>
+	</div>
+	<div class="row4">
+	  <div class="gurmukhifont"><span>t</span><span>T</span><span>f</span><span>F</span><span>x</div>
+	  <div><span>t</span><span>T</span><span>f</span><span>F</span><span>x</div>
+	</div>
+  </div>
+  <div class="col2">
+	<div class="row5">
+	  <div class="gurmukhifont"><span>q</span><span>Q</span><span>d</span><span>D</span><span>n</div>
+	  <div><span>q</span><span>Q</span><span>d</span><span>D</span><span>n</div>
+	</div>
+	<div class="row6">
+	  <div class="gurmukhifont"><span>p</span><span>P</span><span>b</span><span>B</span><span>m</div>
+	  <div><span>p</span><span>P</span><span>b</span><span>B</span><span>m</div>
+	</div>
+	<div class="row7">
+	  <div class="gurmukhifont"><span>X</span><span>r</span><span>l</span><span>v</span><span>V</div>
+	  <div><span>X</span><span>r</span><span>l</span><span>v</span><span>V</div>
+	</div>
+  </div>
+  <div class="clear"></div>
+</div><!-- -->
+<div class="loader">
+	<div>Loading...</div>
+</div>
+<div id="results"></div><div id="slinks">
+  <!--<a href="dnavigate.php?shabad=<?php echo $json['shabadID']; ?>#<?php echo $json['lineID'];?>" class="navigationForDisplay searchResultUpdateHistory" data-lineID="<?php echo $lineID; ?>" data-groupID="<?php echo $lineID; ?>" data-shabadID="<?php echo $shabadID; ?>">Navigate</a>-->
+  <!--<a href="history">History</a>
+  <a href="banis">Compiled Banis</a>
+  <!-- <a href="shabad?id=adv">Asa di Var</a> -->
+  <!-- <a href="shabad?id=anand6">Anand Sahib (6 + Salok)</a> -->
+  <!-- <a href="shabad?id=chaupai">Chaupa'i Sahib</a> -->
+  <!-- <a href="shabad?id=rehras">Rehras Sahib</a> -->
+  <!-- <a href="shabad?id=sohila">Sohila Sahib</a> -->
+  <!-- <a href="shabad?id=jap">Jap Ji Sahib</a> -->
+  <!-- <a href="shabad?id=jaap">Jaap Sahib</a> -->
+  <!-- <a href="shabad?id=savaye">Tav Prasad Savaye</a> -->
+  <!-- <a href="shabad?id=anand">Anand Sahib (40)</a> -->
+  <!--<a href="akhand-paath">Akhand Path Search (???)</a>-->
+  <!--<a href="settings">Settings</a>-->
+</div>
+{{template "navibar"}}
+</body>
+</html>
+{{end}}

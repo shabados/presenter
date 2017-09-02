@@ -1,0 +1,22 @@
+body.presentation .gurmukhifont {
+    font-size: 16vh;
+    line-height: 21.05vh;
+}
+
+body.presentation .translation {
+	line-height: 15.7vh;
+	font-size: 10vh;
+	margin-top: 2.45vh; /* .4 */
+}
+
+body.presentation .darpan {
+	font-size: 8vh;
+	margin-top: 1.5vh;
+	line-height: 15.5vh;
+}
+
+body.presentation .transliteration {
+	font-size: 8vh;
+	margin-top: 3vh;
+	line-height: 10.25vh;
+}
