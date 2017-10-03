@@ -29,7 +29,7 @@ Then simply run `go build` or `go install` in the parent directory and execute t
       go install
       shabadOS
 
-The program starts a webserver at [localhost:8080](http://localhost:8080/). You can control the viewer from here or view [/display](localhost:8080/display) to see it.
+The program starts a webserver at [localhost:8080](http://localhost:8080/). You can control the viewer from here or view ["/display"](localhost:8080/display) to see it.
 
 Anyone on the same network as the web server can connect using your IP address [[NB]](README.md##Troubleshooting) and view these pages:
 * Controller ([/](http://localhost:8080/)): This page is considered the "remote" to the display/projector page. You can search (first letter, spaces as wild card characters, pre-pend with hashtag for full word), see a list of banis often read, a history (with export function), and easily navigate the active shabad line for the projector. The controller is probably best used on a mobile device.
