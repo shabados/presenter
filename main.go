@@ -38,13 +38,17 @@ var settings Settings
 var ip string
 
 type Settings struct {
+	Layout                  string `json:"Layout"`
+	NavigatorHeight         string `json:"Navigator Height"`
 	Rahao                   bool   `json:"Sticky Rahao,string"`
-	Gurbani                 bool   `json:"Gurbani,string"`
+	LarivaarGurbani         bool   `json:"Larivaar Gurbani,string"`
 	EnglishTranslation      bool   `json:"English Translation,string"`
 	PunjabiTranslation      bool   `json:"Punjabi Translation,string"`
 	EnglishTransliteration  bool   `json:"English Transliteration,string"`
 	NextLine                bool   `json:"Next Line,string"`
 	FontSize                int    `json:"Font Size,string"`
+	ColorScheme             string `json:"Color Scheme"`
+	BackgroundImage         bool   `json:"Background Image,string"`
 	BrightMode              bool   `json:"Bright Mode,string"`
 	FontColor               string `json:"Font Color"`
 	BackgroundColor         string `json:"Background Color"`
@@ -106,87 +110,59 @@ func copyFile(src, dst string) error {
 // }
 
 func displayHandler(w http.ResponseWriter, r *http.Request) {
-	star := `<link rel="stylesheet" href="styles/set/etran.css" id="ssetran"`
+	setClasses := ""
+
+	setClasses += ` layout-`+strings.Replace(strings.ToLower(settings.Layout), " ", "-", -1)
+
+	setClasses += ` navigator-height-`+strings.Replace(strings.ToLower(settings.NavigatorHeight), " ", "-", -1)
+
+	if settings.LarivaarGurbani == true {
+		setClasses += ` hide-gurbani-spaces`
+	}
 	if settings.EnglishTranslation == false {
-		star += `enabled`
-	} else {
-		star += `disabled`
+		setClasses += ` hide-english-translation`
 	}
-	star += ` />`
-	star += `<link rel="stylesheet" href="styles/set/ptran.css" id="ssptran"`
 	if settings.PunjabiTranslation == false {
-		star += `enabled`
-	} else {
-		star += `disabled`
+		setClasses += ` hide-punjabi-translation`
 	}
-	star += ` />`
-	star += `<link rel="stylesheet" href="styles/set/elit.css" id="sselit"`
 	if settings.EnglishTransliteration == false {
-		star += `enabled`
-	} else {
-		star += `disabled`
+		setClasses += ` hide-english-transliteration`
 	}
-	star += ` />`
-	star += `<link rel="stylesheet" href="styles/set/nl.css" id="ssnl"`
 	if settings.NextLine == false {
-		star += `enabled`
-	} else {
-		star += `disabled`
+		setClasses += ` hide-next-line`
 	}
-	for i := 0; i <= 6; i++ {
-		star += ` />`
-		star += `<link rel="stylesheet" href="styles/set/fs-` + strconv.Itoa(i) + `.css" id="ssfs-` + strconv.Itoa(i) + `"`
-		if settings.FontSize == i {
-			star += `enabled`
-		} else {
-			star += `disabled`
-		}
+
+	setClasses += ` fs-`+strconv.Itoa(settings.FontSize)
+
+	setClasses += ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+
+	if settings.BackgroundImage == false {
+		setClasses += ` hide-background-image`
 	}
-	star += ` />`
-	star += `<link rel="stylesheet" href="styles/set/vcol.css" id="ssvcol"`
 	if settings.VishraamColors == false {
-		star += `enabled`
-	} else {
-		star += `disabled`
+		setClasses += ` hide-vishraam-colors`
 	}
-	star += ` />`
-	star += `<link rel="stylesheet" href="styles/set/vchar.css" id="ssvchar"`
 	if settings.VishraamCharacters == false {
-		star += `enabled`
-	} else {
-		star += `disabled`
+		setClasses += ` hide-vishraam-characters`
 	}
-	star += ` />`
-	star += `<link rel="stylesheet" href="styles/set/vl.css" id="ssvl"`
 	if settings.VishraamLight == false {
-		star += `enabled`
-	} else {
-		star += `disabled`
+		setClasses += ` hide-vishraam-light`
 	}
-	star += ` />`
-	star += `<link rel="stylesheet" href="styles/set/vm.css" id="ssvm"`
 	if settings.VishraamMedium == false {
-		star += `enabled`
-	} else {
-		star += `disabled`
+		setClasses += ` hide-vishraam-medium`
 	}
-	star += ` />`
-	star += `<link rel="stylesheet" href="styles/set/vh.css" id="ssvh"`
 	if settings.VishraamHeavy == false {
-		star += `enabled`
-	} else {
-		star += `disabled`
+		setClasses += ` hide-vishraam-heavy`
 	}
-	star += ` />`
 
 	data := struct {
 		Title       string
 		IP          string
-		Stylesheets template.HTML
+		Settings template.HTML
 	}{
 		"display",
 		ip,
-		template.HTML(star),
+		template.HTML(setClasses),
 	}
 	err = templates.ExecuteTemplate(w, "displayPage", &data)
 	if err != nil {
@@ -226,12 +202,16 @@ func koboHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func menuHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+	
 	data := struct {
 		Title string
 		IP    string
+		Theme template.HTML
 	}{
 		"Menu",
 		ip,
+		template.HTML(theme),
 	}
 	err = templates.ExecuteTemplate(w, "menuPage", &data)
 	if err != nil {
@@ -240,39 +220,42 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func settingsHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	sendJSON, err := json.Marshal(settings)
 	eh(err, "4")
-	textColorChoices := `<li class="mdl-menu__item red"><div class="cb red"></div>Red</li>
-            <li class="mdl-menu__item pink"><div class="cb pink"></div>Pink</li>
-            <li class="mdl-menu__item purple"><div class="cb purple"></div>Purple</li>
-            <li class="mdl-menu__item deep-purple"><div class="cb deep-purple"></div>Deep Purple</li>
-            <li class="mdl-menu__item indigo"><div class="cb indigo"></div>Indigo</li>
-            <li class="mdl-menu__item blue"><div class="cb blue"></div>Blue</li>
-            <li class="mdl-menu__item light-blue"><div class="cb light-blue"></div>Light Blue</li>
-            <li class="mdl-menu__item cyan"><div class="cb cyan"></div>Cyan</li>
-            <li class="mdl-menu__item teal"><div class="cb teal"></div>Teal</li>
-            <li class="mdl-menu__item green"><div class="cb green"></div>Green</li>
-            <li class="mdl-menu__item light-green"><div class="cb light-green"></div>Light Green</li>
-            <li class="mdl-menu__item lime"><div class="cb lime"></div>Lime</li>
-            <li class="mdl-menu__item yellow"><div class="cb yellow"></div>Yellow</li>
-            <li class="mdl-menu__item amber"><div class="cb amber"></div>Amber</li>
-            <li class="mdl-menu__item orange"><div class="cb orange"></div>Orange</li>
-            <li class="mdl-menu__item deep-orange"><div class="cb deep-orange"></div>Deep Orange</li>
-            <li class="mdl-menu__item brown"><div class="cb brown"></div>Brown</li>
-            <li class="mdl-menu__item grey"><div class="cb grey"></div>Grey</li>
-            <li class="mdl-menu__item blue-grey"><div class="cb blue-grey"></div>Blue Grey</li>
-            <li class="mdl-menu__item black"><div class="cb black"></div>Black</li>
-            <li class="mdl-menu__item white"><div class="cb white"></div>White</li>`
+	textColorChoices := `<li class="mdl-menu__item red"><div class="cb red"></div><!--Red--></li>
+            <li class="mdl-menu__item pink"><div class="cb pink"></div><!--Pink--></li>
+            <li class="mdl-menu__item purple"><div class="cb purple"></div><!--Purple--></li>
+            <li class="mdl-menu__item deep-purple"><div class="cb deep-purple"></div><!--Deep Purple--></li>
+            <li class="mdl-menu__item indigo"><div class="cb indigo"></div><!--Indigo--></li>
+            <li class="mdl-menu__item blue"><div class="cb blue"></div><!--Blue--></li>
+            <li class="mdl-menu__item light-blue"><div class="cb light-blue"></div><!--Light Blue--></li>
+            <li class="mdl-menu__item cyan"><div class="cb cyan"></div><!--Cyan--></li>
+            <li class="mdl-menu__item teal"><div class="cb teal"></div><!--Teal--></li>
+            <li class="mdl-menu__item green"><div class="cb green"></div><!--Green--></li>
+            <li class="mdl-menu__item light-green"><div class="cb light-green"></div><!--Light Green--></li>
+            <li class="mdl-menu__item lime"><div class="cb lime"></div><!--Lime--></li>
+            <li class="mdl-menu__item yellow"><div class="cb yellow"></div><!--Yellow--></li>
+            <li class="mdl-menu__item amber"><div class="cb amber"></div><!--Amber--></li>
+            <li class="mdl-menu__item orange"><div class="cb orange"></div><!--Orange--></li>
+            <li class="mdl-menu__item deep-orange"><div class="cb deep-orange"></div><!--Deep Orange--></li>
+            <li class="mdl-menu__item brown"><div class="cb brown"></div><!--Brown--></li>
+            <li class="mdl-menu__item grey"><div class="cb grey"></div><!--Grey--></li>
+            <li class="mdl-menu__item blue-grey"><div class="cb blue-grey"></div><!--Blue Grey--></li>
+            <li class="mdl-menu__item black"><div class="cb black"></div><!--Black--></li>
+            <li class="mdl-menu__item white"><div class="cb white"></div><!--White--></li>`
 	data := struct {
 		Title            string
 		SettingsJSON     string
 		TextColorChoices template.HTML
 		IP               string
+		Theme template.HTML
 	}{
 		"Settings",
 		string(sendJSON),
 		template.HTML(textColorChoices),
 		ip,
+		template.HTML(theme),
 	}
 	err = templates.ExecuteTemplate(w, "settingsPage", &data)
 	if err != nil {
@@ -281,12 +264,15 @@ func settingsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func banisHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	data := struct {
 		Title string
 		IP    string
+		Theme template.HTML
 	}{
 		"Bookmarks",
 		ip,
+		template.HTML(theme),
 	}
 	err = templates.ExecuteTemplate(w, "banisPage", &data)
 	if err != nil {
@@ -295,6 +281,7 @@ func banisHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	var ip string
 	addrs, _ := net.InterfaceAddrs()
 	for _, a := range addrs {
@@ -308,9 +295,11 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Title string
 		IP    string
+		Theme template.HTML
 	}{
 		"Search",
 		ip,
+		template.HTML(theme),
 	}
 	err = templates.ExecuteTemplate(w, "indexPage", &data)
 	if err != nil {
@@ -319,6 +308,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func navigateHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	var rows, rows2 *sql.Rows
 	var err error
 	var query, query2, pk, nextPK, gurmukhi, transliteration, english, darpan string
@@ -468,6 +458,7 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 		AkhandPaathView bool
 		IP              string
 		TotalPages      string
+		Theme template.HTML
 	}{
 		"Navigator",
 		template.HTML(pageHTML),
@@ -478,6 +469,7 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 		settings.AkhandPaathView,
 		ip,
 		strconv.Itoa(counter),
+		template.HTML(theme),
 	}
 	// err = template.HTMLEscape(w, &data.Body)
 	err = templates.ExecuteTemplate(w, "navigatePage", &data)
@@ -632,6 +624,7 @@ func handlerGetResults(w http.ResponseWriter, r *http.Request) {
 }
 
 func historyHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	hotkeys := [10]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
 	counter := 0
 	pageHTML := ""
@@ -681,10 +674,12 @@ func historyHandler(w http.ResponseWriter, r *http.Request) {
 		Title string
 		Body  template.HTML
 		IP    string
+		Theme template.HTML
 	}{
 		"History",
 		template.HTML(pageHTML),
 		ip,
+		template.HTML(theme),
 	}
 	// err = template.HTMLEscape(w, &data.Body)
 	err = templates.ExecuteTemplate(w, "historyPage", &data)

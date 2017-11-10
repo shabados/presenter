@@ -356,8 +356,6 @@
 			// set modifier to ctrl (win/linux) or command (mac)
 			var mod = e.ctrlKey;
 			// var mod = e.metaKey;
-			var splinearr = [];
-			var splinearrC = 0;
 			switch(e.which) {
 				case 13: //ENTER
 					goToID(lineID);
@@ -384,18 +382,6 @@
 					} else {
 						toggleLine();
 					}
-					break;
-				case 192: //` (left of 1 on keyboard)
-					// var spline = $('.activeLine').clone().removeClass('activeLine');
-					// var spc = spline.attr('id');
-					// spline.removeAttr('id').addClass(spc);
-					// spline.children(":first").removeClass();
-					// $('body').css('margin-top', function(index, value) {return parseFloat(value) + 24.666 + 'px';});
-					// // $(spline+'> div').removeClass().addClass('spline').addClass('spline-'+splinearrC);
-					// // splinearr.append(splinearrC);
-					// // splinearrC++;
-					// //add this line to the list of "fixed favorites"
-					// $('#spline').append(spline);
 					break;
 				case 48: //0
 					$(".searchresult-0").parent().click();

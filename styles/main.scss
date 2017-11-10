@@ -1,0 +1,2341 @@
+@font-face {
+  font-family: 'Gurbani';
+  src: url('../includes/GurbaniAkhar-Heavy.ttf') format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Punjabi';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../includes/Anmol.woff') format("woff");
+}
+
+@font-face {
+  font-family: 'English';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../includes/OpenSans-Semibold.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: 'Varela Round Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../includes/VarelaRound-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Material Icons"), local("MaterialIcons-Regular"), url('../includes/mdl/materialicons.woff2') format("woff2");
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+html * {
+  cursor: default;
+}
+
+body {
+  font: 16px 'English', Helvetica;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-user-select: none;
+  &.presentation {
+    background: url('../includes/logo.png') no-repeat center center;
+    background-size: 100% auto;
+    text-align: center;
+    padding: 0 0 40vh;
+    height: 100vh;
+    overflow: hidden;
+    /* this prevents scrolling */
+  }
+}
+
+.scrollBetweenBars, div#results {
+  height: -webkit-calc(100vh - 72px);
+  overflow: overlay;
+  position: relative;
+  top: 36px;
+  margin-right: 5px;
+  /* to allow dragging of right border and clicking right scrollbar easier and more separated */
+}
+
+form#live-search {
+  top: 36px;
+  padding: 0 1em;
+}
+
+div#results {
+  /* bit different because of the fixed search bar at top */
+  top: 36px;
+  height: -webkit-calc(100vh - 109px);
+}
+
+.scrollBetweenBars {
+  &.index, &.settings {
+    padding: 0 1em;
+  }
+  h1 {
+    padding: 1.5em 0 .5em;
+    font-weight: bold;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    &:first-child {
+      padding-top: 1em;
+    }
+  }
+  .sep {
+    height: 0px;
+    width: -webkit-calc(100vw - 5px);
+    position: relative;
+    left: -1em;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.12);
+    padding-bottom: 1em;
+    margin-bottom: .5em;
+  }
+}
+
+.dragger {
+  -webkit-app-region: drag;
+  position: fixed;
+  z-index: 9001;
+  &.top, &.bottom {
+    left: 0;
+    width: 100vw;
+    height: 1px;
+  }
+  &.top {
+    top: 0;
+  }
+  &.bottom {
+    bottom: 0;
+  }
+  &.left, &.right {
+    top: 0;
+    height: 100vh;
+    width: 1px;
+  }
+  &.left {
+    left: 0;
+  }
+  &.right {
+    right: 0;
+  }
+}
+
+#titlebar, #navibar {
+  position: fixed;
+  -webkit-user-select: none;
+  width: 100%;
+  z-index: 2000;
+  height: 36px;
+}
+
+#titlebar > div, #navibar > div {
+  width: -webkit-calc(100% - 10px);
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  font-size: 16px;
+  cursor: default;
+}
+
+#titlebar {
+  top: 0;
+  > div {
+    position: absolute;
+    top: 0;
+  }
+}
+
+#navibar {
+  bottom: 0;
+  > div {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+#titlebar .title {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+  width: 90%;
+  max-width: 9999em;
+  .usual, .secret {
+    position: absolute;
+    width: 200px;
+    margin-left: -100px;
+    transition: opacity 0.2s;
+    left: 50%;
+    text-align: center;
+  }
+  .usual {
+    opacity: 1;
+  }
+  &:hover {
+    .secret {
+      opacity: 1;
+    }
+    .usual {
+      opacity: 0;
+    }
+  }
+  .secret {
+    opacity: 0;
+  }
+}
+
+.buttons {
+  min-width: 100px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  &.right {
+    justify-content: flex-end;
+  }
+}
+
+#navibar .buttons.right {
+  justify-content: flex-end;
+}
+
+#titlebar {
+  .buttons {
+    &.right {
+      #title-minimize, #title-popin {
+        display: none;
+      }
+      &.window {
+        #title-minimize, #title-popin {
+          display: inline-block;
+        }
+        #title-shade, #title-popout {
+          display: none;
+        }
+      }
+    }
+    &.left.window #title-menu {
+      display: none;
+    }
+  }
+  &.closeable .buttons.right #title-minimize {
+    display: inline-block;
+  }
+}
+
+.buttons.middle {
+  width: auto;
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+}
+
+#navi-thumb-tack {
+  visibility: hidden;
+}
+
+body.navigate {
+  .buttons.middle, #navi-thumb-tack {
+    visibility: visible;
+  }
+}
+
+#titlebar .buttons i, #navibar .buttons i {
+  padding: 3px;
+  margin: 2px;
+}
+
+#titlebar {
+  .buttons i.fa-times {
+    font-size: 20px;
+    padding: 0;
+  }
+}
+
+#navibar {
+  .buttons {
+    div {
+      display: inline;
+    }
+    &.middle > i {
+      font-size: 22px;
+      padding: 0;
+      margin: 0;
+    }
+  }
+  #navi-prog {
+    width: 45px;
+    text-align: center;
+    display: inline-block;
+    font-size: .85em;
+  }
+}
+
+
+
+body.presentation #help-screen {
+  z-index: 9001;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  display: none;
+  padding: .5em;
+  text-align: left;
+}
+
+#help-screen {
+  h1 {
+    font-size: 1.25em;
+    text-align: center;
+  }
+  .gurmukhifont {
+    font-size: 1.125em;
+    color: inherit;
+    line-height: 1em;
+  }
+  p + p {
+    margin-top: .5em;
+  }
+  div {
+    text-align: center;
+    margin-top: 1.5em;
+  }
+}
+
+body.presentation iframe {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 257px;
+  width: 416px;
+  background: white;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: none;
+  border-bottom: none;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  z-index: 1000;
+}
+
+#iframesHuMsg {
+  position: fixed;
+  right: -webkit-calc( 416px/2 - 64px);
+  bottom: -webkit-calc( 257px/2 - 64px );
+  width: 128px;
+  height: 128px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 6px;
+  padding: .25em;
+  &.long {
+    width: 272px;
+    height: auto;
+    padding: .5em 1em;
+    max-height: 272px;
+    overflow: hidden;
+    justify-content: flex-start;
+    right: -webkit-calc( 416px/2 - 136px);
+    .msg {
+	    font-size: 1.25em;
+    }
+    .msg .gurmukhifont {
+      font-size: 1em;
+      line-height: 1.2em;
+
+      .fa-search {
+	      font-size: 0.9em;
+      }
+    }
+    .gurmukhifont.remCF {
+      .codefont {
+        display: none;
+      }
+      .slink {
+        color: inherit;
+      }
+    }
+  }
+  .icon {
+    font-size: 4em;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+  }
+  .hint {
+    font-size: 1.25em;
+  }
+}
+
+#hiddenIframePlusBox {
+  width: 36px;
+  height: 36px;
+  font-size: 1.25em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+div.dl {
+  display: flex;
+}
+
+dl {
+  width: 33%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+
+dt {
+  float: left;
+  width: 46%;
+  text-align: right;
+}
+
+dd {
+  float: left;
+  width: 46%;
+  text-align: left;
+  margin-left: 8%;
+}
+
+form {
+  padding: .25em 1em 0;
+  position: relative;
+}
+
+input, select {
+  width: 100%;
+  vertical-align: middle;
+  clear: both;
+  border: 0;
+  background: none;
+  cursor: text;
+}
+
+
+input:focus, select:focus, textarea:focus, button:focus {
+  outline: none;
+}
+
+input[type="color"] {
+  width: 5em;
+  height: 5em;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.color-picker {
+  display: inline-block;
+  margin-left: .25em;
+  &:first-child {
+    margin: 0;
+  }
+}
+
+#filter {
+  padding: .25em 0 .2em 0;
+  + .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    top: 0;
+    left: 0;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.clear {
+  clear: both;
+}
+
+#keyboardHelp {
+  position: absolute;
+  top: 2em;
+  right: 0;
+  display: flex;
+  width: 10em;
+  > div > div > span {
+    width: 32px;
+    text-align: center;
+    display: inline-block;
+  }
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  /*text-align: center;*/
+  /*width: 100%;*/
+  /*background: rgba(0, 0, 0, .87);*/
+  padding: .25em 0;
+  font-size: .5em;
+}
+
+.nbsp {
+  display: inline-block;
+}
+
+.vishraamHeavy, .vishraamMedium, .vishraamLight, .vishraamChar {
+  display: inline;
+}
+
+.vishraamHeavy, .vishraamLight {
+  color: inherit;
+}
+
+/* Color Scheme:
+
+2016 Pre September
+  Gold  FFF4DF
+  Blue  DFEAFF
+
+2016 Post, Material
+  50
+  White    FAFAFA
+  Orange    FFF3E0
+  Blue    E3F2FD
+  Light Green  F1F8E9
+
+  100
+  White    F5F5F5
+  Orange    FFE0B2
+  Blue    BBDEFB
+  Light Green  DCEDC8
+
+  200
+  White    EEEEEE
+  Orange    FFCC80
+  Blue    90CAF9
+  Light Gren  C5E1A5
+
+Maths done:
+  * Check for Deuteranopia (They see basically Red, Green, Blue+Purple as three channels of brown-green, yellow-orange, and blue)
+  * * For this best can be: Indigo, Green, Brick Orange/Red
+  * Check for Average Projector Strength (Highest colors are Blue, Green/Light Green, Orange)
+  * * Material wise: Blue, Light Green, and Orange
+  * Old version was closest to Amber, Light Blue
+  * * New Version will use Orange, Blue, and Light Green for colors.
+
+*/
+
+body {
+  &.presentation {
+    .vishraamHeavy.noColorTog, .vishraamMedium.noColorTog, .vishraamLight.noColorTog {
+      color: inherit;
+    }
+  }
+  &.presentation.presentationSingle {
+    .vishraamHeavy, .vishraamMedium, .vishraamLight {
+      color: inherit;
+    }
+  }
+  &.presentationSingle .active .gurmukhifont > div > div:first-child:before {
+    content: "\00a0";
+    /* font-size: 1em; */
+  }
+  &.presentation.presentationSingle {
+    .vishraamHeavy > .vishraamChar, .vishraamMedium > .vishraamChar, .vishraamLight > .vishraamChar {
+      display: none;
+    }
+  }
+  &.presentationSingle {
+    .transliteration, .darpan, .line {
+      display: none !important;
+    }
+    .active {
+      display: flex !important;
+      min-height: 100vh !important;
+      .gurmukhifont {
+        > div > div {
+          padding: .1em .25em 0 !important;
+          &:first-child {
+            padding: .1em 0 0 !important;
+          }
+        }
+      }
+      .translation {
+        font-family: "English", sans-serif;
+        font-size: 4.5vh !important;
+        line-height: 1.85em;
+        margin: 0;
+        -webkit-text-stroke: 1px #0a0a0a;
+        text-shadow: 3px 3px 0 #0a0a0a, -1px -1px 0 #0a0a0a,   1px -1px 0 #0a0a0a, -1px 1px 0 #0a0a0a, 1px 1px 0 #0a0a0a  !important;
+      }
+    }
+    .line > div {
+      margin-bottom: 0 !important;
+      /*-webkit-text-stroke: 1px black !important;*/
+      padding-bottom: .175em !important;
+    }
+    &.top .line > div {
+      justify-content: flex-start !important;
+    }
+    &.bottom .line > div {
+      justify-content: flex-end !important;
+    }
+  }
+}
+
+/*body.presentationSingle .translation,*/
+
+.codefont {
+  font-family: "Input", monospace;
+  text-transform: uppercase;
+}
+
+.dindex .codefont {
+  display: none;
+  /* until we fix the jquery to select number of search query result */
+}
+
+.gurmukhifont {
+  font-family: "Gurbani", "Punjabi", serif;
+  font-size: 1.125em;
+  line-height: 1.5em;
+  > div {
+    display: inline-block;
+    /* Was inline, perhaps for OBS? This is what causes natural line-breaks on heavy vishraam with block/inline-block */
+    > div {
+      display: inline-block;
+      /* Was inline, perhaps for OBS? This is what causes natural line-breaks on heavy vishraam with block/inline-block */
+      /* next two lines for trying larivaar */
+      word-wrap: break-word;
+      max-width: calc(100vw - 2vw);
+    }
+  }
+}
+
+.translation, .transliteration, .darpan {
+  font-size: .75em;
+}
+
+.transliteration {
+  font-family: "Varela Round Regular", "SourceSerifProReg", "LibreBaskerville", "SourceSerifPro", serif;
+}
+
+.searchresult {
+  padding: .25em 0;
+  > p {
+    /*display: flex;*/
+    /* note slink in search */
+    align-items: center;
+  }
+}
+
+a:first-child .searchresult, span:first-child .searchresult {
+  margin-top: 0em;
+  padding-top: .25em;
+}
+
+a:hover .searchresult, span:hover .searchresult {
+  cursor: default;
+}
+
+a:focus, span:focus {
+  background: none;
+}
+
+body.presentation {
+  .line {
+    min-height: 78vh;
+    display: flex;
+    justify-content: center;
+    &.active {
+      display: flex;
+    }
+    > div {
+      padding: 1vh;
+      margin-bottom: 10vh;
+      display: flex;
+      justify-content: flex-start;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+  }
+  .gurmukhifont {
+    font-size: 8vh;
+    /* look out for line issues, notible characters include; chacha */
+    line-height: 10.525vh;
+  }
+  .translation {
+    line-height: 7.85vh;
+    font-size: 5vh;
+    margin-top: 1.225vh;
+    /* .4 */
+  }
+  .darpan {
+    font-family: "Punjabi";
+    font-size: 4vh;
+    margin-top: .75vh;
+    line-height: 7.75vh;
+  }
+  .transliteration {
+    font-size: 4vh;
+    letter-spacing: .0125em;
+    word-spacing: .0125em;
+    margin-top: 1.5vh;
+    line-height: 5.125vh;
+  }
+}
+
+
+body.presentation {
+  .gurmukhifont, .translation, .active > .translation, .transliteration, .active > .transliteration, .darpan {
+    transition: color .4s ease;
+  }
+  .active {
+    > {
+      .darpan {
+        transition: color .4s ease;
+      }
+      div {
+        /*animation: highlight 1s cubic-bezier(0.645, 0.045, 0.355, 1);/**/
+        width: 100%;
+      }
+    }
+    + div > div {
+      justify-content: flex-start;
+    }
+    > div > {
+      .translation {
+        animation: backlight 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+      .darpan {
+        animation: backlight 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+      .transliteration {
+        animation: backlight 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+    }
+    + div > div > {
+      .gurmukhifont {
+        animation: blank 0.2s, backlight 1s 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+      .translation, .transliteration, .darpan {
+        visibility: hidden;
+      }
+    }
+  }
+  .group0.active > div {
+    animation: highlight 0s;
+  }
+  .line {
+    display: none;
+  }
+  .active {
+    display: flex;
+    + .line {
+      display: flex;
+    }
+  }
+}
+
+/* brown gold CBAD7F*/
+
+@keyframes highlight {
+  0% {
+    background: rgba(255, 255, 255, 0.06667);
+  }
+
+  100% {
+    background: none;
+  }
+}
+
+
+@keyframes backlight {
+  0% {
+    opacity: .166;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+@keyframes blank {
+  0% {
+    opacity: .166;
+  }
+
+  100% {
+    opacity: .166;
+  }
+}
+
+
+/* these two crucial lines remove the "jitter"/"jump" between loading new shabads */
+
+.navigationForDisplay {
+  display: block;
+}
+
+/* mobile */
+@media only screen and (max-device-width: 480px) {
+    /*,
+  only screen and (max-width:1024px)*/
+  /* max-device-width: */
+  body {
+    font-size: 1em;
+  }
+  .translation, .transliteration, .darpan {
+    font-size: 28px;
+    line-height: 1.5;
+  }
+  #keyboardHelp {
+    position: inherit;
+    padding: 0em;
+    font-size: 1em;
+    width: 98vw;
+    display: flex;
+    > {
+      .col1, .col2 {
+        width: 47.5%;
+        display: flex;
+        flex-direction: column;
+        /* align-items: flex-end; */
+        /* justify-content: space-around; */
+        flex-grow: initial;
+      }
+    }
+  }
+  .col1 {
+    margin-right: 2.5%;
+    padding-right: 2.5%;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  body.navi > span {
+    height: 30.75vh;
+    display: block;
+    overflow: hidden;
+  }
+  body.navi {
+    padding: 38.5vh 0;
+  }
+  .searchresult {
+    padding: 0;
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 33.333vh;
+      font-size: 1.5em;
+    }
+  }
+  .codefont {
+    display: none;
+  }
+}
+
+#keyboardHelp > div > div > div {
+  display: flex;
+  justify-content: space-around;
+  font-size: .75em;
+  line-height: 1em;
+  &.gurmukhifont {
+    font-size: 1em;
+    line-height: 1.5em;
+  }
+}
+
+.col1 > div, .col2 > div {
+  margin-bottom: .5em;
+}
+
+/* projector */
+@media only screen and (min-width: 768px) and (max-width: 1000px) {
+  body.presentation {
+    font-size: 1.5em;
+    /* 56 untested and 64 too big */
+    #help-screen {
+      font-size: .66em;
+    }
+    #adv, #anand {
+      font-size: 12px;
+    }
+    iframe {
+      display: none;
+    }
+  }
+}
+
+/* Display Nav */
+
+body {
+  &.dindex #keyboardHelp {
+    position: inherit;
+    padding: .5em 0 0;
+    font-size: 1em;
+    width: 100%;
+    display: flex;
+  }
+  &.navigate #humsg {
+    position: fixed;
+    top: 36px;
+    margin: 0;
+    z-index: 1000;
+    padding: .75em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    display: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  }
+  &.dindex {
+    .searchresult {
+      padding: .25em .75em;
+    }
+  }
+}
+
+body {
+  &.dindex {
+    #results .gurmukhifont {
+      font-size: 1.125em;
+    }
+    #keyboardHelp > {
+      .col1, .col2 {
+        width: 47.5%;
+        display: flex;
+        flex-direction: column;
+        /* align-items: flex-end; */
+        /* justify-content: space-around; */
+        flex-grow: initial;
+      }
+    }
+    .col1 {
+      margin-right: 2.5%;
+      padding-right: 2.5%;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    a {
+      display: block;
+      width: 100%;
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+  &.navigate {
+    .searchresult {
+      padding: .25em 0;
+    }
+    .gurmukhifont {
+      font-size: 1.125em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+/*body.dindex #results a:focus .gurmukhifont .slink-highlight {
+    color: #ffe0b2;
+}*/
+
+.codefont {
+  font-size: .75em;
+  width: 28px;
+  min-width: 28px;
+  text-align: center;
+  display: inline-block;
+  padding: 0 7px;
+}
+
+body.navigate {
+  .gurmukhifont > div {
+    display: inline;
+  }
+  .vishraamChar {
+    display: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 0px;
+}
+
+body.presentation::-webkit-scrollbar {
+  display: none;
+  width: 0em;
+}
+
+::-webkit-scrollbar:focus {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 100px;
+}
+
+/* Kobo */
+
+body.kobo {
+  font-size: 32px;
+  div#kobo {
+    margin: 24px 42px;
+  }
+}
+
+div#kobo {
+  * div {
+    display: inline;
+  }
+  .gurmukhifont + .gurmukhifont {
+      margin-top: .5em;
+  }
+  div {
+    &.nbsp {
+      display: inline-block;
+    }
+    &.vishraamChar {
+      display: none;
+    }
+  }
+}
+
+/* development */
+
+/**/
+
+// Small screens
+@media only screen {}
+
+/* Define mobile styles */
+
+@media only screen and (max-width: 40em) {}
+
+/* max-width 640px, mobile-only styles, use when QAing mobile issues */
+
+// Medium screens
+@media only screen and (min-width: 40.063em) {}
+
+/* min-width 641px, medium screens */
+
+@media only screen and (min-width: 40.063em) and (max-width: 64em) {}
+
+/* min-width 641px and max-width 1024px, use when QAing tablet-only issues */
+
+// Large screens
+@media only screen and (min-width: 64.063em) {}
+
+/* min-width 1025px, large screens */
+
+@media only screen and (min-width: 64.063em) and (max-width: 90em) {}
+
+/* min-width 1025px and max-width 1440px, use when QAing large screen-only issues */
+
+// XLarge screens
+@media only screen and (min-width: 90.063em) {}
+
+/* min-width 1441px, xlarge screens */
+
+@media only screen and (min-width: 90.063em) and (max-width: 120em) {}
+
+/* min-width 1441px and max-width 1920px, use when QAing xlarge screen-only issues */
+
+// XXLarge screens
+@media only screen and (min-width: 120.063em) {}
+
+/* min-width 1921px, xxlarge screens */
+
+@media only screen and (min-width: 1000px) {
+  body.presentation, #help-menu {
+    zoom: 1;
+  }
+  body {
+    zoom: 2;
+  }
+  div#results {
+    height: -webkit-calc(50vh - 109px);
+  }
+  .scrollBetweenBars {
+    height: -webkit-calc(50vh - 72px);
+    .sep {
+      width: -webkit-calc(50vw - 5px);
+    }
+  }
+}
+
+/* this allows 800x600 computers to not have an issue; currently the nexus 6p in landscape fits in this rule */
+@media only screen and (max-device-width: 799px) {
+  body {
+    &.presentation {
+      zoom: 1;
+    }
+    zoom: 1.5;
+  }
+  ::-webkit-scrollbar {
+    width: 1em;
+  }
+  ::-webkit-scrollbar-thumb {
+    height: 1em;
+  }
+  .scrollBetweenBars {
+    margin-right: 0;
+  }
+  div#results {
+    margin-right: 0;
+    height: -webkit-calc(66.6666vh - 109px);
+  }
+  .scrollBetweenBars {
+    height: -webkit-calc(66.666vh - 72px);
+  }
+  .navigate .scrollBetweenBars {
+    height: -webkit-calc(22.222vh - 24px);
+    /* 66.666vh - 72px - padding-bottom - padding-top */
+    padding-top: -webkit-calc(22.22222vh - 24px);
+    padding-bottom: -webkit-calc(22.22222vh - 24px);
+  }
+  .scrollBetweenBars .sep {
+    width: -webkit-calc(66.666vw - 5px);
+  }
+  .buttons {
+    min-width: 0;
+    width: 33%;
+    justify-content: space-around;
+  }
+  #titlebar {
+    .title {
+      width: auto;
+      .usual, .secret {
+        width: auto;
+        right: 0;
+        text-align: right;
+        font-size: .75em;
+        top: .75em;
+        padding-right: 1em;
+      }
+    }
+    #title-menu, .buttons.right {
+      display: none;
+    }
+  }
+  #navibar .buttons.right {
+    justify-content: space-around;
+  }
+  .searchresult {
+    padding: .333em 0em;
+  }
+  .scrollBetweenBars.banis .searchresult {
+    padding: 0.375em 0.5em;
+  }
+  body.navigate .searchresult {
+    padding: 0;
+  }
+  .searchresult > div {
+    height: -webkit-calc(22.22222vh - 24px);
+    width: -webkit-calc(66.6666vw - 15px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  }
+  body.navigate .gurmukhifont {
+    white-space: normal;
+    font-size: 1em;
+  }
+  .codefont {
+    display: none;
+    + div {
+      padding-left: .33em;
+    }
+  }
+  .history .codefont, .menu .codefont {
+    display: inline-block;
+    padding: 0 5px;
+  }
+  .history .codefont > div, .settings .codefont > div {
+    padding-left: 0;
+  }
+  body.navigate .gurmukhifont > div {
+    font-size: .66em;
+  }
+}
+
+/* MDL modifications */
+
+.mdl-switch, .mdl-button--icon {
+  margin: 12px 0;
+}
+
+.mdl-switch__track {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.mdl-textfield, .mdl-textfield__label {
+  color: #ffffff;
+  font-size: inherit;
+}
+
+.mdl-textfield {
+  &.is-focused .mdl-textfield__input {
+    color: #ffffff;
+    font-size: inherit;
+  }
+  width: 2em;
+  padding: 12px 0;
+}
+
+.mdl-textfield__input {
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.mdl-textfield + .mdl-switch__label, .mdl-menu__container + .mdl-switch__label {
+  left: 16px;
+}
+
+.mdl-textfield__label:after {
+  bottom: 12px;
+}
+
+.mdl-button.color-picker + .mdl-menu__container {
+  width: 80% !important;
+  > ul > li {
+    display: inline-block;
+    width: 18px;
+  }
+}
+
+.cb {
+  width: 16px;
+  height: 16px;
+  background: white;
+  border: 1px solid #999999;
+  display: inline-block;
+  position: relative;
+  top: 4px;
+  margin-right: 4px;
+  border-radius: 50%;
+}
+
+.material-icons.cb {
+  width: 22px;
+  height: 22px;
+}
+
+.mdl-menu__item.red:hover {
+  background-color: #EF9A9A;
+}
+
+.cb.red {
+  background-color: #E53935;
+  border-color: #B71C1C;
+}
+
+.mdl-menu__item.pink:hover {
+  background-color: #F48FB1;
+}
+
+.cb.pink {
+  background-color: #D81B60;
+  border-color: #880E4F;
+}
+
+.mdl-menu__item.purple:hover {
+  background-color: #CE93D8;
+}
+
+.cb.purple {
+  background-color: #8E24AA;
+  border-color: #4A148C;
+}
+
+.mdl-menu__item.deep-purple:hover {
+  background-color: #B39DDB;
+}
+
+.cb.deep-purple {
+  background-color: #5E35B1;
+  border-color: #311B92;
+}
+
+.mdl-menu__item.indigo:hover {
+  background-color: #9FA8DA;
+}
+
+.cb.indigo {
+  background-color: #3949AB;
+  border-color: #1A237E;
+}
+
+.mdl-menu__item.blue:hover {
+  background-color: #90CAF9;
+}
+
+.cb.blue {
+  background-color: #1E88E5;
+  border-color: #0D47A1;
+}
+
+.mdl-menu__item.light-blue:hover {
+  background-color: #B3E5FC;
+}
+
+.cb.light-blue {
+  background-color: #039BE5;
+  border-color: #01579B;
+}
+
+.mdl-menu__item.cyan:hover {
+  background-color: #B2EBF2;
+}
+
+.cb.cyan {
+  background-color: #00ACC1;
+  border-color: #006064;
+}
+
+.mdl-menu__item.teal:hover {
+  background-color: #B2DFDB;
+}
+
+.cb.teal {
+  background-color: #00897B;
+  border-color: #004D40;
+}
+
+.mdl-menu__item.green:hover {
+  background-color: #A5D6A7;
+}
+
+.cb.green {
+  background-color: #43A047;
+  border-color: #1B5E20;
+}
+
+.mdl-menu__item.light-green:hover {
+  background-color: #C5E1A5;
+}
+
+.cb.light-green {
+  background-color: #7CB342;
+  border-color: #33691E;
+}
+
+.mdl-menu__item.lime:hover {
+  background-color: #E6EE9C;
+}
+
+.cb.lime {
+  background-color: #C0CA33;
+  border-color: #827717;
+}
+
+.mdl-menu__item.yellow:hover {
+  background-color: #FFF59D;
+}
+
+.cb.yellow {
+  background-color: #FDD835;
+  border-color: #F57F17;
+}
+
+.mdl-menu__item.amber:hover {
+  background-color: #FFE082;
+}
+
+.cb.amber {
+  background-color: #FFB300;
+  border-color: #FF6F00;
+}
+
+.mdl-menu__item.orange:hover {
+  background-color: #FFCC80;
+}
+
+.cb.orange {
+  background-color: #FB8C00;
+  border-color: #E65100;
+}
+
+.mdl-menu__item.deep-orange:hover {
+  background-color: #FFAB91;
+}
+
+.cb.deep-orange {
+  background-color: #F4511E;
+  border-color: #BF360C;
+}
+
+.mdl-menu__item.brown:hover {
+  background-color: #BCAAA4;
+}
+
+.cb.brown {
+  background-color: #6D4C41;
+  border-color: #3E2723;
+}
+
+.mdl-menu__item.grey:hover {
+  background-color: #EEEEEE;
+}
+
+.cb.grey {
+  background-color: #757575;
+  border-color: #212121;
+}
+
+.mdl-menu__item.blue-grey:hover {
+  background-color: #B0BEC5;
+}
+
+.cb.blue-grey {
+  background-color: #546E7A;
+  border-color: #263238;
+}
+
+.mdl-menu__item.black:hover {
+  background-color: #EEEEEE;
+}
+
+.cb.black {
+  background-color: #000000;
+  border-color: #000000;
+}
+
+.mdl-menu__item.white:hover {
+  background-color: #EEEEEE;
+}
+
+.cb.white {
+  background-color: #FFFFFF;
+  border-color: #BDBDBD;
+}
+
+
+
+
+
+
+/* Non-themed
+     OBS projector page,
+     Kobo screen page
+*/
+body {
+  &.presentationSingle {
+    background: #00ff00 !important;
+    .active {
+      .gurmukhifont {
+        color: #FFFFE5 !important;
+        > div > div {
+          background: #0a0a0a !important;
+        }
+      }
+      .translation {
+        color: #ffffe5 !important;
+      }
+    }
+  }
+}
+body.kobo {
+  background: #FFFFFF;
+  div#kobo .gurmukhifont {
+    color: #000000;
+  }
+}
+
+/* Color Schemes */
+/*
+
+/* Day */
+/*
+body.color-scheme-day {
+    background: #fff;
+    color: #424242;
+  }
+*/
+
+
+
+@mixin theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight) {
+  /***********************************************************
+  Display page / Presentation related
+  ***********************************************************/
+  body.#{$theme} {
+    background-color: $bg-base;
+    color: $fg-base;
+  
+    &.presentation {
+    background-color: $bg-presentation;
+  
+      .active {
+        .gurmukhifont {
+          color: $presentation-active-gurmukhi;
+        }
+        .translation {
+	        color: $presentation-active-translation;
+        }
+        .darpan {
+	        color: $presentation-active-darpan;
+        }
+        .transliteration {
+	        color: $presentation-active-transliteration;
+        }
+        .vishraamHeavy {
+          color: $presentation-active-vishraamHeavy;
+        }
+        .vishraamMedium {
+          color: $presentation-active-vishraamMedium;
+        }
+        .vishraamLight {
+          color: $presentation-active-vishraamLight;
+        }
+      }
+      .gurmukhifont {
+        color: $presentation-gurmukhi;
+      }
+      .vishraamHeavy {
+        color: $presentation-vishraamHeavy;
+      }
+      .vishraamMedium {
+        color: $presentation-vishraamMedium;
+      }
+      .vishraamLight {
+        color: $presentation-vishraamLight;
+      }
+  
+      iframe {
+        background: $bg-dark; // one level darker than body background
+        border-color: $bg-dark; // remove this in upper area, i don't think we need a border
+      }
+    }
+  }
+  
+  body.#{$theme} {
+    #iframesHuMsg {
+      background: rgba($bg-base, 0.9);
+      .icon {
+        color: rgba($fg-brighter, 0.3);
+      }
+      .hint, &.long .gurmukhifont {
+        color: rgba($fg-brighter, 1);
+      }
+      &.long .fa-search {
+        color: rgba($fg-brighter, 0.3);
+      }
+    }
+    
+    #hiddenIframePlusBox {
+      color: mix($fg-brighter, $bg-presentation, 50%);
+      //rgba(255, 255, 255, 0.5);
+      background: mix($fg-brighter, $bg-presentation, 12%);
+      //rgba(255, 255, 255, 0.12);
+    }
+  }
+  
+  /***********************************************************
+  UI related top and bottom bars
+  ***********************************************************/
+  body.#{$theme} {
+    .dragger, #titlebar > div, #navibar > div {
+      background: $bg-dark;
+    }
+    
+    #titlebar > div, #navibar > div {
+      color: $fg-dark;
+    }
+    
+    #titlebar {
+      .title:hover, .buttons *:hover {
+        color: $fg-base;
+      }
+    }
+    #navibar {
+      .buttons {
+        *:hover {
+          color: $fg-base;
+        }
+      }
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba($fg-brighter, 0.5);
+      &:hover, &:active {
+        background: $fg-bright;
+      }
+    }
+    
+    ::selection {
+      background: $text-selection-bg;
+      /* WebKit/Blink Browsers */
+    }
+    
+    #humsg {
+      background: $bg-dark;
+      color: $fg-bright;
+    }
+  }
+  
+  /***********************************************************
+  betwen top and bottom nav bars
+  ***********************************************************/
+  body.#{$theme} {
+    input {
+      // #filter is the search box in the main navigate page
+      // but we only have one input total
+      color: $fg-base;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    
+      &:focus {
+        color: $fg-bright;
+        border-bottom: 1px solid rgba(0, 0, 0, 0);
+      }
+    
+      + .background {
+        color: $fg-base;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.12);
+      }
+    
+      &:focus + .background {
+        background: $bg-bright;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.18);
+      }
+    }
+    
+    ::-webkit-input-placeholder {
+      // color of the search box when nothing is inputted
+      color: $fg-dark;
+    }
+    
+    #results a {
+      color: $color-text-non-highlighted;
+    
+      &:hover {
+        color: $color-text-non-highlighted-hover;
+      }
+    
+      &:focus {
+        color: $fg-bright;
+        background: $color-selection-bg;
+      }
+    }
+    
+    span.slink-highlight {
+      // color used to highlight search results
+      color: $color-highlight;
+    }
+    
+    .codefont { //used for number hotkey label in shabads
+      color: mix($fg-brighter, $bg-base, 50%);
+      // rgba(255, 255, 255, 0.5);
+    }
+    
+    //fix to use only second method, first one is used in like history page through main.go but can probably be repurposed
+    //could create a.menu-item or something to replaceboth
+    //also see #results a:focus as well to fix
+    .activeLine > div, body.dindex a:focus {
+	    background: $color-selection-bg;
+    }
+    
+    .activeLine > div, .navigationForDisplay:hover {
+      color: $color-selection-fg;
+    }
+  }
+  
+  /***********************************************************
+  Other
+  ***********************************************************/
+  body.#{$theme} {
+    .settings h1 {
+        color: $fg-darker;
+    }
+    .mdl-switch__track {
+      background: mix($fg-brighter, $bg-base, 26%);
+    }
+    .scrollBetweenBars .sep {
+      border-bottom: 1px solid $bg-dark;
+    }
+    
+    #help-screen {
+      background: rgba($bg-presentation, 0.87);
+      color: $fg-base;
+    
+      h1 {
+        color: $fg-bright;
+      }
+    
+      div {
+        color: $fg-bright;
+      }
+    }
+    
+    .bright {
+      color: $fg-base;
+    }
+    
+    .scrollBetweenBars.shabad.active, #navi-prog.active {
+      color: rgba($fg-brighter, 0.7);
+      background: rgba($fg-brighter, 0.05);
+    }
+    .scrollBetweenBars.shabad.active .searchresult {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    }
+  }
+  
+  @media only screen and (max-device-width: 480px) {
+    body {
+      color: #ccc;
+    }
+    body.navi > span {
+      &.activeLine {
+        background: #ccc;
+      }
+      &:nth-child(odd) {
+        background: #111;
+      }
+    }
+    a {
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    }
+    .activeLine > div {
+      color: #d8d8d8;
+    }
+  }
+  @media only screen and (max-device-width: 799px) {
+    ::-webkit-scrollbar {
+      background: rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+
+/*
+Dark (Default) Theme
+*/
+$theme: color-scheme-night;
+
+$bg-presentation: #000000; // background of display page
+$bg-dark: #212121; // used in status bars
+$bg-base: #303030; // base background color
+$bg-bright: #424242; // base background color
+
+$fg-darker: #757575; // only suitable for small hints
+$fg-dark: #9e9e9e; // aim for 10+ contrast ratio
+$fg-base: #bdbdbd; // aim for 7+ contrast ratio base/base
+$fg-bright: #e0e0e0; // aim for 10+ contrast ratio
+$fg-brighter: #ffffff; // aim for highest contrast ratio
+
+$text-selection-bg: #b0bec5;
+$color-selection-bg: #37474f;
+$color-selection-fg: #cacaca;
+$color-text-non-highlighted: #cecece;
+$color-text-non-highlighted-hover: #bdbdbd;
+$color-highlight: #ffd180;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        $fg-brighter;
+$presentation-active-translation:     $fg-bright;
+$presentation-active-darpan:          $fg-base;
+$presentation-active-transliteration: $fg-dark;
+$presentation-active-vishraamHeavy:   #FFE0B2;
+$presentation-active-vishraamMedium:  #BBDEFB;
+$presentation-active-vishraamLight:   #DCEDC8;
+// $presentation-gurmukhi:               #FAFAFA;
+// $presentation-vishraamHeavy:          #FFF3E0;
+// $presentation-vishraamMedium:         #E3F2FD;
+// $presentation-vishraamLight:          #F1F8E9;
+$mixWith: #000000;
+$mixAmount: 90%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
+/*
+Day Theme
+*/
+$theme: color-scheme-day;
+
+$bg-presentation: #FFFFFF; // background of display page
+$bg-dark: #F5F5F5; // used in status bars
+$bg-base: #EEEEEE; // base background color
+$bg-bright: #E0E0E0; // base background color
+
+$fg-darker: #757575; // only suitable for small hints
+$fg-dark: #616161; // aim for 10+ contrast ratio
+$fg-base: #424242; // aim for 7+ contrast ratio base/base
+$fg-bright: #212121; // aim for 10+ contrast ratio
+$fg-brighter: #000000; // aim for highest contrast ratio
+
+$text-selection-bg: #B0BEC5;
+$color-selection-bg: #CFD8DC;
+$color-selection-fg: #212121;
+$color-text-non-highlighted: #616161;
+$color-text-non-highlighted-hover: #424242;
+$color-highlight: #0D47A1;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        $fg-brighter;
+$presentation-active-translation:     $fg-bright;
+$presentation-active-darpan:          $fg-base;
+$presentation-active-transliteration: $fg-dark;
+$presentation-active-vishraamHeavy:   #FF8F00;
+$presentation-active-vishraamMedium:  #0D47A1;
+$presentation-active-vishraamLight:   #33691E;
+$mixWith: #FFFFFF;
+$mixAmount: 80%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
+/*
+Philosophiea Theme
+*/
+$theme: color-scheme-philosophiae;
+
+$bg-presentation: #DCD8D0; // background of display page
+$bg-dark: #d2d2d2; // used in status bars
+$bg-base: #e1e1e1; // base background color
+$bg-bright: #ffffff; // base background color
+
+$fg-darker: mix(#fff, #000, 40%); // only suitable for small hints
+$fg-dark: mix(#fff, #000, 30%); // aim for 10+ contrast ratio
+$fg-base: mix(#fff, #000, 20%); // aim for 7+ contrast ratio base/base
+$fg-bright: mix(#fff, #000, 10%) ; // aim for 10+ contrast ratio
+$fg-brighter: #000000; // aim for highest contrast ratio
+
+$text-selection-bg: #8080ff;
+$color-selection-bg: #cccccc;
+$color-selection-fg: #000000;
+$color-text-non-highlighted: #1f1f1f;
+$color-text-non-highlighted-hover: #000000;
+$color-highlight: #000080;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        #800000;
+$presentation-active-translation:     #000080;
+$presentation-active-darpan:          #008000;
+$presentation-active-transliteration: #008080;
+$presentation-active-vishraamHeavy:   #800080;
+$presentation-active-vishraamMedium:  #808000;
+$presentation-active-vishraamLight:   #808080;
+$mixWith: #000;
+$mixAmount: 75%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+
+body.presentation.#{$theme} {
+    background: url('../includes/philosophiae.png');
+}
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
+/* used for ruling */
+/**/
+body.presentation .gurmukhifont {
+    margin-top: 0.5vh;
+}
+body.presentation div.hideCursor div {
+  height: calc(1vh - 1px);
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid black;
+}
+body.presentation div.hideCursor div:nth-child(12n) {
+  border-bottom-color: rgba(255,255,255,.25);
+}
+body.presentation div.hideCursor div:nth-child(12n+1) {
+  border-bottom-color: rgba(0, 255, 0, .5);
+}
+body.presentation div.hideCursor div:nth-child(12n+2) {
+  border-bottom-color: rgba(255,255,255,.25);
+}
+body.presentation div.hideCursor div:nth-child(12n+3) {
+  border-bottom-color: rgba(255,255,255,.25);
+}
+body.presentation div.hideCursor div:nth-child(12n+4) {
+  border-bottom-color: rgba(255, 0, 0, .5);
+}
+body.presentation div.hideCursor div:nth-child(12n+5) {
+  border-bottom-color: rgba(255,255,255,.25);
+}
+body.presentation div.hideCursor div:nth-child(12n+6) {
+  border-bottom-color: rgba(255,255,255,.25);
+}
+body.presentation div.hideCursor div:nth-child(12n+7) {
+  border-bottom-color: rgba(255, 0, 0, .5);
+}
+body.presentation div.hideCursor div:nth-child(12n+8) {
+  border-bottom-color: rgba(255,255,255,.25);
+}
+body.presentation div.hideCursor div:nth-child(12n+9) {
+  border-bottom-color: rgba(255,255,255,.25);
+}
+body.presentation div.hideCursor div:nth-child(12n+10) {
+  border-bottom-color: rgba(255, 0, 0, .5);
+}
+body.presentation div.hideCursor div:nth-child(12n+11) {
+  border-bottom-color: rgba(255,255,255,.25);
+} 
+/**/
+
+/* 2017 11 14 tested font at large sizes
+	Either you can translate darpan .2 or .25 down with negative bottom margin for compensation (at size 6)
+	Or we can check these new numbers out:
+
+	Gurb
+		13.3333333333
+		16
+
+	Translation
+		5.5
+		8
+		1.8
+
+	Darpan
+		6
+		8
+		0.55
+
+	Translit
+		5.5333333333
+		8
+		-.2
+	Translit Slabo
+		6
+		8
+		-.45 ? -.25?
+*/
+
+/* settings */
+body.presentation {
+  div.hideCursor div {
+    display: none;
+  }   /* ~324 lines generated with python script*/
+  &.fs-1{
+    .gurmukhifont {
+      font-size: 1.6666666666666667vh;
+      line-height: 2.0vh;
+    }
+    .translation {
+      font-size: 0.6666666666666667vh;
+      line-height: 1.0vh;
+      margin-top: 0.18333333333333335vh;
+    }
+    .darpan {
+      font-size: 0.7216666666666667vh;
+      line-height: 1.0vh;
+      margin-top: 0.06666666666666667vh;
+    }
+    .transliteration {
+      font-size: 0.6916666666666667vh;
+      line-height: 1.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 95.0vh;
+    }
+    .line > div {
+      margin-bottom: 2.0vh;
+    }
+  }
+  &.fs-2{
+    .gurmukhifont {
+      font-size: 3.3333333333333335vh;
+      line-height: 4.0vh;
+    }
+    .translation {
+      font-size: 1.3333333333333335vh;
+      line-height: 2.0vh;
+      margin-top: 0.3666666666666667vh;
+    }
+    .darpan {
+      font-size: 1.4433333333333334vh;
+      line-height: 2.0vh;
+      margin-top: 0.13333333333333333vh;
+    }
+    .transliteration {
+      font-size: 1.3833333333333333vh;
+      line-height: 2.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 91.0vh;
+    }
+    .line > div {
+      margin-bottom: 4.0vh;
+    }
+  }
+  &.fs-3{
+    .gurmukhifont {
+      font-size: 5.0vh;
+      line-height: 6.0vh;
+    }
+    .translation {
+      font-size: 2.0vh;
+      line-height: 3.0vh;
+      margin-top: 0.55vh;
+    }
+    .darpan {
+      font-size: 2.165vh;
+      line-height: 3.0vh;
+      margin-top: 0.2vh;
+    }
+    .transliteration {
+      font-size: 2.0749999999999997vh;
+      line-height: 3.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 87.0vh;
+    }
+    .line > div {
+      margin-bottom: 6.0vh;
+    }
+  }
+  &.fs-4{
+    .gurmukhifont {
+      font-size: 6.666666666666667vh;
+      line-height: 8.0vh;
+    }
+    .translation {
+      font-size: 2.666666666666667vh;
+      line-height: 4.0vh;
+      margin-top: 0.7333333333333334vh;
+    }
+    .darpan {
+      font-size: 2.8866666666666667vh;
+      line-height: 4.0vh;
+      margin-top: 0.26666666666666666vh;
+    }
+    .transliteration {
+      font-size: 2.7666666666666666vh;
+      line-height: 4.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 83.0vh;
+    }
+    .line > div {
+      margin-bottom: 8.0vh;
+    }
+  }
+  &.fs-5{
+    .gurmukhifont {
+      font-size: 8.333333333333334vh;
+      line-height: 10.0vh;
+    }
+    .translation {
+      font-size: 3.333333333333334vh;
+      line-height: 5.0vh;
+      margin-top: 0.9166666666666667vh;
+    }
+    .darpan {
+      font-size: 3.6083333333333334vh;
+      line-height: 5.0vh;
+      margin-top: 0.33333333333333337vh;
+    }
+    .transliteration {
+      font-size: 3.4583333333333335vh;
+      line-height: 5.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 79.0vh;
+    }
+    .line > div {
+      margin-bottom: 10.0vh;
+    }
+  }
+  &.fs-6{
+    .gurmukhifont {
+      font-size: 10.0vh;
+      line-height: 12.0vh;
+    }
+    .translation {
+      font-size: 4.0vh;
+      line-height: 6.0vh;
+      margin-top: 1.1vh;
+    }
+    .darpan {
+      font-size: 4.33vh;
+      line-height: 6.0vh;
+      margin-top: 0.4vh;
+    }
+    .transliteration {
+      font-size: 4.1499999999999995vh;
+      line-height: 6.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 75.0vh;
+    }
+    .line > div {
+      margin-bottom: 12.0vh;
+    }
+  }
+  &.fs-7{
+    .gurmukhifont {
+      font-size: 11.666666666666666vh;
+      line-height: 13.999999999999998vh;
+    }
+    .translation {
+      font-size: 4.666666666666667vh;
+      line-height: 6.999999999999999vh;
+      margin-top: 1.2833333333333332vh;
+    }
+    .darpan {
+      font-size: 5.051666666666667vh;
+      line-height: 6.999999999999999vh;
+      margin-top: 0.4666666666666667vh;
+    }
+    .transliteration {
+      font-size: 4.841666666666666vh;
+      line-height: 6.999999999999999vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 71.0vh;
+    }
+    .line > div {
+      margin-bottom: 13.999999999999998vh;
+    }
+  }
+  &.fs-8{
+    .gurmukhifont {
+      font-size: 13.333333333333334vh;
+      line-height: 16.0vh;
+    }
+    .translation {
+      font-size: 5.333333333333334vh;
+      line-height: 8.0vh;
+      margin-top: 1.4666666666666668vh;
+    }
+    .darpan {
+      font-size: 5.773333333333333vh;
+      line-height: 8.0vh;
+      margin-top: 0.5333333333333333vh;
+    }
+    .transliteration {
+      font-size: 5.533333333333333vh;
+      line-height: 8.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 67.0vh;
+    }
+    .line > div {
+      margin-bottom: 16.0vh;
+    }
+  }
+  &.fs-9{
+    .gurmukhifont {
+      font-size: 15.0vh;
+      line-height: 18.0vh;
+    }
+    .translation {
+      font-size: 6.0vh;
+      line-height: 9.0vh;
+      margin-top: 1.65vh;
+    }
+    .darpan {
+      font-size: 6.495vh;
+      line-height: 9.0vh;
+      margin-top: 0.6vh;
+    }
+    .transliteration {
+      font-size: 6.225vh;
+      line-height: 9.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 63.0vh;
+    }
+    .line > div {
+      margin-bottom: 18.0vh;
+    }
+  }
+  &.fs-10{
+    .gurmukhifont {
+      font-size: 16.666666666666668vh;
+      line-height: 20.0vh;
+    }
+    .translation {
+      font-size: 6.666666666666668vh;
+      line-height: 10.0vh;
+      margin-top: 1.8333333333333335vh;
+    }
+    .darpan {
+      font-size: 7.216666666666667vh;
+      line-height: 10.0vh;
+      margin-top: 0.6666666666666667vh;
+    }
+    .transliteration {
+      font-size: 6.916666666666667vh;
+      line-height: 10.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 59.0vh;
+    }
+    .line > div {
+      margin-bottom: 20.0vh;
+    }
+  }
+  &.fs-11{
+    .gurmukhifont {
+      font-size: 18.333333333333332vh;
+      line-height: 21.999999999999996vh;
+    }
+    .translation {
+      font-size: 7.333333333333333vh;
+      line-height: 10.999999999999998vh;
+      margin-top: 2.0166666666666666vh;
+    }
+    .darpan {
+      font-size: 7.938333333333333vh;
+      line-height: 10.999999999999998vh;
+      margin-top: 0.7333333333333333vh;
+    }
+    .transliteration {
+      font-size: 7.6083333333333325vh;
+      line-height: 10.999999999999998vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 55.00000000000001vh;
+    }
+    .line > div {
+      margin-bottom: 21.999999999999996vh;
+    }
+  }
+  &.fs-12{
+    .gurmukhifont {
+      font-size: 20.0vh;
+      line-height: 24.0vh;
+    }
+    .translation {
+      font-size: 8.0vh;
+      line-height: 12.0vh;
+      margin-top: 2.2vh;
+    }
+    .darpan {
+      font-size: 8.66vh;
+      line-height: 12.0vh;
+      margin-top: 0.8vh;
+    }
+    .transliteration {
+      font-size: 8.299999999999999vh;
+      line-height: 12.0vh;
+      margin-top: 0.0vh;
+    }
+    .line {
+      min-height: 51.0vh;
+    }
+    .line > div {
+      margin-bottom: 24.0vh;
+    }
+  }
+  /* layout */
+  &.layout-normal .line.active > div {
+	  justify-content: normal;
+  }
+  &.layout-space-around .line.active > div {
+	  justify-content: space-around;
+  }
+  &.layout-space-between .line.active > div {
+	  justify-content: space-between;
+  }
+  &.layout-space-evenly .line.active > div {
+	  justify-content: space-evenly;
+  }
+  &.navigator-height-short iframe {
+	  height: 257px;
+  }
+  &.navigator-height-medium iframe {
+	  height: 412px;
+  }
+  &.navigator-height-tall iframe {
+	  height: 624px;
+  }
+  /* hide or show different lines */
+  &.hide-gurbani-spaces .gurmukhifont .nbsp, &.hide-english-translation .translation, &.hide-punjabi-translation .darpan, &.hide-english-transliteration .transliteration, &.hide-next-line .active + .line {
+    display: none;
+  }
+  &.hide-background-image {
+	  background-image: none;
+  }
+  &.hide-vishraam-colors {
+    .vishraamLight, .vishraamMedium, .vishraamHeavy {
+      color: inherit;
+    }
+    .active {
+      .vishraamLight, .vishraamMedium, .vishraamHeavy {
+        color: inherit;
+      }
+    }
+  }
+  &.hide-vishraam-characters .vishraamChar {
+    display: none;
+  }
+  &.hide-vishraam-light {
+    .vishraamLight, .active .vishraamLight {
+      color: inherit;
+    }
+    .vishraamLight > .vishraamChar {
+      display: none;
+    }
+  }
+  &.hide-vishraam-medium {
+    .vishraamMedium, .active .vishraamMedium {
+      color: inherit;
+    }
+    .vishraamMedium > .vishraamChar {
+      display: none;
+    }
+  }
+  &.hide-vishraam-heavy {
+    .vishraamHeavy, .active .vishraamHeavy {
+      color: inherit;
+    }
+    .vishraamHeavy > .vishraamChar {
+      display: none;
+    }
+  }
+}
+body.presentation.hide-next-line {
+  .line {
+    min-height: 100vh;
+    > div {
+      margin-bottom: 0vh;
+    }
+  }
+}
