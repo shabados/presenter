@@ -7,18 +7,18 @@ This repo lacks the database used to pull up searches, gurbani, translations, et
 
 ## Installation
 
-There are two methods (our documentation refers to the second): 
+There are two methods (*NB: Our documentation refers to the first method!*): 
 
-(1) using `go get`
-
-      go get github.com/ShabadOS/shabadOS
-      cd $GOPATH/src/github.com/ShabadOS/shabadOS
-
-(2) using `git clone`
+(1) using `git clone`
 
       git clone https://github.com/ShabadOS/shabadOS.git $GOPATH/src/shabadOS
       cd $GOPATH/src/shabadOS
       
+(2) using `go get` (If you don't have git, and you just need a background server)
+
+      go get github.com/ShabadOS/shabadOS
+      cd $GOPATH/src/github.com/ShabadOS/shabadOS
+
 Then simply run `go build` or `go install` in the parent directory and execute the binary in your terminal at the same location.
 
       # go build -- placed in pwd

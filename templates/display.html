@@ -129,6 +129,38 @@
 				setTimeout(function() {iframe.trigger(e);}, 500);
 			});
 
+			var timer;
+			var fadeInBuffer = false;
+
+			$(document).mousemove(function () {
+		        if (!fadeInBuffer) {
+		            if (timer) {
+		                clearTimeout(timer);
+		                timer = 0;
+		            }
+
+		            $('html').css({
+		                cursor: ''
+		            });
+		        } else {
+		             $('div.hideCursor').css({
+		                cursor: 'default'
+		            });
+		            fadeInBuffer = false;
+		        }
+
+		        timer = setTimeout(function () {
+		             $('div.hideCursor').css({
+		                cursor: 'none'
+		            });
+		         
+		            fadeInBuffer = true;
+		        }, 2000)
+		    });
+		    $('div.hideCursor').css({
+                cursor: 'default'
+            });
+
 		</script>
 		</head>
 <html>
@@ -206,9 +238,10 @@
           <div class="clear"></div>
         </div><!-- -->
 		<div class="body"><div class="shabad" data-shabadid="0"><div id="0" class="line"><div><div class="gurmukhifont"></div><p class="translation"></p></div></div></div></div>
+		<div class="hideCursor" style="width: 100%; height: 100%; background: none; z-index: 99; position: fixed; top: 0; left: 0;"></div>
 		<iframe src="index" class="iframe"></iframe>
 		<div id="iframesHuMsg"></div>
-		<div id="hiddenIframePlusBox"><i class="fa fa-fw fa-plus" aria-hidden="true"></i></div>
+		<div id="hiddenIframePlusBox" style="z-index: 999;"><i class="fa fa-fw fa-plus" aria-hidden="true"></i></div>
 	</body>
 </html>
 {{end}}
