@@ -11,17 +11,36 @@ function openOBS(topBottom){
   }
 }
 
+function connect(link){
+  link = "http://"+link
+
+  if (parent.location != window.location) { link = link+"/display"; }
+  else if (opener) {
+    opener.parent.location.href = link+"/display";
+    $('iframe', opener.parent.document).hide();
+  }
+  else if (typeof remote === "object") { remote.require('./main').connect(link); }
+
+  parent.location.href = link;
+}
+
 (function () {
   function initBrowser() {
     if ($("#title-popout").length) {
       document.getElementById("title-popout").addEventListener("click", function (e) {
-        window.open("index");
-        $('iframe', window.parent.document).hide();
+        parent.navWindow = open(location.href,"","");
+        $('iframe', parent.document).hide();
       });
     }
     if ($("#title-popin").length) {
       document.getElementById("title-popin").addEventListener("click", function (e) {
-        window.self.close();
+          if (opener) {
+            $('iframe', opener.parent.document).attr('src', location.href);
+            $('iframe', opener.parent.document).show();
+            self.close();
+          } else {
+            location.href = "/display";
+          }
       });
     }
   }
@@ -29,9 +48,7 @@ function openOBS(topBottom){
 
     if ($("#title-popout").length) {
       document.getElementById("title-popout").addEventListener("click", function (e) {
-        window = $('iframe', window.parent.document).contentWindow;
-        url = window.location.href;
-        remote.require('./main').openNavigationWindow(url);
+        remote.require('./main').openNavigationWindow(window.location.href);
       });
     }
 
@@ -73,7 +90,7 @@ function openOBS(topBottom){
       if (window.top == window.self && $("#title-popout").length) {
           $("#titlebar .buttons.right").addClass("window");
       }
-      console.log(typeof remote);
+
       if (typeof remote === "object") {
         initRemote();
       } else {

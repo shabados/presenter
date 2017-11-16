@@ -14,10 +14,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"sync"
 
 	"regexp"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/hashicorp/mdns"
+
 )
 
 // compile all templates and cache them
@@ -36,6 +39,10 @@ var historyDB string
 var dbHistory *sql.DB
 var settings Settings
 var ip string
+
+var port = 42424
+
+var wg = sync.WaitGroup{}
 
 type Settings struct {
 	Rahao                   bool   `json:"Sticky Rahao,string"`
@@ -631,7 +638,7 @@ func handlerGetResults(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, searchResults.String())
 }
 
-func historyHandler(w http.ResponseWriter, r *http.Request) {
+func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 	hotkeys := [10]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
 	counter := 0
 	pageHTML := ""
@@ -676,22 +683,25 @@ func historyHandler(w http.ResponseWriter, r *http.Request) {
 
 		pageHTML += gurmukhi + "</p></div></a>"
 	}
+	
+	fmt.Fprint(w, pageHTML)
+}
 
+func historyHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Title string
-		Body  template.HTML
 		IP    string
 	}{
 		"History",
-		template.HTML(pageHTML),
 		ip,
 	}
-	// err = template.HTMLEscape(w, &data.Body)
+	
 	err = templates.ExecuteTemplate(w, "historyPage", &data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	//Add: History html page to view/export history
+	
+	//Add: History html page to view/export history	
 }
 
 func eh(err error, code string) {
@@ -702,7 +712,7 @@ func eh(err error, code string) {
 	}
 }
 
-func getHistory(w http.ResponseWriter, r *http.Request) {
+func getHistoryCSV(w http.ResponseWriter, r *http.Request) {
 	var historyTable, historyFilename string
 	lines := r.FormValue("lines")
 	if lines == "complete" {
@@ -1055,7 +1065,30 @@ func clearShabad() {
 	JSON = "{\"shabad\":" + shabadJSON + ",\"shabadID\":\"" + shabadID + "\",\"PK\":\"" + currentPK + "\"}"
 }
 
+func findServers(w http.ResponseWriter, r *http.Request) {
+	var servers []interface{}
+	
+	// Make a channel for results and start listening
+	entriesCh := make(chan *mdns.ServiceEntry, 4)
+	go func() {
+		for entry := range entriesCh {
+			servers = append(servers, entry)
+		}
+	}()
+
+	// Start the lookup
+	mdns.Lookup("._shabadOS._tcp", entriesCh)
+	close(entriesCh)
+
+	serversJSON, err := json.Marshal(servers)
+	eh(err, "45b")
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(serversJSON)
+}
+
 func main() {
+
 	//start program
 	ip = "<IP Error>"
 	addrs, _ := net.InterfaceAddrs()
@@ -1086,25 +1119,50 @@ func main() {
 	//basic handlers for pages without many variables
 	// webpages := [5]{}
 	// http.Handle("/", http.FileServer(assetFS()))
+	
+	//Server-specific Pages
 	http.HandleFunc("/searchresults", handlerGetResults)
+	http.HandleFunc("/getJSON", getJSON)
+	http.HandleFunc("/getLineID", getLineID)
+	http.HandleFunc("/postHistory", postHistory)
+	http.HandleFunc("/postSettings", postSettings)
+	http.HandleFunc("/history.csv", getHistoryCSV)
+	http.HandleFunc("/getHistoryHTML", getHistoryHTML)
+
+	//Local Server-specific (aka Private)
+	http.HandleFunc("/newHistory", newHistoryPage)
+	// http.HandleFunc("/findMistakes", findMistakes)
+	// http.HandleFunc("/updateFirstLetters", updateFirstLetters)
+
+	//Local pages
 	http.HandleFunc("/display", displayHandler)
-	http.HandleFunc("/menu", menuHandler)
 	http.HandleFunc("/obs-top", display2Handler)
 	http.HandleFunc("/obs-bottom", display3Handler)
 	http.HandleFunc("/kobo", koboHandler)
+	http.HandleFunc("/shabad", navigateHandler)
 	http.HandleFunc("/banis", banisHandler)
+	http.HandleFunc("/menu", menuHandler)
 	http.HandleFunc("/settings", settingsHandler)
-	http.HandleFunc("/getJSON", getJSON)
-	http.HandleFunc("/getLineID", getLineID)
+	http.HandleFunc("/findServers", findServers)
+	http.HandleFunc("/history", historyHandler)
 	http.HandleFunc("/index", indexHandler)
 	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/shabad", navigateHandler)
-	http.HandleFunc("/history", historyHandler)
-	http.HandleFunc("/postHistory", postHistory)
-	http.HandleFunc("/newHistory", newHistoryPage)
-	http.HandleFunc("/history.csv", getHistory)
-	http.HandleFunc("/postSettings", postSettings)
-	// http.HandleFunc("/updateFirstLetters", updateFirstLetters)
-	http.HandleFunc("/findMistakes", findMistakes)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	
+
+	wg.Add(1)
+	go func () {
+		log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), nil))
+		wg.Done()
+	}()
+
+	// Setup our service export
+	host, _ := os.Hostname()
+	info := []string{host}
+	service, _ := mdns.NewMDNSService(host, "_shabadOS._tcp", "", "", port, nil, info)
+
+	// Create the mDNS server, defer shutdown
+	server, _ := mdns.NewServer(&mdns.Config{Zone: service})
+	defer server.Shutdown()
+
+	wg.Wait()
 }

@@ -26,7 +26,7 @@
 					xhr.abort();
 				}
 				xhr = $.ajax({
-				url : "searchresults",
+				url : server+"/searchresults",
 				type: "POST",
 				async: true,
 				data: {search: filter},

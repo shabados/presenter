@@ -10,7 +10,7 @@
             var sc = 0;
 			function updateDisplay() {
 				$.ajax({
-					url : "getJSON",
+					url : server+"/getJSON",
 					async: true,
 					dataType: "json",
 					success : function (data) {

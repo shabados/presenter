@@ -21,6 +21,8 @@
 <script>
 	var akhandPaathView = false;
 	var dhm = "";
+	var navWindow;
+	var server = "";
 
 	function scroll(offset) {
 		$('html, body').stop();
@@ -33,7 +35,7 @@
 		e.parent().stop().animate({scrollTop:e.position().top + e.outerHeight() / 2 + e.parent().scrollTop() - e.parent().innerHeight() / 2}, 125);
 	}
 	function postHistory(content, PK, shabad) {
-		$.post("postHistory",{shabad: content,shabadID: shabad,PK: PK,toggleLines: toggleLines,mainID: mainID});
+		$.post(server+"/postHistory",{shabad: content,shabadID: shabad,PK: PK,toggleLines: toggleLines,mainID: mainID});
 	}
 	function clearDisplay() {
 		toggleLines = "0-0-0"
