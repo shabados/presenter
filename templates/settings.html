@@ -13,6 +13,7 @@
                                         "Sticky Rahao": "false",
                                         "Gurbani": "true",
                                         "Larivaar Gurbani": "false",
+                                        "Split Gurbani Lines": "true",
                                         "English Translation": "true",
                                         "Punjabi Translation": "true",
                                         "English Transliteration": "true",
@@ -39,6 +40,7 @@
 				settingsJSON["Layout"] = $('#layout-span').text();
 				settingsJSON["Navigator Height"] = $('#navigator-height-span').text();
 				settingsJSON["Larivaar Gurbani"] = $('#larivaar-gurbani').prop('checked') ? "true" : "false";
+				settingsJSON["Split Gurbani Lines"] = $('#split-gurbani-lines').prop('checked') ? "true" : "false";
 				settingsJSON["English Translation"] = $('#english-translation').prop('checked') ? "true" : "false";
 				settingsJSON["Punjabi Translation"] = $('#punjabi-translation').prop('checked') ? "true" : "false";
 				settingsJSON["English Transliteration"] = $('#english-transliteration').prop('checked') ? "true" : "false";
@@ -76,6 +78,10 @@
     			});
                 $('#larivaar-gurbani').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-gurbani-spaces');
+                    updateSettingsJson();
+    			});
+                $('#split-gurbani-lines').change(function(){
+    				window.parent.$('body.presentation').toggleClass('split-gurbani-lines');
                     updateSettingsJson();
     			});
                 $('#english-translation').change(function(){
@@ -165,6 +171,9 @@
         		if (getJSON["Larivaar Gurbani"] == "true") {
 	                $('#larivaar-gurbani').prop('checked', true).change();
                 }
+        		if (getJSON["Split Gurbani Lines"] == "true") {
+	                $('#split-gurbani-lines').prop('checked', true).change();
+                }
         		if (getJSON["English Translation"] == "true") {
         			$('#english-translation').prop('checked', true).change();
         		}
@@ -247,6 +256,10 @@
 		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="larivaar-gurbani">
             <input type="checkbox" id="larivaar-gurbani" class="mdl-switch__input">
             <span class="mdl-switch__label">Larivaar Gurbani</span>
+        </label>
+		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="split-gurbani-lines">
+            <input type="checkbox" id="split-gurbani-lines" class="mdl-switch__input">
+            <span class="mdl-switch__label">Split Gurbani Lines</span>
         </label>
 		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-translation">
             <input type="checkbox" id="english-translation" class="mdl-switch__input">

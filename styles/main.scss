@@ -622,10 +622,10 @@ body {
   font-size: 1.125em;
   line-height: 1.5em;
   > div {
-    display: inline-block;
+    display: inline;
     /* Was inline, perhaps for OBS? This is what causes natural line-breaks on heavy vishraam with block/inline-block */
     > div {
-      display: inline-block;
+      display: inline;
       /* Was inline, perhaps for OBS? This is what causes natural line-breaks on heavy vishraam with block/inline-block */
       /* next two lines for trying larivaar */
       word-wrap: break-word;
@@ -2289,6 +2289,12 @@ body.presentation {
   /* hide or show different lines */
   &.hide-gurbani-spaces .gurmukhifont .nbsp, &.hide-english-translation .translation, &.hide-punjabi-translation .darpan, &.hide-english-transliteration .transliteration, &.hide-next-line .active + .line {
     display: none;
+  }
+  &.split-gurbani-lines .gurmukhifont > div {
+	display: inline-block;
+		> div {
+			display: inline-block;
+		}
   }
   &.hide-background-image {
 	  background-image: none;

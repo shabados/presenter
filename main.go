@@ -42,6 +42,7 @@ type Settings struct {
 	NavigatorHeight         string `json:"Navigator Height"`
 	Rahao                   bool   `json:"Sticky Rahao,string"`
 	LarivaarGurbani         bool   `json:"Larivaar Gurbani,string"`
+	SplitGurbaniLines		bool   `json:"Split Gurbani Lines,string"`
 	EnglishTranslation      bool   `json:"English Translation,string"`
 	PunjabiTranslation      bool   `json:"Punjabi Translation,string"`
 	EnglishTransliteration  bool   `json:"English Transliteration,string"`
@@ -119,6 +120,10 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 	if settings.LarivaarGurbani == true {
 		setClasses += ` hide-gurbani-spaces`
 	}
+	if settings.SplitGurbaniLines == true {
+		setClasses += ` split-gurbani-lines`
+	}
+
 	if settings.EnglishTranslation == false {
 		setClasses += ` hide-english-translation`
 	}
