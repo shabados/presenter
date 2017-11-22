@@ -7,8 +7,8 @@
             $(window).load(function() {
 				$.get(server+"/getHistoryHTML", function (HTML) {
                     HTML = HTML + `<a id="-3" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="`+server+`/history.csv"><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-download fa-fw" aria-hidden="true"></i></span>Export</p></div></a>
-                        <a id="-2" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="`+server+`/history.csv?lines=complete"><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-server fa-fw" aria-hidden="true"></i></span>Export (All Lines)</p></div></a>
-                        <a id="-1" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="`+server+`/newHistory" ><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-file fa-fw" aria-hidden="true"></i></span>New History</p></div></a>`
+                        <a id="-2" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="`+server+`/history.csv?lines=complete"><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-server fa-fw" aria-hidden="true"></i></span>Export (All Lines)</p></div></a>`
+                    if (typeof remote === "object") { HTML = HTML + `<a id="-1" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="`+server+`/newHistory" ><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-file fa-fw" aria-hidden="true"></i></span>New History</p></div></a>` }
                     $('div.history').html(HTML);
                     hotkeys();
                     hotkeysHistory();
