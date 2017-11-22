@@ -1,0 +1,35 @@
+{{define "connectPage"}}
+<!DOCTYPE html>
+<html>
+    <head>
+        {{template "header"}}
+        <script>
+            $(window).load(function() {
+                hotkeys();
+                $.ajax({
+                    url : "findServers",
+                    async: true,
+                    dataType: 'json',
+                    success : function (data) {
+                        var html = "";
+
+                        $.each(data, function(key, server) {
+                            var link = server.AddrV4 + ':' + server.Port
+                            html = html+`<a href="#" id="`+key+`" class="navigationForDisplay" onclick="connect('`+link+`')"><div class="searchresult searchresult-`+key+`"><p><span class="codefont"><i class="fa fa-cog fa-fw" aria-hidden="true"></i></span>`+server.Info+` (`+link+`)</p></div></a>`;
+                        })
+
+                        $('div.menu').html(html);
+                        hotkeysHistory();
+                    }
+                });
+            });
+        </script>
+    </head>
+<body class="menu {{.Theme}}">
+    {{template "titlebar" .}}
+    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw loader"></i>
+    <div class="scrollBetweenBars menu"></div>
+    {{template "navibar"}}
+    </body>
+</html>
+{{end}}

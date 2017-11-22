@@ -265,6 +265,22 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func connectHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+	
+	data := struct {
+		Title string
+		Theme template.HTML
+	}{
+		"Connect",
+		template.HTML(theme),
+	}
+	err = templates.ExecuteTemplate(w, "connectPage", &data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
 func settingsHandler(w http.ResponseWriter, r *http.Request) {
 	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	sendJSON, err := json.Marshal(settings)
@@ -1148,6 +1164,7 @@ func main() {
 	mux.HandleFunc("/shabad", navigateHandler)
 	mux.HandleFunc("/banis", banisHandler)
 	mux.HandleFunc("/menu", menuHandler)
+	mux.HandleFunc("/connect", connectHandler)
 	mux.HandleFunc("/settings", settingsHandler)
 	mux.HandleFunc("/findServers", findServers)
 	mux.HandleFunc("/history", historyHandler)
