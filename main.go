@@ -148,15 +148,6 @@ func copyFile(src, dst string) error {
 	return d.Close()
 }
 
-// func basicHandler(p string, n string) {
-// w := http.ResponseWriter
-// r := *http.Request
-// err = templates.ExecuteTemplate(w, n, p)
-// if err != nil {
-// http.Error(w, err.Error(), http.StatusInternalServerError)
-// }
-// }
-
 func displayHandler(w http.ResponseWriter, r *http.Request) {
 	setClasses := ""
 
@@ -219,63 +210,51 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
-func display2Handler(w http.ResponseWriter, r *http.Request) {
-	data := struct {
-		Title string
-	}{
-		"OBS",
-	}
-	err = templates.ExecuteTemplate(w, "display2Page", &data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-func display3Handler(w http.ResponseWriter, r *http.Request) {
-	data := struct {
-		Title string
-	}{
-		"OBS",
-	}
-	err = templates.ExecuteTemplate(w, "display3Page", &data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-func koboHandler(w http.ResponseWriter, r *http.Request) {
-	p := "kobo"
-	err = templates.ExecuteTemplate(w, "koboPage", p)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
 
-func menuHandler(w http.ResponseWriter, r *http.Request) {
+func simpleHandler(w http.ResponseWriter, r *http.Request) {
+	title := ""
+	templateName := ""
 	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-	
+
+	switch r.URL.Path {
+		case "/obs-top":
+			title = "OBS"
+			templateName = "display2Page"
+		case "/obs-bottom":
+			title = "OBS"
+			templateName = "display2Page"
+		case "/kobo":
+			title = "kobo"
+			templateName = "koboPage"
+		case "/menu":
+			title = "Menu"
+			templateName = "menuPage"
+		case "/connect":
+			title = "Connect"
+			templateName = "connectPage"
+		case "/history":
+			title = "History"
+			templateName = "historyPage"
+			//tk: History html page to view/export/import/reload history
+		case "/banis":
+			title = "Bookmarks"
+			templateName = "banisPage"
+		case "/index":
+			title = "Search"
+			templateName = "indexPage"
+		case "/":
+			title = "Search"
+			templateName = "indexPage"
+			//tk combine with /index
+	}
 	data := struct {
 		Title string
 		Theme template.HTML
 	}{
-		"Menu",
+		title,
 		template.HTML(theme),
 	}
-	err = templates.ExecuteTemplate(w, "menuPage", &data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func connectHandler(w http.ResponseWriter, r *http.Request) {
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-	
-	data := struct {
-		Title string
-		Theme template.HTML
-	}{
-		"Connect",
-		template.HTML(theme),
-	}
-	err = templates.ExecuteTemplate(w, "connectPage", &data)
+	err = templates.ExecuteTemplate(w, templateName, &data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -318,36 +297,6 @@ func settingsHandler(w http.ResponseWriter, r *http.Request) {
 		template.HTML(theme),
 	}
 	err = templates.ExecuteTemplate(w, "settingsPage", &data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func banisHandler(w http.ResponseWriter, r *http.Request) {
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-	data := struct {
-		Title string
-		Theme template.HTML
-	}{
-		"Bookmarks",
-		template.HTML(theme),
-	}
-	err = templates.ExecuteTemplate(w, "banisPage", &data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-	data := struct {
-		Title string
-		Theme template.HTML
-	}{
-		"Search",
-		template.HTML(theme),
-	}
-	err = templates.ExecuteTemplate(w, "indexPage", &data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -558,7 +507,7 @@ func convertFirstLetters(gurmukhi string) string {
 	return strings.Join(words, " ")
 }
 
-func handlerGetResults(w http.ResponseWriter, r *http.Request) {
+func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 	query := r.FormValue("search")
 	var searchResults bytes.Buffer
 	var pk string
@@ -714,25 +663,6 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	fmt.Fprint(w, pageHTML)
-}
-
-func historyHandler(w http.ResponseWriter, r *http.Request) {
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-	
-	data := struct {
-		Title string
-		Theme template.HTML
-	}{
-		"History",
-		template.HTML(theme),
-	}
-	
-	err = templates.ExecuteTemplate(w, "historyPage", &data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-	
-	//tk: History html page to view/export/import/reload history
 }
 
 func eh(err error, code string) {
@@ -938,7 +868,7 @@ func newHistory() {
 
 func newHistoryPage(w http.ResponseWriter, r *http.Request) {
 	newHistory()
-	indexHandler(w, r)
+	// indexHandler(w, r) //tk
 }
 
 func updateFirstLetters(w http.ResponseWriter, r *http.Request) {
@@ -1096,7 +1026,7 @@ func clearShabad() {
 	JSON = "{\"shabad\":" + shabadJSON + ",\"shabadID\":\"" + shabadID + "\",\"PK\":\"" + currentPK + "\"}"
 }
 
-func findServers(w http.ResponseWriter, r *http.Request) {
+func getServersJSON(w http.ResponseWriter, r *http.Request) {
 	var servers []interface{}
 	
 	// Make a channel for results and start listening
@@ -1142,35 +1072,28 @@ func main() {
 	// webpages := [5]{}
 	// mux.Handle("/", mux.FileServer(assetFS()))
 	
-	//Server-specific Pages
-	mux.HandleFunc("/searchresults", handlerGetResults)
+	//Public Server Functions
+	mux.HandleFunc("/searchresults", getResultsHTML)
 	mux.HandleFunc("/getJSON", getJSON)
 	mux.HandleFunc("/getLineID", getLineID)
 	mux.HandleFunc("/postHistory", postHistory)
 	mux.HandleFunc("/history.csv", getHistoryCSV)
 	mux.HandleFunc("/getHistoryHTML", getHistoryHTML)
 
-	//Local Server-specific (aka Private)
+	//Local private
 	mux.HandleFunc("/newHistory", newHistoryPage)
 	mux.HandleFunc("/postSettings", postSettings)
 	// mux.HandleFunc("/findMistakes", findMistakes)
 	// mux.HandleFunc("/updateFirstLetters", updateFirstLetters)
 
-	//Local pages
+	//Local functions
 	mux.HandleFunc("/display", displayHandler)
-	mux.HandleFunc("/obs-top", display2Handler)
-	mux.HandleFunc("/obs-bottom", display3Handler)
-	mux.HandleFunc("/kobo", koboHandler)
 	mux.HandleFunc("/shabad", navigateHandler)
-	mux.HandleFunc("/banis", banisHandler)
-	mux.HandleFunc("/menu", menuHandler)
-	mux.HandleFunc("/connect", connectHandler)
 	mux.HandleFunc("/settings", settingsHandler)
-	mux.HandleFunc("/findServers", findServers)
-	mux.HandleFunc("/history", historyHandler)
-	mux.HandleFunc("/index", indexHandler)
-	mux.HandleFunc("/", indexHandler)
-	
+	mux.HandleFunc("/findServers", getServersJSON)
+
+	//Rest are local and simple
+	mux.HandleFunc("/", simpleHandler)
 
 	wg.Add(1)
 	go func () {
