@@ -476,14 +476,11 @@ a {
 }
 
 .loader {
-  position: fixed;
-  top: 0;
-  right: 0;
-  /*text-align: center;*/
-  /*width: 100%;*/
-  /*background: rgba(0, 0, 0, .87);*/
-  padding: .25em 0;
-  font-size: .5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 5vh;
 }
 
 .nbsp {
@@ -1074,6 +1071,9 @@ div#kobo {
       width: -webkit-calc(50vw - 5px);
     }
   }
+  .loader {
+    height: 50vh;
+  }
 }
 
 /* this allows 800x600 computers to not have an issue; currently the nexus 6p in landscape fits in this rule */
@@ -1083,6 +1083,9 @@ div#kobo {
       zoom: 1;
     }
     zoom: 1.5;
+  }
+  .loader {
+    height: 66.6666vh;
   }
   ::-webkit-scrollbar {
     width: 1em;
@@ -1688,6 +1691,10 @@ body.color-scheme-day {
     .scrollBetweenBars.shabad.active .searchresult {
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
     }
+
+    .loader {
+	  color: rgba($fg-base, .3);
+    }
   }
   
   @media only screen and (max-device-width: 480px) {
@@ -1807,22 +1814,22 @@ Philosophiea Theme
 $theme: color-scheme-philosophiae;
 
 $bg-presentation: #DCD8D0; // background of display page
-$bg-dark: #d2d2d2; // used in status bars
-$bg-base: #e1e1e1; // base background color
-$bg-bright: #ffffff; // base background color
+$bg-dark: #272523; // used in status bars
+$bg-base: #312f2c; // base background color
+$bg-bright: #5e5c55; // base background color
 
-$fg-darker: mix(#fff, #000, 40%); // only suitable for small hints
-$fg-dark: mix(#fff, #000, 30%); // aim for 10+ contrast ratio
-$fg-base: mix(#fff, #000, 20%); // aim for 7+ contrast ratio base/base
-$fg-bright: mix(#fff, #000, 10%) ; // aim for 10+ contrast ratio
-$fg-brighter: #000000; // aim for highest contrast ratio
+$fg-darker: #919191; // only suitable for small hints
+$fg-dark: #989181; // aim for 10+ contrast ratio
+$fg-base: #cdc7bb; // aim for 7+ contrast ratio base/base
+$fg-bright: #e6e2da; // aim for 10+ contrast ratio
+$fg-brighter: #ffffff; // aim for highest contrast ratio
 
-$text-selection-bg: #8080ff;
-$color-selection-bg: #cccccc;
-$color-selection-fg: #000000;
-$color-text-non-highlighted: #1f1f1f;
-$color-text-non-highlighted-hover: #000000;
-$color-highlight: #000080;
+$text-selection-bg: #f2bfff;
+$color-selection-bg: #443a47;
+$color-selection-fg: $fg-bright;
+$color-text-non-highlighted: $fg-base;
+$color-text-non-highlighted-hover: $fg-bright;
+$color-highlight: #81d7f8;
 
 // presentation active gurmukhi/translation/darpan/translit
 $presentation-active-gurmukhi:        #800000;

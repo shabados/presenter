@@ -366,14 +366,11 @@ a {
     display: inline-block; }
 
 .loader {
-  position: fixed;
-  top: 0;
-  right: 0;
-  /*text-align: center;*/
-  /*width: 100%;*/
-  /*background: rgba(0, 0, 0, .87);*/
-  padding: .25em 0;
-  font-size: .5em; }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 5vh; }
 
 .nbsp {
   display: inline-block; }
@@ -771,13 +768,19 @@ div#kobo div.vishraamChar {
   .scrollBetweenBars {
     height: -webkit-calc(50vh - 72px); }
     .scrollBetweenBars .sep {
-      width: -webkit-calc(50vw - 5px); } }
+      width: -webkit-calc(50vw - 5px); }
+
+  .loader {
+    height: 50vh; } }
 /* this allows 800x600 computers to not have an issue; currently the nexus 6p in landscape fits in this rule */
 @media only screen and (max-device-width: 799px) {
   body {
     zoom: 1.5; }
     body.presentation {
       zoom: 1; }
+
+  .loader {
+    height: 66.6666vh; }
 
   ::-webkit-scrollbar {
     width: 1em; }
@@ -1207,6 +1210,8 @@ body.color-scheme-night .scrollBetweenBars.shabad.active, body.color-scheme-nigh
   background: rgba(255, 255, 255, 0.05); }
 body.color-scheme-night .scrollBetweenBars.shabad.active .searchresult {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06); }
+body.color-scheme-night .loader {
+  color: rgba(189, 189, 189, 0.3); }
 
 @media only screen and (max-device-width: 480px) {
   body {
@@ -1352,6 +1357,8 @@ body.color-scheme-day .scrollBetweenBars.shabad.active, body.color-scheme-day #n
   background: rgba(0, 0, 0, 0.05); }
 body.color-scheme-day .scrollBetweenBars.shabad.active .searchresult {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06); }
+body.color-scheme-day .loader {
+  color: rgba(66, 66, 66, 0.3); }
 
 @media only screen and (max-device-width: 480px) {
   body {
@@ -1380,8 +1387,8 @@ body.presentation.color-scheme-philosophiae {
 Display page / Presentation related
 ***********************************************************/
 body.color-scheme-philosophiae {
-  background-color: #e1e1e1;
-  color: #333333; }
+  background-color: #312f2c;
+  color: #cdc7bb; }
   body.color-scheme-philosophiae.presentation {
     background-color: #DCD8D0; }
     body.color-scheme-philosophiae.presentation .active .gurmukhifont {
@@ -1407,99 +1414,101 @@ body.color-scheme-philosophiae {
     body.color-scheme-philosophiae.presentation .vishraamLight {
       color: #606060; }
     body.color-scheme-philosophiae.presentation iframe {
-      background: #d2d2d2;
-      border-color: #d2d2d2; }
+      background: #272523;
+      border-color: #272523; }
 
 body.color-scheme-philosophiae #iframesHuMsg {
-  background: rgba(225, 225, 225, 0.9); }
+  background: rgba(49, 47, 44, 0.9); }
   body.color-scheme-philosophiae #iframesHuMsg .icon {
-    color: rgba(0, 0, 0, 0.3); }
+    color: rgba(255, 255, 255, 0.3); }
   body.color-scheme-philosophiae #iframesHuMsg .hint, body.color-scheme-philosophiae #iframesHuMsg.long .gurmukhifont {
-    color: black; }
+    color: white; }
   body.color-scheme-philosophiae #iframesHuMsg.long .fa-search {
-    color: rgba(0, 0, 0, 0.3); }
+    color: rgba(255, 255, 255, 0.3); }
 body.color-scheme-philosophiae #hiddenIframePlusBox {
-  color: #6e6c68;
-  background: #c2beb7; }
+  color: #eeece8;
+  background: #e0ddd6; }
 
 /***********************************************************
 UI related top and bottom bars
 ***********************************************************/
 body.color-scheme-philosophiae .dragger, body.color-scheme-philosophiae #titlebar > div, body.color-scheme-philosophiae #navibar > div {
-  background: #d2d2d2; }
+  background: #272523; }
 body.color-scheme-philosophiae #titlebar > div, body.color-scheme-philosophiae #navibar > div {
-  color: #4d4d4d; }
+  color: #989181; }
 body.color-scheme-philosophiae #titlebar .title:hover, body.color-scheme-philosophiae #titlebar .buttons *:hover {
-  color: #333333; }
+  color: #cdc7bb; }
 body.color-scheme-philosophiae #navibar .buttons *:hover {
-  color: #333333; }
+  color: #cdc7bb; }
 body.color-scheme-philosophiae ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.5); }
+  background: rgba(255, 255, 255, 0.5); }
   body.color-scheme-philosophiae ::-webkit-scrollbar-thumb:hover, body.color-scheme-philosophiae ::-webkit-scrollbar-thumb:active {
-    background: #1a1a1a; }
+    background: #e6e2da; }
 body.color-scheme-philosophiae ::selection {
-  background: #8080ff;
+  background: #f2bfff;
   /* WebKit/Blink Browsers */ }
 body.color-scheme-philosophiae #humsg {
-  background: #d2d2d2;
-  color: #1a1a1a; }
+  background: #272523;
+  color: #e6e2da; }
 
 /***********************************************************
 betwen top and bottom nav bars
 ***********************************************************/
 body.color-scheme-philosophiae input {
-  color: #333333;
+  color: #cdc7bb;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
   body.color-scheme-philosophiae input:focus {
-    color: #1a1a1a;
+    color: #e6e2da;
     border-bottom: 1px solid transparent; }
   body.color-scheme-philosophiae input + .background {
-    color: #333333;
+    color: #cdc7bb;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.12); }
   body.color-scheme-philosophiae input:focus + .background {
-    background: #ffffff;
+    background: #5e5c55;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.18); }
 body.color-scheme-philosophiae ::-webkit-input-placeholder {
-  color: #4d4d4d; }
+  color: #989181; }
 body.color-scheme-philosophiae #results a {
-  color: #1f1f1f; }
+  color: #cdc7bb; }
   body.color-scheme-philosophiae #results a:hover {
-    color: #000000; }
+    color: #e6e2da; }
   body.color-scheme-philosophiae #results a:focus {
-    color: #1a1a1a;
-    background: #cccccc; }
+    color: #e6e2da;
+    background: #443a47; }
 body.color-scheme-philosophiae span.slink-highlight {
-  color: #000080; }
+  color: #81d7f8; }
 body.color-scheme-philosophiae .codefont {
-  color: #717171; }
+  color: #989796; }
 body.color-scheme-philosophiae .activeLine > div, body.color-scheme-philosophiae body.dindex a:focus {
-  background: #cccccc; }
+  background: #443a47; }
 body.color-scheme-philosophiae .activeLine > div, body.color-scheme-philosophiae .navigationForDisplay:hover {
-  color: #000000; }
+  color: #e6e2da; }
 
 /***********************************************************
 Other
 ***********************************************************/
 body.color-scheme-philosophiae .settings h1 {
-  color: #666666; }
+  color: #919191; }
 body.color-scheme-philosophiae .mdl-switch__track {
-  background: #a7a7a7; }
+  background: #676563; }
 body.color-scheme-philosophiae .scrollBetweenBars .sep {
-  border-bottom: 1px solid #d2d2d2; }
+  border-bottom: 1px solid #272523; }
 body.color-scheme-philosophiae #help-screen {
   background: rgba(220, 216, 208, 0.87);
-  color: #333333; }
+  color: #cdc7bb; }
   body.color-scheme-philosophiae #help-screen h1 {
-    color: #1a1a1a; }
+    color: #e6e2da; }
   body.color-scheme-philosophiae #help-screen div {
-    color: #1a1a1a; }
+    color: #e6e2da; }
 body.color-scheme-philosophiae .bright {
-  color: #333333; }
+  color: #cdc7bb; }
 body.color-scheme-philosophiae .scrollBetweenBars.shabad.active, body.color-scheme-philosophiae #navi-prog.active {
-  color: rgba(0, 0, 0, 0.7);
-  background: rgba(0, 0, 0, 0.05); }
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.05); }
 body.color-scheme-philosophiae .scrollBetweenBars.shabad.active .searchresult {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06); }
+body.color-scheme-philosophiae .loader {
+  color: rgba(205, 199, 187, 0.3); }
 
 @media only screen and (max-device-width: 480px) {
   body {
