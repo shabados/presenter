@@ -47,16 +47,17 @@
 							updateShabad();
 						} else {
 							var PK = data.PK;
-							$('.active').removeClass('active');
-							$("#"+PK).addClass('active');
-							
+							if (!$("#"+PK).hasClass('active')) {
+								$('.active').removeClass('active');
+								$("#"+PK).addClass('active');
+							}
 							
 							// var scrollToID = Number(PK);
 							// if (scrollToID > Number(firstLineID) && data.shabadID !== "adv") {
 								// scrollToID = scrollToID - 1;
 							// }
 							// try {
-							// 	var scrollPos = $("#"+scrollToID).offset().top //+ $("#"+scrollToID+"> .gurmukhifont").height()/2 - $('#fader').height()/3;
+							// 	var scrollPos = $erver+("#"+scrollToID).offset().top //+ $("#"+scrollToID+"> .gurmukhifont").height()/2 - $('#fader').height()/3;
 							// } catch (e) {
 							// 	console.log(scrollToID+": "+$("#999999999999")+" /// "+e)
 							// }

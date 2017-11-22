@@ -1167,6 +1167,7 @@ func main() {
 
 	//Local Server-specific (aka Private)
 	mux.HandleFunc("/newHistory", newHistoryPage)
+	mux.HandleFunc("/postSettings", postSettings)
 	// mux.HandleFunc("/findMistakes", findMistakes)
 	// mux.HandleFunc("/updateFirstLetters", updateFirstLetters)
 
@@ -1183,7 +1184,6 @@ func main() {
 	mux.HandleFunc("/history", historyHandler)
 	mux.HandleFunc("/index", indexHandler)
 	mux.HandleFunc("/", indexHandler)
-	mux.HandleFunc("/postSettings", postSettings)
 	
 
 	wg.Add(1)
