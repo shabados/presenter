@@ -1380,9 +1380,6 @@ body.color-scheme-day .loader {
 /*
 Philosophiea Theme
 */
-body.presentation.color-scheme-philosophiae {
-  background: url("../includes/philosophiae.png"); }
-
 /***********************************************************
 Display page / Presentation related
 ***********************************************************/
@@ -1414,8 +1411,8 @@ body.color-scheme-philosophiae {
     body.color-scheme-philosophiae.presentation .vishraamLight {
       color: #606060; }
     body.color-scheme-philosophiae.presentation iframe {
-      background: #272523;
-      border-color: #272523; }
+      background: #1d1b18;
+      border-color: #1d1b18; }
 
 body.color-scheme-philosophiae #iframesHuMsg {
   background: rgba(49, 47, 44, 0.9); }
@@ -1433,7 +1430,7 @@ body.color-scheme-philosophiae #hiddenIframePlusBox {
 UI related top and bottom bars
 ***********************************************************/
 body.color-scheme-philosophiae .dragger, body.color-scheme-philosophiae #titlebar > div, body.color-scheme-philosophiae #navibar > div {
-  background: #272523; }
+  background: #1d1b18; }
 body.color-scheme-philosophiae #titlebar > div, body.color-scheme-philosophiae #navibar > div {
   color: #989181; }
 body.color-scheme-philosophiae #titlebar .title:hover, body.color-scheme-philosophiae #titlebar .buttons *:hover {
@@ -1448,7 +1445,7 @@ body.color-scheme-philosophiae ::selection {
   background: #f2bfff;
   /* WebKit/Blink Browsers */ }
 body.color-scheme-philosophiae #humsg {
-  background: #272523;
+  background: #1d1b18;
   color: #e6e2da; }
 
 /***********************************************************
@@ -1492,7 +1489,7 @@ body.color-scheme-philosophiae .settings h1 {
 body.color-scheme-philosophiae .mdl-switch__track {
   background: #676563; }
 body.color-scheme-philosophiae .scrollBetweenBars .sep {
-  border-bottom: 1px solid #272523; }
+  border-bottom: 1px solid #1d1b18; }
 body.color-scheme-philosophiae #help-screen {
   background: rgba(220, 216, 208, 0.87);
   color: #cdc7bb; }
@@ -1527,6 +1524,13 @@ body.color-scheme-philosophiae .loader {
 @media only screen and (max-device-width: 799px) {
   ::-webkit-scrollbar {
     background: rgba(0, 0, 0, 0.12); } }
+body.presentation.color-scheme-philosophiae {
+  background: url("../includes/philosophiae.png"); }
+
+body.presentation.color-scheme-philosophiae #hiddenIframePlusBox {
+  background: #1d1b18;
+  color: #989181; }
+
 /* used for ruling */
 /**/
 body.presentation .gurmukhifont {
