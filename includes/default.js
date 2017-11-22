@@ -1,11 +1,13 @@
 var remote;
 if (typeof parent.nodeRequire === "function") {
   remote = parent.nodeRequire('electron').remote;
+  var server = remote.getGlobal("host");
+  var main = remote.require('./main');
 }
 
 function openOBS(topBottom){
   if (typeof remote === "object") { 
-    remote.require('./main').openOBS(topBottom);
+    main.openOBS(topBottom);
   } else {
     window.open("obs-"+topBottom);
   }
@@ -14,14 +16,17 @@ function openOBS(topBottom){
 function connect(link){
   link = "http://"+link
 
-  if (parent.location != window.location) { link = link+"/display"; }
-  else if (opener) {
-    opener.parent.location.href = link+"/display";
-    $('iframe', opener.parent.document).hide();
+  if (typeof remote === "object") { //electron
+    main.connect(link);
+  } else if (parent.location != window.location) { //iframe in browser
+    parent.location.href = link+"/display";
+  } else { //popped out in browser
+    if (opener) { //try to update display page
+      opener.parent.location.href = link+"/display";
+      $('iframe', opener.parent.document).hide();
+    }
+    parent.location.href = link;
   }
-  else if (typeof remote === "object") { remote.require('./main').connect(link); }
-
-  parent.location.href = link;
 }
 
 (function () {
@@ -48,13 +53,13 @@ function connect(link){
 
     if ($("#title-popout").length) {
       document.getElementById("title-popout").addEventListener("click", function (e) {
-        remote.require('./main').openNavigationWindow(window.location.href);
+        main.openNavigationWindow(window.location.href);
       });
     }
 
     if ($("#title-popin").length) {
       document.getElementById("title-popin").addEventListener("click", function (e) {
-        remote.require('./main').showNavigation(window.location.href);
+        main.showNavigation(window.location.href);
       });
     }
     

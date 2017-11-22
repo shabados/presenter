@@ -20,7 +20,7 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/hashicorp/mdns"
-
+	
 )
 
 // compile all templates and cache them
@@ -68,6 +68,48 @@ type Settings struct {
 	VishraamHeavyColor      string `json:"Vishraam Heavy Color"`
 	VishraamHeavyCharacter  string `json:"Vishraam Heavy Character"`
 	AkhandPaathView         bool   `json:"Akhand Paath View,string"`
+}
+
+const (
+	options           string = "OPTIONS"
+	allow_origin      string = "Access-Control-Allow-Origin"
+	allow_methods     string = "Access-Control-Allow-Methods"
+	allow_headers     string = "Access-Control-Allow-Headers"
+	allow_credentials string = "Access-Control-Allow-Credentials"
+	expose_headers    string = "Access-Control-Expose-Headers"
+	credentials       string = "true"
+	origin            string = "Origin"
+	methods           string = "POST, GET, OPTIONS, PUT, DELETE, HEAD, PATCH"
+
+	// If you want to expose some other headers add it here
+	headers string = "Access-Control-Allow-Origin, Accept, Accept-Encoding, Authorization, Content-Length, Content-Type, X-CSRF-Token"
+)
+
+// Handler will allow cross-origin HTTP requests
+func CORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Set allow origin to match origin of our request or fall back to *
+		if o := r.Header.Get(origin); o != "" {
+			w.Header().Set(allow_origin, o)
+		} else {
+			w.Header().Set(allow_origin, "*")
+		}
+
+		// Set other headers
+		w.Header().Set(allow_headers, headers)
+		w.Header().Set(allow_methods, methods)
+		w.Header().Set(allow_credentials, credentials)
+		w.Header().Set(expose_headers, headers)
+
+		// If this was preflight options request let's write empty ok response and return
+		if r.Method == options {
+			w.WriteHeader(http.StatusOK)
+			w.Write(nil)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
 }
 
 func getJSON(w http.ResponseWriter, r *http.Request) {
@@ -1112,46 +1154,49 @@ func main() {
 	decoder := json.NewDecoder(settingsFile)
 	err := decoder.Decode(&settings)
 	eh(err, "47")
+	
+	mux := http.NewServeMux()
+
 	//basic handlers for files
-	http.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("styles"))))
-	http.Handle("/styles/set/", http.StripPrefix("/styles/set/", http.FileServer(http.Dir("styles/set"))))
-	http.Handle("/includes/", http.StripPrefix("/includes/", http.FileServer(http.Dir("includes"))))
+	mux.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("styles"))))
+	mux.Handle("/styles/set/", http.StripPrefix("/styles/set/", http.FileServer(http.Dir("styles/set"))))
+	mux.Handle("/includes/", http.StripPrefix("/includes/", http.FileServer(http.Dir("includes"))))
 	//basic handlers for pages without many variables
 	// webpages := [5]{}
-	// http.Handle("/", http.FileServer(assetFS()))
+	// mux.Handle("/", mux.FileServer(assetFS()))
 	
 	//Server-specific Pages
-	http.HandleFunc("/searchresults", handlerGetResults)
-	http.HandleFunc("/getJSON", getJSON)
-	http.HandleFunc("/getLineID", getLineID)
-	http.HandleFunc("/postHistory", postHistory)
-	http.HandleFunc("/postSettings", postSettings)
-	http.HandleFunc("/history.csv", getHistoryCSV)
-	http.HandleFunc("/getHistoryHTML", getHistoryHTML)
+	mux.HandleFunc("/searchresults", handlerGetResults)
+	mux.HandleFunc("/getJSON", getJSON)
+	mux.HandleFunc("/getLineID", getLineID)
+	mux.HandleFunc("/postHistory", postHistory)
+	mux.HandleFunc("/history.csv", getHistoryCSV)
+	mux.HandleFunc("/getHistoryHTML", getHistoryHTML)
 
 	//Local Server-specific (aka Private)
-	http.HandleFunc("/newHistory", newHistoryPage)
-	// http.HandleFunc("/findMistakes", findMistakes)
-	// http.HandleFunc("/updateFirstLetters", updateFirstLetters)
+	mux.HandleFunc("/newHistory", newHistoryPage)
+	// mux.HandleFunc("/findMistakes", findMistakes)
+	// mux.HandleFunc("/updateFirstLetters", updateFirstLetters)
 
 	//Local pages
-	http.HandleFunc("/display", displayHandler)
-	http.HandleFunc("/obs-top", display2Handler)
-	http.HandleFunc("/obs-bottom", display3Handler)
-	http.HandleFunc("/kobo", koboHandler)
-	http.HandleFunc("/shabad", navigateHandler)
-	http.HandleFunc("/banis", banisHandler)
-	http.HandleFunc("/menu", menuHandler)
-	http.HandleFunc("/settings", settingsHandler)
-	http.HandleFunc("/findServers", findServers)
-	http.HandleFunc("/history", historyHandler)
-	http.HandleFunc("/index", indexHandler)
-	http.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/display", displayHandler)
+	mux.HandleFunc("/obs-top", display2Handler)
+	mux.HandleFunc("/obs-bottom", display3Handler)
+	mux.HandleFunc("/kobo", koboHandler)
+	mux.HandleFunc("/shabad", navigateHandler)
+	mux.HandleFunc("/banis", banisHandler)
+	mux.HandleFunc("/menu", menuHandler)
+	mux.HandleFunc("/settings", settingsHandler)
+	mux.HandleFunc("/findServers", findServers)
+	mux.HandleFunc("/history", historyHandler)
+	mux.HandleFunc("/index", indexHandler)
+	mux.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/postSettings", postSettings)
 	
 
 	wg.Add(1)
 	go func () {
-		log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), nil))
+		log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), CORS(mux)))
 		wg.Done()
 	}()
 
