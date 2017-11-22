@@ -1814,7 +1814,7 @@ Philosophiea Theme
 $theme: color-scheme-philosophiae;
 
 $bg-presentation: #DCD8D0; // background of display page
-$bg-dark: #272523; // used in status bars
+$bg-dark: #1d1b18; // used in status bars
 $bg-base: #312f2c; // base background color
 $bg-bright: #5e5c55; // base background color
 
@@ -1846,10 +1846,15 @@ $presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $m
 $presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
 $presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
 
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
 body.presentation.#{$theme} {
     background: url('../includes/philosophiae.png');
 }
-@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+body.presentation.#{$theme} #hiddenIframePlusBox {
+	background: $bg-dark;
+	color: $fg-dark;
+}
 
 /* used for ruling */
 /**/
