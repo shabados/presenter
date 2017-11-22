@@ -336,16 +336,6 @@ func banisHandler(w http.ResponseWriter, r *http.Request) {
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-	var ip string
-	addrs, _ := net.InterfaceAddrs()
-	for _, a := range addrs {
-		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-				ip = ipnet.IP.String()
-				break
-			}
-		}
-	}
 	data := struct {
 		Title string
 		IP    string
@@ -1143,6 +1133,7 @@ func main() {
 			}
 		}
 	}
+	ip = ip+":"+strconv.Itoa(port)
 
 	fmt.Println("--- Started! ---")
 	// \nYou can minimize this. If you want to stop the program, then close this window.\n\n--- Setup ---\n1. Open Google Chrome.\n2. Type (or copy & paste) in Address Bar:\n      localhost:8080/display\n3. Display in Full Screen with F11 or through the ≡ menu.\n4. Other devices can connect to your program using this address:\n      " + ip + ":8080\n\n--- Universal Shortcuts ---\nClear Display ..... esc\nHide Controller ... shift+h\nSearch ............ shift+s\nHistory Back ...... alt+left\nHistory Forward ... alt+right\n\n--- Shabad Hotkeys ---\n1. Number (123-890) and letter keys (QWERTY-CVBNM) will activate the\n corresponding line (i.e. 'Q' for 11th line & 'F' for 24th line).\n2. (Advanced) Spacebar activates a main line toggle. You can use spacebar from\n another line to hop back to the main line and spacebar on the main line to go\n to the next line. Can be buggy if activating from display (outside controller\n box).\n3. Shift+[, Shift+] turn on/off vishraam colors/commas respectively.
