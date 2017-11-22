@@ -3,6 +3,8 @@ if (typeof parent.nodeRequire === "function") {
   remote = parent.nodeRequire('electron').remote;
   var server = remote.getGlobal("host");
   var main = remote.require('./main');
+} else {
+  var server = "";
 }
 
 function openOBS(topBottom){

@@ -678,7 +678,6 @@ func handlerGetResults(w http.ResponseWriter, r *http.Request) {
 }
 
 func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	hotkeys := [10]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
 	counter := 0
 	pageHTML := ""
@@ -728,6 +727,8 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 }
 
 func historyHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+	
 	data := struct {
 		Title string
 		IP    string
@@ -743,7 +744,7 @@ func historyHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	
-	//Add: History html page to view/export history	
+	//tk: History html page to view/export/import/reload history
 }
 
 func eh(err error, code string) {
