@@ -29,6 +29,15 @@ function connect(link){
   }
 }
 
+function toggleFullscreen(){
+  const window = remote.getCurrentWindow();
+  if (!window.isFullScreen()) {
+    window.setFullScreen(true);
+  } else {
+    window.setFullScreen(false);
+  }
+}
+
 (function () {
   function initBrowser() {
     if ($("#title-popout").length) {
@@ -72,12 +81,7 @@ function connect(link){
   
     if ($("#title-maximize").length) {
       document.getElementById("title-maximize").addEventListener("click", function (e) {
-        const window = remote.getCurrentWindow();
-        if (!window.isFullScreen()) {
-          window.setFullScreen(true);
-        } else {
-          window.setFullScreen(false);
-        }
+        toggleFullscreen();
       });
     }
     

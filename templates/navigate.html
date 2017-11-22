@@ -4,10 +4,9 @@
     <head>
         {{template "header"}}
     </head>
-<body class="navigate">
+<body class="navigate {{.Theme}}">
     {{template "titlebar" .}}
         <div id="humsg"></div>
-        <div id="spline"></div>
         <div class="scrollBetweenBars shabad">
     		{{.Body}}
 		</div>
@@ -67,7 +66,6 @@
                 });
                 // the hash tag in the address bar sets where the page is scrolling to, we wait 1 ms and run again. note: function is required for whatever reason. This was from a stack overflow answer and there are other ways around it. For instance we could have set a different hash tag in the address bar like XXX-noscroll and then removed the -noscroll and used the XXX to find the correct id.
                 setTimeout(function() {
-                    // $(window).scrollTop(e.offset().top - ($(window).innerHeight() / 2) + (e.outerHeight() / 2) + $('.navigationBar').outerHeight()/2);
                     goToID(lineID);
                 }, 1);
             });

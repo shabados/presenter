@@ -6,19 +6,20 @@ If you are looking for an electron-wrapped app, where you can download it and ex
 This repo lacks the database used to pull up searches, gurbani, translations, etc. Use the [Database](https://github.com/ShabadOS/Database) repository for downloading the latest release. The database should be moved to "./includes/data".
 
 ## Installation
+* Dependencies: [Go](https://golang.org/) and [Sass](http://sass-lang.com/).
 
-There are two methods (our documentation refers to the second): 
+There are two methods (*NB: Our documentation refers to the first method!*): 
 
-(1) using `go get`
-
-      go get github.com/ShabadOS/shabadOS
-      cd $GOPATH/src/github.com/ShabadOS/shabadOS
-
-(2) using `git clone`
+(1) using `git clone`
 
       git clone https://github.com/ShabadOS/shabadOS.git $GOPATH/src/shabadOS
       cd $GOPATH/src/shabadOS
       
+(2) using `go get` (If you don't have git, and you just need a background server)
+
+      go get github.com/ShabadOS/shabadOS
+      cd $GOPATH/src/github.com/ShabadOS/shabadOS
+
 Then simply run `go build` or `go install` in the parent directory and execute the binary in your terminal at the same location.
 
       # go build -- placed in pwd
@@ -30,6 +31,8 @@ Then simply run `go build` or `go install` in the parent directory and execute t
       shabadOS
 
 The program starts a webserver at [localhost:8080](http://localhost:8080/). You can control the viewer from here or view ["/display"](http://localhost:8080/display) to see it.
+
+## Usage
 
 Anyone on the same network as the web server can connect using your IP address [[NB]](README.md#troubleshooting) and view these pages:
 * Controller ([/](http://localhost:8080/)): This page is considered the "remote" to the display/projector page. You can search (first letter, spaces as wild card characters, pre-pend with hashtag for full word), see a list of banis often read, a history (with export function), and easily navigate the active shabad line for the projector. The controller is probably best used on a mobile device.

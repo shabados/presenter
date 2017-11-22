@@ -121,7 +121,7 @@
 			});
 		</script>
 	</head>
-	<body class="dindex">
+	<body class="dindex {{.Theme}}">
     {{template "titlebar" .}}
 <!-- <form action="search.php" method="GET">Search: <input type="text" name="search" class="gurmukhifont search" autocorrect="off" autocapitalize="off"></form> -->
 <form action="searchresults" method="GET" id="live-search">
@@ -167,22 +167,7 @@
 <div class="loader">
 	<div>Loading...</div>
 </div>
-<div id="results"></div><div id="slinks">
-  <!--<a href="dnavigate.php?shabad=<?php echo $json['shabadID']; ?>#<?php echo $json['lineID'];?>" class="navigationForDisplay searchResultUpdateHistory" data-lineID="<?php echo $lineID; ?>" data-groupID="<?php echo $lineID; ?>" data-shabadID="<?php echo $shabadID; ?>">Navigate</a>-->
-  <!--<a href="history">History</a>
-  <a href="banis">Compiled Banis</a>
-  <!-- <a href="shabad?id=adv">Asa di Var</a> -->
-  <!-- <a href="shabad?id=anand6">Anand Sahib (6 + Salok)</a> -->
-  <!-- <a href="shabad?id=chaupai">Chaupa'i Sahib</a> -->
-  <!-- <a href="shabad?id=rehras">Rehras Sahib</a> -->
-  <!-- <a href="shabad?id=sohila">Sohila Sahib</a> -->
-  <!-- <a href="shabad?id=jap">Jap Ji Sahib</a> -->
-  <!-- <a href="shabad?id=jaap">Jaap Sahib</a> -->
-  <!-- <a href="shabad?id=savaye">Tav Prasad Savaye</a> -->
-  <!-- <a href="shabad?id=anand">Anand Sahib (40)</a> -->
-  <!--<a href="akhand-paath">Akhand Path Search (???)</a>-->
-  <!--<a href="settings">Settings</a>-->
-</div>
+<div id="results"></div>
 {{template "navibar"}}
 </body>
 </html>

@@ -8,14 +8,19 @@
         	function updateSettingsJson() {
 				//set default json, and then check and fix after
  				var settingsJSON = {
+                                        "Layout": "Normal",
+                                        "Navigator Height": "Short",
                                         "Sticky Rahao": "false",
                                         "Gurbani": "true",
+                                        "Larivaar Gurbani": "false",
+                                        "Split Gurbani Lines": "true",
                                         "English Translation": "true",
                                         "Punjabi Translation": "true",
                                         "English Transliteration": "true",
                                         "Next Line": "true",
-                                        "Font Size": "3",
-                                        "Bright Mode": "false",
+                                        "Font Size": "6",
+                                        "Color Scheme": "Night",
+                                        "Background Image": "true",
                                         "Font Color": "White",
                                         "Background Color": "Black",
                                         "Vishraam Colors": "true",
@@ -32,11 +37,17 @@
                                         "Vishraam Heavy Character": ";",
                                         "Akhand Paath View": "false"
                                     }
+				settingsJSON["Layout"] = $('#layout-span').text();
+				settingsJSON["Navigator Height"] = $('#navigator-height-span').text();
+				settingsJSON["Larivaar Gurbani"] = $('#larivaar-gurbani').prop('checked') ? "true" : "false";
+				settingsJSON["Split Gurbani Lines"] = $('#split-gurbani-lines').prop('checked') ? "true" : "false";
 				settingsJSON["English Translation"] = $('#english-translation').prop('checked') ? "true" : "false";
 				settingsJSON["Punjabi Translation"] = $('#punjabi-translation').prop('checked') ? "true" : "false";
 				settingsJSON["English Transliteration"] = $('#english-transliteration').prop('checked') ? "true" : "false";
 				settingsJSON["Next Line"] = $('#next-line').prop('checked') ? "true" : "false";
 				settingsJSON["Font Size"] = $('#font-size').val();
+				settingsJSON["Color Scheme"] = $('#color-scheme-span').text();
+				settingsJSON["Background Image"] = $('#background-image').prop('checked') ? "true" : "false";
 				settingsJSON["Vishraam Colors"] = $('#vishraam-colors').prop('checked') ? "true" : "false";
 				settingsJSON["Vishraam Characters"] = $('#vishraam-characters').prop('checked') ? "true" : "false";
 				settingsJSON["Vishraam Light"] = $('#vishraam-light').prop('checked') ? "true" : "false";
@@ -49,41 +60,75 @@
         	}
             $( window ).load(function () {
             	hotkeys();
+                $('#layout-menu > li').click(function(){
+                	$('#layout-span').text($(this).text());
+                    window.parent.$('body.presentation').removeClass(function (index, className) {
+                    	return (className.match (/(^|\s)layout-\S+/g) || []).join(' ');
+                	});
+                    window.parent.$('body.presentation').addClass('layout-'+$(this).text().replace(/\s/g, "-").toLowerCase());
+                    updateSettingsJson();
+    			});
+                $('#navigator-height-menu > li').click(function(){
+                	$('#navigator-height-span').text($(this).text());
+                    window.parent.$('body.presentation').removeClass(function (index, className) {
+                    	return (className.match (/(^|\s)navigator-height-\S+/g) || []).join(' ');
+                	});
+                    window.parent.$('body.presentation').addClass('navigator-height-'+$(this).text().replace(/\s/g, "-").toLowerCase());
+                    updateSettingsJson();
+    			});
+                $('#larivaar-gurbani').change(function(){
+    				window.parent.$('body.presentation').toggleClass('hide-gurbani-spaces');
+                    updateSettingsJson();
+    			});
+                $('#split-gurbani-lines').change(function(){
+    				window.parent.$('body.presentation').toggleClass('split-gurbani-lines');
+                    updateSettingsJson();
+    			});
                 $('#english-translation').change(function(){
     				//var display = this.checked ? 'block' : 'none';
     				//window.parent.$('.translation').toggle();
     				// this.checked ? window.parent.$('.translation').show() : window.parent.$('.translation').hide();
-                    window.parent.$('#ssetran').prop('disabled', function(i, v) {return !v;});
+                    // window.parent.$('#ssetran').prop('disabled', function(i, v) {return !v;});
+    				window.parent.$('body.presentation').toggleClass('hide-english-translation');
                     updateSettingsJson();
     			});
                 $('#punjabi-translation').change(function(){
-                    window.parent.$('#ssptran').prop('disabled', function(i, v) {return !v;});
+    				window.parent.$('body.presentation').toggleClass('hide-punjabi-translation');
                     updateSettingsJson();
     			});
                 $('#english-transliteration').change(function(){
-                    window.parent.$('#sselit').prop('disabled', function(i, v) {return !v;});
+    				window.parent.$('body.presentation').toggleClass('hide-english-transliteration');
                     updateSettingsJson();
     			});
                 $('#next-line').change(function(){
-                    window.parent.$('#ssnl').prop('disabled', function(i, v) {return !v;});
+    				window.parent.$('body.presentation').toggleClass('hide-next-line');
                     updateSettingsJson();
     			});
                 $('#font-size').change(function(){
-                    window.parent.$('#ssfs-0').prop('disabled', true);
-                    window.parent.$('#ssfs-1').prop('disabled', true);
-                    window.parent.$('#ssfs-2').prop('disabled', true);
-                    window.parent.$('#ssfs-3').prop('disabled', true);
-                    window.parent.$('#ssfs-4').prop('disabled', true);
-                    window.parent.$('#ssfs-5').prop('disabled', true);
-                    window.parent.$('#ssfs-6').prop('disabled', true);
-                    window.parent.$('#ssfs-'+$('#font-size').val()).prop('disabled', false);
+                    window.parent.$('body.presentation').removeClass(function (index, className) {
+                    	return (className.match (/(^|\s)fs-\S+/g) || []).join(' ');
+                	});
+                    window.parent.$('body.presentation').addClass('fs-'+$('#font-size').val());
                     updateSettingsJson();
     			});
-                //$('#gurbani').change(function(){
-                    //window.parent.$('#ssetran').prop('disabled', function(i, v) {return !v;});
-    			//});
+                $('#color-scheme-menu > li').click(function(){
+                	$('#color-scheme-span').text($(this).text());
+                    window.parent.$('body.presentation').removeClass(function (index, className) {
+                    	return (className.match (/(^|\s)color-scheme-\S+/g) || []).join(' ');
+                	});
+                	window.parent.$('body.presentation').addClass('color-scheme-'+$(this).text().replace(/\s/g, "-").toLowerCase());
+                	$('body').removeClass(function (index, className) {
+                    	return (className.match (/(^|\s)color-scheme-\S+/g) || []).join(' ');
+                	});
+                	$('body').addClass('color-scheme-'+$('#color-scheme-span').text().replace(/\s/g, "-").toLowerCase());
+                	updateSettingsJson();
+            	});
+                $('#background-image').change(function(){
+    				window.parent.$('body.presentation').toggleClass('hide-background-image');
+                    updateSettingsJson();
+    			});
                 $('#vishraam-colors').change(function(){
-                    window.parent.$('#ssvcol').prop('disabled', function(i, v) {return !v;});
+    				window.parent.$('body.presentation').toggleClass('hide-vishraam-colors');
                     updateSettingsJson();
     			});
     			$('.mdl-menu__item').click(function() {
@@ -92,19 +137,19 @@
                     updateSettingsJson();
     			});
                 $('#vishraam-characters').change(function(){
-                    window.parent.$('#ssvchar').prop('disabled', function(i, v) {return !v;});
+    				window.parent.$('body.presentation').toggleClass('hide-vishraam-characters');
                     updateSettingsJson();
     			});
                 $('#vishraam-light').change(function(){
-                    window.parent.$('#ssvl').prop('disabled', function(i, v) {return !v;});
+    				window.parent.$('body.presentation').toggleClass('hide-vishraam-light');
                     updateSettingsJson();
     			});
                 $('#vishraam-medium').change(function(){
-                    window.parent.$('#ssvm').prop('disabled', function(i, v) {return !v;});
+    				window.parent.$('body.presentation').toggleClass('hide-vishraam-medium');
                     updateSettingsJson();
     			});
                 $('#vishraam-heavy').change(function(){
-                    window.parent.$('#ssvh').prop('disabled', function(i, v) {return !v;});
+    				window.parent.$('body.presentation').toggleClass('hide-vishraam-heavy');
                     updateSettingsJson();
     			});
                 $('#akhand-paath-view').change(function(){
@@ -121,6 +166,14 @@
 			});
 			// get values from settings.json on first load, by default all values are "off"/"false"/1st
 			$(function () {
+    			$('#layout-span').text(getJSON["Layout"]);
+    			$('#navigator-height-span').text(getJSON["Navigator Height"]);
+        		if (getJSON["Larivaar Gurbani"] == "true") {
+	                $('#larivaar-gurbani').prop('checked', true).change();
+                }
+        		if (getJSON["Split Gurbani Lines"] == "true") {
+	                $('#split-gurbani-lines').prop('checked', true).change();
+                }
         		if (getJSON["English Translation"] == "true") {
         			$('#english-translation').prop('checked', true).change();
         		}
@@ -134,6 +187,10 @@
         			$('#next-line').prop('checked', true).change();
         		}
     			$('#font-size').val(getJSON["Font Size"]);
+    			$('#color-scheme-span').text(getJSON["Color Scheme"]);
+        		if (getJSON["Background Image"] == "true") {
+        			$('#background-image').prop('checked', true).change();
+        		}
         		if (getJSON["Vishraam Colors"] == "true") {
         			$('#vishraam-colors').prop('checked', true).change();
         		}
@@ -155,7 +212,7 @@
         	});
 		</script>
     </head>
-<body class="BodySettings">
+<body class="BodySettings {{.Theme}}">
     {{template "titlebar" .}}
 	<div class="scrollBetweenBars settings">
     	<h1>Layout</h1>
@@ -167,6 +224,43 @@
             <input type="checkbox" id="gurbani" class="mdl-switch__input">
             <span class="mdl-switch__label">Gurbani</span>
         </label>-->
+		<button id="layout"
+		        class="mdl-button mdl-js-button mdl-button--icon">
+		  <i class="material-icons">format_line_spacing</i>
+		</button>
+		<ul id="layout-menu"
+			class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		    for="layout">
+		  <li class="mdl-menu__item">Normal</li>
+		  <li class="mdl-menu__item">Space Around</li>
+		  <li class="mdl-menu__item">Space Between</li>
+		  <li class="mdl-menu__item">Space Evenly</li>
+		</ul>
+        <span class="mdl-switch__label" id="layout-span"></span>
+		<div class="clear"></div>
+
+		<button id="navigator-height"
+		        class="mdl-button mdl-js-button mdl-button--icon">
+		  <i class="material-icons">branding_watermark</i>
+		</button>
+		<ul id="navigator-height-menu"
+			class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		    for="navigator-height">
+		  <li class="mdl-menu__item">Short</li>
+		  <li class="mdl-menu__item">Medium</li>
+		  <li class="mdl-menu__item">Tall</li>
+		</ul>
+        <span class="mdl-switch__label" id="navigator-height-span"></span>
+		<div class="clear"></div>
+
+		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="larivaar-gurbani">
+            <input type="checkbox" id="larivaar-gurbani" class="mdl-switch__input">
+            <span class="mdl-switch__label">Larivaar Gurbani</span>
+        </label>
+		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="split-gurbani-lines">
+            <input type="checkbox" id="split-gurbani-lines" class="mdl-switch__input">
+            <span class="mdl-switch__label">Split Gurbani Lines</span>
+        </label>
 		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-translation">
             <input type="checkbox" id="english-translation" class="mdl-switch__input">
             <span class="mdl-switch__label">English Translation</span>
@@ -185,34 +279,82 @@
         </label>
         <p style="margin-top: .75em;">Font Size</p>
         <p style="width:100%; ">
-            <input id="font-size" class="mdl-slider mdl-js-slider" type="range" id="s1" min="0" max="6" value="3" step="1">
+            <input id="font-size" class="mdl-slider mdl-js-slider" type="range" id="s1" min="1" max="12" value="6" step="1">
         </p>
+
         <div class="sep"></div>
-<!--        <h1>Theme</h1>
-		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="bright-mode">
-            <input type="checkbox" id="bright-mode" class="mdl-switch__input">
-            <span class="mdl-switch__label">Bright Mode</span>
+
+        <h1>Theme</h1>
+		<button id="color-scheme"
+		        class="mdl-button mdl-js-button mdl-button--icon">
+		  <i class="material-icons">format_paint</i>
+		</button>
+		<ul id="color-scheme-menu"
+			class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		    for="color-scheme">
+		  <li class="mdl-menu__item">Day</li>
+		  <li class="mdl-menu__item">Night</li>
+		  <li class="mdl-menu__item">Philosophiae</li>
+		</ul>
+        <span class="mdl-switch__label" id="color-scheme-span"></span>
+
+		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="background-image">
+            <input type="checkbox" id="background-image" class="mdl-switch__input">
+            <span class="mdl-switch__label">Background Image</span>
         </label>
-		<button id="font-color"
-             class="mdl-button mdl-js-button mdl-button--icon">
-            <i class="material-icons">format_color_text</i>
+		<!--<h1>Theme Custom</h1>
+		<button id="gurbani-color"
+             class="mdl-button color-picker mdl-js-button mdl-button--icon">
+            <div class="material-icons cb white"></div>
         </button>
         <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-            for="font-color">
+            for="gurbani-color">
             {{.TextColorChoices}}
         </ul>
-        <span class="mdl-switch__label">Font Color</span>
+        <span class="mdl-switch__label">Gurbani</span>
+        <br/>
+		<button id="english-translation-color"
+             class="mdl-button color-picker mdl-js-button mdl-button--icon">
+            <div class="material-icons cb white"></div>
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+            for="english-translation-color">
+            {{.TextColorChoices}}
+        </ul>
+        <span class="mdl-switch__label">English Translation</span>
+        <br/>
+		<button id="punjabi-translation-color"
+             class="mdl-button color-picker mdl-js-button mdl-button--icon">
+            <div class="material-icons cb white"></div>
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+            for="punjabi-translation-color">
+            {{.TextColorChoices}}
+        </ul>
+        <span class="mdl-switch__label">Punjabi Translation</span>
+        <br/>
+		<button id="english-transliteration-color"
+             class="mdl-button color-picker mdl-js-button mdl-button--icon">
+            <div class="material-icons cb white"></div>
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+            for="english-transliteration-color">
+            {{.TextColorChoices}}
+        </ul>
+        <span class="mdl-switch__label">English Transliteration</span>
         <br/>
 		<button id="background-color"
-             class="mdl-button mdl-js-button mdl-button--icon">
-            <i class="material-icons">format_color_fill</i>
+             class="mdl-button color-picker mdl-js-button mdl-button--icon">
+            <div class="material-icons cb black"></div>
         </button>
         <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
             for="background-color">
             {{.TextColorChoices}}
         </ul>
-        <span class="mdl-switch__label">Background Color</span>
-        <div class="sep"></div> -->
+        <span class="mdl-switch__label">Background</span> -->
+
+        <div class="sep"></div>
+
         <h1>Vishraam/Pauses</h1>
 		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="vishraam-colors">
             <input type="checkbox" id="vishraam-colors" class="mdl-switch__input">
@@ -290,7 +432,7 @@
         
         <div class="sep"></div>
 
-        <h1>Navigation</h1>
+        <h1>Experimental</h1>
 		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="akhand-paath-view">
             <input type="checkbox" id="akhand-paath-view" class="mdl-switch__input">
             <span class="mdl-switch__label">Akhand Paath View</span>

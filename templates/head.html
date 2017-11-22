@@ -24,6 +24,12 @@
 	var dhm = "";
 	var navWindow;
 
+	var OSName="Unknown OS";
+	if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
+	else if (navigator.appVersion.indexOf("Mac")!=-1) OSName="MacOS";
+	else if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
+	else if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
+	
 	function scroll(offset) {
 		$('html, body').stop();
 		$('html, body').animate({scrollTop: offset}, 0);
@@ -145,9 +151,11 @@
 	
 	function hotkeys() {
 		$(document).keydown(function(e) {
-			// set modifier to ctrl (win/linux) or command (mac)
-			var mod = e.ctrlKey;
-			// var mod = e.metaKey;
+			if (OSName == "MacOS") {
+				var mod = e.metaKey;
+			} else {
+				var mod = e.ctrlKey;
+			}
 			switch(e.which) {
 				case 27: //Esc
 					clearDisplay();
@@ -157,6 +165,12 @@
 					if (mod) {
 						window.location.href = 'banis';
                         dohm('bookmark', 'Bookmarks');
+					}
+					else return true;
+					break;
+				case 70: //f
+					if (mod){
+						toggleFullscreen();
 					}
 					else return true;
 					break;
@@ -356,10 +370,11 @@
 	function hotkeysNavigate() {
 		$(document).keydown(function(e) {
 			// set modifier to ctrl (win/linux) or command (mac)
-			var mod = e.ctrlKey;
-			// var mod = e.metaKey;
-			var splinearr = [];
-			var splinearrC = 0;
+			if (OSName == "MacOS") {
+				var mod = e.metaKey;
+			} else {
+				var mod = e.ctrlKey;
+			}
 			switch(e.which) {
 				case 13: //ENTER
 					goToID(lineID);
@@ -386,18 +401,6 @@
 					} else {
 						toggleLine();
 					}
-					break;
-				case 192: //` (left of 1 on keyboard)
-					// var spline = $('.activeLine').clone().removeClass('activeLine');
-					// var spc = spline.attr('id');
-					// spline.removeAttr('id').addClass(spc);
-					// spline.children(":first").removeClass();
-					// $('body').css('margin-top', function(index, value) {return parseFloat(value) + 24.666 + 'px';});
-					// // $(spline+'> div').removeClass().addClass('spline').addClass('spline-'+splinearrC);
-					// // splinearr.append(splinearrC);
-					// // splinearrC++;
-					// //add this line to the list of "fixed favorites"
-					// $('#spline').append(spline);
 					break;
 				case 48: //0
 					$(".searchresult-0").parent().click();
@@ -449,7 +452,7 @@
 					break;
 				case 70: //f
 					if (mod){
-						$('iframe', window.parent.trigger(e));
+						return true;
 					}
 					else $(".searchresult-f").parent().click();
 					break;
@@ -492,7 +495,9 @@
 					else $(".searchresult-p").parent().click();
 					break;
 				case 81: //q
-					$(".searchresult-q").parent().click();
+					if (mod && OSName != "Windows"){
+						$('iframe', window.parent.trigger(e));
+					} else $(".searchresult-q").parent().click();
 					break;
 				case 82: //r
 					if (mod) {
