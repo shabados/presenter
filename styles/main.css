@@ -143,21 +143,13 @@ div#results {
   -webkit-app-region: drag;
   width: 90%;
   max-width: 9999em; }
-  #titlebar .title .usual, #titlebar .title .secret {
+  #titlebar .title .usual {
     position: absolute;
     width: 200px;
     margin-left: -100px;
     transition: opacity 0.2s;
     left: 50%;
     text-align: center; }
-  #titlebar .title .usual {
-    opacity: 1; }
-  #titlebar .title:hover .secret {
-    opacity: 1; }
-  #titlebar .title:hover .usual {
-    opacity: 0; }
-  #titlebar .title .secret {
-    opacity: 0; }
 
 .buttons {
   min-width: 100px;

@@ -8,7 +8,6 @@ import (
 	"html/template"
 	"io"
 	"log"
-	"net"
 	"net/http"
 	"os"
 	"strconv"
@@ -38,7 +37,6 @@ var timePostHistory time.Time
 var historyDB string
 var dbHistory *sql.DB
 var settings Settings
-var ip string
 
 var port = 42424
 
@@ -211,11 +209,9 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		Title       string
-		IP          string
 		Settings template.HTML
 	}{
 		"display",
-		ip,
 		template.HTML(setClasses),
 	}
 	err = templates.ExecuteTemplate(w, "displayPage", &data)
@@ -225,9 +221,9 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 }
 func display2Handler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
-		IP string
+		Title string
 	}{
-		ip,
+		"OBS",
 	}
 	err = templates.ExecuteTemplate(w, "display2Page", &data)
 	if err != nil {
@@ -237,10 +233,8 @@ func display2Handler(w http.ResponseWriter, r *http.Request) {
 func display3Handler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Title string
-		IP    string
 	}{
 		"OBS",
-		ip,
 	}
 	err = templates.ExecuteTemplate(w, "display3Page", &data)
 	if err != nil {
@@ -260,11 +254,9 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 	
 	data := struct {
 		Title string
-		IP    string
 		Theme template.HTML
 	}{
 		"Menu",
-		ip,
 		template.HTML(theme),
 	}
 	err = templates.ExecuteTemplate(w, "menuPage", &data)
@@ -302,13 +294,11 @@ func settingsHandler(w http.ResponseWriter, r *http.Request) {
 		Title            string
 		SettingsJSON     string
 		TextColorChoices template.HTML
-		IP               string
 		Theme template.HTML
 	}{
 		"Settings",
 		string(sendJSON),
 		template.HTML(textColorChoices),
-		ip,
 		template.HTML(theme),
 	}
 	err = templates.ExecuteTemplate(w, "settingsPage", &data)
@@ -321,11 +311,9 @@ func banisHandler(w http.ResponseWriter, r *http.Request) {
 	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	data := struct {
 		Title string
-		IP    string
 		Theme template.HTML
 	}{
 		"Bookmarks",
-		ip,
 		template.HTML(theme),
 	}
 	err = templates.ExecuteTemplate(w, "banisPage", &data)
@@ -338,11 +326,9 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	data := struct {
 		Title string
-		IP    string
 		Theme template.HTML
 	}{
 		"Search",
-		ip,
 		template.HTML(theme),
 	}
 	err = templates.ExecuteTemplate(w, "indexPage", &data)
@@ -500,7 +486,6 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 		ToggleLines     string
 		CurrentPK       string
 		AkhandPaathView bool
-		IP              string
 		TotalPages      string
 		Theme template.HTML
 	}{
@@ -511,7 +496,6 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 		toggleLines,
 		currentPK,
 		settings.AkhandPaathView,
-		ip,
 		strconv.Itoa(counter),
 		template.HTML(theme),
 	}
@@ -721,11 +705,9 @@ func historyHandler(w http.ResponseWriter, r *http.Request) {
 	
 	data := struct {
 		Title string
-		IP    string
 		Theme template.HTML
 	}{
 		"History",
-		ip,
 		template.HTML(theme),
 	}
 	
@@ -1121,19 +1103,6 @@ func findServers(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
-	//start program
-	ip = "<IP Error>"
-	addrs, _ := net.InterfaceAddrs()
-	for _, a := range addrs {
-		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-				ip = ipnet.IP.String()
-				break
-			}
-		}
-	}
-	ip = ip+":"+strconv.Itoa(port)
 
 	fmt.Println("--- Started! ---")
 	// \nYou can minimize this. If you want to stop the program, then close this window.\n\n--- Setup ---\n1. Open Google Chrome.\n2. Type (or copy & paste) in Address Bar:\n      localhost:8080/display\n3. Display in Full Screen with F11 or through the ≡ menu.\n4. Other devices can connect to your program using this address:\n      " + ip + ":8080\n\n--- Universal Shortcuts ---\nClear Display ..... esc\nHide Controller ... shift+h\nSearch ............ shift+s\nHistory Back ...... alt+left\nHistory Forward ... alt+right\n\n--- Shabad Hotkeys ---\n1. Number (123-890) and letter keys (QWERTY-CVBNM) will activate the\n corresponding line (i.e. 'Q' for 11th line & 'F' for 24th line).\n2. (Advanced) Spacebar activates a main line toggle. You can use spacebar from\n another line to hop back to the main line and spacebar on the main line to go\n to the next line. Can be buggy if activating from display (outside controller\n box).\n3. Shift+[, Shift+] turn on/off vishraam colors/commas respectively.
