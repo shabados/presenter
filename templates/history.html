@@ -6,7 +6,7 @@
         <script>
             $(window).load(function() {
 				$.get(server+"/getHistoryHTML", function (HTML) {
-                    HTML = `<a href="shabad?id=current" id="0" class="navigationForDisplay searchResultUpdateHistory specialEntry activeLine"><div class="searchresult searchresult-0"><p><span class="codefont"><i class="fa fa-download fa-fw" aria-hidden="true"></i></span>Current Line</p></div></a>` +
+                    HTML = `<a href="shabad?id=current" id="0" class="navigationForDisplay searchResultUpdateHistory specialEntry activeLine"><div class="searchresult searchresult-0"><p><span class="codefont">1</span>Current Line</p></div></a>` +
                         HTML +
                         `<a id="-3" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="`+server+`/history.csv"><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-download fa-fw" aria-hidden="true"></i></span>Export</p></div></a>
                         <a id="-2" class="navigationForDisplay searchResultUpdateHistory specialEntry" href="`+server+`/history.csv?lines=complete"><div class="searchresult searchresult-9000"><p><span class="codefont"><i class="fa fa-server fa-fw" aria-hidden="true"></i></span>Export (All Lines)</p></div></a>`

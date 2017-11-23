@@ -16,27 +16,23 @@
             var shabadID = '{{.ID}}';
             var firstID = Number($('.navigationForDisplay').first().data("lineid"));
             var lastID =  Number($('.navigationForDisplay').last().data("lineid"));
-            var lineID = ""
+            var lineID = ''
             var toggleLines = '{{.ToggleLines}}'.split("-");
             var mainID = Number(toggleLines[0]);
             var secondID = Number(toggleLines[1]);
             var toggleID = Number(toggleLines[2]);
             var totalPages = {{.TotalPages}}
+            var scrollTop = false
+            var scrollBottom = false
             
-            if (lineID == "") {
-                try {
-                    lineID = Number(location.hash.match(/[-0-9]+/)[0]);
-                    if (lineID < 0) { lineID = lastID; }
-                    else if ($("#"+lineID).length) { lineID = $("#"+lineID).data("lineid"); }
-                    else { lineID = 0; }
-                } catch (err) {    
-                    if (shabadID == "adv") {
-                        lineID = $("#"+'{{.CurrentPK}}').data("lineid");
-                    }
-                    else {
-                        lineID = firstID;
-                    }
-                }
+            try {
+                hash = Number(location.hash.match(/[-0-9]+/)[0]);
+                if (hash < 0) { lineID = lastID; } //akhand paath up from a shabad goes to last line (-1)
+                else if ($("#"+hash).length) { lineID = $("#"+hash).data("lineid"); } //if #hash exists, go there
+                else { lineID = 0; } //useless?
+            } catch (err) {    //if hash doesn't exist
+                try { lineID = $("#"+'{{.CurrentPK}}').data("lineid"); } //works for adv and for current line from history page 
+                catch (err) { lineID = firstID; } //default goes to first line
             }
 
             if ({{.AkhandPaathView}}) { checkScroll(); }
