@@ -14,6 +14,7 @@
         </div>
         <script>
             $(window).load(function() {
+                if(server != "") { $("div.menu").append(`<a onclick="connect('')" id="3" class="navigationForDisplay"><div class="searchresult searchresult-3"><p><span class="codefont"><i class="fa fa-window-restore fa-fw" aria-hidden="true"></i></span>Disconnect from `+host+`</p></div></a>`); }
                 hotkeys();
                 hotkeysHistory();
             });

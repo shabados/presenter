@@ -2,12 +2,14 @@ var remote;
 if (typeof parent.nodeRequire === "function") {
   remote = parent.nodeRequire('electron').remote;
   var server = remote.getGlobal("host");
+  var host = remote.getGlobal("hostName")
   var main = remote.require('./main');
 } else {
   var server = "";
+  var host = "";
 }
 
-function openOBS(topBottom){
+function openOBS(topBottom){div
   if (typeof remote === "object") { 
     main.openOBS(topBottom);
   } else {
@@ -15,11 +17,11 @@ function openOBS(topBottom){
   }
 }
 
-function connect(link){
-  link = "http://"+link
+function connect(link, host){
+  if (link != "") { link = "http://"+link; }
 
   if (typeof remote === "object") { //electron
-    main.connect(link);
+    main.connect(link, host);
   } else if (parent.location != window.location) { //iframe in browser
     parent.location.href = link+"/display";
   } else { //popped out in browser
@@ -101,6 +103,8 @@ function toggleFullscreen(){
       if (window.top == window.self && $("#title-popout").length) {
           $("#titlebar .buttons.right").addClass("window");
       }
+      
+      if (server != "") { $(".secret").html(host); }
 
       if (typeof remote === "object") {
         initRemote();

@@ -39,6 +39,7 @@ var historyDB string
 var dbHistory *sql.DB
 var settings Settings
 
+var host = ""
 var port = 42424
 
 var wg = sync.WaitGroup{}
@@ -181,9 +182,11 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Title string
 		Theme template.HTML
+		Host string
 	}{
 		title,
 		template.HTML(theme),
+		host,
 	}
 	err = templates.ExecuteTemplate(w, templateName, &data)
 	if err != nil {
@@ -253,9 +256,11 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Title       string
 		Settings template.HTML
+		Host	string
 	}{
 		"display",
 		template.HTML(setClasses),
+		host,
 	}
 	err = templates.ExecuteTemplate(w, "displayPage", &data)
 	if err != nil {
@@ -293,11 +298,13 @@ func settingsHandler(w http.ResponseWriter, r *http.Request) {
 		SettingsJSON     string
 		TextColorChoices template.HTML
 		Theme template.HTML
+		Host string
 	}{
 		"Settings",
 		string(sendJSON),
 		template.HTML(textColorChoices),
 		template.HTML(theme),
+		host,
 	}
 	err = templates.ExecuteTemplate(w, "settingsPage", &data)
 	if err != nil {
@@ -456,6 +463,7 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 		AkhandPaathView bool
 		TotalPages      string
 		Theme template.HTML
+		Host string
 	}{
 		"Navigator",
 		template.HTML(pageHTML),
@@ -466,6 +474,7 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 		settings.AkhandPaathView,
 		strconv.Itoa(counter),
 		template.HTML(theme),
+		host,
 	}
 	// err = template.HTMLEscape(w, &data.Body)
 	err = templates.ExecuteTemplate(w, "navigatePage", &data)
@@ -1081,7 +1090,7 @@ func main() {
 	}()
 
 	// Setup our service export
-	host, _ := os.Hostname()
+	host, _ = os.Hostname()
 	info := []string{host}
 	service, _ := mdns.NewMDNSService(host, "_shabadOS._tcp", "", "", port, nil, info)
 
