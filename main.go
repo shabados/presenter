@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"io"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"strconv"
@@ -148,6 +149,57 @@ func copyFile(src, dst string) error {
 	return d.Close()
 }
 
+func simpleHandler(w http.ResponseWriter, r *http.Request) {
+	title := "Search"
+	templateName := "indexPage"
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+
+	switch r.URL.Path {
+		case "/obs-top":
+			title = "OBS"
+			templateName = "display2Page"
+		case "/obs-bottom":
+			title = "OBS"
+			templateName = "display2Page"
+		case "/kobo":
+			title = "kobo"
+			templateName = "koboPage"
+		case "/menu":
+			title = "Menu"
+			templateName = "menuPage"
+		case "/connect":
+			title = "Connect"
+			templateName = "connectPage"
+		case "/history":
+			title = "History"
+			templateName = "historyPage"
+			//tk: History html page to view/export/import/reload history
+		case "/banis":
+			title = "Bookmarks"
+			templateName = "banisPage"
+	}
+	data := struct {
+		Title string
+		Theme template.HTML
+	}{
+		title,
+		template.HTML(theme),
+	}
+	err = templates.ExecuteTemplate(w, templateName, &data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func isLocal(r *http.Request) bool {
+	IP, _, err := net.SplitHostPort(r.RemoteAddr)
+	eh(err,"4.1")
+	if (IP == "::1") {
+		return true
+	}
+	return false
+}
+
 func displayHandler(w http.ResponseWriter, r *http.Request) {
 	setClasses := ""
 
@@ -206,55 +258,6 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 		template.HTML(setClasses),
 	}
 	err = templates.ExecuteTemplate(w, "displayPage", &data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func simpleHandler(w http.ResponseWriter, r *http.Request) {
-	title := ""
-	templateName := ""
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-
-	switch r.URL.Path {
-		case "/obs-top":
-			title = "OBS"
-			templateName = "display2Page"
-		case "/obs-bottom":
-			title = "OBS"
-			templateName = "display2Page"
-		case "/kobo":
-			title = "kobo"
-			templateName = "koboPage"
-		case "/menu":
-			title = "Menu"
-			templateName = "menuPage"
-		case "/connect":
-			title = "Connect"
-			templateName = "connectPage"
-		case "/history":
-			title = "History"
-			templateName = "historyPage"
-			//tk: History html page to view/export/import/reload history
-		case "/banis":
-			title = "Bookmarks"
-			templateName = "banisPage"
-		case "/index":
-			title = "Search"
-			templateName = "indexPage"
-		case "/":
-			title = "Search"
-			templateName = "indexPage"
-			//tk combine with /index
-	}
-	data := struct {
-		Title string
-		Theme template.HTML
-	}{
-		title,
-		template.HTML(theme),
-	}
-	err = templates.ExecuteTemplate(w, templateName, &data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -717,6 +720,8 @@ func getHistoryCSV(w http.ResponseWriter, r *http.Request) {
 }
 
 func postSettings(w http.ResponseWriter, r *http.Request) {
+	if (!isLocal(r)) { return }
+	
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&settings)
 	eh(err, "18")
@@ -729,33 +734,6 @@ func postSettings(w http.ResponseWriter, r *http.Request) {
 	defer f.Close()
 	f.Write(nf)
 	f.Close()
-
-	//change head.html to reflect changes
-	//
-	//
-	//newCss := ""
-	//if settings.EnglishTranslation == false {
-	//newCss += ".translation {display: none;}\n"
-	//}
-	//if settings.PunjabiTranslation == false {
-	//newCss += ".darpan {display: none;}\n"
-	//}
-	//if settings.EnglishTransliteration == false {
-	//newCss += ".transliteration {display: none;}\n"
-	//}
-	//if settings.VishraamColors == false {
-	//}
-	//if settings.VishraamCharacters == false {
-	//newCss += ".vishraamHeavyChar, .vishraamMediumChar, .vishraamLightChar {display: none;}\n"
-	//}
-	//// newCss += "body {background: #" + settings.BackgroundColor + ";}\n.active, \nbody.presentation .active .gurmukhifont, \nbody.presentation .active > .translation, \nbody.presentation .active > .transliteration, \nbody.presentation .active > .darpan {color: #" + settings.ForegroundColor + ";}\n"
-	//err = os.Truncate("styles/settings.css", 0)
-	//eh(err, "21")
-	//f, err = os.OpenFile("styles/settings.css", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	//eh(err, "22")
-	//defer f.Close()
-	//f.Write([]byte(newCss))
-	//f.Close()
 }
 
 func postHistory(w http.ResponseWriter, r *http.Request) {
@@ -866,9 +844,10 @@ func newHistory() {
 	eh(err, "4")
 }
 
-func newHistoryPage(w http.ResponseWriter, r *http.Request) {
+func clearHistory(w http.ResponseWriter, r *http.Request) {
+	if (!isLocal(r)) { return }
+	clearShabad()
 	newHistory()
-	// indexHandler(w, r) //tk
 }
 
 func updateFirstLetters(w http.ResponseWriter, r *http.Request) {
@@ -1081,7 +1060,7 @@ func main() {
 	mux.HandleFunc("/getHistoryHTML", getHistoryHTML)
 
 	//Local private
-	mux.HandleFunc("/newHistory", newHistoryPage)
+	mux.HandleFunc("/clearHistory", clearHistory)
 	mux.HandleFunc("/postSettings", postSettings)
 	// mux.HandleFunc("/findMistakes", findMistakes)
 	// mux.HandleFunc("/updateFirstLetters", updateFirstLetters)

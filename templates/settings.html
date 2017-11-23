@@ -56,7 +56,7 @@
 				settingsJSON["Akhand Paath View"] = $('#akhand-paath-view').prop('checked') ? "true" : "false";
 				// settingsJSON["Foreground Color"] = $('#fg-color').val().replace('#', '');
 				// settingsJSON["Background Color"] = $('#bg-color').val().replace('#', '');
-				if (typeof remote === "object") { $.post('/postSettings', JSON.stringify(settingsJSON), null, 'json'); }
+				if (typeof remote === "object" && server == "") { $.post('/postSettings', JSON.stringify(settingsJSON), null, 'json'); }
         	}
             $( window ).load(function () {
             	hotkeys();
