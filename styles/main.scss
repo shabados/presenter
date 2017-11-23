@@ -1665,6 +1665,12 @@ body.color-scheme-day {
     .activeLine > div, .navigationForDisplay:hover {
       color: $color-selection-fg;
     }
+    .activeLine.disabled > div, .navigationForDisplay.disabled {
+      color: rgba($fg-base, .3);
+	  &:hover {
+        color: rgba($fg-base, .3);
+	  }
+    }
   }
   
   /***********************************************************

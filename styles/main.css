@@ -1194,6 +1194,10 @@ body.color-scheme-night .activeLine > div, body.color-scheme-night body.dindex a
   background: #37474f; }
 body.color-scheme-night .activeLine > div, body.color-scheme-night .navigationForDisplay:hover {
   color: #cacaca; }
+body.color-scheme-night .activeLine.disabled > div, body.color-scheme-night .navigationForDisplay.disabled {
+  color: rgba(189, 189, 189, 0.3); }
+  body.color-scheme-night .activeLine.disabled > div:hover, body.color-scheme-night .navigationForDisplay.disabled:hover {
+    color: rgba(189, 189, 189, 0.3); }
 
 /***********************************************************
 Other
@@ -1341,6 +1345,10 @@ body.color-scheme-day .activeLine > div, body.color-scheme-day body.dindex a:foc
   background: #CFD8DC; }
 body.color-scheme-day .activeLine > div, body.color-scheme-day .navigationForDisplay:hover {
   color: #212121; }
+body.color-scheme-day .activeLine.disabled > div, body.color-scheme-day .navigationForDisplay.disabled {
+  color: rgba(66, 66, 66, 0.3); }
+  body.color-scheme-day .activeLine.disabled > div:hover, body.color-scheme-day .navigationForDisplay.disabled:hover {
+    color: rgba(66, 66, 66, 0.3); }
 
 /***********************************************************
 Other
@@ -1488,6 +1496,10 @@ body.color-scheme-philosophiae .activeLine > div, body.color-scheme-philosophiae
   background: #443a47; }
 body.color-scheme-philosophiae .activeLine > div, body.color-scheme-philosophiae .navigationForDisplay:hover {
   color: #e6e2da; }
+body.color-scheme-philosophiae .activeLine.disabled > div, body.color-scheme-philosophiae .navigationForDisplay.disabled {
+  color: rgba(205, 199, 187, 0.3); }
+  body.color-scheme-philosophiae .activeLine.disabled > div:hover, body.color-scheme-philosophiae .navigationForDisplay.disabled:hover {
+    color: rgba(205, 199, 187, 0.3); }
 
 /***********************************************************
 Other

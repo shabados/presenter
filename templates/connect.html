@@ -16,7 +16,7 @@
                         $.each(data, function(key, server) {
                             var link = server.AddrV4 + ':' + server.Port
                             var host = server.Info
-                            html = html+`<a href="#" id="`+key+`" class="navigationForDisplay" onclick="connect('`+link+`','`+host+`')"><div class="searchresult searchresult-`+key+`"><p><span class="codefont"><i class="fa fa-cog fa-fw" aria-hidden="true"></i></span>`+host+` (`+link+`)</p></div></a>`;
+                            html = html+`<a href="#" id="`+key+`" class="navigationForDisplay" onclick="connect('`+link+`','`+host+`')"><div class="searchresult searchresult-`+key+`"><p><span class="codefont"><i class="fa fa-desktop fa-fw" aria-hidden="true"></i></span>`+host+` (`+link+`)</p></div></a>`;
                         })
 
                         $('div.menu').html(html);
