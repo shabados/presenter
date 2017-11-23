@@ -31,17 +31,17 @@
                 else if ($("#"+hash).length) { lineID = $("#"+hash).data("lineid"); } //if #hash exists, go there
                 else { lineID = 0; } //useless?
             } catch (err) {    //if hash doesn't exist
-                try { lineID = $("#"+'{{.CurrentPK}}').data("lineid"); } //works for adv and for current line from history page 
-                catch (err) { lineID = firstID; } //default goes to first line
+                if ($("#"+'{{.CurrentPK}}').length) { lineID = $("#"+'{{.CurrentPK}}').data("lineid"); } //works for adv and for current line from history page 
+                else { lineID = firstID; } //default goes to first line
             }
 
-            if ({{.AkhandPaathView}}) { checkScroll(); }
+            checkScroll();
 
             //Add: if another user found the shabad first (shabad is already loaded) just getJSON and update this page's line, and don't post line
 
             $(window).load(function() {
                 $(document).keyup(function(e) {
-                    if ({{.AkhandPaathView}}) { checkScroll(); }
+                    checkScroll();
                 });
                 hotkeys();
                 hotkeysNavigate();
