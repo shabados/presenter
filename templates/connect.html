@@ -21,6 +21,7 @@
 
                         $('div.menu').html(html);
                         hotkeysHistory();
+                        $('div.loader').hide();
                     }
                 });
             });
@@ -28,7 +29,7 @@
     </head>
 <body class="menu {{.Theme}}">
     {{template "titlebar" .}}
-    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw loader"></i>
+    <div class="loader"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div class="scrollBetweenBars menu"></div>
     {{template "navibar"}}
     </body>

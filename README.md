@@ -19,6 +19,8 @@ There are two methods (*NB: Our documentation refers to the first method!*):
 
       go get github.com/ShabadOS/shabadOS
       cd $GOPATH/src/github.com/ShabadOS/shabadOS
+      
+You may need to install Go dependencies with `go get` in the shabadOS directory.
 
 Then simply run `go build` or `go install` in the parent directory and execute the binary in your terminal at the same location.
 

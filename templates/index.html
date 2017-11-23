@@ -19,7 +19,6 @@
 			}
 			
 			function search(filter) {
-				
 				$(".loader").show();
 				$("#keyboardHelp").hide();
 				if(xhr && xhr.readyState != 4){
@@ -118,6 +117,7 @@
 			$(window).load(function() {
 				hotkeys();
 				hotkeysIndex();
+		        $("input#filter").focus(); //sets focus to input on main page load
 			});
 		</script>
 	</head>
@@ -164,9 +164,7 @@
   </div>
   <div class="clear"></div>
 </div><!-- -->
-<div class="loader">
-	<div>Loading...</div>
-</div>
+<!--<div class="loader"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>-->
 <div id="results"></div>
 {{template "navibar"}}
 </body>
