@@ -38,6 +38,8 @@ var timePostHistory time.Time
 var historyDB string
 var dbHistory *sql.DB
 var settings Settings
+var shabadHTML string
+var pagesCount int
 
 var host = ""
 var port = 42424
@@ -312,19 +314,17 @@ func settingsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func navigateHandler(w http.ResponseWriter, r *http.Request) {
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+func updateShabad(id string) {
 	var rows, rows2 *sql.Rows
 	var err error
 	var query, query2, pk, nextPK, gurmukhi, transliteration, english, darpan string
-	pageHTML, shabadJSON, gurmukhiFull, transliterationFull, translationFull, darpanFull := "", "", "", "", "", ""
+	pageHTML, shabadJSONTemp, gurmukhiFull, transliterationFull, translationFull, darpanFull := "", "", "", "", "", ""
 	shabadType := "shabad"
 	counter, pageID := 0, 0
 	lineID := 1
 	lastPageID := -1
 	hotkeys := [36]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"}
-	id := r.FormValue("id") // possibly requires removing white space
-
+	
 	dbHistory, err = sql.Open("sqlite3", historyDB)
 	eh(err, "5")
 	defer dbHistory.Close()
@@ -442,7 +442,7 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 				pageHTML += " last" + strconv.Itoa(counter-1) + " pageID" + strconv.Itoa(counter) + " searchresult-" + hotkey + "\" data-hotkey=\"yes"
 			}
 			pageHTML += "\"><div><div class=\"gurmukhifont\"><span class=\"codefont\"><span class=\"number\">" + hotkey + "</span></span>" + gurmukhiFull + "</div></div></div></span>"
-			shabadJSON += "{\"gurmukhi\":\"" + strings.Replace(gurmukhiFull, `"`, `\"`, -1) + "\",\"transliteration\":\"" + strings.Replace(transliterationFull, `"`, `\"`, -1) + "\",\"translation\":\"" + strings.Replace(translationFull, `"`, `\"`, -1) + "\",\"darpan\":\"" + strings.Replace(darpanFull, `"`, `\"`, -1) + "\",\"lineID\":\"" + strconv.Itoa(lineID) + "\",\"PK\":\"" + pk + "\"},"
+			shabadJSONTemp += "{\"gurmukhi\":\"" + strings.Replace(gurmukhiFull, `"`, `\"`, -1) + "\",\"transliteration\":\"" + strings.Replace(transliterationFull, `"`, `\"`, -1) + "\",\"translation\":\"" + strings.Replace(translationFull, `"`, `\"`, -1) + "\",\"darpan\":\"" + strings.Replace(darpanFull, `"`, `\"`, -1) + "\",\"lineID\":\"" + strconv.Itoa(lineID) + "\",\"PK\":\"" + pk + "\"},"
 			gurmukhiFull = ""
 			transliterationFull = ""
 			translationFull = ""
@@ -452,7 +452,16 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	shabadJSON = "[" + strings.TrimRight(shabadJSON, ",") + "]"
+	shabadJSON = "[" + strings.TrimRight(shabadJSONTemp, ",") + "]"
+	shabadHTML = pageHTML
+	pagesCount = counter
+}
+
+func navigateHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+	id := r.FormValue("id") // possibly requires removing white space
+	if (id != shabadID) { updateShabad(id) }
+
 	data := struct {
 		Title           string
 		Body            template.HTML
@@ -466,13 +475,13 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 		Host string
 	}{
 		"Navigator",
-		template.HTML(pageHTML),
+		template.HTML(shabadHTML),
 		id,
 		shabadJSON,
 		toggleLines,
 		currentPK,
 		settings.AkhandPaathView,
-		strconv.Itoa(counter),
+		strconv.Itoa(pagesCount),
 		template.HTML(theme),
 		host,
 	}
