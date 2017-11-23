@@ -460,7 +460,12 @@ func updateShabad(id string) {
 func navigateHandler(w http.ResponseWriter, r *http.Request) {
 	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	id := r.FormValue("id") // possibly requires removing white space
-	if (id != shabadID) { updateShabad(id) }
+	if (!(id == shabadID || id == "current")) { updateShabad(id) }
+
+	if (shabadHTML == "") { //tk should check shabadID == 0, but then the page won't load and won't post to histry... that should just happen in updateShabad, though
+		simpleHandler(w,r) 
+		return
+	}
 
 	data := struct {
 		Title           string
@@ -639,7 +644,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 
 func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 	hotkeys := [10]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
-	counter := 0
+	counter := 1
 	pageHTML := ""
 
 	dbHistory, err = sql.Open("sqlite3", historyDB)
@@ -667,11 +672,7 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 		} else {
 			pageHTML += "<a href=\"shabad?id=" + shabadID + "#" + pk + "$" + toggleLines + "\""
 		}
-		pageHTML += " id=\"" + strconv.Itoa(counter) + "\" class=\""
-		if counter == 0 {
-			pageHTML += "activeLine "
-		}
-		pageHTML += "navigationForDisplay searchResultUpdateHistory historyEntry\" data-lineID=\"" + pk + "\" data-shabadID=\"" + shabadID + "\" title=\"" + transliteration + "\"><div class=\"searchresult"
+		pageHTML += " id=\"" + strconv.Itoa(counter) + "\" class=\"navigationForDisplay searchResultUpdateHistory historyEntry\" data-lineID=\"" + pk + "\" data-shabadID=\"" + shabadID + "\" title=\"" + transliteration + "\"><div class=\"searchresult"
 
 		if counter >= len(hotkeys) {
 			pageHTML += "\"><p class=\"gurmukhifont\"><span class=\"codefont\"><span class=\"number\">&nbsp;</span></span>"
@@ -1016,6 +1017,7 @@ func executeQuery(query string) {
 
 func clearShabad() {
 	shabadJSON = "[{\"gurmukhi\":\"\",\"translation\":\"\",\"transliteration\":\"\",\"darpan\":\"\",\"PK\":\"0\"}]"
+	shabadHTML = ""
 	shabadID = "0"
 	currentPK = "0"
 	toggleLines = "0-0-0"
