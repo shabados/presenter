@@ -7,17 +7,17 @@
   font-family: 'Punjabi';
   font-style: normal;
   font-weight: normal;
-  src: url("../includes/Anmol.woff") format("woff"); }
+  src: url("../includes/NotoSansGurmukhi-Regular.ttf") format("truetype"); }
 @font-face {
-  font-family: 'English';
+  font-family: 'English Translation';
   font-style: normal;
   font-weight: normal;
-  src: url("../includes/OpenSans-Semibold.ttf") format("truetype"); }
+  src: url("../includes/NotoSans-Medium.ttf") format("truetype"); }
 @font-face {
-  font-family: 'Varela Round Regular';
+  font-family: 'English Transliteration';
   font-style: normal;
   font-weight: normal;
-  src: url("../includes/VarelaRound-Regular.ttf"); }
+  src: url("../includes/NotoSans-Regular.ttf") format("truetype"); }
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -42,7 +42,7 @@ html * {
   cursor: default; }
 
 body {
-  font: 16px 'English', Helvetica;
+  font: 16px 'English Translation', Helvetica;
   line-height: 1.5;
   margin: 0;
   -webkit-user-select: none; }
@@ -442,7 +442,7 @@ body.presentationSingle .active {
     body.presentationSingle .active .gurmukhifont > div > div:first-child {
       padding: .1em 0 0 !important; }
   body.presentationSingle .active .translation {
-    font-family: "English", sans-serif;
+    font-family: "English Translation", sans-serif;
     font-size: 4.5vh !important;
     line-height: 1.85em;
     margin: 0;
@@ -484,7 +484,7 @@ body.presentationSingle.bottom .line > div {
   font-size: .75em; }
 
 .transliteration {
-  font-family: "Varela Round Regular", "SourceSerifProReg", "LibreBaskerville", "SourceSerifPro", serif; }
+  font-family: "English Transliteration", sans-serif; }
 
 .searchresult {
   padding: .25em 0; }
@@ -1637,230 +1637,230 @@ body.presentation {
     font-size: 1.6666666666666667vh;
     line-height: 2.0vh; }
   body.presentation.fs-1 .translation {
-    font-size: 0.6666666666666667vh;
+    font-size: 0.9000000000000001vh;
     line-height: 1.0vh;
-    margin-top: 0.18333333333333335vh; }
+    margin-top: 0.08333333333333334vh; }
   body.presentation.fs-1 .darpan {
-    font-size: 0.7216666666666667vh;
+    font-size: 0.9000000000000001vh;
     line-height: 1.0vh;
-    margin-top: 0.06666666666666667vh; }
+    margin-top: 0.16666666666666669vh; }
   body.presentation.fs-1 .transliteration {
-    font-size: 0.6916666666666667vh;
+    font-size: 0.9000000000000001vh;
     line-height: 1.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -0.16666666666666669vh; }
   body.presentation.fs-1 .line {
-    min-height: 95.0vh; }
+    min-height: 96.95833333333333vh; }
   body.presentation.fs-1 .line > div {
-    margin-bottom: 2.0vh; }
+    margin-bottom: 1.0vh; }
   body.presentation.fs-2 .gurmukhifont {
     font-size: 3.3333333333333335vh;
     line-height: 4.0vh; }
   body.presentation.fs-2 .translation {
-    font-size: 1.3333333333333335vh;
+    font-size: 1.8000000000000003vh;
     line-height: 2.0vh;
-    margin-top: 0.3666666666666667vh; }
+    margin-top: 0.16666666666666669vh; }
   body.presentation.fs-2 .darpan {
-    font-size: 1.4433333333333334vh;
+    font-size: 1.8000000000000003vh;
     line-height: 2.0vh;
-    margin-top: 0.13333333333333333vh; }
+    margin-top: 0.33333333333333337vh; }
   body.presentation.fs-2 .transliteration {
-    font-size: 1.3833333333333333vh;
+    font-size: 1.8000000000000003vh;
     line-height: 2.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -0.33333333333333337vh; }
   body.presentation.fs-2 .line {
-    min-height: 91.0vh; }
+    min-height: 94.91666666666667vh; }
   body.presentation.fs-2 .line > div {
-    margin-bottom: 4.0vh; }
+    margin-bottom: 3.0vh; }
   body.presentation.fs-3 .gurmukhifont {
     font-size: 5.0vh;
     line-height: 6.0vh; }
   body.presentation.fs-3 .translation {
-    font-size: 2.0vh;
+    font-size: 2.7vh;
     line-height: 3.0vh;
-    margin-top: 0.55vh; }
+    margin-top: 0.25vh; }
   body.presentation.fs-3 .darpan {
-    font-size: 2.165vh;
+    font-size: 2.7vh;
     line-height: 3.0vh;
-    margin-top: 0.2vh; }
+    margin-top: 0.5vh; }
   body.presentation.fs-3 .transliteration {
-    font-size: 2.0749999999999997vh;
+    font-size: 2.7vh;
     line-height: 3.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -0.5vh; }
   body.presentation.fs-3 .line {
-    min-height: 87.0vh; }
+    min-height: 92.875vh; }
   body.presentation.fs-3 .line > div {
-    margin-bottom: 6.0vh; }
+    margin-bottom: 5.0vh; }
   body.presentation.fs-4 .gurmukhifont {
     font-size: 6.666666666666667vh;
     line-height: 8.0vh; }
   body.presentation.fs-4 .translation {
-    font-size: 2.666666666666667vh;
+    font-size: 3.6000000000000005vh;
     line-height: 4.0vh;
-    margin-top: 0.7333333333333334vh; }
+    margin-top: 0.33333333333333337vh; }
   body.presentation.fs-4 .darpan {
-    font-size: 2.8866666666666667vh;
+    font-size: 3.6000000000000005vh;
     line-height: 4.0vh;
-    margin-top: 0.26666666666666666vh; }
+    margin-top: 0.6666666666666667vh; }
   body.presentation.fs-4 .transliteration {
-    font-size: 2.7666666666666666vh;
+    font-size: 3.6000000000000005vh;
     line-height: 4.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -0.6666666666666667vh; }
   body.presentation.fs-4 .line {
-    min-height: 83.0vh; }
+    min-height: 90.83333333333333vh; }
   body.presentation.fs-4 .line > div {
-    margin-bottom: 8.0vh; }
+    margin-bottom: 7.0vh; }
   body.presentation.fs-5 .gurmukhifont {
     font-size: 8.333333333333334vh;
     line-height: 10.0vh; }
   body.presentation.fs-5 .translation {
-    font-size: 3.333333333333334vh;
+    font-size: 4.500000000000001vh;
     line-height: 5.0vh;
-    margin-top: 0.9166666666666667vh; }
+    margin-top: 0.41666666666666674vh; }
   body.presentation.fs-5 .darpan {
-    font-size: 3.6083333333333334vh;
+    font-size: 4.500000000000001vh;
     line-height: 5.0vh;
-    margin-top: 0.33333333333333337vh; }
+    margin-top: 0.8333333333333335vh; }
   body.presentation.fs-5 .transliteration {
-    font-size: 3.4583333333333335vh;
+    font-size: 4.500000000000001vh;
     line-height: 5.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -0.8333333333333335vh; }
   body.presentation.fs-5 .line {
-    min-height: 79.0vh; }
+    min-height: 88.79166666666667vh; }
   body.presentation.fs-5 .line > div {
-    margin-bottom: 10.0vh; }
+    margin-bottom: 9.0vh; }
   body.presentation.fs-6 .gurmukhifont {
     font-size: 10.0vh;
     line-height: 12.0vh; }
   body.presentation.fs-6 .translation {
-    font-size: 4.0vh;
+    font-size: 5.4vh;
     line-height: 6.0vh;
-    margin-top: 1.1vh; }
+    margin-top: 0.5vh; }
   body.presentation.fs-6 .darpan {
-    font-size: 4.33vh;
+    font-size: 5.4vh;
     line-height: 6.0vh;
-    margin-top: 0.4vh; }
+    margin-top: 1.0vh; }
   body.presentation.fs-6 .transliteration {
-    font-size: 4.1499999999999995vh;
+    font-size: 5.4vh;
     line-height: 6.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -1.0vh; }
   body.presentation.fs-6 .line {
-    min-height: 75.0vh; }
+    min-height: 86.75vh; }
   body.presentation.fs-6 .line > div {
-    margin-bottom: 12.0vh; }
+    margin-bottom: 11.0vh; }
   body.presentation.fs-7 .gurmukhifont {
     font-size: 11.666666666666666vh;
     line-height: 13.999999999999998vh; }
   body.presentation.fs-7 .translation {
-    font-size: 4.666666666666667vh;
+    font-size: 6.3vh;
     line-height: 6.999999999999999vh;
-    margin-top: 1.2833333333333332vh; }
+    margin-top: 0.5833333333333334vh; }
   body.presentation.fs-7 .darpan {
-    font-size: 5.051666666666667vh;
+    font-size: 6.3vh;
     line-height: 6.999999999999999vh;
-    margin-top: 0.4666666666666667vh; }
+    margin-top: 1.1666666666666667vh; }
   body.presentation.fs-7 .transliteration {
-    font-size: 4.841666666666666vh;
+    font-size: 6.3vh;
     line-height: 6.999999999999999vh;
-    margin-top: 0.0vh; }
+    margin-top: -1.1666666666666667vh; }
   body.presentation.fs-7 .line {
-    min-height: 71.0vh; }
+    min-height: 84.70833333333333vh; }
   body.presentation.fs-7 .line > div {
-    margin-bottom: 13.999999999999998vh; }
+    margin-bottom: 12.999999999999998vh; }
   body.presentation.fs-8 .gurmukhifont {
     font-size: 13.333333333333334vh;
     line-height: 16.0vh; }
   body.presentation.fs-8 .translation {
-    font-size: 5.333333333333334vh;
+    font-size: 7.200000000000001vh;
     line-height: 8.0vh;
-    margin-top: 1.4666666666666668vh; }
+    margin-top: 0.6666666666666667vh; }
   body.presentation.fs-8 .darpan {
-    font-size: 5.773333333333333vh;
+    font-size: 7.200000000000001vh;
     line-height: 8.0vh;
-    margin-top: 0.5333333333333333vh; }
+    margin-top: 1.3333333333333335vh; }
   body.presentation.fs-8 .transliteration {
-    font-size: 5.533333333333333vh;
+    font-size: 7.200000000000001vh;
     line-height: 8.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -1.3333333333333335vh; }
   body.presentation.fs-8 .line {
-    min-height: 67.0vh; }
+    min-height: 82.66666666666666vh; }
   body.presentation.fs-8 .line > div {
-    margin-bottom: 16.0vh; }
+    margin-bottom: 15.0vh; }
   body.presentation.fs-9 .gurmukhifont {
     font-size: 15.0vh;
     line-height: 18.0vh; }
   body.presentation.fs-9 .translation {
-    font-size: 6.0vh;
+    font-size: 8.100000000000001vh;
     line-height: 9.0vh;
-    margin-top: 1.65vh; }
+    margin-top: 0.75vh; }
   body.presentation.fs-9 .darpan {
-    font-size: 6.495vh;
+    font-size: 8.100000000000001vh;
     line-height: 9.0vh;
-    margin-top: 0.6vh; }
+    margin-top: 1.5vh; }
   body.presentation.fs-9 .transliteration {
-    font-size: 6.225vh;
+    font-size: 8.100000000000001vh;
     line-height: 9.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -1.5vh; }
   body.presentation.fs-9 .line {
-    min-height: 63.0vh; }
+    min-height: 80.625vh; }
   body.presentation.fs-9 .line > div {
-    margin-bottom: 18.0vh; }
+    margin-bottom: 17.0vh; }
   body.presentation.fs-10 .gurmukhifont {
     font-size: 16.666666666666668vh;
     line-height: 20.0vh; }
   body.presentation.fs-10 .translation {
-    font-size: 6.666666666666668vh;
+    font-size: 9.000000000000002vh;
     line-height: 10.0vh;
-    margin-top: 1.8333333333333335vh; }
+    margin-top: 0.8333333333333335vh; }
   body.presentation.fs-10 .darpan {
-    font-size: 7.216666666666667vh;
+    font-size: 9.000000000000002vh;
     line-height: 10.0vh;
-    margin-top: 0.6666666666666667vh; }
+    margin-top: 1.666666666666667vh; }
   body.presentation.fs-10 .transliteration {
-    font-size: 6.916666666666667vh;
+    font-size: 9.000000000000002vh;
     line-height: 10.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -1.666666666666667vh; }
   body.presentation.fs-10 .line {
-    min-height: 59.0vh; }
+    min-height: 78.58333333333333vh; }
   body.presentation.fs-10 .line > div {
-    margin-bottom: 20.0vh; }
+    margin-bottom: 19.0vh; }
   body.presentation.fs-11 .gurmukhifont {
     font-size: 18.333333333333332vh;
     line-height: 21.999999999999996vh; }
   body.presentation.fs-11 .translation {
-    font-size: 7.333333333333333vh;
+    font-size: 9.9vh;
     line-height: 10.999999999999998vh;
-    margin-top: 2.0166666666666666vh; }
+    margin-top: 0.9166666666666666vh; }
   body.presentation.fs-11 .darpan {
-    font-size: 7.938333333333333vh;
+    font-size: 9.9vh;
     line-height: 10.999999999999998vh;
-    margin-top: 0.7333333333333333vh; }
+    margin-top: 1.8333333333333333vh; }
   body.presentation.fs-11 .transliteration {
-    font-size: 7.6083333333333325vh;
+    font-size: 9.9vh;
     line-height: 10.999999999999998vh;
-    margin-top: 0.0vh; }
+    margin-top: -1.8333333333333333vh; }
   body.presentation.fs-11 .line {
-    min-height: 55.00000000000001vh; }
+    min-height: 76.54166666666667vh; }
   body.presentation.fs-11 .line > div {
-    margin-bottom: 21.999999999999996vh; }
+    margin-bottom: 20.999999999999996vh; }
   body.presentation.fs-12 .gurmukhifont {
     font-size: 20.0vh;
     line-height: 24.0vh; }
   body.presentation.fs-12 .translation {
-    font-size: 8.0vh;
+    font-size: 10.8vh;
     line-height: 12.0vh;
-    margin-top: 2.2vh; }
+    margin-top: 1.0vh; }
   body.presentation.fs-12 .darpan {
-    font-size: 8.66vh;
+    font-size: 10.8vh;
     line-height: 12.0vh;
-    margin-top: 0.8vh; }
+    margin-top: 2.0vh; }
   body.presentation.fs-12 .transliteration {
-    font-size: 8.299999999999999vh;
+    font-size: 10.8vh;
     line-height: 12.0vh;
-    margin-top: 0.0vh; }
+    margin-top: -2.0vh; }
   body.presentation.fs-12 .line {
-    min-height: 51.0vh; }
+    min-height: 74.5vh; }
   body.presentation.fs-12 .line > div {
-    margin-bottom: 24.0vh; }
+    margin-bottom: 23.0vh; }
   body.presentation.layout-normal .line.active > div {
     justify-content: normal; }
   body.presentation.layout-space-around .line.active > div {
