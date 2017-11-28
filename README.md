@@ -7,6 +7,10 @@ This repo lacks the database used to pull up searches, gurbani, translations, et
 
 ## Installation
 * Dependencies: [Go](https://golang.org/) and [Sass](http://sass-lang.com/).
+* Possible dependency: Avahi (You could try the rest of the instructions and it might work, this is for "Connect to.." via mDNS feature).
+  * Linux: avahi daemon, avahi dns_sd compat library and its header files
+    * Ubuntu might have avahi-daemon pre-installed
+    * Solus: install avahi-devel through software center
 
 There are two methods (*NB: Our documentation refers to the first method!*): 
 
