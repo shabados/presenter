@@ -16,25 +16,25 @@ There are two methods (*NB: Our documentation refers to the first method!*):
 
 (1) using `git clone`
 
-      git clone https://github.com/ShabadOS/core.git $GOPATH/src/shabadOS
-      cd $GOPATH/src/shabadOS
+    git clone https://github.com/ShabadOS/core.git $GOPATH/src/shabadOS
+    cd $GOPATH/src/shabadOS
       
 (2) using `go get` (If you don't have git, and you just need a background server)
 
-      go get github.com/ShabadOS/core
-      cd $GOPATH/src/github.com/ShabadOS/core
+    go get github.com/ShabadOS/core
+    cd $GOPATH/src/github.com/ShabadOS/core
       
 Both methods may need to install Go dependencies with `go get` in the core directory.
 
 Then simply run `go build` or `go install` in the parent directory and execute the binary in your terminal at the same location.
 
-      # go build -- placed in pwd
-      go build
-      ./shabadOS
+    # go build -- placed in pwd
+    go build
+    ./shabadOS
       
-      # go install -- placed in $GOPATH/src/
-      go install
-      shabadOS
+    # go install -- placed in $GOPATH/src/
+    go install
+    shabadOS
 
 The program starts a webserver at [localhost:42424](http://localhost:42424/). You can control the viewer from here or view ["/display"](http://localhost:42424/display) to see it.
 
@@ -49,3 +49,13 @@ Anyone on the same network as the web server can connect using your IP address [
 ## Troubleshooting
 
 NB: If the address shown in the controller's titlebar does not match 192.168.XX.XXX, then most likely you need to use a terminal to figure out the correct IP address (Windows: Start > cmd > ipconfig; Linux: `ip addr` or `ifconfig`; Mac OS: `ifconfig | grep "inet " | grep -v 127.0.0.1`). Similarly if both devices are on the network and have Shabad OS core installed, they can use the built-in "Connect to" feature in the menu.
+
+## Development
+
+Make CSS changes to the SCSS file and use Sass to compile it. Check the examples against your pwd:
+
+    # one time
+    sass styles/main.scss styles/main.css
+    
+    # repeat until ctrl-c
+    sass --watch styles/main.scss:styles/main.css
