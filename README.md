@@ -40,7 +40,7 @@ The program starts a webserver at [localhost:42424](http://localhost:42424/). Yo
 
 ## Usage
 
-Anyone on the same network as the web server can connect using your IP address [[NB]](README.md#troubleshooting) and view these pages:
+Anyone on the same network as the web server can connect using your IP address [[NB]](#troubleshooting) and view these pages:
 * Controller ([/](http://localhost:42424/)): This page is considered the "remote" to the display/projector page. You can search (first letter, spaces as wild card characters, pre-pend with hashtag for full word), see a list of banis often read, a history (with export function), and easily navigate the active shabad line for the projector. The controller is probably best used on a mobile device.
 * Display ([/display](http://localhost:42424/display)): This page can be used as a projector. It has a controller embedded at the bottom right. This controller can be "popped out" if you have two screens. And if you wanted, you could always open another controller in your browser and control two different shabads at the same time!
 * Kobo ([/kobo](http://localhost:42424/kobo)): This page can be opened on some experimental web browsers for eBook readers, like a Kindle. Tested on the Kobo Aura ONE. The benefit of an eInk display is that it does not need to transmit light to be readable. Makes a great alternative to reading physical pages of the Amrit Kirtan or Bahu Shabdi on a Vaja.
