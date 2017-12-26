@@ -12,7 +12,7 @@ This repo lacks the database used to pull up searches, gurbani, translations, et
     * Ubuntu might have avahi-daemon pre-installed
     * Solus: install avahi-devel through software center
 
-There are two methods (*NB: Our documentation refers to the first method!*): 
+There are three methods (*NB: Our documentation refers to the first method!*): 
 
 (1) using `git clone`
 
@@ -24,9 +24,9 @@ There are two methods (*NB: Our documentation refers to the first method!*):
     go get github.com/ShabadOS/core
     cd $GOPATH/src/github.com/ShabadOS/core
       
-Both methods may need to install Go dependencies with `go get` in the core directory.
-
-Then simply run `go build` or `go install` in the parent directory and execute the binary in your terminal at the same location.
+  
+With the above methods,you need to install Go dependencies with `go get` in the core directory, and
+then simply run `go build` or `go install` in the parent directory and execute the binary in your terminal at the same location.
 
     # go build -- placed in pwd
     go build
@@ -35,6 +35,12 @@ Then simply run `go build` or `go install` in the parent directory and execute t
     # go install -- placed in $GOPATH/src/
     go install
     shabadOS
+
+(3) using `docker` and `docker-compose` (you don't need to install any dependencies, or download the database separately):
+    
+    git clone https://github.com/ShabadOS/core.git shabadOS
+    cd shabadOS
+    docker-compose up  
 
 The program starts a webserver at [localhost:42424](http://localhost:42424/). You can control the viewer from here or view ["/display"](http://localhost:42424/display) to see it.
 

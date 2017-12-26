@@ -1,0 +1,9 @@
+version: "3.3"
+
+services:
+  core:
+    build: .
+    volumes:
+      - ".:/usr/src/app"
+    ports:
+      - "42424:42424"

@@ -12,3 +12,5 @@ settings.json
 nohup.out
 *.sass-cache*
 styles/main.css.*
+.idea/
+*.iml
