@@ -8,7 +8,6 @@ tmux*
 .kak.tags.namecache
 tags
 .vscode*
-settings.json
 nohup.out
 *.sass-cache*
 styles/main.css.*
