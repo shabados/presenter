@@ -4,6 +4,6 @@ services:
   core:
     build: .
     volumes:
-      - ".:/usr/src/app"
+      - "./:/go/src/app"
     ports:
       - "42424:42424"
