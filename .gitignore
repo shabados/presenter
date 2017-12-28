@@ -14,3 +14,5 @@ nohup.out
 styles/main.css.*
 .idea/
 *.iml
+gin-bin
+tmp/
