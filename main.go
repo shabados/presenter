@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -20,7 +21,7 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/hashicorp/mdns"
-	
+
 )
 
 // compile all templates and cache them
@@ -324,7 +325,7 @@ func updateShabad(id string) {
 	lineID := 1
 	lastPageID := -1
 	hotkeys := [36]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"}
-	
+
 	dbHistory, err = sql.Open("sqlite3", historyDB)
 	eh(err, "5")
 	defer dbHistory.Close()
@@ -463,7 +464,7 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 	if (!(id == shabadID || id == "current")) { updateShabad(id) }
 
 	if (shabadHTML == "") { //tk should check shabadID == 0, but then the page won't load and won't post to histry... that should just happen in updateShabad, though
-		simpleHandler(w,r) 
+		simpleHandler(w,r)
 		return
 	}
 
@@ -683,7 +684,7 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 
 		pageHTML += gurmukhi + "</p></div></a>"
 	}
-	
+
 	fmt.Fprint(w, pageHTML)
 }
 
@@ -740,19 +741,19 @@ func getHistoryCSV(w http.ResponseWriter, r *http.Request) {
 
 func postSettings(w http.ResponseWriter, r *http.Request) {
 	if (!isLocal(r)) { return }
-	
+
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&settings)
 	eh(err, "18")
+	saveSettings()
+}
+
+func saveSettings() {
 	nf, _ := json.MarshalIndent(settings, "", "    ")
 
-	err = os.Truncate("settings.json", 0)
+	err := ioutil.WriteFile("settings.json", nf, 0666)
 	eh(err, "19")
-	f, err := os.OpenFile("settings.json", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	eh(err, "20")
-	defer f.Close()
-	f.Write(nf)
-	f.Close()
+
 }
 
 func postHistory(w http.ResponseWriter, r *http.Request) {
@@ -1027,7 +1028,7 @@ func clearShabad() {
 
 func getServersJSON(w http.ResponseWriter, r *http.Request) {
 	var servers []interface{}
-	
+
 	// Make a channel for results and start listening
 	entriesCh := make(chan *mdns.ServiceEntry, 4)
 	go func() {
@@ -1047,6 +1048,26 @@ func getServersJSON(w http.ResponseWriter, r *http.Request) {
 	w.Write(serversJSON)
 }
 
+// Loads and updates settings
+func loadSettings(filename string) {
+	settingsFile, _ :=os.Open(filename)
+	defer settingsFile.Close()
+	decoder := json.NewDecoder(settingsFile)
+	decoder.Decode(&settings)
+}
+
+// Updates settings by combining settings.json with settings.json.default, using settings struct
+func updateSettings() {
+	// Load default settings
+	loadSettings("settings.json.default")
+
+	// Override with new settings, ignore if it doesn't exist
+	loadSettings("settings.json")
+
+	// Save 'em back
+	saveSettings()
+}
+
 func main() {
 
 	fmt.Println("--- Started! ---")
@@ -1056,11 +1077,10 @@ func main() {
 	db, err = sql.Open("sqlite3", "includes/data")
 	eh(err, "46")
 	defer db.Close()
-	settingsFile, _ := os.Open("settings.json")
-	decoder := json.NewDecoder(settingsFile)
-	err := decoder.Decode(&settings)
+
+	updateSettings()
 	eh(err, "47")
-	
+
 	mux := http.NewServeMux()
 
 	//basic handlers for files
@@ -1070,7 +1090,7 @@ func main() {
 	//basic handlers for pages without many variables
 	// webpages := [5]{}
 	// mux.Handle("/", mux.FileServer(assetFS()))
-	
+
 	//Public Server Functions
 	mux.HandleFunc("/searchresults", getResultsHTML)
 	mux.HandleFunc("/getJSON", getJSON)
