@@ -9,7 +9,7 @@ async function main() {
 
 
 // Handle any errors by crashing
-main.catch( error => {
+main().catch( error => {
   logger.error( error )
   process.exit( 1 )
 } )
