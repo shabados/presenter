@@ -13,3 +13,4 @@ nohup.out
 styles/main.css.*
 *.iml
 .idea/
+node_modules
