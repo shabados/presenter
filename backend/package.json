@@ -1,0 +1,29 @@
+{
+  "name": "shabados-core--backend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r @std/esm server.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShabadOS/core.git"
+  },
+  "author": "ShabadOS Team <ShabadOS@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ShabadOS/core/issues"
+  },
+  "homepage": "https://github.com/ShabadOS/core#readme",
+  "dependencies": {
+    "@std/esm": "^0.19.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0"
+  }
+}

@@ -1,0 +1,16 @@
+*.swp
+*.go~
+data
+data-journal
+*.DS_Store
+tmux*
+.file_tags.kaktmp
+.kak.tags.namecache
+tags
+.vscode*
+nohup.out
+*.sass-cache*
+styles/main.css.*
+*.iml
+.idea/
+node_modules
