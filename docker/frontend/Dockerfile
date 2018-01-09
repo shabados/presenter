@@ -2,12 +2,12 @@ FROM node:8
 
 WORKDIR /usr/src/app
 
-COPY ./backend/package*.json ./
+COPY ./frontend/package*.json ./
 
 RUN npm install
 
-COPY ./backend .
+COPY ./frontend .
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["npm", "start"]
