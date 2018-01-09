@@ -1,0 +1,11 @@
+# ShabadOS-Core
+
+Contains the standalone frontend and backend web application for ShabadOS.
+
+## Development
+
+Install `docker`.
+
+Run `docker-compose up` to start both the frontend and backend servers.
+
+
