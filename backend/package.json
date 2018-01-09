@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r @std/esm server.mjs"
+    "start": "node -r @std/esm server.mjs",
+    "dev": "nodemon -e mjs,js,json -L --exec npm start | bunyan"
   },
   "repository": {
     "type": "git",

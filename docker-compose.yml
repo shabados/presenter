@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  backend-dev:
+    build: ./backend
+    command: ["npm", "run", "dev"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./backend:/usr/src/app"
+      - "/usr/src/app/node_modules"
+    environment:
+      - NODE_ENV=development
+
+  frontend-dev:
+    build: ./frontend
+    environment:
+      - REACT_APP_API_URL=http://backend-dev/api
+      - CHOKIDAR_USEPOLLING=true
+      - NODE_ENV=development
+    volumes:
+      - "./frontend:/usr/src/app"
+       - "/usr/src/app/node_modules"
+    ports:
+      - "3000:3000"
