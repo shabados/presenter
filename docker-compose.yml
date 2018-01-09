@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  backend-dev:
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    command: ["npm", "run", "start-dev"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./backend:/usr/src/app"
+    environment:
+      - NODE_ENV=development
+
+  frontend-dev:
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    environment:
+      - REACT_APP_API_URL=http://backend-dev/api
+      - CHOKIDAR_USEPOLLING=true
+      - NODE_ENV=development
+    volumes:
+      - "./frontend:/usr/src/app"
+    ports:
+      - "3000:3000"
