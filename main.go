@@ -77,6 +77,18 @@ type Settings struct {
 	AkhandPaathView         bool   `json:"Akhand Paath View,string"`
 }
 
+type OBS_Settings struct {
+	Layout                  string `json:"Layout"`
+	LarivaarGurbani         bool   `json:"Larivaar Gurbani,string"`
+	SplitGurbaniLines		bool   `json:"Split Gurbani Lines,string"`
+	EnglishTranslation      bool   `json:"English Translation,string"`
+	PunjabiTranslation      bool   `json:"Punjabi Translation,string"`
+	EnglishTransliteration  bool   `json:"English Transliteration,string"`
+	FontSize                int    `json:"Font Size,string"`
+	FontColor               string `json:"Font Color"`
+	BackgroundColor         string `json:"Background Color"`
+}
+
 const (
 	options           string = "OPTIONS"
 	allow_origin      string = "Access-Control-Allow-Origin"
@@ -158,18 +170,9 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 
 	switch r.URL.Path {
-		case "/obs-top":
-			title = "OBS"
-			templateName = "display2Page"
-		case "/obs-bottom":
-			title = "OBS"
-			templateName = "display2Page"
-		case "/kobo":
-			title = "kobo"
-			templateName = "koboPage"
-		case "/menu":
-			title = "Menu"
-			templateName = "menuPage"
+		case "/banis":
+			title = "Bookmarks"
+			templateName = "banisPage"
 		case "/connect":
 			title = "Connect"
 			templateName = "connectPage"
@@ -177,9 +180,18 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 			title = "History"
 			templateName = "historyPage"
 			//tk: History html page to view/export/import/reload history
-		case "/banis":
-			title = "Bookmarks"
-			templateName = "banisPage"
+		case "/kobo":
+			title = "kobo"
+			templateName = "koboPage"
+		case "/menu":
+			title = "Menu"
+			templateName = "menuPage"
+		//case "/obs-top":
+			//title = "OBS"
+			//templateName = "display2Page"
+		//case "/obs-bottom":
+			//title = "OBS"
+			//templateName = "display3Page"
 	}
 	data := struct {
 		Title string
@@ -203,6 +215,23 @@ func isLocal(r *http.Request) bool {
 		return true
 	}
 	return false
+}
+
+func obsHandler(w http.ResponseWriter, r *http.Request) {
+	setClasses := "bottom"
+	data := struct {
+		Title       string
+		Settings    template.HTML
+		Host	string
+	}{
+		"OBS",
+		template.HTML(setClasses),
+		host,
+	}
+	err = templates.ExecuteTemplate(w, "obsPage", &data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func displayHandler(w http.ResponseWriter, r *http.Request) {
@@ -265,6 +294,27 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 		host,
 	}
 	err = templates.ExecuteTemplate(w, "displayPage", &data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func liveCaptionHandler(w http.ResponseWriter, r *http.Request) {
+	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+	sendJSON, err := json.Marshal(settings)
+	eh(err, "4.1")
+	data := struct {
+		Title            string
+		SettingsJSON     string
+		Theme template.HTML
+		Host string
+	}{
+		"Live Caption",
+		string(sendJSON),
+		template.HTML(theme),
+		host,
+	}
+	err = templates.ExecuteTemplate(w, "liveCaptionPage", &data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -1078,6 +1128,8 @@ func main() {
 	mux.HandleFunc("/postHistory", postHistory)
 	mux.HandleFunc("/history.csv", getHistoryCSV)
 	mux.HandleFunc("/getHistoryHTML", getHistoryHTML)
+	mux.HandleFunc("/obs", obsHandler)
+	mux.HandleFunc("/live-caption", liveCaptionHandler)
 
 	//Local private
 	mux.HandleFunc("/clearHistory", clearHistory)

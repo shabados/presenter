@@ -600,6 +600,53 @@ body {
       justify-content: flex-end !important;
     }
   }
+  &.liveCaption {
+    div.titlebaroffsetissue {
+      height: 36px;
+    }
+
+    div.preview {
+      background: #000;
+      height: calc(100vh - 350px);
+      display: flex;
+      justify-content: center;
+
+      iframe {
+        background: green;
+        align-self: center;
+      }
+    }
+    div.settings {
+      display: flex;
+
+      & > div > p {
+        margin: 0.5em 0 0 0.5em;
+      }
+      .c1, .c3 {
+        width: 20%;
+      }
+      .c2 {
+        width: 60%;
+      }
+      .c1 > div, .c2 > div, .c3 > div {
+        margin: 0.5em;
+        height: 250px;
+        overflow: auto;
+        padding: 0.5em 1em;
+      }
+      .c3 > div {
+        margin: 0;
+      }
+    }
+    .c3 .mdl-button {
+      width: 100%;
+      margin-top: 0.5em;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
 }
 
 /*body.presentationSingle .translation,*/
@@ -1070,7 +1117,7 @@ div#kobo {
 /* min-width 1921px, xxlarge screens */
 
 @media only screen and (min-width: 1000px) {
-  body.presentation, #help-menu {
+  body.presentation, #help-menu, body.liveCaption {
     zoom: 1;
   }
   body {
@@ -1093,7 +1140,7 @@ div#kobo {
 /* this allows 800x600 computers to not have an issue; currently the nexus 6p in landscape fits in this rule */
 @media only screen and (max-device-width: 799px) {
   body {
-    &.presentation {
+    &.presentation, &.liveCaption {
       zoom: 1;
     }
     zoom: 1.5;
@@ -1444,11 +1491,12 @@ div#kobo {
 
 /* Non-themed
      OBS projector page,
+     live caption tool,
      Kobo screen page
 */
 body {
   &.presentationSingle {
-    background: #00ff00 !important;
+    background: none; /* was green 00ff00 */
     .active {
       .gurmukhifont {
         color: #FFFFE5 !important;
@@ -1532,6 +1580,29 @@ body.color-scheme-day {
       iframe {
         background: $bg-dark; // one level darker than body background
         border-color: $bg-dark; // remove this in upper area, i don't think we need a border
+      }
+    }
+    &.liveCaption {
+      .settings {
+        background: $bg-bright;
+      }
+      .c1 > div, .c2 > div {
+        background: $bg-base;
+      }
+      .c3 {
+        .mdl-button {
+          background-color: rgba($bg-base, 0.5);
+          color: $fg-bright;
+          border: 1px solid rgba($fg-brighter, 0.1);
+
+          &:hover {
+            background-color: rgba($fg-brighter, 0.2);
+          }
+        }
+
+        .mdl-ripple {
+          background-color: rgba($fg-brighter, 1);
+        }
       }
     }
   }
