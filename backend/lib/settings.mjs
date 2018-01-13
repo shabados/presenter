@@ -5,10 +5,8 @@
 
 import { readJsonSync, writeJsonSync } from 'fs-extra'
 
+import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts'
 import logger from './logger'
-
-const SETTINGS_FILE = './settings.json'
-const DEFAULT_SETTINGS_FILE = './settings.default.json'
 
 /**
  * Simple class to manage application settings
