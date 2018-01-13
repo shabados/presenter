@@ -39,5 +39,8 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0"
   },
+  "@std/esm": {
+    "cjs": true
+  },
   "database": "^1.0.0"
 }

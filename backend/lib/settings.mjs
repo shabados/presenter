@@ -3,11 +3,9 @@
  * @ignore
  */
 
-import fs from 'fs-extra'
+import { readJsonSync, writeJsonSync } from 'fs-extra'
 
 import logger from './logger'
-
-const { readJsonSync, writeJsonSync } = fs
 
 const SETTINGS_FILE = './settings.json'
 const DEFAULT_SETTINGS_FILE = './settings.default.json'
