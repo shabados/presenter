@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node -r @std/esm server.mjs",
-    "dev": "nodemon -e mjs,js,json -L --exec npm start | bunyan"
+    "dev": "nodemon -e mjs,js -L --exec npm start | bunyan"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,8 @@
     "compression": "^1.7.1",
     "express": "^4.16.2",
     "helmet": "^3.9.0",
+    "knex": "^0.14.2",
+    "nconf": "^0.10.0",
     "objection": "^0.9.4",
     "ws": "^4.0.0"
   },
