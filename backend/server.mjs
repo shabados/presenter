@@ -1,5 +1,6 @@
 import { setupExpress } from './lib/express'
 import { setupWebsocket } from './lib/sockets'
+import { updateDatabase } from './lib/updates'
 
 import logger from './lib/logger'
 
@@ -8,6 +9,9 @@ import logger from './lib/logger'
  */
 async function main() {
   logger.info( 'Starting...' )
+
+  // Update DB
+  await updateDatabase()
 
   // Setup the express server with websockets
   const server = await setupExpress()
