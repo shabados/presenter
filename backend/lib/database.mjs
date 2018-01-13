@@ -31,7 +31,7 @@ class Database {
 
     try {
       const FILENAME = 'database.sqlite'
-      const tempPath = `TEMP_DIR/${FILENAME}`
+      const tempPath = `${TEMP_DIR}/${FILENAME}`
       const currentVersion = settings.get( 'database.version' )
 
       // Check temp directory exists
@@ -67,10 +67,10 @@ class Database {
       // Handle updating errors
       if ( status === 403 ) {
         logger.error( 'Unable to check for updates - Github API limit exceeded' )
-      } else if ( message.contains( 'release' ) ) {
+      } else if ( message.indexOf( 'release' ) > -1 ) {
         logger.error( 'No updates found' )
       } else {
-        logger.info( 'Unable to check for updates' )
+        logger.error( 'Unable to check for updates:', message )
       }
     } finally {
       // Whatever happens, check again soon
