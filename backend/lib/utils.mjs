@@ -4,12 +4,22 @@
  */
 
 import fs from 'fs'
-import util from 'util'
 
-const { writeFile, readFile, rename } = fs
-const { promisify } = util
+const { readFileSync, writeFileSync } = fs
 
-// Promise wrappers around callback I/O functions
-export const writeFileAsync = promisify( writeFile )
-export const readFileAsync = promisify( readFile )
-export const renameAsync = promisify( rename )
+/**
+ * Saves a formatted JSON object to `path`.
+ * @param path The path to save the json to
+ * @param json The js object to serialise to json
+ */
+export const saveJsonSync = ( path, json ) => writeFileSync(
+  path,
+  JSON.stringify( json, null, 2 ),
+)
+
+
+/**
+ * Reads a JSON object at `path`.
+ * @param path The path to read the JSON object from
+ */
+export const readJsonSync = path => JSON.parse( readFileSync( path ) )

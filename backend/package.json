@@ -26,7 +26,6 @@
     "express": "^4.16.2",
     "helmet": "^3.9.0",
     "knex": "^0.14.2",
-    "nconf": "^0.10.0",
     "objection": "^0.9.4",
     "progress": "^2.0.0",
     "semver": "^5.4.1",
