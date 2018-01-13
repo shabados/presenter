@@ -6,7 +6,7 @@
 import semver from 'semver'
 import downloadRelease from 'download-github-release'
 
-import packageJSON from '../package'
+import { database } from '../package'
 
 import logger from './logger'
 import settings from './settings'
@@ -18,7 +18,6 @@ import settings from './settings'
  */
 export const updateDatabase = async () => {
   const { satisfies, gtr } = semver
-  const { databaseVersion: required } = packageJSON
   const current = settings.get( 'databaseVersion' )
 
   logger.info( 'Checking for database updates' )
@@ -29,7 +28,7 @@ export const updateDatabase = async () => {
       'ShabadOS',
       'Database',
       'db',
-      ( { tag_name } ) => satisfies( tag_name, required ) && gtr( current, tag_name ),
+      ( { tag_name } ) => satisfies( tag_name, database.required ) && gtr( current, tag_name ),
       ( { name } ) => name === 'database.sqlite',
       true,
     )

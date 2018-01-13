@@ -2,9 +2,7 @@ version: '3.3'
 
 services:
   backend-dev:
-    build:
-      context: .
-      dockerfile: ./docker/backend/Dockerfile
+    build: ./backend
     command: ["npm", "run", "dev"]
     ports:
       - "8080:8080"
@@ -14,9 +12,7 @@ services:
       - NODE_ENV=development
 
   frontend-dev:
-    build:
-      context: .
-      dockerfile: ./docker/frontend/Dockerfile
+    build: ./frontend
     environment:
       - REACT_APP_API_URL=http://backend-dev/api
       - CHOKIDAR_USEPOLLING=true
