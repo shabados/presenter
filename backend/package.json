@@ -23,9 +23,9 @@
     "bunyan": "^1.8.12",
     "compression": "^1.7.1",
     "express": "^4.16.2",
+    "fs-extra": "^5.0.0",
     "helmet": "^3.9.0",
     "knex": "^0.14.2",
-    "nconf": "^0.10.0",
     "objection": "^0.9.4",
     "ws": "^4.0.0"
   },
@@ -35,5 +35,6 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0"
-  }
+  },
+  "@std/esm": "cjs"
 }
