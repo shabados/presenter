@@ -45,10 +45,12 @@ class Settings {
   }
 
   /**
-   * Returns all the settings.
+   * Returns all settings if no parameters, else the path provided.
    */
-  get() {
-    return this.settings
+  get( path ) {
+    return path
+      ? path.split( '.' ).reduce( ( settings, key ) => settings[ key ], this.settings )
+      : this.settings
   }
 
   /**

@@ -1,3 +1,5 @@
 {
-  "databaseVersion": "0.0.0"
+  "database": {
+    "version": "0.0.0"
+  }
 }
