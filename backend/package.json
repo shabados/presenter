@@ -24,6 +24,7 @@
     "compression": "^1.7.1",
     "download-github-release": "^0.3.2",
     "express": "^4.16.2",
+    "fs-extra": "^5.0.0",
     "helmet": "^3.9.0",
     "knex": "^0.14.2",
     "objection": "^0.9.4",

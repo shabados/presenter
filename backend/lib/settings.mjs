@@ -3,13 +3,11 @@
  * @ignore
  */
 
-import fs from 'fs'
-
-import { readJsonSync, saveJsonSync } from './utils'
+import fs from 'fs-extra'
 
 import logger from './logger'
 
-const { existsSync } = fs
+const { readJsonSync, writeJsonSync, existsSync } = fs
 
 const SETTINGS_FILE = './settings.json'
 const DEFAULT_SETTINGS_FILE = './settings.default.json'
@@ -48,7 +46,7 @@ class Settings {
    * Saves the settings back to disk.
    */
   saveSettings() {
-    saveJsonSync( SETTINGS_FILE, this.settings )
+    writeJsonSync( SETTINGS_FILE, this.settings, { spaces: 2 } )
   }
 
   /**
