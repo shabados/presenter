@@ -7,7 +7,7 @@ import fs from 'fs-extra'
 
 import logger from './logger'
 
-const { readJsonSync, writeJsonSync, existsSync } = fs
+const { readJsonSync, writeJsonSync } = fs
 
 const SETTINGS_FILE = './settings.json'
 const DEFAULT_SETTINGS_FILE = './settings.default.json'
@@ -28,12 +28,9 @@ class Settings {
   loadSettings() {
     logger.info( 'Loading settings' )
 
-    // Create settings.json if it doesn't exist
-    Settings.checkCreateSettings()
-
     // Load both settings files
     const defaultSettings = readJsonSync( DEFAULT_SETTINGS_FILE )
-    const settings = readJsonSync( SETTINGS_FILE )
+    const settings = Settings.checkCreateSettings()
 
     // Merge and store them
     this.settings = { ...defaultSettings, ...settings }
@@ -76,11 +73,16 @@ class Settings {
   }
 
   /**
-   * Creates a settings.json file if it doesn't already exist.
+   * Creates a settings.json file if it doesn't already exist, or is corrupt.
    */
   static checkCreateSettings() {
-    if ( !existsSync( SETTINGS_FILE ) ) {
-      saveJsonSync( SETTINGS_FILE, {} )
+    // If we can't read the JSON file, recreate it
+    try {
+      return readJsonSync( SETTINGS_FILE )
+    } catch ( err ) {
+      logger.warn( 'Settings file is corrupt or non-existent. Recreating.' )
+      writeJsonSync( SETTINGS_FILE, {} )
+      return {}
     }
   }
 }
