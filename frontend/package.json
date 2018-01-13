@@ -1,6 +1,17 @@
 {
   "name": "shabados-core--frontend",
   "version": "0.1.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShabadOS/core.git"
+  },
+  "author": "ShabadOS Team <shabados.com@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ShabadOS/core/issues"
+  },
+  "homepage": "https://github.com/ShabadOS/core#readme",
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
