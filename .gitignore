@@ -16,3 +16,4 @@ styles/main.css.*
 node_modules
 *.sqlite
 tmp/
+settings.json
