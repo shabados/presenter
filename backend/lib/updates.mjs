@@ -19,7 +19,7 @@ import settings from './settings'
 export const updateDatabase = async () => {
   const { satisfies, gtr } = semver
   const { databaseVersion: required } = packageJSON
-  const { current } = settings
+  const current = settings.get( 'databaseVersion' )
 
   logger.info( 'Checking for database updates' )
 
