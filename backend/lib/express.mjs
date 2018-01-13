@@ -1,11 +1,10 @@
 /**
- * Express Server and WebSockets.
+ * Express Server.
  * @ignore
  */
 
 import http from 'http'
 
-import WebSocket from 'ws'
 import express from 'express'
 import helmet from 'helmet'
 import compression from 'compression'
@@ -16,11 +15,11 @@ import logger from './logger'
 const DEFAULT_MIDDLEWARE = [ helmet(), compression(), bodyParser.json() ]
 
 /**
- * Sets up Express and WebSocket server.
+ * Sets up Express
  * @param middleware Any array of middleware that will be registered
  * @returns {Function} The instance of the http server
  */
-export const setupExpressSocket = ( middleware = [] ) => {
+export const setupExpress = ( middleware = [] ) => {
   const allMiddleware = [ ...DEFAULT_MIDDLEWARE, ...middleware ]
 
   logger.info( 'Setting up express' )
@@ -28,10 +27,8 @@ export const setupExpressSocket = ( middleware = [] ) => {
 
   const server = http.createServer( app )
 
-  const socket = new WebSocket.Server( { server } )
-
   allMiddleware.forEach( m => app.use( m ) )
   logger.info( 'Loaded all middleware' )
 
-  return { server, socket }
+  return server
 }
