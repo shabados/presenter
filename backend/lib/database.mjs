@@ -1,5 +1,5 @@
 /**
- * Collection of updater functions.
+ * Database related functionality.
  * @ignore
  */
 

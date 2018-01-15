@@ -1,17 +1,21 @@
+import updateNotifier from 'update-notifier'
+
 import { setupExpress } from './lib/express'
 import { setupWebsocket } from './lib/sockets'
 import database from './lib/database'
 
 import logger from './lib/logger'
 
+import pkg from './package.json'
+
 /**
  * Async entry point for application.
  */
 async function main() {
-  logger.info( 'Starting...' )
+  // Hook in update notifier
+  updateNotifier( { pkg } ).notify()
 
-  // Update DB forcibly
-  await database.updateDatabase()
+  logger.info( 'Starting...' )
 
   // Setup the express server with websockets
   const server = await setupExpress()
