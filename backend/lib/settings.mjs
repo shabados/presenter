@@ -65,7 +65,7 @@ class Settings {
    * Merges a given settings object with the current settings and saves.
    * @param settings The settings object to merge with
    */
-  merge( settings ) {
+  merge( settings = {} ) {
     this.settings = { ...this.settings, ...settings }
     this.saveSettings()
   }

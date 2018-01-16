@@ -1,5 +1,5 @@
 /**
- * WebSocket Server and related events.
+ * WebSocket Server and session management.
  * @ignore
  */
 
