@@ -5,6 +5,7 @@
 
 import WebSocket from 'ws'
 
+import { getHost } from './utils'
 import logger from './logger'
 
 /**
@@ -23,20 +24,28 @@ class Socket {
    * @param callback The function to execute on connection
    */
   onConnection( callback ) {
-    this.socketServer.on( 'connection', client => {
+    this.socketServer.on( 'connection', async ( socket, { client } ) => {
+      // Get hostname or proper IP
+      const address = await getHost( client.remoteAddress )
+
+      // Log the connection and disconnection events
+      logger.info( `${address} connected` )
+      socket.on( 'close', () => logger.info( `${address} disconnected` ) )
+
       // Keep connection alive if heartbeat received
       // eslint-disable-next-line
-      client.isAlive = true
+      socket.issAlive = true
       // eslint-disable-next-line
-      client.on( 'pong', () => client.isAlive = true )
+      socket.on( 'pong', () => socket.isAlive = true )
 
       // Modify the send to stringify first
-      client.sendJSON = data => client.send( JSON.stringify( data ) )
+      // eslint-disable-next-line
+      socket.sendJSON = data => socket.send( JSON.stringify( data ) )
 
       // Call the provided callback, hoping it returns an onMessage function
-      const onMessage = callback( client )
+      const onMessage = callback( socket )
       // Parse the JSON sent, before calling the handler
-      client.on( 'message', data => onMessage( JSON.parse( data ) ) )
+      socket.on( 'message', data => onMessage( JSON.parse( data ) ) )
     } )
   }
 
