@@ -1,5 +1,6 @@
 import { setupExpress } from './lib/express'
-import { setupWebsocket } from './lib/sockets'
+import SessionManager from './lib/SessionManager'
+import Socket from './lib/Sockets'
 
 import logger from './lib/logger'
 
@@ -12,8 +13,12 @@ async function main() {
   // Setup the express server with websockets
   const server = await setupExpress()
 
-  // Setup the WebSocket server, attaching it to the HTTP instance
-  const socket = setupWebsocket( server )
+  // Setup the websocket server
+  const socket = new Socket( server )
+
+  // Setup the session manager on top of the Socket instance
+  // eslint-disable-next-line
+  const sessionManager = new SessionManager( socket )
 
   // Start the server
   const port = process.env.PORT || 8080
