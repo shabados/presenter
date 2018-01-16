@@ -4,8 +4,8 @@
  */
 
 
-import settings from './settings'
-import logger from './logger'
+import settings from '../settings'
+import logger from '../logger'
 
 
 class Database {
