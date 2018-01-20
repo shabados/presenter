@@ -15,7 +15,7 @@ const Navigator = ( {} ) => (
     <AppBar className="title-bar">
       <Toolbar>
         <IconButton className="menu-icon">
-          <FortAwesomeIcon icon={faBars} />
+          <FontAwesomeIcon icon={faBars} />
         </IconButton>
         <Typography className="name" type="title">
           Settings
