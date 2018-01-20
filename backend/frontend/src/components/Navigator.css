@@ -1,0 +1,16 @@
+.navigator {
+    height: 100%;
+}
+
+.navigator .title-bar .menu-icon {
+    font-size: 35px;
+}
+
+.navigator .title-bar .name {
+    text-align: center;
+    flex: 1;
+}
+
+.navigator .title-bar {
+    background-color: green;
+}
