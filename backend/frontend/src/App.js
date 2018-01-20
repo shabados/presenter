@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import 'typeface-noto-sans'
+
 import Reboot from 'material-ui/Reboot'
 
 import Navigator from './components/Navigator'
@@ -12,6 +14,7 @@ class App extends Component {
       <div className="app">
         <Reboot />
         <Navigator></Navigator>
+        <div>WHY the shaadow</div>
       </div>
     )
   }
