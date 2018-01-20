@@ -12,12 +12,12 @@ services:
       - NODE_ENV=development
 
   frontend-dev:
-    build: ./frontend
+    build: ./backend/frontend
     environment:
       - REACT_APP_API_URL=http://backend-dev/api
       - CHOKIDAR_USEPOLLING=true
       - NODE_ENV=development
     volumes:
-      - "./frontend:/usr/src/app"
+      - "./backend/frontend:/usr/src/app"
     ports:
       - "3000:3000"
