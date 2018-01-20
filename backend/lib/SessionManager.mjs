@@ -11,7 +11,7 @@ import settingsManager from './settings'
 class SessionManager {
   constructor( socketServer ) {
     // Setup the session's default state
-    this.state = {
+    this.session = {
       baniId: null,
       shabadId: null,
       lineId: null,
@@ -39,14 +39,14 @@ class SessionManager {
     settingsManager.merge( settings )
 
     // Merge in any state change
-    this.state = { ...this.state, ...state }
+    this.session = { ...this.session, ...state }
   }
 
   /**
    * Gets the current state and settings.
    */
   get() {
-    return { settings: settingsManager.get(), state: this.state }
+    return { settings: settingsManager.get(), session: this.session }
   }
 }
 

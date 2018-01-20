@@ -22,5 +22,6 @@
       "medium": true,
       "heavy": true
     }
-  }
+  },
+  "analytics": false
 }
