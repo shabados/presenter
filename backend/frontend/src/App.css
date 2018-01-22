@@ -4,6 +4,7 @@
     flex-direction: column;
 }
 
-p, h1, h2, h3, h4, h5, div, span {
+.app p, .app h2, .app span, .app div, .app svg, .app button {
+    color: inherit;
     font-family: 'noto-sans', sans-serif;
 }
