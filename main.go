@@ -47,47 +47,47 @@ var port = 42424
 var wg = sync.WaitGroup{}
 
 type Settings struct {
-	Layout                  string `json:"Layout"`
-	NavigatorHeight         string `json:"Navigator Height"`
-	Rahao                   bool   `json:"Sticky Rahao,bool"`
-	Gurbani                 bool   `json:"Gurbani,bool"`
-	LarivaarGurbani         bool   `json:"Larivaar Gurbani,bool"`
-	SplitGurbaniLines		bool   `json:"Split Gurbani Lines,bool"`
-	EnglishTranslation      bool   `json:"English Translation,bool"`
-	PunjabiTranslation      bool   `json:"Punjabi Translation,bool"`
-	EnglishTransliteration  bool   `json:"English Transliteration,bool"`
-	NextLine                bool   `json:"Next Line,bool"`
-	FontSize                json.Number    `json:"Font Size,Number"`
-	ColorScheme             string `json:"Color Scheme"`
-	BackgroundImage         bool   `json:"Background Image,bool"`
-	BrightMode              bool   `json:"Bright Mode,bool"`
-	FontColor               string `json:"Font Color"`
-	BackgroundColor         string `json:"Background Color"`
-	VishraamColors          bool   `json:"Vishraam Colors,bool"`
-	VishraamColorsStrong    bool   `json:"Vishraam Colors Strong,bool"`
-	VishraamCharacters      bool   `json:"Vishraam Characters,bool"`
-	VishraamLight           bool   `json:"Vishraam Light,bool"`
-	VishraamLightColor      string `json:"Vishraam Light Color"`
-	VishraamLightCharacter  string `json:"Vishraam Light Character"`
-	VishraamMedium          bool   `json:"Vishraam Medium,bool"`
-	VishraamMediumColor     string `json:"Vishraam Medium Color"`
-	VishraamMediumCharacter string `json:"Vishraam Medium Character"`
-	VishraamHeavy           bool   `json:"Vishraam Heavy,bool"`
-	VishraamHeavyColor      string `json:"Vishraam Heavy Color"`
-	VishraamHeavyCharacter  string `json:"Vishraam Heavy Character"`
-	AkhandPaathView         bool   `json:"Akhand Paath View,bool"`
+	Layout                  string 		`json:"layout"`
+	NavigatorHeight         string 		`json:"navigator-height"`
+	Rahao                   bool   		`json:"sticky-rahao"`
+	Gurbani                 bool   		`json:"gurbani"`
+	LarivaarGurbani         bool   		`json:"larivaar-gurbani"`
+	SplitGurbaniLines		bool   		`json:"split-gurbani-lines"`
+	EnglishTranslation      bool   		`json:"english-translation"`
+	PunjabiTranslation      bool   		`json:"punjabi-translation"`
+	EnglishTransliteration  bool   		`json:"english-transliteration"`
+	NextLine                bool   		`json:"next-line"`
+	FontSize                json.Number	`json:"font-size"`
+	ColorScheme             string 		`json:"color-scheme"`
+	BackgroundImage         bool   		`json:"background-image"`
+	BrightMode              bool   		`json:"bright-mode"`
+	FontColor               string 		`json:"font-color"`
+	BackgroundColor         string 		`json:"background-color"`
+	VishraamColors          bool   		`json:"vishraam-colors"`
+	VishraamColorsStrong    bool   		`json:"vishraam-colors-strong"`
+	VishraamCharacters      bool   		`json:"vishraam-characters"`
+	VishraamLight           bool   		`json:"vishraam-light"`
+	VishraamLightColor      string 		`json:"vishraam-light-color"`
+	VishraamLightCharacter  string 		`json:"vishraam-light-character"`
+	VishraamMedium          bool   		`json:"vishraam-medium"`
+	VishraamMediumColor     string 		`json:"vishraam-medium-color"`
+	VishraamMediumCharacter string 		`json:"vishraam-medium-character"`
+	VishraamHeavy           bool   		`json:"vishraam-heavy"`
+	VishraamHeavyColor      string 		`json:"vishraam-heavy-color"`
+	VishraamHeavyCharacter  string 		`json:"vishraam-heavy-character"`
+	AkhandPaathView         bool   		`json:"akhand-paath-view"`
 }
 
 type OBS_Settings struct {
-	Layout                  string `json:"Layout"`
-	LarivaarGurbani         bool   `json:"Larivaar Gurbani,string"`
-	SplitGurbaniLines		bool   `json:"Split Gurbani Lines,string"`
-	EnglishTranslation      bool   `json:"English Translation,string"`
-	PunjabiTranslation      bool   `json:"Punjabi Translation,string"`
-	EnglishTransliteration  bool   `json:"English Transliteration,string"`
-	FontSize                json.Number    `json:"Font Size,Number"`
-	FontColor               string `json:"Font Color"`
-	BackgroundColor         string `json:"Background Color"`
+	Layout                  string 		`json:"layout"`
+	LarivaarGurbani         bool   		`json:"larivaar-gurbani"`
+	SplitGurbaniLines		bool   		`json:"split-gurbani-lines"`
+	EnglishTranslation      bool   		`json:"english-translation"`
+	PunjabiTranslation      bool   		`json:"punjabi-translation"`
+	EnglishTransliteration  bool   		`json:"english-translation"`
+	FontSize                json.Number `json:"font-size,Number"`
+	FontColor               string 		`json:"font-color"`
+	BackgroundColor         string 		`json:"background-color"`
 }
 
 const (
