@@ -5,7 +5,7 @@
         {{template "header"}}
 		<script>
         	var settingsJSON = jQuery.parseJSON('{{.SettingsJSON}}');
-        	function updateSettingsJson() {
+        	function updateSettingsJSON() {
 				if (typeof remote === "object" && server == "") { 
                     $.post('/postSettings', JSON.stringify(settingsJSON), null, 'json');
                 }
@@ -19,7 +19,7 @@
                 	});
                     window.parent.$('body.presentation').addClass('layout-'+$(this).text().replace(/\s/g, "-").toLowerCase());
                     settingsJSON["layout"] = $('#layout-span').text();
-                    updateSettingsJson();
+                    updateSettingsJSON();
     			});
                 $('#navigator-height-menu > li').click(function(){
                 	$('#navigator-height-span').text($(this).text());
@@ -28,41 +28,7 @@
                 	});
                     window.parent.$('body.presentation').addClass('navigator-height-'+$(this).text().replace(/\s/g, "-").toLowerCase());
 				    settingsJSON["navigator-height"] = $('#navigator-height-span').text();
-                    updateSettingsJson();
-    			});
-                $('#larivaar-gurbani').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-gurbani-spaces');
-				    settingsJSON["larivaar-gurbani"] = $('#larivaar-gurbani').prop('checked');
-                    updateSettingsJson();
-    			});
-                $('#split-gurbani-lines').change(function(){
-    				window.parent.$('body.presentation').toggleClass('split-gurbani-lines');
-				    settingsJSON["split-gurbani-lines"] = $('#split-gurbani-lines').prop('checked');
-                    updateSettingsJson();
-    			});
-                $('#english-translation').change(function(){
-    				//var display = this.checked ? 'block' : 'none';
-    				//window.parent.$('.translation').toggle();
-    				// this.checked ? window.parent.$('.translation').show() : window.parent.$('.translation').hide();
-                    // window.parent.$('#ssetran').prop('disabled', function(i, v) {return !v;});
-    				window.parent.$('body.presentation').toggleClass('hide-english-translation');
-				    settingsJSON["english-translation"] = $('#english-translation').prop('checked');
-                    updateSettingsJson();
-    			});
-                $('#punjabi-translation').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-punjabi-translation');
-                    settingsJSON["punjabi-translation"] = $('#punjabi-translation').prop('checked');
-                    updateSettingsJson();
-    			});
-                $('#english-transliteration').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-english-transliteration');
-                    settingsJSON["english-transliteration"] = $('#english-transliteration').prop('checked');
-                    updateSettingsJson();
-    			});
-                $('#next-line').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-next-line');
-				    settingsJSON["next-line"] = $('#next-line').prop('checked');
-                    updateSettingsJson();
+                    updateSettingsJSON();
     			});
                 $('#font-size').change(function(){
                     window.parent.$('body.presentation').removeClass(function (index, className) {
@@ -70,7 +36,7 @@
                 	});
                     window.parent.$('body.presentation').addClass('fs-'+$('#font-size').val());
                     settingsJSON["font-size"] = $('#font-size').val();
-                    updateSettingsJson();
+                    updateSettingsJSON();
     			});
                 $('#color-scheme-menu > li').click(function(){
                 	$('#color-scheme-span').text($(this).text());
@@ -83,77 +49,49 @@
                 	});
                 	$('body').addClass('color-scheme-'+$('#color-scheme-span').text().replace(/\s/g, "-").toLowerCase());
                     settingsJSON["color-scheme"] = $('#color-scheme-span').text();
-                	updateSettingsJson();
+                	updateSettingsJSON();
             	});
-                $('#background-image').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-background-image');
-				    settingsJSON["background-image"] = $('#background-image').prop('checked');
-                    updateSettingsJson();
-    			});
-                $('#vishraam-colors').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-vishraam-colors');
-				    settingsJSON["vishraam-colors"] = $('#vishraam-colors').prop('checked');
-                    updateSettingsJson();
-    			});
     			$('.mdl-menu__item').click(function() {
     				// colors
     				$("#"+$(this).parent().data("for")).data("color", $(this).text());
-                    updateSettingsJson();
+                    updateSettingsJSON();
     			});
-                $('#vishraam-characters').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-vishraam-characters');
-				    settingsJSON["vishraam-characters"] = $('#vishraam-characters').prop('checked');
-                    updateSettingsJson();
+                
+                $('#split-gurbani-lines').change(function(){
+    				window.parent.$('body.presentation').toggleClass('split-gurbani-lines');
+				    settingsJSON["split-gurbani-lines"] = $('#split-gurbani-lines').prop('checked');
+                    updateSettingsJSON();
     			});
-                $('#vishraam-light').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-vishraam-light');
-                    settingsJSON["vishraam-light"] = $('#vishraam-light').prop('checked');
-                    updateSettingsJson();
+                $('#larivaar-gurbani').change(function(){
+    				window.parent.$('body.presentation').toggleClass('hide-gurbani-spaces');
+				    settingsJSON["larivaar-gurbani"] = $('#larivaar-gurbani').prop('checked');
+                    updateSettingsJSON();
     			});
-                $('#vishraam-medium').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-vishraam-medium');
-				    settingsJSON["vishraam-medium"] = $('#vishraam-medium').prop('checked');
-                    updateSettingsJson();
-    			});
-                $('#vishraam-heavy').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-vishraam-heavy');
-				    settingsJSON["vishraam-heavy"] = $('#vishraam-heavy').prop('checked');
-                    updateSettingsJson();
-    			});
-                $('#akhand-paath-view').change(function(){
-                    settingsJSON["akhand-paath-view"] = $('#akhand-paath-view').prop('checked');
-                    updateSettingsJson();
-    			});
+                $("input:checkbox").change(function() {
+    				window.parent.$('body.presentation').toggleClass("hide-"+this.id);
+                    settingsJSON[this.id] = $(this).prop('checked');
+                    updateSettingsJSON();
+                });
     			// $('#fg-color').change(function(){
     				// window.parent.$('body').css('color', $(this).val());
 				    // settingsJSON["foreground-color"] = $('#foreground-color').val().replace('#', '');
-                    // updateSettingsJson();
+                    // updateSettingsJSON();
 				// });
     			// $('#bg-color').change(function(){
     				// window.parent.$('body').css('background', $(this).val());
 				    // settingsJSON["background-color"] = $('#background-color').val().replace('#', '');
-                    // updateSettingsJson();
+                    // updateSettingsJSON();
 				// });
 			});
 			// get values from settings.json on first load, by default all values are "off"/"false"/1st
 			$(function () {
     			$('#layout-span').text(settingsJSON["layout"]);
     			$('#navigator-height-span').text(settingsJSON["navigator-height"]);
-        		$('#larivaar-gurbani').prop('checked', settingsJSON["larivaar-gurbani"]);
-        		$('#split-gurbani-lines').prop('checked', settingsJSON["split-gurbani-lines"]);
-        		$('#english-translation').prop('checked', settingsJSON["english-translation"]);
-        		$('#punjabi-translation').prop('checked', settingsJSON["punjabi-translation"]);
-        		$('#english-transliteration').prop('checked', settingsJSON["english-transliteration"]);
-        		$('#next-line').prop('checked', settingsJSON["next-line"]);
     			$('#font-size').val(settingsJSON["font-size"]);
     			$('#color-scheme-span').text(settingsJSON["color-scheme"]);
-        		$('#background-image').prop('checked', settingsJSON["background-image"]);
-        		$('#vishraam-colors').prop('checked', settingsJSON["vishraam-colors"]);
-        		$('#vishraam-characters').prop('checked', settingsJSON["vishraam-characters"]);
-        		$('#vishraam-light').prop('checked', settingsJSON["vishraam-light"]);
-        		$('#vishraam-medium').prop('checked', settingsJSON["vishraam-medium"]);
-        		$('#vishraam-heavy').prop('checked', settingsJSON["vishraam-heavy"]);
-        		$('#akhand-paath-view').prop('checked', settingsJSON["akhand-paath-view"]);
+
+                // $("button").each(function(){ alert(this.id)})
+                $("input:checkbox").prop('checked', function(){ return settingsJSON[this.id] })
         	});
 		</script>
     </head>
