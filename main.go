@@ -49,33 +49,33 @@ var wg = sync.WaitGroup{}
 type Settings struct {
 	Layout                  string `json:"Layout"`
 	NavigatorHeight         string `json:"Navigator Height"`
-	Rahao                   bool   `json:"Sticky Rahao,string"`
-	Gurbani                 bool   `json:"Gurbani,string"`
-	LarivaarGurbani         bool   `json:"Larivaar Gurbani,string"`
-	SplitGurbaniLines		bool   `json:"Split Gurbani Lines,string"`
-	EnglishTranslation      bool   `json:"English Translation,string"`
-	PunjabiTranslation      bool   `json:"Punjabi Translation,string"`
-	EnglishTransliteration  bool   `json:"English Transliteration,string"`
-	NextLine                bool   `json:"Next Line,string"`
-	FontSize                int    `json:"Font Size,string"`
+	Rahao                   bool   `json:"Sticky Rahao,bool"`
+	Gurbani                 bool   `json:"Gurbani,bool"`
+	LarivaarGurbani         bool   `json:"Larivaar Gurbani,bool"`
+	SplitGurbaniLines		bool   `json:"Split Gurbani Lines,bool"`
+	EnglishTranslation      bool   `json:"English Translation,bool"`
+	PunjabiTranslation      bool   `json:"Punjabi Translation,bool"`
+	EnglishTransliteration  bool   `json:"English Transliteration,bool"`
+	NextLine                bool   `json:"Next Line,bool"`
+	FontSize                json.Number    `json:"Font Size,Number"`
 	ColorScheme             string `json:"Color Scheme"`
-	BackgroundImage         bool   `json:"Background Image,string"`
-	BrightMode              bool   `json:"Bright Mode,string"`
+	BackgroundImage         bool   `json:"Background Image,bool"`
+	BrightMode              bool   `json:"Bright Mode,bool"`
 	FontColor               string `json:"Font Color"`
 	BackgroundColor         string `json:"Background Color"`
-	VishraamColors          bool   `json:"Vishraam Colors,string"`
-	VishraamColorsStrong    bool   `json:"Vishraam Colors Strong,string"`
-	VishraamCharacters      bool   `json:"Vishraam Characters,string"`
-	VishraamLight           bool   `json:"Vishraam Light,string"`
+	VishraamColors          bool   `json:"Vishraam Colors,bool"`
+	VishraamColorsStrong    bool   `json:"Vishraam Colors Strong,bool"`
+	VishraamCharacters      bool   `json:"Vishraam Characters,bool"`
+	VishraamLight           bool   `json:"Vishraam Light,bool"`
 	VishraamLightColor      string `json:"Vishraam Light Color"`
 	VishraamLightCharacter  string `json:"Vishraam Light Character"`
-	VishraamMedium          bool   `json:"Vishraam Medium,string"`
+	VishraamMedium          bool   `json:"Vishraam Medium,bool"`
 	VishraamMediumColor     string `json:"Vishraam Medium Color"`
 	VishraamMediumCharacter string `json:"Vishraam Medium Character"`
-	VishraamHeavy           bool   `json:"Vishraam Heavy,string"`
+	VishraamHeavy           bool   `json:"Vishraam Heavy,bool"`
 	VishraamHeavyColor      string `json:"Vishraam Heavy Color"`
 	VishraamHeavyCharacter  string `json:"Vishraam Heavy Character"`
-	AkhandPaathView         bool   `json:"Akhand Paath View,string"`
+	AkhandPaathView         bool   `json:"Akhand Paath View,bool"`
 }
 
 type OBS_Settings struct {
@@ -85,7 +85,7 @@ type OBS_Settings struct {
 	EnglishTranslation      bool   `json:"English Translation,string"`
 	PunjabiTranslation      bool   `json:"Punjabi Translation,string"`
 	EnglishTransliteration  bool   `json:"English Transliteration,string"`
-	FontSize                int    `json:"Font Size,string"`
+	FontSize                json.Number    `json:"Font Size,Number"`
 	FontColor               string `json:"Font Color"`
 	BackgroundColor         string `json:"Background Color"`
 }
@@ -273,7 +273,7 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 		setClasses += ` hide-next-line`
 	}
 
-	setClasses += ` fs-`+strconv.Itoa(settings.FontSize)
+	setClasses += ` fs-`+string(settings.FontSize)
 
 	setClasses += ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 
