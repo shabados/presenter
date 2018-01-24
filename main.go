@@ -50,6 +50,7 @@ type Settings struct {
 	Layout                  string `json:"Layout"`
 	NavigatorHeight         string `json:"Navigator Height"`
 	Rahao                   bool   `json:"Sticky Rahao,string"`
+	Gurbani                 bool   `json:"Gurbani,string"`
 	LarivaarGurbani         bool   `json:"Larivaar Gurbani,string"`
 	SplitGurbaniLines		bool   `json:"Split Gurbani Lines,string"`
 	EnglishTranslation      bool   `json:"English Translation,string"`
