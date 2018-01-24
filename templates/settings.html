@@ -4,40 +4,8 @@
     <head>
         {{template "header"}}
 		<script>
-        	var getJSON = jQuery.parseJSON('{{.SettingsJSON}}');
+        	var settingsJSON = jQuery.parseJSON('{{.SettingsJSON}}');
         	function updateSettingsJson() {
-				//set default json, and then check and fix after
- 				var settingsJSON = {
-                                        "Layout": "Normal",
-                                        "Navigator Height": "Short",
-                                        "Sticky Rahao": "false",
-                                        "Gurbani": "true",
-                                        "Larivaar Gurbani": "false",
-                                        "Split Gurbani Lines": "true",
-                                        "English Translation": "true",
-                                        "Punjabi Translation": "true",
-                                        "English Transliteration": "true",
-                                        "Next Line": "true",
-                                        "Font Size": "6",
-                                        "Color Scheme": "Night",
-                                        "Background Image": "true",
-                                        "Bright Mode": "false",
-                                        "Font Color": "White",
-                                        "Background Color": "Black",
-                                        "Vishraam Colors": "true",
-                                        "Vishraam Colors Strong": "false",
-                                        "Vishraam Characters": "true",
-                                        "Vishraam Light": "true",
-                                        "Vishraam Light Color": "Light Green",
-                                        "Vishraam Light Character": ".",
-                                        "Vishraam Medium": "true",
-                                        "Vishraam Medium Color": "Blue",
-                                        "Vishraam Medium Character": ",",
-                                        "Vishraam Heavy": "true",
-                                        "Vishraam Heavy Color": "Orange",
-                                        "Vishraam Heavy Character": ";",
-                                        "Akhand Paath View": "false"
-                                    }
 				settingsJSON["Layout"] = $('#layout-span').text();
 				settingsJSON["Navigator Height"] = $('#navigator-height-span').text();
 				settingsJSON["Larivaar Gurbani"] = $('#larivaar-gurbani').prop('checked') ? "true" : "false";
@@ -167,47 +135,47 @@
 			});
 			// get values from settings.json on first load, by default all values are "off"/"false"/1st
 			$(function () {
-    			$('#layout-span').text(getJSON["Layout"]);
-    			$('#navigator-height-span').text(getJSON["Navigator Height"]);
-        		if (getJSON["Larivaar Gurbani"] == "true") {
+    			$('#layout-span').text(settingsJSON["Layout"]);
+    			$('#navigator-height-span').text(settingsJSON["Navigator Height"]);
+        		if (settingsJSON["Larivaar Gurbani"] == "true") {
 	                $('#larivaar-gurbani').prop('checked', true).change();
                 }
-        		if (getJSON["Split Gurbani Lines"] == "true") {
+        		if (settingsJSON["Split Gurbani Lines"] == "true") {
 	                $('#split-gurbani-lines').prop('checked', true).change();
                 }
-        		if (getJSON["English Translation"] == "true") {
+        		if (settingsJSON["English Translation"] == "true") {
         			$('#english-translation').prop('checked', true).change();
         		}
-        		if (getJSON["Punjabi Translation"] == "true") {
+        		if (settingsJSON["Punjabi Translation"] == "true") {
         			$('#punjabi-translation').prop('checked', true).change();
         		}
-        		if (getJSON["English Transliteration"] == "true") {
+        		if (settingsJSON["English Transliteration"] == "true") {
         			$('#english-transliteration').prop('checked', true).change();
         		}
-        		if (getJSON["Next Line"] == "true") {
+        		if (settingsJSON["Next Line"] == "true") {
         			$('#next-line').prop('checked', true).change();
         		}
-    			$('#font-size').val(getJSON["Font Size"]);
-    			$('#color-scheme-span').text(getJSON["Color Scheme"]);
-        		if (getJSON["Background Image"] == "true") {
+    			$('#font-size').val(settingsJSON["Font Size"]);
+    			$('#color-scheme-span').text(settingsJSON["Color Scheme"]);
+        		if (settingsJSON["Background Image"] == "true") {
         			$('#background-image').prop('checked', true).change();
         		}
-        		if (getJSON["Vishraam Colors"] == "true") {
+        		if (settingsJSON["Vishraam Colors"] == "true") {
         			$('#vishraam-colors').prop('checked', true).change();
         		}
-        		if (getJSON["Vishraam Characters"] == "true") {
+        		if (settingsJSON["Vishraam Characters"] == "true") {
         			$('#vishraam-characters').prop('checked', true).change();
         		}
-        		if (getJSON["Vishraam Light"] == "true") {
+        		if (settingsJSON["Vishraam Light"] == "true") {
         			$('#vishraam-light').prop('checked', true).change();
         		}
-        		if (getJSON["Vishraam Medium"] == "true") {
+        		if (settingsJSON["Vishraam Medium"] == "true") {
         			$('#vishraam-medium').prop('checked', true).change();
         		}
-        		if (getJSON["Vishraam Heavy"] == "true") {
+        		if (settingsJSON["Vishraam Heavy"] == "true") {
         			$('#vishraam-heavy').prop('checked', true).change();
         		}
-        		if (getJSON["Akhand Paath View"] == "true") {
+        		if (settingsJSON["Akhand Paath View"] == "true") {
         			$('#akhand-paath-view').prop('checked', true).change();
         		}
         	});
