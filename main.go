@@ -325,37 +325,14 @@ func settingsHandler(w http.ResponseWriter, r *http.Request) {
 	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	sendJSON, err := json.Marshal(settings)
 	eh(err, "4")
-	textColorChoices := `<li class="mdl-menu__item red"><div class="cb red"></div><!--Red--></li>
-            <li class="mdl-menu__item pink"><div class="cb pink"></div><!--Pink--></li>
-            <li class="mdl-menu__item purple"><div class="cb purple"></div><!--Purple--></li>
-            <li class="mdl-menu__item deep-purple"><div class="cb deep-purple"></div><!--Deep Purple--></li>
-            <li class="mdl-menu__item indigo"><div class="cb indigo"></div><!--Indigo--></li>
-            <li class="mdl-menu__item blue"><div class="cb blue"></div><!--Blue--></li>
-            <li class="mdl-menu__item light-blue"><div class="cb light-blue"></div><!--Light Blue--></li>
-            <li class="mdl-menu__item cyan"><div class="cb cyan"></div><!--Cyan--></li>
-            <li class="mdl-menu__item teal"><div class="cb teal"></div><!--Teal--></li>
-            <li class="mdl-menu__item green"><div class="cb green"></div><!--Green--></li>
-            <li class="mdl-menu__item light-green"><div class="cb light-green"></div><!--Light Green--></li>
-            <li class="mdl-menu__item lime"><div class="cb lime"></div><!--Lime--></li>
-            <li class="mdl-menu__item yellow"><div class="cb yellow"></div><!--Yellow--></li>
-            <li class="mdl-menu__item amber"><div class="cb amber"></div><!--Amber--></li>
-            <li class="mdl-menu__item orange"><div class="cb orange"></div><!--Orange--></li>
-            <li class="mdl-menu__item deep-orange"><div class="cb deep-orange"></div><!--Deep Orange--></li>
-            <li class="mdl-menu__item brown"><div class="cb brown"></div><!--Brown--></li>
-            <li class="mdl-menu__item grey"><div class="cb grey"></div><!--Grey--></li>
-            <li class="mdl-menu__item blue-grey"><div class="cb blue-grey"></div><!--Blue Grey--></li>
-            <li class="mdl-menu__item black"><div class="cb black"></div><!--Black--></li>
-            <li class="mdl-menu__item white"><div class="cb white"></div><!--White--></li>`
 	data := struct {
 		Title            string
 		SettingsJSON     string
-		TextColorChoices template.HTML
 		Theme template.HTML
 		Host string
 	}{
 		"Settings",
 		string(sendJSON),
-		template.HTML(textColorChoices),
 		template.HTML(theme),
 		host,
 	}
