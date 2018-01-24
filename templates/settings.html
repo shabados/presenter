@@ -6,26 +6,9 @@
 		<script>
         	var settingsJSON = jQuery.parseJSON('{{.SettingsJSON}}');
         	function updateSettingsJson() {
-				settingsJSON["Layout"] = $('#layout-span').text();
-				settingsJSON["Navigator Height"] = $('#navigator-height-span').text();
-				settingsJSON["Larivaar Gurbani"] = $('#larivaar-gurbani').prop('checked') ? "true" : "false";
-				settingsJSON["Split Gurbani Lines"] = $('#split-gurbani-lines').prop('checked') ? "true" : "false";
-				settingsJSON["English Translation"] = $('#english-translation').prop('checked') ? "true" : "false";
-				settingsJSON["Punjabi Translation"] = $('#punjabi-translation').prop('checked') ? "true" : "false";
-				settingsJSON["English Transliteration"] = $('#english-transliteration').prop('checked') ? "true" : "false";
-				settingsJSON["Next Line"] = $('#next-line').prop('checked') ? "true" : "false";
-				settingsJSON["Font Size"] = $('#font-size').val();
-				settingsJSON["Color Scheme"] = $('#color-scheme-span').text();
-				settingsJSON["Background Image"] = $('#background-image').prop('checked') ? "true" : "false";
-				settingsJSON["Vishraam Colors"] = $('#vishraam-colors').prop('checked') ? "true" : "false";
-				settingsJSON["Vishraam Characters"] = $('#vishraam-characters').prop('checked') ? "true" : "false";
-				settingsJSON["Vishraam Light"] = $('#vishraam-light').prop('checked') ? "true" : "false";
-				settingsJSON["Vishraam Medium"] = $('#vishraam-medium').prop('checked') ? "true" : "false";
-				settingsJSON["Vishraam Heavy"] = $('#vishraam-heavy').prop('checked') ? "true" : "false";
-				settingsJSON["Akhand Paath View"] = $('#akhand-paath-view').prop('checked') ? "true" : "false";
-				// settingsJSON["Foreground Color"] = $('#fg-color').val().replace('#', '');
-				// settingsJSON["Background Color"] = $('#bg-color').val().replace('#', '');
-				if (typeof remote === "object" && server == "") { $.post('/postSettings', JSON.stringify(settingsJSON), null, 'json'); }
+				if (typeof remote === "object" && server == "") { 
+                    $.post('/postSettings', JSON.stringify(settingsJSON), null, 'json');
+                }
         	}
             $( window ).load(function () {
             	hotkeys();
@@ -35,6 +18,7 @@
                     	return (className.match (/(^|\s)layout-\S+/g) || []).join(' ');
                 	});
                     window.parent.$('body.presentation').addClass('layout-'+$(this).text().replace(/\s/g, "-").toLowerCase());
+                    settingsJSON["Layout"] = $('#layout-span').text();
                     updateSettingsJson();
     			});
                 $('#navigator-height-menu > li').click(function(){
@@ -43,14 +27,17 @@
                     	return (className.match (/(^|\s)navigator-height-\S+/g) || []).join(' ');
                 	});
                     window.parent.$('body.presentation').addClass('navigator-height-'+$(this).text().replace(/\s/g, "-").toLowerCase());
+				    settingsJSON["Navigator Height"] = $('#navigator-height-span').text();
                     updateSettingsJson();
     			});
                 $('#larivaar-gurbani').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-gurbani-spaces');
+				    settingsJSON["Larivaar Gurbani"] = $('#larivaar-gurbani').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#split-gurbani-lines').change(function(){
     				window.parent.$('body.presentation').toggleClass('split-gurbani-lines');
+				    settingsJSON["Split Gurbani Lines"] = $('#split-gurbani-lines').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#english-translation').change(function(){
@@ -59,18 +46,22 @@
     				// this.checked ? window.parent.$('.translation').show() : window.parent.$('.translation').hide();
                     // window.parent.$('#ssetran').prop('disabled', function(i, v) {return !v;});
     				window.parent.$('body.presentation').toggleClass('hide-english-translation');
+				    settingsJSON["English Translation"] = $('#english-translation').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#punjabi-translation').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-punjabi-translation');
+                    settingsJSON["Punjabi Translation"] = $('#punjabi-translation').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#english-transliteration').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-english-transliteration');
+                    settingsJSON["English Transliteration"] = $('#english-transliteration').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#next-line').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-next-line');
+				    settingsJSON["Next Line"] = $('#next-line').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#font-size').change(function(){
@@ -78,6 +69,7 @@
                     	return (className.match (/(^|\s)fs-\S+/g) || []).join(' ');
                 	});
                     window.parent.$('body.presentation').addClass('fs-'+$('#font-size').val());
+                    settingsJSON["Font Size"] = $('#font-size').val();
                     updateSettingsJson();
     			});
                 $('#color-scheme-menu > li').click(function(){
@@ -90,14 +82,17 @@
                     	return (className.match (/(^|\s)color-scheme-\S+/g) || []).join(' ');
                 	});
                 	$('body').addClass('color-scheme-'+$('#color-scheme-span').text().replace(/\s/g, "-").toLowerCase());
+                    settingsJSON["Color Scheme"] = $('#color-scheme-span').text();
                 	updateSettingsJson();
             	});
                 $('#background-image').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-background-image');
+				    settingsJSON["Background Image"] = $('#background-image').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#vishraam-colors').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-vishraam-colors');
+				    settingsJSON["Vishraam Colors"] = $('#vishraam-colors').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
     			$('.mdl-menu__item').click(function() {
@@ -107,29 +102,36 @@
     			});
                 $('#vishraam-characters').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-vishraam-characters');
+				    settingsJSON["Vishraam Characters"] = $('#vishraam-characters').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#vishraam-light').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-vishraam-light');
+                    settingsJSON["Vishraam Light"] = $('#vishraam-light').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#vishraam-medium').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-vishraam-medium');
+				    settingsJSON["Vishraam Medium"] = $('#vishraam-medium').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#vishraam-heavy').change(function(){
     				window.parent.$('body.presentation').toggleClass('hide-vishraam-heavy');
+				    settingsJSON["Vishraam Heavy"] = $('#vishraam-heavy').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
                 $('#akhand-paath-view').change(function(){
+                    settingsJSON["Akhand Paath View"] = $('#akhand-paath-view').prop('checked') ? "true" : "false";
                     updateSettingsJson();
     			});
     			// $('#fg-color').change(function(){
     				// window.parent.$('body').css('color', $(this).val());
+				    // settingsJSON["Foreground Color"] = $('#fg-color').val().replace('#', '');
                     // updateSettingsJson();
 				// });
     			// $('#bg-color').change(function(){
     				// window.parent.$('body').css('background', $(this).val());
+				    // settingsJSON["Background Color"] = $('#bg-color').val().replace('#', '');
                     // updateSettingsJson();
 				// });
 			});
