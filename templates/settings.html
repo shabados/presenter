@@ -139,47 +139,21 @@
 			$(function () {
     			$('#layout-span').text(settingsJSON["Layout"]);
     			$('#navigator-height-span').text(settingsJSON["Navigator Height"]);
-        		if (settingsJSON["Larivaar Gurbani"] == "true") {
-	                $('#larivaar-gurbani').prop('checked', true).change();
-                }
-        		if (settingsJSON["Split Gurbani Lines"] == "true") {
-	                $('#split-gurbani-lines').prop('checked', true).change();
-                }
-        		if (settingsJSON["English Translation"] == "true") {
-        			$('#english-translation').prop('checked', true).change();
-        		}
-        		if (settingsJSON["Punjabi Translation"] == "true") {
-        			$('#punjabi-translation').prop('checked', true).change();
-        		}
-        		if (settingsJSON["English Transliteration"] == "true") {
-        			$('#english-transliteration').prop('checked', true).change();
-        		}
-        		if (settingsJSON["Next Line"] == "true") {
-        			$('#next-line').prop('checked', true).change();
-        		}
+        		settingsJSON["Larivaar Gurbani"] && $('#larivaar-gurbani').prop('checked', true).change();
+        		settingsJSON["Split Gurbani Lines"] && $('#split-gurbani-lines').prop('checked', true).change();
+        		settingsJSON["English Translation"] && $('#english-translation').prop('checked', true).change();
+        		settingsJSON["Punjabi Translation"] && $('#punjabi-translation').prop('checked', true).change();
+        		settingsJSON["English Transliteration"] && $('#english-transliteration').prop('checked', true).change();
+        		settingsJSON["Next Line"] && $('#next-line').prop('checked', true).change();
     			$('#font-size').val(settingsJSON["Font Size"]);
     			$('#color-scheme-span').text(settingsJSON["Color Scheme"]);
-        		if (settingsJSON["Background Image"] == "true") {
-        			$('#background-image').prop('checked', true).change();
-        		}
-        		if (settingsJSON["Vishraam Colors"] == "true") {
-        			$('#vishraam-colors').prop('checked', true).change();
-        		}
-        		if (settingsJSON["Vishraam Characters"] == "true") {
-        			$('#vishraam-characters').prop('checked', true).change();
-        		}
-        		if (settingsJSON["Vishraam Light"] == "true") {
-        			$('#vishraam-light').prop('checked', true).change();
-        		}
-        		if (settingsJSON["Vishraam Medium"] == "true") {
-        			$('#vishraam-medium').prop('checked', true).change();
-        		}
-        		if (settingsJSON["Vishraam Heavy"] == "true") {
-        			$('#vishraam-heavy').prop('checked', true).change();
-        		}
-        		if (settingsJSON["Akhand Paath View"] == "true") {
-        			$('#akhand-paath-view').prop('checked', true).change();
-        		}
+        		settingsJSON["Background Image"] && $('#background-image').prop('checked', true).change();
+        		settingsJSON["Vishraam Colors"] && $('#vishraam-colors').prop('checked', true).change();
+        		settingsJSON["Vishraam Characters"] && $('#vishraam-characters').prop('checked', true).change();
+        		settingsJSON["Vishraam Light"] && $('#vishraam-light').prop('checked', true).change();
+        		settingsJSON["Vishraam Medium"] && $('#vishraam-medium').prop('checked', true).change();
+        		settingsJSON["Vishraam Heavy"] && $('#vishraam-heavy').prop('checked', true).change();
+        		settingsJSON["Akhand Paath View"] && $('#akhand-paath-view').prop('checked', true).change();
         	});
 		</script>
     </head>
