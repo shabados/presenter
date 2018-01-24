@@ -166,43 +166,54 @@ func copyFile(src, dst string) error {
 }
 
 func simpleHandler(w http.ResponseWriter, r *http.Request) {
-	title := "Search"
 	templateName := "indexPage"
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-
-	switch r.URL.Path {
-		case "/banis":
-			title = "Bookmarks"
-			templateName = "banisPage"
-		case "/connect":
-			title = "Connect"
-			templateName = "connectPage"
-		case "/history":
-			title = "History"
-			templateName = "historyPage"
-			//tk: History html page to view/export/import/reload history
-		case "/kobo":
-			title = "kobo"
-			templateName = "koboPage"
-		case "/menu":
-			title = "Menu"
-			templateName = "menuPage"
-		//case "/obs-top":
-			//title = "OBS"
-			//templateName = "display2Page"
-		//case "/obs-bottom":
-			//title = "OBS"
-			//templateName = "display3Page"
-	}
 	data := struct {
 		Title string
 		Theme template.HTML
 		Host string
+		SettingsJSON     string
 	}{
-		title,
-		template.HTML(theme),
+		"Search",
+		template.HTML(` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)),
 		host,
+		"",
 	}
+
+	switch r.URL.Path {
+		case "/banis":
+			data.Title = "Bookmarks"
+			templateName = "banisPage"
+		case "/connect":
+			data.Title = "Connect"
+			templateName = "connectPage"
+		case "/history":
+			data.Title = "History"
+			templateName = "historyPage"
+			//tk: History html page to view/export/import/reload history
+		case "/kobo":
+			data.Title = "kobo"
+			templateName = "koboPage"
+		case "/menu":
+			data.Title = "Menu"
+			templateName = "menuPage"
+		//case "/obs-top":
+			//data.Title = "OBS"
+			//templateName = "display2Page"
+		//case "/obs-bottom":
+			//data.Title = "OBS"
+			//templateName = "display3Page"
+		case "/settings":
+			templateName = "settingsPage"
+			sendJSON, err := json.Marshal(settings)
+			eh(err, "4")
+			data.SettingsJSON = string(sendJSON)
+		case "/live-caption":
+			templateName = "liveCaptionPage"
+			sendJSON, err := json.Marshal(settings)
+			eh(err, "4")
+			data.SettingsJSON = string(sendJSON)
+	}
+
 	err = templates.ExecuteTemplate(w, templateName, &data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -295,48 +306,6 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 		host,
 	}
 	err = templates.ExecuteTemplate(w, "displayPage", &data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func liveCaptionHandler(w http.ResponseWriter, r *http.Request) {
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-	sendJSON, err := json.Marshal(settings)
-	eh(err, "4.1")
-	data := struct {
-		Title            string
-		SettingsJSON     string
-		Theme template.HTML
-		Host string
-	}{
-		"Live Caption",
-		string(sendJSON),
-		template.HTML(theme),
-		host,
-	}
-	err = templates.ExecuteTemplate(w, "liveCaptionPage", &data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func settingsHandler(w http.ResponseWriter, r *http.Request) {
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
-	sendJSON, err := json.Marshal(settings)
-	eh(err, "4")
-	data := struct {
-		Title            string
-		SettingsJSON     string
-		Theme template.HTML
-		Host string
-	}{
-		"Settings",
-		string(sendJSON),
-		template.HTML(theme),
-		host,
-	}
-	err = templates.ExecuteTemplate(w, "settingsPage", &data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -1107,7 +1076,6 @@ func main() {
 	mux.HandleFunc("/history.csv", getHistoryCSV)
 	mux.HandleFunc("/getHistoryHTML", getHistoryHTML)
 	mux.HandleFunc("/obs", obsHandler)
-	mux.HandleFunc("/live-caption", liveCaptionHandler)
 
 	//Local private
 	mux.HandleFunc("/clearHistory", clearHistory)
@@ -1118,7 +1086,6 @@ func main() {
 	//Local functions
 	mux.HandleFunc("/display", displayHandler)
 	mux.HandleFunc("/shabad", navigateHandler)
-	mux.HandleFunc("/settings", settingsHandler)
 	mux.HandleFunc("/findServers", getServersJSON)
 
 	//Rest are local and simple
