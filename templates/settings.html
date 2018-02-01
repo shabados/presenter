@@ -51,7 +51,7 @@
                     settingsJSON["color-scheme"] = $('#color-scheme-span').text();
                 	updateSettingsJSON();
             	});
-                
+
     			$('.mdl-menu__item').click(function() {
     				// colors
     				$("#"+$(this).parent().data("for")).data("color", $(this).text());
@@ -80,12 +80,8 @@
 			});
 			// get values from settings.json on first load, by default all values are "off"/"false"/1st
 			$(function () {
-    			$('#layout-span').text(settingsJSON["layout"]);
-    			$('#navigator-height-span').text(settingsJSON["navigator-height"]);
     			$('#font-size').val(settingsJSON["font-size"]);
-    			$('#color-scheme-span').text(settingsJSON["color-scheme"]);
-
-                // $("button").each(function(){ alert(this.id)})
+                $("button").each(function(){ $("#"+this.id+"-span").text(settingsJSON[this.id]) })
                 $("input:checkbox").prop('checked', function(){ return settingsJSON[this.id] })
         	});
 		</script>

@@ -85,7 +85,7 @@ type OBS_Settings struct {
 	EnglishTranslation      bool   		`json:"english-translation"`
 	PunjabiTranslation      bool   		`json:"punjabi-translation"`
 	EnglishTransliteration  bool   		`json:"english-translation"`
-	FontSize                json.Number `json:"font-size,Number"`
+	FontSize                json.Number `json:"font-size"`
 	FontColor               string 		`json:"font-color"`
 	BackgroundColor         string 		`json:"background-color"`
 }
