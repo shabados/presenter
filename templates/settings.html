@@ -51,27 +51,22 @@
                     settingsJSON["color-scheme"] = $('#color-scheme-span').text();
                 	updateSettingsJSON();
             	});
+                
     			$('.mdl-menu__item').click(function() {
     				// colors
     				$("#"+$(this).parent().data("for")).data("color", $(this).text());
                     updateSettingsJSON();
     			});
                 
-                $('#split-gurbani-lines').change(function(){
-    				window.parent.$('body.presentation').toggleClass('split-gurbani-lines');
-				    settingsJSON["split-gurbani-lines"] = $('#split-gurbani-lines').prop('checked');
-                    updateSettingsJSON();
-    			});
-                $('#larivaar-gurbani').change(function(){
-    				window.parent.$('body.presentation').toggleClass('hide-gurbani-spaces');
-				    settingsJSON["larivaar-gurbani"] = $('#larivaar-gurbani').prop('checked');
-                    updateSettingsJSON();
-    			});
                 $("input:checkbox").change(function() {
-    				window.parent.$('body.presentation').toggleClass("hide-"+this.id);
+                    var className = this.id;
+                    if (className == "larivaar-gurbani") className = "gurbani-spaces"
+                    if (className != "split-gurbani-lines") className = "hide-"+className
+    				window.parent.$('body.presentation').toggleClass(className);
                     settingsJSON[this.id] = $(this).prop('checked');
                     updateSettingsJSON();
                 });
+
     			// $('#fg-color').change(function(){
     				// window.parent.$('body').css('color', $(this).val());
 				    // settingsJSON["foreground-color"] = $('#foreground-color').val().replace('#', '');
