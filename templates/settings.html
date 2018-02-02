@@ -10,26 +10,11 @@
                     $.post('/postSettings', JSON.stringify(settingsJSON), null, 'json');
                 }
         	}
+            function replaceClass () {
+                
+            }
             $( window ).load(function () {
             	hotkeys();
-                $('#layout-menu > li').click(function(){
-                	$('#layout-span').text($(this).text());
-                    window.parent.$('body.presentation').removeClass(function (index, className) {
-                    	return (className.match (/(^|\s)layout-\S+/g) || []).join(' ');
-                	});
-                    window.parent.$('body.presentation').addClass('layout-'+$(this).text().replace(/\s/g, "-").toLowerCase());
-                    settingsJSON["layout"] = $('#layout-span').text();
-                    updateSettingsJSON();
-    			});
-                $('#navigator-height-menu > li').click(function(){
-                	$('#navigator-height-span').text($(this).text());
-                    window.parent.$('body.presentation').removeClass(function (index, className) {
-                    	return (className.match (/(^|\s)navigator-height-\S+/g) || []).join(' ');
-                	});
-                    window.parent.$('body.presentation').addClass('navigator-height-'+$(this).text().replace(/\s/g, "-").toLowerCase());
-				    settingsJSON["navigator-height"] = $('#navigator-height-span').text();
-                    updateSettingsJSON();
-    			});
                 $('#font-size').change(function(){
                     window.parent.$('body.presentation').removeClass(function (index, className) {
                     	return (className.match (/(^|\s)fs-\S+/g) || []).join(' ');
@@ -38,19 +23,16 @@
                     settingsJSON["font-size"] = $('#font-size').val();
                     updateSettingsJSON();
     			});
-                $('#color-scheme-menu > li').click(function(){
-                	$('#color-scheme-span').text($(this).text());
-                    window.parent.$('body.presentation').removeClass(function (index, className) {
-                    	return (className.match (/(^|\s)color-scheme-\S+/g) || []).join(' ');
-                	});
-                	window.parent.$('body.presentation').addClass('color-scheme-'+$(this).text().replace(/\s/g, "-").toLowerCase());
-                	$('body').removeClass(function (index, className) {
-                    	return (className.match (/(^|\s)color-scheme-\S+/g) || []).join(' ');
-                	});
-                	$('body').addClass('color-scheme-'+$('#color-scheme-span').text().replace(/\s/g, "-").toLowerCase());
-                    settingsJSON["color-scheme"] = $('#color-scheme-span').text();
-                	updateSettingsJSON();
-            	});
+                
+                $("li").click(function(){
+                    var settingName = $(this).parent().attr("for")
+                    var setting = $(this).text()
+                	$('#'+settingName+'-span').text(setting);
+                    window.parent.$('body.presentation').removeClass(settingName+"-"+settingsJSON[settingName].replace(/\s/g, "-").toLowerCase()).addClass(settingName+'-'+setting.replace(/\s/g, "-").toLowerCase());
+                    if (settingName == "color-scheme") $('body').removeClass("color-scheme-"+settingsJSON['color-scheme'].replace(/\s/g, "-").toLowerCase()).addClass("color-scheme-"+setting.replace(/\s/g, "-").toLowerCase());
+                    settingsJSON[settingName] = setting
+                    updateSettingsJSON();
+                })
 
     			$('.mdl-menu__item').click(function() {
     				// colors
@@ -59,11 +41,11 @@
     			});
                 
                 $("input:checkbox").change(function() {
-                    var className = this.id;
-                    if (className == "larivaar-gurbani") className = "gurbani-spaces"
-                    if (className != "split-gurbani-lines") className = "hide-"+className
-    				window.parent.$('body.presentation').toggleClass(className);
-                    settingsJSON[this.id] = $(this).prop('checked');
+                    var settingName = this.id;
+                    if (settingName == "larivaar-gurbani") settingName = "gurbani-spaces"
+                    if (settingName != "split-gurbani-lines") settingName = "hide-"+settingName
+    				window.parent.$('body.presentation').toggleClass(settingName);
+                    settingsJSON[settingName] = $(this).prop('checked');
                     updateSettingsJSON();
                 });
 
