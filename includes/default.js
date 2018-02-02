@@ -9,7 +9,7 @@ if (typeof parent.nodeRequire === "function") {
   var host = "";
 }
 
-function openOBS(topBottom){div
+function openOBS(topBottom){
   if (typeof remote === "object") { 
     main.openOBS(topBottom);
   } else {
