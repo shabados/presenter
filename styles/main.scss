@@ -594,10 +594,10 @@ body {
       padding-bottom: .175em !important;
     }
     &.top .line > div {
-      justify-content: flex-start !important;
+      justify-content: flex-start;
     }
     &.bottom .line > div {
-      justify-content: flex-end !important;
+      justify-content: flex-end;
     }
   }
   &.liveCaption {

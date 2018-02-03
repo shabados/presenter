@@ -4,16 +4,28 @@
 	<head>
 		{{template "header"}}
 		<script>
+			var styleSheet
 			var settingsJSON = jQuery.parseJSON('{{.SettingsJSON}}');
+
 			$(window).load(function () {
-				
+				$("iframe").contents().find("html").append("<style></style>")
+				styleSheet = $($("iframe").contents()[0].styleSheets).last()[0]
+
 				$("input").click(function() {
 					var settingName = this.id
-					var setting = this.type == "checkbox" ? $(this).prop('checked') : this.value
+					var setting = this.type == "checkbox" ? $(this).prop('checked') : this.value	
+					switch (settingName) {
+						case "position-top":
+							var element = "body.presentationSingle.bottom .line > div"
+							setting ? styleSheet.insertRule(element + " {justify-content: flex-start}") : styleSheet.deleteRule(element)
+					}
 					settingsJSON[settingName] = setting;
 				});
 				
-				$("#copy-css").click(function() {alert(JSON.stringify(settingsJSON))})
+				$("#copy-css").click(function() {
+					var cssString = styleSheet.rules[0].cssText
+					alert(cssString)
+				)
 
 			})
 

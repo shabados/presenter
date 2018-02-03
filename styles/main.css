@@ -453,9 +453,9 @@ body.presentationSingle .line > div {
   /*-webkit-text-stroke: 1px black !important;*/
   padding-bottom: .175em !important; }
 body.presentationSingle.top .line > div {
-  justify-content: flex-start !important; }
+  justify-content: flex-start; }
 body.presentationSingle.bottom .line > div {
-  justify-content: flex-end !important; }
+  justify-content: flex-end; }
 body.liveCaption div.titlebaroffsetissue {
   height: 36px; }
 body.liveCaption div.preview {
