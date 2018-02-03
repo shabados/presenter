@@ -196,12 +196,6 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 		case "/menu":
 			data.Title = "Menu"
 			templateName = "menuPage"
-		//case "/obs-top":
-			//data.Title = "OBS"
-			//templateName = "display2Page"
-		//case "/obs-bottom":
-			//data.Title = "OBS"
-			//templateName = "display3Page"
 		case "/settings":
 			templateName = "settingsPage"
 			sendJSON, err := json.Marshal(settings)
