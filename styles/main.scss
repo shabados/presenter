@@ -550,56 +550,6 @@ body {
       color: inherit;
     }
   }
-  &.presentation.presentationSingle {
-    .vishraamHeavy, .vishraamMedium, .vishraamLight {
-      color: inherit;
-    }
-  }
-  &.presentationSingle .active .gurmukhifont > div > div:first-child:before {
-    content: "\00a0";
-    /* font-size: 1em; */
-  }
-  &.presentation.presentationSingle {
-    .vishraamHeavy > .vishraamChar, .vishraamMedium > .vishraamChar, .vishraamLight > .vishraamChar {
-      display: none;
-    }
-  }
-  &.presentationSingle {
-    .transliteration, .darpan, .line {
-      display: none !important;
-    }
-    .active {
-      display: flex !important;
-      min-height: 100vh !important;
-      .gurmukhifont {
-        > div > div {
-          padding: .1em .25em 0 !important;
-          &:first-child {
-            padding: .1em 0 0 !important;
-          }
-        }
-      }
-      .translation {
-        font-family: "English Translation", sans-serif;
-        font-size: 4.5vh !important;
-        line-height: 1.85em;
-        margin: 0;
-        -webkit-text-stroke: 1px #0a0a0a;
-        text-shadow: 3px 3px 0 #0a0a0a, -1px -1px 0 #0a0a0a,   1px -1px 0 #0a0a0a, -1px 1px 0 #0a0a0a, 1px 1px 0 #0a0a0a  !important;
-      }
-    }
-    .line > div {
-      margin-bottom: 0 !important;
-      /*-webkit-text-stroke: 1px black !important;*/
-      padding-bottom: .175em !important;
-    }
-    &.top .line > div {
-      justify-content: flex-start;
-    }
-    &.bottom .line > div {
-      justify-content: flex-end;
-    }
-  }
   &.liveCaption {
     div.titlebaroffsetissue {
       height: 36px;
@@ -1490,26 +1440,9 @@ div#kobo {
 
 
 /* Non-themed
-     OBS projector page,
      live caption tool,
      Kobo screen page
 */
-body {
-  &.presentationSingle {
-    background: none; /* was green 00ff00 */
-    .active {
-      .gurmukhifont {
-        color: #FFFFE5 !important;
-        > div > div {
-          background: #0a0a0a !important;
-        }
-      }
-      .translation {
-        color: #ffffe5 !important;
-      }
-    }
-  }
-}
 body.kobo {
   background: #FFFFFF;
   div#kobo .gurmukhifont {
