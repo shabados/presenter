@@ -647,29 +647,46 @@ body {
       }
     }
 
-    & .chooser-popup {
+    $lcsbh: 1.5em;
+    & .options {
       position: relative;
-      left: 76px;
       display: inline-block;
-      height: 1.5em;
+      height: $lcsbh;
+      margin-left: 3.5em;
+      
+      .chooser, .font-size-changer {
+        margin-left: 0.75em;
+      }
 
       .chooser {
-        width: 1.5em;
-        height: 1.5em;
-        background: black;
-        color: white;
-        text-align: center;
+        position: relative;
+        display: inline-block;
+        span.label {
+          width: $lcsbh;
+          height: $lcsbh;
+          text-align: center;
+          border: 1px solid gray;
+          display: inline-block;
+        }
       }
       .popup {
-        position: relative;
-        bottom: 4em;
+        position: absolute;
+        top: 1.5em;
         float: left;
         z-index: 1000;
         background: white;
         padding: .5em;
       }
+      .popup {
+        &.color, &.shadow, &.window {
+          display: none;
+        }
+      }
       .popup.color {
-        display: none;
+        width: 11.25em;
+      }
+      .popup.shadow {
+        width: 4em;
       }
       .custom-color {
         input[type="color"] {
@@ -677,13 +694,18 @@ body {
           height: 2.5em;
         }
       }
+      .remove-option > div {
+        width: 100%;
+        border: 1px solid gray;
+        margin-bottom: .5em;
+        text-align: center;
+      }
       .fixed-color-choices {
-        width: 11.25em;
         & > div {
-          width: 1.5em;
-          height: 1.5em;
+          width: $lcsbh;
+          height: $lcsbh;
           display: inline-block;
-          border: 1px solid black;
+          border: 1px solid gray;
         }
 
         .white {
@@ -740,6 +762,24 @@ body {
         .brown {
           background: #795548;
         }
+      }
+    }
+    .font-size-changer {
+      display: inline-block;
+      background: #e5e5e5;
+      position: relative;
+      border: 1px solid gray;
+      text-align: center;
+      border-radius: 3px;
+
+      & > div {
+        display: inline-block;
+        width: 2em;
+        height: $lcsbh;
+      }
+      & > div.value {
+        width: 4.5em;
+        background: white;
       }
     }
   }
