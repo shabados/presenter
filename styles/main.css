@@ -486,6 +486,72 @@ body.liveCaption .c3 .mdl-button {
   margin-top: 0.5em; }
   body.liveCaption .c3 .mdl-button:first-child {
     margin-top: 0; }
+body.liveCaption .chooser-popup {
+  position: relative;
+  left: 76px;
+  display: inline-block;
+  height: 1.5em; }
+  body.liveCaption .chooser-popup .chooser {
+    width: 1.5em;
+    height: 1.5em;
+    background: black;
+    color: white;
+    text-align: center; }
+  body.liveCaption .chooser-popup .popup {
+    position: relative;
+    bottom: 4em;
+    float: left;
+    z-index: 1000;
+    background: white;
+    padding: .5em; }
+  body.liveCaption .chooser-popup .popup.color {
+    display: none; }
+  body.liveCaption .chooser-popup .custom-color input[type="color"] {
+    width: 3em;
+    height: 2.5em; }
+  body.liveCaption .chooser-popup .fixed-color-choices {
+    width: 11.25em; }
+    body.liveCaption .chooser-popup .fixed-color-choices > div {
+      width: 1.5em;
+      height: 1.5em;
+      display: inline-block;
+      border: 1px solid black; }
+    body.liveCaption .chooser-popup .fixed-color-choices .white {
+      background: white; }
+    body.liveCaption .chooser-popup .fixed-color-choices .black {
+      background: black; }
+    body.liveCaption .chooser-popup .fixed-color-choices .red {
+      background: #F44336; }
+    body.liveCaption .chooser-popup .fixed-color-choices .pink {
+      background: #E91E63; }
+    body.liveCaption .chooser-popup .fixed-color-choices .purple {
+      background: #9C27B0; }
+    body.liveCaption .chooser-popup .fixed-color-choices .deep-purple {
+      background: #673AB7; }
+    body.liveCaption .chooser-popup .fixed-color-choices .indigo {
+      background: #3F51B5; }
+    body.liveCaption .chooser-popup .fixed-color-choices .blue {
+      background: #2196F3; }
+    body.liveCaption .chooser-popup .fixed-color-choices .light-blue {
+      background: #03A9F4; }
+    body.liveCaption .chooser-popup .fixed-color-choices .cyan {
+      background: #00BCD4; }
+    body.liveCaption .chooser-popup .fixed-color-choices .teal {
+      background: #009688; }
+    body.liveCaption .chooser-popup .fixed-color-choices .green {
+      background: #4CAF50; }
+    body.liveCaption .chooser-popup .fixed-color-choices .light-green {
+      background: #8BC34A; }
+    body.liveCaption .chooser-popup .fixed-color-choices .yellow {
+      background: #FFEB3B; }
+    body.liveCaption .chooser-popup .fixed-color-choices .amber {
+      background: #FFC107; }
+    body.liveCaption .chooser-popup .fixed-color-choices .orange {
+      background: #FF9800; }
+    body.liveCaption .chooser-popup .fixed-color-choices .deep-orange {
+      background: #FF5722; }
+    body.liveCaption .chooser-popup .fixed-color-choices .brown {
+      background: #795548; }
 
 /*body.presentationSingle .translation,*/
 .codefont {

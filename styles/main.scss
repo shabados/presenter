@@ -187,19 +187,19 @@ div#results {
     left: 50%;
     text-align: center;
   }
-  .usual {		
-    opacity: 1;		
-  }		
-  &:hover {		
-    .secret {		
-      opacity: 1;		
-    }		
-    .usual {		
-      opacity: 0;		
-    }		
-  }		
-  .secret {		
-    opacity: 0;		
+  .usual {
+    opacity: 1;
+  }
+  &:hover {
+    .secret {
+      opacity: 1;
+    }
+    .usual {
+      opacity: 0;
+    }
+  }
+  .secret {
+    opacity: 0;
   }
 }
 
@@ -644,6 +644,102 @@ body {
 
       &:first-child {
         margin-top: 0;
+      }
+    }
+
+    & .chooser-popup {
+      position: relative;
+      left: 76px;
+      display: inline-block;
+      height: 1.5em;
+
+      .chooser {
+        width: 1.5em;
+        height: 1.5em;
+        background: black;
+        color: white;
+        text-align: center;
+      }
+      .popup {
+        position: relative;
+        bottom: 4em;
+        float: left;
+        z-index: 1000;
+        background: white;
+        padding: .5em;
+      }
+      .popup.color {
+        display: none;
+      }
+      .custom-color {
+        input[type="color"] {
+          width: 3em;
+          height: 2.5em;
+        }
+      }
+      .fixed-color-choices {
+        width: 11.25em;
+        & > div {
+          width: 1.5em;
+          height: 1.5em;
+          display: inline-block;
+          border: 1px solid black;
+        }
+
+        .white {
+          background: white;
+        }
+        .black {
+          background: black;
+        }
+        .red {
+          background: #F44336;
+        }
+        .pink {
+          background: #E91E63;
+        }
+        .purple {
+          background: #9C27B0;
+        }
+        .deep-purple {
+          background: #673AB7;
+        }
+        .indigo {
+          background: #3F51B5;
+        }
+        .blue {
+          background: #2196F3;
+        }
+        .light-blue {
+          background: #03A9F4;
+        }
+        .cyan {
+          background: #00BCD4;
+        }
+        .teal {
+          background: #009688;
+        }
+        .green {
+          background: #4CAF50;
+        }
+        .light-green {
+          background: #8BC34A;
+        }
+        .yellow {
+          background: #FFEB3B;
+        }
+        .amber {
+          background: #FFC107;
+        }
+        .orange {
+          background: #FF9800;
+        }
+        .deep-orange {
+          background: #FF5722;
+        }
+        .brown {
+          background: #795548;
+        }
       }
     }
   }
@@ -1537,10 +1633,10 @@ body.color-scheme-day {
   body.#{$theme} {
     background-color: $bg-base;
     color: $fg-base;
-  
+
     &.presentation {
     background-color: $bg-presentation;
-  
+
       .active {
         .gurmukhifont {
           color: $presentation-active-gurmukhi;
@@ -1576,7 +1672,7 @@ body.color-scheme-day {
       .vishraamLight {
         color: $presentation-vishraamLight;
       }
-  
+
       iframe {
         background: $bg-dark; // one level darker than body background
         border-color: $bg-dark; // remove this in upper area, i don't think we need a border
@@ -1606,7 +1702,7 @@ body.color-scheme-day {
       }
     }
   }
-  
+
   body.#{$theme} {
     #iframesHuMsg {
       background: rgba($bg-base, 0.9);
@@ -1620,7 +1716,7 @@ body.color-scheme-day {
         color: rgba($fg-brighter, 0.3);
       }
     }
-    
+
     #hiddenIframePlusBox {
       color: mix($fg-brighter, $bg-presentation, 50%);
       //rgba(255, 255, 255, 0.5);
@@ -1628,7 +1724,7 @@ body.color-scheme-day {
       //rgba(255, 255, 255, 0.12);
     }
   }
-  
+
   /***********************************************************
   UI related top and bottom bars
   ***********************************************************/
@@ -1636,11 +1732,11 @@ body.color-scheme-day {
     .dragger, #titlebar > div, #navibar > div {
       background: $bg-dark;
     }
-    
+
     #titlebar > div, #navibar > div {
       color: $fg-dark;
     }
-    
+
     #titlebar {
       .title:hover, .buttons *:hover {
         color: $fg-base;
@@ -1653,25 +1749,25 @@ body.color-scheme-day {
         }
       }
     }
-    
+
     ::-webkit-scrollbar-thumb {
       background: rgba($fg-brighter, 0.5);
       &:hover, &:active {
         background: $fg-bright;
       }
     }
-    
+
     ::selection {
       background: $text-selection-bg;
       /* WebKit/Blink Browsers */
     }
-    
+
     #humsg {
       background: $bg-dark;
       color: $fg-bright;
     }
   }
-  
+
   /***********************************************************
   betwen top and bottom nav bars
   ***********************************************************/
@@ -1681,58 +1777,58 @@ body.color-scheme-day {
       // but we only have one input total
       color: $fg-base;
       border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    
+
       &:focus {
         color: $fg-bright;
         border-bottom: 1px solid rgba(0, 0, 0, 0);
       }
-    
+
       + .background {
         color: $fg-base;
         box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.12);
       }
-    
+
       &:focus + .background {
         background: $bg-bright;
         box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.18);
       }
     }
-    
+
     ::-webkit-input-placeholder {
       // color of the search box when nothing is inputted
       color: $fg-dark;
     }
-    
+
     #results a {
       color: $color-text-non-highlighted;
-    
+
       &:hover {
         color: $color-text-non-highlighted-hover;
       }
-    
+
       &:focus {
         color: $fg-bright;
         background: $color-selection-bg;
       }
     }
-    
+
     span.slink-highlight {
       // color used to highlight search results
       color: $color-highlight;
     }
-    
+
     .codefont { //used for number hotkey label in shabads
       color: mix($fg-brighter, $bg-base, 50%);
       // rgba(255, 255, 255, 0.5);
     }
-    
+
     //fix to use only second method, first one is used in like history page through main.go but can probably be repurposed
     //could create a.menu-item or something to replaceboth
     //also see #results a:focus as well to fix
     .activeLine > div, body.dindex a:focus {
 	    background: $color-selection-bg;
     }
-    
+
     .activeLine > div, .navigationForDisplay:hover {
       color: $color-selection-fg;
     }
@@ -1743,7 +1839,7 @@ body.color-scheme-day {
 	  }
     }
   }
-  
+
   /***********************************************************
   Other
   ***********************************************************/
@@ -1757,24 +1853,24 @@ body.color-scheme-day {
     .scrollBetweenBars .sep {
       border-bottom: 1px solid $bg-dark;
     }
-    
+
     #help-screen {
       background: rgba($bg-presentation, 0.87);
       color: $fg-base;
-    
+
       h1 {
         color: $fg-bright;
       }
-    
+
       div {
         color: $fg-bright;
       }
     }
-    
+
     .bright {
       color: $fg-base;
     }
-    
+
     .scrollBetweenBars.shabad.active, #navi-prog.active {
       color: rgba($fg-brighter, 0.7);
       background: rgba($fg-brighter, 0.05);
@@ -1787,7 +1883,7 @@ body.color-scheme-day {
 	  color: rgba($fg-base, .3);
     }
   }
-  
+
   @media only screen and (max-device-width: 480px) {
     body {
       color: #ccc;
@@ -1993,7 +2089,7 @@ body.presentation div.hideCursor div:nth-child(12n+10) {
 }
 body.presentation div.hideCursor div:nth-child(12n+11) {
   border-bottom-color: rgba(255,255,255,.25);
-} 
+}
 /**/
 
 /* 2017 11 14 tested font at large sizes
