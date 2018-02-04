@@ -3,6 +3,7 @@
 <html>
 	<head>
 		{{template "header"}}
+		<link rel="stylesheet" href="styles/obs.css" />
 		<script>
 			function updateDisplay() {
 				$.ajax({
@@ -15,9 +16,9 @@
 							var body = "<div class='shabad' id="+shabadID+">";
 							$.each(data.shabad, function(key,value){
 								body = body+"<div id="+value.PK+" class='line'><div><div class=\"gurmukhifont\">"+value.gurmukhi+"</div>";
-								body = body+"<p class=\"translation\">"+value.translation+"</p>";
-								body = body+"<p class=\"darpan\">"+value.darpan+"</p>";
-								body = body+"<p class=\"transliteration\">"+value.transliteration+"</p>";
+								body = body+"<div class=\"translation\">"+value.translation+"</div>";
+								body = body+"<div class=\"darpan\">"+value.darpan+"</div>";
+								body = body+"<div class=\"transliteration\">"+value.transliteration+"</div>";
 								body = body+"</div></div>"; //closes opening div
 							})
 							$('div.body').html(body+"</div>");
@@ -49,8 +50,8 @@
 		</script>
 		</head>
 <html>
-	<body class="presentation presentationSingle {{.Settings}}">
-		<div class="body"><div class="shabad" id="0"><div id="0" class="line"><div><div class="gurmukhifont"></div><p class="translation"></p></div></div></div></div>
+	<body class="presentation obs {{.Settings}}">
+		<div class="body"><div class="shabad" id="0"><div id="0" class="line"><div><div class="gurmukhifont"></div><div class="translation"></div></div></div></div></div>
 	</body>
 </html>
 {{end}}

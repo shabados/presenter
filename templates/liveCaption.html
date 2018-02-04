@@ -4,6 +4,49 @@
 	<head>
 		{{template "header"}}
 		<script>
+			var styleSheet
+			var settingsJSON = jQuery.parseJSON('{{.SettingsJSON}}');
+
+			$(window).load(function () {
+				$("iframe").contents().find("head").append("<style></style>")
+				styleSheet = $($("iframe").contents()[0].styleSheets).last()[0]
+				styleSheet.addRule(		"body.presentation .line > div", 		"justify-content: flex-end")
+				styleSheet.addRule(		"body.presentation .gurmukhifont", 		"display: block")
+				styleSheet.addRule(		"body.presentation .translation", 		"display: block")
+				styleSheet.addRule(		"body.presentation .darpan",			"display: none")
+				styleSheet.addRule(		"body.presentation .transliteration",	"display: none")
+
+				$("input").click(function() {
+					var settingName = this.id
+					var item
+					var setting = this.type == "checkbox" ? $(this).prop('checked') : this.value
+					switch (settingName) {
+						case "position-top":
+							styleSheet.rules.item(0).style['justify-content'] = "flex-" + (setting ? "start" : "end")
+							break;
+						case "gurbani":
+							styleSheet.rules.item(1).style['display'] = setting ? "block" : "none"
+							break;
+						case "english-translation":
+							styleSheet.rules.item(2).style['display'] = setting ? "block" : "none"
+							break;
+						case "punjabi-translation":
+							styleSheet.rules.item(3).style['display'] = setting ? "block" : "none"
+							break;
+						case "english-transliteration":
+							styleSheet.rules.item(4).style['display'] = setting ? "block" : "none"
+							break;
+					}
+					settingsJSON[settingName] = setting;
+				});
+
+				$("#copy-css").click(function() {
+					var cssString = styleSheet.rules[0].cssText
+					alert(cssString)
+				})
+
+			})
+
 			function iFrameResize() {
 				var w = $('div.preview').width();
 				var h = $('div.preview').height();
@@ -34,21 +77,21 @@
 			<div class="c1">
 				<p>Macro</p>
 				<div>
-        			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="content-bottom">
-                    	<input type="checkbox" id="content-bottom" class="mdl-switch__input">
+        			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="position-top">
+                    	<input type="checkbox" id="position-top" class="mdl-switch__input">
                     	<span class="mdl-switch__label">Top Captions</span>
                 	</label>
                 	<p style="margin-top: .75em;">Margins</p>
                 	<p style="width:100%; ">
-                    	<input id="slider-margins" class="mdl-slider mdl-js-slider" type="range" min="0" max="10" value="10" step="1">
+                    	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="10" value="10" step="1">
                 	</p>
                 	<p style="margin-top: .75em;">Width</p>
                 	<p style="width:100%; ">
-                    	<input id="slider-width" class="mdl-slider mdl-js-slider" type="range" min="50" max="100" value="100" step="1">
+                    	<input id="width" class="mdl-slider mdl-js-slider" type="range" min="50" max="100" value="100" step="1">
                 	</p>
                 	<p style="font-size: 0.85em; margin-top: .75em;">The following setting is for broadcasting programs that lack support for transparent backgrounds. Modern broadcasting programs, including OBS, support transparency. Please see the tutorial for more information.</p>
-        			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="content-bottom">
-                    	<input type="checkbox" id="content-bottom" class="mdl-switch__input">
+        			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="green-screen">
+                    	<input type="checkbox" id="green-screen" class="mdl-switch__input">
                     	<span class="mdl-switch__label">Green Screen</span>
                 	</label>
 				</div>
@@ -56,8 +99,8 @@
 			<div class="c2">
 				<p>Appearance</p>
 				<div>
-                	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-gurbani">
-                    	<input type="checkbox" id="switch-gurbani" class="mdl-switch__input">
+                	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="gurbani">
+                    	<input type="checkbox" id="gurbani" class="mdl-switch__input">
                     	<div id="font-color" class="chooser"></div>
                     	<span class="mdl-switch__label">Gurbani</span>
                 	</label>
@@ -142,12 +185,12 @@
                     	<input type="checkbox" id="switch-english-translation" class="mdl-switch__input">
                     	<span class="mdl-switch__label">English Translation</span>
                 	</label>
-                	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-punjabi-translation">
-                    	<input type="checkbox" id="switch-punjabi-translation" class="mdl-switch__input">
+                	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="punjabi-translation">
+                    	<input type="checkbox" id="punjabi-translation" class="mdl-switch__input">
                     	<span class="mdl-switch__label">Punjabi Translation</span>
                 	</label>
-                	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-english-transliteration">
-                    	<input type="checkbox" id="switch-english-transliteration" class="mdl-switch__input">
+                	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-transliteration">
+                    	<input type="checkbox" id="english-transliteration" class="mdl-switch__input">
                     	<span class="mdl-switch__label">English Transliteration</span>
                 	</label>
 				</div>
@@ -158,7 +201,7 @@
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
                       Copy Link
                     </button>
-                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                    <button id="copy-css" class="mdl-button mdl-js-button mdl-js-ripple-effect">
                       Copy CSS
                     </button>
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect">

@@ -38,6 +38,7 @@ var timePostHistory time.Time
 var historyDB string
 var dbHistory *sql.DB
 var settings Settings
+var settingsLive SettingsLive
 var shabadHTML string
 var pagesCount int
 
@@ -78,16 +79,15 @@ type Settings struct {
 	AkhandPaathView         bool   		`json:"akhand-paath-view"`
 }
 
-type OBS_Settings struct {
-	Layout                  string 		`json:"layout"`
-	LarivaarGurbani         bool   		`json:"larivaar-gurbani"`
-	SplitGurbaniLines		bool   		`json:"split-gurbani-lines"`
+type SettingsLive struct {
+	PositionTop             bool 		`json:"position-top"`
+	Margin					json.Number	`json:"margin"`
+	Width					json.Number	`json:"width"`
+	GreenScreen				bool		`json:"green-screen"`
+	Gurbani			        bool   		`json:"gurbani"`
 	EnglishTranslation      bool   		`json:"english-translation"`
 	PunjabiTranslation      bool   		`json:"punjabi-translation"`
-	EnglishTransliteration  bool   		`json:"english-translation"`
-	FontSize                json.Number `json:"font-size"`
-	FontColor               string 		`json:"font-color"`
-	BackgroundColor         string 		`json:"background-color"`
+	EnglishTransliteration  bool   		`json:"english-transliteration"`
 }
 
 const (
@@ -196,12 +196,6 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 		case "/menu":
 			data.Title = "Menu"
 			templateName = "menuPage"
-		//case "/obs-top":
-			//data.Title = "OBS"
-			//templateName = "display2Page"
-		//case "/obs-bottom":
-			//data.Title = "OBS"
-			//templateName = "display3Page"
 		case "/settings":
 			templateName = "settingsPage"
 			sendJSON, err := json.Marshal(settings)
@@ -209,7 +203,7 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 			data.SettingsJSON = string(sendJSON)
 		case "/live-caption":
 			templateName = "liveCaptionPage"
-			sendJSON, err := json.Marshal(settings)
+			sendJSON, err := json.Marshal(settingsLive)
 			eh(err, "4")
 			data.SettingsJSON = string(sendJSON)
 	}
