@@ -597,13 +597,14 @@ body {
       }
     }
 
+
     $lcsbh: 1.5em;
     & .options {
       position: relative;
-      display: inline-block;
+      display: none;
       height: $lcsbh;
       margin-left: 3.5em;
-      
+
       .chooser, .font-size-changer {
         margin-left: 0.75em;
       }
@@ -731,6 +732,10 @@ body {
         width: 4.5em;
         background: white;
       }
+    }
+    
+    .mdl-switch.is-checked + .options {
+      display: block;
     }
   }
 }
