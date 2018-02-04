@@ -1,19 +1,19 @@
 body {
-  &.presentation.obs {
+  &.presentation {
     .vishraamHeavy, .vishraamMedium, .vishraamLight {
       color: inherit;
     }
   }
-  &.obs .active .gurmukhifont > div > div:first-child:before {
+  &.presentation .active .gurmukhifont > div > div:first-child:before {
     content: "\00a0";
     /* font-size: 1em; */
   }
-  &.presentation.obs {
+  &.presentation {
     .vishraamHeavy > .vishraamChar, .vishraamMedium > .vishraamChar, .vishraamLight > .vishraamChar {
       display: none;
     }
   }
-  &.obs {
+  &.presentation {
     .transliteration, .darpan, .line {
       display: none !important;
     }
@@ -47,7 +47,7 @@ body {
 }
 
 body {
-  &.presentationSingle {
+  &.presentation {
     background: none; /* was green 00ff00 */
     .active {
       .gurmukhifont {
