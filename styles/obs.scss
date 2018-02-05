@@ -14,7 +14,19 @@ body {
     }
   }
   &.presentation {
-    .transliteration, .darpan, .line {
+    .gurmukhifont {
+      display: none !important;
+    }
+    .translation {
+      display: none !important;
+    }
+    .transliteration {
+      display: none !important;
+    }
+    .darpan {
+      display: none !important;
+    }
+    .line {
       display: none !important;
     }
     .active {

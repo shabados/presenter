@@ -5,7 +5,15 @@ body.presentation .active .gurmukhifont > div > div:first-child:before {
   /* font-size: 1em; */ }
 body.presentation .vishraamHeavy > .vishraamChar, body.presentation .vishraamMedium > .vishraamChar, body.presentation .vishraamLight > .vishraamChar {
   display: none; }
-body.presentation .transliteration, body.presentation .darpan, body.presentation .line {
+body.presentation .gurmukhifont {
+  display: block; }
+body.presentation .translation {
+  display: block; }
+body.presentation .transliteration {
+  display: none; }
+body.presentation .darpan {
+  display: none; }
+body.presentation .line {
   display: none; }
 body.presentation .active {
   display: flex !important;
