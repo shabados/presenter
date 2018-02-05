@@ -5,16 +5,9 @@
 		{{template "header"}}
 		<script>
 			var styleSheet
-			var settingsJSON = jQuery.parseJSON('{{.SettingsJSON}}');
-
+			
 			$(window).load(function () {
-				$("iframe").contents().find("head").append("<style></style>")
-				styleSheet = $($("iframe").contents()[0].styleSheets).last()[0]
-				styleSheet.addRule(		"body.presentation .line > div", 		"justify-content: flex-end")
-				styleSheet.addRule(		"body.presentation .gurmukhifont", 		"display: block")
-				styleSheet.addRule(		"body.presentation .translation", 		"display: block")
-				styleSheet.addRule(		"body.presentation .darpan",			"display: none")
-				styleSheet.addRule(		"body.presentation .transliteration",	"display: none")
+				styleSheet = $($("iframe").contents()[0].styleSheets).last()[0].rules
 
 				// following need to be implemented
 				//color
@@ -40,31 +33,51 @@
 
 				$("input").click(function() {
 					var settingName = this.id
-					var item
+					var item, property, value
+					var selector = "body.presentation "
 					var setting = this.type == "checkbox" ? $(this).prop('checked') : this.value
 					switch (settingName) {
 						case "position-top":
-							styleSheet.rules.item(0).style['justify-content'] = "flex-" + (setting ? "start" : "end")
+							selector += ".line > div"
+							property = "justify-content"
+							value = "flex-" + (setting ? "start" : "end")
 							break;
 						case "gurbani":
-							styleSheet.rules.item(1).style['display'] = setting ? "block" : "none"
+							selector += ".gurmukhifont"
+							property = "display"
+							value = setting ? "block" : "none"
 							break;
 						case "english-translation":
-							styleSheet.rules.item(2).style['display'] = setting ? "block" : "none"
+							selector += ".translation"
+							property = "display"
+							value = setting ? "block" : "none"
 							break;
 						case "punjabi-translation":
-							styleSheet.rules.item(3).style['display'] = setting ? "block" : "none"
+							selector += ".darpan"
+							property = "display"
+							value = setting ? "block" : "none"
 							break;
 						case "english-transliteration":
-							styleSheet.rules.item(4).style['display'] = setting ? "block" : "none"
+							selector += ".transliteration"
+							property = "display"
+							value = setting ? "block" : "none"
 							break;
 					}
-					settingsJSON[settingName] = setting;
+					for (var x = 0; x < styleSheet.length; x++) {
+						if (styleSheet[x].selectorText == selector) {
+							styleSheet[x].style[property] = value
+						}
+					}	
 				});
+
+				$(".chooser").click(function() {
+					$(".popup", this).toggle()
+					$(this).siblings().children(".popup").hide()
+				})
 
 				$("#copy-css").click(function() {
 					var cssString = ""
-					$(styleSheet.rules).each(function (index) {
+					$(styleSheet).each(function (index) {
 						cssString += this.cssText + "\n"
 					})
 					alert(cssString)
@@ -72,6 +85,9 @@
 
 				$("#copy-link").click(function() {
 					alert(window.location.origin+'/obs')
+				})
+
+				$("#save-default").click(function() {
 				})
 
 			})
@@ -243,6 +259,9 @@
           </button>
           <button id="copy-css" class="mdl-button mdl-js-button mdl-js-ripple-effect">
             Copy CSS
+          </button>
+          <button id="save-default" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            Save Default
           </button>
           <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
             Help

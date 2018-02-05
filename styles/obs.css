@@ -2,8 +2,16 @@ body.presentation .vishraamHeavy, body.presentation .vishraamMedium, body.presen
   color: inherit; }
 body.presentation .vishraamHeavy > .vishraamChar, body.presentation .vishraamMedium > .vishraamChar, body.presentation .vishraamLight > .vishraamChar {
   display: none; }
-body.presentation .transliteration, body.presentation .darpan, body.presentation .line {
-  display: none !important; }
+body.presentation .gurmukhifont {
+  display: block; }
+body.presentation .translation {
+  display: block; }
+body.presentation .transliteration {
+  display: none; }
+body.presentation .darpan {
+  display: none; }
+body.presentation .line {
+  display: none; }
 body.presentation .active {
   display: flex !important;
   min-height: 100vh !important; }
