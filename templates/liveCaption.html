@@ -41,8 +41,15 @@
 				});
 
 				$("#copy-css").click(function() {
-					var cssString = styleSheet.rules[0].cssText
+					var cssString = ""
+					$(styleSheet.rules).each(function (index) {
+						cssString += this.cssText + "\n"
+					})
 					alert(cssString)
+				})
+
+				$("#copy-link").click(function() {
+					alert(window.location.origin+'/obs')
 				})
 
 			})
@@ -63,6 +70,11 @@
 			}
 			$(document).ready(iFrameResize);
 			$(window).resize(iFrameResize);
+            
+            $(function () {
+                $("#english-translation").prop('checked', true)
+				$("#gurbani").prop('checked', true)
+        	});
 		</script>
     </head>
 <html>
@@ -181,8 +193,8 @@
 							</div>
 						</div>
 					</div>
-        	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-english-translation">
-            	<input type="checkbox" id="switch-english-translation" class="mdl-switch__input">
+        	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-translation">
+            	<input type="checkbox" id="english-translation" class="mdl-switch__input">
             	<span class="mdl-switch__label">English Translation</span>
         	</label>
         	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="punjabi-translation">
@@ -198,7 +210,7 @@
 			<div class="c3">
 				<p>Controls</p>
 				<div>
-          <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+          <button id="copy-link" class="mdl-button mdl-js-button mdl-js-ripple-effect">
             Copy Link
           </button>
           <button id="copy-css" class="mdl-button mdl-js-button mdl-js-ripple-effect">
