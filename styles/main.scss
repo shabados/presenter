@@ -627,11 +627,7 @@ body {
         z-index: 1000;
         background: white;
         padding: .5em;
-      }
-      .popup {
-        &.color, &.shadow, &.window {
-          display: none;
-        }
+        display: none;
       }
       .popup.color {
         width: 11.25em;
@@ -733,7 +729,7 @@ body {
         background: white;
       }
     }
-    
+
     .mdl-switch.is-checked + .options {
       display: block;
     }

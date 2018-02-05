@@ -477,8 +477,7 @@ body.liveCaption .options {
     float: left;
     z-index: 1000;
     background: white;
-    padding: .5em; }
-  body.liveCaption .options .popup.color, body.liveCaption .options .popup.shadow, body.liveCaption .options .popup.window {
+    padding: .5em;
     display: none; }
   body.liveCaption .options .popup.color {
     width: 11.25em; }
