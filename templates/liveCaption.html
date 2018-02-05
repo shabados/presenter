@@ -16,6 +16,28 @@
 				styleSheet.addRule(		"body.presentation .darpan",			"display: none")
 				styleSheet.addRule(		"body.presentation .transliteration",	"display: none")
 
+				// following need to be implemented
+				//color
+				styleSheet.addRule(		"body.presentation .gurmukhifont", 		"color: #FFEB3B")
+
+				//font-size
+				styleSheet.addRule(		"body.presentation .gurmukhifont", 		"font-size: 10vh")
+				styleSheet.addRule(		"body.presentation .gurmukhifont", 		"line-height: 14.5vh ")
+				//styleSheet.addRule(		"body.presentation .gurmukhifont", 		"line-height: (font-size)*1.34 ")
+
+				//shadows
+				//if requiring green screen to cut out of frame
+				styleSheet.addRule(		"body.presentation .gurmukhifont", 		"text-shadow: 0.5vh 0.5vh black")
+				//if no green screen (proper transparent web page is available, default)
+				styleSheet.addRule(		"body.presentation .gurmukhifont", 		"text-shadow: 0.5vh 0.5vh 2vh black")
+
+				//background (only works on gurmukhi right now, others need to be in div like english is now, and have the text in a span inside that is set to display inline)
+				// omit 80 or change 80 to FF for opaque / removing semi-transparency
+				// styleSheet.addRule(		"body.presentation .active .gurmukhifont > div > div", 		"background: #00000080")
+
+				//window
+				// styleSheet.addRule(		"body.presentation .gurmukhifont", 		"background: #00000080")
+
 				$("input").click(function() {
 					var settingName = this.id
 					var item
