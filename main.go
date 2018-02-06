@@ -20,7 +20,7 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/hashicorp/mdns"
-	
+  
 )
 
 // compile all templates and cache them
@@ -42,6 +42,7 @@ var settingsLive SettingsLive
 var shabadHTML string
 var pagesCount int
 
+var localip = ""
 var host = ""
 var port = 42424
 
@@ -171,11 +172,13 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 		Title string
 		Theme template.HTML
 		Host string
+		LocalIP string
 		SettingsJSON     string
 	}{
 		"Search",
 		template.HTML(` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)),
 		host,
+		localip,
 		"",
 	}
 
@@ -315,7 +318,7 @@ func updateShabad(id string) {
 	lineID := 1
 	lastPageID := -1
 	hotkeys := [36]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"}
-	
+
 	dbHistory, err = sql.Open("sqlite3", historyDB)
 	eh(err, "5")
 	defer dbHistory.Close()
@@ -454,7 +457,7 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 	if (!(id == shabadID || id == "current")) { updateShabad(id) }
 
 	if (shabadHTML == "") { //tk should check shabadID == 0, but then the page won't load and won't post to histry... that should just happen in updateShabad, though
-		simpleHandler(w,r) 
+		simpleHandler(w,r)
 		return
 	}
 
@@ -674,7 +677,7 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 
 		pageHTML += gurmukhi + "</p></div></a>"
 	}
-	
+
 	fmt.Fprint(w, pageHTML)
 }
 
@@ -731,7 +734,7 @@ func getHistoryCSV(w http.ResponseWriter, r *http.Request) {
 
 func postSettings(w http.ResponseWriter, r *http.Request) {
 	if (!isLocal(r)) { return }
-	
+
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&settings)
 	eh(err, "18")
@@ -1018,7 +1021,7 @@ func clearShabad() {
 
 func getServersJSON(w http.ResponseWriter, r *http.Request) {
 	var servers []interface{}
-	
+
 	// Make a channel for results and start listening
 	entriesCh := make(chan *mdns.ServiceEntry, 4)
 	go func() {
@@ -1038,6 +1041,19 @@ func getServersJSON(w http.ResponseWriter, r *http.Request) {
 	w.Write(serversJSON)
 }
 
+// Get preferred outbound ip of this machine
+func GetOutboundIP() string {
+  conn, err := net.Dial("udp", "8.8.8.8:80")
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer conn.Close()
+
+  localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+  return localAddr.IP.String()
+}
+
 func main() {
 
 	fmt.Println("--- Started! ---")
@@ -1051,7 +1067,10 @@ func main() {
 	decoder := json.NewDecoder(settingsFile)
 	err := decoder.Decode(&settings)
 	eh(err, "47")
-	
+
+	// set local IP
+	localip = GetOutboundIP()
+
 	mux := http.NewServeMux()
 
 	//basic handlers for files
@@ -1061,7 +1080,7 @@ func main() {
 	//basic handlers for pages without many variables
 	// webpages := [5]{}
 	// mux.Handle("/", mux.FileServer(assetFS()))
-	
+
 	//Public Server Functions
 	mux.HandleFunc("/searchresults", getResultsHTML)
 	mux.HandleFunc("/getJSON", getJSON)
