@@ -1221,6 +1221,23 @@ body.color-scheme-night {
     background: #424242; }
   body.color-scheme-night.liveCaption .c1 > div, body.color-scheme-night.liveCaption .c2 > div {
     background: #303030; }
+  body.color-scheme-night.liveCaption .c2 .chooser span.label {
+    border: 1px solid rgba(255, 255, 255, 0.2); }
+    body.color-scheme-night.liveCaption .c2 .chooser span.label:hover {
+      border-color: rgba(255, 255, 255, 0.4); }
+  body.color-scheme-night.liveCaption .c2 .font-size-changer {
+    background: rgba(255, 255, 255, 0.1); }
+    body.color-scheme-night.liveCaption .c2 .font-size-changer .value {
+      background: rgba(0, 0, 0, 0.75); }
+  body.color-scheme-night.liveCaption .c2 .popup {
+    background: #424242;
+    border: 1px solid rgba(255, 255, 255, 0.1); }
+  body.color-scheme-night.liveCaption .c2 .options .fixed-color-choices > div, body.color-scheme-night.liveCaption .c2 .options .remove-option > div {
+    border: 1px solid rgba(255, 255, 255, 0.75); }
+  body.color-scheme-night.liveCaption .c2 .options .mdl-checkbox__box-outline {
+    border-color: rgba(255, 255, 255, 0.75); }
+  body.color-scheme-night.liveCaption .c2 .options .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
+    border-color: #00bcd4; }
   body.color-scheme-night.liveCaption .c3 .mdl-button {
     background-color: rgba(48, 48, 48, 0.5);
     color: #e0e0e0;
@@ -1384,6 +1401,23 @@ body.color-scheme-day {
     background: #E0E0E0; }
   body.color-scheme-day.liveCaption .c1 > div, body.color-scheme-day.liveCaption .c2 > div {
     background: #EEEEEE; }
+  body.color-scheme-day.liveCaption .c2 .chooser span.label {
+    border: 1px solid rgba(0, 0, 0, 0.2); }
+    body.color-scheme-day.liveCaption .c2 .chooser span.label:hover {
+      border-color: rgba(0, 0, 0, 0.4); }
+  body.color-scheme-day.liveCaption .c2 .font-size-changer {
+    background: rgba(0, 0, 0, 0.1); }
+    body.color-scheme-day.liveCaption .c2 .font-size-changer .value {
+      background: rgba(255, 255, 255, 0.75); }
+  body.color-scheme-day.liveCaption .c2 .popup {
+    background: #E0E0E0;
+    border: 1px solid rgba(0, 0, 0, 0.1); }
+  body.color-scheme-day.liveCaption .c2 .options .fixed-color-choices > div, body.color-scheme-day.liveCaption .c2 .options .remove-option > div {
+    border: 1px solid rgba(0, 0, 0, 0.75); }
+  body.color-scheme-day.liveCaption .c2 .options .mdl-checkbox__box-outline {
+    border-color: rgba(0, 0, 0, 0.75); }
+  body.color-scheme-day.liveCaption .c2 .options .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
+    border-color: #00bcd4; }
   body.color-scheme-day.liveCaption .c3 .mdl-button {
     background-color: rgba(238, 238, 238, 0.5);
     color: #212121;
@@ -1547,6 +1581,23 @@ body.color-scheme-philosophiae {
     background: #5e5c55; }
   body.color-scheme-philosophiae.liveCaption .c1 > div, body.color-scheme-philosophiae.liveCaption .c2 > div {
     background: #312f2c; }
+  body.color-scheme-philosophiae.liveCaption .c2 .chooser span.label {
+    border: 1px solid rgba(255, 255, 255, 0.2); }
+    body.color-scheme-philosophiae.liveCaption .c2 .chooser span.label:hover {
+      border-color: rgba(255, 255, 255, 0.4); }
+  body.color-scheme-philosophiae.liveCaption .c2 .font-size-changer {
+    background: rgba(255, 255, 255, 0.1); }
+    body.color-scheme-philosophiae.liveCaption .c2 .font-size-changer .value {
+      background: rgba(220, 216, 208, 0.75); }
+  body.color-scheme-philosophiae.liveCaption .c2 .popup {
+    background: #5e5c55;
+    border: 1px solid rgba(255, 255, 255, 0.1); }
+  body.color-scheme-philosophiae.liveCaption .c2 .options .fixed-color-choices > div, body.color-scheme-philosophiae.liveCaption .c2 .options .remove-option > div {
+    border: 1px solid rgba(255, 255, 255, 0.75); }
+  body.color-scheme-philosophiae.liveCaption .c2 .options .mdl-checkbox__box-outline {
+    border-color: rgba(255, 255, 255, 0.75); }
+  body.color-scheme-philosophiae.liveCaption .c2 .options .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
+    border-color: #00bcd4; }
   body.color-scheme-philosophiae.liveCaption .c3 .mdl-button {
     background-color: rgba(49, 47, 44, 0.5);
     color: #e6e2da;

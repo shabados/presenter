@@ -1667,6 +1667,39 @@ body.color-scheme-day {
       .c1 > div, .c2 > div {
         background: $bg-base;
       }
+      .c2 {
+        .chooser span.label {
+          border: 1px solid rgba($fg-brighter, 0.2);
+
+          &:hover {
+            border-color: rgba($fg-brighter, 0.4);
+          }
+        }
+        .font-size-changer {
+          background: rgba($fg-brighter, 0.1);
+
+          .value {
+            background: rgba($bg-presentation, 0.75);
+          }
+        }
+        .popup {
+          background: $bg-bright;
+          border: 1px solid rgba($fg-brighter, 0.1);
+        }
+        .options {
+          .fixed-color-choices, .remove-option {
+            & > div {
+              border: 1px solid rgba($fg-brighter, 0.75);
+            }
+          }
+          .mdl-checkbox__box-outline {
+            border-color: rgba($fg-brighter, 0.75);
+          }
+          .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
+            border-color: rgb(0,188,212);
+          }
+        }
+      }
       .c3 {
         .mdl-button {
           background-color: rgba($bg-base, 0.5);
