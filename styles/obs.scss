@@ -10,22 +10,22 @@ body {
     }
   }
   &.presentation {
-    .gurmukhifont {
-      display: none !important;
-    }
-    .translation {
-      display: none !important;
-    }
-    .transliteration {
-      display: none !important;
-    }
-    .darpan {
-      display: none !important;
-    }
     .line {
       display: none !important;
     }
     .active {
+      .gurmukhifont {
+        display: block !important;
+      }
+      .translation {
+        display: block !important;
+      }
+      .transliteration {
+        display: none !important;
+      }
+      .darpan {
+        display: none !important;
+      }
       display: flex !important;
       min-height: 100vh !important;
       .translation {

@@ -2,19 +2,19 @@ body.presentation .vishraamHeavy, body.presentation .vishraamMedium, body.presen
   color: inherit; }
 body.presentation .vishraamHeavy > .vishraamChar, body.presentation .vishraamMedium > .vishraamChar, body.presentation .vishraamLight > .vishraamChar {
   display: none; }
-body.presentation .gurmukhifont {
-  display: block; }
-body.presentation .translation {
-  display: block; }
-body.presentation .transliteration {
-  display: none; }
-body.presentation .darpan {
-  display: none; }
 body.presentation .line {
   display: none; }
 body.presentation .active {
   display: flex !important;
   min-height: 100vh !important; }
+  body.presentation .active .gurmukhifont {
+    display: block; }
+  body.presentation .active .translation {
+    display: block; }
+  body.presentation .active .transliteration {
+    display: none; }
+  body.presentation .active .darpan {
+    display: none; }
   body.presentation .active .translation {
     font-family: "English Translation", sans-serif;
     font-size: 4.5vh;
