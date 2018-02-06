@@ -38,26 +38,32 @@ body {
           background: none;
         }
       }
-      display: flex !important;
-      min-height: 100vh !important;
-      .gurmukhifont, .translation, .darpan, .transliteration {
-        margin: 0;
-      }
-      .gurmukhifont {
-        line-height: 1.44;
-      }
-      .translation {
-        font-family: "English Translation", sans-serif;
-        font-size: 4.5vh;
-        line-height: 1.85em;
-        margin: 0;
-      }
     }
     .line > div {
       margin-bottom: 0;
       padding: 0;
       justify-content: flex-end;
     }
+  }
+}
+
+body.presentation .active {
+  display: flex !important;
+  min-height: 100vh !important;
+  .gurmukhifont, .translation, .darpan, .transliteration {
+    margin: 0;
+  }
+  .gurmukhifont {
+    line-height: 1.45;
+  }
+  .translation {
+    line-height: 1.39;
+  }
+  .darpan {
+    line-height: 1.3175;
+  }
+  .transliteration {
+    line-height: 1.39;
   }
 }
 
