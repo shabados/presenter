@@ -433,7 +433,7 @@ body.liveCaption div.preview {
   display: flex;
   justify-content: center; }
   body.liveCaption div.preview iframe {
-    background: green;
+    background: url("../includes/live-caption-tool-bg.jpeg") no-repeat;
     align-self: center; }
 body.liveCaption div.settings {
   display: flex; }
