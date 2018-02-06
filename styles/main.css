@@ -437,6 +437,7 @@ body.liveCaption div.preview {
   justify-content: center; }
   body.liveCaption div.preview iframe {
     background: url("../includes/live-caption-tool-bg.jpeg") no-repeat;
+    background-size: cover;
     align-self: center; }
 body.liveCaption div.settings {
   display: flex; }
