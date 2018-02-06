@@ -20,7 +20,7 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/hashicorp/mdns"
-  
+
 )
 
 // compile all templates and cache them
@@ -389,7 +389,7 @@ func updateShabad(id string) {
 				}
 				gak += `">` + str[0:len(str)-1] + `<div class="vishraamChar">` + end + `</div></div>`
 				if end == ";" { // fix for heavy vishraams to break on long lines
-					gak += `</div><div>`
+					gak += `</div><div class="bgw">`
 				}
 			case "]":
 				// check for following, if exist, include it's work
@@ -397,7 +397,7 @@ func updateShabad(id string) {
 					gak = str
 					//gurmukhiArray[key+1] += `</div></div><div><div>`
 				} else {
-					gak = str + `</div></div><div><div>` // after first closing div we had <div class="nbsp">&nbsp;</div>
+					gak = str + `</div></div><div><div class="bgw">` // after first closing div we had <div class="nbsp">&nbsp;</div>
 				}
 			}
 			gurmukhiArray[key] = gak
@@ -408,7 +408,7 @@ func updateShabad(id string) {
 			gurmukhi = `<div class="nbsp">&nbsp;</div>` + gurmukhi
 		}
 
-		gurmukhiFull += `<div><div>` + gurmukhi + `</div></div>`
+		gurmukhiFull += `<div><div class="bgw">` + gurmukhi + `</div></div>`
 
 		transliterationFull += " " + transliteration
 		translationFull += " " + english

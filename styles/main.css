@@ -214,6 +214,9 @@ body.navigate .buttons.middle, body.navigate #navi-thumb-tack {
   display: inline-block;
   font-size: .85em; }
 
+.bgw {
+  display: inline; }
+
 body.presentation #help-screen {
   z-index: 9001;
   position: fixed;

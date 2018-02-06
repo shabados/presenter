@@ -9,12 +9,20 @@ body.presentation .active {
   min-height: 100vh !important; }
   body.presentation .active .gurmukhifont {
     display: block !important; }
+    body.presentation .active .gurmukhifont .bgw {
+      background: none; }
   body.presentation .active .translation {
     display: block !important; }
+    body.presentation .active .translation .bgw {
+      background: none; }
   body.presentation .active .transliteration {
     display: none !important; }
+    body.presentation .active .transliteration .bgw {
+      background: none; }
   body.presentation .active .darpan {
     display: none !important; }
+    body.presentation .active .darpan .bgw {
+      background: none; }
   body.presentation .active .gurmukhifont, body.presentation .active .translation, body.presentation .active .darpan, body.presentation .active .transliteration {
     margin: 0; }
   body.presentation .active .gurmukhifont {
@@ -39,13 +47,6 @@ body.presentation .active .gurmukhifont > div > div {
   display: inline-block; }
 
 body.presentation {
-  background: none;
-  /* was green 00ff00 */ }
-  body.presentation .active .gurmukhifont {
-    color: #FFEB3B; }
-    body.presentation .active .gurmukhifont > div > div {
-      background: #0a0a0a00; }
-  body.presentation .active .translation {
-    color: #FFFFFF; }
+  background: none; }
 
 /*# sourceMappingURL=obs.css.map */

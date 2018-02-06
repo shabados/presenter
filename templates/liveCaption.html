@@ -21,7 +21,7 @@
 
 			$(window).load(function () {
 				styleSheet = $($("iframe").contents()[0].styleSheets).last()[0].rules
-				$("iframe")[0].contentWindow.defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line active"><div><div class="gurmukhifont"><div><div>gurbwxI</div></div></div><div class="translation">Translation</div><div class="darpan">ਪਨਜਾਬੀ ਅਰਥ</div><div class="transliteration">gurbaanee</div></div></div></div>'
+				$("iframe")[0].contentWindow.defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line active"><div><div class="gurmukhifont"><div><div class="bgw">gurbwxI</div></div></div><div class="translation"><span class="bgw">Translation</span></div><div class="darpan"><span class="bgw">ਪਨਜਾਬੀ ਅਰਥ</span></div><div class="transliteration"><span class="bgw">gurbaanee</span></div></div></div></div>'
 				var selector = "body.presentation .active "
 
 				$("input").change( function() {
@@ -57,7 +57,7 @@
 
 				$(".popup.background > div > div").click(function(){
 					var color = $(this).data("color") == "none" ? "none" : $(this).data("color") + ($("#checkbox-1").prop("checked") ? "80" : "FF")
-					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")] + " > div > div","background", color)
+					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")] + " .bgw","background", color)
 					$(this).parents(".popup").siblings(".label").css("background",color)
 				})
 

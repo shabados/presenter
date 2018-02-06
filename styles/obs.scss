@@ -16,15 +16,27 @@ body {
     .active {
       .gurmukhifont {
         display: block !important;
+        .bgw {
+          background: none;
+        }
       }
       .translation {
         display: block !important;
+        .bgw {
+          background: none;
+        }
       }
       .transliteration {
         display: none !important;
+        .bgw {
+          background: none;
+        }
       }
       .darpan {
         display: none !important;
+        .bgw {
+          background: none;
+        }
       }
       display: flex !important;
       min-height: 100vh !important;
@@ -59,20 +71,6 @@ body.presentation .active .gurmukhifont > div > div {
   display: inline-block;
 }
 
-
-body {
-  &.presentation {
-    background: none; /* was green 00ff00 */
-    .active {
-      .gurmukhifont {
-        color: #FFEB3B;
-        > div > div {
-          background: #0a0a0a00;
-        }
-      }
-      .translation {
-        color: #FFFFFF;
-      }
-    }
-  }
+body.presentation {
+    background: none;
 }
