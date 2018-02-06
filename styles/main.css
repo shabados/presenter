@@ -489,6 +489,11 @@ body.liveCaption .options {
     padding: .5em;
     display: none;
     border: 1px solid gray; }
+    body.liveCaption .options .popup .legend {
+      font-size: .75em;
+      width: 100%;
+      text-align: right;
+      padding-bottom: .5em; }
   body.liveCaption .options .custom-color input[type="color"] {
     width: 3em;
     height: 2.5em; }
