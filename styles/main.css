@@ -448,7 +448,7 @@ body.liveCaption div.settings {
     min-width: 23em; }
   body.liveCaption div.settings .c3 {
     width: 1%;
-    min-width: 161px; }
+    min-width: 163px; }
   body.liveCaption div.settings .c1 > div, body.liveCaption div.settings .c2 > div, body.liveCaption div.settings .c3 > div {
     margin: 0.5em;
     height: 260px;
@@ -465,7 +465,7 @@ body.liveCaption .options {
   position: relative;
   display: none;
   margin-left: 3.5em;
-  width: calc(100% - 3em - 11.25em); }
+  width: calc(100% - 3em - 12em); }
   body.liveCaption .options > * {
     margin-bottom: 0.75em; }
   body.liveCaption .options .chooser, body.liveCaption .options .font-size-changer {
@@ -484,7 +484,7 @@ body.liveCaption .options {
     top: calc(1.5em + 4px);
     float: left;
     z-index: 1000;
-    width: 11.25em;
+    width: 12em;
     background: white;
     padding: .5em;
     display: none;
@@ -540,9 +540,7 @@ body.liveCaption .options {
     background: #795548; }
 body.liveCaption .font-size-changer {
   display: inline-block;
-  background: #e5e5e5;
   position: relative;
-  border: 1px solid gray;
   text-align: center;
   border-radius: 3px;
   width: 9.5em; }
@@ -1222,26 +1220,29 @@ body.color-scheme-night {
   body.color-scheme-night.liveCaption .c1 > div, body.color-scheme-night.liveCaption .c2 > div {
     background: #303030; }
   body.color-scheme-night.liveCaption .c2 .chooser span.label {
-    border: 1px solid rgba(255, 255, 255, 0.2); }
+    border: 2px solid rgba(255, 255, 255, 0.2); }
     body.color-scheme-night.liveCaption .c2 .chooser span.label:hover {
-      border-color: rgba(255, 255, 255, 0.4); }
+      border-color: rgba(255, 255, 255, 0.25); }
   body.color-scheme-night.liveCaption .c2 .font-size-changer {
-    background: rgba(255, 255, 255, 0.1); }
+    border: 2px solid rgba(255, 255, 255, 0.2); }
     body.color-scheme-night.liveCaption .c2 .font-size-changer .value {
-      background: rgba(0, 0, 0, 0.75); }
+      background: #101010;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-top: 0;
+      border-bottom: 0; }
   body.color-scheme-night.liveCaption .c2 .popup {
-    background: #424242;
-    border: 1px solid rgba(255, 255, 255, 0.1); }
+    background: #0c0c0c;
+    border: 2px solid rgba(255, 255, 255, 0.1); }
   body.color-scheme-night.liveCaption .c2 .options .fixed-color-choices > div, body.color-scheme-night.liveCaption .c2 .options .remove-option > div {
-    border: 1px solid rgba(255, 255, 255, 0.75); }
+    border: 2px solid rgba(255, 255, 255, 0.66); }
   body.color-scheme-night.liveCaption .c2 .options .mdl-checkbox__box-outline {
-    border-color: rgba(255, 255, 255, 0.75); }
+    border-color: rgba(255, 255, 255, 0.66); }
   body.color-scheme-night.liveCaption .c2 .options .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
     border-color: #00bcd4; }
   body.color-scheme-night.liveCaption .c3 .mdl-button {
     background-color: rgba(48, 48, 48, 0.5);
     color: #e0e0e0;
-    border: 1px solid rgba(255, 255, 255, 0.1); }
+    border: 2px solid rgba(255, 255, 255, 0.1); }
     body.color-scheme-night.liveCaption .c3 .mdl-button:hover {
       background-color: rgba(255, 255, 255, 0.2); }
   body.color-scheme-night.liveCaption .c3 .mdl-ripple {
@@ -1402,26 +1403,29 @@ body.color-scheme-day {
   body.color-scheme-day.liveCaption .c1 > div, body.color-scheme-day.liveCaption .c2 > div {
     background: #EEEEEE; }
   body.color-scheme-day.liveCaption .c2 .chooser span.label {
-    border: 1px solid rgba(0, 0, 0, 0.2); }
+    border: 2px solid rgba(0, 0, 0, 0.2); }
     body.color-scheme-day.liveCaption .c2 .chooser span.label:hover {
-      border-color: rgba(0, 0, 0, 0.4); }
+      border-color: rgba(0, 0, 0, 0.25); }
   body.color-scheme-day.liveCaption .c2 .font-size-changer {
-    background: rgba(0, 0, 0, 0.1); }
+    border: 2px solid rgba(0, 0, 0, 0.2); }
     body.color-scheme-day.liveCaption .c2 .font-size-changer .value {
-      background: rgba(255, 255, 255, 0.75); }
+      background: #f9f9f9;
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      border-top: 0;
+      border-bottom: 0; }
   body.color-scheme-day.liveCaption .c2 .popup {
-    background: #E0E0E0;
-    border: 1px solid rgba(0, 0, 0, 0.1); }
+    background: #fbfbfb;
+    border: 2px solid rgba(0, 0, 0, 0.1); }
   body.color-scheme-day.liveCaption .c2 .options .fixed-color-choices > div, body.color-scheme-day.liveCaption .c2 .options .remove-option > div {
-    border: 1px solid rgba(0, 0, 0, 0.75); }
+    border: 2px solid rgba(0, 0, 0, 0.66); }
   body.color-scheme-day.liveCaption .c2 .options .mdl-checkbox__box-outline {
-    border-color: rgba(0, 0, 0, 0.75); }
+    border-color: rgba(0, 0, 0, 0.66); }
   body.color-scheme-day.liveCaption .c2 .options .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
     border-color: #00bcd4; }
   body.color-scheme-day.liveCaption .c3 .mdl-button {
     background-color: rgba(238, 238, 238, 0.5);
     color: #212121;
-    border: 1px solid rgba(0, 0, 0, 0.1); }
+    border: 2px solid rgba(0, 0, 0, 0.1); }
     body.color-scheme-day.liveCaption .c3 .mdl-button:hover {
       background-color: rgba(0, 0, 0, 0.2); }
   body.color-scheme-day.liveCaption .c3 .mdl-ripple {
@@ -1582,26 +1586,29 @@ body.color-scheme-philosophiae {
   body.color-scheme-philosophiae.liveCaption .c1 > div, body.color-scheme-philosophiae.liveCaption .c2 > div {
     background: #312f2c; }
   body.color-scheme-philosophiae.liveCaption .c2 .chooser span.label {
-    border: 1px solid rgba(255, 255, 255, 0.2); }
+    border: 2px solid rgba(255, 255, 255, 0.2); }
     body.color-scheme-philosophiae.liveCaption .c2 .chooser span.label:hover {
-      border-color: rgba(255, 255, 255, 0.4); }
+      border-color: rgba(255, 255, 255, 0.25); }
   body.color-scheme-philosophiae.liveCaption .c2 .font-size-changer {
-    background: rgba(255, 255, 255, 0.1); }
+    border: 2px solid rgba(255, 255, 255, 0.2); }
     body.color-scheme-philosophiae.liveCaption .c2 .font-size-changer .value {
-      background: rgba(220, 216, 208, 0.75); }
+      background: #a4a09a;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-top: 0;
+      border-bottom: 0; }
   body.color-scheme-philosophiae.liveCaption .c2 .popup {
-    background: #5e5c55;
-    border: 1px solid rgba(255, 255, 255, 0.1); }
+    background: #b1aea7;
+    border: 2px solid rgba(255, 255, 255, 0.1); }
   body.color-scheme-philosophiae.liveCaption .c2 .options .fixed-color-choices > div, body.color-scheme-philosophiae.liveCaption .c2 .options .remove-option > div {
-    border: 1px solid rgba(255, 255, 255, 0.75); }
+    border: 2px solid rgba(255, 255, 255, 0.66); }
   body.color-scheme-philosophiae.liveCaption .c2 .options .mdl-checkbox__box-outline {
-    border-color: rgba(255, 255, 255, 0.75); }
+    border-color: rgba(255, 255, 255, 0.66); }
   body.color-scheme-philosophiae.liveCaption .c2 .options .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
     border-color: #00bcd4; }
   body.color-scheme-philosophiae.liveCaption .c3 .mdl-button {
     background-color: rgba(49, 47, 44, 0.5);
     color: #e6e2da;
-    border: 1px solid rgba(255, 255, 255, 0.1); }
+    border: 2px solid rgba(255, 255, 255, 0.1); }
     body.color-scheme-philosophiae.liveCaption .c3 .mdl-button:hover {
       background-color: rgba(255, 255, 255, 0.2); }
   body.color-scheme-philosophiae.liveCaption .c3 .mdl-ripple {

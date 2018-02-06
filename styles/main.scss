@@ -583,7 +583,7 @@ body {
       }
       .c3 {
         width: 1%;
-        min-width: 161px;
+        min-width: 163px;
       }
       .c1 > div, .c2 > div, .c3 > div {
         margin: 0.5em;
@@ -610,7 +610,7 @@ body {
       position: relative;
       display: none;
       margin-left: 3.5em;
-      width: calc(100% - 3em - 11.25em);
+      width: calc(100% - 3em - 12em);
 
       & > * {
         margin-bottom: 0.75em;
@@ -636,7 +636,7 @@ body {
         top: calc(1.5em + 4px);
         float: left;
         z-index: 1000;
-        width: 11.25em;
+        width: 12em;
         background: white;
         padding: .5em;
         display: none;
@@ -720,9 +720,7 @@ body {
     }
     .font-size-changer {
       display: inline-block;
-      background: #e5e5e5;
       position: relative;
-      border: 1px solid gray;
       text-align: center;
       border-radius: 3px;
       width: 9.5em;
@@ -1669,31 +1667,34 @@ body.color-scheme-day {
       }
       .c2 {
         .chooser span.label {
-          border: 1px solid rgba($fg-brighter, 0.2);
+          border: 2px solid rgba($fg-brighter, 0.2);
 
           &:hover {
-            border-color: rgba($fg-brighter, 0.4);
+            border-color: rgba($fg-brighter, 0.25);
           }
         }
         .font-size-changer {
-          background: rgba($fg-brighter, 0.1);
+          border: 2px solid rgba($fg-brighter, 0.2);
 
           .value {
-            background: rgba($bg-presentation, 0.75);
+            background: mix($bg-base, $bg-presentation, 33%);
+            border: 2px solid rgba($fg-brighter, 0.2);
+            border-top: 0;
+            border-bottom: 0;
           }
         }
         .popup {
-          background: $bg-bright;
-          border: 1px solid rgba($fg-brighter, 0.1);
+          background: mix($bg-base, $bg-presentation, 25%);
+          border: 2px solid rgba($fg-brighter, 0.1);
         }
         .options {
           .fixed-color-choices, .remove-option {
             & > div {
-              border: 1px solid rgba($fg-brighter, 0.75);
+              border: 2px solid rgba($fg-brighter, 0.66);
             }
           }
           .mdl-checkbox__box-outline {
-            border-color: rgba($fg-brighter, 0.75);
+            border-color: rgba($fg-brighter, 0.66);
           }
           .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
             border-color: rgb(0,188,212);
@@ -1704,7 +1705,7 @@ body.color-scheme-day {
         .mdl-button {
           background-color: rgba($bg-base, 0.5);
           color: $fg-bright;
-          border: 1px solid rgba($fg-brighter, 0.1);
+          border: 2px solid rgba($fg-brighter, 0.1);
 
           &:hover {
             background-color: rgba($fg-brighter, 0.2);
