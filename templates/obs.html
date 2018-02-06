@@ -5,6 +5,7 @@
 		{{template "header"}}
 		<link rel="stylesheet" href="styles/obs.css" />
 		<script>
+			var defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line"><div><div class="gurmukhifont"></div><div class="translation"></div></div></div></div>'
 			function updateDisplay() {
 				$.ajax({
 					url : server+"/getJSON",
@@ -12,16 +13,20 @@
 					dataType: "json",
 					success : function (data) {
 						var shabadID = data.shabadID;
-						if (shabadID != $('div.shabad').attr("id")) {
-							var body = "<div class='shabad' id="+shabadID+">";
-							$.each(data.shabad, function(key,value){
-								body = body+"<div id="+value.PK+" class='line'><div><div class=\"gurmukhifont\">"+value.gurmukhi+"</div>";
-								body = body+"<div class=\"translation\">"+value.translation+"</div>";
-								body = body+"<div class=\"darpan\">"+value.darpan+"</div>";
-								body = body+"<div class=\"transliteration\">"+value.transliteration+"</div>";
-								body = body+"</div></div>"; //closes opening div
-							})
-							$('div.body').html(body+"</div>");
+						if (shabadID != $('.shabad').data("shabadid")) {
+							if (shabadID == 0) {
+								$('div.body').html(defaultHTML);
+							} else { 
+								var body = "<div class='shabad' data-shabadid="+shabadID+">";
+								$.each(data.shabad, function(key,value){
+									body = body+"<div id="+value.PK+" class='line'><div><div class=\"gurmukhifont\">"+value.gurmukhi+"</div>";
+									body = body+"<div class=\"translation\">"+value.translation+"</div>";
+									body = body+"<div class=\"darpan\">"+value.darpan+"</div>";
+									body = body+"<div class=\"transliteration\">"+value.transliteration+"</div>";
+									body = body+"</div></div>"; //closes opening div
+								})
+								$('div.body').html(body+"</div>");
+							}
 						} else {
 							var PK = data.PK;
 							
@@ -51,7 +56,7 @@
 		</head>
 <html>
 	<body class="presentation obs {{.Settings}}">
-		<div class="body"><div class="shabad" id="0"><div id="0" class="line"><div><div class="gurmukhifont"></div><div class="translation"></div></div></div></div></div>
+		<div class="body"></div>
 	</body>
 </html>
 {{end}}
