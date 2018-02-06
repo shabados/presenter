@@ -3,28 +3,30 @@ body.presentation .vishraamHeavy, body.presentation .vishraamMedium, body.presen
 body.presentation .vishraamHeavy > .vishraamChar, body.presentation .vishraamMedium > .vishraamChar, body.presentation .vishraamLight > .vishraamChar {
   display: none; }
 body.presentation .line {
-  display: none; }
+  display: none !important; }
 body.presentation .active {
   display: flex !important;
   min-height: 100vh !important; }
   body.presentation .active .gurmukhifont {
-    display: block; }
+    display: block !important; }
   body.presentation .active .translation {
-    display: block; }
+    display: block !important; }
   body.presentation .active .transliteration {
-    display: none; }
+    display: none !important; }
   body.presentation .active .darpan {
-    display: none; }
+    display: none !important; }
+  body.presentation .active .gurmukhifont, body.presentation .active .translation, body.presentation .active .darpan, body.presentation .active .transliteration {
+    margin: 0; }
+  body.presentation .active .gurmukhifont {
+    line-height: 1.44; }
   body.presentation .active .translation {
     font-family: "English Translation", sans-serif;
     font-size: 4.5vh;
     line-height: 1.85em;
-    margin: 0;
-    -webkit-text-stroke: 1px #0a0a0a;
-    text-shadow: 3px 3px 0 #0a0a0a, -1px -1px 0 #0a0a0a,   1px -1px 0 #0a0a0a, -1px 1px 0 #0a0a0a, 1px 1px 0 #0a0a0a  !important; }
+    margin: 0; }
 body.presentation .line > div {
   margin-bottom: 0;
-  padding-bottom: .175em;
+  padding: 0;
   justify-content: flex-end; }
 
 body.presentation .active .gurmukhifont > div > div {

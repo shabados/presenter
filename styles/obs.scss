@@ -28,6 +28,9 @@ body {
       }
       display: flex !important;
       min-height: 100vh !important;
+      .gurmukhifont, .translation, .darpan, .transliteration {
+        margin: 0;
+      }
       .gurmukhifont {
         line-height: 1.44;
       }
@@ -40,7 +43,7 @@ body {
     }
     .line > div {
       margin-bottom: 0;
-      padding-bottom: .175em;
+      padding: 0;
       justify-content: flex-end;
     }
   }
