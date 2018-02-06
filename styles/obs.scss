@@ -28,6 +28,9 @@ body {
       }
       display: flex !important;
       min-height: 100vh !important;
+      .gurmukhifont {
+        line-height: 1.44;
+      }
       .translation {
         font-family: "English Translation", sans-serif;
         font-size: 4.5vh;
