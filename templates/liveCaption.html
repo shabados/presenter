@@ -28,13 +28,13 @@
 					if (this.type == "color") {
 						updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"color",this.value)
 						$(this).parents(".popup").siblings(".label").css("background",this.value)
+					} else if (this.type == "radio") {
+						updateCSS ( "body.presentation .line > div", "justify-content", $(this).data("justify-content"))
 					} else {
 						var settingName = this.id
 						var item, property, value
 						var setting = this.type == "checkbox" ? $(this).prop('checked') : this.value
-						if (settingName == "position-top") {
-							updateCSS ( selector + ".line > div", "justify-content", "flex-" + (setting ? "start" : "end"))
-						} else if (settingName == "green-screen") {
+						if (settingName == "green-screen") {
 							// updateCSS ( "body", "background", (setting ? "green" : "none"))
 						} else {
 							updateCSS ( selector + elementToClass[settingName], "display", setting ? "block" : "none")
@@ -135,26 +135,26 @@
 					<p style="margin-top: .75em;">Layout</p>
 					<div class="layout-radios">
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-top">
-						  <input class="mdl-radio__button" id="layout-top" name="flash" type="radio" value="auto">
+						  <input class="mdl-radio__button" id="layout-top" name="flash" type="radio" value="auto" data-justify-content="flex-start">
 						  <span class="mdl-radio__label">Top</span>
 						</label>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-bottom">
-						  <input class="mdl-radio__button" id="layout-bottom" name="flash" type="radio" value="auto">
+						  <input class="mdl-radio__button" id="layout-bottom" name="flash" type="radio" value="auto" data-justify-content="flex-end">
 						  <span class="mdl-radio__label">Bottom</span>
 						</label>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-center">
-						  <input class="mdl-radio__button" id="layout-center" name="flash" type="radio" value="auto">
+						  <input class="mdl-radio__button" id="layout-center" name="flash" type="radio" value="auto" data-justify-content="center">
 						  <span class="mdl-radio__label">Center</span>
 						</label>
-						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-spaced">
-						  <input class="mdl-radio__button" id="layout-spaced" name="flash" type="radio" value="auto">
-						  <span class="mdl-radio__label">Spaced</span>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-spaced-1">
+						  <input class="mdl-radio__button" id="layout-spaced-1" name="flash" type="radio" value="auto" data-justify-content="space-between">
+						  <span class="mdl-radio__label">Spaced 1</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-spaced-2">
+						  <input class="mdl-radio__button" id="layout-spaced-2" name="flash" type="radio" value="auto" data-justify-content="space-around">
+						  <span class="mdl-radio__label">Spaced 2</span>
 						</label>
 					</div>
-    			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="position-top">
-            	<input type="checkbox" id="position-top" class="mdl-switch__input">
-            	<span class="mdl-switch__label">Top Captions</span>
-        	</label>
         	<p style="margin-top: .75em;">Margins</p>
         	<p style="width:100%; ">
             	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="10" value="10" step="1">
