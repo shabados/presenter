@@ -38,7 +38,7 @@
 						var item, property, value
 						var setting = this.type == "checkbox" ? $(this).prop('checked') : this.value
 						if (settingName == "green-screen") {
-							// updateCSS ( "body", "background", (setting ? "green" : "none"))
+							updateCSS ( "body.presentation", "background", (setting ? "#00ff00" : "none"))
 						} else {
 							updateCSS ( selector + elementToClass[settingName], "display", setting ? "block" : "none")
 						}
