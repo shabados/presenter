@@ -48,7 +48,7 @@
 				})
 
 				$(".popup.shadow > div > div").click(function(){
-					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"text-shadow", $(this).data("color") == "none" ? "none" : "0.5vh 0.5vh " + ($("#green-screen").prop('checked') ? " " : "2vh ") + $(this).data("color"))
+					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"text-shadow", $(this).data("color") == "none" ? "none" : "0.05em 0.05em " + ($("#green-screen").prop('checked') ? " " : "0.2em ") + $(this).data("color"))
 					$(this).parents(".popup").siblings(".label").css("background",$(this).data("color"))
 				})
 
