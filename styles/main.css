@@ -561,6 +561,9 @@ body.liveCaption .font-size-changer {
     background: white; }
 body.liveCaption .mdl-switch.is-checked + .options {
   display: block; }
+body.liveCaption .layout-radios .mdl-radio {
+  width: 24%;
+  min-width: 100px; }
 
 /*body.presentationSingle .translation,*/
 .codefont {

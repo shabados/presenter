@@ -749,6 +749,10 @@ body {
     .mdl-switch.is-checked + .options {
       display: block;
     }
+    .layout-radios .mdl-radio {
+      width: 24%;
+      min-width: 100px;
+    }
   }
 }
 
