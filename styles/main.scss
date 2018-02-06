@@ -557,7 +557,7 @@ body {
 
     div.preview {
       background: #000;
-      height: calc(100vh - 350px);
+      height: calc(100vh - 360px);
       display: flex;
       justify-content: center;
 
@@ -572,15 +572,22 @@ body {
       & > div > p {
         margin: 0.5em 0 0 0.5em;
       }
-      .c1, .c3 {
-        width: 20%;
+      .c1 {
+        width: 50%;
+        min-width: 252px;
+        max-width: 530px;
       }
       .c2 {
-        width: 60%;
+        width: 100%;
+        min-width: 23em;
+      }
+      .c3 {
+        width: 1%;
+        min-width: 161px;
       }
       .c1 > div, .c2 > div, .c3 > div {
         margin: 0.5em;
-        height: 250px;
+        height: 260px;
         overflow: auto;
         padding: 0.5em 1em;
       }
@@ -602,8 +609,12 @@ body {
     & .options {
       position: relative;
       display: none;
-      height: $lcsbh;
       margin-left: 3.5em;
+      width: calc(100% - 3em - 11.25em);
+
+      & > * {
+        margin-bottom: 0.75em;
+      }
 
       .chooser, .font-size-changer {
         margin-left: 0.75em;
@@ -622,18 +633,14 @@ body {
       }
       .popup {
         position: absolute;
-        top: 1.5em;
+        top: calc(1.5em + 4px);
         float: left;
         z-index: 1000;
+        width: 11.25em;
         background: white;
         padding: .5em;
         display: none;
-      }
-      .popup.color {
-        width: 11.25em;
-      }
-      .popup.shadow {
-        width: 4em;
+        border: 1px solid gray;
       }
       .custom-color {
         input[type="color"] {
@@ -718,6 +725,7 @@ body {
       border: 1px solid gray;
       text-align: center;
       border-radius: 3px;
+      width: 9.5em;
 
       & > div {
         display: inline-block;
