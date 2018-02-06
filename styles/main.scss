@@ -651,8 +651,11 @@ body {
       }
       .custom-color {
         input[type="color"] {
-          width: 3em;
+          width: 3.5em;
           height: 2.5em;
+          border: 0;
+          cursor: default;
+          padding: 0;
         }
       }
       .remove-option > div {

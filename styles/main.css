@@ -495,8 +495,11 @@ body.liveCaption .options {
       text-align: right;
       padding-bottom: .5em; }
   body.liveCaption .options .custom-color input[type="color"] {
-    width: 3em;
-    height: 2.5em; }
+    width: 3.5em;
+    height: 2.5em;
+    border: 0;
+    cursor: default;
+    padding: 0; }
   body.liveCaption .options .remove-option > div {
     width: 100%;
     border: 1px solid gray;
