@@ -30,6 +30,9 @@
 						$(this).parents(".popup").siblings(".label").css("background",this.value)
 					} else if (this.type == "radio") {
 						updateCSS ( "body.presentation .line > div", "justify-content", $(this).data("justify-content"))
+					} else if (this.type == "range") {
+						updateCSS ( $(this).data("css-selector"), $(this).data("css-property"), $(this).val()+$(this).data("css-value"))
+						$("#range-label-"+this.id).html(" ("+ $(this).val() + $(this).data("css-value") + ")")
 					} else {
 						var settingName = this.id
 						var item, property, value
@@ -155,13 +158,13 @@
 						  <span class="mdl-radio__label">Spaced 2</span>
 						</label>
 					</div>
-        	<p style="margin-top: .75em;">Margins</p>
+        	<p style="margin-top: .75em;">Margin<span id="range-label-margin"></span></p>
         	<p style="width:100%; ">
-            	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="10" value="10" step="1">
+            	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="10" step="1" data-css-selector="body.presentation .line > div" data-css-property="padding" data-css-value="vh">
         	</p>
-        	<p style="margin-top: .75em;">Width</p>
+        	<p style="margin-top: .75em;">Width<span id="range-label-width"></p>
         	<p style="width:100%; ">
-            	<input id="width" class="mdl-slider mdl-js-slider" type="range" min="50" max="100" value="100" step="1">
+            	<input id="width" class="mdl-slider mdl-js-slider" type="range" min="50" max="100" value="100" step="1" data-css-selector="body.presentation .line > div" data-css-property="width" data-css-value="%">
         	</p>
         	<p style="font-size: 0.85em; margin-top: .75em;">The following setting is for broadcasting programs that lack support for transparent backgrounds. Modern broadcasting programs, including OBS, support transparency. Please see the tutorial for more information.</p>
     			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="green-screen">
