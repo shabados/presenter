@@ -53,13 +53,13 @@
 				})
 
 				$(".popup.background > div > div").click(function(){
-					var color = $(this).data("color") + ($("#checkbox-1").prop("checked") ? "80" : "")
+					var color = $(this).data("color") == "none" ? "none" : $(this).data("color") + ($("#checkbox-1").prop("checked") ? "80" : "FF")
 					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")] + " > div > div","background", color)
 					$(this).parents(".popup").siblings(".label").css("background",color)
 				})
 
 				$(".popup.window > div > div").click(function(){
-					var color = $(this).data("color") + ($("#checkbox-2").prop("checked") ? "80" : "")
+					var color = $(this).data("color") == "none" ? "none" : $(this).data("color") + ($("#checkbox-2").prop("checked") ? "80" : "FF")
 					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"background", color)
 					$(this).parents(".popup").siblings(".label").css("background",color)
 				})
