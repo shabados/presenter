@@ -90,11 +90,25 @@
 					})
 					if (document.queryCommandSupported('copy')) {
 						//copy to clipboard
-
+						$("#textarea").val(cssString)
+						$(".copopup").show()
+						$("#textarea").select()
+						try {
+					    var successful = document.execCommand('copy');
+					    var msg = successful ? 'CSS copied to clipboard!' : 'Please copy the below CSS';
+					    $(".copopup > p").text(msg);
+					  } catch (err) {
+					    $(".copopup > p").text('Please copy the below CSS');
+					  }
 					} else {
 						//failsafe
 						alert(cssString)
 					}
+				})
+
+				$("#copopup-close").click(function() {
+					$(".copopup").hide()
+					$("#textarea").val("")
 				})
 
 				$("#copy-link").click(function() {
@@ -237,9 +251,9 @@
 				</div>
 			</div>
 			<div class="copopup">
-				<div class="close"><i id="title-close" class="fa fa-times fa-fw hoverable" aria-hidden="true" data-hover="Close"></i></div>
+				<div class="close"><i id="copopup-close" class="fa fa-times fa-fw hoverable" aria-hidden="true" data-hover="Close"></i></div>
 				<p>Copied!</p>
-				<textarea></textarea>
+				<textarea id="textarea"></textarea>
 			</div>
 		</div>
 	</body>
