@@ -568,6 +568,28 @@ body.liveCaption .mdl-switch.is-checked + .options {
 body.liveCaption .layout-radios .mdl-radio {
   width: 24%;
   min-width: 100px; }
+body.liveCaption .copopup {
+  width: 60vw;
+  height: 60vh;
+  position: fixed;
+  z-index: 1000000;
+  top: 20vh;
+  left: 20vw;
+  background: #d0d0d0;
+  display: none; }
+  body.liveCaption .copopup .close {
+    float: right;
+    position: relative;
+    top: 0em;
+    right: 0em;
+    font-size: 1.5em; }
+  body.liveCaption .copopup textarea {
+    width: calc(100% - 3em);
+    border: 0;
+    padding: 1em;
+    margin: .5em .5em 0;
+    height: calc(60vh - 5.75em);
+    background: #efefef; }
 
 /*body.presentationSingle .translation,*/
 .codefont {

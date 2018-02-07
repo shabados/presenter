@@ -607,7 +607,6 @@ body {
       }
     }
 
-
     $lcsbh: 1.5em;
     & .options {
       position: relative;
@@ -755,6 +754,31 @@ body {
     .layout-radios .mdl-radio {
       width: 24%;
       min-width: 100px;
+    }
+    .copopup {
+      width: 60vw;
+      height: 60vh;
+      position: fixed;
+      z-index: 1000000;
+      top: 20vh;
+      left: 20vw;
+      background: #d0d0d0;
+      display: none;
+      .close {
+        float: right;
+        position: relative;
+        top: 0em;
+        right: 0em;
+        font-size: 1.5em;
+      }
+      textarea {
+        width: calc(100% - 3em);
+        border: 0;
+        padding: 1em;
+        margin: .5em .5em 0;
+        height: calc(60vh - 5.75em);
+        background: #efefef;
+      }
     }
   }
 }

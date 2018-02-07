@@ -88,7 +88,13 @@
 					$(styleSheet).each(function (index) {
 						cssString += this.cssText + "\n"
 					})
-					alert(cssString)
+					if (document.queryCommandSupported('copy')) {
+						//copy to clipboard
+
+					} else {
+						//failsafe
+						alert(cssString)
+					}
 				})
 
 				$("#copy-link").click(function() {
@@ -229,6 +235,11 @@
             Exit
           </button>
 				</div>
+			</div>
+			<div class="copopup">
+				<div class="close"><i id="title-close" class="fa fa-times fa-fw hoverable" aria-hidden="true" data-hover="Close"></i></div>
+				<p>Copied!</p>
+				<textarea></textarea>
 			</div>
 		</div>
 	</body>
