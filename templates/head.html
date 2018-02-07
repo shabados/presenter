@@ -567,7 +567,7 @@
 					if (mod || (lineID == lastID && scrollBottom) || (lineID == lastID && e.shiftKey)) {
 						var shabadID = Number($('.activeLine').data("shabadid"));
 						// properly change shabadID to what ever the last shabad ID is in the database
-						if ((shabadID >= 1 && shabadID < 5542)) { // || (shabadID >= 10000 && shabadID < 13480) || (shabadID >= 20000 && shabadID < 25690) || (shabadID >= 30000 && shabadID < 30081) || (shabadID >= 40000 && shabadID < 40170)) {
+						if ((shabadID >= 1 && shabadID <= 5542)) { // || (shabadID >= 10000 && shabadID < 13480) || (shabadID >= 20000 && shabadID < 25690) || (shabadID >= 30000 && shabadID < 30081) || (shabadID >= 40000 && shabadID < 40170)) {
 							location.href = 'shabad?id=' + (shabadID + 1);
 						}
 						dohm('angle-down', 'Next Shabad');
