@@ -56,23 +56,23 @@
 				})
 
 				$(".popup.background > div > div").click(function(){
+					$(this).parents(".popup").find(".active").removeClass("active")
+					$(this).addClass("active")
 					var color = $(this).data("color") == "none" ? "none" : $(this).data("color")
-					$(this).parents(".popup").data("color", color)
-					color += $(this).parents(".popup").find(".mdl-checkbox").is('.is-checked') ? "80" : "FF"
-					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")] + (true ? " .bgw" : ""),"background", color)
+					color += $(this).parents(".popup").find(".semitransparent .mdl-checkbox__input").prop('checked') ? "80" : "FF"
+					var localSelector = selector + elementToClass[$(this).parents(".options").data("for")]
+					if ($(this).parents(".popup").find(".full-width .mdl-checkbox__input").prop('checked')) {
+						updateCSS(localSelector + " .bgw","background","none")
+					} else {
+						updateCSS(localSelector,"background","none")
+						localSelector += " .bgw"
+					}
+					updateCSS(localSelector,"background", color)
 					$(this).parents(".popup").siblings(".label").css("background",color)
 				})
 
-				$(".popup.background .mdl-checkbox__input").click(function(){
-					var color = $(this).parents(".popup").data("color") + (this.checked ? "80" : "FF")
-					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")] + (true ? " .bgw" : ""),"background", color)
-					$(this).parents(".popup").siblings(".label").css("background",color)
-				})
-
-				$(".popup.window > div > div").click(function(){
-					var color = $(this).data("color") == "none" ? "none" : $(this).data("color") + ($("#checkbox-2").prop("checked") ? "80" : "FF")
-					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"background", color)
-					$(this).parents(".popup").siblings(".label").css("background",color)
+				$(".mdl-checkbox__input").click(function(){
+					$(this).parents(".popup").find(".active").click()
 				})
 
 				$(".smaller, .larger", ".font-size-changer").click(function(){
