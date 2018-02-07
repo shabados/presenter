@@ -69,6 +69,7 @@
 
 				$(".smaller, .larger", ".font-size-changer").click(function(){
 					var fontSize = $(this).siblings(".value").data("value") + (this.className == "smaller" ? -0.25 : 0.25)
+					fontSize > 15 ? fontSize = 15 : fontSize < 5 ? fontSize = 5 : ""
 					$(this).siblings(".value").data("value", fontSize).text(fontSize+"vh")
 					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"font-size", fontSize+"vh")
 				})
