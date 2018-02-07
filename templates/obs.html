@@ -5,7 +5,7 @@
 		{{template "header"}}
 		<link rel="stylesheet" href="styles/obs.css" />
 		<script>
-			var defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line"><div><div class="gurmukhifont"></div><div class="translation"></div></div></div></div>'
+			var defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line"><div><div class="gurmukhifont gurbani-larivaar"></div><div class="gurmukhifont gurbani-padched"></div><div class="translation"></div></div></div></div>'
 			function updateDisplay() {
 				$.ajax({
 					url : server+"/getJSON",
@@ -19,7 +19,9 @@
 							} else {
 								var body = "<div class='shabad' data-shabadid="+shabadID+">";
 								$.each(data.shabad, function(key,value){
-									body = body+"<div id="+value.PK+" class='line'><div><div class=\"gurmukhifont\">"+value.gurmukhi+"</div>";
+									body = body+"<div id="+value.PK+" class='line'><div>"
+									body = body+"<div class=\"gurmukhifont gurbani-larivaar\">"+value.gurmukhi+"</div>";
+									body = body+"<div class=\"gurmukhifont gurbani-padched\">"+value.gurmukhi+"</div>";
 									body = body+"<div class=\"translation\"><span class=\"bgw\">"+value.translation+"</span></div>";
 									body = body+"<div class=\"darpan\"><span class=\"bgw\">"+value.darpan+"</span></div>";
 									body = body+"<div class=\"transliteration\"><span class=\"bgw\">"+value.transliteration+"</span></div>";
