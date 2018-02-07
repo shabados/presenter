@@ -386,6 +386,12 @@ a {
 .nbsp {
   display: inline-block; }
 
+.gurmukhifont.gurbani-larivaar > div:first-child > div:first-child .nbsp:first-child, .gurmukhifont.gurbani-larivaar .nbsp {
+  display: none; }
+
+body.presentation .active .gurmukhifont.gurbani-larivaar > div > div {
+  padding: 0; }
+
 .vishraamHeavy, .vishraamMedium, .vishraamLight, .vishraamChar {
   display: inline; }
 
