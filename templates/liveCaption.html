@@ -56,8 +56,16 @@
 				})
 
 				$(".popup.background > div > div").click(function(){
-					var color = $(this).data("color") == "none" ? "none" : $(this).data("color") + ($("#checkbox-1").prop("checked") ? "80" : "FF")
-					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")] + " .bgw","background", color)
+					var color = $(this).data("color") == "none" ? "none" : $(this).data("color")
+					$(this).parents(".popup").data("color", color)
+					color += $(this).parents(".popup").find(".mdl-checkbox").is('.is-checked') ? "80" : "FF"
+					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")] + (true ? " .bgw" : ""),"background", color)
+					$(this).parents(".popup").siblings(".label").css("background",color)
+				})
+
+				$(".popup.background .mdl-checkbox__input").click(function(){
+					var color = $(this).parents(".popup").data("color") + (this.checked ? "80" : "FF")
+					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")] + (true ? " .bgw" : ""),"background", color)
 					$(this).parents(".popup").siblings(".label").css("background",color)
 				})
 
