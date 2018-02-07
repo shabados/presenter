@@ -4,9 +4,13 @@ body.presentation .vishraamHeavy > .vishraamChar, body.presentation .vishraamMed
   display: none; }
 body.presentation .line {
   display: none !important; }
-body.presentation .active .gurmukhifont {
+body.presentation .active .gurbani-larivaar {
   display: block !important; }
-  body.presentation .active .gurmukhifont .bgw {
+  body.presentation .active .gurbani-larivaar .bgw {
+    background: none; }
+body.presentation .active .gurbani-padched {
+  display: block !important; }
+  body.presentation .active .gurbani-padched .bgw {
     background: none; }
 body.presentation .active .translation {
   display: block !important; }

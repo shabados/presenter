@@ -14,7 +14,13 @@ body {
       display: none !important;
     }
     .active {
-      .gurmukhifont {
+      .gurbani-larivaar {
+        display: block !important;
+        .bgw {
+          background: none;
+        }
+      }
+      .gurbani-padched {
         display: block !important;
         .bgw {
           background: none;

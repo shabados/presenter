@@ -13,9 +13,10 @@
 					}
 			}
 			var elementToClass = {
-				"gurbani"					:	".gurmukhifont",
-				"english-translation"		:	".translation",
-				"punjabi-translation"		:	".darpan",
+				"gurbani-larivaar"				:	".gurbani-larivaar",
+				"gurbani-padched"					:	".gurbani-padched",
+				"english-translation"			:	".translation",
+				"punjabi-translation"			:	".darpan",
 				"english-transliteration"	:	".transliteration"
 			}
 
@@ -46,7 +47,7 @@
 
 			$(window).load(function () {
 				styleSheet = $($("iframe").contents()[0].styleSheets).last()[0].rules
-				$("iframe")[0].contentWindow.defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line active"><div><div class="gurmukhifont"><div><div class="bgw">gurbwxI</div></div></div><div class="translation"><span class="bgw">Translation</span></div><div class="darpan"><span class="bgw">ਪਨਜਾਬੀ ਅਰਥ</span></div><div class="transliteration"><span class="bgw">gurbaanee</span></div></div></div></div>'
+				$("iframe")[0].contentWindow.defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line active"><div><div class="gurmukhifont gurbani-larivaar"><div><div class="bgw">gurbwxI<div class="nbsp">&nbsp;</div><div class="vishraamMedium">lVIvwr<div class="vishraamChar">,</div></div></div></div></div><div class="gurmukhifont gurbani-padched"><div><div class="bgw">gurbwxI<div class="nbsp">&nbsp;</div><div class="vishraamMedium">pdCyd<div class="vishraamChar">,</div></div></div></div></div><div class="translation"><span class="bgw">Translation</span></div><div class="darpan"><span class="bgw">ਪਨਜਾਬੀ ਅਰਥ</span></div><div class="transliteration"><span class="bgw">gurbaanee</span></div></div></div></div>'
 				var selector = "body.presentation .active "
 
 				$("input").change( function() {
@@ -81,15 +82,23 @@
 				})
 
 				$(".popup.background > div > div").click(function(){
-					var color = $(this).data("color") == "none" ? "none" : $(this).data("color") + ($("#checkbox-1").prop("checked") ? "80" : "FF")
-					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")] + " .bgw","background", color)
+					$(this).parents(".popup").find(".active").removeClass("active")
+					$(this).addClass("active")
+					var color = $(this).data("color") == "none" ? "none" : $(this).data("color")
+					color += $(this).parents(".popup").find(".semitransparent .mdl-checkbox__input").prop('checked') ? "80" : "FF"
+					var localSelector = selector + elementToClass[$(this).parents(".options").data("for")]
+					if ($(this).parents(".popup").find(".full-width .mdl-checkbox__input").prop('checked')) {
+						updateCSS(localSelector + " .bgw","background","none")
+					} else {
+						updateCSS(localSelector,"background","none")
+						localSelector += " .bgw"
+					}
+					updateCSS(localSelector,"background", color)
 					$(this).parents(".popup").siblings(".label").css("background",color)
 				})
 
-				$(".popup.window > div > div").click(function(){
-					var color = $(this).data("color") == "none" ? "none" : $(this).data("color") + ($("#checkbox-2").prop("checked") ? "80" : "FF")
-					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"background", color)
-					$(this).parents(".popup").siblings(".label").css("background",color)
+				$(".mdl-checkbox__input").click(function(){
+					$(this).parents(".popup").find(".active").click()
 				})
 
 				$(".smaller, .larger", ".font-size-changer").click(function(){
@@ -245,12 +254,20 @@
 			<div class="c2">
 				<p>Appearance</p>
 				<div>
-					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="gurbani">
-						<input type="checkbox" id="gurbani" class="mdl-switch__input">
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="gurbani-larivaar">
+						<input type="checkbox" id="gurbani-larivaar" class="mdl-switch__input">
 						<div id="font-color" class="chooser"></div>
-						<span class="mdl-switch__label">Gurbani</span>
+						<span class="mdl-switch__label">Gurbani (Larivaar)</span>
 					</label>
-					<div class="options" data-for="gurbani">
+					<div class="options" data-for="gurbani-larivaar">
+						{{template "obsOptions"}}
+					</div>
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="gurbani-padched">
+						<input type="checkbox" id="gurbani-padched" class="mdl-switch__input">
+						<div id="font-color" class="chooser"></div>
+						<span class="mdl-switch__label">Gurbani (Padched)</span>
+					</label>
+					<div class="options" data-for="gurbani-padched">
 						{{template "obsOptions"}}
 					</div>
 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-translation">
