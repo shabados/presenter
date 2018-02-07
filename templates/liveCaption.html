@@ -84,8 +84,7 @@
 				$(".popup.background > div > div").click(function(){
 					$(this).parents(".popup").find(".active").removeClass("active")
 					$(this).addClass("active")
-					var color = $(this).data("color") == "none" ? "none" : $(this).data("color")
-					color += $(this).parents(".popup").find(".semitransparent .mdl-checkbox__input").prop('checked') ? "80" : "FF"
+					var color = $(this).data("color") == "none" ? "none" : $(this).data("color") + ($(this).parents(".popup").find(".semitransparent .mdl-checkbox__input").prop('checked') ? "80" : "FF")
 					var localSelector = selector + elementToClass[$(this).parents(".options").data("for")]
 					if ($(this).parents(".popup").find(".full-width .mdl-checkbox__input").prop('checked')) {
 						updateCSS(localSelector + " .bgw","background","none")
