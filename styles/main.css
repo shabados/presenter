@@ -583,13 +583,20 @@ body.liveCaption .copopup {
     top: 0em;
     right: 0em;
     font-size: 1.5em; }
-  body.liveCaption .copopup textarea {
+  body.liveCaption .copopup #textarea-copyable, body.liveCaption .copopup #textarea-noncopy {
     width: calc(100% - 3em);
     border: 0;
     padding: 1em;
     margin: .5em .5em 0;
     height: calc(60vh - 5.75em);
-    background: #efefef; }
+    background: #efefef;
+    overflow: scroll; }
+  body.liveCaption .copopup #textarea-noncopy ul, body.liveCaption .copopup #textarea-noncopy ol {
+    padding-left: 1.75em; }
+  body.liveCaption .copopup #textarea-noncopy p {
+    margin-top: 1em; }
+    body.liveCaption .copopup #textarea-noncopy p:first-child {
+      margin-top: 0; }
 
 /*body.presentationSingle .translation,*/
 .codefont {

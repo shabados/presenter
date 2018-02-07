@@ -19,6 +19,31 @@
 				"english-transliteration"	:	".transliteration"
 			}
 
+			function copopup(width, height, title = "Popup", content, copyable = false) {
+				$(".copopup").width(width).height(height).css("left", "calc(50vw - " + width + " / 2)").css("top", "calc(50vh - " + height + " / 2)")
+				$("#textarea-copyable").val("").hide()
+				$("#textarea-noncopy").val("").hide()
+				$(".copopup > p").text(title)
+				if (copyable) {
+					// modify w/h of textarea
+					$("#textarea-copyable").css("height", "calc(" + height + " - 5.75em)").val(content).show().select()
+					$(".copopup").show()
+					if (document.queryCommandSupported('copy')) {
+						//copy to clipboard
+						try {
+							var successful = document.execCommand('copy');
+							title = successful ? 'Copied to clipboard!' : '';
+						} catch (err) {
+							title = ''
+						}
+						$(".copopup > p").text(title);
+					}
+				} else {
+					$("#textarea-noncopy").css("height", "calc(" + height + " - 5.75em)").html(content).show()
+					$(".copopup").show()
+				}
+			}
+
 			$(window).load(function () {
 				styleSheet = $($("iframe").contents()[0].styleSheets).last()[0].rules
 				$("iframe")[0].contentWindow.defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line active"><div><div class="gurmukhifont"><div><div class="bgw">gurbwxI</div></div></div><div class="translation"><span class="bgw">Translation</span></div><div class="darpan"><span class="bgw">ਪਨਜਾਬੀ ਅਰਥ</span></div><div class="transliteration"><span class="bgw">gurbaanee</span></div></div></div></div>'
@@ -89,39 +114,57 @@
 					$(".popup").not(popup).hide()
 				})
 
+				$("#copopup-close").click(function() {
+					$(".copopup").hide()
+				})
+
 				$("#copy-css").click(function() {
 					var cssString = ""
 					$(styleSheet).each(function (index) {
 						cssString += this.cssText + "\n"
 					})
-					if (document.queryCommandSupported('copy')) {
-						//copy to clipboard
-						$("#textarea").val(cssString)
-						$(".copopup").show()
-						$("#textarea").select()
-						try {
-					    var successful = document.execCommand('copy');
-					    var msg = successful ? 'CSS copied to clipboard!' : 'Please copy the below CSS';
-					    $(".copopup > p").text(msg);
-					  } catch (err) {
-					    $(".copopup > p").text('Please copy the below CSS');
-					  }
-					} else {
-						//failsafe
-						alert(cssString)
-					}
-				})
-
-				$("#copopup-close").click(function() {
-					$(".copopup").hide()
-					$("#textarea").val("")
+					copopup("60vh", "60vh", "Custom CSS", cssString, true)
 				})
 
 				$("#copy-link").click(function() {
-					alert('http://{{.LocalIP}}:42424/obs')
+					localIP = {{.LocalIP}}
+					copopup("40vh", "20vh", "IP Address", 'http://'+localIP+':42424/obs', true)
 				})
 
-				$("#save-default").click(function() {
+				$("#help-btn").click(function() {
+					var content = `
+<p>Please check with support if needed.</p>
+<ul>
+	<li>WhatsApp +1 (516) 619-6059</li>
+	<li>Email shabados.com@gmail.com</li>
+	<li><a href="https://github.com/ShabadOS/core/issues/new">GitHub</a> (Open an issue)</li>
+</ul>
+
+<p>With Shabad OS, it's possible to use multiple computers to run the projector and livestream broadcast even though only one person needs to control the active line. All connected devices are automatically synced.</p>
+
+<p>How to use the broadcasting software OBS:</p>
+
+<ol>
+	<li>Run the obs-studio installer</li>
+	<li>Default options during the install are fine (Make sure "Browser" plugin is checked)</li>
+	<li>Open OBS Studio</li>
+	<li>In the bottom panel > Sources > Add > Browser</li>
+	<li>Get the remaining information from Shabad OS</li>
+</ol>
+
+<p>How to setup live captions with Shabad OS:</p>
+
+<ol>
+	<li>Open Shabad OS
+	<li>Menu > Live Captions Tool
+	<li>Set up the layout and appearance
+	<li>Use the "Copy Link" button for OBS > Browser properties > URL
+	<li>Use the "Copy CSS" button for OBS > Browser properties > Custom CSS
+</ol>
+
+<p>Be sure to set up the browser width/height in OBS to your video dimensions (TK) and make sure the Browser in the Source panel is at the highest so the captioning will show above other sources like video streams, images, and text.</p>
+`
+					copopup("60vh", "50vh", "Help", content)
 				})
 
 			})
@@ -245,7 +288,7 @@
           <!-- <button id="save-default" class="mdl-button mdl-js-button mdl-js-ripple-effect">
             Save Default
           </button> -->
-          <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+          <button id="help-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect">
             Help
           </button>
           <!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
@@ -256,7 +299,8 @@
 			<div class="copopup">
 				<div class="close"><i id="copopup-close" class="fa fa-times fa-fw hoverable" aria-hidden="true" data-hover="Close"></i></div>
 				<p>Copied!</p>
-				<textarea id="textarea"></textarea>
+				<textarea id="textarea-copyable"></textarea>
+				<div id="textarea-noncopy"></div>
 			</div>
 		</div>
 	</body>

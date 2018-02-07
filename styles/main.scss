@@ -771,13 +771,25 @@ body {
         right: 0em;
         font-size: 1.5em;
       }
-      textarea {
+      #textarea-copyable, #textarea-noncopy {
         width: calc(100% - 3em);
         border: 0;
         padding: 1em;
         margin: .5em .5em 0;
         height: calc(60vh - 5.75em);
         background: #efefef;
+        overflow: scroll;
+      }
+      #textarea-noncopy {
+        ul, ol {
+          padding-left: 1.75em;
+        }
+        p {
+          margin-top: 1em;
+          &:first-child {
+            margin-top: 0;
+          }
+        }
       }
     }
   }
