@@ -105,7 +105,7 @@
 				$(".mdl-checkbox__input").click(function(){
 					$(this).parents(".popup").find(".active").click()
 				})
-
+				
 				$(".smaller, .larger", ".font-size-changer").click(function(){
 					var fontSize = $(this).siblings(".value")
 					var value = fontSize.data("value")
@@ -192,11 +192,14 @@
 					$("#gurbani-larivaar").click()
 					$("#punjabi-translation").click()
 					$("#english-transliteration").click()
-					$(".color .yellow").click()
-					$(".english-translation .color .white").click()
-					$(".background .black").click()
+					$(".color .white").click()
+					$(".gurbani .color .yellow").click()
+					$(".background .indigo").click()
 					$(".shadow .black").click()
 					$("#layout-bottom").click()
+					$(".font-size-changer .value").data("value", "4.75").text("9.25vh")
+					$(".gurbani .font-size-changer .value").data("value", "9.25").text("9.25vh")
+					$(".font-size-changer .smaller").click()
 				});
 			})
 
@@ -253,11 +256,11 @@
 						  <span class="mdl-radio__label">Spaced 2</span>
 						</label>
 					</div>
-        	<p style="margin-top: .75em;">Margin<span id="range-label-margin"></span></p>
+        	<p style="margin-top: .75em;">Margin<span id="range-label-margin"> (10vh)</span></p>
         	<p style="width:100%; ">
-            	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="0" step="1" data-css-selector="body.presentation .line > div" data-css-property="padding" data-css-value="vh">
+            	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="10" step="1" data-css-selector="body.presentation .line > div" data-css-property="padding" data-css-value="vh">
         	</p>
-        	<p style="margin-top: .75em;">Width<span id="range-label-width"></p>
+        	<p style="margin-top: .75em;">Width<span id="range-label-width"> (100%)</p>
         	<p style="width:100%; ">
             	<input id="width" class="mdl-slider mdl-js-slider" type="range" min="50" max="100" value="100" step="1" data-css-selector="body.presentation .line > div" data-css-property="width" data-css-value="%">
         	</p>
@@ -276,7 +279,7 @@
 						<div id="font-color" class="chooser"></div>
 						<span class="mdl-switch__label">Gurbani (Larivaar)</span>
 					</label>
-					<div class="options gurbani-larivaar" data-for="gurbani-larivaar">
+					<div class="options gurbani gurbani-larivaar" data-for="gurbani-larivaar">
 						{{template "obsOptions"}}
 					</div>
 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="gurbani-padbandh">
@@ -284,7 +287,7 @@
 						<div id="font-color" class="chooser"></div>
 						<span class="mdl-switch__label">Gurbani (Padbandh)</span>
 					</label>
-					<div class="options gurbani-padbandh" data-for="gurbani-padbandh">
+					<div class="options gurbani gurbani-padbandh" data-for="gurbani-padbandh">
 						{{template "obsOptions"}}
 					</div>
 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-translation">
