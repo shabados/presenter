@@ -16,50 +16,50 @@ body {
     .active {
       .gurbani-larivaar {
         display: none;
-        color: rgb(255, 235, 59);
+        color: #ffeb3b;
         background: rgba(63, 81, 181, 0.5);
-        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
-        font-size: 9vh; 
+        text-shadow: black 0.05em 0.05em 0.2em;
+        font-size: 9vh;
         .bgw {
           background: none;
         }
       }
       .gurbani-padbandh {
         display: block;
-        color: rgb(255, 235, 59);
+        color: #ffeb3b;
         background: rgba(63, 81, 181, 0.5);
-        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
-        font-size: 9vh; 
+        text-shadow: black 0.05em 0.05em 0.2em;
+        font-size: 9vh;
         .bgw {
           background: none;
         }
       }
       .translation {
         display: block;
-        color: rgb(255, 235, 59);
+        color: white;
         background: rgba(63, 81, 181, 0.5);
-        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
-        font-size: 9vh;
+        text-shadow: black 0.05em 0.05em 0.2em;
+        font-size: 4.5vh;
         .bgw {
           background: none;
         }
       }
       .transliteration {
         display: none;
-        color: rgb(255, 235, 59);
+        color: white;
         background: rgba(63, 81, 181, 0.5);
-        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
-        font-size: 9vh;
+        text-shadow: black 0.05em 0.05em 0.2em;
+        font-size: 4.5vh;
         .bgw {
           background: none;
         }
       }
       .darpan {
         display: none;
-        color: rgb(255, 235, 59);
+        color: white;
         background: rgba(63, 81, 181, 0.5);
-        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
-        font-size: 9vh;
+        text-shadow: black 0.05em 0.05em 0.2em;
+        font-size: 4.5vh;
         .bgw {
           background: none;
         }
