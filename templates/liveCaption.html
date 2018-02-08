@@ -135,43 +135,48 @@
 					copopup("60vh", "60vh", "Custom CSS", cssString, true)
 				})
 
-				$("#copy-link").click(function() {
+				$("#copy-url").click(function() {
 					localIP = {{.LocalIP}}
 					copopup("40vh", "20vh", "IP Address", 'http://'+localIP+':42424/obs', true)
 				})
 
 				$("#help-btn").click(function() {
 					var content = `
-<p>Please check with support if needed.</p>
+<p>Please check with support if needed:</p>
 <ul>
 	<li>WhatsApp +1 (516) 619-6059</li>
-	<li>Email shabados.com@gmail.com</li>
+	<li>shabados.com@gmail.com</li>
 	<li><a href="https://github.com/ShabadOS/core/issues/new">GitHub</a> (Open an issue)</li>
 </ul>
 
 <p>With Shabad OS, it's possible to use multiple computers to run the projector and livestream broadcast even though only one person needs to control the active line. All connected devices are automatically synced.</p>
 
-<p>How to use the broadcasting software OBS:</p>
+<p>How to use the open broadcaster software (OBS):</p>
 
 <ol>
-	<li>Run the obs-studio installer</li>
-	<li>Default options during the install are fine (Make sure "Browser" plugin is checked)</li>
-	<li>Open OBS Studio</li>
-	<li>In the bottom panel > Sources > Add > Browser</li>
-	<li>Get the remaining information from Shabad OS</li>
+	<li>Download and install the latest OBS Studio</li>
+	<li>Keep the default options during install (Make sure the "Browser Source" plugin is checked when choosing components)</li>
+	<li>When finished, launch OBS Studio</li>
+	<li>On first launch: Accept the license and auto-configuration wizard</li>
+	<li>In the Sources panel: Add > BrowserSource</li>
+	<li>Create new BrowserSource and click OK</li>
+	<li>In Properties for BrowserSource, enter the URL and CSS from the Live Caption Tool in Shabad OS (Use the "Copy URL" and "Copy CSS" buttons in Shabad OS, you can use ctrl+a and ctrl+c shortcuts) (You can access the properties in OBS by double-clicking the BrowserSource in the Sources panel)</li>
+	<li>Set the width and height to match your video source</li>
+	<li>Once you've filled the URL, Width, Height, and CSS with the appropriate values, click "OK"</li>
+	<li>Make sure the BrowserSource is above all other sources by right clicking it > Order > Move to Top (Otherwise it will be covered by other sources)</li>
+	<li>Note: There must be an active line on the display/projector for anything to show up on OBS. You will not see the placeholder words shown in the Live Caption Tool preview.</li>
 </ol>
 
 <p>How to setup live captions with Shabad OS:</p>
 
 <ol>
-	<li>Open Shabad OS
-	<li>Menu > Live Captions Tool
-	<li>Set up the layout and appearance
-	<li>Use the "Copy Link" button for OBS > Browser properties > URL
-	<li>Use the "Copy CSS" button for OBS > Browser properties > Custom CSS
+	<li>Choose a layout for visible fields</li>
+	<li>Set a margin (5vh is safe for TVs and 10vh is safe for both TVs and YouTube)</li>
+	<li>In the Appearance panel, choose which fields you want to display</li>
+	<li>For visible fields, there are C (color), S (shadow), B (background), and font-size options</li>
+	<li>Note: Background options include semitransparency and extending the background edge from words to margins.
+	<li>Once finished, update OBS with the new CSS, and restart the OBS browser (You may need to activate a new line in Shabad OS as well)</li>
 </ol>
-
-<p>Be sure to set up the browser width/height in OBS to your video dimensions (TK) and make sure the Browser in the Source panel is at the highest so the captioning will show above other sources like video streams, images, and text.</p>
 `
 					copopup("60vh", "50vh", "Help", content)
 				})
@@ -296,8 +301,8 @@
 			<div class="c3">
 				<p>Controls</p>
 				<div>
-          <button id="copy-link" class="mdl-button mdl-js-button mdl-js-ripple-effect">
-            Copy Link
+          <button id="copy-url" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            Copy URL
           </button>
           <button id="copy-css" class="mdl-button mdl-js-button mdl-js-ripple-effect">
             Copy CSS
