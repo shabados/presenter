@@ -190,6 +190,7 @@
 					$("#punjabi-translation").click()
 					$("#english-transliteration").click()
 					$(".color .yellow").click()
+					$(".english-translation .color .white").click()
 					$(".background .black").click()
 					$(".shadow .black").click()
 					$("#layout-bottom").click()
@@ -272,7 +273,7 @@
 						<div id="font-color" class="chooser"></div>
 						<span class="mdl-switch__label">Gurbani (Larivaar)</span>
 					</label>
-					<div class="options" data-for="gurbani-larivaar">
+					<div class="options gurbani-larivaar" data-for="gurbani-larivaar">
 						{{template "obsOptions"}}
 					</div>
 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="gurbani-padched">
@@ -280,28 +281,28 @@
 						<div id="font-color" class="chooser"></div>
 						<span class="mdl-switch__label">Gurbani (Padched)</span>
 					</label>
-					<div class="options" data-for="gurbani-padched">
+					<div class="options gurbani-padched" data-for="gurbani-padched">
 						{{template "obsOptions"}}
 					</div>
 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-translation">
 						<input type="checkbox" id="english-translation" class="mdl-switch__input">
 						<span class="mdl-switch__label">English Translation</span>
 					</label>
-					<div class="options" data-for="english-translation">
+					<div class="options english-translation" data-for="english-translation">
 						{{template "obsOptions"}}
 					</div>
 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="punjabi-translation">
 						<input type="checkbox" id="punjabi-translation" class="mdl-switch__input">
 						<span class="mdl-switch__label">Punjabi Translation</span>
 					</label>
-					<div class="options" data-for="punjabi-translation">
+					<div class="options punjabi-translation" data-for="punjabi-translation">
 						{{template "obsOptions"}}
 					</div>
 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-transliteration">
 						<input type="checkbox" id="english-transliteration" class="mdl-switch__input">
 						<span class="mdl-switch__label">English Transliteration</span>
 					</label>
-					<div class="options" data-for="english-transliteration">
+					<div class="options english-transliteration" data-for="english-transliteration">
 						{{template "obsOptions"}}
 					</div>
 				</div>
