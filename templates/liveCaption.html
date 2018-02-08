@@ -105,7 +105,7 @@
 				$(".mdl-checkbox__input").click(function(){
 					$(this).parents(".popup").find(".active").click()
 				})
-				
+
 				$(".smaller, .larger", ".font-size-changer").click(function(){
 					var fontSize = $(this).siblings(".value")
 					var value = fontSize.data("value")
@@ -182,6 +182,14 @@
 	<li>Note: Background options include semitransparency and extending the background edge from words to margins.
 	<li>Once finished, update OBS with the new CSS, and restart the OBS browser (You may need to activate a new line in Shabad OS as well)</li>
 </ol>
+
+<p>Troubleshooting:</p>
+
+<ul>
+	<li>If you cannot copy the url and css in the live caption tool: Highlight all the text with the ctrl+a hotkey, then copy it with the ctrl+c hotkey.</li>
+	<li>If your network is improperly set up and showing the wrong IP address (169.254.X.X): Use the built-in windows method -- Open the start menu and type "cmd" to open a command prompt. Then type "ipconfig" and hit enter to view IP addresses for your network interfaces. Use the appropriate address based on what you're connecting to your router with (wifi or ethernet).</li>
+	<li>If you're experiencing any other problems, please contact support through the various methods listed at the top.</li>
+</ul>
 `
 					copopup("60vh", "50vh", "Help", content)
 				})
