@@ -46,8 +46,12 @@ body.presentation .active .darpan {
     background: none; }
 body.presentation .line > div {
   margin-bottom: 0;
-  padding: 10vh;
-  justify-content: flex-end; }
+  padding: 0vh;
+  justify-content: flex-end;
+  position: relative;
+  top: 0; }
+  body.presentation .line > div > div {
+    padding: 0; }
 
 body.presentation .active {
   display: flex !important;

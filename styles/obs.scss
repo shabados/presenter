@@ -67,8 +67,14 @@ body {
     }
     .line > div {
       margin-bottom: 0;
-      padding: 10vh;
+      padding: 0vh;
       justify-content: flex-end;
+      position: relative;
+      top: 0;
+
+      & > div {
+        padding: 0;
+      }
     }
   }
 }

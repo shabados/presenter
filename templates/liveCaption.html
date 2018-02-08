@@ -59,8 +59,8 @@
 				var selector = "body.presentation .active "
 
 				$("input[type=range]").on("input", function(){
-					updateCSS ( $(this).data("css-selector"), $(this).data("css-property"), $(this).val()+$(this).data("css-value"))
-					$("#range-label-"+this.id).html(" ("+ $(this).val() + $(this).data("css-value") + ")")
+					updateCSS ( $(this).data("css-selector"), $(this).data("css-property"), $(this).data("css-value").replace("X", $(this).val()))
+					$("#range-label-"+this.id).html(" ("+ $(this).data("css-value").replace("X", $(this).val()) + ")")
 				})
 
 				$("input").change( function() {
@@ -147,48 +147,53 @@
 
 				$("#help-btn").click(function() {
 					var content = `
-<p>Please check with support if needed:</p>
-<ul>
-	<li>WhatsApp +1 (516) 619-6059</li>
-	<li>shabados.com@gmail.com</li>
-	<li><a href="https://github.com/ShabadOS/core/issues/new">GitHub</a> (Open an issue)</li>
-</ul>
-
 <p>With Shabad OS, it's possible to use multiple computers to run the projector and livestream broadcast even though only one person needs to control the active line. All connected devices are automatically synced.</p>
+
+<p>This tutorial will explain how to use the Live Caption Tool, the open broadcaster software (OBS), troubleshoot, and contact support services for personalized help.</p>
+
+<p>How to use the Live Caption Tool in Shabad OS:</p>
+
+<ol>
+	<li>Begin in the Scene panel by choosing a layout for visible sources.</li>
+	<li>Use the Margin, Side Padding, Vertical Offset, and Word Width sliders to set a safe buffer between the screen edge and the sources. This helps with some models of televisions that cut off at the edges. (Aim for 3-6% or 3-6vh on all sides to be safe).</li>
+	<li>In the Sources panel, choose what you want to display.</li>
+	<li>For each visible source, there are C (color), S (shadow), B (background), and font-size options.</li>
+	<li>Note: Color options also include a custom color choice for the font.</li>
+	<li>Note: Background options also include semitransparency and extending the background edge from words to margins.</li>
+	<li>Once finished, update OBS with the new CSS, and restart the OBS browser. (Explained in the next section).</li>
+	<li>Note: It is helpful to activate a new line in Shabad OS to see all changes.</li>
+	<li>Note: You may have to manually copy and paste the URL and CSS in the next steps. (Use ctrl+a and ctrl+c on the text area to copy the URL and CSS).</li>
+</ol>
 
 <p>How to use the open broadcaster software (OBS):</p>
 
 <ol>
-	<li>Download and install the latest OBS Studio</li>
-	<li>Keep the default options during install (Make sure the "Browser Source" plugin is checked when choosing components)</li>
-	<li>When finished, launch OBS Studio</li>
-	<li>On first launch: Accept the license and auto-configuration wizard</li>
-	<li>In the Sources panel: Add > BrowserSource</li>
-	<li>Create new BrowserSource and click OK</li>
-	<li>In Properties for BrowserSource, enter the URL and CSS from the Live Caption Tool in Shabad OS (Use the "Copy URL" and "Copy CSS" buttons in Shabad OS, you can use ctrl+a and ctrl+c shortcuts) (You can access the properties in OBS by double-clicking the BrowserSource in the Sources panel)</li>
-	<li>Set the width and height to match your video source</li>
-	<li>Once you've filled the URL, Width, Height, and CSS with the appropriate values, click "OK"</li>
-	<li>Make sure the BrowserSource is above all other sources by right clicking it > Order > Move to Top (Otherwise it will be covered by other sources)</li>
+	<li>Download and install the latest OBS Studio. (Included with the Quickstart Kit). If you already have OBS Studio, skip to step 5.</li>
+	<li>Keep the default options during install. (Make sure the "Browser Source" plugin is checked when choosing components).</li>
+	<li>When finished, launch OBS Studio.</li>
+	<li>On first launch: Accept the license and auto-configuration wizard.</li>
+	<li>In the Sources panel: Add > BrowserSource.</li>
+	<li>Create new BrowserSource and click OK.</li>
+	<li>In Properties for BrowserSource, enter the URL and CSS from the Live Caption Tool in Shabad OS. (You can access the properties in OBS by double-clicking the BrowserSource in the Sources panel).</li>
+	<li>Set the width and height to match your video source.</li>
+	<li>Once you've filled the URL, Width, Height, and CSS with the appropriate values, click OK.</li>
+	<li>Make sure the BrowserSource is above all other sources by right clicking it > Order > Move to Top. (Otherwise it will be covered by other OBS sources).</li>
 	<li>Note: There must be an active line on the display/projector for anything to show up on OBS. You will not see the placeholder words shown in the Live Caption Tool preview.</li>
-</ol>
-
-<p>How to setup live captions with Shabad OS:</p>
-
-<ol>
-	<li>Choose a layout for visible fields</li>
-	<li>Set a margin (5vh is safe for TVs and 10vh is safe for both TVs and YouTube)</li>
-	<li>In the Appearance panel, choose which fields you want to display</li>
-	<li>For visible fields, there are C (color), S (shadow), B (background), and font-size options</li>
-	<li>Note: Background options include semitransparency and extending the background edge from words to margins.
-	<li>Once finished, update OBS with the new CSS, and restart the OBS browser (You may need to activate a new line in Shabad OS as well)</li>
 </ol>
 
 <p>Troubleshooting:</p>
 
 <ul>
-	<li>If you cannot copy the url and css in the live caption tool: Highlight all the text with the ctrl+a hotkey, then copy it with the ctrl+c hotkey.</li>
-	<li>If your network is improperly set up and showing the wrong IP address (169.254.X.X): Use the built-in windows method -- Open the start menu and type "cmd" to open a command prompt. Then type "ipconfig" and hit enter to view IP addresses for your network interfaces. Use the appropriate address based on what you're connecting to your router with (wifi or ethernet).</li>
-	<li>If you're experiencing any other problems, please contact support through the various methods listed at the top.</li>
+	<li>(If you cannot copy the URL and CSS in the Live Caption Tool) Highlight all the text with the ctrl+a hotkey, then copy it with the ctrl+c hotkey.</li>
+	<li>(If your network is improperly set up and showing the wrong IP Address (i.e. 169.254.X.X)) Use the built-in Windows method -- Open the start menu and type 'cmd' to open a command prompt. Then enter 'ipconfig' to view your network interfaces. Use the appropriate address based on what you're connecting to your router with (WiFi or Ethernet).</li>
+	<li>(If you're experiencing any other problems) Please contact support through the various methods listed below.</li>
+</ul>
+
+<p>Please contact support if needed:</p>
+<ul>
+	<li>WhatsApp +1 (516) 619-6059</li>
+	<li>shabados.com@gmail.com</li>
+	<li><a href="https://github.com/ShabadOS/core/issues/new">GitHub</a> (Open an issue)</li>
 </ul>
 `
 					copopup("60vh", "50vh", "Help", content)
@@ -239,7 +244,7 @@
 		</div>
 		<div class="settings">
 			<div class="c1">
-				<p>Macro</p>
+				<p>Scene</p>
 				<div>
 					<p style="margin-top: .75em;">Layout</p>
 					<div class="layout-radios">
@@ -264,13 +269,21 @@
 						  <span class="mdl-radio__label">Spaced 2</span>
 						</label>
 					</div>
-        	<p style="margin-top: .75em;">Margin<span id="range-label-margin"> (10vh)</span></p>
+        	<p style="margin-top: .75em;">Margin<span id="range-label-margin"> (0vh)</span></p>
         	<p style="width:100%; ">
-            	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="10" step="1" data-css-selector="body.presentation .line > div" data-css-property="padding" data-css-value="vh">
+            	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="0" step="1" data-css-selector="body.presentation .line > div" data-css-property="padding" data-css-value="Xvh">
         	</p>
-        	<p style="margin-top: .75em;">Width<span id="range-label-width"> (100%)</p>
+        	<p style="margin-top: .75em;">Side Padding<span id="range-label-padding"> (0 0vh)</span></p>
         	<p style="width:100%; ">
-            	<input id="width" class="mdl-slider mdl-js-slider" type="range" min="50" max="100" value="100" step="1" data-css-selector="body.presentation .line > div" data-css-property="width" data-css-value="%">
+            	<input id="padding" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="0" step="1" data-css-selector="body.presentation .line > div > div" data-css-property="padding" data-css-value="0 Xvh">
+        	</p>
+        	<p style="margin-top: .75em;">Vertical Offset<span id="range-label-offset"> (0vh)</span></p>
+        	<p style="width:100%; ">
+            	<input id="offset" class="mdl-slider mdl-js-slider" type="range" min="-20" max="20" value="0" step="1" data-css-selector="body.presentation .line > div" data-css-property="top" data-css-value="Xvh">
+        	</p>
+        	<p style="margin-top: .75em;">Word Width<span id="range-label-width"> (100%)</p>
+        	<p style="width:100%; ">
+            	<input id="width" class="mdl-slider mdl-js-slider" type="range" min="50" max="100" value="100" step="1" data-css-selector="body.presentation .line > div" data-css-property="width" data-css-value="X%">
         	</p>
         	<!-- <p style="font-size: 0.85em; margin-top: .75em;">The following setting is for broadcasting programs that lack support for transparent backgrounds. Modern broadcasting programs, including OBS, support transparency. Please see the tutorial for more information.</p>
     			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="green-screen">
@@ -280,7 +293,7 @@
 				</div>
 			</div>
 			<div class="c2">
-				<p>Appearance</p>
+				<p>Sources</p>
 				<div>
 					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="gurbani-larivaar">
 						<input type="checkbox" id="gurbani-larivaar" class="mdl-switch__input">
