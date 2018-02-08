@@ -753,7 +753,10 @@ body {
         background: white;
       }
     }
-
+    .mdl-switch {
+      width: max-content;
+      display: block;
+    }
     .mdl-switch.is-checked + .options {
       display: block;
     }

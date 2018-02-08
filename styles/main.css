@@ -569,6 +569,9 @@ body.liveCaption .font-size-changer {
   body.liveCaption .font-size-changer > div.value {
     width: 4.5em;
     background: white; }
+body.liveCaption .mdl-switch {
+  width: max-content;
+  display: block; }
 body.liveCaption .mdl-switch.is-checked + .options {
   display: block; }
 body.liveCaption .layout-radios .mdl-radio {
