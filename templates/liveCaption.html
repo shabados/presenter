@@ -12,6 +12,14 @@
 						}
 					}
 			}
+			function convertHex(hex){
+				hex = hex.replace('#','');
+				var r = parseInt(hex.substring(0,2), 16);
+				var g = parseInt(hex.substring(2,4), 16);
+				var b = parseInt(hex.substring(4,6), 16);
+				var o = parseInt(hex.substring(6,8), 16);
+				return 'rgba('+r+','+g+','+b+','+o/255+')';
+			}
 			var elementToClass = {
 				"gurbani-larivaar"				:	".gurbani-larivaar",
 				"gurbani-padched"					:	".gurbani-padched",
@@ -84,7 +92,7 @@
 				$(".popup.background > div > div").click(function(){
 					$(this).parents(".popup").find(".active").removeClass("active")
 					$(this).addClass("active")
-					var color = $(this).data("color") == "none" ? "none" : $(this).data("color") + ($(this).parents(".popup").find(".semitransparent .mdl-checkbox__input").prop('checked') ? "80" : "FF")
+					var color = $(this).data("color") == "none" ? "none" : convertHex($(this).data("color") + ($(this).parents(".popup").find(".semitransparent .mdl-checkbox__input").prop('checked') ? "80" : "FF"))
 					var localSelector = selector + elementToClass[$(this).parents(".options").data("for")]
 					if ($(this).parents(".popup").find(".full-width .mdl-checkbox__input").prop('checked')) {
 						updateCSS(localSelector + " .bgw","background","none")
