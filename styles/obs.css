@@ -1,58 +1,78 @@
 body.presentation .vishraamHeavy, body.presentation .vishraamMedium, body.presentation .vishraamLight {
-  color: inherit; }
+    color: inherit; }
 body.presentation .vishraamHeavy > .vishraamChar, body.presentation .vishraamMedium > .vishraamChar, body.presentation .vishraamLight > .vishraamChar {
-  display: none; }
+    display: none; }
 body.presentation .line {
-  display: none !important; }
+    display: none !important; }
 body.presentation .active .gurbani-larivaar {
-  display: block !important; }
-  body.presentation .active .gurbani-larivaar .bgw {
+    display: none;
+    color: rgb(255, 235, 59);
+    background: rgba(63, 81, 181, 0.5);
+    text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+    font-size: 9vh; }
+body.presentation .active .gurbani-larivaar .bgw {
     background: none; }
 body.presentation .active .gurbani-padbandh {
-  display: block !important; }
-  body.presentation .active .gurbani-padbandh .bgw {
+    display: block;
+    color: rgb(255, 235, 59);
+    background: rgba(63, 81, 181, 0.5);
+    text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+    font-size: 9vh; }
+body.presentation .active .gurbani-padbandh .bgw {
     background: none; }
 body.presentation .active .translation {
-  display: block !important; }
-  body.presentation .active .translation .bgw {
+    display: block;
+    color: rgb(255, 255, 255);
+    background: rgba(63, 81, 181, 0.5);
+    text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+    font-size: 4.5vh; }
+body.presentation .active .translation .bgw {
     background: none; }
 body.presentation .active .transliteration {
-  display: none !important; }
-  body.presentation .active .transliteration .bgw {
+    display: none;
+    color: rgb(255, 255, 255);
+    background: rgba(63, 81, 181, 0.5);
+    text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+    font-size: 4.5vh; }
+body.presentation .active .transliteration .bgw {
     background: none; }
 body.presentation .active .darpan {
-  display: none !important; }
-  body.presentation .active .darpan .bgw {
+    display: none;
+    color: rgb(255, 255, 255);
+    background: rgba(63, 81, 181, 0.5);
+    text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+    font-size: 4.5vh; }
+body.presentation .active .darpan .bgw {
     background: none; }
 body.presentation .line > div {
-  margin-bottom: 0;
-  padding: 10vh;
-  justify-content: flex-end; }
+    margin-bottom: 0;
+    padding: 10vh;
+    justify-content: flex-end; }
 
 body.presentation .active {
-  display: flex !important;
-  min-height: 100vh !important; }
-  body.presentation .active .gurmukhifont, body.presentation .active .translation, body.presentation .active .darpan, body.presentation .active .transliteration {
+    display: flex !important;
+    min-height: 100vh !important; }
+body.presentation .active .gurmukhifont, body.presentation .active .translation, body.presentation .active .darpan, body.presentation .active .transliteration {
     margin: 0; }
-  body.presentation .active .gurmukhifont {
+body.presentation .active .gurmukhifont {
     line-height: 1.45; }
-  body.presentation .active .translation {
+body.presentation .active .translation {
     line-height: 1.39; }
-  body.presentation .active .darpan {
+body.presentation .active .darpan {
     line-height: 1.3175; }
-  body.presentation .active .transliteration {
+body.presentation .active .transliteration {
     line-height: 1.39; }
-
+    
 body.presentation .active .gurmukhifont > div > div {
-  padding: .1em .16666em 0; }
+    padding: .1em .16666em 0; }
 
 .gurmukhifont .nbsp:first-child {
-  display: none; }
+    display: none; }
 
 .gurmukhifont > div:first-child > div:first-child .nbsp:first-child {
-  display: inline-block; }
+    display: inline-block; }
 
 body.presentation {
-  background: none; }
+    background: none; }
 
-/*# sourceMappingURL=obs.css.map */
+    /*# sourceMappingURL=obs.css.map */    

@@ -15,31 +15,51 @@ body {
     }
     .active {
       .gurbani-larivaar {
-        display: block !important;
+        display: none;
+        color: rgb(255, 235, 59);
+        background: rgba(63, 81, 181, 0.5);
+        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+        font-size: 9vh; 
         .bgw {
           background: none;
         }
       }
       .gurbani-padbandh {
-        display: block !important;
+        display: block;
+        color: rgb(255, 235, 59);
+        background: rgba(63, 81, 181, 0.5);
+        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+        font-size: 9vh; 
         .bgw {
           background: none;
         }
       }
       .translation {
-        display: block !important;
+        display: block;
+        color: rgb(255, 235, 59);
+        background: rgba(63, 81, 181, 0.5);
+        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+        font-size: 9vh;
         .bgw {
           background: none;
         }
       }
       .transliteration {
-        display: none !important;
+        display: none;
+        color: rgb(255, 235, 59);
+        background: rgba(63, 81, 181, 0.5);
+        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+        font-size: 9vh;
         .bgw {
           background: none;
         }
       }
       .darpan {
-        display: none !important;
+        display: none;
+        color: rgb(255, 235, 59);
+        background: rgba(63, 81, 181, 0.5);
+        text-shadow: rgb(0, 0, 0) 0.05em 0.05em 0.2em;
+        font-size: 9vh;
         .bgw {
           background: none;
         }
@@ -47,7 +67,7 @@ body {
     }
     .line > div {
       margin-bottom: 0;
-      padding: 0;
+      padding: 10vh;
       justify-content: flex-end;
     }
   }
