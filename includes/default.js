@@ -10,11 +10,11 @@ if (typeof parent.nodeRequire === "function") {
 }
 
 function openOBS(){
-  if (typeof remote === "object") {
-    main.openOBS();
-  } else {
+  // if (typeof remote === "object") {
+  //   main.openOBS();
+  // } else {
     window.open("live-caption");
-  }
+  // }
 }
 
 function connect(link, host){
