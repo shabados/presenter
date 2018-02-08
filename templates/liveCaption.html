@@ -181,8 +181,19 @@
 <p>Be sure to set up the browser width/height in OBS to your video dimensions (TK) and make sure the Browser in the Source panel is at the highest so the captioning will show above other sources like video streams, images, and text.</p>
 `
 					copopup("60vh", "50vh", "Help", content)
-				})
+				})		
+				
 
+				$(function () {
+					$("input:checkbox").click()
+					$("#gurbani-larivaar").click()
+					$("#punjabi-translation").click()
+					$("#english-transliteration").click()
+					$(".color .yellow").click()
+					$(".background .black").click()
+					$(".shadow .black").click()
+					$("#layout-bottom").click()
+				});
 			})
 
 			function iFrameResize() {
@@ -201,11 +212,6 @@
 			}
 			$(document).ready(iFrameResize);
 			$(window).resize(iFrameResize);
-
-            $(function () {
-                $("#english-translation").prop('checked', true)
-				$("#gurbani").prop('checked', true)
-        	});
 		</script>
     </head>
 <html>
@@ -245,7 +251,7 @@
 					</div>
         	<p style="margin-top: .75em;">Margin<span id="range-label-margin"></span></p>
         	<p style="width:100%; ">
-            	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="10" step="1" data-css-selector="body.presentation .line > div" data-css-property="padding" data-css-value="vh">
+            	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="0" step="1" data-css-selector="body.presentation .line > div" data-css-property="padding" data-css-value="vh">
         	</p>
         	<p style="margin-top: .75em;">Width<span id="range-label-width"></p>
         	<p style="width:100%; ">
