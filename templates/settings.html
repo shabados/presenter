@@ -8,7 +8,7 @@
 
             $( window ).load(function () {
             	hotkeys();
-                
+
                 $("li, input").click(function() {
                     var settingName, setting, className
                     var type = this.tagName
@@ -16,7 +16,7 @@
                         type = this.type
                         settingName = this.id
                     }
-                    
+
                     switch (type) {
                         case "checkbox":
                             setting = $(this).prop('checked')
@@ -52,7 +52,7 @@
                 });
 
 			});
-            
+
             $(function () { //right now it only gets settings from settings.json, but the display may already have other settings if it's a browser (can't save settings)
     			$('#font-size').val(settingsJSON["font-size"]);
                 $("button").each(function(){ $("#"+this.id+"-span").text(settingsJSON[this.id]) })
@@ -142,6 +142,9 @@
 		    for="color-scheme">
 		  <li class="mdl-menu__item">Day</li>
 		  <li class="mdl-menu__item">Night</li>
+		  <li class="mdl-menu__item">White on Blue</li>
+		  <li class="mdl-menu__item">Yellow on Blue</li>
+		  <li class="mdl-menu__item">Pastel on Dark</li>
 		  <li class="mdl-menu__item">Philosophiae</li>
 		</ul>
         <span class="mdl-switch__label" id="color-scheme-span"></span>
@@ -269,7 +272,7 @@
             <label class="mdl-textfield__label" for="vishraam-heavy-character"></label>
         </div>
         <span class="mdl-switch__label">Vishraam Heavy Character</span>-->
-        
+
         <div class="sep"></div>
 
         <h1>Experimental</h1>

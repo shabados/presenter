@@ -2121,6 +2121,126 @@ body.presentation.#{$theme} #hiddenIframePlusBox {
 	color: $fg-dark;
 }
 
+/*
+White on Blue
+*/
+$theme: color-scheme-white-on-blue;
+
+$bg-presentation: #1A237E; // background of display page
+$bg-dark: #263238; // used in status bars
+$bg-base: #37474F; // base background color
+$bg-bright: #455A64; // base background color
+
+$fg-darker: #90A4AE; // only suitable for small hints
+$fg-dark: #B0BEC5; // aim for 10+ contrast ratio
+$fg-base: #CFD8DC; // aim for 7+ contrast ratio base/base
+$fg-bright: #ECEFF1; // aim for 10+ contrast ratio
+$fg-brighter: #FFFFFF; // aim for highest contrast ratio
+
+$text-selection-bg: $fg-base;
+$color-selection-bg: $bg-bright;
+$color-selection-fg: $fg-bright;
+$color-text-non-highlighted: $fg-base;
+$color-text-non-highlighted-hover: $fg-bright;
+$color-highlight: #FFE082;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        #FFFFFF;
+$presentation-active-translation:     #FAFAFA;
+$presentation-active-darpan:          #F5F5F5;
+$presentation-active-transliteration: #EEEEEE;
+$presentation-active-vishraamHeavy:   #FFCC80;
+$presentation-active-vishraamMedium:  #A5D6A7;
+$presentation-active-vishraamLight:   #CE93D8;
+$mixWith: #000;
+$mixAmount: 85%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
+/*
+Yellow on Blue
+*/
+$theme: color-scheme-yellow-on-blue;
+
+$bg-presentation: #1A237E; // background of display page
+$bg-dark: #263238; // used in status bars
+$bg-base: #37474F; // base background color
+$bg-bright: #455A64; // base background color
+
+$fg-darker: #90A4AE; // only suitable for small hints
+$fg-dark: #B0BEC5; // aim for 10+ contrast ratio
+$fg-base: #CFD8DC; // aim for 7+ contrast ratio base/base
+$fg-bright: #ECEFF1; // aim for 10+ contrast ratio
+$fg-brighter: #FFFFFF; // aim for highest contrast ratio
+
+$text-selection-bg: $fg-base;
+$color-selection-bg: $bg-bright;
+$color-selection-fg: $fg-bright;
+$color-text-non-highlighted: $fg-base;
+$color-text-non-highlighted-hover: $fg-bright;
+$color-highlight: #FFE082;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        #FFEA00;
+$presentation-active-translation:     #FFEA00;
+$presentation-active-darpan:          #FFEA00;
+$presentation-active-transliteration: #FFEA00;
+$presentation-active-vishraamHeavy:   #F06292;
+$presentation-active-vishraamMedium:  #B388FF;
+$presentation-active-vishraamLight:   #4DD0E1;
+$mixWith: #000;
+$mixAmount: 75%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
+/*
+Pastel Chalk on Blackboard
+*/
+$theme: color-scheme-pastel-on-dark;
+
+$bg-presentation: mix(#006064, #000, 50%); // background of display page
+$bg-dark: #263238; // used in status bars
+$bg-base: #37474F; // base background color
+$bg-bright: #455A64; // base background color
+
+$fg-darker: #90A4AE; // only suitable for small hints
+$fg-dark: #B0BEC5; // aim for 10+ contrast ratio
+$fg-base: #CFD8DC; // aim for 7+ contrast ratio base/base
+$fg-bright: #ECEFF1; // aim for 10+ contrast ratio
+$fg-brighter: #FFFFFF; // aim for highest contrast ratio
+
+$text-selection-bg: $fg-base;
+$color-selection-bg: $bg-bright;
+$color-selection-fg: $fg-bright;
+$color-text-non-highlighted: $fg-base;
+$color-text-non-highlighted-hover: $fg-bright;
+$color-highlight: #FFE082;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        #FFFF8D;
+$presentation-active-translation:     #FAFAFA;
+$presentation-active-darpan:          #F5F5F5;
+$presentation-active-transliteration: #EEEEEE;
+$presentation-active-vishraamHeavy:   #FFCC80;
+$presentation-active-vishraamMedium:  #F8BBD0;
+$presentation-active-vishraamLight:   #D1C4E9;
+$mixWith: #000;
+$mixAmount: 85%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
 /* used for ruling */
 /**/
 body.presentation .gurmukhifont {
