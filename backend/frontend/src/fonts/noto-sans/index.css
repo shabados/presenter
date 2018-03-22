@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "Noto Sans Gurmukhi";
+    font-style: normal;
+    font-weight: normal;
+    src: url("./NotoSansGurmukhi-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Noto Sans Medium";
+    font-style: normal;
+    font-weight: normal;
+    src: url("./NotoSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Noto Sans Regular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("./NotoSans-Regular.ttf") format("truetype");
+}
