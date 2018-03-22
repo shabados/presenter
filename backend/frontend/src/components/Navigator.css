@@ -2,13 +2,21 @@
     height: 100%;
 }
 
-.navigator .title-bar .menu-icon {
-    font-size: 35px;
+.navigator button {
+    font-size: 30px;
+    margin-right: 20px;
 }
 
-.navigator .title-bar .name {
+.navigator .name {
     text-align: center;
     flex: 1;
+    font-family: "Noto Sans Medium", sans-serif;
+    font-size: 28px;
+}
+
+.navigator .bottom-bar {
+    bottom: 0;
+    top: initial;
 }
 
 .navigator .title-bar {
