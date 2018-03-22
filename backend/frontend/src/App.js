@@ -13,12 +13,15 @@ class App extends Component {
     this.state = {
       settings: null,
       session: null,
+      theme: 'Night',
     }
   }
 
   render() {
+    const { theme } = this.state
+
     return (
-      <div className="app">
+      <div className={`app theme-${theme.toLowerCase()}`}>
         <Reboot />
         <Navigator></Navigator>
       </div>
