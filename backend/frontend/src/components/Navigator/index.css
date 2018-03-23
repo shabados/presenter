@@ -17,3 +17,20 @@
     font-size: 28px;
     text-transform: capitalize;
 }
+
+/* All subcomponents */
+.navigator a {
+    text-decoration: none;
+    color: inherit;
+    font-family: "Noto Sans Regular", sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.navigator li {
+    margin-left: 25px;
+}
+
+.navigator svg {
+    min-width: 40px;
+}
