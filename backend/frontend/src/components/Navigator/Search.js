@@ -7,7 +7,7 @@ import './Search.css'
 const Search = () => {
   return (
     <div className="search">
-      <Input className="input" placeholder="ਖੋਜ" />
+      <Input className="input" placeholder="ਖੋਜ" disableUnderline autoFocus />
     </div>
   )
 }
