@@ -14,4 +14,5 @@
     flex: 1;
     font-family: "Noto Sans Medium", sans-serif;
     font-size: 28px;
+    text-transform: capitalize;
 }

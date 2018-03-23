@@ -35,7 +35,6 @@ class Navigator extends Component {
 
     this.state = {
       hovered: null,
-      selected: null,
     }
   }
 
@@ -58,8 +57,11 @@ class Navigator extends Component {
   )
 
   render() {
-    const { match } = this.props
-    const { selected, hovered } = this.state
+    const { match, location: { pathname } } = this.props
+    const { hovered } = this.state
+
+    // Get current page name from route
+    const selected = pathname.split('/').pop()
 
     return (
       <div className="navigator">
