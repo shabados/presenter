@@ -1,0 +1,10 @@
+.search {
+    height: 100%;
+}
+
+.search .input {
+    width: 100%;
+    padding: 0 15px;
+    font-size: 30px;
+    font-family: "Noto Sans Gurmukhi", sans-serif;
+}
