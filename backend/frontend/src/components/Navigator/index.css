@@ -1,0 +1,34 @@
+.navigator {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.navigator button {
+    font-size: 30px;
+    margin-right: 20px;
+}
+
+.navigator .name {
+    text-align: center;
+    flex: 1;
+    font-family: "Noto Sans Medium", sans-serif;
+    font-size: 28px;
+}
+
+/* All subcomponents */
+.navigator a {
+    text-decoration: none;
+    color: inherit;
+    font-family: "Noto Sans Regular", sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.navigator li {
+    margin-left: 25px;
+}
+
+.navigator svg {
+    min-width: 40px;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import Reboot from 'material-ui/Reboot'
 
@@ -21,10 +22,12 @@ class App extends Component {
     const { theme } = this.state
 
     return (
-      <div className={`app theme-${theme.toLowerCase()}`}>
-        <Reboot />
-        <Navigator></Navigator>
-      </div>
+      <Router>
+        <div className={`app theme-${theme.toLowerCase()}`}>
+          <Reboot />
+          <Route path="/menu" component={Navigator} />
+        </div>
+      </Router>
     )
   }
 }
