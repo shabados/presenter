@@ -12,7 +12,8 @@
 .navigator .name {
     text-align: center;
     flex: 1;
-    font-family: "Noto Sans Medium", sans-serif;
+    font-family: "Noto Sans Regular", sans-serif;
+    font-weight: 600;
     font-size: 28px;
     text-transform: capitalize;
 }

@@ -1,0 +1,19 @@
+.menu {
+    height: 100%;
+}
+
+.menu a {
+    text-decoration: none;
+    color: inherit;
+    font-family: "Noto Sans Regular", sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.menu li {
+    margin-left: 25px;
+}
+
+.menu svg {
+    min-width: 40px;
+}

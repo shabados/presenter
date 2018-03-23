@@ -18,14 +18,10 @@ class SessionManager {
     }
 
     // Set any new connection's messages to set the state
-    socketServer.onConnection( client => {
-      // Send the current session to the new client
-      client.sendJSON( this.get() )
+    socketServer.on( 'connection', client => client.sendJSON( 'state', this.get() ) )
 
-      // Sets the session's state if a client sends it through
-      const onMessage = data => this.set( data )
-      return onMessage
-    } )
+    // Update the state if a client sends it
+    socketServer.on( 'state', ( client, data ) => this.set( data ) )
   }
 
   /**

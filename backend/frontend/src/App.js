@@ -25,7 +25,7 @@ class App extends Component {
       <Router>
         <div className={`app theme-${theme.toLowerCase()}`}>
           <Reboot />
-          <Route path="/menu" component={Navigator} />
+          <Route path="/navigator" component={Navigator} />
         </div>
       </Router>
     )

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Route, Link, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
-import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import IconButton from 'material-ui/IconButton'
 import Typography from 'material-ui/Typography'
@@ -22,7 +21,9 @@ import {
   faSquare,
 } from '@fortawesome/fontawesome-free-regular'
 
+
 import Search from './Search'
+import Menu from './Menu'
 
 import './index.css'
 
@@ -87,6 +88,7 @@ class Navigator extends Component {
         </Toolbar>
 
         <Switch>
+          <Route path={`${match.url}/menu`} component={Menu} />
           <Route path={`${match.url}/search`} component={Search} />
           <Redirect to={`${match.url}/search`} />
         </Switch>
