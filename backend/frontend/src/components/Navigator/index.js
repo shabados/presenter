@@ -40,35 +40,45 @@ class Navigator extends Component {
 
   /**
    * Renders an individual icon button, setting the state with the name on hover and click.
-   * @param name The human-readable name of the icon
-   * @param icon The font-awesome icon
+   * @param name The human-readable name of the icon.
+   * @param icon The font-awesome icon.
+   * @param onClick Optional click handler.
    */
-  renderIconButton = ( name, icon ) => (
-    <IconButton key={name}
-                onMouseEnter={() => this.setState( { hovered: name } )}
-                onMouseLeave={() => this.setState( { hovered: null } )}
-                onClick={() => {
-                  const { history, match } = this.props
-                  this.setState( { selected: name } )
-                  history.push( `${match.url}/${name.toLowerCase()}` )
-                }}>
-      <FontAwesomeIcon icon={icon} />
-    </IconButton>
-  )
+  renderIconButton = ( name, icon, onClick ) => {
+    // Default handler for onClick navigates to the name of what was clicked
+    const onIconClick = () => {
+      const { history, match } = this.props
+      // Navigate to the clicked item's name by default
+      history.push( `${match.url}/${name.toLowerCase()}` )
+    }
+
+    // Set the hovered element state
+    const onMouseEnter = () => this.setState( { hovered: name } )
+    const onMouseLeave = () => this.setState( { hovered: null } )
+
+    return (
+      <IconButton key={name}
+                  onMouseEnter={onMouseEnter}
+                  onMouseLeave={onMouseLeave}
+                  onClick={onClick || onIconClick}>
+        <FontAwesomeIcon icon={icon} />
+      </IconButton>
+    )
+  }
 
   render() {
-    const { match, location: { pathname } } = this.props
+    const { match, location: { pathname }, history } = this.props
     const { hovered } = this.state
 
     // Get current page name from route
-    const selected = pathname.split('/').pop()
+    const selected = pathname.split( '/' ).pop()
 
     return (
       <div className="navigator">
         <Toolbar className="top bar">
           {this.renderIconButton( 'Menu', faBars )}
-          {this.renderIconButton( 'Backwards', faArrowAltCircleLeft )}
-          {this.renderIconButton( 'Forwards', faArrowAltCircleRight )}
+          {this.renderIconButton( 'Backwards', faArrowAltCircleLeft, () => history.goBack() )}
+          {this.renderIconButton( 'Forwards', faArrowAltCircleRight, () => history.goForward() )}
           <Typography className="name" type="title">
             {hovered || selected || 'Menu'}
           </Typography>
