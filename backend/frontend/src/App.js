@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Reboot from 'material-ui/Reboot'
 
 import Navigator from './components/Navigator'
+import controller from './lib/controller'
 
 import './App.css'
 
