@@ -19,7 +19,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - NODE_ENV=development
     volumes:
-      - "./frontend:/usr/src/app"
-       - "/usr/src/app/node_modules"
+      - "./backend/frontend:/usr/src/app"
+      - "/usr/src/app/node_modules"
     ports:
       - "3000:3000"

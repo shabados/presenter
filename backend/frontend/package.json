@@ -18,6 +18,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.4",
     "@fortawesome/react-fontawesome": "0.0.17",
     "@shabados/gurmukhi-utils": "^1.0.1",
+    "event-emitter": "^0.3.5",
     "material-ui": "^1.0.0-beta.29",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

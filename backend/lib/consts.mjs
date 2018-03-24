@@ -14,4 +14,7 @@ export const DEFAULT_SETTINGS_FILE = './settings.default.json'
 export const TEMP_DIR = 'tmp'
 
 // ShabadOS database path
-export const DB_PATH = 'database.sqlite'
+export const DB_PATH = './database.sqlite'
+
+// Max Search results to return in one go
+export const MAX_RESULTS = 20
