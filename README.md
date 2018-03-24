@@ -4,9 +4,28 @@ Contains the standalone frontend and backend web application for ShabadOS.
 
 ## Development
 
-Install `docker`.
+There are two methods:
 
-Run `docker-compose up` to start both the frontend and backend servers.
+(1) Node / npm
+
+    # Dependencies node >= 8 and npm >= 5
+    git clone https://github.com/ShabadOS/core.git
+    cd core/backend
+    npm install
+    cd frontend
+    npm install
+
+    # Now run both servers in two terminals
+    # backend at localhost:8080
+    npm run dev
+
+    # frontend at localhost:3000
+    npm run start
+
+(2) Docker
+
+* Install `docker`
+* Run `docker-compose up` to start both the frontend and backend servers.
 
 ### Frontend
 
