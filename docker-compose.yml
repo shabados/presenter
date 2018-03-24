@@ -20,6 +20,6 @@ services:
       - NODE_ENV=development
     volumes:
       - "./backend/frontend:/usr/src/app"
-       - "/usr/src/app/node_modules"
-   ports:
+      - "/usr/src/app/node_modules"
+    ports:
       - "3000:3000"
