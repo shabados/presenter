@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Input, List, ListItem } from 'material-ui'
 import { toUnicode } from '@shabados/gurmukhi-utils'
 
-import { MIN_SEARCH_CHARS } from '../../lib/consts'
+import { MAX_RESULTS, MIN_SEARCH_CHARS } from '../../lib/consts'
 import controller from '../../lib/controller'
 
 import './Search.css'
@@ -81,7 +81,7 @@ class Search extends Component {
           autoFocus
         />
         <List className="results">
-          {results ? results.slice( 0, 20 ).map( this.renderResult ) : ''}
+          {results ? results.slice( 0, MAX_RESULTS ).map( this.renderResult ) : ''}
         </List>
       </div>
     )
