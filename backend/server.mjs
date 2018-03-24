@@ -3,6 +3,7 @@ import updateNotifier from 'update-notifier'
 import { setupExpress } from './lib/express'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
+import { searchLines } from './lib/db'
 
 import logger from './lib/logger'
 
@@ -26,6 +27,10 @@ async function main() {
   // Setup the session manager on top of the Socket instance
   // eslint-disable-next-line
   const sessionManager = new SessionManager( socket )
+
+  // Register searches on the socket instance
+  socket.on( 'search', async ( client, search ) =>
+    client.sendJSON( 'results', await searchLines( search ) ) )
 
   // Start the server
   const port = process.env.PORT || 8080
