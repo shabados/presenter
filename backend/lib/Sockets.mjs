@@ -3,6 +3,8 @@
  * @ignore
  */
 
+import EventEmitter from 'events'
+
 import WebSocket from 'ws'
 
 import { getHost } from './utils'
@@ -11,19 +13,20 @@ import logger from './logger'
 /**
  * Wrapper for WebSockets with convenience methods.
  */
-class Socket {
+class Socket extends EventEmitter {
   constructor( server ) {
-    this.socketServer = Socket.setupWebsocket( server )
+    super()
 
+    this.socketServer = Socket.setupWebsocket( server )
+    this.onConnection()
     // Check for broken connections every 30 seconds
     setInterval( () => this.closeBrokenConnections, 1000 * 30 )
   }
 
   /**
    * Passes through the connection event, adding heartbeat logic to detect broken connections.
-   * @param callback The function to execute on connection
    */
-  onConnection( callback ) {
+  onConnection() {
     this.socketServer.on( 'connection', async ( socket, { client } ) => {
       // Get hostname or proper IP
       const address = await getHost( client.remoteAddress )
@@ -40,12 +43,16 @@ class Socket {
 
       // Modify the send to stringify first
       // eslint-disable-next-line
-      socket.sendJSON = data => socket.send( JSON.stringify( data ) )
+      socket.sendJSON = ( event, payload ) => socket.send( JSON.stringify( { event, payload } ) )
 
-      // Call the provided callback, hoping it returns an onMessage function
-      const onMessage = callback( socket )
-      // Parse the JSON sent, before calling the handler
-      socket.on( 'message', data => onMessage( JSON.parse( data ) ) )
+      // Parse the JSON sent, before emitting it
+      socket.on( 'message', data => {
+        const { event, payload } = JSON.parse( data )
+        this.emit( event, socket, payload )
+      } )
+
+      // Emit the connection event
+      this.emit( 'connection', socket )
     } )
   }
 
