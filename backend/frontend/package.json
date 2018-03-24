@@ -14,14 +14,17 @@
   "homepage": "https://github.com/ShabadOS/core#readme",
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.2",
+    "@fortawesome/fontawesome-free-regular": "^5.0.8",
     "@fortawesome/fontawesome-free-solid": "^5.0.4",
     "@fortawesome/react-fontawesome": "0.0.17",
+    "@shabados/gurmukhi-utils": "^1.0.1",
     "material-ui": "^1.0.0-beta.29",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-hotkeys": "^0.10.0",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
-    "reconnecting-websocket": "^3.2.2",
-    "typeface-noto-sans": "0.0.45"
+    "reconnecting-websocket": "^3.2.2"
   },
   "scripts": {
     "start": "react-scripts start",

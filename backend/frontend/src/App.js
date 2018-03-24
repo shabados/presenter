@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import 'typeface-noto-sans'
 import Reboot from 'material-ui/Reboot'
 
 import Navigator from './components/Navigator'
@@ -14,15 +14,20 @@ class App extends Component {
     this.state = {
       settings: null,
       session: null,
+      theme: 'Night',
     }
   }
 
   render() {
+    const { theme } = this.state
+
     return (
-      <div className="app">
-        <Reboot />
-        <Navigator></Navigator>
-      </div>
+      <Router>
+        <div className={`app theme-${theme.toLowerCase()}`}>
+          <Reboot />
+          <Route path="/navigator" component={Navigator} />
+        </div>
+      </Router>
     )
   }
 }
