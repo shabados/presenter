@@ -8,6 +8,7 @@ services:
       - "8080:8080"
     volumes:
       - "./backend:/usr/src/app"
+      - "/usr/src/app/node_modules"
     environment:
       - NODE_ENV=development
 
@@ -19,5 +20,6 @@ services:
       - NODE_ENV=development
     volumes:
       - "./backend/frontend:/usr/src/app"
-    ports:
+       - "/usr/src/app/node_modules"
+   ports:
       - "3000:3000"
