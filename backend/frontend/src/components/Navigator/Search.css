@@ -1,12 +1,33 @@
 .search {
     height: 100%;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .search .input {
+    flex-shrink: 0;
     width: 100%;
     padding: 0 30px;
     font-size: 30px;
     font-family: "Noto Sans Gurmukhi", sans-serif;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.search .results {
+    overflow-y: auto;
+    font-family: "Noto Sans Gurmukhi", sans-serif;
+    font-size: 30px;
+}
+
+.search .results .match {
+    color: red;
+}
+
+.search .results .result span::after {
+    white-space: pre-wrap;
+    content: " ";
+}
+
+.search .results .result span:first-child::after {
+    content: none;
 }

@@ -7,6 +7,7 @@ import { MAX_RESULTS, MIN_SEARCH_CHARS } from '../../lib/consts'
 import controller from '../../lib/controller'
 
 import './Search.css'
+import { getFirstLetters } from '../../lib/utils'
 
 /**
  * Search Component.
@@ -37,7 +38,7 @@ class Search extends Component {
 
       const average = this.times.reduce( ( sum, time ) => sum + time, 0 ) / this.times.length
 
-      console.log(`Searched in ${duration}ms, average: ${average}ms`)
+      console.log( `Searched in ${duration}ms, average: ${average}ms` )
     }
   }
 
@@ -80,10 +81,24 @@ class Search extends Component {
   renderResult = ( { gurmukhi, id } ) => {
     const { search } = this.state
 
-    // Split the line into first letters and check where the match is
+    // Get first letters in line and find where the match is
+    const firstLetters = getFirstLetters( gurmukhi )
+    const pos = firstLetters.indexOf( search )
 
+    const words = gurmukhi.split( ' ' )
 
-    return <ListItem key={id}>{gurmukhi}</ListItem>
+    // Seperate the line into words before the match, the match, and after the match
+    const beforeMatch = words.slice( 0, pos ).join( ' ' )
+    const match = words.slice( pos, pos + search.length ).join( ' ' )
+    const afterMatch = words.slice( pos + search.length ).join( ' ' )
+
+    return (
+      <ListItem className="result" key={id}>
+        <span className="before-match">{beforeMatch}</span>
+        <span className="match">{match}</span>
+        <span className="after-match">{afterMatch}</span>
+      </ListItem>
+    )
   }
 
   render() {

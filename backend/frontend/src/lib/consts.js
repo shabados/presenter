@@ -12,3 +12,9 @@ export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
 export const NAVIGATOR_URL = '/navigator'
 export const MIN_SEARCH_CHARS = 2
 export const MAX_RESULTS = 20
+
+export const PAUSE_CHARS = {
+  heavy: ';',
+  medium: ',',
+  light: '.',
+}
