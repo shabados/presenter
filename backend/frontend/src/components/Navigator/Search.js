@@ -22,22 +22,22 @@ class Search extends Component {
       results: [],
     }
 
-    this.initTimimg()
-  }
-
-  initTimimg = () => {
     this.times = []
     this.timeStart = null
     this.timeEnd = null
   }
 
-  measureTime
-
   componentDidUpdate( prevProps, { results: prevResults } ) {
     const { results } = this.state
 
-    if ( this.times && results.length && results !== prevResults ) {
+    if ( results.length && results !== prevResults ) {
+      this.timeEnd = window.performance.now()
+      const duration = this.timeEnd - this.timeStart
+      this.times.push( duration )
 
+      const average = this.times.reduce( ( sum, time ) => sum + time, 0 ) / this.times.length
+
+      console.log(`Searched in ${duration}ms, average: ${average}ms`)
     }
   }
 

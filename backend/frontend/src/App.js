@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import Reboot from 'material-ui/Reboot'
+import CssBaseline from 'material-ui/CssBaseline'
 
 import Navigator from './components/Navigator'
 import controller from './lib/controller'
@@ -25,7 +25,7 @@ class App extends Component {
     return (
       <Router>
         <div className={`app theme-${theme.toLowerCase()}`}>
-          <Reboot />
+          <CssBaseline />
           <Route path="/navigator" component={Navigator} />
         </div>
       </Router>
