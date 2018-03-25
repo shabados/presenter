@@ -21,6 +21,24 @@ class Search extends Component {
       search: '',
       results: [],
     }
+
+    this.initTimimg()
+  }
+
+  initTimimg = () => {
+    this.times = []
+    this.timeStart = null
+    this.timeEnd = null
+  }
+
+  measureTime
+
+  componentDidUpdate( prevProps, { results: prevResults } ) {
+    const { results } = this.state
+
+    if ( this.times && results.length && results !== prevResults ) {
+
+    }
   }
 
   componentDidMount() {
@@ -45,6 +63,7 @@ class Search extends Component {
 
     // Search if enough letters, otherwise clear results
     if ( search.length > MIN_SEARCH_CHARS ) {
+      this.timeStart = window.performance.now()
       controller.search( search )
     } else {
       state[ 'results' ] = []
@@ -86,7 +105,6 @@ class Search extends Component {
       </div>
     )
   }
-
 }
 
 export default Search

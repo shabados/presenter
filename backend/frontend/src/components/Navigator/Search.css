@@ -1,5 +1,6 @@
 .search {
     height: 100%;
+    overflow-y: auto;
 }
 
 .search .input {
