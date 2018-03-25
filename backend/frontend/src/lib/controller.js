@@ -3,6 +3,7 @@
  * @ignore
  */
 
+import ReconnectingWebSocket from 'reconnecting-websocket'
 import EventEmitter from 'event-emitter'
 
 import { WS_URL } from './consts'
@@ -12,32 +13,52 @@ class Controller extends EventEmitter {
     super()
 
     // Setup WebSocket connection to server
-    this.socket = new WebSocket( WS_URL )
-    this.socket.onopen = this._onOpen
-    this.socket.onclose = this._onClose
-    this.socket.onmessage = this._onMessage
+    this.socket = new ReconnectingWebSocket( WS_URL )
+    this.socket.addEventListener( 'open', this._onOpen )
+    this.socket.addEventListener( 'close', this._onClose )
+    this.socket.addEventListener( 'message', this._onMessage )
   }
 
+  /**
+   * Sends a payload with a name to the server.
+   * @param event The event name.
+   * @param payload The JSON data to send.
+   */
   sendJSON = ( event, payload ) => this.socket.send( JSON.stringify( { event, payload } ) )
 
+  /**
+   * Called when the WebSocket is connected.
+   * @private
+   */
   _onOpen = () => {
     console.log( 'Connected to server' )
     this.emit( 'connected' )
   }
 
+  /**
+   * Called when the WebSocket is disconnected.
+   * @private
+   */
   _onClose = () => {
     console.log( 'Disconnected from server' )
     this.emit( 'connected' )
   }
 
-
+  /**
+   * Called when the WebSocket receives a message.
+   * @param data The data sent by the server.
+   */
   _onMessage = ( { data } ) => {
     const { event, payload } = JSON.parse( data )
     this.emit( event, payload )
   }
 
+  /**
+   * Convenience method for searching.
+   * @param firstLetters The first letters to search with.
+   */
   search = firstLetters => this.sendJSON( 'search', firstLetters )
-
 }
 
+// Allow only one instance by exporting it
 export default new Controller()

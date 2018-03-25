@@ -16,8 +16,24 @@ class App extends Component {
       settings: null,
       session: null,
       theme: 'Night',
+      connected: false,
     }
   }
+
+  componentDidMount() {
+    // Register controller event
+    controller.on( 'connected', this.onConnected )
+    controller.on( 'disconnected', this.onDisconnected )
+  }
+
+  componentWillUnmount() {
+    // Deregister event listeners from controller
+    controller.off( 'connected', this.onConnected )
+    controller.off( 'disconnected', this.onDisconnected )
+  }
+
+  onConnected = () => this.setState( { connected: true } )
+  onDisconnected = () => this.setState( { connected: false } )
 
   render() {
     const { theme } = this.state
