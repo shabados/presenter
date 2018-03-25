@@ -62,7 +62,7 @@ class Search extends Component {
     const search = toUnicode( value )
 
     // Search if enough letters, otherwise clear results
-    if ( search.length > MIN_SEARCH_CHARS ) {
+    if ( search.length >= MIN_SEARCH_CHARS ) {
       this.timeStart = window.performance.now()
       controller.search( search )
     } else {
