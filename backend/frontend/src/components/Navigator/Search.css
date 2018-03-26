@@ -27,7 +27,3 @@
     white-space: pre-wrap;
     content: " ";
 }
-
-.search .results .result span:first-child::after {
-    content: none;
-}

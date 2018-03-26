@@ -31,6 +31,7 @@ class Search extends Component {
   componentDidUpdate( prevProps, { results: prevResults } ) {
     const { results } = this.state
 
+    // Timing
     if ( results.length && results !== prevResults ) {
       this.timeEnd = window.performance.now()
       const duration = this.timeEnd - this.timeStart
@@ -94,9 +95,9 @@ class Search extends Component {
 
     return (
       <ListItem className="result" key={id}>
-        <span className="before-match">{beforeMatch}</span>
-        <span className="match">{match}</span>
-        <span className="after-match">{afterMatch}</span>
+        {beforeMatch ? <span className="before-match">{beforeMatch}</span> : null}
+        {match ? <span className="match">{match}</span> : null}
+        {afterMatch ? <span className="after-match">{afterMatch}</span> : null}
       </ListItem>
     )
   }
