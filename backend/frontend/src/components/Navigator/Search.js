@@ -61,7 +61,7 @@ class Search extends Component {
    */
   onChange = ( { target: { value } } ) => {
     const state = {}
-    const search = toUnicode( value )
+    const search = toUnicode( value.trim() )
 
     // Search if enough letters, otherwise clear results
     if ( search.length >= MIN_SEARCH_CHARS ) {
@@ -77,15 +77,16 @@ class Search extends Component {
   /**
    * Renders a single result, highlighting the match.
    * @param gurmukhi The shabad line to display.
-   * @param id The id of the line.
+   * @param lineId The id of the line.
+   * @param shabadId The id of the shabad.
    */
-  renderResult = ( { gurmukhi, id } ) => {
+  renderResult = ( { gurmukhi, id: lineId, shabadId } ) => {
     const { search } = this.state
 
     // Get first letters in line and find where the match is
     const firstLetters = getFirstLetters( gurmukhi )
     // Remember to account for wildcard characters
-    const pos = firstLetters.search( search.replace( new RegExp( WILDCARD_CHAR ), '.') )
+    const pos = firstLetters.search( search.replace( new RegExp( WILDCARD_CHAR ), '.' ) )
 
     const words = stripPauses( gurmukhi ).split( ' ' )
 
@@ -94,8 +95,14 @@ class Search extends Component {
     const match = words.slice( pos, pos + search.length ).join( ' ' )
     const afterMatch = words.slice( pos + search.length ).join( ' ' )
 
+    // Send the shabad id and line id to the server on click
+    const onClick = () => {
+      controller.shabad( shabadId )
+      controller.line( lineId )
+    }
+
     return (
-      <ListItem className="result" key={id}>
+      <ListItem className="result" key={lineId} onClick={onClick}>
         {beforeMatch ? <span className="words">{beforeMatch}</span> : null}
         {match ? <span className="matched words">{match}</span> : null}
         {afterMatch ? <span className="words">{afterMatch}</span> : null}

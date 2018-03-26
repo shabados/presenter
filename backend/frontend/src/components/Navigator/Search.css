@@ -21,6 +21,7 @@
 
 .search .results .result {
     display: block;
+    cursor: pointer;
 }
 
 .search .results .matched.words {
