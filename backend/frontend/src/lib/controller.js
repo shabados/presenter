@@ -58,6 +58,19 @@ class Controller extends EventEmitter {
    * @param firstLetters The first letters to search with.
    */
   search = firstLetters => this.sendJSON( 'search', firstLetters )
+
+  /**
+   * Convenience method for setting the line.
+   * @param lineId The line id to change the display to.
+   */
+  line = lineId => this.sendJSON( 'line', lineId )
+
+  /**
+   * Convenience method for setting the current shabad.
+   * @param shabadId The shabad to
+   * @returns {*}
+   */
+  shabad = shabadId => this.sendJSON( 'shabad', shabadId )
 }
 
 // Allow only one instance by exporting it
