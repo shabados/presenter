@@ -61,7 +61,7 @@ class Search extends Component {
    */
   onChange = ( { target: { value } } ) => {
     const state = {}
-    const search = toUnicode( value )
+    const search = toUnicode( value.trim() )
 
     // Search if enough letters, otherwise clear results
     if ( search.length >= MIN_SEARCH_CHARS ) {
