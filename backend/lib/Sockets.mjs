@@ -58,16 +58,17 @@ class Socket extends EventEmitter {
 
   /**
    * Broadcasts the provided data to each client, optionally excluding any.
-   * @param data The data to transmit
-   * @param excludedClients The clients to exclude from the transmission
+   * @param event The event name.
+   * @param payload The JSON data to send.
+   * @param excludedClients The clients to exclude from the transmission.
    */
-  broadcast( data, excludedClients = [] ) {
+  broadcast( event, payload, excludedClients = [] ) {
     const { clients } = this.socketServer
 
     clients.forEach( client => {
       // Transmit if not in the list and the WebSocket is open
       if ( !excludedClients.includes( client ) && client.readyState === WebSocket.OPEN ) {
-        client.send( data )
+        client.sendJSON( event, payload )
       }
     } )
   }
