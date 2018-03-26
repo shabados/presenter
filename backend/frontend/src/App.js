@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import CssBaseline from 'material-ui/CssBaseline'
 
 import Navigator from './components/Navigator'
+import Display from './components/Display'
 import controller from './lib/controller'
 
 import './App.css'
@@ -42,6 +43,7 @@ class App extends Component {
       <Router>
         <div className={`app theme-${theme.toLowerCase()}`}>
           <CssBaseline />
+          <Display />
           <Route path="/navigator" component={Navigator} />
         </div>
       </Router>
