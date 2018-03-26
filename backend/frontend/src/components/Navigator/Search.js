@@ -4,10 +4,10 @@ import { Input, List, ListItem } from 'material-ui'
 import { toUnicode } from '@shabados/gurmukhi-utils'
 
 import { MAX_RESULTS, MIN_SEARCH_CHARS } from '../../lib/consts'
+import { getFirstLetters, stripPauses } from '../../lib/utils'
 import controller from '../../lib/controller'
 
 import './Search.css'
-import { getFirstLetters } from '../../lib/utils'
 
 /**
  * Search Component.
@@ -86,7 +86,7 @@ class Search extends Component {
     const firstLetters = getFirstLetters( gurmukhi )
     const pos = firstLetters.indexOf( search )
 
-    const words = gurmukhi.split( ' ' )
+    const words = stripPauses( gurmukhi ).split( ' ' )
 
     // Seperate the line into words before the match, the match, and after the match
     const beforeMatch = words.slice( 0, pos ).join( ' ' )
