@@ -18,3 +18,5 @@ export const PAUSE_CHARS = {
   medium: ',',
   light: '.',
 }
+
+export const WILDCARD_CHAR = '_'
