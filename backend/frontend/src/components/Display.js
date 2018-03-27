@@ -2,8 +2,14 @@ import React, { Component } from 'react'
 
 import controller from '../lib/controller'
 
+import Line from './Line'
+
 import './Display.css'
 
+/**
+ * Display Component.
+ * Displays the current Shabad, with visual settings.
+ */
 class Display extends Component {
   constructor( props ) {
     super( props )
@@ -31,8 +37,18 @@ class Display extends Component {
   render() {
     const { shabad, lineId } = this.state
 
+    // Do not render anything if there's no shabad or line
+    if ( !shabad || !lineId ) {
+      return null
+    }
+
+    // Find the correct line in the shabad
+    const line = shabad.lines.find( ( { id } ) => lineId === id )
+
     return (
-      <p>{shabad ? JSON.stringify( shabad.lines.find( ( { id } ) => lineId === id ) ) : null}</p>
+      <div className="display">
+        {line ? <Line {...line} /> : null}
+      </div>
     )
   }
 }

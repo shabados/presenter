@@ -70,6 +70,11 @@ class Controller extends EventEmitter {
    * @param shabadId The shabad ID to change the server to.
    */
   shabad = shabadId => this.sendJSON( 'shabad', shabadId )
+
+  /**
+   * Convenience method for clearing the line.
+   */
+  clear = () => this.sendJSON( 'line', null )
 }
 
 // Allow only one instance by exporting it

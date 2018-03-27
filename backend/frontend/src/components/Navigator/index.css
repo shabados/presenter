@@ -2,11 +2,14 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    border: 1px solid red;
 }
 
 .navigator button {
-    font-size: 30px;
-    margin-right: 20px;
+    font-size: 1em;
+    margin: 0 0.5em;
+    width: 1.25em;
+    height: 1.25em;
 }
 
 .navigator .name {
@@ -14,8 +17,14 @@
     flex: 1;
     font-family: "Noto Sans Regular", sans-serif;
     font-weight: 600;
-    font-size: 28px;
+    font-size: 1em;
     text-transform: capitalize;
+}
+
+.navigator .bar {
+    padding: 0;
+    border: 1px solid green;
+    min-height: 2.25rem;
 }
 
 /* All subcomponents */
@@ -24,13 +33,13 @@
     color: inherit;
     font-family: "Noto Sans Regular", sans-serif;
     font-weight: 600;
-    font-size: 30px;
+    font-size: 1em;
 }
 
 .navigator li {
-    padding-left: 30px;
+    padding: 0.25em 0.25em 0.25em 0.75em;
 }
 
 .navigator svg {
-    min-width: 40px;
+    min-width: 1.2em;
 }

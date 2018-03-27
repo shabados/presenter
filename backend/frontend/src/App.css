@@ -9,5 +9,19 @@
 
 .app p, .app h2, .app span, .app div, .app svg, .app button {
     color: inherit;
-    font-family: "Noto Sans Regular", sans-serif;
+}
+
+.navigator-container {
+    position: absolute;
+    right:0;
+    bottom: 0;
+    height: 256px;
+    width: 416px;
+}
+
+.navigator-container .expand-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 32px;
 }
