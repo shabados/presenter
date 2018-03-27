@@ -11,3 +11,11 @@
     color: inherit;
     font-family: "Noto Sans Regular", sans-serif;
 }
+
+.navigator-container {
+    position: absolute;
+    right:0;
+    bottom: 0;
+    height: 256px;
+    width: 416px;
+}

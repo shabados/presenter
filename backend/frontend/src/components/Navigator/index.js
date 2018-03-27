@@ -95,10 +95,10 @@ class Navigator extends Component {
         </Switch>
 
         <Toolbar className="bottom bar">
-          {this.renderIconButton( 'Settings', faCogs )}
           {this.renderIconButton( 'Search', faSearch )}
-          {this.renderIconButton( 'History', faHistory )}
           {this.renderIconButton( 'Bookmarks', faBookmark )}
+          {this.renderIconButton( 'History', faHistory )}
+          {this.renderIconButton( 'Settings', faCogs )}
           <Typography className="name" type="title" />
           {this.renderIconButton( 'Clear', faSquare )}
         </Toolbar>

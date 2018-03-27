@@ -5,10 +5,11 @@
 }
 
 .search .input {
+    height: 2.25rem;
     flex-shrink: 0;
     width: 100%;
-    padding: 0 30px;
-    font-size: 30px;
+    padding: 0 0.5em;
+    font-size: 1.25em;
     font-family: "Noto Sans Gurmukhi", sans-serif;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
@@ -16,15 +17,20 @@
 .search .results {
     overflow-y: auto;
     font-family: "Noto Sans Gurmukhi", sans-serif;
-    font-size: 30px;
+    font-size: 1.1em;
 }
 
 .search .results .result {
     display: block;
     cursor: pointer;
+    padding: 0.25em 0.75em;
 }
 
-.search .results .matched.words {
+.search .results .result .words {
+    font-family: "Noto Sans Gurmukhi", sans-serif;
+}
+
+.search .results .result .matched.words {
     color: red;
 }
 

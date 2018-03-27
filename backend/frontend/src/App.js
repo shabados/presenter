@@ -44,7 +44,9 @@ class App extends Component {
         <div className={`app theme-${theme.toLowerCase()}`}>
           <CssBaseline />
           <Display />
-          <Route path="/navigator" component={Navigator} />
+          <div class="navigator-container">
+            <Route path="/navigator" component={Navigator} />
+          </div>
         </div>
       </Router>
     )
