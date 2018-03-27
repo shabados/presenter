@@ -13,7 +13,6 @@ import {
   faWindowMinimize,
   faSignOutAlt,
   faSearch,
-  faCogs,
   faHistory,
   faBookmark,
 } from '@fortawesome/fontawesome-free-solid'
@@ -24,6 +23,7 @@ import {
 
 
 import controller from '../../lib/controller'
+import { NAVIGATOR_URL } from '../../lib/consts'
 
 import Search from './Search'
 import Menu from './Menu'
@@ -86,7 +86,7 @@ class Navigator extends Component {
           <Typography className="name" type="title">
             {hovered || selected || 'Menu'}
           </Typography>
-          {this.renderIconButton( 'Minimize', faWindowMinimize )}
+          {this.renderIconButton( 'Minimize', faWindowMinimize, () => history.push( '/' ) )}
           {this.renderIconButton( 'Pop Out', faSignOutAlt )}
         </Toolbar>
 

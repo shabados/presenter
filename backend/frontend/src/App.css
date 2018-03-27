@@ -19,3 +19,10 @@
     height: 256px;
     width: 416px;
 }
+
+.navigator-container .expand-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 32px;
+}

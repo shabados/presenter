@@ -33,11 +33,11 @@
     color: inherit;
     font-family: "Noto Sans Regular", sans-serif;
     font-weight: 600;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .navigator li {
-    padding-left: 1em;
+    padding: 0.25em 0.25em 0.25em 0.75em;
 }
 
 .navigator svg {

@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 
 import CssBaseline from 'material-ui/CssBaseline'
+import { IconButton } from 'material-ui'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/fontawesome-free-solid'
 
+import { NAVIGATOR_URL } from './lib/consts'
+import controller from './lib/controller'
 import Navigator from './components/Navigator'
 import Display from './components/Display'
-import controller from './lib/controller'
 
 import './App.css'
 
@@ -15,7 +19,6 @@ class App extends Component {
 
     this.state = {
       settings: null,
-      session: null,
       theme: 'Night',
       connected: false,
     }
@@ -45,7 +48,12 @@ class App extends Component {
           <CssBaseline />
           <Display />
           <div className="navigator-container">
-            <Route path="/navigator" component={Navigator} />
+            <Link to={NAVIGATOR_URL}>
+              <IconButton className="expand-icon">
+                <FontAwesomeIcon icon={faPlus} />
+              </IconButton>
+            </Link>
+            <Route path={NAVIGATOR_URL} component={Navigator} />
           </div>
         </div>
       </Router>
