@@ -23,6 +23,8 @@ import {
 } from '@fortawesome/fontawesome-free-regular'
 
 
+import controller from '../../lib/controller'
+
 import Search from './Search'
 import Menu from './Menu'
 
@@ -98,9 +100,8 @@ class Navigator extends Component {
           {this.renderIconButton( 'Search', faSearch )}
           {this.renderIconButton( 'Bookmarks', faBookmark )}
           {this.renderIconButton( 'History', faHistory )}
-          {this.renderIconButton( 'Settings', faCogs )}
           <Typography className="name" type="title" />
-          {this.renderIconButton( 'Clear', faSquare )}
+          {this.renderIconButton( 'Clear', faSquare, controller.clear )}
         </Toolbar>
       </div>
     )

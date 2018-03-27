@@ -61,7 +61,7 @@ class SessionManager {
    * @param client The socket client that sent the line id.
    * @param lineId The ID of the line.
    */
-  async onLine( client, lineId ) {
+  onLine( client, lineId ) {
     logger.info( `Setting Line ID to ${lineId}` )
 
     this.socket.broadcast( 'line', lineId )
