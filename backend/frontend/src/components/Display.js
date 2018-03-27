@@ -8,24 +8,31 @@ class Display extends Component {
   constructor( props ) {
     super( props )
 
-    this.state = {}
+    this.state = {
+      shabad: null,
+      lineId: null,
+    }
   }
 
   componentDidMount() {
     controller.on( 'shabad', this.onShabad )
+    controller.on( 'line', this.onLine )
   }
 
   componentWillUnmount() {
     controller.off( 'shabad', this.onShabad )
+    controller.off( 'line', this.onLine )
   }
 
-  onShabad = data => {
-    console.log( data )
-  }
+  onShabad = shabad => this.setState( { shabad } )
+
+  onLine = lineId => this.setState( { lineId } )
 
   render() {
+    const { shabad, lineId } = this.state
+
     return (
-      <p>display</p>
+      <p>{shabad ? JSON.stringify( shabad.lines.find( ( { id } ) => lineId === id ) ) : null}</p>
     )
   }
 }

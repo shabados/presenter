@@ -68,7 +68,6 @@ class Controller extends EventEmitter {
   /**
    * Convenience method for setting the current shabad.
    * @param shabadId The shabad to
-   * @returns {*}
    */
   shabad = shabadId => this.sendJSON( 'shabad', shabadId )
 }
