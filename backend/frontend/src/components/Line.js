@@ -13,22 +13,20 @@ import './Line.css'
  * @param translation The English translation of the line to render.
  * @param transliteration The English transliteration of the line to render.
  */
-const Line = ( { gurmukhi, punjabi, translation, transliteration } ) => {
-  return (
-    <div className="line">
-      <p className="gurmukhi">
-        {partitionLine( gurmukhi )
-          .map( ( line, i ) => (
-            <span key={i} className="partition">
-              {line.map( ( { word, type }, i ) => <span key={i} className={type}>{word}</span> )}
-            </span>
-          ) )}
-      </p>
-      <p className="translation">{translation}</p>
-      <p className="punjabi">{punjabi}</p>
-      <p className="transliteration">{transliteration}</p>
-    </div>
-  )
-}
+const Line = ( { gurmukhi, punjabi, translation, transliteration } ) => (
+  <div className="line">
+    <p className="gurmukhi">
+      {partitionLine( gurmukhi )
+        .map( ( line, i ) => (
+          <span key={i} className="partition">
+            {line.map( ( { word, type }, i ) => <span key={i} className={type}>{word}</span> )}
+          </span>
+        ) )}
+    </p>
+    <p className="translation">{translation}</p>
+    <p className="punjabi">{punjabi}</p>
+    <p className="transliteration">{transliteration}</p>
+  </div>
+)
 
 export default Line
