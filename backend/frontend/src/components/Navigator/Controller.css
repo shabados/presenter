@@ -1,0 +1,16 @@
+.controller {
+    height: 100%;
+    overflow-y: auto;
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.controller .line {
+    display: block;
+    cursor: pointer;
+    font-family: "Noto Sans Gurmukhi", sans-serif;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: auto;
+    height: auto;
+}

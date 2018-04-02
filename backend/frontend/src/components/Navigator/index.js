@@ -15,6 +15,7 @@ import {
   faSearch,
   faHistory,
   faBookmark,
+  faList,
 } from '@fortawesome/fontawesome-free-solid'
 import { faSquare } from '@fortawesome/fontawesome-free-regular'
 
@@ -22,6 +23,7 @@ import controller from '../../lib/controller'
 
 import Search from './Search'
 import Menu from './Menu'
+import Controller from './Controller'
 
 import './index.css'
 
@@ -100,15 +102,20 @@ class Navigator extends Component {
   /**
    * Renders the bottom navigation bar.
    */
-  BottomBar = () => (
-    <Toolbar className="bottom bar">
-      <this.ToolbarButton icon={faSearch}>Search</this.ToolbarButton>
-      <this.ToolbarButton icon={faBookmark}>Bookmarks</this.ToolbarButton>
-      <this.ToolbarButton icon={faHistory}>History</this.ToolbarButton>
-      <Typography className="name" type="title" />
-      <this.ToolbarButton icon={faSquare} onClick={controller.clear}>Clear</this.ToolbarButton>
-    </Toolbar>
-  )
+  BottomBar = () => {
+    const { shabad } = this.props
+
+    return (
+      <Toolbar className="bottom bar">
+        <this.ToolbarButton icon={faSearch}>Search</this.ToolbarButton>
+        <this.ToolbarButton icon={faBookmark}>Bookmarks</this.ToolbarButton>
+        <this.ToolbarButton icon={faHistory}>History</this.ToolbarButton>
+        {shabad ? <this.ToolbarButton icon={faList}>Controller</this.ToolbarButton> : null}
+        <Typography className="name" type="title" />
+        <this.ToolbarButton icon={faSquare} onClick={controller.clear}>Clear</this.ToolbarButton>
+      </Toolbar>
+    )
+  }
 
   render() {
     const { match: { url }, shabad, lineId } = this.props
@@ -119,6 +126,10 @@ class Navigator extends Component {
         <Switch>
           <Route path={`${url}/menu`} component={Menu} />
           <Route path={`${url}/search`} component={Search} />
+          <Route
+            path={`${url}/controller`}
+            component={props => <Controller {...props} shabad={shabad} lineId={lineId} />}
+          />
           <Redirect to={`${url}/search`} />
         </Switch>
         <this.BottomBar />
