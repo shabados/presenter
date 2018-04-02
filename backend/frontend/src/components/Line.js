@@ -18,8 +18,8 @@ const Line = ( { gurmukhi, punjabi, translation, transliteration } ) => {
     <div className="line">
       <p className="gurmukhi">
         {partitionLine( gurmukhi )
-          .map( line => (
-            <span className="partition">
+          .map( ( line, i ) => (
+            <span key={i} className="partition">
               {line.map( ( { word, type }, i ) => <span key={i} className={type}>{word}</span> )}
             </span>
           ) )}
