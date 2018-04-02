@@ -5,6 +5,11 @@
     justify-content: space-around;
     padding: 1vh;
     text-align: center;
+    overflow: hidden;
+}
+
+.line p {
+    margin: 0;
 }
 
 .line .gurmukhi {
