@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { partitionLine } from '../lib/utils'
 
@@ -28,5 +29,12 @@ const Line = ( { gurmukhi, punjabi, translation, transliteration } ) => (
     <p className="transliteration">{transliteration}</p>
   </div>
 )
+
+Line.propTypes = {
+  gurmukhi: PropTypes.string.isRequired,
+  punjabi: PropTypes.string.isRequired,
+  translation: PropTypes.string.isRequired,
+  transliteration: PropTypes.string.isRequired,
+}
 
 export default Line
