@@ -43,7 +43,7 @@ class Navigator extends Component {
    * @param icon The font-awesome icon.
    * @param onClick Optional click handler.
    */
-  renderIconButton = ( { children: name, icon, onClick } ) => {
+  ToolbarButton = ( { children: name, icon, onClick } ) => {
     // Default handler for onClick navigates to the name of what was clicked
     const onIconClick = () => {
       const { history, match } = this.props
@@ -65,48 +65,63 @@ class Navigator extends Component {
     )
   }
 
-  render() {
-    const ToolbarButton = this.renderIconButton
-    const { match, location: { pathname }, history } = this.props
+  /**
+   * Renders the top navigation bar, showing the current path in the URL, and the hover state.
+   */
+  TopBar = () => {
     const { hovered } = this.state
+    const { location: { pathname }, history } = this.props
 
     // Get current page name from route
     const selected = pathname.split( '/' ).pop()
 
     return (
+      <Toolbar className="top bar">
+        <this.ToolbarButton icon={faBars}>Menu</this.ToolbarButton>
+        <this.ToolbarButton icon={faArrowAltCircleLeft} onClick={() => history.goBack()}>
+          Backwards
+        </this.ToolbarButton>
+        <this.ToolbarButton icon={faArrowAltCircleRight} onClick={() => history.goForward()}>
+          Forwards
+        </this.ToolbarButton>
+        <Typography className="name" type="title">
+          {hovered || selected || 'Menu'}
+        </Typography>
+        <this.ToolbarButton icon={faWindowMinimize} onClick={() => history.push( '/' )}>
+          Minimize
+        </this.ToolbarButton>
+        <this.ToolbarButton icon={faSignOutAlt} onClick={() => history.push( '/' )}>
+          Pop Out
+        </this.ToolbarButton>
+      </Toolbar>
+    )
+  }
+
+  /**
+   * Renders the bottom navigation bar.
+   */
+  BottomBar = () => (
+    <Toolbar className="bottom bar">
+      <this.ToolbarButton icon={faSearch}>Search</this.ToolbarButton>
+      <this.ToolbarButton icon={faBookmark}>Bookmarks</this.ToolbarButton>
+      <this.ToolbarButton icon={faHistory}>History</this.ToolbarButton>
+      <Typography className="name" type="title" />
+      <this.ToolbarButton icon={faSquare} onClick={controller.clear}>Clear</this.ToolbarButton>
+    </Toolbar>
+  )
+
+  render() {
+    const { match: { url }, shabad, lineId } = this.props
+
+    return (
       <div className="navigator">
-        <Toolbar className="top bar">
-          <ToolbarButton icon={faBars}>Menu</ToolbarButton>
-          <ToolbarButton icon={faArrowAltCircleLeft} onClick={() => history.goBack()}>
-            Backwards
-          </ToolbarButton>
-          <ToolbarButton icon={faArrowAltCircleRight} onClick={() => history.goForward()}>
-            Forwards
-          </ToolbarButton>
-          <Typography className="name" type="title">
-            {hovered || selected || 'Menu'}
-          </Typography>
-          <ToolbarButton icon={faWindowMinimize} onClick={() => history.push( '/' )}>
-            Minimize
-          </ToolbarButton>
-          <ToolbarButton icon={faSignOutAlt} onClick={() => history.push( '/' )}>
-            Pop Out
-          </ToolbarButton>
-        </Toolbar>
-
+        <this.TopBar />
         <Switch>
-          <Route path={`${match.url}/menu`} component={Menu} />
-          <Route path={`${match.url}/search`} component={Search} />
-          <Redirect to={`${match.url}/search`} />
+          <Route path={`${url}/menu`} component={Menu} />
+          <Route path={`${url}/search`} component={Search} />
+          <Redirect to={`${url}/search`} />
         </Switch>
-
-        <Toolbar className="bottom bar">
-          <ToolbarButton icon={faSearch}>Search</ToolbarButton>
-          <ToolbarButton icon={faBookmark}>Bookmarks</ToolbarButton>
-          <ToolbarButton icon={faHistory}>History</ToolbarButton>
-          <Typography className="name" type="title" />
-          <ToolbarButton icon={faSquare} onClick={controller.clear}>Clear</ToolbarButton>
-        </Toolbar>
+        <this.BottomBar />
       </div>
     )
   }
