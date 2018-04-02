@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-
-import controller from '../lib/controller'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import Line from './Line'
 
@@ -9,48 +8,33 @@ import './Display.css'
 /**
  * Display Component.
  * Displays the current Shabad, with visual settings.
+ * @param shabad The Shabad to render.
+ * @param lineId The current line in the Shabad.
  */
-class Display extends Component {
-  constructor( props ) {
-    super( props )
+const Display = ( { shabad, lineId } ) => {
+  // Get the lines from the shabad, if they exist
+  const { lines = [] } = shabad || {}
 
-    this.state = {
-      shabad: null,
-      lineId: null,
-    }
-  }
+  // Find the correct line in the Shabad
+  const line = lines.find( ( { id } ) => lineId === id )
 
-  componentDidMount() {
-    controller.on( 'shabad', this.onShabad )
-    controller.on( 'line', this.onLine )
-  }
+  return (
+    <div className="display">
+      {line ? <Line {...line} /> : null}
+    </div>
+  )
+}
 
-  componentWillUnmount() {
-    controller.off( 'shabad', this.onShabad )
-    controller.off( 'line', this.onLine )
-  }
+Display.defaultProps = {
+  shabad: null,
+  lineId: null,
+}
 
-  onShabad = shabad => this.setState( { shabad } )
-
-  onLine = lineId => this.setState( { lineId } )
-
-  render() {
-    const { shabad, lineId } = this.state
-
-    // Do not render anything if there's no shabad or line
-    if ( !shabad || !lineId ) {
-      return null
-    }
-
-    // Find the correct line in the shabad
-    const line = shabad.lines.find( ( { id } ) => lineId === id )
-
-    return (
-      <div className="display">
-        {line ? <Line {...line} /> : null}
-      </div>
-    )
-  }
+Display.propTypes = {
+  lineId: PropTypes.number,
+  shabad: PropTypes.shape( {
+    lines: PropTypes.arrayOf( PropTypes.shape( Line.PropTypes ) ),
+  } ),
 }
 
 export default Display

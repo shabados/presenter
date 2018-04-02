@@ -19,6 +19,8 @@ class App extends Component {
 
     this.state = {
       connected: false,
+      lineId: null,
+      shabad: null,
     }
   }
 
@@ -26,30 +28,39 @@ class App extends Component {
     // Register controller event
     controller.on( 'connected', this.onConnected )
     controller.on( 'disconnected', this.onDisconnected )
+    controller.on( 'shabad', this.onShabad )
+    controller.on( 'line', this.onLine )
   }
 
   componentWillUnmount() {
     // Deregister event listeners from controller
     controller.off( 'connected', this.onConnected )
     controller.off( 'disconnected', this.onDisconnected )
+    controller.off( 'shabad', this.onShabad )
+    controller.off( 'line', this.onLine )
   }
 
   onConnected = () => this.setState( { connected: true } )
   onDisconnected = () => this.setState( { connected: false } )
+  onShabad = shabad => this.setState( { shabad } )
+  onLine = lineId => this.setState( { lineId } )
 
   render() {
+    const { shabad, lineId } = this.state
+
     return (
       <Router>
         <div className="app">
           <CssBaseline />
-          <Display />
+          <Display shabad={shabad} lineId={lineId} />
           <div className="navigator-container">
             <Link to={NAVIGATOR_URL}>
-              <IconButton className="expand-icon">
-                <FontAwesomeIcon icon={faPlus} />
-              </IconButton>
+              <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
             </Link>
-            <Route path={NAVIGATOR_URL} component={Navigator} />
+            <Route
+              path={NAVIGATOR_URL}
+              component={props => <Navigator {...props} shabad={shabad} lineId={lineId} />}
+            />
           </div>
         </div>
       </Router>
