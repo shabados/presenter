@@ -16,11 +16,7 @@ import {
   faHistory,
   faBookmark,
 } from '@fortawesome/fontawesome-free-solid'
-
-import {
-  faSquare,
-} from '@fortawesome/fontawesome-free-regular'
-
+import { faSquare } from '@fortawesome/fontawesome-free-regular'
 
 import controller from '../../lib/controller'
 
@@ -47,7 +43,7 @@ class Navigator extends Component {
    * @param icon The font-awesome icon.
    * @param onClick Optional click handler.
    */
-  renderIconButton = ( name, icon, onClick ) => {
+  renderIconButton = ( { children: name, icon, onClick } ) => {
     // Default handler for onClick navigates to the name of what was clicked
     const onIconClick = () => {
       const { history, match } = this.props
@@ -70,6 +66,7 @@ class Navigator extends Component {
   }
 
   render() {
+    const ToolbarButton = this.renderIconButton
     const { match, location: { pathname }, history } = this.props
     const { hovered } = this.state
 
@@ -79,14 +76,22 @@ class Navigator extends Component {
     return (
       <div className="navigator">
         <Toolbar className="top bar">
-          {this.renderIconButton( 'Menu', faBars )}
-          {this.renderIconButton( 'Backwards', faArrowAltCircleLeft, () => history.goBack() )}
-          {this.renderIconButton( 'Forwards', faArrowAltCircleRight, () => history.goForward() )}
+          <ToolbarButton icon={faBars}>Menu</ToolbarButton>
+          <ToolbarButton icon={faArrowAltCircleLeft} onClick={() => history.goBack()}>
+            Backwards
+          </ToolbarButton>
+          <ToolbarButton icon={faArrowAltCircleRight} onClick={() => history.goForward()}>
+            Forwards
+          </ToolbarButton>
           <Typography className="name" type="title">
             {hovered || selected || 'Menu'}
           </Typography>
-          {this.renderIconButton( 'Minimize', faWindowMinimize, () => history.push( '/' ) )}
-          {this.renderIconButton( 'Pop Out', faSignOutAlt )}
+          <ToolbarButton icon={faWindowMinimize} onClick={() => history.push( '/' )}>
+            Minimize
+          </ToolbarButton>
+          <ToolbarButton icon={faSignOutAlt} onClick={() => history.push( '/' )}>
+            Pop Out
+          </ToolbarButton>
         </Toolbar>
 
         <Switch>
@@ -96,11 +101,11 @@ class Navigator extends Component {
         </Switch>
 
         <Toolbar className="bottom bar">
-          {this.renderIconButton( 'Search', faSearch )}
-          {this.renderIconButton( 'Bookmarks', faBookmark )}
-          {this.renderIconButton( 'History', faHistory )}
+          <ToolbarButton icon={faSearch}>Search</ToolbarButton>
+          <ToolbarButton icon={faBookmark}>Bookmarks</ToolbarButton>
+          <ToolbarButton icon={faHistory}>History</ToolbarButton>
           <Typography className="name" type="title" />
-          {this.renderIconButton( 'Clear', faSquare, controller.clear )}
+          <ToolbarButton icon={faSquare} onClick={controller.clear}>Clear</ToolbarButton>
         </Toolbar>
       </div>
     )

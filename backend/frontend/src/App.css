@@ -7,10 +7,6 @@
     user-select: none;
 }
 
-.app p, .app h2, .app span, .app div, .app svg, .app button {
-    color: inherit;
-}
-
 .navigator-container {
     position: absolute;
     right:0;
