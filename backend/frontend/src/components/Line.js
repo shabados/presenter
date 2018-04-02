@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { partitionLine } from '../lib/utils'
 
@@ -24,9 +25,17 @@ const Line = ( { gurmukhi, punjabi, translation, transliteration } ) => (
           </span>
         ) )}
     </p>
-    <p className="translation">{translation}</p>
-    <p className="punjabi">{punjabi}</p>
-    <p className="transliteration">{transliteration}</p>
+    <TransitionGroup appear exit={false} component={Fragment}>
+      <CSSTransition key={translation} classNames="fade" timeout={100}>
+        <p className="translation">{translation}</p>
+      </CSSTransition>
+      <CSSTransition key={punjabi} classNames="fade" timeout={150}>
+        <p className="punjabi">{punjabi}</p>
+      </CSSTransition>
+      <CSSTransition key={transliteration} classNames="fade" timeout={200}>
+        <p className="transliteration">{transliteration}</p>
+      </CSSTransition>
+    </TransitionGroup>
   </div>
 )
 

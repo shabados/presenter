@@ -80,7 +80,7 @@ class Search extends Component {
    * @param lineId The id of the line.
    * @param shabadId The id of the shabad.
    */
-  renderResult = ( { gurmukhi, id: lineId, shabadId } ) => {
+  Result = ( { gurmukhi, id: lineId, shabadId } ) => {
     const { search } = this.state
 
     // Get first letters in line and find where the match is
@@ -124,7 +124,7 @@ class Search extends Component {
           autoFocus
         />
         <List className="results">
-          {results ? results.slice( 0, MAX_RESULTS ).map( this.renderResult ) : ''}
+          {results ? results.slice( 0, MAX_RESULTS ).map( this.Result ) : ''}
         </List>
       </div>
     )
