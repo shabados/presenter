@@ -9,7 +9,6 @@
 
 .app p, .app h2, .app span, .app div, .app svg, .app button {
     color: inherit;
-    font-family: "Noto Sans Regular", sans-serif;
 }
 
 .navigator-container {

@@ -1,0 +1,41 @@
+.line {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 1vh;
+    text-align: center;
+}
+
+.line .gurmukhi {
+    font-family: "Noto Sans Gurmukhi", sans-serif;
+    font-size: 8vh;
+}
+
+.line .gurmukhi span {
+    margin-right: 2.25vh;
+    display: inline-block;
+}
+
+.line .gurmukhi span:last-child {
+    margin-right: 0;
+}
+
+.line .gurmukhi.larivaar span {
+    margin-right: 0;
+}
+
+.line .translation {
+    font-family: "Noto Sans Medium", sans-serif;
+    font-size: 4vh;
+}
+
+.line .transliteration {
+    font-family: "Noto Sans Regular", sans-serif;
+    font-size: 4vh;
+}
+
+.line .punjabi {
+    font-family: "Noto Sans Gurmukhi", sans-serif;
+    font-size: 4vh;
+}

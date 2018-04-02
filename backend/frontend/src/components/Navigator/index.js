@@ -23,7 +23,6 @@ import {
 
 
 import controller from '../../lib/controller'
-import { NAVIGATOR_URL } from '../../lib/consts'
 
 import Search from './Search'
 import Menu from './Menu'

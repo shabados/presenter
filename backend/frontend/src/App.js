@@ -18,8 +18,6 @@ class App extends Component {
     super( props )
 
     this.state = {
-      settings: null,
-      theme: 'Night',
       connected: false,
     }
   }
@@ -40,11 +38,9 @@ class App extends Component {
   onDisconnected = () => this.setState( { connected: false } )
 
   render() {
-    const { theme } = this.state
-
     return (
       <Router>
-        <div className={`app theme-${theme.toLowerCase()}`}>
+        <div className="app">
           <CssBaseline />
           <Display />
           <div className="navigator-container">

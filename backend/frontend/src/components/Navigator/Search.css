@@ -10,6 +10,7 @@
     width: 100%;
     padding: 0 0.5em;
     font-size: 1.25em;
+    font-weight: bold;
     font-family: "Noto Sans Gurmukhi", sans-serif;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
@@ -17,7 +18,8 @@
 .search .results {
     overflow-y: auto;
     font-family: "Noto Sans Gurmukhi", sans-serif;
-    font-size: 1.1em;
+    font-size: 1.25em;
+    font-weight: bold;
 }
 
 .search .results .result {
