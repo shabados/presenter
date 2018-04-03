@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import { Input, List, ListItem } from 'material-ui'
 import { toUnicode } from '@shabados/gurmukhi-utils'
 
-import { MAX_RESULTS, MIN_SEARCH_CHARS, WILDCARD_CHAR } from '../../lib/consts'
+import { MAX_RESULTS, MIN_SEARCH_CHARS, NAVIGATOR_URL, WILDCARD_CHAR } from '../../lib/consts'
 import { getFirstLetters, stripPauses } from '../../lib/utils'
 import controller from '../../lib/controller'
 
@@ -82,6 +83,7 @@ class Search extends Component {
    */
   Result = ( { gurmukhi, id: lineId, shabadId } ) => {
     const { search } = this.state
+    const { history } = this.props
 
     // Get first letters in line and find where the match is
     const firstLetters = getFirstLetters( gurmukhi )
@@ -99,6 +101,7 @@ class Search extends Component {
     const onClick = () => {
       controller.shabad( shabadId )
       controller.line( lineId )
+      history.push( `${NAVIGATOR_URL}/controller` )
     }
 
     return (
@@ -131,4 +134,4 @@ class Search extends Component {
   }
 }
 
-export default Search
+export default withRouter( Search )
