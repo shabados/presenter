@@ -33,14 +33,21 @@
 .line .translation {
     font-family: "Noto Sans Medium", sans-serif;
     font-size: 4vh;
-}
-
-.line .transliteration {
-    font-family: "Noto Sans Regular", sans-serif;
-    font-size: 4vh;
+    transition: opacity 200ms ease-in;
 }
 
 .line .punjabi {
     font-family: "Noto Sans Gurmukhi", sans-serif;
     font-size: 4vh;
+    transition: opacity 350ms ease-in;
+}
+
+.line .transliteration {
+    font-family: "Noto Sans Regular", sans-serif;
+    font-size: 4vh;
+    transition: opacity 500ms ease-in;
+}
+
+.line .fade-enter, .line .fade-appear {
+    opacity: 0.05;
 }
