@@ -26,13 +26,13 @@ const Line = ( { gurmukhi, punjabi, translation, transliteration } ) => (
         ) )}
     </p>
     <TransitionGroup appear exit={false} component={Fragment}>
-      <CSSTransition key={translation} classNames="fade" timeout={0}>
+      <CSSTransition key={translation} classNames="fade" timeout={100}>
         <p className="translation">{translation}</p>
       </CSSTransition>
-      <CSSTransition key={punjabi} classNames="fade" timeout={0}>
+      <CSSTransition key={punjabi} classNames="fade" timeout={150}>
         <p className="punjabi">{punjabi}</p>
       </CSSTransition>
-      <CSSTransition key={transliteration} classNames="fade" timeout={0}>
+      <CSSTransition key={transliteration} classNames="fade" timeout={200}>
         <p className="transliteration">{transliteration}</p>
       </CSSTransition>
     </TransitionGroup>
