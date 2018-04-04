@@ -40,6 +40,16 @@ class Navigator extends Component {
     }
   }
 
+  componentDidUpdate( { shabad: prevShabad } ) {
+    const { history, match, shabad } = this.props
+    const { location: { pathname } } = history
+
+    // Navigate to controller if a different Shabad has been selected, and we're on the search page
+    if ( shabad !== prevShabad && pathname.includes( 'search' ) ) {
+      history.push( `${NAVIGATOR_URL}/controller` )
+    }
+  }
+
   /**
    * Renders an individual icon button, setting the state with the name on hover and click.
    * @param name The human-readable name of the icon.
