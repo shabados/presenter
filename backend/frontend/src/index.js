@@ -1,12 +1,10 @@
+/* eslint-disable no-undef */
 /* App entry point */
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import './index.css'
-
 import App from './App'
-
-// Import and initialise controllers here
+import './index.css'
 
 
 // Render the React app
