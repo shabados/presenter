@@ -134,15 +134,17 @@ class Navigator extends Component {
     return (
       <div className="navigator">
         <this.TopBar />
-        <Switch>
-          <Route path={`${NAVIGATOR_URL}/menu`} component={Menu} />
-          <Route path={`${NAVIGATOR_URL}/search`} component={Search} />
-          <Route
-            path={`${NAVIGATOR_URL}/controller`}
-            render={props => <Controller {...props} shabad={shabad} lineId={lineId} />}
-          />
-          <Redirect to={`${NAVIGATOR_URL}/search`} />
-        </Switch>
+        <div className="content">
+          <Switch>
+            <Route path={`${NAVIGATOR_URL}/menu`} component={Menu} />
+            <Route path={`${NAVIGATOR_URL}/search`} component={Search} />
+            <Route
+              path={`${NAVIGATOR_URL}/controller`}
+              render={props => <Controller {...props} shabad={shabad} lineId={lineId} />}
+            />
+            <Redirect to={`${NAVIGATOR_URL}/search`} />
+          </Switch>
+        </div>
         <this.BottomBar />
       </div>
     )

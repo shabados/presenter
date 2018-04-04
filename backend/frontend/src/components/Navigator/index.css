@@ -2,6 +2,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    font-size: 0.95em;
 }
 
 .navigator button {
@@ -9,6 +11,7 @@
     margin: 0 0.5em;
     width: 1.25em;
     height: 1.25em;
+    color: var(--navigator-text-color);
 }
 
 .navigator .name {
@@ -16,16 +19,28 @@
     flex: 1;
     font-family: "Noto Sans Regular", sans-serif;
     font-weight: 600;
-    font-size: 1em;
     text-transform: capitalize;
+    font-size: 1em;
+    color: var(--navigator-text-color);
+}
+
+.navigator button:hover, .navigator .name:hover {
+    color: var(--navigator-text-color-hover);
 }
 
 .navigator .bar {
     padding: 0;
-    min-height: 2.25rem;
+    min-height: 2.25em;
+    background-color: var(--navigator-bar-background-color);
 }
 
 /* All subcomponents */
+.navigator .content {
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--navigator-background-color);
+}
+
 .navigator a {
     text-decoration: none;
     color: inherit;
@@ -36,6 +51,11 @@
 
 .navigator li {
     padding: 0.25em 0.25em 0.25em 0.75em;
+}
+
+.navigator a li:focus {
+    background-color: var(--navigator-selected-background-color);
+    color: var(--navigator-selected-color);
 }
 
 .navigator svg {

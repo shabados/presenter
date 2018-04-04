@@ -33,7 +33,7 @@
 }
 
 .search .results .result .matched.words {
-    color: red;
+    color: var(--navigator-search-match-color);
 }
 
 .search .results .result .words::after {

@@ -14,3 +14,8 @@
     width: auto;
     height: auto;
 }
+
+.controller .current.line {
+    background-color: var(--navigator-selected-background-color);
+    color: var(--navigator-selected-color);
+}
