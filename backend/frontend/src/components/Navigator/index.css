@@ -2,7 +2,6 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    border: 1px solid red;
 }
 
 .navigator button {
@@ -23,7 +22,6 @@
 
 .navigator .bar {
     padding: 0;
-    border: 1px solid green;
     min-height: 2.25rem;
 }
 
