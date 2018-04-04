@@ -16,10 +16,11 @@ const DEFAULT_MIDDLEWARE = [ helmet(), compression(), bodyParser.json() ]
 
 /**
  * Sets up Express
+ * @param mounts Array of { dir, prefix } of directories to mount.
  * @param middleware Any array of middleware that will be registered
  * @returns {Function} The instance of the http server
  */
-export const setupExpress = ( middleware = [] ) => {
+export const setupExpress = ( mounts = [], middleware = [] ) => {
   const allMiddleware = [ ...DEFAULT_MIDDLEWARE, ...middleware ]
 
   logger.info( 'Setting up express' )
@@ -29,6 +30,9 @@ export const setupExpress = ( middleware = [] ) => {
 
   allMiddleware.forEach( m => app.use( m ) )
   logger.info( 'Loaded all middleware' )
+
+  mounts.forEach( ( { dir, prefix = '/' } ) => app.use( prefix, express.static( dir ) ) )
+  logger.info( 'Loaded all directory mounts' )
 
   return server
 }

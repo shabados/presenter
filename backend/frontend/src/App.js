@@ -6,7 +6,7 @@ import { IconButton } from 'material-ui'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/fontawesome-free-solid'
 
-import { NAVIGATOR_URL } from './lib/consts'
+import { THEME_URL, NAVIGATOR_URL } from './lib/consts'
 import controller from './lib/controller'
 import Navigator from './components/Navigator'
 import Display from './components/Display'
@@ -21,6 +21,7 @@ class App extends Component {
       connected: false,
       lineId: null,
       shabad: null,
+      theme: 'day',
     }
   }
 
@@ -45,13 +46,21 @@ class App extends Component {
   onShabad = shabad => this.setState( { shabad } )
   onLine = lineId => this.setState( { lineId } )
 
+  /**
+   * Component to load a theme using a `<link>` tag.
+   * @param name The name of the CSS theme to load from the server.
+   * @constructor
+   */
+  ThemeLoader = ( { name } ) => <link rel="stylesheet" href={`${THEME_URL}/${name}.css`} />
+
   render() {
-    const { shabad, lineId } = this.state
+    const { shabad, lineId, theme } = this.state
 
     return (
       <Router>
         <div className="app">
           <CssBaseline />
+          <this.ThemeLoader name={theme} />
           <Display shabad={shabad} lineId={lineId} />
           <div className="navigator-container">
             <Link to={NAVIGATOR_URL}>
