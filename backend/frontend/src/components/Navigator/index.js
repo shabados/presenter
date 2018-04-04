@@ -19,6 +19,7 @@ import {
 } from '@fortawesome/fontawesome-free-solid'
 import { faSquare } from '@fortawesome/fontawesome-free-regular'
 
+import { NAVIGATOR_URL } from '../../lib/consts'
 import controller from '../../lib/controller'
 
 import Search from './Search'
@@ -118,19 +119,19 @@ class Navigator extends Component {
   }
 
   render() {
-    const { match: { url }, shabad, lineId } = this.props
+    const { shabad, lineId } = this.props
 
     return (
       <div className="navigator">
         <this.TopBar />
         <Switch>
-          <Route path={`${url}/menu`} component={Menu} />
-          <Route path={`${url}/search`} component={Search} />
+          <Route path={`${NAVIGATOR_URL}/menu`} component={Menu} />
+          <Route path={`${NAVIGATOR_URL}/search`} component={Search} />
           <Route
-            path={`${url}/controller`}
-            component={props => <Controller {...props} shabad={shabad} lineId={lineId} />}
+            path={`${NAVIGATOR_URL}/controller`}
+            render={props => <Controller {...props} shabad={shabad} lineId={lineId} />}
           />
-          <Redirect to={`${url}/search`} />
+          <Redirect to={`${NAVIGATOR_URL}/search`} />
         </Switch>
         <this.BottomBar />
       </div>

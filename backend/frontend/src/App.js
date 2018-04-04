@@ -59,7 +59,7 @@ class App extends Component {
             </Link>
             <Route
               path={NAVIGATOR_URL}
-              component={props => <Navigator {...props} shabad={shabad} lineId={lineId} />}
+              render={props => <Navigator {...props} shabad={shabad} lineId={lineId} />}
             />
           </div>
         </div>

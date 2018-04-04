@@ -26,9 +26,9 @@
     "react-hotkeys": "^0.10.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
-    "react-scroll": "^1.7.7",
     "react-transition-group": "^2.3.0",
-    "reconnecting-websocket": "^3.2.2"
+    "reconnecting-websocket": "^3.2.2",
+    "scroll-into-view": "^1.9.3"
   },
   "scripts": {
     "start": "react-scripts start",
