@@ -53,7 +53,7 @@ class Controller extends Component {
     const onClick = () => controller.line( id )
 
     return (
-      <ListItem key={id} className={className} onClick={onClick} ref={ref}>
+      <ListItem key={id} className={className} onClick={onClick} ref={ref} tabIndex={0}>
         {stripPauses( gurmukhi )}
       </ListItem>
     )

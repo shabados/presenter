@@ -15,6 +15,7 @@
 .line .gurmukhi {
     font-family: "Noto Sans Gurmukhi", sans-serif;
     font-size: 8vh;
+    color: var(--display-gurmukhi-color);
 }
 
 .line .gurmukhi span {
@@ -30,11 +31,24 @@
     margin-right: 0;
 }
 
+.line .gurmukhi .heavy {
+    color: var(--display-vishraam-heavy-color);
+}
+
+.line .gurmukhi .medium {
+    color: var(--display-vishraam-medium-color);
+}
+
+.line .gurmukhi .light {
+    color: var(--display-vishraam-light-color);
+}
+
 .line .translation {
     font-family: "Noto Sans Medium", sans-serif;
     font-size: 4vh;
     transition: opacity 100ms ease-in;
     opacity: 0.05;
+    color: var(--display-translation-color);
 }
 
 .line .punjabi {
@@ -42,6 +56,7 @@
     font-size: 4vh;
     transition: opacity 150ms ease-in;
     opacity: 0.1;
+    color: var(--display-punjabi-color);
 }
 
 .line .transliteration {
@@ -49,6 +64,7 @@
     font-size: 4vh;
     transition: opacity 200ms ease-in;
     opacity: 0.2;
+    color: var(--display-transliteration-color);
 }
 
 .line .fade-enter-done, .line .fade-appear-done {

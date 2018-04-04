@@ -11,8 +11,11 @@ import logger from './lib/logger'
 async function main() {
   logger.info( 'Starting...' )
 
-  // Setup the express server with websockets
-  const server = await setupExpress()
+  // Setup the express server with WebSockets
+  const mounts = [
+    { prefix: '/themes', dir: './frontend/themes' },
+  ]
+  const server = await setupExpress( mounts )
 
   // Setup the websocket server
   const socket = new Socket( server )

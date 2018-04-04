@@ -8,6 +8,7 @@ import { faPlus } from '@fortawesome/fontawesome-free-solid'
 
 import { NAVIGATOR_URL } from './lib/consts'
 import controller from './lib/controller'
+import ThemeLoader from './components/ThemeLoader'
 import Navigator from './components/Navigator'
 import Display from './components/Display'
 
@@ -21,6 +22,7 @@ class App extends Component {
       connected: false,
       lineId: null,
       shabad: null,
+      theme: 'day',
     }
   }
 
@@ -46,12 +48,13 @@ class App extends Component {
   onLine = lineId => this.setState( { lineId } )
 
   render() {
-    const { shabad, lineId } = this.state
+    const { shabad, lineId, theme } = this.state
 
     return (
       <Router>
         <div className="app">
           <CssBaseline />
+          <ThemeLoader name={theme} />
           <Display shabad={shabad} lineId={lineId} />
           <div className="navigator-container">
             <Link to={NAVIGATOR_URL}>
