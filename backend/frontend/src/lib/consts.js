@@ -4,7 +4,8 @@
  */
 
 /* Backend Info */
-export const BACKEND_HOST = 'localhost'
+// eslint-disable-next-line no-undef
+export const BACKEND_HOST = window.location.hostname
 export const BACKEND_PORT = 8080
 export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
 
