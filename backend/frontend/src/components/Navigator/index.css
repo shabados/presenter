@@ -11,7 +11,8 @@
     margin: 0 0.5em;
     width: 1.25em;
     height: 1.25em;
-    color: var(--navigator-text-color);
+    color: var(--navigator-bar-text-color);
+    transition: 0.2s all;
 }
 
 .navigator .name {
@@ -21,11 +22,12 @@
     font-weight: 600;
     text-transform: capitalize;
     font-size: 1em;
-    color: var(--navigator-text-color);
+    color: var(--navigator-bar-text-color);
+    transition: 0.3s all;
 }
 
 .navigator button:hover, .navigator .name:hover {
-    color: var(--navigator-text-color-hover);
+    color: var(--navigator-bar-text-hover-color);
 }
 
 .navigator .bar {
@@ -41,23 +43,40 @@
     background-color: var(--navigator-background-color);
 }
 
-.navigator a {
+.navigator .content a {
     text-decoration: none;
-    color: inherit;
-    font-family: "Noto Sans Regular", sans-serif;
-    font-weight: 600;
-    font-size: 1em;
+    color: var(--navigator-text-color);
+    font-family: "Noto Sans Medium", sans-serif;
+    font-size: 1.1em;
 }
 
-.navigator li {
+.navigator .content ul {
+    padding: 0;
+}
+
+.navigator .content li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
     padding: 0.25em 0.25em 0.25em 0.75em;
+    min-height: 34px;
+    transition: 0.2s all;
 }
 
-.navigator a li:focus {
+.navigator .content li:focus {
     background-color: var(--navigator-selected-background-color);
     color: var(--navigator-selected-color);
 }
 
-.navigator svg {
-    min-width: 1.2em;
+.navigator .content li:hover {
+    color: var(--navigator-text-hover-color);
+    font-size: 1.05em;
+}
+
+.navigator .content svg {
+    width: 20px;
+    height: 15px;
+    color: var(--navigator-text-color);
+    opacity: 0.8;
 }

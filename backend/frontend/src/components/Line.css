@@ -32,15 +32,15 @@
 }
 
 .line .gurmukhi .heavy {
-    color: var(--display-vishraam-heavy);
+    color: var(--display-vishraam-heavy-color);
 }
 
 .line .gurmukhi .medium {
-    color: var(--display-vishraam-medium);
+    color: var(--display-vishraam-medium-color);
 }
 
 .line .gurmukhi .light {
-    color: var(--display-vishraam-light);
+    color: var(--display-vishraam-light-color);
 }
 
 .line .translation {

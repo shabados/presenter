@@ -10,25 +10,26 @@
     --display-transliteration-color: #161616;
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy: #FF8F00;
-    --display-vishraam-medium: #0D47A1;
-    --display-vishraam-light: #33691E;
+    --display-vishraam-heavy-color: #FF8F00;
+    --display-vishraam-medium-color: #0D47A1;
+    --display-vishraam-light-color: #33691E;
 
     /* Navigator colors */
     --navigator-background-color: #EEEEEE;
-    --navigator-text-color: #616161;
-    --navigator-text-color-hover: #424242;
+    --navigator-text-color: #424242;
+    --navigator-text-hover-color: #212121;
     --navigator-selected-color: #212121;
     --navigator-selected-background-color: #CFD8DC;
 
-    /* Navigator search result match colour */
+    /* Navigator search colors */
+    --navigator-search-background-color: transparent;
+    --navigator-search-focused-background-color: #E0E0E0;
     --navigator-search-match-color: #0D47A1;
 
     /* Navigator top and bottom bar colors */
-    --navigator-bar-text: #616161;
-    --navigator-bar-text-hover: #424242;
+    --navigator-bar-text-color: #616161;
+    --navigator-bar-text-hover-color: #424242;
     --navigator-bar-background-color: #F5F5F5;
-    --navigator-bar-icon-color: #616161;
 
     /* Scrollbar colour */
     --scrollbar-color: rgba(0, 0, 0, 0.5);
