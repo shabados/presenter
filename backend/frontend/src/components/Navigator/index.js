@@ -41,7 +41,7 @@ class Navigator extends Component {
   }
 
   componentDidUpdate( { shabad: prevShabad } ) {
-    const { history, match, shabad } = this.props
+    const { history, shabad } = this.props
     const { location: { pathname } } = history
 
     // Navigate to controller if a different Shabad has been selected, and we're on the search page
@@ -70,6 +70,7 @@ class Navigator extends Component {
 
     return (
       <IconButton key={name}
+                  tabIndex={-1}
                   onMouseEnter={onMouseEnter}
                   onMouseLeave={onMouseLeave}
                   onClick={onClick || onIconClick}>

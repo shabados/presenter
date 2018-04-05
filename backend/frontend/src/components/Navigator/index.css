@@ -43,15 +43,12 @@
     background-color: var(--navigator-background-color);
 }
 
-.navigator .content a {
+.navigator .content ul {
+    padding: 0;
     text-decoration: none;
     color: var(--navigator-text-color);
     font-family: "Noto Sans Medium", sans-serif;
     font-size: 1.1em;
-}
-
-.navigator .content ul {
-    padding: 0;
 }
 
 .navigator .content li {
@@ -62,9 +59,10 @@
     padding: 0.25em 0.25em 0.25em 0.75em;
     min-height: 34px;
     transition: 0.2s all;
+    cursor: pointer;
 }
 
-.navigator .content li:focus {
+.navigator .content .focused {
     background-color: var(--navigator-selected-background-color);
     color: var(--navigator-selected-color);
 }

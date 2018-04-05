@@ -10,6 +10,7 @@ import { stripPauses } from '../../lib/utils'
 import controller from '../../lib/controller'
 
 import './Controller.css'
+import withNavigationHotKeys from '../withNavigationHotKeys'
 
 /**
  * Controller Component.
@@ -38,17 +39,26 @@ class Controller extends Component {
    * Line component that attaches click handlers.
    * @param gurmukhi The Gurmukhi for the line to render.
    * @param id The id of the line.
+   * @param index The index of the light
    */
-  Line = ( { gurmukhi, id } ) => {
-    const { lineId } = this.props
+  Line = ( { gurmukhi, id }, index ) => {
+    const { lineId, register } = this.props
 
     // Check if the line being rendered is the currently displayed line
     const activeLine = id === lineId
 
     // Set the class name appropriately for the active line
     const className = activeLine ? 'current line' : 'line'
+
     // Store a reference to the DOM element of the active line so it can be scrolled to after render
-    const ref = activeLine ? line => this.activeLine = line : undefined
+    const ref = line => {
+      if ( activeLine ) {
+        this.activeLine = line
+      }
+
+      register( index, line )
+    }
+
     // Move to the line id on click
     const onClick = () => controller.line( id )
 
@@ -76,4 +86,8 @@ class Controller extends Component {
   }
 }
 
-export default Controller
+export default withNavigationHotKeys( {
+  arrowKeys: false,
+  lineKeys: true,
+  clickOnNavigate: true,
+} )( Controller )

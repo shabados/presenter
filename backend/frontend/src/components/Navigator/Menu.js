@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import { List, ListItem, ListItemIcon } from 'material-ui'
 
@@ -13,6 +12,8 @@ import {
 } from '@fortawesome/fontawesome-free-solid'
 
 import { NAVIGATOR_URL } from '../../lib/consts'
+
+import withNavigationHotKeys from '../withNavigationHotKeys'
 
 import './Menu.css'
 
@@ -28,19 +29,22 @@ const items = [
  * Menu component.
  * Renders all the names, icons, and routes from `items`.
  */
-const Menu = () => (
+const Menu = ( { history, register, focused } ) => (
   <List className="menu">
     {items.map( ( [ name, icon, route ], i ) => (
-      <Link key={route} to={`${NAVIGATOR_URL}/${route}`} tabIndex={i + 1}>
-        <ListItem>
-          <ListItemIcon>
-            <FontAwesomeIcon icon={icon} />
-          </ListItemIcon>
-          {name}
-        </ListItem>
-      </Link>
+      <ListItem
+        key={route}
+        onClick={() => history.push( `${NAVIGATOR_URL}/${route}` )}
+        ref={c => register( i, c )}
+        className={focused === i ? 'focused' : ''}
+      >
+        <ListItemIcon>
+          <FontAwesomeIcon icon={icon} />
+        </ListItemIcon>
+        {name}
+      </ListItem>
     ) )}
   </List>
 )
 
-export default Menu
+export default withNavigationHotKeys( {} )( Menu )

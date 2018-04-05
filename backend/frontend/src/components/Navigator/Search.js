@@ -7,6 +7,8 @@ import { MAX_RESULTS, MIN_SEARCH_CHARS, WILDCARD_CHAR } from '../../lib/consts'
 import { getFirstLetters, stripPauses } from '../../lib/utils'
 import controller from '../../lib/controller'
 
+import withNavigationHotKeys from '../withNavigationHotKeys'
+
 import './Search.css'
 
 /**
@@ -79,8 +81,9 @@ class Search extends Component {
    * @param gurmukhi The shabad line to display.
    * @param lineId The id of the line.
    * @param shabadId The id of the shabad.
+   * @param The ref to the component.
    */
-  Result = ( { gurmukhi, id: lineId, shabadId } ) => {
+  Result = ( { gurmukhi, id: lineId, shabadId, ref, focused } ) => {
     const { search } = this.state
 
     // Get first letters in line and find where the match is
@@ -101,8 +104,10 @@ class Search extends Component {
       controller.line( lineId )
     }
 
+    const className = focused ? 'result focused' : 'result'
+
     return (
-      <ListItem className="result" key={lineId} onClick={onClick}>
+      <ListItem className={className} key={lineId} onClick={onClick} ref={ref}>
         {beforeMatch ? <span className="words">{beforeMatch}</span> : null}
         {match ? <span className="matched words">{match}</span> : null}
         {afterMatch ? <span className="words">{afterMatch}</span> : null}
@@ -111,6 +116,7 @@ class Search extends Component {
   }
 
   render() {
+    const { register, focused } = this.props
     const { search, results } = this.state
 
     return (
@@ -122,13 +128,22 @@ class Search extends Component {
           placeholder="ਖੋਜ"
           disableUnderline
           autoFocus
+          inputRef={c => register( 'search', c, true )}
         />
         <List className="results">
-          {results ? results.slice( 0, MAX_RESULTS ).map( this.Result ) : ''}
+          {results ?
+            results
+              .slice( 0, MAX_RESULTS )
+              .map( ( props, i ) => this.Result( {
+                ...props,
+                ref: c => register( i, c ),
+                focused: focused === i,
+              } ) )
+            : ''}
         </List>
       </div>
     )
   }
 }
 
-export default Search
+export default withNavigationHotKeys( {} )( Search )
