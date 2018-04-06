@@ -93,7 +93,7 @@ class Search extends Component {
 
     const words = stripPauses( gurmukhi ).split( ' ' )
 
-    // Seperate the line into words before the match, the match, and after the match
+    // Separate the line into words before the match, the match, and after the match
     const beforeMatch = words.slice( 0, pos ).join( ' ' )
     const match = words.slice( pos, pos + search.length ).join( ' ' )
     const afterMatch = words.slice( pos + search.length ).join( ' ' )

@@ -35,8 +35,8 @@ const Menu = ( { history, register, focused } ) => (
       <ListItem
         key={route}
         onClick={() => history.push( `${NAVIGATOR_URL}/${route}` )}
-        ref={c => register( i, c )}
-        className={focused === i ? 'focused' : ''}
+        ref={c => register( name, c )}
+        className={focused === name ? 'focused' : ''}
       >
         <ListItemIcon>
           <FontAwesomeIcon icon={icon} />
