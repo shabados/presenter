@@ -23,9 +23,13 @@ class Controller extends Component {
     }
   }
 
-  componentDidUpdate() {
-    // Scroll any line updates into the centre
-    this.scrollLineIntoCenter( this.activeLine )
+  componentDidUpdate( { lineId: prevLineId } ) {
+    const { lineId } = this.props
+
+    // Scroll any line updates into the centre, if the line has changed
+    if ( lineId !== prevLineId ) {
+      this.scrollLineIntoCenter( this.activeLine )
+    }
   }
 
   /**
