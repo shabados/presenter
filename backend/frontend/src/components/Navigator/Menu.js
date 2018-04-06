@@ -38,7 +38,7 @@ const Menu = ( { history, register, focused } ) => (
         ref={c => register( name, c )}
         className={focused === name ? 'focused' : ''}
       >
-        <ListItemIcon>
+        <ListItemIcon className="meta">
           <FontAwesomeIcon icon={icon} />
         </ListItemIcon>
         {name}

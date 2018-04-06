@@ -35,9 +35,9 @@ class Controller extends Component {
    * Line component that attaches click handlers.
    * @param gurmukhi The Gurmukhi for the line to render.
    * @param id The id of the line.
-   * @param index The index of the light
+   * @param index The index of the line.
    */
-  Line = ( { gurmukhi, id } ) => {
+  Line = ( { gurmukhi, id }, index ) => {
     const { lineId, register } = this.props
 
     // Check if the line being rendered is the currently displayed line
@@ -54,6 +54,7 @@ class Controller extends Component {
 
     return (
       <ListItem key={id} className={className} onClick={onClick} ref={ref} tabIndex={0}>
+        <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
         {stripPauses( gurmukhi )}
       </ListItem>
     )
