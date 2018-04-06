@@ -62,7 +62,7 @@
     cursor: pointer;
 }
 
-.navigator .content li:focus {
+.navigator .content .focused {
     background-color: var(--navigator-selected-background-color);
     color: var(--navigator-selected-color);
 }

@@ -30,22 +30,21 @@ const items = [
  * Renders all the names, icons, and routes from `items`.
  */
 const Menu = ( { history } ) => (
-  <List className="menu">
-    <HotKeysWrapper>
-      {items.map( ( [ name, icon, route ], i ) => (
-        <ListItem
-          key={route}
-          tabIndex={i + 1}
-          onClick={() => history.push( `${NAVIGATOR_URL}/${route}` )}
-        >
-          <ListItemIcon>
-            <FontAwesomeIcon icon={icon} />
-          </ListItemIcon>
-          {name}
-        </ListItem>
-      ) )}
-    </HotKeysWrapper>
-  </List>
+    <List className="menu">
+      <HotKeysWrapper>
+        {items.map( ( [ name, icon, route ] ) => (
+          <ListItem
+            key={route}
+            onClick={() => history.push( `${NAVIGATOR_URL}/${route}` )}
+          >
+            <ListItemIcon>
+              <FontAwesomeIcon icon={icon} />
+            </ListItemIcon>
+            {name}
+          </ListItem>
+        ) )}
+      </HotKeysWrapper>
+    </List>
 )
 
 export default Menu
