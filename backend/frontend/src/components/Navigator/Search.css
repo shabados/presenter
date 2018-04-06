@@ -21,7 +21,7 @@
     transition: 0.2s all;
 }
 
-.search input:focus {
+.search input:focus, .search .focused {
     background-color: var(--navigator-search-focused-background-color);
 }
 

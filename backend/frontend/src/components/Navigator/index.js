@@ -70,6 +70,7 @@ class Navigator extends Component {
 
     return (
       <IconButton key={name}
+                  tabIndex={-1}
                   onMouseEnter={onMouseEnter}
                   onMouseLeave={onMouseLeave}
                   onClick={onClick || onIconClick}>

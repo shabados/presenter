@@ -17,14 +17,66 @@ const withNavigationHotKeys = WrappedComponent =>
 
       // Stores the ref to the parent containing the children
       this.nodes = new Map()
+      this.nodeSize = 0
+
+      // Stores any input types, so that their keydown can be overriden
+      this.inputs = []
     }
+
+    componentDidMount() {
+      this.setNodeSize()
+      this.setFocus()
+
+      // Add event listeners to inputs
+      this.inputs.forEach( input => input.addEventListener( 'keydown', this.onKeyDown ) )
+    }
+
+    componentDidUpdate() {
+      this.setNodeSize()
+      this.setFocus()
+    }
+
+    componentWillUnmount() {
+      // Remove event listeners from inputs
+      this.inputs.forEach( input => input.removeEventListener( 'keydown', this.onKeyDown ) )
+    }
+
+    /**
+     * Defocuses an input on keydown, when up or down is pressed.
+     * @param event The keydown event.
+     */
+    onKeyDown = event => {
+      const { key } = event
+
+      if ( key === 'ArrowDown' || key === 'ArrowUp' ) {
+        event.preventDefault()
+        event.target.blur()
+        this.setNodeSize()
+        key === 'ArrowDown' ? this.nextItem() : this.prevItem()
+      }
+    }
+
+    /**
+     * Sets the length of the nodes to the correct size.
+     */
+    setNodeSize = () => this.nodeSize = [ ...this.nodes.values() ]
+      .filter( node => node !== null )
+      .length
 
     /**
      * Registers the ref under the current list of nodes.
      * @param name The name to identify the ref.
      * @param ref The ref to store.
+     * @param isInput Whether or not the ref is to an `<input/>`.
      */
-    registerRef = ( name, ref ) => this.nodes.set( name, ref )
+    registerRef = ( name, ref, isInput ) => {
+      this.nodes.set( name, ref )
+
+      // Store the input, if it is one
+      if ( isInput ) {
+        this.inputs = [ ...this.inputs, ref ]
+      }
+    }
 
     /**
      * Focuses the previous item in the list of elements.
@@ -33,7 +85,7 @@ const withNavigationHotKeys = WrappedComponent =>
       const { focusedIndex: prevIndex } = this.state
 
       // Set the previous focus, with wrap-around
-      const focusedIndex = prevIndex > 0 ? prevIndex - 1 : this.nodes.size - 1
+      const focusedIndex = prevIndex > 0 ? prevIndex - 1 : this.nodeSize - 1
 
       this.setState( { focusedIndex } )
     }
@@ -45,7 +97,7 @@ const withNavigationHotKeys = WrappedComponent =>
       const { focusedIndex: prevIndex } = this.state
 
       // Set the next focus, with wrap-around
-      const focusedIndex = prevIndex < this.nodes.size - 1 ? prevIndex + 1 : 0
+      const focusedIndex = prevIndex < this.nodeSize - 1 ? prevIndex + 1 : 0
 
       this.setState( { focusedIndex } )
     }
@@ -75,14 +127,6 @@ const withNavigationHotKeys = WrappedComponent =>
         node.focus()
         scrollIntoCenter( node )
       }
-    }
-
-    componentDidMount() {
-      this.setFocus()
-    }
-
-    componentDidUpdate() {
-      this.setFocus()
     }
 
     keymap = {
