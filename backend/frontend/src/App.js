@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 
+import { HotKeys } from 'react-hotkeys'
+
 import CssBaseline from 'material-ui/CssBaseline'
 import { IconButton } from 'material-ui'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'

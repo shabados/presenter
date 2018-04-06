@@ -47,4 +47,4 @@ const Menu = ( { history, register, focused } ) => (
   </List>
 )
 
-export default withNavigationHotKeys( Menu )
+export default withNavigationHotKeys( {} )( Menu )

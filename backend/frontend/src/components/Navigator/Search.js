@@ -146,4 +146,4 @@ class Search extends Component {
   }
 }
 
-export default withNavigationHotKeys( Search )
+export default withNavigationHotKeys( {} )( Search )

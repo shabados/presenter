@@ -31,7 +31,7 @@ export const WILDCARD_CHAR = '_'
 
 /* Hotkeys and shortcuts */
 // Jump to navigation line ordered hot keys
-export const LINE_HOTKEYS = [ '1234567890qwertyuiopasdfghjklzxcvbnm' ]
+export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfghjklzxcvbnm' )
 
 // Global application shortcuts
 export const SHORTCUTS = {
