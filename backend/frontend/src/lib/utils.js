@@ -3,6 +3,9 @@
  * @ignore
  */
 
+import { findDOMNode } from 'react-dom'
+import scrollIntoView from 'scroll-into-view'
+
 import { PAUSE_CHARS } from './consts'
 
 /**
@@ -54,3 +57,11 @@ export const partitionLine = line => classifyWords( line ).reduce( ( words, { ty
   // If it's a heavy pause, start a new array after it for the next words
   return type === 'heavy' ? [ ...nextWords, [] ] : nextWords
 }, [ [] ] )
+
+
+/**
+ * Scrolls an element into the center, given a ref.
+ * @param ref The reference to the element to scroll.
+ */
+// eslint-disable-next-line react/no-find-dom-node
+export const scrollIntoCenter = ref => scrollIntoView( findDOMNode( ref ), ( { time: 200 } ) )
