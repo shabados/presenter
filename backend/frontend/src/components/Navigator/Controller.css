@@ -25,3 +25,10 @@
 .controller .current.line:hover {
     font-size: 1.2em;
 }
+
+.controller .hotkey {
+    font-weight: normal;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    font-family: monospace;
+}

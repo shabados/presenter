@@ -8,6 +8,9 @@ import { LINE_HOTKEYS } from '../lib/consts'
 
 /**
  * HOC to automatically add navigational key bindings to child elements.
+ * @param arrowKeys Navigate with arrow keys to the next and previous DOM elements.
+ * @param lineKeys Enable line jumping via hotkeys.
+ * @param clickOnFocus Simulate a click on the item that is newly focused.
  */
 const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =>
   WrappedComponent => {
@@ -19,7 +22,6 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
 
         // Stores the ref to the parent containing the children
         this.nodes = new Map()
-        this.nodeSize = 0
 
         // Stores any input types, so that their keydown can be overriden
         this.inputs = []
@@ -61,9 +63,9 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
       /**
        * Sets the length of the nodes to the correct size.
        */
-      setNodeSize = () => this.nodeSize = [ ...this.nodes.values() ]
-        .filter( node => node !== null )
-        .length
+      setNodeSize = () => this.nodes.forEach(
+        ( value, key ) => value ? value : this.nodes.delete( key )
+      )
 
       /**
        * Registers the ref under the current list of nodes.
@@ -87,7 +89,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         const { focusedIndex: prevIndex } = this.state
 
         // Set the previous focus, with wrap-around
-        const focusedIndex = prevIndex > 0 ? prevIndex - 1 : this.nodeSize - 1
+        const focusedIndex = prevIndex > 0 ? prevIndex - 1 : this.nodes.size - 1
 
         this.jumpTo( focusedIndex )
       }
@@ -99,7 +101,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         const { focusedIndex: prevIndex } = this.state
 
         // Set the next focus, with wrap-around
-        const focusedIndex = prevIndex < this.nodeSize - 1 ? prevIndex + 1 : 0
+        const focusedIndex = prevIndex < this.nodes.size - 1 ? prevIndex + 1 : 0
 
         this.jumpTo( focusedIndex )
       }
@@ -107,15 +109,24 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
       /**
        * Jumps to an element.
        * @param focusedIndex The element index to jump to.
+       * @param click Trigger the click.
        */
-      jumpTo = focusedIndex => {
+      jumpTo = ( focusedIndex, click = true ) => {
         this.setState( { focusedIndex } )
 
         // Click on navigation if set
-        if ( clickOnNavigate ) {
+        if ( clickOnFocus && click ) {
           this.simulateClick()
         }
       }
+
+      /**
+       * Jump to an item given it's name/identifier.
+       * @param name The name of the element.
+       * @param click Trigger the click.
+       */
+      jumpToName = ( name, click = true ) =>
+        this.jumpTo( [ ...this.nodes.keys() ].findIndex( key => key === name ), click )
 
       /**
        * Simulates a click on the focused component.
@@ -148,7 +159,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
        * Generates handlers for each of the nodes, using the keys from LINE HOTKEYS to jump to them.
        */
       generateLineHandlers = () => LINE_HOTKEYS
-        .slice( 0, this.nodeSize )
+        .slice( 0, this.nodes.size )
         .reduce( ( handlers, key, i ) => ( {
           ...handlers,
           [ key ]: () => this.jumpTo( i ),

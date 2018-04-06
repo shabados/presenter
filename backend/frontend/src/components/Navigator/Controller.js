@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { findDOMNode } from 'react-dom'
-import scrollIntoView from 'scroll-into-view'
 
 import { List, ListItem } from 'material-ui'
 
@@ -18,28 +16,26 @@ import withNavigationHotKeys from '../withNavigationHotKeys'
  */
 class Controller extends Component {
   componentDidMount() {
-    // Scroll to active line if it's been rendered
-    if ( this.activeLine ) {
-      this.scrollLineIntoCenter( this.activeLine )
+    const { updateFocus, lineId } = this.props
+
+    // Set the focus to the active line
+    updateFocus( lineId )
+  }
+
+  componentDidUpdate( { lineId: prevLineId } ) {
+    const { lineId, updateFocus } = this.props
+
+    // Update the focus to any new lines
+    if ( lineId !== prevLineId ) {
+      updateFocus( lineId, false )
     }
   }
-
-  componentDidUpdate() {
-    // Scroll any line updates into the centre
-    this.scrollLineIntoCenter( this.activeLine )
-  }
-
-  /**
-   * Scrolls the line into the middle of the controller, given a reference.
-   * @param ref The reference to the line to scroll into the center.
-   */
-  scrollLineIntoCenter = ref => scrollIntoView( findDOMNode( ref ), ( { time: 200 } ) )
 
   /**
    * Line component that attaches click handlers.
    * @param gurmukhi The Gurmukhi for the line to render.
    * @param id The id of the line.
-   * @param index The index of the light
+   * @param index The index of the line.
    */
   Line = ( { gurmukhi, id }, index ) => {
     const { lineId, register } = this.props
@@ -50,20 +46,15 @@ class Controller extends Component {
     // Set the class name appropriately for the active line
     const className = activeLine ? 'current line' : 'line'
 
-    // Store a reference to the DOM element of the active line so it can be scrolled to after render
-    const ref = line => {
-      if ( activeLine ) {
-        this.activeLine = line
-      }
-
-      register( index, line )
-    }
+    // Register the reference to the line with the NavigationHotKey HOC
+    const ref = line => register( id, line )
 
     // Move to the line id on click
     const onClick = () => controller.line( id )
 
     return (
       <ListItem key={id} className={className} onClick={onClick} ref={ref} tabIndex={0}>
+        <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
         {stripPauses( gurmukhi )}
       </ListItem>
     )
@@ -87,7 +78,7 @@ class Controller extends Component {
 }
 
 export default withNavigationHotKeys( {
-  arrowKeys: false,
+  arrowKeys: true,
   lineKeys: true,
-  clickOnNavigate: true,
+  clickOnFocus: true,
 } )( Controller )
