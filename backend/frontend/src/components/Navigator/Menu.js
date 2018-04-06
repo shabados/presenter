@@ -13,7 +13,7 @@ import {
 
 import { NAVIGATOR_URL } from '../../lib/consts'
 
-import HotKeysWrapper from '../HotKeysWrapper'
+import withNavigationHotKeys from '../withNavigationHotKeys'
 
 import './Menu.css'
 
@@ -29,22 +29,22 @@ const items = [
  * Menu component.
  * Renders all the names, icons, and routes from `items`.
  */
-const Menu = ( { history } ) => (
-    <List className="menu">
-      <HotKeysWrapper>
-        {items.map( ( [ name, icon, route ] ) => (
-          <ListItem
-            key={route}
-            onClick={() => history.push( `${NAVIGATOR_URL}/${route}` )}
-          >
-            <ListItemIcon>
-              <FontAwesomeIcon icon={icon} />
-            </ListItemIcon>
-            {name}
-          </ListItem>
-        ) )}
-      </HotKeysWrapper>
-    </List>
+const Menu = ( { history, register, focused } ) => (
+  <List className="menu">
+    {items.map( ( [ name, icon, route ], i ) => (
+      <ListItem
+        key={route}
+        onClick={() => history.push( `${NAVIGATOR_URL}/${route}` )}
+        ref={c => register( i, c )}
+        className={focused === i ? 'focused' : ''}
+      >
+        <ListItemIcon>
+          <FontAwesomeIcon icon={icon} />
+        </ListItemIcon>
+        {name}
+      </ListItem>
+    ) )}
+  </List>
 )
 
-export default Menu
+export default withNavigationHotKeys( Menu )
