@@ -56,7 +56,7 @@ class Controller extends Component {
     return (
       <ListItem key={id} className={className} onClick={onClick} ref={ref} tabIndex={0}>
         <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        {stripPauses( gurmukhi )}
+        <span className="text">{stripPauses( gurmukhi )}</span>
       </ListItem>
     )
   }

@@ -5,13 +5,8 @@
 }
 
 .controller .line {
-    display: block;
-    cursor: pointer;
     font-family: "Noto Sans Gurmukhi", sans-serif;
     font-weight: bold;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: auto;
     height: auto;
     color: var(--navigator-text-color);
 }
@@ -20,15 +15,20 @@
     background-color: var(--navigator-selected-background-color);
     font-size: 1.2em;
     color: var(--navigator-selected-color);
-}
-
-.controller .current.line:hover {
-    font-size: 1.2em;
+    padding-left: 1em;
 }
 
 .controller .hotkey {
     font-weight: normal;
-    font-size: 0.85em;
+    font-size: 0.75em;
     text-transform: uppercase;
-    font-family: monospace;
+    font-family: "Noto Sans Regular", sans-serif;
+}
+
+.controller .line .text {
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    overflow-x: hidden;
 }
