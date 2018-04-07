@@ -1,0 +1,37 @@
+.shortcut-help {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--shortcuts-background-color);
+    color: var(--shortcuts-text-color);
+    font-family: 'Noto Sans Medium', sans-serif;
+    padding: 30px;
+}
+
+.shortcut-help .title {
+    text-align: center;
+    font-family: 'Noto Sans Medium', sans-serif;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.shortcut-help .shortcuts {
+}
+
+.shortcut-help .shortcut {
+    margin: 0;
+    padding: 10px;
+}
+
+.shortcut-help .shortcut dd {
+    display: inline-block;
+}
+
+.shortcut-help .shortcut dt {
+    display: inline-block;
+    font-weight: bold;
+    width: 160px;
+    text-transform: capitalize;
+}

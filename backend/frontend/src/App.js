@@ -12,7 +12,7 @@ import { faPlus } from '@fortawesome/fontawesome-free-solid'
 import {
   BOOKMARKS_URL,
   CONTROLLER_URL,
-  HISTORY_URL,
+  HISTORY_URL, MENU_URL,
   NAVIGATOR_URL,
   SEARCH_URL,
   SHORTCUTS
@@ -20,6 +20,7 @@ import {
 import controller from './lib/controller'
 import ThemeLoader from './components/ThemeLoader'
 import Navigator from './components/Navigator'
+import ShortcutHelp from './components/ShortcutHelp'
 import Display from './components/Display'
 
 import './App.css'
@@ -135,19 +136,20 @@ class App extends Component {
     'New Navigator': () => window.open( '/', '_blank' ),
     'History Back': () => this.props.history.goBack(),
     'History Forwards': () => this.props.history.goForward(),
+    'Menu': () => this.go( MENU_URL ),
     'Search': () => this.go( SEARCH_URL ),
     'History': () => this.go( HISTORY_URL ),
     'Bookmarks': () => this.go( BOOKMARKS_URL ),
     'Controller': () => this.go( CONTROLLER_URL ),
     'Clear Display': () => controller.line( null ),
-    'Toggle Help': () => this.toggleQuery( 'help' ),
+    'Toggle Shortcuts Help': () => this.toggleQuery( 'showShortcuts' ),
     'Toggle Fullscreen Navigator': this.fullscreenNavigator,
   } )
 
   render() {
     const { shabad, lineId, theme } = this.state
     const { location: { search } } = this.props
-    const { controllerOnly, help } = queryString.parse( search )
+    const { controllerOnly, showShortcuts } = queryString.parse( search )
 
     return (
       <HotKeys
@@ -170,7 +172,7 @@ class App extends Component {
               render={props => <Navigator {...props} shabad={shabad} lineId={lineId} />}
             />
           </div>
-          {help ? 'HELP' : null}
+          {showShortcuts ? <ShortcutHelp /> : null}
         </div>
       </HotKeys>
     )

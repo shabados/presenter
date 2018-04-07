@@ -43,7 +43,7 @@ export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfghjklzxcvbnm' )
 
 // Global application shortcuts
 export const SHORTCUTS = {
-  'Toggle Help': [ '?', 'shift+/' ],
+  'Toggle Shortcuts Help': [ '?', 'shift+/' ],
   'Toggle Fullscreen': [ 'f11' ],
   'Toggle Fullscreen Navigator': [ 'shift+f' ],
   'Refresh': [ 'ctrl+r' ],
@@ -52,6 +52,7 @@ export const SHORTCUTS = {
   'History Back': [ 'ctrl+left', 'alt+left' ],
   'History Forwards': [ 'ctrl+right', 'alt+right' ],
   'Search': [ 'ctrl+/', 'ctrl+f' ],
+  'Menu': [ 'ctrl+p', 'ctrl+,' ],
   'Controller': [ 'ctrl+c' ],
   'History': [ 'ctrl+y' ],
   'Bookmarks': [ 'ctrl+b' ],
