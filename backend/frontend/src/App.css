@@ -31,3 +31,11 @@
     right: 0;
     height: 32px;
 }
+
+.navigator-container.fullscreen {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 3vmin;
+}

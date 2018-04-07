@@ -5,7 +5,8 @@
 }
 
 .search .input {
-    height: 2.25rem;
+    font-size: 1em;
+    height: 2.25em;
     flex-shrink: 0;
     width: 100%;
     margin-bottom: 0.2em;

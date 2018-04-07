@@ -15,7 +15,15 @@ export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
 export const THEME_URL = `${BACKEND_URL}/themes`
 
 /* Navigator */
+// URLs
 export const NAVIGATOR_URL = '/navigator'
+export const MENU_URL = `${NAVIGATOR_URL}/menu`
+export const SEARCH_URL = `${NAVIGATOR_URL}/search`
+export const BOOKMARKS_URL = `${NAVIGATOR_URL}/bookmarks`
+export const CONTROLLER_URL = `${NAVIGATOR_URL}/controller`
+export const HISTORY_URL = `${NAVIGATOR_URL}/history`
+
+// Search
 export const MIN_SEARCH_CHARS = 2
 export const MAX_RESULTS = 20
 
@@ -35,14 +43,17 @@ export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfghjklzxcvbnm' )
 
 // Global application shortcuts
 export const SHORTCUTS = {
-  'Toggle Help': [ '?', 'shift+/' ],
+  'Toggle Shortcuts Help': [ '?', 'shift+/' ],
   'Toggle Fullscreen': [ 'f11' ],
+  'Toggle Fullscreen Navigator': [ 'shift+f' ],
   'Refresh': [ 'ctrl+r' ],
-  'New Controller': [ 'ctrl+n' ],
-  'Toggle Controller': [ 'ctrl+h' ],
-  'History Back': [ 'ctrl+left' ],
-  'History Forwards': [ 'ctrl+right' ],
+  'New Navigator': [ 'ctrl+x', 'ctrl+shift+x' ],
+  'Toggle Navigator': [ 'ctrl+h', 'ctrl+shift+h' ],
+  'History Back': [ 'ctrl+left', 'alt+left' ],
+  'History Forwards': [ 'ctrl+right', 'alt+right' ],
   'Search': [ 'ctrl+/', 'ctrl+f' ],
+  'Menu': [ 'ctrl+p', 'ctrl+,' ],
+  'Controller': [ 'ctrl+c' ],
   'History': [ 'ctrl+y' ],
   'Bookmarks': [ 'ctrl+b' ],
   'Clear Display': [ 'esc' ],

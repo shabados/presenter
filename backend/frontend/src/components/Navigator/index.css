@@ -57,7 +57,7 @@
     align-items: center;
     justify-content: left;
     padding: 0.15em 0.15em 0.15em 0.75em;
-    min-height: 34px;
+    min-height: 2em;
     transition: 0.2s all;
     cursor: pointer;
 }
@@ -77,8 +77,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 13px;
-    height: 15px;
+    width: 0.75em;
+    height: 0.75em;
     margin-right: 0.8em;
     color: var(--navigator-text-color);
     opacity: 0.8;

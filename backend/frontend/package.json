@@ -21,6 +21,7 @@
     "event-emitter": "^0.3.5",
     "material-ui": "^1.0.0-beta.40",
     "prop-types": "^15.6.1",
+    "query-string": "^6.0.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-hotkeys": "^1.1.1",

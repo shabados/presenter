@@ -19,7 +19,7 @@ import {
 } from '@fortawesome/fontawesome-free-solid'
 import { faSquare } from '@fortawesome/fontawesome-free-regular'
 
-import { NAVIGATOR_URL } from '../../lib/consts'
+import { CONTROLLER_URL, MENU_URL, SEARCH_URL } from '../../lib/consts'
 import controller from '../../lib/controller'
 
 import Search from './Search'
@@ -41,12 +41,12 @@ class Navigator extends Component {
   }
 
   componentDidUpdate( { shabad: prevShabad } ) {
-    const { history, shabad } = this.props
-    const { location: { pathname } } = history
+    const { history, shabad, location } = this.props
+    const { pathname } = location
 
     // Navigate to controller if a different Shabad has been selected, and we're on the search page
     if ( shabad !== prevShabad && pathname.includes( 'search' ) ) {
-      history.push( `${NAVIGATOR_URL}/controller` )
+      history.push( { ...location, pathname: CONTROLLER_URL } )
     }
   }
 
@@ -59,9 +59,9 @@ class Navigator extends Component {
   ToolbarButton = ( { children: name, icon, onClick } ) => {
     // Default handler for onClick navigates to the name of what was clicked
     const onIconClick = () => {
-      const { history, match } = this.props
+      const { history, match, location } = this.props
       // Navigate to the clicked item's name by default
-      history.push( `${match.url}/${name.toLowerCase()}` )
+      history.push( { ...location, pathname: `${match.url}/${name.toLowerCase()}` } )
     }
 
     // Set the hovered element state
@@ -130,20 +130,20 @@ class Navigator extends Component {
   }
 
   render() {
-    const { shabad, lineId } = this.props
+    const { shabad, lineId, location } = this.props
 
     return (
       <div className="navigator">
         <this.TopBar />
         <div className="content">
           <Switch>
-            <Route path={`${NAVIGATOR_URL}/menu`} component={Menu} />
-            <Route path={`${NAVIGATOR_URL}/search`} component={Search} />
+            <Route path={MENU_URL} component={Menu} />
+            <Route path={SEARCH_URL} component={Search} />
             <Route
-              path={`${NAVIGATOR_URL}/controller`}
+              path={CONTROLLER_URL}
               render={props => <Controller {...props} shabad={shabad} lineId={lineId} />}
             />
-            <Redirect to={`${NAVIGATOR_URL}/search`} />
+            <Redirect to={{ ...location, pathname: SEARCH_URL }} />
           </Switch>
         </div>
         <this.BottomBar />
