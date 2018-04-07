@@ -9,6 +9,7 @@ import {
   faHistory,
   faBookmark,
   faWindowRestore,
+  faList,
 } from '@fortawesome/fontawesome-free-solid'
 
 import { NAVIGATOR_URL } from '../../lib/consts'
@@ -19,6 +20,7 @@ import './Menu.css'
 
 const items = [
   [ 'Search', faSearch, 'search' ],
+  [ 'Controller', faList, 'controller' ],
   [ 'History', faHistory, 'history' ],
   [ 'Bookmarks', faBookmark, 'bookmarks' ],
   [ 'Live Captions Tool', faWindowRestore, 'live-captions' ],
@@ -29,12 +31,12 @@ const items = [
  * Menu component.
  * Renders all the names, icons, and routes from `items`.
  */
-const Menu = ( { history, register, focused } ) => (
+const Menu = ( { history, location, register, focused } ) => (
   <List className="menu">
-    {items.map( ( [ name, icon, route ], i ) => (
+    {items.map( ( [ name, icon, route ] ) => (
       <ListItem
         key={route}
-        onClick={() => history.push( `${NAVIGATOR_URL}/${route}` )}
+        onClick={() => history.push( { ...location, pathname: `${NAVIGATOR_URL}/${route}` } )}
         ref={c => register( name, c )}
         className={focused === name ? 'focused' : ''}
       >

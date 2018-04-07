@@ -3,12 +3,13 @@ import { Redirect } from 'react-router-dom'
 
 import { List, ListItem } from 'material-ui'
 
-import { NAVIGATOR_URL } from '../../lib/consts'
+import { LINE_HOTKEYS, NAVIGATOR_URL } from '../../lib/consts'
 import { stripPauses } from '../../lib/utils'
 import controller from '../../lib/controller'
 
-import './Controller.css'
 import withNavigationHotKeys from '../withNavigationHotKeys'
+
+import './Controller.css'
 
 /**
  * Controller Component.
@@ -19,7 +20,7 @@ class Controller extends Component {
     const { updateFocus, lineId } = this.props
 
     // Set the focus to the active line
-    updateFocus( lineId )
+    updateFocus( lineId, false )
   }
 
   componentDidUpdate( { lineId: prevLineId } ) {
@@ -61,11 +62,11 @@ class Controller extends Component {
   }
 
   render() {
-    const { shabad } = this.props
+    const { location, shabad } = this.props
 
     // If there's no Shabad to show, go back to the Navigator
     if ( !shabad ) {
-      return <Redirect to={NAVIGATOR_URL} />
+      return <Redirect to={{...location, pathname: NAVIGATOR_URL}} />
     }
 
     const { lines } = shabad
