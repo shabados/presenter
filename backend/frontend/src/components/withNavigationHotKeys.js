@@ -13,7 +13,7 @@ import { LINE_HOTKEYS } from '../lib/consts'
  * @param clickOnFocus Simulate a click on the item that is newly focused.
  */
 const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =>
-  WrappedComponent =>
+  WrappedComponent => {
     class WithNavigationHotKeys extends Component {
       constructor( props ) {
         super( props )
@@ -179,6 +179,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
       }
 
       render() {
+        const { forwardedRef, ...rest } = this.props
         const { focusedIndex } = this.state
 
         const handlers = {
@@ -197,7 +198,8 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
                    keyMap={this.keymap}
           >
             <WrappedComponent
-              {...this.props}
+              {...rest}
+              ref={forwardedRef}
               register={this.registerRef}
               updateFocus={this.jumpToName}
               focused={focused}
@@ -206,6 +208,10 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         )
       }
     }
+
+    const forwardRef = ( props, ref ) => <WithNavigationHotKeys {...props} forwardedRef={ref} />
+    return React.forwardRef( forwardRef )
+  }
 
 
 export default withNavigationHotKeys
