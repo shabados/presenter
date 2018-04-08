@@ -19,19 +19,19 @@ import {
 } from '@fortawesome/fontawesome-free-solid'
 import { faSquare } from '@fortawesome/fontawesome-free-regular'
 
-import { CONTROLLER_URL, MENU_URL, SEARCH_URL } from '../../lib/consts'
+import { NAVIGATOR_URL, MENU_URL, SEARCH_URL } from '../../lib/consts'
 import controller from '../../lib/controller'
 
 import Search from './Search'
 import Menu from './Menu'
-import Controller from './Controller'
+import Navigator from './Navigator'
 
 import './index.css'
 
 /**
- * Navigator controls the display and configures settings.
+ * Controller controls the display and configures settings.
  */
-class Navigator extends Component {
+class Controller extends Component {
   constructor( props ) {
     super( props )
 
@@ -44,9 +44,9 @@ class Navigator extends Component {
     const { history, shabad, location } = this.props
     const { pathname } = location
 
-    // Navigate to controller if a different Shabad has been selected, and we're on the search page
+    // Go to navigator if a different Shabad has been selected, and we're on the search page
     if ( shabad !== prevShabad && pathname.includes( 'search' ) ) {
-      history.push( { ...location, pathname: CONTROLLER_URL } )
+      history.push( { ...location, pathname: NAVIGATOR_URL } )
     }
   }
 
@@ -133,15 +133,15 @@ class Navigator extends Component {
     const { shabad, lineId, location } = this.props
 
     return (
-      <div className="navigator">
+      <div className="controller">
         <this.TopBar />
         <div className="content">
           <Switch>
             <Route path={MENU_URL} component={Menu} />
             <Route path={SEARCH_URL} component={Search} />
             <Route
-              path={CONTROLLER_URL}
-              render={props => <Controller {...props} shabad={shabad} lineId={lineId} />}
+              path={NAVIGATOR_URL}
+              render={props => <Navigator {...props} shabad={shabad} lineId={lineId} />}
             />
             <Redirect to={{ ...location, pathname: SEARCH_URL }} />
           </Switch>
@@ -152,4 +152,4 @@ class Navigator extends Component {
   }
 }
 
-export default Navigator
+export default Controller

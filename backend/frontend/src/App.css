@@ -17,7 +17,7 @@
     border-radius: 2px;
 }
 
-.navigator-container {
+.controller-container {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -25,14 +25,14 @@
     width: 416px;
 }
 
-.navigator-container .expand-icon {
+.controller-container .expand-icon {
     position: absolute;
     bottom: 0;
     right: 0;
     height: 32px;
 }
 
-.navigator-container.fullscreen {
+.controller-container.fullscreen {
     top: 0;
     left: 0;
     height: 100%;

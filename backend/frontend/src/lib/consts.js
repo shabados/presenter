@@ -16,12 +16,12 @@ export const THEME_URL = `${BACKEND_URL}/themes`
 
 /* Navigator */
 // URLs
-export const NAVIGATOR_URL = '/navigator'
-export const MENU_URL = `${NAVIGATOR_URL}/menu`
-export const SEARCH_URL = `${NAVIGATOR_URL}/search`
-export const BOOKMARKS_URL = `${NAVIGATOR_URL}/bookmarks`
-export const CONTROLLER_URL = `${NAVIGATOR_URL}/controller`
-export const HISTORY_URL = `${NAVIGATOR_URL}/history`
+export const CONTROLLER_URL = '/controller'
+export const MENU_URL = `${CONTROLLER_URL}/menu`
+export const SEARCH_URL = `${CONTROLLER_URL}/search`
+export const BOOKMARKS_URL = `${CONTROLLER_URL}/bookmarks`
+export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
+export const HISTORY_URL = `${CONTROLLER_URL}/history`
 
 // Search
 export const MIN_SEARCH_CHARS = 2
@@ -45,10 +45,10 @@ export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfghjklzxcvbnm' )
 export const SHORTCUTS = {
   'Toggle Shortcuts Help': [ '?', 'shift+/' ],
   'Toggle Fullscreen': [ 'f11' ],
-  'Toggle Fullscreen Navigator': [ 'shift+f' ],
+  'Toggle Fullscreen Controller': [ 'shift+f' ],
   'Refresh': [ 'ctrl+r' ],
   'New Navigator': [ 'ctrl+x', 'ctrl+shift+x' ],
-  'Toggle Navigator': [ 'ctrl+h', 'ctrl+shift+h' ],
+  'Toggle Controller': [ 'ctrl+h', 'ctrl+shift+h' ],
   'History Back': [ 'ctrl+left', 'alt+left' ],
   'History Forwards': [ 'ctrl+right', 'alt+right' ],
   'Search': [ 'ctrl+/', 'ctrl+f' ],

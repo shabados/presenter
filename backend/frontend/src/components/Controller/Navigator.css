@@ -1,31 +1,31 @@
-.controller {
+.navigator {
     height: 100%;
     overflow-y: auto;
     font-size: 1.125em;
 }
 
-.controller .line {
+.navigator .line {
     font-family: "Noto Sans Gurmukhi", sans-serif;
     font-weight: bold;
     height: auto;
-    color: var(--navigator-text-color);
+    color: var(--controller-text-color);
 }
 
-.controller .current.line {
-    background-color: var(--navigator-selected-background-color);
+.navigator .current.line {
+    background-color: var(--controller-selected-background-color);
     font-size: 1.2em;
-    color: var(--navigator-selected-color);
+    color: var(--controller-selected-color);
     padding-left: 1em;
 }
 
-.controller .hotkey {
+.navigator .hotkey {
     font-weight: normal;
     font-size: 0.75em;
     text-transform: uppercase;
     font-family: "Noto Sans Regular", sans-serif;
 }
 
-.controller .line .text {
+.navigator .line .text {
     display: block;
     text-overflow: ellipsis;
     white-space: nowrap;
