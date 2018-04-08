@@ -99,10 +99,7 @@ class Search extends Component {
     const afterMatch = words.slice( pos + search.length ).join( ' ' )
 
     // Send the shabad id and line id to the server on click
-    const onClick = () => {
-      controller.shabad( shabadId )
-      controller.line( lineId )
-    }
+    const onClick = () => controller.shabad( { shabadId, lineId } )
 
     const className = focused ? 'result focused' : 'result'
 

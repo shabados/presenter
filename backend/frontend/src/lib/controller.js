@@ -68,8 +68,9 @@ class Controller extends EventEmitter {
   /**
    * Convenience method for setting the current shabad.
    * @param shabadId The shabad ID to change the server to.
+   * @param lineId The line id to change the display to.
    */
-  shabad = shabadId => this.sendJSON( 'shabad', shabadId )
+  shabad = ( { shabadId, lineId = null } ) => this.sendJSON( 'shabad', { shabadId, lineId } )
 
   /**
    * Convenience method for clearing the line.
