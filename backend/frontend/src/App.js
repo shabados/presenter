@@ -31,6 +31,8 @@ class App extends Component {
     this.state = {
       connected: false,
       lineId: null,
+      mainLineId: null,
+      viewedLines: new Set(),
       shabad: null,
       theme: 'day',
     }
@@ -42,6 +44,7 @@ class App extends Component {
     controller.on( 'disconnected', this.onDisconnected )
     controller.on( 'shabad', this.onShabad )
     controller.on( 'line', this.onLine )
+    controller.on( 'viewedLines', this.onViewedLines )
   }
 
   componentWillUnmount() {
@@ -50,12 +53,14 @@ class App extends Component {
     controller.off( 'disconnected', this.onDisconnected )
     controller.off( 'shabad', this.onShabad )
     controller.off( 'line', this.onLine )
+    controller.off( 'viewedLines', this.onViewedLines )
   }
 
   onConnected = () => this.setState( { connected: true } )
   onDisconnected = () => this.setState( { connected: false } )
   onShabad = shabad => this.setState( { shabad } )
   onLine = lineId => this.setState( { lineId } )
+  onViewedLines = viewedLines => this.setState( { viewedLines } )
 
   /**
    * More concise form to navigate to URLs, retaining query params.
@@ -140,7 +145,7 @@ class App extends Component {
     'History': () => this.go( HISTORY_URL ),
     'Bookmarks': () => this.go( BOOKMARKS_URL ),
     'Controller': () => this.go( CONTROLLER_URL ),
-    'Clear Display': () => controller.line( null ),
+    'Clear Display': controller.clear,
     'Toggle Shortcuts Help': () => this.toggleQuery( 'showShortcuts' ),
     'Toggle Fullscreen Controller': this.fullscreenController,
   } )

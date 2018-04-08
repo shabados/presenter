@@ -20,6 +20,8 @@ class SessionManager {
       baniId: null,
       lineId: null,
       shabad: null,
+      viewedLines: new Set(),
+      mainLineId: null,
     }
 
     // Send all the current data on connection from a new client
@@ -28,6 +30,7 @@ class SessionManager {
     // Update the state if on receiving data from the client
     socket.on( 'shabad', this.onShabad.bind( this ) )
     socket.on( 'line', this.onLine.bind( this ) )
+    socket.on( 'mainLine', this.onMainLine.bind( this ) )
   }
 
   /**
@@ -35,25 +38,29 @@ class SessionManager {
    * @param client The client to synchronise the state to.
    */
   synchronise( client ) {
-    const { baniId, lineId, shabad } = this.session
+    const { baniId, mainLineId, viewedLines, lineId, shabad } = this.session
 
     client.sendJSON( 'shabad', shabad )
-    client.sendJSON( 'line', lineId )
     client.sendJSON( 'bani', baniId )
+    client.sendJSON( 'line', lineId )
+    client.sendJSON( 'viewedLines', viewedLines )
+    client.sendJSON( 'mainLine', mainLineId )
   }
 
   /**
    * When a Shabad ID is received, fetch the Shabad and send it to all clients.
    * @param client The socket client that sent the Shabad.
    * @param shabadId The ID of the Shabad.
+   * @param lineId The optional line in the Shabad.
    */
-  async onShabad( client, shabadId ) {
+  async onShabad( client, { shabadId, lineId = null } ) {
     logger.info( `Setting Shabad ID to ${shabadId}` )
 
     const shabad = await getShabad( shabadId )
-    this.socket.broadcast( 'shabad', shabad )
+    this.session = { ...this.session, shabad, lineId, viewedLines: new Set(), mainLineId: null }
 
-    this.session = { ...this.session, shabad }
+    this.socket.broadcast( 'shabad', shabad )
+    this.onLine( client, lineId )
   }
 
   /**
@@ -62,11 +69,26 @@ class SessionManager {
    * @param lineId The ID of the line.
    */
   onLine( client, lineId ) {
+    const { viewedLines } = this.session
     logger.info( `Setting Line ID to ${lineId}` )
 
-    this.socket.broadcast( 'line', lineId )
-
+    viewedLines.add( lineId )
     this.session = { ...this.session, lineId }
+
+    this.socket.broadcast( 'line', lineId )
+    this.socket.broadcast( 'viewedLines', [ ...viewedLines ] )
+  }
+
+  /**
+   * When the main line has been set by a client, send it to all clients.
+   * @param client The socket client that sent the line id.
+   * @param mainLineId The ID of the user defined main line in the Shabad.
+   */
+  onMainLine( client, mainLineId ) {
+    logger.info( `Setting the main Line ID to ${mainLineId}` )
+
+    this.socket.broadcast( 'mainLine', mainLineId )
+    this.session = { ...this.session, mainLineId }
   }
 
   /**
