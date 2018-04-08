@@ -18,12 +18,12 @@
     font-weight: bold;
     font-family: "Noto Sans Gurmukhi", sans-serif;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-    background-color: var(--navigator-search-background-color);
+    background-color: var(--controller-search-background-color);
     transition: 0.2s all;
 }
 
 .search input:focus, .search .focused {
-    background-color: var(--navigator-search-focused-background-color);
+    background-color: var(--controller-search-focused-background-color);
 }
 
 .search .results {
@@ -44,7 +44,7 @@
 }
 
 .search .results .result .matched.words {
-    color: var(--navigator-search-match-color);
+    color: var(--controller-search-match-color);
 }
 
 .search .results .result .words::after {

@@ -13,13 +13,12 @@ import {
   BOOKMARKS_URL,
   CONTROLLER_URL,
   HISTORY_URL, MENU_URL,
-  NAVIGATOR_URL,
   SEARCH_URL,
   SHORTCUTS
 } from './lib/consts'
 import controller from './lib/controller'
 import ThemeLoader from './components/ThemeLoader'
-import Navigator from './components/Navigator'
+import Controller from './components/Controller'
 import ShortcutHelp from './components/ShortcutHelp'
 import Display from './components/Display'
 
@@ -84,24 +83,24 @@ class App extends Component {
   }
 
   /**
-   * Toggles the navigator.
+   * Toggles the controller.
    */
-  toggleNavigator = () => {
+  toggleController = () => {
     const { location: { pathname } } = this.props
 
-    const nextURL = pathname.includes( NAVIGATOR_URL ) ? '/' : NAVIGATOR_URL
+    const nextURL = pathname.includes( CONTROLLER_URL ) ? '/' : CONTROLLER_URL
     this.go( nextURL )
   }
 
   /**
-   * Places the navigator in fullscreen.
+   * Places the controller in fullscreen.
    */
-  fullscreenNavigator = () => {
+  fullscreenController = () => {
     const { location: { pathname } } = this.props
 
-    // Navigates to the navigator first, if not there
-    if ( !pathname.includes( NAVIGATOR_URL ) ) {
-      this.toggleNavigator()
+    // Navigates to the controller first, if not there
+    if ( !pathname.includes( CONTROLLER_URL ) ) {
+      this.toggleController()
     }
 
     this.toggleQuery( 'controllerOnly' )
@@ -132,8 +131,8 @@ class App extends Component {
     } ), {} )
 
   hotKeyHandlers = this.preventDefault( {
-    'Toggle Navigator': this.toggleNavigator,
-    'New Navigator': () => window.open( '/', '_blank' ),
+    'Toggle Controller': this.toggleController,
+    'New Controller': () => window.open( '/controller?controllerOnly=true', '_blank' ),
     'History Back': () => this.props.history.goBack(),
     'History Forwards': () => this.props.history.goForward(),
     'Menu': () => this.go( MENU_URL ),
@@ -143,7 +142,7 @@ class App extends Component {
     'Controller': () => this.go( CONTROLLER_URL ),
     'Clear Display': () => controller.line( null ),
     'Toggle Shortcuts Help': () => this.toggleQuery( 'showShortcuts' ),
-    'Toggle Fullscreen Navigator': this.fullscreenNavigator,
+    'Toggle Fullscreen Controller': this.fullscreenController,
   } )
 
   render() {
@@ -163,13 +162,13 @@ class App extends Component {
           <CssBaseline />
           <ThemeLoader name={theme} />
           {!controllerOnly ? <Display shabad={shabad} lineId={lineId} /> : null}
-          <div className={`navigator-container ${controllerOnly ? 'fullscreen' : ''}`}>
-            <Link to={NAVIGATOR_URL}>
+          <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
+            <Link to={CONTROLLER_URL}>
               <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
             </Link>
             <Route
-              path={NAVIGATOR_URL}
-              render={props => <Navigator {...props} shabad={shabad} lineId={lineId} />}
+              path={CONTROLLER_URL}
+              render={props => <Controller {...props} shabad={shabad} lineId={lineId} />}
             />
           </div>
           {showShortcuts ? <ShortcutHelp /> : null}

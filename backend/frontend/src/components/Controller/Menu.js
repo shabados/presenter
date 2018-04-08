@@ -12,7 +12,7 @@ import {
   faList,
 } from '@fortawesome/fontawesome-free-solid'
 
-import { NAVIGATOR_URL } from '../../lib/consts'
+import { CONTROLLER_URL } from '../../lib/consts'
 
 import withNavigationHotKeys from '../withNavigationHotKeys'
 
@@ -20,7 +20,7 @@ import './Menu.css'
 
 const items = [
   [ 'Search', faSearch, 'search' ],
-  [ 'Controller', faList, 'controller' ],
+  [ 'Navigator', faList, 'navigator' ],
   [ 'History', faHistory, 'history' ],
   [ 'Bookmarks', faBookmark, 'bookmarks' ],
   [ 'Live Captions Tool', faWindowRestore, 'live-captions' ],
@@ -36,7 +36,7 @@ const Menu = ( { history, location, register, focused } ) => (
     {items.map( ( [ name, icon, route ] ) => (
       <ListItem
         key={route}
-        onClick={() => history.push( { ...location, pathname: `${NAVIGATOR_URL}/${route}` } )}
+        onClick={() => history.push( { ...location, pathname: `${CONTROLLER_URL}/${route}` } )}
         ref={c => register( name, c )}
         className={focused === name ? 'focused' : ''}
       >
