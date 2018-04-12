@@ -15,6 +15,8 @@ import controller from '../../lib/controller'
 
 import withNavigationHotKeys from '../withNavigationHotKeys'
 
+import ToolbarButton from './ToolbarButton'
+
 import './Navigator.css'
 
 /**
@@ -67,28 +69,6 @@ class Navigator extends Component {
     )
   }
 
-  /**
-   * Used by Menu parent to render content in the bottom bar.
-   * @param ToolbarButton A toolbar button for rendering a hoverable and clickable button.
-   */
-  renderBarContent = ( ToolbarButton ) => {
-    const { mainLineId, lineId } = this.props
-
-    console.log( mainLineId )
-    const autoselectProps = {
-      icon: faExchangeAlt,
-      onClick: () => controller.mainLine( lineId ),
-    }
-
-    return (
-      <div className="navigator-controls">
-        <ToolbarButton icon={faChevronUp}>Up</ToolbarButton>
-        1/16
-        <ToolbarButton icon={faChevronDown}>Down</ToolbarButton>
-        <ToolbarButton className="autoselect" {...autoselectProps}>Autoselect</ToolbarButton>
-      </div>
-    )
-  }
 
   render() {
     const { location, shabad } = this.props
@@ -106,6 +86,29 @@ class Navigator extends Component {
     )
   }
 }
+
+
+/**
+ * Used by Menu parent to render content in the bottom bar.
+ */
+export const Bar = ( {mainLineId, lineId}) => {
+
+  console.log( mainLineId )
+  const autoselectProps = {
+    icon: faExchangeAlt,
+    onClick: () => controller.mainLine( lineId ),
+  }
+
+  return (
+    <div className="navigator-controls">
+      <ToolbarButton name="Up" icon={faChevronUp} />
+      1/16
+      <ToolbarButton name="Down" icon={faChevronDown} />
+      <ToolbarButton name="Autoselect" className="autoselect" {...autoselectProps} />
+    </div>
+  )
+}
+
 
 export default withNavigationHotKeys( {
   arrowKeys: true,
