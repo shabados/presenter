@@ -184,9 +184,7 @@ class Controller extends Component {
                 <BottomBar
                   {...props}
                   onHover={this.onHover}
-                  renderContent={() => BarComponent
-                    ? <BarComponent {...this.props} {...props} />
-                    : null}
+                  renderContent={() => BarComponent && <BarComponent {...this.props} {...props} />}
                 />
               </div>
             )}
