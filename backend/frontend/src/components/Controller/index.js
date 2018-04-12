@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 
 import { NAVIGATOR_URL, MENU_URL, SEARCH_URL } from '../../lib/consts'
