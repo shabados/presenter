@@ -54,9 +54,9 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
 
         if ( key === 'ArrowDown' || key === 'ArrowUp' ) {
           event.preventDefault()
-          event.target.blur()
           this.setNodeSize()
           key === 'ArrowDown' ? this.nextItem() : this.prevItem()
+          event.target.blur()
         }
       }
 
