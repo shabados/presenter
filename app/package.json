@@ -1,0 +1,47 @@
+{
+  "name": "@shabados/backend",
+  "version": "1.0.0",
+  "description": "Backend component of Shabad OS Desktop (@shabados/desktop)",
+  "main": "electron/entry.js",
+  "scripts": {
+    "start": "node -r esm server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -e js -L --exec npm start | bunyan"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShabadOS/core.git"
+  },
+  "author": "ShabadOS Team <shabados.com@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ShabadOS/core/issues"
+  },
+  "homepage": "https://github.com/ShabadOS/core#readme",
+  "dependencies": {
+    "@shabados/database": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "bunyan": "^1.8.12",
+    "compression": "^1.7.3",
+    "download-github-release": "^0.3.2",
+    "electron-fetch": "^1.2.1",
+    "electron-log": "^2.2.16",
+    "esm": "^3.0.72",
+    "express": "^4.16.3",
+    "fs-extra": "^5.0.0",
+    "helmet": "^3.12.2",
+    "knex": "^0.14.6",
+    "objection": "^1.2.0",
+    "progress": "^2.0.0",
+    "semver": "^5.5.0",
+    "ws": "^5.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
+    "nodemon": "^1.18.3"
+  }
+}

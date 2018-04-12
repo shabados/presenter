@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
-import { IconButton, Toolbar, Typography } from 'material-ui'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { Toolbar, Typography } from 'material-ui'
 import {
   faArrowAltCircleLeft,
   faArrowAltCircleRight,
@@ -24,27 +24,12 @@ import {
   SEARCH_URL,
 } from '../../lib/consts'
 
-/**
- * Renders an individual icon button, setting the state with the name on hover and click.
- * @param name The human-readable name of the icon.
- * @param icon The font-awesome icon.
- * @param onClick Optional click handler.
- * @param onMouseEnter MouseEnter click handler.
- * @param onMouseLeave MouseLeave click handler.
- * @param className Optional classname.
- */
-const ToolbarButton = ( { name, icon, onClick, onMouseEnter, onMouseLeave, className = '' } ) => (
-  <IconButton
-    key={name}
-    className={className}
-    tabIndex={-1}
-    onMouseEnter={onMouseEnter}
-    onMouseLeave={onMouseLeave}
-    onClick={onClick}
-  >
-    <FontAwesomeIcon icon={icon} />
-  </IconButton>
-)
+import ToolbarButton from './ToolbarButton'
+import Search from './Search'
+import Menu from './Menu'
+import Navigator, { Bar as NavigatorBar } from './Navigator'
+
+import './index.css'
 
 /**
  * Renders the top navigation bar, showing the current path in the URL, and the hover state.
@@ -145,37 +130,70 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
   )
 }
 
+
 /**
- * Dumb Controller component.
- * @param Component The content to render.
- * @param history A `history` object.
- * @param location A `location` object.
- * @param title The title of the top bar.
- * @param renderBarContent A render prop for content in the bottom bar.
- * @param onHover Fired on hover with name.
- * @param rest The rest of the props passed down.
+ * Controller controls the display and configures settings.
  */
-const Controller = ( {
-  Component,
-  history,
-  location,
-  title,
-  renderBarContent = () => null,
-  onHover = () => null,
-  ...rest,
-} ) => (
-  <div className="controller">
-    <TopBar location={location} history={history} onHover={onHover} title={title} />
-    <div className="content">
-      <Component history={history} location={location} {...rest} />
-    </div>
-    <BottomBar
-      location={location}
-      history={history}
-      onHover={onHover}
-      renderContent={renderBarContent}
-    />
-  </div>
-)
+class Controller extends Component {
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      hovered: null,
+    }
+  }
+
+  componentDidUpdate( { shabad: prevShabad } ) {
+    const { history, shabad, location } = this.props
+    const { pathname } = location
+
+    // Go to navigator if a different Shabad has been selected, and we're on the search page
+    if ( shabad !== prevShabad && pathname.includes( SEARCH_URL ) ) {
+      history.push( { ...location, pathname: NAVIGATOR_URL } )
+    }
+  }
+
+  onHover = hovered => this.setState( { hovered } )
+
+  render() {
+    const { location } = this.props
+    const { hovered } = this.state
+
+    const routes = [
+      [ MENU_URL, Menu ],
+      [ SEARCH_URL, Search ],
+      [ NAVIGATOR_URL, Navigator, NavigatorBar ],
+    ]
+
+    return (
+      <Switch>
+        {routes.map( ( [ route, Component, BarComponent ] ) => (
+          <Route
+            key={route}
+            path={route}
+            render={props => (
+              <div className="controller">
+                <TopBar
+                  {...props}
+                  title={hovered || route.split( '/' ).pop()}
+                  onHover={this.onHover}
+                />
+                <div className="content">
+                  <Component {...this.props} {...props} />
+                </div>
+                <BottomBar
+                  {...props}
+                  onHover={this.onHover}
+                  renderContent={() => BarComponent && <BarComponent {...this.props} {...props} />}
+                />
+              </div>
+            )}
+          />
+        ) )}
+        <Redirect to={{ ...location, pathname: SEARCH_URL }} />
+      </Switch>
+    )
+  }
+}
 
 export default Controller

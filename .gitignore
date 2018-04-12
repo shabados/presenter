@@ -17,3 +17,4 @@ node_modules
 *.sqlite
 tmp/
 settings.json
+dist/
