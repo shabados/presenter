@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 
 import { List, ListItem } from 'material-ui'
+import {
+  faChevronUp,
+  faChevronDown,
+  faThumbtack,
+  faExchangeAlt,
+} from '@fortawesome/fontawesome-free-solid'
 
 import { CONTROLLER_URL, LINE_HOTKEYS } from '../../lib/consts'
 import { stripPauses } from '../../lib/utils'
@@ -61,18 +67,41 @@ class Navigator extends Component {
     )
   }
 
+  /**
+   * Used by Menu parent to render content in the bottom bar.
+   * @param ToolbarButton A toolbar button for rendering a hoverable and clickable button.
+   */
+  renderBarContent = ( ToolbarButton ) => {
+    const { mainLineId, lineId } = this.props
+
+    console.log( mainLineId )
+    const autoselectProps = {
+      icon: faExchangeAlt,
+      onClick: () => controller.mainLine( lineId ),
+    }
+
+    return (
+      <div className="navigator-controls">
+        <ToolbarButton icon={faChevronUp}>Up</ToolbarButton>
+        1/16
+        <ToolbarButton icon={faChevronDown}>Down</ToolbarButton>
+        <ToolbarButton className="autoselect" {...autoselectProps}>Autoselect</ToolbarButton>
+      </div>
+    )
+  }
+
   render() {
     const { location, shabad } = this.props
 
     // If there's no Shabad to show, go back to the controller
     if ( !shabad ) {
-      return <Redirect to={{...location, pathname: CONTROLLER_URL}} />
+      return <Redirect to={{ ...location, pathname: CONTROLLER_URL }} />
     }
 
     const { lines } = shabad
     return (
       <List className="navigator">
-        {shabad ? lines.map( this.Line ) : null}
+        {shabad && lines.map( this.Line )}
       </List>
     )
   }
