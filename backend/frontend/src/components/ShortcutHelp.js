@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { Typography, GridList, GridListTile } from 'material-ui'
+import { Typography, GridList } from 'material-ui'
 
 import { SHORTCUTS } from '../lib/consts'
 
 import './ShortcutHelp.css'
 
-const ShortcutHelp = ( {} ) => (
+const ShortcutHelp = () => (
   <div className="shortcut-help">
     <Typography className="title" type="title">Keyboard Shortcuts</Typography>
     <GridList className="shortcuts" cols={3} cellHeight="auto">
