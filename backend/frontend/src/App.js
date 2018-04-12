@@ -12,7 +12,7 @@ import { faPlus } from '@fortawesome/fontawesome-free-solid'
 import {
   BOOKMARKS_URL,
   CONTROLLER_URL,
-  HISTORY_URL, MENU_URL,
+  HISTORY_URL, MENU_URL, NAVIGATOR_URL,
   SEARCH_URL,
   SHORTCUTS
 } from './lib/consts'
@@ -44,6 +44,7 @@ class App extends Component {
     controller.on( 'disconnected', this.onDisconnected )
     controller.on( 'shabad', this.onShabad )
     controller.on( 'line', this.onLine )
+    controller.on( 'mainLine', this.onMainLine )
     controller.on( 'viewedLines', this.onViewedLines )
   }
 
@@ -53,6 +54,7 @@ class App extends Component {
     controller.off( 'disconnected', this.onDisconnected )
     controller.off( 'shabad', this.onShabad )
     controller.off( 'line', this.onLine )
+    controller.off( 'mainLine', this.onMainLine )
     controller.off( 'viewedLines', this.onViewedLines )
   }
 
@@ -61,6 +63,7 @@ class App extends Component {
   onShabad = shabad => this.setState( { shabad } )
   onLine = lineId => this.setState( { lineId } )
   onViewedLines = viewedLines => this.setState( { viewedLines } )
+  onMainLine = mainLineId => this.setState( { mainLineId } )
 
   /**
    * More concise form to navigate to URLs, retaining query params.
@@ -137,14 +140,14 @@ class App extends Component {
 
   hotKeyHandlers = this.preventDefault( {
     'Toggle Controller': this.toggleController,
-    'New Controller': () => window.open( '/controller?controllerOnly=true', '_blank' ),
+    'New Controller': () => window.open( `${CONTROLLER_URL}?controllerOnly=true`, '_blank' ),
     'History Back': () => this.props.history.goBack(),
     'History Forwards': () => this.props.history.goForward(),
     'Menu': () => this.go( MENU_URL ),
     'Search': () => this.go( SEARCH_URL ),
     'History': () => this.go( HISTORY_URL ),
     'Bookmarks': () => this.go( BOOKMARKS_URL ),
-    'Controller': () => this.go( CONTROLLER_URL ),
+    'Navigator': () => this.go( NAVIGATOR_URL ),
     'Clear Display': controller.clear,
     'Toggle Shortcuts Help': () => this.toggleQuery( 'showShortcuts' ),
     'Toggle Fullscreen Controller': this.fullscreenController,
@@ -173,7 +176,7 @@ class App extends Component {
             </Link>
             <Route
               path={CONTROLLER_URL}
-              render={props => <Controller {...props} shabad={shabad} lineId={lineId} />}
+              render={props => <Controller {...this.state} {...props} />}
             />
           </div>
           {showShortcuts ? <ShortcutHelp /> : null}

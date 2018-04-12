@@ -66,6 +66,12 @@ class Controller extends EventEmitter {
   line = lineId => this.sendJSON( 'line', lineId )
 
   /**
+   * Convenience method for setting the main line.
+   * @param lineId The line id to change the display to.
+   */
+  mainLine = lineId => this.sendJSON( 'mainLine', lineId )
+
+  /**
    * Convenience method for setting the current shabad.
    * @param shabadId The shabad ID to change the server to.
    * @param lineId The line id to change the display to.
