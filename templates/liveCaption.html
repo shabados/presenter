@@ -56,8 +56,10 @@
 
 			$(window).load(function () {
 				$(document).keydown(function(e) {
-					if (e.which == 27) $(".copopup").hide()
-					e.preventDefault();
+					if (e.which == 27) {
+						$(".copopup").hide()
+						e.preventDefault();
+					}
 				});
 				
 				styleSheet = $($("iframe").contents()[0].styleSheets).last()[0].rules
