@@ -151,6 +151,18 @@ func getLineID(w http.ResponseWriter, r *http.Request) {
 	time.Sleep(99 * time.Millisecond) //what does this line do?
 }
 
+func getLineDetails(w http.ResponseWriter, r *http.Request) {
+	var gurmukhi, englishTranslation, transliteration, author, source, ang string
+	var rows, err = db.Query("SELECT GURMUKHI,ENGLISH,TRANSLITERATION,SOURCE_ID FROM SHABAD WHERE PK="+currentPK)
+	eh(err, "0")
+	rows.Next()
+	rows.Scan(&gurmukhi, &englishTranslation, &transliteration, &source)
+	author = "null"
+	ang = "null"
+	rows.Close()
+	fmt.Fprint(w, `{"gurmukhi":"`+gurmukhi+`","english-translation":"`+englishTranslation+`","transliteration":"`+transliteration+`","author":"`+author+`","source":"`+source+`","ang":"`+ang+`"}`)
+}
+
 func copyFile(src, dst string) error {
 	s, err := os.Open(src)
 	eh(err, "1")
@@ -1085,6 +1097,7 @@ func main() {
 	mux.HandleFunc("/searchresults", getResultsHTML)
 	mux.HandleFunc("/getJSON", getJSON)
 	mux.HandleFunc("/getLineID", getLineID)
+	mux.HandleFunc("/getLineDetails", getLineDetails)
 	mux.HandleFunc("/postHistory", postHistory)
 	mux.HandleFunc("/history.csv", getHistoryCSV)
 	mux.HandleFunc("/getHistoryHTML", getHistoryHTML)

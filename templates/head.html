@@ -433,7 +433,10 @@
 					$(".searchresult-9").parent().click();
 					break;
 				case 65: //a
-					$(".searchresult-a").parent().click();
+					if (mod){
+						return true;
+					}
+					else $(".searchresult-a").parent().click();
 					break;
 				case 66: //b
 					if (mod) {
@@ -448,7 +451,10 @@
 					$(".searchresult-d").parent().click();
 					break;
 				case 69: //e
-					$(".searchresult-e").parent().click();
+					if (mod){
+						return true;
+					}
+					else $(".searchresult-e").parent().click();
 					break;
 				case 70: //f
 					if (mod){
@@ -457,7 +463,10 @@
 					else $(".searchresult-f").parent().click();
 					break;
 				case 71: //g
-					$(".searchresult-g").parent().click();
+					if (mod){
+						return true;
+					}
+					else $(".searchresult-g").parent().click();
 					break;
 				case 72: //h
 					if (mod) {
@@ -509,7 +518,10 @@
 					$(".searchresult-s").parent().click();
 					break;
 				case 84: //t
-					$(".searchresult-t").parent().click();
+					if (mod){
+						return true;
+					}
+					else $(".searchresult-t").parent().click();
 					break;
 				case 85: //u
 					$(".searchresult-u").parent().click();
@@ -586,6 +598,49 @@
 			}
 			e.preventDefault();
 		});
+	}
+	function hotkeysCopy() {
+		$(document).keydown(function(e) {
+			// set modifier to ctrl (win/linux) or command (mac)
+			var mod = OSName == "MacOS" ? e.metaKey : e.ctrlKey
+			if (mod && (e.which == 65 || e.which == 69 || e.which == 71 || e.which == 84)) {
+				e.preventDefault()
+				var element = ""
+				switch(e.which) {
+					case 65: //a
+						element = "ang"
+						break
+					case 69: //e
+						element = "english-translation"
+						break
+					case 71: //g
+						element = "gurmukhi"
+						break
+					case 84: //t
+						element = "transliteration"
+						break
+				}
+				$.ajax({ url : server+"/getLineDetails", async: true, dataType: "json", success : function (data) {
+					var copy = data[element]
+					switch(element) {
+						case "transliteration":
+							copy = copy.toLowerCase()
+							break
+						case "gurmukhi":
+							copy = copy.replace(/[.,;]/g,"")
+							break
+						case "ang":
+							copy = data["author"] + " - " + data["source"] + " - " + copy
+							break
+					}
+					var $temp = $("<input>")
+					$("body").append($temp)
+					$temp.val(copy).select()
+					document.execCommand("copy")
+					$temp.remove()
+				}, error : function (XMLHttpRequest, textStatus, errorThrown) {console.log(errorThrown)}});
+			}
+		})
 	}
 	function hotkeysHistory() {
 		var lineID = Number($('.scrollBetweenBars a').first().attr("id"));
