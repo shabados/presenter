@@ -35,13 +35,14 @@
 				$(".copopup > p").text(title)
 				if (copyable) {
 					// modify w/h of textarea
-					$("#textarea-copyable").css("height", "calc(" + height + " - 5.75em)").val(content).show().select()
+					$("#textarea-copyable").css("height", "calc(" + height + " - 5.75em)").val(content).show()
 					$(".copopup").show()
+					$("#textarea-copyable").select()
 					if (document.queryCommandSupported('copy')) {
 						//copy to clipboard
 						try {
 							var successful = document.execCommand('copy');
-							title = successful ? 'Please select the text with ctrl+a and copy with ctrl+c' : '';
+							title += " - " + (successful ? 'Copied to Clipboard' : 'Please select the text with ctrl+a and copy with ctrl+c');
 						} catch (err) {
 							title = ''
 						}
