@@ -48,6 +48,7 @@
 						}
 						$(".copopup > p").text(title);
 					}
+					window.getSelection().empty()
 				} else {
 					$("#textarea-noncopy").css("height", "calc(" + height + " - 5.75em)").html(content).show()
 					$(".copopup").show()
