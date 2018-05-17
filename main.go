@@ -13,14 +13,13 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 	"sync"
+	"time"
 
 	"regexp"
 
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/hashicorp/mdns"
-
+	_ "github.com/mattn/go-sqlite3"
 )
 
 // compile all templates and cache them
@@ -49,46 +48,46 @@ var port = 42424
 var wg = sync.WaitGroup{}
 
 type Settings struct {
-	Layout                  string 		`json:"layout"`
-	NavigatorHeight         string 		`json:"navigator-height"`
-	Rahao                   bool   		`json:"sticky-rahao"`
-	Gurbani                 bool   		`json:"gurbani"`
-	LarivaarGurbani         bool   		`json:"larivaar-gurbani"`
-	SplitGurbaniLines		bool   		`json:"split-gurbani-lines"`
-	EnglishTranslation      bool   		`json:"english-translation"`
-	PunjabiTranslation      bool   		`json:"punjabi-translation"`
-	EnglishTransliteration  bool   		`json:"english-transliteration"`
-	NextLine                bool   		`json:"next-line"`
-	FontSize                json.Number	`json:"font-size"`
-	ColorScheme             string 		`json:"color-scheme"`
-	BackgroundImage         bool   		`json:"background-image"`
-	BrightMode              bool   		`json:"bright-mode"`
-	FontColor               string 		`json:"font-color"`
-	BackgroundColor         string 		`json:"background-color"`
-	VishraamColors          bool   		`json:"vishraam-colors"`
-	VishraamColorsStrong    bool   		`json:"vishraam-colors-strong"`
-	VishraamCharacters      bool   		`json:"vishraam-characters"`
-	VishraamLight           bool   		`json:"vishraam-light"`
-	VishraamLightColor      string 		`json:"vishraam-light-color"`
-	VishraamLightCharacter  string 		`json:"vishraam-light-character"`
-	VishraamMedium          bool   		`json:"vishraam-medium"`
-	VishraamMediumColor     string 		`json:"vishraam-medium-color"`
-	VishraamMediumCharacter string 		`json:"vishraam-medium-character"`
-	VishraamHeavy           bool   		`json:"vishraam-heavy"`
-	VishraamHeavyColor      string 		`json:"vishraam-heavy-color"`
-	VishraamHeavyCharacter  string 		`json:"vishraam-heavy-character"`
-	AkhandPaathView         bool   		`json:"akhand-paath-view"`
+	Layout                  string      `json:"layout"`
+	NavigatorHeight         string      `json:"navigator-height"`
+	Rahao                   bool        `json:"sticky-rahao"`
+	Gurbani                 bool        `json:"gurbani"`
+	LarivaarGurbani         bool        `json:"larivaar-gurbani"`
+	SplitGurbaniLines       bool        `json:"split-gurbani-lines"`
+	EnglishTranslation      bool        `json:"english-translation"`
+	PunjabiTranslation      bool        `json:"punjabi-translation"`
+	EnglishTransliteration  bool        `json:"english-transliteration"`
+	NextLine                bool        `json:"next-line"`
+	FontSize                json.Number `json:"font-size"`
+	ColorScheme             string      `json:"color-scheme"`
+	BackgroundImage         bool        `json:"background-image"`
+	BrightMode              bool        `json:"bright-mode"`
+	FontColor               string      `json:"font-color"`
+	BackgroundColor         string      `json:"background-color"`
+	VishraamColors          bool        `json:"vishraam-colors"`
+	VishraamColorsStrong    bool        `json:"vishraam-colors-strong"`
+	VishraamCharacters      bool        `json:"vishraam-characters"`
+	VishraamLight           bool        `json:"vishraam-light"`
+	VishraamLightColor      string      `json:"vishraam-light-color"`
+	VishraamLightCharacter  string      `json:"vishraam-light-character"`
+	VishraamMedium          bool        `json:"vishraam-medium"`
+	VishraamMediumColor     string      `json:"vishraam-medium-color"`
+	VishraamMediumCharacter string      `json:"vishraam-medium-character"`
+	VishraamHeavy           bool        `json:"vishraam-heavy"`
+	VishraamHeavyColor      string      `json:"vishraam-heavy-color"`
+	VishraamHeavyCharacter  string      `json:"vishraam-heavy-character"`
+	AkhandPaathView         bool        `json:"akhand-paath-view"`
 }
 
 type SettingsLive struct {
-	PositionTop             bool 		`json:"position-top"`
-	Margin					json.Number	`json:"margin"`
-	Width					json.Number	`json:"width"`
-	GreenScreen				bool		`json:"green-screen"`
-	Gurbani			        bool   		`json:"gurbani"`
-	EnglishTranslation      bool   		`json:"english-translation"`
-	PunjabiTranslation      bool   		`json:"punjabi-translation"`
-	EnglishTransliteration  bool   		`json:"english-transliteration"`
+	PositionTop            bool        `json:"position-top"`
+	Margin                 json.Number `json:"margin"`
+	Width                  json.Number `json:"width"`
+	GreenScreen            bool        `json:"green-screen"`
+	Gurbani                bool        `json:"gurbani"`
+	EnglishTranslation     bool        `json:"english-translation"`
+	PunjabiTranslation     bool        `json:"punjabi-translation"`
+	EnglishTransliteration bool        `json:"english-transliteration"`
 }
 
 const (
@@ -153,12 +152,10 @@ func getLineID(w http.ResponseWriter, r *http.Request) {
 
 func getLineDetails(w http.ResponseWriter, r *http.Request) {
 	var gurmukhi, englishTranslation, transliteration, author, source, ang string
-	var rows, err = db.Query("SELECT GURMUKHI,ENGLISH,TRANSLITERATION,SOURCE_ID FROM SHABAD WHERE PK="+currentPK)
+	var rows, err = db.Query("SELECT GURMUKHI,ENGLISH,TRANSLITERATION,SOURCE_ID,WRITER_ID,ANG_ID FROM SHABAD WHERE PK=" + currentPK)
 	eh(err, "0")
 	rows.Next()
-	rows.Scan(&gurmukhi, &englishTranslation, &transliteration, &source)
-	author = "null"
-	ang = "null"
+	rows.Scan(&gurmukhi, &englishTranslation, &transliteration, &source, &author, &ang)
 	rows.Close()
 	fmt.Fprint(w, `{"gurmukhi":"`+gurmukhi+`","english-translation":"`+englishTranslation+`","transliteration":"`+transliteration+`","author":"`+author+`","source":"`+source+`","ang":"`+ang+`"}`)
 }
@@ -181,46 +178,46 @@ func copyFile(src, dst string) error {
 func simpleHandler(w http.ResponseWriter, r *http.Request) {
 	templateName := "indexPage"
 	data := struct {
-		Title string
-		Theme template.HTML
-		Host string
-		LocalIP string
-		SettingsJSON     string
+		Title        string
+		Theme        template.HTML
+		Host         string
+		LocalIP      string
+		SettingsJSON string
 	}{
 		"Search",
-		template.HTML(` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)),
+		template.HTML(` color-scheme-` + strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)),
 		host,
 		localip,
 		"",
 	}
 
 	switch r.URL.Path {
-		case "/banis":
-			data.Title = "Bookmarks"
-			templateName = "banisPage"
-		case "/connect":
-			data.Title = "Connect"
-			templateName = "connectPage"
-		case "/history":
-			data.Title = "History"
-			templateName = "historyPage"
-			//tk: History html page to view/export/import/reload history
-		case "/kobo":
-			data.Title = "kobo"
-			templateName = "koboPage"
-		case "/menu":
-			data.Title = "Menu"
-			templateName = "menuPage"
-		case "/settings":
-			templateName = "settingsPage"
-			sendJSON, err := json.Marshal(settings)
-			eh(err, "4")
-			data.SettingsJSON = string(sendJSON)
-		case "/live-caption":
-			templateName = "liveCaptionPage"
-			sendJSON, err := json.Marshal(settingsLive)
-			eh(err, "4")
-			data.SettingsJSON = string(sendJSON)
+	case "/banis":
+		data.Title = "Bookmarks"
+		templateName = "banisPage"
+	case "/connect":
+		data.Title = "Connect"
+		templateName = "connectPage"
+	case "/history":
+		data.Title = "History"
+		templateName = "historyPage"
+		//tk: History html page to view/export/import/reload history
+	case "/kobo":
+		data.Title = "kobo"
+		templateName = "koboPage"
+	case "/menu":
+		data.Title = "Menu"
+		templateName = "menuPage"
+	case "/settings":
+		templateName = "settingsPage"
+		sendJSON, err := json.Marshal(settings)
+		eh(err, "4")
+		data.SettingsJSON = string(sendJSON)
+	case "/live-caption":
+		templateName = "liveCaptionPage"
+		sendJSON, err := json.Marshal(settingsLive)
+		eh(err, "4")
+		data.SettingsJSON = string(sendJSON)
 	}
 
 	err = templates.ExecuteTemplate(w, templateName, &data)
@@ -231,8 +228,8 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 
 func isLocal(r *http.Request) bool {
 	IP, _, err := net.SplitHostPort(r.RemoteAddr)
-	eh(err,"4.1")
-	if (IP == "::1") {
+	eh(err, "4.1")
+	if IP == "::1" {
 		return true
 	}
 	return false
@@ -241,9 +238,9 @@ func isLocal(r *http.Request) bool {
 func obsHandler(w http.ResponseWriter, r *http.Request) {
 	setClasses := "bottom"
 	data := struct {
-		Title       string
-		Settings    template.HTML
-		Host	string
+		Title    string
+		Settings template.HTML
+		Host     string
 	}{
 		"OBS",
 		template.HTML(setClasses),
@@ -258,9 +255,9 @@ func obsHandler(w http.ResponseWriter, r *http.Request) {
 func displayHandler(w http.ResponseWriter, r *http.Request) {
 	setClasses := ""
 
-	setClasses += ` layout-`+strings.Replace(strings.ToLower(settings.Layout), " ", "-", -1)
+	setClasses += ` layout-` + strings.Replace(strings.ToLower(settings.Layout), " ", "-", -1)
 
-	setClasses += ` navigator-height-`+strings.Replace(strings.ToLower(settings.NavigatorHeight), " ", "-", -1)
+	setClasses += ` navigator-height-` + strings.Replace(strings.ToLower(settings.NavigatorHeight), " ", "-", -1)
 
 	if settings.LarivaarGurbani == true {
 		setClasses += ` hide-gurbani-spaces`
@@ -282,9 +279,9 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 		setClasses += ` hide-next-line`
 	}
 
-	setClasses += ` fs-`+string(settings.FontSize)
+	setClasses += ` fs-` + string(settings.FontSize)
 
-	setClasses += ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+	setClasses += ` color-scheme-` + strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 
 	if settings.BackgroundImage == false {
 		setClasses += ` hide-background-image`
@@ -306,9 +303,9 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := struct {
-		Title       string
+		Title    string
 		Settings template.HTML
-		Host	string
+		Host     string
 	}{
 		"display",
 		template.HTML(setClasses),
@@ -464,12 +461,14 @@ func updateShabad(id string) {
 }
 
 func navigateHandler(w http.ResponseWriter, r *http.Request) {
-	theme := ` color-scheme-`+strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
+	theme := ` color-scheme-` + strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)
 	id := r.FormValue("id") // possibly requires removing white space
-	if (!(id == shabadID || id == "current")) { updateShabad(id) }
+	if !(id == shabadID || id == "current") {
+		updateShabad(id)
+	}
 
-	if (shabadHTML == "") { //tk should check shabadID == 0, but then the page won't load and won't post to histry... that should just happen in updateShabad, though
-		simpleHandler(w,r)
+	if shabadHTML == "" { //tk should check shabadID == 0, but then the page won't load and won't post to histry... that should just happen in updateShabad, though
+		simpleHandler(w, r)
 		return
 	}
 
@@ -482,8 +481,8 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 		CurrentPK       string
 		AkhandPaathView bool
 		TotalPages      string
-		Theme template.HTML
-		Host string
+		Theme           template.HTML
+		Host            string
 	}{
 		"Navigator",
 		template.HTML(shabadHTML),
@@ -745,7 +744,9 @@ func getHistoryCSV(w http.ResponseWriter, r *http.Request) {
 }
 
 func postSettings(w http.ResponseWriter, r *http.Request) {
-	if (!isLocal(r)) { return }
+	if !isLocal(r) {
+		return
+	}
 
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&settings)
@@ -870,7 +871,9 @@ func newHistory() {
 }
 
 func clearHistory(w http.ResponseWriter, r *http.Request) {
-	if (!isLocal(r)) { return }
+	if !isLocal(r) {
+		return
+	}
 	clearShabad()
 	newHistory()
 }
@@ -1055,15 +1058,15 @@ func getServersJSON(w http.ResponseWriter, r *http.Request) {
 
 // Get preferred outbound ip of this machine
 func GetOutboundIP() string {
-  conn, err := net.Dial("udp", "8.8.8.8:80")
-  if err != nil {
-      log.Fatal(err)
-  }
-  defer conn.Close()
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
 
-  localAddr := conn.LocalAddr().(*net.UDPAddr)
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
 
-  return localAddr.IP.String()
+	return localAddr.IP.String()
 }
 
 func main() {
@@ -1118,7 +1121,7 @@ func main() {
 	mux.HandleFunc("/", simpleHandler)
 
 	wg.Add(1)
-	go func () {
+	go func() {
 		log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), CORS(mux)))
 		wg.Done()
 	}()

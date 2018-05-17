@@ -620,6 +620,58 @@
 						element = "transliteration"
 						break
 				}
+
+				const sources = {
+					"G": "Sri Guru Granth Sahib Ji",
+					"D": "Sri Dasam Granth",
+					"B": "Rachnava Bhai Gurdas Ji",
+					"N": "Kavitava Bhai Nand Lal Ji",
+					"A": "Amrit Kirtan"
+				}
+
+				const writers = {
+					1: "Guru Nanak Dev Ji",
+					2: "Guru Angad Dev Ji",
+					3: "Guru Amardas Ji",
+					4: "Guru Ramdas Ji",
+					5: "Guru Arjan Dev Ji",
+					6: "Guru Teg Bahadur Ji",
+					7: "Guru Gobind Singh Ji",
+					8: "Bhagat Beni Ji",
+					9: "Bhagat Bhikhan Ji",
+					10: "Bhagat Dhanna Ji",
+					11: "Sheikh Fareed Ji",
+					12: "Bhagat Jaidev Ji",
+					13: "Bhagat Kabir Ji",
+					14: "Bhagat Namdev Ji",
+					15: "Bhagat Parmanand Ji",
+					16: "Bhagat Pipa Ji",
+					17: "Bhagat Ramanand Ji",
+					18: "Bhagat Ravidas Ji",
+					19: "Bhagat Sadhana Ji",
+					20: "Bhagat Sain Ji",
+					21: "Bhagat Surdas Ji",
+					22: "Bhagat Trilochan Ji",
+					24: "Baba Sundar Ji",
+					25: "Bhatt Bal",
+					26: "Bhatt Bhal",
+					27: "Bhatt Bhikha",
+					28: "Bhatt Gayand",
+					29: "Bhatt Harbans",
+					30: "Bhatt Jalap",
+					31: "Bhatt Kalsahar",
+					32: "Bhatt Keerat",
+					33: "Bhatt Mathura",
+					34: "Bhatt Nal",
+					35: "Bhatt Sal",
+					36: "Bhatt Kallsahar",
+					37: "Bhai Balvand Rai and Bhai Satta Doom",
+					38: "Bhai Nand Lal Ji",
+					39: "Bhai Gurdas Ji",
+					40: "Disputed / Unknown (Raagmala)",
+					50: "Disputed / Unknown (Raagmala)"
+				}
+
 				$.ajax({ url : server+"/getLineDetails", async: true, dataType: "json", success : function (data) {
 					var copy = data[element]
 					switch(element) {
@@ -630,7 +682,7 @@
 							copy = copy.replace(/[.,;]/g,"")
 							break
 						case "ang":
-							copy = data["author"] + " - " + data["source"] + " - " + copy
+							copy = writers[data["author"]] + " - " + sources[data["source"]] + " - Ang " + copy
 							break
 					}
 					var $temp = $("<input>")
