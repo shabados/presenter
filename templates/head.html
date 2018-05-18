@@ -258,7 +258,7 @@
 					// break;
 				default: return;
 			}
-			e.preventDefault();
+			if (e.which != 65 || e.which != 67 || e.which 86) e.preventDefault();
 		});
 	}
 	function hotkeysIndex() {
