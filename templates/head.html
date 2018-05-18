@@ -622,11 +622,11 @@
 				}
 
 				const sources = {
-					"G": "Sri Guru Granth Sahib Ji",
-					"D": "Sri Dasam Granth",
-					"B": "Rachnava Bhai Gurdas Ji",
-					"N": "Kavitava Bhai Nand Lal Ji",
-					"A": "Amrit Kirtan"
+					"G": " - SGGS Ji - Ang ",
+					"D": " - Dasam Granth",
+					"B": " - Vaar ",
+					"N": "",
+					"A": ""
 				}
 
 				const writers = {
@@ -682,7 +682,8 @@
 							copy = copy.replace(/[.,;]/g,"")
 							break
 						case "ang":
-							copy = writers[data["author"]] + " - " + sources[data["source"]] + " - Ang " + copy
+							var source = data["source"]
+							copy = writers[data["author"]] + sources[source] + (source == "G" || source == "B" ? copy : "")
 							break
 					}
 					var $temp = $("<input>")
