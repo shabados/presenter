@@ -9,12 +9,12 @@ if (typeof parent.nodeRequire === "function") {
   var host = "";
 }
 
-function openOBS(topBottom){div
-  if (typeof remote === "object") { 
-    main.openOBS(topBottom);
-  } else {
-    window.open("obs-"+topBottom);
-  }
+function openOBS(){
+  // if (typeof remote === "object") {
+  //   main.openOBS();
+  // } else {
+    window.open("live-caption");
+  // }
 }
 
 function connect(link, host){
@@ -75,20 +75,20 @@ function toggleFullscreen(){
         main.showNavigation(window.location.href);
       });
     }
-    
+
     if ($("#title-minimize").length) {
       document.getElementById("title-minimize").addEventListener("click", function (e) {
         const window = remote.getCurrentWindow();
         window.minimize();
       });
     }
-  
+
     if ($("#title-maximize").length) {
       document.getElementById("title-maximize").addEventListener("click", function (e) {
         toggleFullscreen();
       });
     }
-    
+
     if ($("#title-close").length) {
       document.getElementById("title-close").addEventListener("click", function (e) {
         const window = remote.getCurrentWindow();
@@ -103,7 +103,7 @@ function toggleFullscreen(){
       if (window.top == window.self && $("#title-popout").length) {
           $("#titlebar .buttons.right").addClass("window");
       }
-      
+
       if (server != "") { $(".secret").html(host); }
 
       if (typeof remote === "object") {

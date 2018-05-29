@@ -1,0 +1,82 @@
+body.presentation .vishraamHeavy, body.presentation .vishraamMedium, body.presentation .vishraamLight {
+  color: inherit; }
+body.presentation .vishraamHeavy > .vishraamChar, body.presentation .vishraamMedium > .vishraamChar, body.presentation .vishraamLight > .vishraamChar {
+  display: none; }
+body.presentation .line {
+  display: none !important; }
+body.presentation .active .gurbani-larivaar {
+  display: none;
+  color: #ffeb3b;
+  background: rgba(63, 81, 181, 0.5);
+  text-shadow: black 0.05em 0.05em 0.2em;
+  font-size: 9vh; }
+  body.presentation .active .gurbani-larivaar .bgw {
+    background: none; }
+body.presentation .active .gurbani-padbandh {
+  display: block;
+  color: #ffeb3b;
+  background: rgba(63, 81, 181, 0.5);
+  text-shadow: black 0.05em 0.05em 0.2em;
+  font-size: 9vh; }
+  body.presentation .active .gurbani-padbandh .bgw {
+    background: none; }
+body.presentation .active .translation {
+  display: block;
+  color: white;
+  background: rgba(63, 81, 181, 0.5);
+  text-shadow: black 0.05em 0.05em 0.2em;
+  font-size: 4.5vh; }
+  body.presentation .active .translation .bgw {
+    background: none; }
+body.presentation .active .transliteration {
+  display: none;
+  color: white;
+  background: rgba(63, 81, 181, 0.5);
+  text-shadow: black 0.05em 0.05em 0.2em;
+  font-size: 4.5vh; }
+  body.presentation .active .transliteration .bgw {
+    background: none; }
+body.presentation .active .darpan {
+  display: none;
+  color: white;
+  background: rgba(63, 81, 181, 0.5);
+  text-shadow: black 0.05em 0.05em 0.2em;
+  font-size: 4.5vh; }
+  body.presentation .active .darpan .bgw {
+    background: none; }
+body.presentation .line > div {
+  margin-bottom: 0;
+  padding: 0vh;
+  justify-content: flex-end;
+  position: relative;
+  top: 0; }
+  body.presentation .line > div > div {
+    padding: 0; }
+
+body.presentation .active {
+  display: flex !important;
+  min-height: 100vh !important; }
+  body.presentation .active .gurmukhifont, body.presentation .active .translation, body.presentation .active .darpan, body.presentation .active .transliteration {
+    margin: 0; }
+  body.presentation .active .gurmukhifont {
+    line-height: 1.45; }
+  body.presentation .active .translation {
+    line-height: 1.39; }
+  body.presentation .active .darpan {
+    line-height: 1.3175; }
+  body.presentation .active .transliteration {
+    line-height: 1.39; }
+
+body.presentation .active .gurmukhifont > div > div {
+  padding: .1em .16666em 0; }
+
+.gurmukhifont .nbsp:first-child {
+  display: none; }
+
+.gurmukhifont > div:first-child > div:first-child .nbsp:first-child {
+  display: inline-block; }
+
+body.presentation {
+  background: none; }
+
+/*# sourceMappingURL=obs.css.map */

@@ -187,19 +187,19 @@ div#results {
     left: 50%;
     text-align: center;
   }
-  .usual {		
-    opacity: 1;		
-  }		
-  &:hover {		
-    .secret {		
-      opacity: 1;		
-    }		
-    .usual {		
-      opacity: 0;		
-    }		
-  }		
-  .secret {		
-    opacity: 0;		
+  .usual {
+    opacity: 1;
+  }
+  &:hover {
+    .secret {
+      opacity: 1;
+    }
+    .usual {
+      opacity: 0;
+    }
+  }
+  .secret {
+    opacity: 0;
   }
 }
 
@@ -290,7 +290,9 @@ body.navigate {
   }
 }
 
-
+.bgw {
+  display: inline;
+}
 
 body.presentation #help-screen {
   z-index: 9001;
@@ -500,6 +502,12 @@ a {
 .nbsp {
   display: inline-block;
 }
+.gurmukhifont.gurbani-larivaar > div:first-child > div:first-child .nbsp:first-child, .gurmukhifont.gurbani-larivaar .nbsp {
+  display: none;
+}
+body.presentation .active .gurmukhifont.gurbani-larivaar > div > div {
+  padding: 0;
+}
 
 .vishraamHeavy, .vishraamMedium, .vishraamLight, .vishraamChar {
   display: inline;
@@ -550,54 +558,248 @@ body {
       color: inherit;
     }
   }
-  &.presentation.presentationSingle {
-    .vishraamHeavy, .vishraamMedium, .vishraamLight {
-      color: inherit;
+  &.liveCaption {
+    div.titlebaroffsetissue {
+      height: 36px;
     }
-  }
-  &.presentationSingle .active .gurmukhifont > div > div:first-child:before {
-    content: "\00a0";
-    /* font-size: 1em; */
-  }
-  &.presentation.presentationSingle {
-    .vishraamHeavy > .vishraamChar, .vishraamMedium > .vishraamChar, .vishraamLight > .vishraamChar {
+
+    div.preview {
+      background: #000;
+      height: calc(100vh - 360px);
+      display: flex;
+      justify-content: center;
+
+      iframe {
+        background: url('../includes/live-caption-tool-bg.jpeg') no-repeat;
+        background-size: cover;
+        align-self: center;
+      }
+    }
+    div.settings {
+      display: flex;
+
+      & > div > p {
+        margin: 0.5em 0 0 0.5em;
+      }
+      .c1 {
+        width: 50%;
+        min-width: 252px;
+        max-width: 530px;
+      }
+      .c2 {
+        width: 100%;
+        min-width: 23em;
+      }
+      .c3 {
+        width: 1%;
+        min-width: 163px;
+      }
+      .c1 > div, .c2 > div, .c3 > div {
+        margin: 0.5em;
+        height: 260px;
+        overflow: auto;
+        padding: 0.5em 1em;
+      }
+      .c3 > div {
+        margin: 0;
+      }
+    }
+    .c3 .mdl-button {
+      width: 100%;
+      margin-top: 0.5em;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    $lcsbh: 1.5em;
+    & .options {
+      position: relative;
       display: none;
+      margin-left: 3.5em;
+      width: calc(100% - 3em - 12em);
+
+      & > * {
+        margin-bottom: 0.75em;
+      }
+
+      .chooser, .font-size-changer {
+        margin-left: 0.75em;
+      }
+
+      .chooser {
+        position: relative;
+        display: inline-block;
+        span.label {
+          width: $lcsbh;
+          height: $lcsbh;
+          text-align: center;
+          border: 1px solid gray;
+          display: inline-block;
+        }
+      }
+      .popup {
+        position: absolute;
+        top: calc(1.5em + 4px);
+        float: left;
+        z-index: 1000;
+        width: 12em;
+        background: white;
+        padding: .5em;
+        display: none;
+        border: 1px solid gray;
+
+        .legend {
+          font-size: .75em;
+          width: 100%;
+          text-align: right;
+          padding-bottom: .5em;
+        }
+      }
+      .custom-color {
+        input[type="color"] {
+          width: 3.5em;
+          height: 2.5em;
+          border: 0;
+          cursor: default;
+          padding: 0;
+        }
+      }
+      .remove-option > div {
+        width: 100%;
+        border: 1px solid gray;
+        margin-bottom: .5em;
+        text-align: center;
+      }
+      .fixed-color-choices {
+        & > div {
+          width: $lcsbh;
+          height: $lcsbh;
+          display: inline-block;
+          border: 1px solid gray;
+        }
+
+        .white {
+          background: white;
+        }
+        .black {
+          background: black;
+        }
+        .red {
+          background: #F44336;
+        }
+        .pink {
+          background: #E91E63;
+        }
+        .purple {
+          background: #9C27B0;
+        }
+        .deep-purple {
+          background: #673AB7;
+        }
+        .indigo {
+          background: #3F51B5;
+        }
+        .blue {
+          background: #2196F3;
+        }
+        .light-blue {
+          background: #03A9F4;
+        }
+        .cyan {
+          background: #00BCD4;
+        }
+        .teal {
+          background: #009688;
+        }
+        .green {
+          background: #4CAF50;
+        }
+        .light-green {
+          background: #8BC34A;
+        }
+        .yellow {
+          background: #FFEB3B;
+        }
+        .amber {
+          background: #FFC107;
+        }
+        .orange {
+          background: #FF9800;
+        }
+        .deep-orange {
+          background: #FF5722;
+        }
+        .brown {
+          background: #795548;
+        }
+      }
     }
-  }
-  &.presentationSingle {
-    .transliteration, .darpan, .line {
-      display: none !important;
+    .font-size-changer {
+      display: inline-block;
+      position: relative;
+      text-align: center;
+      border-radius: 3px;
+      width: 9.5em;
+
+      & > div {
+        display: inline-block;
+        width: 2em;
+        height: $lcsbh;
+      }
+      & > div.value {
+        width: 4.5em;
+        background: white;
+      }
     }
-    .active {
-      display: flex !important;
-      min-height: 100vh !important;
-      .gurmukhifont {
-        > div > div {
-          padding: .1em .25em 0 !important;
+    .mdl-switch {
+      width: max-content;
+      display: block;
+    }
+    .mdl-switch.is-checked + .options {
+      display: block;
+    }
+    .layout-radios .mdl-radio {
+      width: 24%;
+      min-width: 100px;
+    }
+    .copopup {
+      width: 60vw;
+      height: 60vh;
+      position: fixed;
+      z-index: 1000000;
+      top: 20vh;
+      left: 20vw;
+      background: #d0d0d0;
+      display: none;
+      .close {
+        float: right;
+        position: relative;
+        top: 0em;
+        right: 0em;
+        font-size: 1.5em;
+      }
+      #textarea-copyable, #textarea-noncopy {
+        width: calc(100% - 3em);
+        border: 0;
+        padding: 1em;
+        margin: .5em .5em 0;
+        height: calc(60vh - 5.75em);
+        background: #efefef;
+        overflow: scroll;
+      }
+      #textarea-noncopy {
+        ul, ol {
+          padding-left: 1.75em;
+        }
+        p {
+          margin-top: 1em;
           &:first-child {
-            padding: .1em 0 0 !important;
+            margin-top: 0;
           }
         }
       }
-      .translation {
-        font-family: "English Translation", sans-serif;
-        font-size: 4.5vh !important;
-        line-height: 1.85em;
-        margin: 0;
-        -webkit-text-stroke: 1px #0a0a0a;
-        text-shadow: 3px 3px 0 #0a0a0a, -1px -1px 0 #0a0a0a,   1px -1px 0 #0a0a0a, -1px 1px 0 #0a0a0a, 1px 1px 0 #0a0a0a  !important;
-      }
-    }
-    .line > div {
-      margin-bottom: 0 !important;
-      /*-webkit-text-stroke: 1px black !important;*/
-      padding-bottom: .175em !important;
-    }
-    &.top .line > div {
-      justify-content: flex-start !important;
-    }
-    &.bottom .line > div {
-      justify-content: flex-end !important;
     }
   }
 }
@@ -1070,7 +1272,7 @@ div#kobo {
 /* min-width 1921px, xxlarge screens */
 
 @media only screen and (min-width: 1000px) {
-  body.presentation, #help-menu {
+  body.presentation, #help-menu, body.liveCaption {
     zoom: 1;
   }
   body {
@@ -1093,7 +1295,7 @@ div#kobo {
 /* this allows 800x600 computers to not have an issue; currently the nexus 6p in landscape fits in this rule */
 @media only screen and (max-device-width: 799px) {
   body {
-    &.presentation {
+    &.presentation, &.liveCaption {
       zoom: 1;
     }
     zoom: 1.5;
@@ -1443,25 +1645,9 @@ div#kobo {
 
 
 /* Non-themed
-     OBS projector page,
+     live caption tool,
      Kobo screen page
 */
-body {
-  &.presentationSingle {
-    background: #00ff00 !important;
-    .active {
-      .gurmukhifont {
-        color: #FFFFE5 !important;
-        > div > div {
-          background: #0a0a0a !important;
-        }
-      }
-      .translation {
-        color: #ffffe5 !important;
-      }
-    }
-  }
-}
 body.kobo {
   background: #FFFFFF;
   div#kobo .gurmukhifont {
@@ -1489,10 +1675,10 @@ body.color-scheme-day {
   body.#{$theme} {
     background-color: $bg-base;
     color: $fg-base;
-  
+
     &.presentation {
     background-color: $bg-presentation;
-  
+
       .active {
         .gurmukhifont {
           color: $presentation-active-gurmukhi;
@@ -1528,14 +1714,73 @@ body.color-scheme-day {
       .vishraamLight {
         color: $presentation-vishraamLight;
       }
-  
+
       iframe {
         background: $bg-dark; // one level darker than body background
         border-color: $bg-dark; // remove this in upper area, i don't think we need a border
       }
     }
+    &.liveCaption {
+      .settings {
+        background: $bg-bright;
+      }
+      .c1 > div, .c2 > div {
+        background: $bg-base;
+      }
+      .c2 {
+        .chooser span.label {
+          border: 2px solid rgba($fg-brighter, 0.2);
+
+          &:hover {
+            border-color: rgba($fg-brighter, 0.25);
+          }
+        }
+        .font-size-changer {
+          border: 2px solid rgba($fg-brighter, 0.2);
+
+          .value {
+            background: mix($bg-base, $bg-presentation, 33%);
+            border: 2px solid rgba($fg-brighter, 0.2);
+            border-top: 0;
+            border-bottom: 0;
+          }
+        }
+        .popup {
+          background: mix($bg-base, $bg-presentation, 25%);
+          border: 2px solid rgba($fg-brighter, 0.1);
+        }
+        .options {
+          .fixed-color-choices, .remove-option {
+            & > div {
+              border: 2px solid rgba($fg-brighter, 0.66);
+            }
+          }
+          .mdl-checkbox__box-outline {
+            border-color: rgba($fg-brighter, 0.66);
+          }
+          .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
+            border-color: rgb(0,188,212);
+          }
+        }
+      }
+      .c3 {
+        .mdl-button {
+          background-color: rgba($bg-base, 0.5);
+          color: $fg-bright;
+          border: 2px solid rgba($fg-brighter, 0.1);
+
+          &:hover {
+            background-color: rgba($fg-brighter, 0.2);
+          }
+        }
+
+        .mdl-ripple {
+          background-color: rgba($fg-brighter, 1);
+        }
+      }
+    }
   }
-  
+
   body.#{$theme} {
     #iframesHuMsg {
       background: rgba($bg-base, 0.9);
@@ -1549,7 +1794,7 @@ body.color-scheme-day {
         color: rgba($fg-brighter, 0.3);
       }
     }
-    
+
     #hiddenIframePlusBox {
       color: mix($fg-brighter, $bg-presentation, 50%);
       //rgba(255, 255, 255, 0.5);
@@ -1557,7 +1802,7 @@ body.color-scheme-day {
       //rgba(255, 255, 255, 0.12);
     }
   }
-  
+
   /***********************************************************
   UI related top and bottom bars
   ***********************************************************/
@@ -1565,11 +1810,11 @@ body.color-scheme-day {
     .dragger, #titlebar > div, #navibar > div {
       background: $bg-dark;
     }
-    
+
     #titlebar > div, #navibar > div {
       color: $fg-dark;
     }
-    
+
     #titlebar {
       .title:hover, .buttons *:hover {
         color: $fg-base;
@@ -1582,25 +1827,25 @@ body.color-scheme-day {
         }
       }
     }
-    
+
     ::-webkit-scrollbar-thumb {
       background: rgba($fg-brighter, 0.5);
       &:hover, &:active {
         background: $fg-bright;
       }
     }
-    
+
     ::selection {
       background: $text-selection-bg;
       /* WebKit/Blink Browsers */
     }
-    
+
     #humsg {
       background: $bg-dark;
       color: $fg-bright;
     }
   }
-  
+
   /***********************************************************
   betwen top and bottom nav bars
   ***********************************************************/
@@ -1610,58 +1855,58 @@ body.color-scheme-day {
       // but we only have one input total
       color: $fg-base;
       border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    
+
       &:focus {
         color: $fg-bright;
         border-bottom: 1px solid rgba(0, 0, 0, 0);
       }
-    
+
       + .background {
         color: $fg-base;
         box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.12);
       }
-    
+
       &:focus + .background {
         background: $bg-bright;
         box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.18);
       }
     }
-    
+
     ::-webkit-input-placeholder {
       // color of the search box when nothing is inputted
       color: $fg-dark;
     }
-    
+
     #results a {
       color: $color-text-non-highlighted;
-    
+
       &:hover {
         color: $color-text-non-highlighted-hover;
       }
-    
+
       &:focus {
         color: $fg-bright;
         background: $color-selection-bg;
       }
     }
-    
+
     span.slink-highlight {
       // color used to highlight search results
       color: $color-highlight;
     }
-    
+
     .codefont { //used for number hotkey label in shabads
       color: mix($fg-brighter, $bg-base, 50%);
       // rgba(255, 255, 255, 0.5);
     }
-    
+
     //fix to use only second method, first one is used in like history page through main.go but can probably be repurposed
     //could create a.menu-item or something to replaceboth
     //also see #results a:focus as well to fix
     .activeLine > div, body.dindex a:focus {
 	    background: $color-selection-bg;
     }
-    
+
     .activeLine > div, .navigationForDisplay:hover {
       color: $color-selection-fg;
     }
@@ -1672,7 +1917,7 @@ body.color-scheme-day {
 	  }
     }
   }
-  
+
   /***********************************************************
   Other
   ***********************************************************/
@@ -1686,24 +1931,24 @@ body.color-scheme-day {
     .scrollBetweenBars .sep {
       border-bottom: 1px solid $bg-dark;
     }
-    
+
     #help-screen {
       background: rgba($bg-presentation, 0.87);
       color: $fg-base;
-    
+
       h1 {
         color: $fg-bright;
       }
-    
+
       div {
         color: $fg-bright;
       }
     }
-    
+
     .bright {
       color: $fg-base;
     }
-    
+
     .scrollBetweenBars.shabad.active, #navi-prog.active {
       color: rgba($fg-brighter, 0.7);
       background: rgba($fg-brighter, 0.05);
@@ -1716,7 +1961,7 @@ body.color-scheme-day {
 	  color: rgba($fg-base, .3);
     }
   }
-  
+
   @media only screen and (max-device-width: 480px) {
     body {
       color: #ccc;
@@ -1876,6 +2121,126 @@ body.presentation.#{$theme} #hiddenIframePlusBox {
 	color: $fg-dark;
 }
 
+/*
+White on Blue
+*/
+$theme: color-scheme-white-on-blue;
+
+$bg-presentation: #1A237E; // background of display page
+$bg-dark: #263238; // used in status bars
+$bg-base: #37474F; // base background color
+$bg-bright: #455A64; // base background color
+
+$fg-darker: #90A4AE; // only suitable for small hints
+$fg-dark: #B0BEC5; // aim for 10+ contrast ratio
+$fg-base: #CFD8DC; // aim for 7+ contrast ratio base/base
+$fg-bright: #ECEFF1; // aim for 10+ contrast ratio
+$fg-brighter: #FFFFFF; // aim for highest contrast ratio
+
+$text-selection-bg: $fg-base;
+$color-selection-bg: $bg-bright;
+$color-selection-fg: $fg-bright;
+$color-text-non-highlighted: $fg-base;
+$color-text-non-highlighted-hover: $fg-bright;
+$color-highlight: #FFE082;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        #FFFFFF;
+$presentation-active-translation:     #FAFAFA;
+$presentation-active-darpan:          #F5F5F5;
+$presentation-active-transliteration: #EEEEEE;
+$presentation-active-vishraamHeavy:   #FFCC80;
+$presentation-active-vishraamMedium:  #A5D6A7;
+$presentation-active-vishraamLight:   #CE93D8;
+$mixWith: #000;
+$mixAmount: 85%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
+/*
+Yellow on Blue
+*/
+$theme: color-scheme-yellow-on-blue;
+
+$bg-presentation: #1A237E; // background of display page
+$bg-dark: #263238; // used in status bars
+$bg-base: #37474F; // base background color
+$bg-bright: #455A64; // base background color
+
+$fg-darker: #90A4AE; // only suitable for small hints
+$fg-dark: #B0BEC5; // aim for 10+ contrast ratio
+$fg-base: #CFD8DC; // aim for 7+ contrast ratio base/base
+$fg-bright: #ECEFF1; // aim for 10+ contrast ratio
+$fg-brighter: #FFFFFF; // aim for highest contrast ratio
+
+$text-selection-bg: $fg-base;
+$color-selection-bg: $bg-bright;
+$color-selection-fg: $fg-bright;
+$color-text-non-highlighted: $fg-base;
+$color-text-non-highlighted-hover: $fg-bright;
+$color-highlight: #FFE082;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        #FFEA00;
+$presentation-active-translation:     #FFEA00;
+$presentation-active-darpan:          #FFEA00;
+$presentation-active-transliteration: #FFEA00;
+$presentation-active-vishraamHeavy:   #F06292;
+$presentation-active-vishraamMedium:  #B388FF;
+$presentation-active-vishraamLight:   #4DD0E1;
+$mixWith: #000;
+$mixAmount: 75%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
+/*
+Pastel Chalk on Blackboard
+*/
+$theme: color-scheme-pastel-on-dark;
+
+$bg-presentation: mix(#006064, #000, 50%); // background of display page
+$bg-dark: #263238; // used in status bars
+$bg-base: #37474F; // base background color
+$bg-bright: #455A64; // base background color
+
+$fg-darker: #90A4AE; // only suitable for small hints
+$fg-dark: #B0BEC5; // aim for 10+ contrast ratio
+$fg-base: #CFD8DC; // aim for 7+ contrast ratio base/base
+$fg-bright: #ECEFF1; // aim for 10+ contrast ratio
+$fg-brighter: #FFFFFF; // aim for highest contrast ratio
+
+$text-selection-bg: $fg-base;
+$color-selection-bg: $bg-bright;
+$color-selection-fg: $fg-bright;
+$color-text-non-highlighted: $fg-base;
+$color-text-non-highlighted-hover: $fg-bright;
+$color-highlight: #FFE082;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        #FFFF8D;
+$presentation-active-translation:     #FAFAFA;
+$presentation-active-darpan:          #F5F5F5;
+$presentation-active-transliteration: #EEEEEE;
+$presentation-active-vishraamHeavy:   #FFCC80;
+$presentation-active-vishraamMedium:  #F8BBD0;
+$presentation-active-vishraamLight:   #D1C4E9;
+$mixWith: #000;
+$mixAmount: 85%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+
 /* used for ruling */
 /**/
 body.presentation .gurmukhifont {
@@ -1922,7 +2287,7 @@ body.presentation div.hideCursor div:nth-child(12n+10) {
 }
 body.presentation div.hideCursor div:nth-child(12n+11) {
   border-bottom-color: rgba(255,255,255,.25);
-} 
+}
 /**/
 
 /* 2017 11 14 tested font at large sizes

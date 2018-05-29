@@ -258,7 +258,7 @@
 					// break;
 				default: return;
 			}
-			e.preventDefault();
+			if (e.which != 65 || e.which != 67 || e.which != 86) e.preventDefault();
 		});
 	}
 	function hotkeysIndex() {
@@ -433,7 +433,10 @@
 					$(".searchresult-9").parent().click();
 					break;
 				case 65: //a
-					$(".searchresult-a").parent().click();
+					if (mod){
+						return true;
+					}
+					else $(".searchresult-a").parent().click();
 					break;
 				case 66: //b
 					if (mod) {
@@ -448,7 +451,10 @@
 					$(".searchresult-d").parent().click();
 					break;
 				case 69: //e
-					$(".searchresult-e").parent().click();
+					if (mod){
+						return true;
+					}
+					else $(".searchresult-e").parent().click();
 					break;
 				case 70: //f
 					if (mod){
@@ -457,7 +463,10 @@
 					else $(".searchresult-f").parent().click();
 					break;
 				case 71: //g
-					$(".searchresult-g").parent().click();
+					if (mod){
+						return true;
+					}
+					else $(".searchresult-g").parent().click();
 					break;
 				case 72: //h
 					if (mod) {
@@ -509,7 +518,10 @@
 					$(".searchresult-s").parent().click();
 					break;
 				case 84: //t
-					$(".searchresult-t").parent().click();
+					if (mod){
+						return true;
+					}
+					else $(".searchresult-t").parent().click();
 					break;
 				case 85: //u
 					$(".searchresult-u").parent().click();
@@ -533,15 +545,9 @@
 					$(".searchresult-z").parent().click();
 					break;
 				case 37: // left
-					if (!mod) {
-						if(lineID != firstID) {
-							lineID--;
-							goToID(lineID);
-						}
-					}
-					break;
+					if (mod) break;
 				case 38: // up
-					if (mod || (lineID == firstID && scrollTop)|| (lineID == firstID && e.shiftKey)) {
+					if (mod || lineID == firstID && scrollTop && (akhandPaathView || e.shiftKey)) {
 						var shabadID = Number($('.activeLine').data("shabadid"));
 						if ((shabadID > 1 && shabadID <= 5543)) { // || (shabadID > 10000 && shabadID <= 13480) || (shabadID > 20000 && shabadID <= 25690) || (shabadID > 30000 && shabadID <= 30081) || (shabadID > 40000 && shabadID <= 40170)) {
 							if (mod) { location.href = 'shabad?id=' + (shabadID - 1); }
@@ -556,18 +562,12 @@
 					}
 					break;
 				case 39: // right
-					if (!mod) {
-						if(lineID != lastID) {
-							lineID++;
-							goToID(lineID);
-						}
-					}
-					break;
+					if (mod) break;
 				case 40: // down
-					if (mod || (lineID == lastID && scrollBottom) || (lineID == lastID && e.shiftKey)) {
+					if (mod || lineID == lastID && scrollBottom && (akhandPaathView || e.shiftKey)) {
 						var shabadID = Number($('.activeLine').data("shabadid"));
 						// properly change shabadID to what ever the last shabad ID is in the database
-						if ((shabadID >= 1 && shabadID < 5542)) { // || (shabadID >= 10000 && shabadID < 13480) || (shabadID >= 20000 && shabadID < 25690) || (shabadID >= 30000 && shabadID < 30081) || (shabadID >= 40000 && shabadID < 40170)) {
+						if ((shabadID >= 1 && shabadID <= 5542)) { // || (shabadID >= 10000 && shabadID < 13480) || (shabadID >= 20000 && shabadID < 25690) || (shabadID >= 30000 && shabadID < 30081) || (shabadID >= 40000 && shabadID < 40170)) {
 							location.href = 'shabad?id=' + (shabadID + 1);
 						}
 						dohm('angle-down', 'Next Shabad');
@@ -598,6 +598,102 @@
 			}
 			e.preventDefault();
 		});
+	}
+	function hotkeysCopy() {
+		$(document).keydown(function(e) {
+			// set modifier to ctrl (win/linux) or command (mac)
+			var mod = OSName == "MacOS" ? e.metaKey : e.ctrlKey
+			if (mod && (e.which == 65 || e.which == 69 || e.which == 71 || e.which == 84)) {
+				e.preventDefault()
+				var element = ""
+				switch(e.which) {
+					case 65: //a
+						element = "ang"
+						break
+					case 69: //e
+						element = "english-translation"
+						break
+					case 71: //g
+						element = "gurmukhi"
+						break
+					case 84: //t
+						element = "transliteration"
+						break
+				}
+
+				const sources = {
+					"G": " - SGGS Ji - Ang ",
+					"D": " - Dasam Granth",
+					"B": " - Vaar ",
+					"N": "",
+					"A": ""
+				}
+
+				const writers = {
+					1: "Guru Nanak Dev Ji",
+					2: "Guru Angad Dev Ji",
+					3: "Guru Amardas Ji",
+					4: "Guru Ramdas Ji",
+					5: "Guru Arjan Dev Ji",
+					6: "Guru Teg Bahadur Ji",
+					7: "Guru Gobind Singh Ji",
+					8: "Bhagat Beni Ji",
+					9: "Bhagat Bhikhan Ji",
+					10: "Bhagat Dhanna Ji",
+					11: "Sheikh Fareed Ji",
+					12: "Bhagat Jaidev Ji",
+					13: "Bhagat Kabir Ji",
+					14: "Bhagat Namdev Ji",
+					15: "Bhagat Parmanand Ji",
+					16: "Bhagat Pipa Ji",
+					17: "Bhagat Ramanand Ji",
+					18: "Bhagat Ravidas Ji",
+					19: "Bhagat Sadhana Ji",
+					20: "Bhagat Sain Ji",
+					21: "Bhagat Surdas Ji",
+					22: "Bhagat Trilochan Ji",
+					24: "Baba Sundar Ji",
+					25: "Bhatt Bal",
+					26: "Bhatt Bhal",
+					27: "Bhatt Bhikha",
+					28: "Bhatt Gayand",
+					29: "Bhatt Harbans",
+					30: "Bhatt Jalap",
+					31: "Bhatt Kalsahar",
+					32: "Bhatt Keerat",
+					33: "Bhatt Mathura",
+					34: "Bhatt Nal",
+					35: "Bhatt Sal",
+					36: "Bhatt Kallsahar",
+					37: "Bhai Balvand Rai and Bhai Satta Doom",
+					38: "Bhai Nand Lal Ji",
+					39: "Bhai Gurdas Ji",
+					40: "Disputed / Unknown (Raagmala)",
+					50: "Disputed / Unknown (Raagmala)"
+				}
+
+				$.ajax({ url : server+"/getLineDetails", async: true, dataType: "json", success : function (data) {
+					var copy = data[element]
+					switch(element) {
+						case "transliteration":
+							copy = copy.toLowerCase()
+							break
+						case "gurmukhi":
+							copy = copy.replace(/[.,;]/g,"")
+							break
+						case "ang":
+							var source = data["source"]
+							copy = writers[data["author"]] + sources[source] + (source == "G" || source == "B" ? copy : "")
+							break
+					}
+					var $temp = $("<input>")
+					$("body").append($temp)
+					$temp.val(copy).select()
+					document.execCommand("copy")
+					$temp.remove()
+				}, error : function (XMLHttpRequest, textStatus, errorThrown) {console.log(errorThrown)}});
+			}
+		})
 	}
 	function hotkeysHistory() {
 		var lineID = Number($('.scrollBetweenBars a').first().attr("id"));

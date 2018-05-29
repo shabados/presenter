@@ -11,4 +11,5 @@ tags
 settings.json
 nohup.out
 *.sass-cache*
-styles/main.css.*
+styles/*.css.map
+core

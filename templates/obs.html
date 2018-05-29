@@ -1,0 +1,64 @@
+{{define "obsPage"}}
+<!DOCTYPE html>
+<html>
+	<head>
+		{{template "header"}}
+		<link rel="stylesheet" href="styles/obs.css" />
+		<script>
+			var defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line"><div><div class="gurmukhifont gurbani-larivaar"></div><div class="gurmukhifont gurbani-padbandh"></div><div class="translation"></div></div></div></div>'
+			function updateDisplay() {
+				$.ajax({
+					url : server+"/getJSON",
+					async: true,
+					dataType: "json",
+					success : function (data) {
+						var shabadID = data.shabadID;
+						if (shabadID != $('.shabad').data("shabadid")) {
+							if (shabadID == 0) {
+								$('div.body').html(defaultHTML);
+							} else {
+								var body = "<div class='shabad' data-shabadid="+shabadID+">";
+								$.each(data.shabad, function(key,value){
+									body = body+"<div id="+value.PK+" class='line'><div>"
+									body = body+"<div class=\"gurmukhifont gurbani-larivaar\">"+value.gurmukhi+"</div>";
+									body = body+"<div class=\"gurmukhifont gurbani-padbandh\">"+value.gurmukhi+"</div>";
+									body = body+"<div class=\"translation\"><span class=\"bgw\">"+value.translation+"</span></div>";
+									body = body+"<div class=\"darpan\"><span class=\"bgw\">"+value.darpan+"</span></div>";
+									body = body+"<div class=\"transliteration\"><span class=\"bgw\">"+value.transliteration+"</span></div>";
+									body = body+"</div></div>"; //closes opening div
+								})
+								$('div.body').html(body+"</div>");
+							}
+						} else {
+							var PK = data.PK;
+
+							var scrollToID = Number(PK);
+							// if (scrollToID > Number(firstLineID) && data.shabadID !== "adv") {
+								// scrollToID = scrollToID - 1;
+							// }
+							$('.active').removeClass('active');
+							$("#"+PK).addClass('active');
+
+							var scrollPos = $("#"+scrollToID).offset().top //+ $("#"+scrollToID+"> .gurmukhifont").height()/2 - $('#fader').height()/3;
+							if (scrollPos < 0) {scrollPos = 0;}
+							scroll(scrollPos);
+						}
+
+						// for non-development set to about 10
+						setTimeout(updateDisplay, 500);
+					}
+				});
+			}
+
+			$(window).load(function() {
+				updateDisplay();
+			});
+
+		</script>
+		</head>
+<html>
+	<body class="presentation obs {{.Settings}}">
+		<div class="body"></div>
+	</body>
+</html>
+{{end}}

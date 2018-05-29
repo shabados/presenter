@@ -1,0 +1,106 @@
+{{define "obsOptions"}}
+<div class="chooser">
+    <span class="label">C</span>
+    <div class="popup color">
+        <div class="legend">Color</div>
+        <div class="fixed-color-choices">
+            <div class="white" data-color="#FFFFFF"></div>
+            <div class="black" data-color="#000000"></div>
+            <div class="red" data-color="#F44336"></div>
+            <div class="pink" data-color="#E91E63"></div>
+            <div class="purple" data-color="#9C27B0"></div>
+            <div class="deep-purple" data-color="#673AB7"></div>
+            <div class="indigo" data-color="#3F51B5"></div>
+            <div class="blue" data-color="#2196F3"></div>
+            <div class="light-blue" data-color="#03A9F4"></div>
+            <div class="cyan" data-color="#00BCD4"></div>
+            <div class="teal" data-color="#009688"></div>
+            <div class="green" data-color="#4CAF50"></div>
+            <div class="light-green" data-color="#8BC34A"></div>
+            <div class="yellow" data-color="#FFEB3B"></div>
+            <div class="amber" data-color="#FFC107"></div>
+            <div class="orange" data-color="#FF9800"></div>
+            <div class="deep-orange" data-color="#FF5722"></div>
+            <div class="brown" data-color="#795548"></div>
+        </div>
+        <div class="custom-color">
+            Custom: <input type="color">
+        </div>
+    </div>
+</div>
+<div class="chooser">
+    <span class="label">S</span>
+    <div class="popup shadow">
+        <div class="legend">Shadow</div>
+        <div class="remove-option">
+            <div data-color="none">None</div>
+        </div>
+        <div class="fixed-color-choices">
+            <div class="white" data-color="#FFFFFF"></div>
+            <div class="black" data-color="#000000"></div>
+            <div class="red" data-color="#F44336"></div>
+            <div class="pink" data-color="#E91E63"></div>
+            <div class="purple" data-color="#9C27B0"></div>
+            <div class="deep-purple" data-color="#673AB7"></div>
+            <div class="indigo" data-color="#3F51B5"></div>
+            <div class="blue" data-color="#2196F3"></div>
+            <div class="light-blue" data-color="#03A9F4"></div>
+            <div class="cyan" data-color="#00BCD4"></div>
+            <div class="teal" data-color="#009688"></div>
+            <div class="green" data-color="#4CAF50"></div>
+            <div class="light-green" data-color="#8BC34A"></div>
+            <div class="yellow" data-color="#FFEB3B"></div>
+            <div class="amber" data-color="#FFC107"></div>
+            <div class="orange" data-color="#FF9800"></div>
+            <div class="deep-orange" data-color="#FF5722"></div>
+            <div class="brown" data-color="#795548"></div>
+        </div>
+    </div>
+</div>
+<div class="chooser">
+    <span class="label">B</span>
+    <div class="popup background">
+        <div class="legend">Background</div>
+        <div class="remove-option">
+            <div data-color="none">None</div>
+        </div>
+        <div class="fixed-color-choices">
+            <div class="white" data-color="#FFFFFF"></div>
+            <div class="black" data-color="#000000"></div>
+            <div class="red" data-color="#F44336"></div>
+            <div class="pink" data-color="#E91E63"></div>
+            <div class="purple" data-color="#9C27B0"></div>
+            <div class="deep-purple" data-color="#673AB7"></div>
+            <div class="indigo" data-color="#3F51B5"></div>
+            <div class="blue" data-color="#2196F3"></div>
+            <div class="light-blue" data-color="#03A9F4"></div>
+            <div class="cyan" data-color="#00BCD4"></div>
+            <div class="teal" data-color="#009688"></div>
+            <div class="green" data-color="#4CAF50"></div>
+            <div class="light-green" data-color="#8BC34A"></div>
+            <div class="yellow" data-color="#FFEB3B"></div>
+            <div class="amber" data-color="#FFC107"></div>
+            <div class="orange" data-color="#FF9800"></div>
+            <div class="deep-orange" data-color="#FF5722"></div>
+            <div class="brown" data-color="#795548"></div>
+        </div>
+        <div class="semitransparent">
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                <input type="checkbox" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Semitransparent</span>
+            </label>
+        </div>
+        <div class="full-width">
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                <input type="checkbox" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Extend to Margins</span>
+            </label>
+        </div>
+    </div>
+</div>
+<div class="font-size-changer">
+    <div class="smaller">-</div>
+    <div class="value" data-value="10" data-min="2" data-max="20">10vh</div>
+    <div class="larger">+</div>
+</div>
+{{end}}

@@ -1,0 +1,375 @@
+{{define "liveCaptionPage"}}
+<!DOCTYPE html>
+<html>
+	<head>
+		{{template "header"}}
+		<script>
+			var styleSheet
+			function updateCSS (selector, property, value) {
+				for (var x = 0; x < styleSheet.length; x++) {
+						if (styleSheet[x].selectorText == selector) {
+							styleSheet[x].style[property] = value
+						}
+					}
+			}
+			function convertHex(hex){
+				hex = hex.replace('#','');
+				var r = parseInt(hex.substring(0,2), 16);
+				var g = parseInt(hex.substring(2,4), 16);
+				var b = parseInt(hex.substring(4,6), 16);
+				var o = parseInt(hex.substring(6,8), 16);
+				return 'rgba('+r+','+g+','+b+','+o/255+')';
+			}
+			var elementToClass = {
+				"gurbani-larivaar"				:	".gurbani-larivaar",
+				"gurbani-padbandh"					:	".gurbani-padbandh",
+				"english-translation"			:	".translation",
+				"punjabi-translation"			:	".darpan",
+				"english-transliteration"	:	".transliteration"
+			}
+
+			function copopup(width, height, title = "Popup", content, copyable = false) {
+				$(".copopup").width(width).height(height).css("left", "calc(50vw - " + width + " / 2)").css("top", "calc(50vh - " + height + " / 2)")
+				$("#textarea-copyable").val("").hide()
+				$("#textarea-noncopy").val("").hide()
+				$(".copopup > p").text(title)
+				if (copyable) {
+					// modify w/h of textarea
+					$("#textarea-copyable").css("height", "calc(" + height + " - 5.75em)").val(content).show()
+					$(".copopup").show()
+					$("#textarea-copyable").select()
+					if (document.queryCommandSupported('copy')) {
+						//copy to clipboard
+						try {
+							var successful = document.execCommand('copy');
+							title += " - " + (successful ? 'Copied to Clipboard' : 'Please select the text with ctrl+a and copy with ctrl+c');
+						} catch (err) {
+							title = ''
+						}
+						$(".copopup > p").text(title);
+					}
+					window.getSelection().empty()
+				} else {
+					$("#textarea-noncopy").css("height", "calc(" + height + " - 5.75em)").html(content).show()
+					$(".copopup").show()
+				}
+			}
+
+			$(window).load(function () {
+				$(document).keydown(function(e) {
+					if (e.which == 27) {
+						$(".copopup").hide()
+						e.preventDefault();
+					}
+				});
+				
+				styleSheet = $($("iframe").contents()[0].styleSheets).last()[0].rules
+				$("iframe")[0].contentWindow.defaultHTML = '<div class="shabad" data-shabadid="0"><div id="0" class="line active"><div><div class="gurmukhifont gurbani-larivaar"><div><div class="bgw">gurbwxI<div class="nbsp">&nbsp;</div><div class="vishraamMedium">lVIvwr<div class="vishraamChar">,</div></div></div></div></div><div class="gurmukhifont gurbani-padbandh"><div><div class="bgw">gurbwxI<div class="nbsp">&nbsp;</div><div class="vishraamMedium">pdbMD<div class="vishraamChar">,</div></div></div></div></div><div class="translation"><span class="bgw">Translation</span></div><div class="darpan"><span class="bgw">ਪੰਜਾਬੀ ਅਰਥ</span></div><div class="transliteration"><span class="bgw">gurbaanee</span></div></div></div></div>'
+				var selector = "body.presentation .active "
+
+				$("input[type=range]").on("input", function(){
+					updateCSS ( $(this).data("css-selector"), $(this).data("css-property"), $(this).data("css-value").replace("X", $(this).val()))
+					$("#range-label-"+this.id).html(" ("+ $(this).data("css-value").replace("X", $(this).val()) + ")")
+				})
+
+				$("input").change( function() {
+					if (this.type == "color") {
+						updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"color",this.value)
+						$(this).parents(".popup").siblings(".label").css("background",this.value)
+					} else if (this.type == "radio") {
+						updateCSS ( "body.presentation .line > div", "justify-content", $(this).data("justify-content"))
+					} else if (this.type != "range") {
+						var settingName = this.id
+						var item, property, value
+						var setting = this.type == "checkbox" ? $(this).prop('checked') : this.value
+						updateCSS ( selector + elementToClass[settingName], "display", setting ? "block" : "none")
+					}
+				});
+
+				$(".popup.color > div > div").click(function(){
+					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"color",$(this).data("color"))
+					$(this).parents(".popup").siblings(".label").css("background",$(this).data("color"))
+				})
+
+				$(".popup.shadow > div > div").click(function(){
+					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"text-shadow", $(this).data("color") == "none" ? "none" : "0.05em 0.05em " + ($("#green-screen").prop('checked') ? " " : "0.2em ") + $(this).data("color"))
+					$(this).parents(".popup").siblings(".label").css("background",$(this).data("color"))
+				})
+
+				$(".popup.background > div > div").click(function(){
+					$(this).parents(".popup").find(".active").removeClass("active")
+					$(this).addClass("active")
+					var color = $(this).data("color") == "none" ? "none" : convertHex($(this).data("color") + ($(this).parents(".popup").find(".semitransparent .mdl-checkbox__input").prop('checked') ? "80" : "FF"))
+					var localSelector = selector + elementToClass[$(this).parents(".options").data("for")]
+					if ($(this).parents(".popup").find(".full-width .mdl-checkbox__input").prop('checked')) {
+						updateCSS(localSelector + " .bgw","background","none")
+					} else {
+						updateCSS(localSelector,"background","none")
+						localSelector += " .bgw"
+					}
+					updateCSS(localSelector,"background", color)
+					$(this).parents(".popup").siblings(".label").css("background",color)
+				})
+
+				$(".mdl-checkbox__input").click(function(){
+					$(this).parents(".popup").find(".active").click()
+				})
+
+				$(".smaller, .larger", ".font-size-changer").click(function(){
+					var fontSize = $(this).siblings(".value")
+					var value = fontSize.data("value")
+					if (this.className == "smaller" && value > fontSize.data("min")) {
+						value = value - 0.25
+					} else if (this.className == "larger" && value < fontSize.data("max")) {
+						value = value + 0.25
+					}
+					fontSize.data("value", value).text(value+"vh")
+					updateCSS(selector + elementToClass[$(this).parents(".options").data("for")],"font-size", value+"vh")
+				})
+
+				$(document).bind('click', function(e) {
+					if (!$(e.target).parents(".chooser").length) $(".popup").hide()
+				})
+
+				$(".label").click(function(){
+					var popup = $(this).siblings()
+					popup.toggle()
+					$(".popup").not(popup).hide()
+				})
+
+				$("#copopup-close").click(function() {
+					$(".copopup").hide()
+				})
+
+				$("#copy-css").click(function() {
+					var cssString = ""
+					$(styleSheet).each(function (index) {
+						cssString += this.cssText + "\n"
+					})
+					copopup("60vh", "60vh", "Custom CSS", cssString, true)
+				})
+
+				$("#copy-url").click(function() {
+					localIP = {{.LocalIP}}
+					copopup("40vh", "20vh", "IP Address", 'http://'+localIP+':42424/obs', true)
+				})
+
+				$("#help-btn").click(function() {
+					var content = `
+<p>With Shabad OS, it's possible to use multiple computers to run the projector and livestream broadcast even though only one person needs to control the active line. All connected devices are automatically synced.</p>
+
+<p>This tutorial will explain how to use the Live Caption Tool, the open broadcaster software (OBS), troubleshoot, and contact support services for personalized help.</p>
+
+<p>How to use the Live Caption Tool in Shabad OS:</p>
+
+<ol>
+	<li>Begin in the Scene panel by choosing a layout for visible sources.</li>
+	<li>Use the Margin, Side Padding, Vertical Offset, and Word Width sliders to set a safe buffer between the screen edge and the sources. This helps with some models of televisions that cut off at the edges. (Aim for 3-6% or 3-6vh on all sides to be safe).</li>
+	<li>In the Sources panel, choose what you want to display.</li>
+	<li>For each visible source, there are C (color), S (shadow), B (background), and font-size options.</li>
+	<li>Note: Color options also include a custom color choice for the font.</li>
+	<li>Note: Background options also include semitransparency and extending the background edge from words to margins.</li>
+	<li>Once finished, update OBS with the new CSS, and restart the OBS browser. (Explained in the next section).</li>
+	<li>Note: It is helpful to activate a new line in Shabad OS to see all changes.</li>
+	<li>Note: You may have to manually copy and paste the URL and CSS in the next steps. (Use ctrl+a and ctrl+c on the text area to copy the URL and CSS).</li>
+</ol>
+
+<p>How to use the open broadcaster software (OBS):</p>
+
+<ol>
+	<li>Download and install the latest OBS Studio. (Included with the Quickstart Kit). If you already have OBS Studio, skip to step 5.</li>
+	<li>Keep the default options during install. (Make sure the "Browser Source" plugin is checked when choosing components).</li>
+	<li>When finished, launch OBS Studio.</li>
+	<li>On first launch: Accept the license and auto-configuration wizard.</li>
+	<li>In the Sources panel: Add > BrowserSource.</li>
+	<li>Create new BrowserSource and click OK.</li>
+	<li>In Properties for BrowserSource, enter the URL and CSS from the Live Caption Tool in Shabad OS. (You can access the properties in OBS by double-clicking the BrowserSource in the Sources panel).</li>
+	<li>Set the width and height to match your video source.</li>
+	<li>Once you've filled the URL, Width, Height, and CSS with the appropriate values, click OK.</li>
+	<li>Make sure the BrowserSource is above all other sources by right clicking it > Order > Move to Top. (Otherwise it will be covered by other OBS sources).</li>
+	<li>Note: There must be an active line on the display/projector for anything to show up on OBS. You will not see the placeholder words shown in the Live Caption Tool preview.</li>
+</ol>
+
+<p>Troubleshooting:</p>
+
+<ul>
+	<li>(If you cannot copy the URL and CSS in the Live Caption Tool) Highlight all the text with the ctrl+a hotkey, then copy it with the ctrl+c hotkey.</li>
+	<li>(If your network is improperly set up and showing the wrong IP Address (i.e. 169.254.X.X)) Use the built-in Windows method -- Open the start menu and type 'cmd' to open a command prompt. Then enter 'ipconfig' to view your network interfaces. Use the appropriate address based on what you're connecting to your router with (WiFi or Ethernet).</li>
+	<li>(If you're experiencing any other problems) Please contact support through the various methods listed below.</li>
+</ul>
+
+<p>Please contact support if needed:</p>
+<ul>
+	<li>WhatsApp +1 (516) 619-6059</li>
+	<li>shabados.com@gmail.com</li>
+	<li><a href="https://github.com/ShabadOS/core/issues/new">GitHub</a> (Open an issue)</li>
+</ul>
+`
+					copopup("60vh", "50vh", "Help", content)
+				})
+
+
+				$(function () {
+					$("input:checkbox").click()
+					$("#gurbani-larivaar").click()
+					$("#punjabi-translation").click()
+					$("#english-transliteration").click()
+					$(".color .white").click()
+					$(".gurbani .color .yellow").click()
+					$(".background .indigo").click()
+					$(".shadow .black").click()
+					$("#layout-bottom").click()
+					$(".font-size-changer .value").data("value", "4.75").text("9.25vh")
+					$(".gurbani .font-size-changer .value").data("value", "9.25").text("9.25vh")
+					$(".font-size-changer .smaller").click()
+				});
+			})
+
+			function iFrameResize() {
+				var w = $('div.preview').width();
+				var h = $('div.preview').height();
+				// 16/9 = 1.777 recurring
+				if (w/h >= 1.7777777) {
+					//element is too wide to fit preview, size preview to max-height and trim width
+					w = h * 16 / 9;
+				} else {
+					//opposite logic
+					h = w / 16 * 9;
+				}
+                $('div.preview > iframe').height(h);
+                $('div.preview > iframe').width(w);
+			}
+			$(document).ready(iFrameResize);
+			$(window).resize(iFrameResize);
+		</script>
+    </head>
+<html>
+	<body class="liveCaption {{.Theme}}">
+		{{template "dragBorders"}}
+		{{template "titlebarCloseable" .}}
+		<div class="titlebaroffsetissue"></div>
+		<div class="preview">
+      		<iframe src="obs" width="1280" height="720" class="iframe"></iframe>
+		</div>
+		<div class="settings">
+			<div class="c1">
+				<p>Scene</p>
+				<div>
+					<p style="margin-top: .75em;">Layout</p>
+					<div class="layout-radios">
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-top">
+						  <input class="mdl-radio__button" id="layout-top" name="flash" type="radio" value="auto" data-justify-content="flex-start">
+						  <span class="mdl-radio__label">Top</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-bottom">
+						  <input class="mdl-radio__button" id="layout-bottom" name="flash" type="radio" value="auto" data-justify-content="flex-end">
+						  <span class="mdl-radio__label">Bottom</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-center">
+						  <input class="mdl-radio__button" id="layout-center" name="flash" type="radio" value="auto" data-justify-content="center">
+						  <span class="mdl-radio__label">Center</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-spaced-1">
+						  <input class="mdl-radio__button" id="layout-spaced-1" name="flash" type="radio" value="auto" data-justify-content="space-between">
+						  <span class="mdl-radio__label">Spaced 1</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="layout-spaced-2">
+						  <input class="mdl-radio__button" id="layout-spaced-2" name="flash" type="radio" value="auto" data-justify-content="space-around">
+						  <span class="mdl-radio__label">Spaced 2</span>
+						</label>
+					</div>
+        	<p style="margin-top: .75em;">Margin<span id="range-label-margin"> (0vh)</span></p>
+        	<p style="width:100%; ">
+            	<input id="margin" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="0" step="1" data-css-selector="body.presentation .line > div" data-css-property="padding" data-css-value="Xvh">
+        	</p>
+        	<p style="margin-top: .75em;">Side Padding<span id="range-label-padding"> (0 0vh)</span></p>
+        	<p style="width:100%; ">
+            	<input id="padding" class="mdl-slider mdl-js-slider" type="range" min="0" max="20" value="0" step="1" data-css-selector="body.presentation .line > div > div" data-css-property="padding" data-css-value="0 Xvh">
+        	</p>
+        	<p style="margin-top: .75em;">Vertical Offset<span id="range-label-offset"> (0vh)</span></p>
+        	<p style="width:100%; ">
+            	<input id="offset" class="mdl-slider mdl-js-slider" type="range" min="-20" max="20" value="0" step="1" data-css-selector="body.presentation .line > div" data-css-property="top" data-css-value="Xvh">
+        	</p>
+        	<p style="margin-top: .75em;">Word Width<span id="range-label-width"> (100%)</p>
+        	<p style="width:100%; ">
+            	<input id="width" class="mdl-slider mdl-js-slider" type="range" min="50" max="100" value="100" step="1" data-css-selector="body.presentation .line > div" data-css-property="width" data-css-value="X%">
+        	</p>
+        	<!-- <p style="font-size: 0.85em; margin-top: .75em;">The following setting is for broadcasting programs that lack support for transparent backgrounds. Modern broadcasting programs, including OBS, support transparency. Please see the tutorial for more information.</p>
+    			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="green-screen">
+            	<input type="checkbox" id="green-screen" class="mdl-switch__input">
+            	<span class="mdl-switch__label">Green Screen</span>
+        	</label> -->
+				</div>
+			</div>
+			<div class="c2">
+				<p>Sources</p>
+				<div>
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="gurbani-larivaar">
+						<input type="checkbox" id="gurbani-larivaar" class="mdl-switch__input">
+						<div id="font-color" class="chooser"></div>
+						<span class="mdl-switch__label">Gurbani (Larivaar)</span>
+					</label>
+					<div class="options gurbani gurbani-larivaar" data-for="gurbani-larivaar">
+						{{template "obsOptions"}}
+					</div>
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="gurbani-padbandh">
+						<input type="checkbox" id="gurbani-padbandh" class="mdl-switch__input">
+						<div id="font-color" class="chooser"></div>
+						<span class="mdl-switch__label">Gurbani (Padbandh)</span>
+					</label>
+					<div class="options gurbani gurbani-padbandh" data-for="gurbani-padbandh">
+						{{template "obsOptions"}}
+					</div>
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-translation">
+						<input type="checkbox" id="english-translation" class="mdl-switch__input">
+						<span class="mdl-switch__label">English Translation</span>
+					</label>
+					<div class="options english-translation" data-for="english-translation">
+						{{template "obsOptions"}}
+					</div>
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="punjabi-translation">
+						<input type="checkbox" id="punjabi-translation" class="mdl-switch__input">
+						<span class="mdl-switch__label">Punjabi Translation</span>
+					</label>
+					<div class="options punjabi-translation" data-for="punjabi-translation">
+						{{template "obsOptions"}}
+					</div>
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="english-transliteration">
+						<input type="checkbox" id="english-transliteration" class="mdl-switch__input">
+						<span class="mdl-switch__label">English Transliteration</span>
+					</label>
+					<div class="options english-transliteration" data-for="english-transliteration">
+						{{template "obsOptions"}}
+					</div>
+				</div>
+			</div>
+			<div class="c3">
+				<p>Controls</p>
+				<div>
+          <button id="copy-url" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            Copy URL
+          </button>
+          <button id="copy-css" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            Copy CSS
+          </button>
+          <!-- <button id="save-default" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            Save Default
+          </button> -->
+          <button id="help-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            Help
+          </button>
+          <!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            Reset
+          </button> -->
+				</div>
+			</div>
+			<div class="copopup">
+				<div class="close"><i id="copopup-close" class="fa fa-times fa-fw hoverable" aria-hidden="true" data-hover="Close"></i></div>
+				<p>Copied!</p>
+				<textarea id="textarea-copyable"></textarea>
+				<div id="textarea-noncopy"></div>
+			</div>
+		</div>
+	</body>
+</html>
+{{end}}
