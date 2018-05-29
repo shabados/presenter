@@ -1598,6 +1598,12 @@ body.color-scheme-night.presentation iframe {
   background: #212121;
   border-color: #212121;
 }
+body.color-scheme-night.presentation.larivaar-gurbani-assist .active .odd {
+  color: #FFCDD2;
+}
+body.color-scheme-night.presentation.larivaar-gurbani-assist .odd {
+  color: #e6b9bd;
+}
 body.color-scheme-night.liveCaption .settings {
   background: #424242;
 }
@@ -1853,6 +1859,12 @@ body.color-scheme-day.presentation iframe {
   background: #F5F5F5;
   border-color: #F5F5F5;
 }
+body.color-scheme-day.presentation.larivaar-gurbani-assist .active .odd {
+  color: #B71C1C;
+}
+body.color-scheme-day.presentation.larivaar-gurbani-assist .odd {
+  color: #c54949;
+}
 body.color-scheme-day.liveCaption .settings {
   background: #E0E0E0;
 }
@@ -2107,6 +2119,12 @@ body.color-scheme-philosophiae.presentation .vishraamLight {
 body.color-scheme-philosophiae.presentation iframe {
   background: #1d1b18;
   border-color: #1d1b18;
+}
+body.color-scheme-philosophiae.presentation.larivaar-gurbani-assist .active .odd {
+  color: #000000;
+}
+body.color-scheme-philosophiae.presentation.larivaar-gurbani-assist .odd {
+  color: black;
 }
 body.color-scheme-philosophiae.liveCaption .settings {
   background: #5e5c55;
@@ -2372,6 +2390,12 @@ body.color-scheme-white-on-blue.presentation iframe {
   background: #263238;
   border-color: #263238;
 }
+body.color-scheme-white-on-blue.presentation.larivaar-gurbani-assist .active .odd {
+  color: #BDBDBD;
+}
+body.color-scheme-white-on-blue.presentation.larivaar-gurbani-assist .odd {
+  color: #a1a1a1;
+}
 body.color-scheme-white-on-blue.liveCaption .settings {
   background: #455A64;
 }
@@ -2627,6 +2651,12 @@ body.color-scheme-yellow-on-blue.presentation iframe {
   background: #263238;
   border-color: #263238;
 }
+body.color-scheme-yellow-on-blue.presentation.larivaar-gurbani-assist .active .odd {
+  color: #FFAB40;
+}
+body.color-scheme-yellow-on-blue.presentation.larivaar-gurbani-assist .odd {
+  color: #bf8030;
+}
 body.color-scheme-yellow-on-blue.liveCaption .settings {
   background: #455A64;
 }
@@ -2881,6 +2911,12 @@ body.color-scheme-pastel-on-dark.presentation .vishraamLight {
 body.color-scheme-pastel-on-dark.presentation iframe {
   background: #263238;
   border-color: #263238;
+}
+body.color-scheme-pastel-on-dark.presentation.larivaar-gurbani-assist .active .odd {
+  color: #A7FFEB;
+}
+body.color-scheme-pastel-on-dark.presentation.larivaar-gurbani-assist .odd {
+  color: #8ed9c8;
 }
 body.color-scheme-pastel-on-dark.liveCaption .settings {
   background: #455A64;
