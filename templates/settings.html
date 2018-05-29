@@ -23,6 +23,7 @@
                             className = settingName
                             if (settingName != "split-gurbani-lines") className = "hide-"+settingName
                             if (settingName == "larivaar-gurbani") className = "hide-gurbani-spaces"
+                            if (settingName == "larivaar-gurbani-assist") className = "larivaar-gurbani-assist"
                             window.parent.$('body.presentation').toggleClass(className)
                             break
                         case "range":
@@ -104,6 +105,10 @@
 		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="larivaar-gurbani">
             <input type="checkbox" id="larivaar-gurbani" class="mdl-switch__input">
             <span class="mdl-switch__label">Larivaar Gurbani</span>
+        </label>
+		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="larivaar-gurbani-assist">
+            <input type="checkbox" id="larivaar-gurbani-assist" class="mdl-switch__input">
+            <span class="mdl-switch__label">Larivaar Gurbani Assist</span>
         </label>
 		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="split-gurbani-lines">
             <input type="checkbox" id="split-gurbani-lines" class="mdl-switch__input">
