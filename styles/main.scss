@@ -1,7 +1,19 @@
 @font-face {
   font-family: 'Gurbani';
-  src: url('../includes/GurbaniAkhar-Heavy.ttf') format("truetype");
+  src: url('../includes/OpenGurbaniAkhar-Regular.otf') format("opentype");
   font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gurbani';
+  src: url('../includes/OpenGurbaniAkhar-Bold.otf') format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gurbani';
+  src: url('../includes/OpenGurbaniAkhar-Black.otf') format("opentype");
+  font-weight: 900;
   font-style: normal;
 }
 
@@ -818,6 +830,7 @@ body {
 
 .gurmukhifont {
   font-family: "Gurbani", "Punjabi", serif;
+  font-weight: 600;
   font-size: 1.125em;
   line-height: 1.5em;
   > div {
@@ -880,9 +893,14 @@ body.presentation {
       flex-direction: column;
     }
   }
+  .gurmukhifont, .translation, .darpan, .transliteration {
+    font-weight: 900;
+    text-shadow: 0px 0px 0.1em white;
+  }
   .gurmukhifont {
+    font-family: "Gurbani";
     font-size: 8vh;
-    /* look out for line issues, notible characters include; chacha */
+    /* look out for line-spacing issues, notable characters include: <>, c */
     line-height: 10.525vh;
   }
   .translation {
