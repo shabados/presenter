@@ -30,7 +30,10 @@
 <body class="menu {{.Theme}}">
     {{template "titlebar" .}}
     <div class="loader"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
-    <div class="scrollBetweenBars menu"></div>
+    <div class="scrollBetweenBars">
+        <div class="info" style="padding: 0 1em .25em; text-align: center">Other devices on the same network can go to "{{.LocalIP}}:42424" to control this server.</div>
+        <div class="menu"></div>
+    </div>
     {{template "navibar"}}
     </body>
 </html>
