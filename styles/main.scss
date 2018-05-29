@@ -1732,6 +1732,9 @@ body.color-scheme-day {
       .vishraamLight {
         color: $presentation-vishraamLight;
       }
+      .gurmukhifont, .translation, .transliteration, .darpan {
+        text-shadow: 0px 0px 0.1em $bg-presentation;
+      }
 
       iframe {
         background: $bg-dark; // one level darker than body background
