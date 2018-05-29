@@ -383,7 +383,13 @@ func updateShabad(id string) {
 		for key := range gurmukhiArray {
 			gak := gurmukhiArray[key] // what we will replace the array element with
 			str := gak                //element as string
+			fmt.Println(key)
 			end := str[len(str)-1:]   // last character of element
+			if (key % 2 == 1) {
+				str = `<span class="odd">` + str
+			} else {
+				str = `<span class="even">` + str
+			}
 			// this can be improved to break by heavy, then by medium, then by light.
 			// currently this logic only breaks on heavies
 			switch end {
@@ -396,18 +402,20 @@ func updateShabad(id string) {
 				} else if end == "." {
 					gak += `Light`
 				}
-				gak += `">` + str[0:len(str)-1] + `<div class="vishraamChar">` + end + `</div></div>`
+				gak += `">` + str[0:len(str)-1] + `</span><div class="vishraamChar">` + end + `</div></div>`
 				if end == ";" { // fix for heavy vishraams to break on long lines
 					gak += `</div><div class="bgw">`
 				}
 			case "]":
 				// check for following, if exist, include it's work
 				if key < len(gurmukhiArray)-1 {
-					gak = str
+					gak = str + `</span>`
 					//gurmukhiArray[key+1] += `</div></div><div><div>`
 				} else {
-					gak = str + `</div></div><div><div class="bgw">` // after first closing div we had <div class="nbsp">&nbsp;</div>
+					gak = str + `</span></div></div><div><div class="bgw">` // after first closing div we had <div class="nbsp">&nbsp;</div>
 				}
+			default:
+				gak = str + `</span>`
 			}
 			gurmukhiArray[key] = gak
 		}
