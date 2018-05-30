@@ -39,6 +39,13 @@
 }
 
 @font-face {
+  font-family: 'Code Font';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../includes/RobotoMono-Regular.ttf') format("truetype");
+}
+
+@font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
@@ -819,7 +826,7 @@ body {
 /*body.presentationSingle .translation,*/
 
 .codefont {
-  font-family: "Input", monospace;
+  font-family: "Code Font", monospace;
   text-transform: uppercase;
 }
 
