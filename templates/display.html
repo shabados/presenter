@@ -4,25 +4,12 @@
 	<head>
 		{{template "header"}}
 		<script>
-			var firstTimeHidingTitleBar = true;
 			function updateShabad() {
 				$.ajax({
 					url : server+"/getJSON",
 					async: true,
 					dataType: "json",
 					success : function (data) {
-						if (firstTimeHidingTitleBar) {
-							$("#titlebar").hover(function(e) {
-								$(this).children("div").stop().slideDown('fast');
-								event.preventDefault();
-							});
-							$("#titlebar").mouseleave(function(e) {
-								$(this).children("div").slideUp('slow');
-								event.preventDefault();
-							});
-							$("#titlebar").children("div").slideUp('slow');
-							firstTimeHidingTitleBar = false;
-						}
 						var body = "<div class='shabad' data-shabadid="+data.shabadID+">";
 						$.each(data.shabad, function(key,value){
 							body = body+"<div id="+value.PK+" class='line'><div><div class=\"gurmukhifont\">"+value.gurmukhi+"</div>";
@@ -156,6 +143,8 @@
 		             $('div.hideCursor').css({
 		                cursor: 'default'
 		            });
+					$('div#hiddenIframePlusBox').show();
+					$('div#titlebar').show();
 		            fadeInBuffer = false;
 		        }
 
@@ -163,6 +152,8 @@
 		             $('div.hideCursor').css({
 		                cursor: 'none'
 		            });
+					$('div#hiddenIframePlusBox').hide();
+					$('div#titlebar').hide();
 		         
 		            fadeInBuffer = true;
 		        }, 2000)
@@ -170,6 +161,8 @@
 		    $('div.hideCursor').css({
                 cursor: 'default'
             });
+			$('div#hiddenIframePlusBox').show();
+			$('div#titlebar').show();
 
 		</script>
 		</head>
