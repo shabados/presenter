@@ -1,14 +1,26 @@
 @font-face {
   font-family: "Gurbani";
-  src: url("../includes/GurbaniAkhar-Heavy.ttf") format("truetype");
+  src: url("../includes/OpenGurbaniAkhar-Regular.otf") format("opentype");
   font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gurbani";
+  src: url("../includes/OpenGurbaniAkhar-Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gurbani";
+  src: url("../includes/OpenGurbaniAkhar-Black.otf") format("opentype");
+  font-weight: 900;
   font-style: normal;
 }
 @font-face {
   font-family: "Punjabi";
   font-style: normal;
   font-weight: normal;
-  src: url("../includes/NotoSansGurmukhi-Regular.ttf") format("truetype");
+  src: url("../includes/OpenAnmolUni-Bold.otf") format("opentype");
 }
 @font-face {
   font-family: "English Translation";
@@ -21,6 +33,12 @@
   font-style: normal;
   font-weight: normal;
   src: url("../includes/NotoSans-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Code Font";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../includes/RobotoMono-Regular.ttf") format("truetype");
 }
 @font-face {
   font-family: "Material Icons";
@@ -522,6 +540,10 @@ Maths done:
   * * New Version will use Orange, Blue, and Light Green for colors.
 
 */
+svg.eof {
+  margin-top: 1.25em;
+}
+
 body.presentation .vishraamHeavy.noColorTog, body.presentation .vishraamMedium.noColorTog, body.presentation .vishraamLight.noColorTog {
   color: inherit;
 }
@@ -752,7 +774,7 @@ body.liveCaption .copopup #textarea-noncopy p:first-child {
 
 /*body.presentationSingle .translation,*/
 .codefont {
-  font-family: "Input", monospace;
+  font-family: "Code Font", monospace;
   text-transform: uppercase;
 }
 
@@ -763,6 +785,7 @@ body.liveCaption .copopup #textarea-noncopy p:first-child {
 
 .gurmukhifont {
   font-family: "Gurbani", "Punjabi", serif;
+  font-weight: 600;
   font-size: 1.125em;
   line-height: 1.5em;
 }
@@ -824,9 +847,14 @@ body.presentation .line > div {
   justify-content: space-between;
   flex-direction: column;
 }
+body.presentation .gurmukhifont, body.presentation .translation, body.presentation .darpan, body.presentation .transliteration {
+  font-weight: 900;
+  text-shadow: 0px 0px 0.1em white;
+}
 body.presentation .gurmukhifont {
+  font-family: "Gurbani";
   font-size: 8vh;
-  /* look out for line issues, notible characters include; chacha */
+  /* look out for line-spacing issues, notable characters include: <>, c */
   line-height: 10.525vh;
 }
 body.presentation .translation {
@@ -1594,6 +1622,9 @@ body.color-scheme-night.presentation .vishraamMedium {
 body.color-scheme-night.presentation .vishraamLight {
   color: #c6d5b4;
 }
+body.color-scheme-night.presentation .gurmukhifont, body.color-scheme-night.presentation .translation, body.color-scheme-night.presentation .transliteration, body.color-scheme-night.presentation .darpan {
+  text-shadow: 0px 0px 0.1em #000000;
+}
 body.color-scheme-night.presentation iframe {
   background: #212121;
   border-color: #212121;
@@ -1648,6 +1679,12 @@ body.color-scheme-night.liveCaption .c3 .mdl-button:hover {
 }
 body.color-scheme-night.liveCaption .c3 .mdl-ripple {
   background-color: white;
+}
+body.color-scheme-night svg.eof {
+  opacity: 0.35;
+}
+body.color-scheme-night svg.eof g > path {
+  fill: #ffffff;
 }
 
 body.color-scheme-night #iframesHuMsg {
@@ -1855,6 +1892,9 @@ body.color-scheme-day.presentation .vishraamMedium {
 body.color-scheme-day.presentation .vishraamLight {
   color: #5c874b;
 }
+body.color-scheme-day.presentation .gurmukhifont, body.color-scheme-day.presentation .translation, body.color-scheme-day.presentation .transliteration, body.color-scheme-day.presentation .darpan {
+  text-shadow: 0px 0px 0.1em #FFFFFF;
+}
 body.color-scheme-day.presentation iframe {
   background: #F5F5F5;
   border-color: #F5F5F5;
@@ -1909,6 +1949,12 @@ body.color-scheme-day.liveCaption .c3 .mdl-button:hover {
 }
 body.color-scheme-day.liveCaption .c3 .mdl-ripple {
   background-color: black;
+}
+body.color-scheme-day svg.eof {
+  opacity: 0.35;
+}
+body.color-scheme-day svg.eof g > path {
+  fill: #000000;
 }
 
 body.color-scheme-day #iframesHuMsg {
@@ -2116,6 +2162,9 @@ body.color-scheme-philosophiae.presentation .vishraamMedium {
 body.color-scheme-philosophiae.presentation .vishraamLight {
   color: #606060;
 }
+body.color-scheme-philosophiae.presentation .gurmukhifont, body.color-scheme-philosophiae.presentation .translation, body.color-scheme-philosophiae.presentation .transliteration, body.color-scheme-philosophiae.presentation .darpan {
+  text-shadow: 0px 0px 0.1em #DCD8D0;
+}
 body.color-scheme-philosophiae.presentation iframe {
   background: #1d1b18;
   border-color: #1d1b18;
@@ -2170,6 +2219,12 @@ body.color-scheme-philosophiae.liveCaption .c3 .mdl-button:hover {
 }
 body.color-scheme-philosophiae.liveCaption .c3 .mdl-ripple {
   background-color: white;
+}
+body.color-scheme-philosophiae svg.eof {
+  opacity: 0.35;
+}
+body.color-scheme-philosophiae svg.eof g > path {
+  fill: #800000;
 }
 
 body.color-scheme-philosophiae #iframesHuMsg {
@@ -2386,6 +2441,9 @@ body.color-scheme-white-on-blue.presentation .vishraamMedium {
 body.color-scheme-white-on-blue.presentation .vishraamLight {
   color: #af7db8;
 }
+body.color-scheme-white-on-blue.presentation .gurmukhifont, body.color-scheme-white-on-blue.presentation .translation, body.color-scheme-white-on-blue.presentation .transliteration, body.color-scheme-white-on-blue.presentation .darpan {
+  text-shadow: 0px 0px 0.1em #1A237E;
+}
 body.color-scheme-white-on-blue.presentation iframe {
   background: #263238;
   border-color: #263238;
@@ -2440,6 +2498,12 @@ body.color-scheme-white-on-blue.liveCaption .c3 .mdl-button:hover {
 }
 body.color-scheme-white-on-blue.liveCaption .c3 .mdl-ripple {
   background-color: white;
+}
+body.color-scheme-white-on-blue svg.eof {
+  opacity: 0.35;
+}
+body.color-scheme-white-on-blue svg.eof g > path {
+  fill: #FFFFFF;
 }
 
 body.color-scheme-white-on-blue #iframesHuMsg {
@@ -2647,6 +2711,9 @@ body.color-scheme-yellow-on-blue.presentation .vishraamMedium {
 body.color-scheme-yellow-on-blue.presentation .vishraamLight {
   color: #3a9ca9;
 }
+body.color-scheme-yellow-on-blue.presentation .gurmukhifont, body.color-scheme-yellow-on-blue.presentation .translation, body.color-scheme-yellow-on-blue.presentation .transliteration, body.color-scheme-yellow-on-blue.presentation .darpan {
+  text-shadow: 0px 0px 0.1em #1A237E;
+}
 body.color-scheme-yellow-on-blue.presentation iframe {
   background: #263238;
   border-color: #263238;
@@ -2701,6 +2768,12 @@ body.color-scheme-yellow-on-blue.liveCaption .c3 .mdl-button:hover {
 }
 body.color-scheme-yellow-on-blue.liveCaption .c3 .mdl-ripple {
   background-color: white;
+}
+body.color-scheme-yellow-on-blue svg.eof {
+  opacity: 0.35;
+}
+body.color-scheme-yellow-on-blue svg.eof g > path {
+  fill: #FFEA00;
 }
 
 body.color-scheme-yellow-on-blue #iframesHuMsg {
@@ -2908,6 +2981,9 @@ body.color-scheme-pastel-on-dark.presentation .vishraamMedium {
 body.color-scheme-pastel-on-dark.presentation .vishraamLight {
   color: #b2a7c6;
 }
+body.color-scheme-pastel-on-dark.presentation .gurmukhifont, body.color-scheme-pastel-on-dark.presentation .translation, body.color-scheme-pastel-on-dark.presentation .transliteration, body.color-scheme-pastel-on-dark.presentation .darpan {
+  text-shadow: 0px 0px 0.1em #003032;
+}
 body.color-scheme-pastel-on-dark.presentation iframe {
   background: #263238;
   border-color: #263238;
@@ -2962,6 +3038,12 @@ body.color-scheme-pastel-on-dark.liveCaption .c3 .mdl-button:hover {
 }
 body.color-scheme-pastel-on-dark.liveCaption .c3 .mdl-ripple {
   background-color: white;
+}
+body.color-scheme-pastel-on-dark svg.eof {
+  opacity: 0.35;
+}
+body.color-scheme-pastel-on-dark svg.eof g > path {
+  fill: #FFFF8D;
 }
 
 body.color-scheme-pastel-on-dark #iframesHuMsg {
@@ -3124,7 +3206,6 @@ body.color-scheme-pastel-on-dark .loader {
   }
 }
 /* used for ruling */
-/**/
 body.presentation .gurmukhifont {
   margin-top: 0.5vh;
 }
@@ -3184,7 +3265,6 @@ body.presentation div.hideCursor div:nth-child(12n+11) {
   border-bottom-color: rgba(255, 255, 255, 0.25);
 }
 
-/**/
 /* 2017 11 14 tested font at large sizes
 	Either you can translate darpan .2 or .25 down with negative bottom margin for compensation (at size 6)
 	Or we can check these new numbers out:
@@ -3212,9 +3292,30 @@ body.presentation div.hideCursor div:nth-child(12n+11) {
 		8
 		-.45 ? -.25?
 */
+/*
+
+fs-6 2018
+font-size / line-height
+margin-top
+
+gurmukhifont
+10/12
+
+translation
+5.75/6
+0.5
+
+darpan
+5.4/6.05
+1.5
+
+translit
+4.75 / 6
+-1.2
+
+*/
 /* settings */
 body.presentation {
-  /* ~324 lines generated with python script*/
   /* layout */
   /* hide or show different lines */
 }
@@ -3222,304 +3323,304 @@ body.presentation div.hideCursor div {
   display: none;
 }
 body.presentation.fs-1 .gurmukhifont {
-  font-size: 1.6666666667vh;
-  line-height: 2vh;
+  font-size: 5.8333333333vh;
+  line-height: 7vh;
 }
 body.presentation.fs-1 .translation {
-  font-size: 0.9vh;
-  line-height: 1vh;
-  margin-top: 0.0833333333vh;
+  font-size: 3.3541666667vh;
+  line-height: 3.5vh;
+  margin-top: 0.2916666667vh;
 }
 body.presentation.fs-1 .darpan {
-  font-size: 0.9vh;
-  line-height: 1vh;
-  margin-top: 0.1666666667vh;
+  font-size: 3.15vh;
+  line-height: 3.5vh;
+  margin-top: 0.875vh;
 }
 body.presentation.fs-1 .transliteration {
-  font-size: 0.9vh;
-  line-height: 1vh;
-  margin-top: -0.1666666667vh;
+  font-size: 2.7708333333vh;
+  line-height: 3.5vh;
+  margin-top: -0.7vh;
 }
 body.presentation.fs-1 .line {
-  min-height: 96.9583333333vh;
+  min-height: 92vh;
 }
 body.presentation.fs-1 .line > div {
-  margin-bottom: 1vh;
+  margin-bottom: 3.9375vh;
 }
 body.presentation.fs-2 .gurmukhifont {
-  font-size: 3.3333333333vh;
-  line-height: 4vh;
-}
-body.presentation.fs-2 .translation {
-  font-size: 1.8vh;
-  line-height: 2vh;
-  margin-top: 0.1666666667vh;
-}
-body.presentation.fs-2 .darpan {
-  font-size: 1.8vh;
-  line-height: 2vh;
-  margin-top: 0.3333333333vh;
-}
-body.presentation.fs-2 .transliteration {
-  font-size: 1.8vh;
-  line-height: 2vh;
-  margin-top: -0.3333333333vh;
-}
-body.presentation.fs-2 .line {
-  min-height: 94.9166666667vh;
-}
-body.presentation.fs-2 .line > div {
-  margin-bottom: 3vh;
-}
-body.presentation.fs-3 .gurmukhifont {
-  font-size: 5vh;
-  line-height: 6vh;
-}
-body.presentation.fs-3 .translation {
-  font-size: 2.7vh;
-  line-height: 3vh;
-  margin-top: 0.25vh;
-}
-body.presentation.fs-3 .darpan {
-  font-size: 2.7vh;
-  line-height: 3vh;
-  margin-top: 0.5vh;
-}
-body.presentation.fs-3 .transliteration {
-  font-size: 2.7vh;
-  line-height: 3vh;
-  margin-top: -0.5vh;
-}
-body.presentation.fs-3 .line {
-  min-height: 92.875vh;
-}
-body.presentation.fs-3 .line > div {
-  margin-bottom: 5vh;
-}
-body.presentation.fs-4 .gurmukhifont {
   font-size: 6.6666666667vh;
   line-height: 8vh;
 }
-body.presentation.fs-4 .translation {
-  font-size: 3.6vh;
+body.presentation.fs-2 .translation {
+  font-size: 3.8333333333vh;
   line-height: 4vh;
   margin-top: 0.3333333333vh;
 }
-body.presentation.fs-4 .darpan {
+body.presentation.fs-2 .darpan {
   font-size: 3.6vh;
   line-height: 4vh;
-  margin-top: 0.6666666667vh;
+  margin-top: 1vh;
 }
-body.presentation.fs-4 .transliteration {
-  font-size: 3.6vh;
+body.presentation.fs-2 .transliteration {
+  font-size: 3.1666666667vh;
   line-height: 4vh;
-  margin-top: -0.6666666667vh;
+  margin-top: -0.8vh;
 }
-body.presentation.fs-4 .line {
-  min-height: 90.8333333333vh;
+body.presentation.fs-2 .line {
+  min-height: 91vh;
 }
-body.presentation.fs-4 .line > div {
-  margin-bottom: 7vh;
+body.presentation.fs-2 .line > div {
+  margin-bottom: 4.5vh;
 }
-body.presentation.fs-5 .gurmukhifont {
+body.presentation.fs-3 .gurmukhifont {
+  font-size: 7.5vh;
+  line-height: 9vh;
+}
+body.presentation.fs-3 .translation {
+  font-size: 4.3125vh;
+  line-height: 4.5vh;
+  margin-top: 0.375vh;
+}
+body.presentation.fs-3 .darpan {
+  font-size: 4.05vh;
+  line-height: 4.5vh;
+  margin-top: 1.125vh;
+}
+body.presentation.fs-3 .transliteration {
+  font-size: 3.5625vh;
+  line-height: 4.5vh;
+  margin-top: -0.9vh;
+}
+body.presentation.fs-3 .line {
+  min-height: 90vh;
+}
+body.presentation.fs-3 .line > div {
+  margin-bottom: 5.0625vh;
+}
+body.presentation.fs-4 .gurmukhifont {
   font-size: 8.3333333333vh;
   line-height: 10vh;
 }
-body.presentation.fs-5 .translation {
-  font-size: 4.5vh;
+body.presentation.fs-4 .translation {
+  font-size: 4.7916666667vh;
   line-height: 5vh;
   margin-top: 0.4166666667vh;
 }
-body.presentation.fs-5 .darpan {
+body.presentation.fs-4 .darpan {
   font-size: 4.5vh;
   line-height: 5vh;
-  margin-top: 0.8333333333vh;
+  margin-top: 1.25vh;
+}
+body.presentation.fs-4 .transliteration {
+  font-size: 3.9583333333vh;
+  line-height: 5vh;
+  margin-top: -1vh;
+}
+body.presentation.fs-4 .line {
+  min-height: 89vh;
+}
+body.presentation.fs-4 .line > div {
+  margin-bottom: 5.625vh;
+}
+body.presentation.fs-5 .gurmukhifont {
+  font-size: 9.1666666667vh;
+  line-height: 11vh;
+}
+body.presentation.fs-5 .translation {
+  font-size: 5.2708333333vh;
+  line-height: 5.5vh;
+  margin-top: 0.4583333333vh;
+}
+body.presentation.fs-5 .darpan {
+  font-size: 4.95vh;
+  line-height: 5.5vh;
+  margin-top: 1.375vh;
 }
 body.presentation.fs-5 .transliteration {
-  font-size: 4.5vh;
-  line-height: 5vh;
-  margin-top: -0.8333333333vh;
+  font-size: 4.3541666667vh;
+  line-height: 5.5vh;
+  margin-top: -1.1vh;
 }
 body.presentation.fs-5 .line {
-  min-height: 88.7916666667vh;
+  min-height: 88vh;
 }
 body.presentation.fs-5 .line > div {
-  margin-bottom: 9vh;
+  margin-bottom: 6.1875vh;
 }
 body.presentation.fs-6 .gurmukhifont {
   font-size: 10vh;
   line-height: 12vh;
 }
 body.presentation.fs-6 .translation {
-  font-size: 5.4vh;
+  font-size: 5.75vh;
   line-height: 6vh;
   margin-top: 0.5vh;
 }
 body.presentation.fs-6 .darpan {
   font-size: 5.4vh;
   line-height: 6vh;
-  margin-top: 1vh;
+  margin-top: 1.5vh;
 }
 body.presentation.fs-6 .transliteration {
-  font-size: 5.4vh;
+  font-size: 4.75vh;
   line-height: 6vh;
-  margin-top: -1vh;
+  margin-top: -1.2vh;
 }
 body.presentation.fs-6 .line {
-  min-height: 86.75vh;
+  min-height: 87vh;
 }
 body.presentation.fs-6 .line > div {
-  margin-bottom: 11vh;
+  margin-bottom: 6.75vh;
 }
 body.presentation.fs-7 .gurmukhifont {
+  font-size: 10.8333333333vh;
+  line-height: 13vh;
+}
+body.presentation.fs-7 .translation {
+  font-size: 6.2291666667vh;
+  line-height: 6.5vh;
+  margin-top: 0.5416666667vh;
+}
+body.presentation.fs-7 .darpan {
+  font-size: 5.85vh;
+  line-height: 6.5vh;
+  margin-top: 1.625vh;
+}
+body.presentation.fs-7 .transliteration {
+  font-size: 5.1458333333vh;
+  line-height: 6.5vh;
+  margin-top: -1.3vh;
+}
+body.presentation.fs-7 .line {
+  min-height: 86vh;
+}
+body.presentation.fs-7 .line > div {
+  margin-bottom: 7.3125vh;
+}
+body.presentation.fs-8 .gurmukhifont {
   font-size: 11.6666666667vh;
   line-height: 14vh;
 }
-body.presentation.fs-7 .translation {
-  font-size: 6.3vh;
+body.presentation.fs-8 .translation {
+  font-size: 6.7083333333vh;
   line-height: 7vh;
   margin-top: 0.5833333333vh;
 }
-body.presentation.fs-7 .darpan {
-  font-size: 6.3vh;
-  line-height: 7vh;
-  margin-top: 1.1666666667vh;
-}
-body.presentation.fs-7 .transliteration {
-  font-size: 6.3vh;
-  line-height: 7vh;
-  margin-top: -1.1666666667vh;
-}
-body.presentation.fs-7 .line {
-  min-height: 84.7083333333vh;
-}
-body.presentation.fs-7 .line > div {
-  margin-bottom: 13vh;
-}
-body.presentation.fs-8 .gurmukhifont {
-  font-size: 13.3333333333vh;
-  line-height: 16vh;
-}
-body.presentation.fs-8 .translation {
-  font-size: 7.2vh;
-  line-height: 8vh;
-  margin-top: 0.6666666667vh;
-}
 body.presentation.fs-8 .darpan {
-  font-size: 7.2vh;
-  line-height: 8vh;
-  margin-top: 1.3333333333vh;
+  font-size: 6.3vh;
+  line-height: 7vh;
+  margin-top: 1.75vh;
 }
 body.presentation.fs-8 .transliteration {
-  font-size: 7.2vh;
-  line-height: 8vh;
-  margin-top: -1.3333333333vh;
+  font-size: 5.5416666667vh;
+  line-height: 7vh;
+  margin-top: -1.4vh;
 }
 body.presentation.fs-8 .line {
-  min-height: 82.6666666667vh;
+  min-height: 85vh;
 }
 body.presentation.fs-8 .line > div {
-  margin-bottom: 15vh;
+  margin-bottom: 7.875vh;
 }
 body.presentation.fs-9 .gurmukhifont {
-  font-size: 15vh;
-  line-height: 18vh;
+  font-size: 12.5vh;
+  line-height: 15vh;
 }
 body.presentation.fs-9 .translation {
-  font-size: 8.1vh;
-  line-height: 9vh;
-  margin-top: 0.75vh;
+  font-size: 7.1875vh;
+  line-height: 7.5vh;
+  margin-top: 0.625vh;
 }
 body.presentation.fs-9 .darpan {
-  font-size: 8.1vh;
-  line-height: 9vh;
-  margin-top: 1.5vh;
+  font-size: 6.75vh;
+  line-height: 7.5vh;
+  margin-top: 1.875vh;
 }
 body.presentation.fs-9 .transliteration {
-  font-size: 8.1vh;
-  line-height: 9vh;
+  font-size: 5.9375vh;
+  line-height: 7.5vh;
   margin-top: -1.5vh;
 }
 body.presentation.fs-9 .line {
-  min-height: 80.625vh;
+  min-height: 84vh;
 }
 body.presentation.fs-9 .line > div {
-  margin-bottom: 17vh;
+  margin-bottom: 8.4375vh;
 }
 body.presentation.fs-10 .gurmukhifont {
-  font-size: 16.6666666667vh;
-  line-height: 20vh;
+  font-size: 13.3333333333vh;
+  line-height: 16vh;
 }
 body.presentation.fs-10 .translation {
-  font-size: 9vh;
-  line-height: 10vh;
-  margin-top: 0.8333333333vh;
+  font-size: 7.6666666667vh;
+  line-height: 8vh;
+  margin-top: 0.6666666667vh;
 }
 body.presentation.fs-10 .darpan {
-  font-size: 9vh;
-  line-height: 10vh;
-  margin-top: 1.6666666667vh;
-}
-body.presentation.fs-10 .transliteration {
-  font-size: 9vh;
-  line-height: 10vh;
-  margin-top: -1.6666666667vh;
-}
-body.presentation.fs-10 .line {
-  min-height: 78.5833333333vh;
-}
-body.presentation.fs-10 .line > div {
-  margin-bottom: 19vh;
-}
-body.presentation.fs-11 .gurmukhifont {
-  font-size: 18.3333333333vh;
-  line-height: 22vh;
-}
-body.presentation.fs-11 .translation {
-  font-size: 9.9vh;
-  line-height: 11vh;
-  margin-top: 0.9166666667vh;
-}
-body.presentation.fs-11 .darpan {
-  font-size: 9.9vh;
-  line-height: 11vh;
-  margin-top: 1.8333333333vh;
-}
-body.presentation.fs-11 .transliteration {
-  font-size: 9.9vh;
-  line-height: 11vh;
-  margin-top: -1.8333333333vh;
-}
-body.presentation.fs-11 .line {
-  min-height: 76.5416666667vh;
-}
-body.presentation.fs-11 .line > div {
-  margin-bottom: 21vh;
-}
-body.presentation.fs-12 .gurmukhifont {
-  font-size: 20vh;
-  line-height: 24vh;
-}
-body.presentation.fs-12 .translation {
-  font-size: 10.8vh;
-  line-height: 12vh;
-  margin-top: 1vh;
-}
-body.presentation.fs-12 .darpan {
-  font-size: 10.8vh;
-  line-height: 12vh;
+  font-size: 7.2vh;
+  line-height: 8vh;
   margin-top: 2vh;
 }
+body.presentation.fs-10 .transliteration {
+  font-size: 6.3333333333vh;
+  line-height: 8vh;
+  margin-top: -1.6vh;
+}
+body.presentation.fs-10 .line {
+  min-height: 83vh;
+}
+body.presentation.fs-10 .line > div {
+  margin-bottom: 9vh;
+}
+body.presentation.fs-11 .gurmukhifont {
+  font-size: 14.1666666667vh;
+  line-height: 17vh;
+}
+body.presentation.fs-11 .translation {
+  font-size: 8.1458333333vh;
+  line-height: 8.5vh;
+  margin-top: 0.7083333333vh;
+}
+body.presentation.fs-11 .darpan {
+  font-size: 7.65vh;
+  line-height: 8.5vh;
+  margin-top: 2.125vh;
+}
+body.presentation.fs-11 .transliteration {
+  font-size: 6.7291666667vh;
+  line-height: 8.5vh;
+  margin-top: -1.7vh;
+}
+body.presentation.fs-11 .line {
+  min-height: 82vh;
+}
+body.presentation.fs-11 .line > div {
+  margin-bottom: 9.5625vh;
+}
+body.presentation.fs-12 .gurmukhifont {
+  font-size: 15vh;
+  line-height: 18vh;
+}
+body.presentation.fs-12 .translation {
+  font-size: 8.625vh;
+  line-height: 9vh;
+  margin-top: 0.75vh;
+}
+body.presentation.fs-12 .darpan {
+  font-size: 8.1vh;
+  line-height: 9vh;
+  margin-top: 2.25vh;
+}
 body.presentation.fs-12 .transliteration {
-  font-size: 10.8vh;
-  line-height: 12vh;
-  margin-top: -2vh;
+  font-size: 7.125vh;
+  line-height: 9vh;
+  margin-top: -1.8vh;
 }
 body.presentation.fs-12 .line {
-  min-height: 74.5vh;
+  min-height: 81vh;
 }
 body.presentation.fs-12 .line > div {
-  margin-bottom: 23vh;
+  margin-bottom: 10.125vh;
 }
 body.presentation.layout-normal .line.active > div {
   justify-content: normal;
