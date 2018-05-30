@@ -552,6 +552,10 @@ Maths done:
 
 */
 
+svg.eof {
+  margin-top: 1.25em;
+}
+
 body {
   &.presentation {
     .vishraamHeavy.noColorTog, .vishraamMedium.noColorTog, .vishraamLight.noColorTog {
@@ -1668,7 +1672,7 @@ body.color-scheme-day {
 
 
 
-@mixin theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight) {
+@mixin theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight, $svg-accent-color) {
   /***********************************************************
   Display page / Presentation related
   ***********************************************************/
@@ -1785,6 +1789,13 @@ body.color-scheme-day {
         .mdl-ripple {
           background-color: rgba($fg-brighter, 1);
         }
+      }
+    }
+    svg.eof {
+      opacity: .35;
+
+      g > path {
+        fill: $svg-accent-color;
       }
     }
   }
@@ -2040,8 +2051,9 @@ $presentation-larivaar-assist:        mix($presentation-active-larivaar-assist, 
 $presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
 $presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
 $presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+$svg-accent-color:                    $presentation-active-gurmukhi;
 
-@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight, $svg-accent-color);
 
 /*
 Day Theme
@@ -2082,8 +2094,9 @@ $presentation-larivaar-assist:        mix($presentation-active-larivaar-assist, 
 $presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
 $presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
 $presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+$svg-accent-color:                    $presentation-active-gurmukhi;
 
-@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight, $svg-accent-color);
 
 /*
 Philosophiea Theme
@@ -2124,8 +2137,9 @@ $presentation-larivaar-assist:        mix($presentation-active-larivaar-assist, 
 $presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
 $presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
 $presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+$svg-accent-color:                    $presentation-active-gurmukhi;
 
-@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight, $svg-accent-color);
 
 body.presentation.#{$theme} {
     background: url('../includes/philosophiae.png');
@@ -2174,8 +2188,9 @@ $presentation-larivaar-assist:        mix($presentation-active-larivaar-assist, 
 $presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
 $presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
 $presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+$svg-accent-color:                    $presentation-active-gurmukhi;
 
-@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight, $svg-accent-color);
 
 /*
 Yellow on Blue
@@ -2216,8 +2231,9 @@ $presentation-larivaar-assist:        mix($presentation-active-larivaar-assist, 
 $presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
 $presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
 $presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+$svg-accent-color:                    $presentation-active-gurmukhi;
 
-@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight, $svg-accent-color);
 
 /*
 Pastel Chalk on Blackboard
@@ -2258,8 +2274,9 @@ $presentation-larivaar-assist:        mix($presentation-active-larivaar-assist, 
 $presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
 $presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
 $presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+$svg-accent-color:                    $presentation-active-gurmukhi;
 
-@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight);
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight, $svg-accent-color);
 
 /* used for ruling */
 /**/
