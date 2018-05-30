@@ -409,6 +409,12 @@ func updateShabad(id string) {
 					gak = str + `</div></div><div><div class="bgw">` // after first closing div we had <div class="nbsp">&nbsp;</div>
 				}
 			}
+			if (key % 2 == 1) {
+				gak = `<span class="odd">` + gak
+			} else {
+				gak = `<span class="even">` + gak
+			}
+			gak += `</span>`
 			gurmukhiArray[key] = gak
 		}
 
