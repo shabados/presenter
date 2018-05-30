@@ -4,6 +4,7 @@
     "sticky-rahao": false,
     "gurbani": true,
     "larivaar-gurbani": false,
+    "larivaar-gurbani-assist": false,
     "split-gurbani-lines": true,
     "english-translation": true,
     "punjabi-translation": true,
