@@ -2543,9 +2543,6 @@ body.presentation {
   &.layout-space-between .line.active > div {
 	  justify-content: space-between;
   }
-  &.layout-space-evenly .line.active > div {
-	  justify-content: space-evenly;
-  }
   &.navigator-height-short iframe {
 	  height: 257px;
   }
