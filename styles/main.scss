@@ -575,6 +575,35 @@ svg.eof {
   margin-top: 1.25em;
 }
 
+@-webkit-keyframes watermark {
+  0% {
+    opacity:0;
+    top:50vh;
+  }
+  1% {
+    opacity: 0.75;
+    top: 42.5vh;
+  }
+  74% {
+    opacity:0.75;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#watermark {
+  position: relative;
+  top: 42.5vh;
+  font-size: 10vh;
+  opacity: 0;
+  animation: watermark 300s infinite;
+  display: none;
+}
+
 body {
   &.presentation {
     .vishraamHeavy.noColorTog, .vishraamMedium.noColorTog, .vishraamLight.noColorTog {
@@ -1745,6 +1774,9 @@ body.color-scheme-day {
       }
       .gurmukhifont, .translation, .transliteration, .darpan {
         text-shadow: 0px 0px 0.1em $bg-presentation;
+      }
+      #watermark {
+        color: $presentation-gurmukhi;
       }
 
       iframe {

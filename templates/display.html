@@ -58,6 +58,11 @@
 							// if (scrollPos < 0) {scrollPos = 0;}
 							// scroll(scrollPos);
 						}
+						if (shabadID != 0) {
+							$("#watermark").hide();
+						} else {
+							$("#watermark").show();
+						}
 						
 						// for non-development set to 30ish milliseconds
 						setTimeout(updateDisplay, 30);
@@ -154,7 +159,6 @@
 		            });
 					$('div#hiddenIframePlusBox').hide();
 					$('div#titlebar').hide();
-		         
 		            fadeInBuffer = true;
 		        }, 2000)
 		    });
@@ -239,7 +243,8 @@
         	</div>
           </div>
           <div class="clear"></div>
-        </div><!-- -->
+		</div><!-- -->
+		<div id="watermark">Shabad OS</div>
 		<div class="body"><div class="shabad" data-shabadid="0"><div id="0" class="line"><div><div class="gurmukhifont"></div><p class="translation"></p></div></div></div></div>
 		<div class="hideCursor" style="width: 100%; height: 100%; background: none; z-index: 99; position: fixed; top: 0; left: 0;">
 			<div></div>
