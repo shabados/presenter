@@ -542,6 +542,39 @@ Maths done:
 */
 svg.eof {
   margin-top: 1.25em;
+  display: none;
+}
+
+.active + svg.eof {
+  display: inline;
+}
+
+@-webkit-keyframes watermark {
+  0% {
+    opacity: 0;
+    top: 50vh;
+  }
+  1% {
+    opacity: 0.75;
+    top: 42.5vh;
+  }
+  74% {
+    opacity: 0.75;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+#watermark {
+  position: relative;
+  top: 42.5vh;
+  font-size: 10vh;
+  opacity: 0;
+  animation: watermark 300s infinite;
+  display: none;
 }
 
 body.presentation .vishraamHeavy.noColorTog, body.presentation .vishraamMedium.noColorTog, body.presentation .vishraamLight.noColorTog {
@@ -905,6 +938,9 @@ body.presentation .active + div > div > .gurmukhifont {
 body.presentation .active + div > div > .translation, body.presentation .active + div > div > .transliteration, body.presentation .active + div > div > .darpan {
   visibility: hidden;
 }
+body.presentation .active + svg.eof {
+  animation: blank 0.2s, backlight2 1s 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
 body.presentation .group0.active > div {
   animation: highlight 0s;
 }
@@ -933,6 +969,14 @@ body.presentation .active + .line {
   }
   100% {
     opacity: 1;
+  }
+}
+@keyframes backlight2 {
+  0% {
+    opacity: 0.166;
+  }
+  100% {
+    opacity: 0.5;
   }
 }
 @keyframes blank {
@@ -1625,6 +1669,9 @@ body.color-scheme-night.presentation .vishraamLight {
 body.color-scheme-night.presentation .gurmukhifont, body.color-scheme-night.presentation .translation, body.color-scheme-night.presentation .transliteration, body.color-scheme-night.presentation .darpan {
   text-shadow: 0px 0px 0.1em #000000;
 }
+body.color-scheme-night.presentation #watermark {
+  color: #e6e6e6;
+}
 body.color-scheme-night.presentation iframe {
   background: #212121;
   border-color: #212121;
@@ -1634,6 +1681,9 @@ body.color-scheme-night.presentation.larivaar-gurbani-assist .active .odd {
 }
 body.color-scheme-night.presentation.larivaar-gurbani-assist .odd {
   color: #e6b9bd;
+}
+body.color-scheme-night.presentation.hide-gurbani-spaces .gurmukhifont {
+  text-shadow: none;
 }
 body.color-scheme-night.liveCaption .settings {
   background: #424242;
@@ -1681,7 +1731,7 @@ body.color-scheme-night.liveCaption .c3 .mdl-ripple {
   background-color: white;
 }
 body.color-scheme-night svg.eof {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 body.color-scheme-night svg.eof g > path {
   fill: #ffffff;
@@ -1770,7 +1820,7 @@ body.color-scheme-night span.slink-highlight {
   color: #ffd180;
 }
 body.color-scheme-night .codefont {
-  color: #989898;
+  color: #838383;
 }
 body.color-scheme-night .activeLine > div, body.color-scheme-night body.dindex a:focus {
   background: #37474f;
@@ -1847,6 +1897,282 @@ body.color-scheme-night .loader {
   }
 }
 /*
+Night Light Theme (For very dark rooms with little other light-source)
+*/
+/***********************************************************
+Display page / Presentation related
+***********************************************************/
+body.color-scheme-night-light {
+  background-color: #1b1b1b;
+  color: #DE9B76;
+}
+body.color-scheme-night-light.presentation {
+  background-color: #000000;
+}
+body.color-scheme-night-light.presentation .active .gurmukhifont {
+  color: #ffa41c;
+}
+body.color-scheme-night-light.presentation .active .translation {
+  color: #f89300;
+}
+body.color-scheme-night-light.presentation .active .darpan {
+  color: #ef8200;
+}
+body.color-scheme-night-light.presentation .active .transliteration {
+  color: #e57000;
+}
+body.color-scheme-night-light.presentation .active .vishraamHeavy {
+  color: #FFC107;
+}
+body.color-scheme-night-light.presentation .active .vishraamMedium {
+  color: #FFB300;
+}
+body.color-scheme-night-light.presentation .active .vishraamLight {
+  color: #F9A825;
+}
+body.color-scheme-night-light.presentation .gurmukhifont {
+  color: #e69419;
+}
+body.color-scheme-night-light.presentation .vishraamHeavy {
+  color: #e6ae06;
+}
+body.color-scheme-night-light.presentation .vishraamMedium {
+  color: #e6a100;
+}
+body.color-scheme-night-light.presentation .vishraamLight {
+  color: #e09721;
+}
+body.color-scheme-night-light.presentation .gurmukhifont, body.color-scheme-night-light.presentation .translation, body.color-scheme-night-light.presentation .transliteration, body.color-scheme-night-light.presentation .darpan {
+  text-shadow: 0px 0px 0.1em #000000;
+}
+body.color-scheme-night-light.presentation #watermark {
+  color: #e69419;
+}
+body.color-scheme-night-light.presentation iframe {
+  background: #111111;
+  border-color: #111111;
+}
+body.color-scheme-night-light.presentation.larivaar-gurbani-assist .active .odd {
+  color: #FF8A65;
+}
+body.color-scheme-night-light.presentation.larivaar-gurbani-assist .odd {
+  color: #e67c5b;
+}
+body.color-scheme-night-light.presentation.hide-gurbani-spaces .gurmukhifont {
+  text-shadow: none;
+}
+body.color-scheme-night-light.liveCaption .settings {
+  background: #262626;
+}
+body.color-scheme-night-light.liveCaption .c1 > div, body.color-scheme-night-light.liveCaption .c2 > div {
+  background: #1b1b1b;
+}
+body.color-scheme-night-light.liveCaption .c2 .chooser span.label {
+  border: 2px solid rgba(225, 195, 174, 0.2);
+}
+body.color-scheme-night-light.liveCaption .c2 .chooser span.label:hover {
+  border-color: rgba(225, 195, 174, 0.25);
+}
+body.color-scheme-night-light.liveCaption .c2 .font-size-changer {
+  border: 2px solid rgba(225, 195, 174, 0.2);
+}
+body.color-scheme-night-light.liveCaption .c2 .font-size-changer .value {
+  background: #090909;
+  border: 2px solid rgba(225, 195, 174, 0.2);
+  border-top: 0;
+  border-bottom: 0;
+}
+body.color-scheme-night-light.liveCaption .c2 .popup {
+  background: #070707;
+  border: 2px solid rgba(225, 195, 174, 0.1);
+}
+body.color-scheme-night-light.liveCaption .c2 .options .fixed-color-choices > div, body.color-scheme-night-light.liveCaption .c2 .options .remove-option > div {
+  border: 2px solid rgba(225, 195, 174, 0.66);
+}
+body.color-scheme-night-light.liveCaption .c2 .options .mdl-checkbox__box-outline {
+  border-color: rgba(225, 195, 174, 0.66);
+}
+body.color-scheme-night-light.liveCaption .c2 .options .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
+  border-color: #00bcd4;
+}
+body.color-scheme-night-light.liveCaption .c3 .mdl-button {
+  background-color: rgba(27, 27, 27, 0.5);
+  color: #D4A68A;
+  border: 2px solid rgba(225, 195, 174, 0.1);
+}
+body.color-scheme-night-light.liveCaption .c3 .mdl-button:hover {
+  background-color: rgba(225, 195, 174, 0.2);
+}
+body.color-scheme-night-light.liveCaption .c3 .mdl-ripple {
+  background-color: #e1c3ae;
+}
+body.color-scheme-night-light svg.eof {
+  opacity: 0.5;
+}
+body.color-scheme-night-light svg.eof g > path {
+  fill: #FF8A65;
+}
+
+body.color-scheme-night-light #iframesHuMsg {
+  background: rgba(27, 27, 27, 0.9);
+}
+body.color-scheme-night-light #iframesHuMsg .icon {
+  color: rgba(225, 195, 174, 0.3);
+}
+body.color-scheme-night-light #iframesHuMsg .hint, body.color-scheme-night-light #iframesHuMsg.long .gurmukhifont {
+  color: #e1c3ae;
+}
+body.color-scheme-night-light #iframesHuMsg.long .fa-search {
+  color: rgba(225, 195, 174, 0.3);
+}
+body.color-scheme-night-light #hiddenIframePlusBox {
+  color: #716257;
+  background: #1b1715;
+}
+
+/***********************************************************
+UI related top and bottom bars
+***********************************************************/
+body.color-scheme-night-light .dragger, body.color-scheme-night-light #titlebar > div, body.color-scheme-night-light #navibar > div {
+  background: #111111;
+}
+body.color-scheme-night-light #titlebar > div, body.color-scheme-night-light #navibar > div {
+  color: #DA8D5E;
+}
+body.color-scheme-night-light #titlebar .title:hover, body.color-scheme-night-light #titlebar .buttons *:hover {
+  color: #DE9B76;
+}
+body.color-scheme-night-light #navibar .buttons *:hover {
+  color: #DE9B76;
+}
+body.color-scheme-night-light ::-webkit-scrollbar-thumb {
+  background: rgba(225, 195, 174, 0.5);
+}
+body.color-scheme-night-light ::-webkit-scrollbar-thumb:hover, body.color-scheme-night-light ::-webkit-scrollbar-thumb:active {
+  background: #D4A68A;
+}
+body.color-scheme-night-light ::selection {
+  background: #EC6E5C;
+  /* WebKit/Blink Browsers */
+}
+body.color-scheme-night-light #humsg {
+  background: #111111;
+  color: #D4A68A;
+}
+
+/***********************************************************
+betwen top and bottom nav bars
+***********************************************************/
+body.color-scheme-night-light input {
+  color: #DE9B76;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+body.color-scheme-night-light input:focus {
+  color: #D4A68A;
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+body.color-scheme-night-light input + .background {
+  color: #DE9B76;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.12);
+}
+body.color-scheme-night-light input:focus + .background {
+  background: #262626;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.18);
+}
+body.color-scheme-night-light ::-webkit-input-placeholder {
+  color: #DA8D5E;
+}
+body.color-scheme-night-light #results a {
+  color: #DE9B76;
+}
+body.color-scheme-night-light #results a:hover {
+  color: #D4A68A;
+}
+body.color-scheme-night-light #results a:focus {
+  color: #D4A68A;
+  background: #652B27;
+}
+body.color-scheme-night-light span.slink-highlight {
+  color: #F2987C;
+}
+body.color-scheme-night-light .codefont {
+  color: #aa714d;
+}
+body.color-scheme-night-light .activeLine > div, body.color-scheme-night-light body.dindex a:focus {
+  background: #652B27;
+}
+body.color-scheme-night-light .activeLine > div, body.color-scheme-night-light .navigationForDisplay:hover {
+  color: #F2987C;
+}
+body.color-scheme-night-light .activeLine.disabled > div, body.color-scheme-night-light .navigationForDisplay.disabled {
+  color: rgba(222, 155, 118, 0.3);
+}
+body.color-scheme-night-light .activeLine.disabled > div:hover, body.color-scheme-night-light .navigationForDisplay.disabled:hover {
+  color: rgba(222, 155, 118, 0.3);
+}
+
+/***********************************************************
+Other
+***********************************************************/
+body.color-scheme-night-light .settings h1 {
+  color: #DA804D;
+}
+body.color-scheme-night-light .mdl-switch__track {
+  background: #4e4741;
+}
+body.color-scheme-night-light .scrollBetweenBars .sep {
+  border-bottom: 1px solid #111111;
+}
+body.color-scheme-night-light #help-screen {
+  background: rgba(0, 0, 0, 0.87);
+  color: #DE9B76;
+}
+body.color-scheme-night-light #help-screen h1 {
+  color: #D4A68A;
+}
+body.color-scheme-night-light #help-screen div {
+  color: #D4A68A;
+}
+body.color-scheme-night-light .bright {
+  color: #DE9B76;
+}
+body.color-scheme-night-light .scrollBetweenBars.shabad.active, body.color-scheme-night-light #navi-prog.active {
+  color: rgba(225, 195, 174, 0.7);
+  background: rgba(225, 195, 174, 0.05);
+}
+body.color-scheme-night-light .scrollBetweenBars.shabad.active .searchresult {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+body.color-scheme-night-light .loader {
+  color: rgba(222, 155, 118, 0.3);
+}
+
+@media only screen and (max-device-width: 480px) {
+  body {
+    color: #ccc;
+  }
+
+  body.navi > span.activeLine {
+    background: #ccc;
+  }
+  body.navi > span:nth-child(odd) {
+    background: #111;
+  }
+
+  a {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  }
+
+  .activeLine > div {
+    color: #d8d8d8;
+  }
+}
+@media only screen and (max-device-width: 799px) {
+  ::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0.12);
+  }
+}
+/*
 Day Theme
 */
 /***********************************************************
@@ -1895,6 +2221,9 @@ body.color-scheme-day.presentation .vishraamLight {
 body.color-scheme-day.presentation .gurmukhifont, body.color-scheme-day.presentation .translation, body.color-scheme-day.presentation .transliteration, body.color-scheme-day.presentation .darpan {
   text-shadow: 0px 0px 0.1em #FFFFFF;
 }
+body.color-scheme-day.presentation #watermark {
+  color: #333333;
+}
 body.color-scheme-day.presentation iframe {
   background: #F5F5F5;
   border-color: #F5F5F5;
@@ -1904,6 +2233,9 @@ body.color-scheme-day.presentation.larivaar-gurbani-assist .active .odd {
 }
 body.color-scheme-day.presentation.larivaar-gurbani-assist .odd {
   color: #c54949;
+}
+body.color-scheme-day.presentation.hide-gurbani-spaces .gurmukhifont {
+  text-shadow: none;
 }
 body.color-scheme-day.liveCaption .settings {
   background: #E0E0E0;
@@ -1951,7 +2283,7 @@ body.color-scheme-day.liveCaption .c3 .mdl-ripple {
   background-color: black;
 }
 body.color-scheme-day svg.eof {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 body.color-scheme-day svg.eof g > path {
   fill: #000000;
@@ -2040,7 +2372,7 @@ body.color-scheme-day span.slink-highlight {
   color: #0D47A1;
 }
 body.color-scheme-day .codefont {
-  color: #777777;
+  color: #848484;
 }
 body.color-scheme-day .activeLine > div, body.color-scheme-day body.dindex a:focus {
   background: #CFD8DC;
@@ -2165,6 +2497,9 @@ body.color-scheme-philosophiae.presentation .vishraamLight {
 body.color-scheme-philosophiae.presentation .gurmukhifont, body.color-scheme-philosophiae.presentation .translation, body.color-scheme-philosophiae.presentation .transliteration, body.color-scheme-philosophiae.presentation .darpan {
   text-shadow: 0px 0px 0.1em #DCD8D0;
 }
+body.color-scheme-philosophiae.presentation #watermark {
+  color: #600000;
+}
 body.color-scheme-philosophiae.presentation iframe {
   background: #1d1b18;
   border-color: #1d1b18;
@@ -2174,6 +2509,9 @@ body.color-scheme-philosophiae.presentation.larivaar-gurbani-assist .active .odd
 }
 body.color-scheme-philosophiae.presentation.larivaar-gurbani-assist .odd {
   color: black;
+}
+body.color-scheme-philosophiae.presentation.hide-gurbani-spaces .gurmukhifont {
+  text-shadow: none;
 }
 body.color-scheme-philosophiae.liveCaption .settings {
   background: #5e5c55;
@@ -2221,7 +2559,7 @@ body.color-scheme-philosophiae.liveCaption .c3 .mdl-ripple {
   background-color: white;
 }
 body.color-scheme-philosophiae svg.eof {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 body.color-scheme-philosophiae svg.eof g > path {
   fill: #800000;
@@ -2310,7 +2648,7 @@ body.color-scheme-philosophiae span.slink-highlight {
   color: #81d7f8;
 }
 body.color-scheme-philosophiae .codefont {
-  color: #989796;
+  color: #7e796c;
 }
 body.color-scheme-philosophiae .activeLine > div, body.color-scheme-philosophiae body.dindex a:focus {
   background: #443a47;
@@ -2444,6 +2782,9 @@ body.color-scheme-white-on-blue.presentation .vishraamLight {
 body.color-scheme-white-on-blue.presentation .gurmukhifont, body.color-scheme-white-on-blue.presentation .translation, body.color-scheme-white-on-blue.presentation .transliteration, body.color-scheme-white-on-blue.presentation .darpan {
   text-shadow: 0px 0px 0.1em #1A237E;
 }
+body.color-scheme-white-on-blue.presentation #watermark {
+  color: #d9d9d9;
+}
 body.color-scheme-white-on-blue.presentation iframe {
   background: #263238;
   border-color: #263238;
@@ -2453,6 +2794,9 @@ body.color-scheme-white-on-blue.presentation.larivaar-gurbani-assist .active .od
 }
 body.color-scheme-white-on-blue.presentation.larivaar-gurbani-assist .odd {
   color: #a1a1a1;
+}
+body.color-scheme-white-on-blue.presentation.hide-gurbani-spaces .gurmukhifont {
+  text-shadow: none;
 }
 body.color-scheme-white-on-blue.liveCaption .settings {
   background: #455A64;
@@ -2500,7 +2844,7 @@ body.color-scheme-white-on-blue.liveCaption .c3 .mdl-ripple {
   background-color: white;
 }
 body.color-scheme-white-on-blue svg.eof {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 body.color-scheme-white-on-blue svg.eof g > path {
   fill: #FFFFFF;
@@ -2589,7 +2933,7 @@ body.color-scheme-white-on-blue span.slink-highlight {
   color: #FFE082;
 }
 body.color-scheme-white-on-blue .codefont {
-  color: #9ba3a7;
+  color: #92a0a8;
 }
 body.color-scheme-white-on-blue .activeLine > div, body.color-scheme-white-on-blue body.dindex a:focus {
   background: #455A64;
@@ -2714,6 +3058,9 @@ body.color-scheme-yellow-on-blue.presentation .vishraamLight {
 body.color-scheme-yellow-on-blue.presentation .gurmukhifont, body.color-scheme-yellow-on-blue.presentation .translation, body.color-scheme-yellow-on-blue.presentation .transliteration, body.color-scheme-yellow-on-blue.presentation .darpan {
   text-shadow: 0px 0px 0.1em #1A237E;
 }
+body.color-scheme-yellow-on-blue.presentation #watermark {
+  color: #bfb000;
+}
 body.color-scheme-yellow-on-blue.presentation iframe {
   background: #263238;
   border-color: #263238;
@@ -2723,6 +3070,9 @@ body.color-scheme-yellow-on-blue.presentation.larivaar-gurbani-assist .active .o
 }
 body.color-scheme-yellow-on-blue.presentation.larivaar-gurbani-assist .odd {
   color: #bf8030;
+}
+body.color-scheme-yellow-on-blue.presentation.hide-gurbani-spaces .gurmukhifont {
+  text-shadow: none;
 }
 body.color-scheme-yellow-on-blue.liveCaption .settings {
   background: #455A64;
@@ -2770,7 +3120,7 @@ body.color-scheme-yellow-on-blue.liveCaption .c3 .mdl-ripple {
   background-color: white;
 }
 body.color-scheme-yellow-on-blue svg.eof {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 body.color-scheme-yellow-on-blue svg.eof g > path {
   fill: #FFEA00;
@@ -2859,7 +3209,7 @@ body.color-scheme-yellow-on-blue span.slink-highlight {
   color: #FFE082;
 }
 body.color-scheme-yellow-on-blue .codefont {
-  color: #9ba3a7;
+  color: #92a0a8;
 }
 body.color-scheme-yellow-on-blue .activeLine > div, body.color-scheme-yellow-on-blue body.dindex a:focus {
   background: #455A64;
@@ -2984,6 +3334,9 @@ body.color-scheme-pastel-on-dark.presentation .vishraamLight {
 body.color-scheme-pastel-on-dark.presentation .gurmukhifont, body.color-scheme-pastel-on-dark.presentation .translation, body.color-scheme-pastel-on-dark.presentation .transliteration, body.color-scheme-pastel-on-dark.presentation .darpan {
   text-shadow: 0px 0px 0.1em #003032;
 }
+body.color-scheme-pastel-on-dark.presentation #watermark {
+  color: #d9d978;
+}
 body.color-scheme-pastel-on-dark.presentation iframe {
   background: #263238;
   border-color: #263238;
@@ -2993,6 +3346,9 @@ body.color-scheme-pastel-on-dark.presentation.larivaar-gurbani-assist .active .o
 }
 body.color-scheme-pastel-on-dark.presentation.larivaar-gurbani-assist .odd {
   color: #8ed9c8;
+}
+body.color-scheme-pastel-on-dark.presentation.hide-gurbani-spaces .gurmukhifont {
+  text-shadow: none;
 }
 body.color-scheme-pastel-on-dark.liveCaption .settings {
   background: #455A64;
@@ -3040,7 +3396,7 @@ body.color-scheme-pastel-on-dark.liveCaption .c3 .mdl-ripple {
   background-color: white;
 }
 body.color-scheme-pastel-on-dark svg.eof {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 body.color-scheme-pastel-on-dark svg.eof g > path {
   fill: #FFFF8D;
@@ -3129,7 +3485,7 @@ body.color-scheme-pastel-on-dark span.slink-highlight {
   color: #FFE082;
 }
 body.color-scheme-pastel-on-dark .codefont {
-  color: #9ba3a7;
+  color: #92a0a8;
 }
 body.color-scheme-pastel-on-dark .activeLine > div, body.color-scheme-pastel-on-dark body.dindex a:focus {
   background: #455A64;
@@ -3630,9 +3986,6 @@ body.presentation.layout-space-around .line.active > div {
 }
 body.presentation.layout-space-between .line.active > div {
   justify-content: space-between;
-}
-body.presentation.layout-space-evenly .line.active > div {
-  justify-content: space-evenly;
 }
 body.presentation.navigator-height-short iframe {
   height: 257px;
