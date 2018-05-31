@@ -330,7 +330,7 @@ func updateShabad(id string) {
 	counter, pageID := 0, 0
 	lineID := 1
 	lastPageID := -1
-	hotkeys := [36]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"}
+	hotkeys := [29]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l"}
 
 	dbHistory, err = sql.Open("sqlite3", historyDB)
 	eh(err, "5")
