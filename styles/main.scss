@@ -1852,7 +1852,7 @@ body.color-scheme-day {
       }
     }
     svg.eof {
-      opacity: .35;
+      opacity: .5;
 
       g > path {
         fill: $svg-accent-color;
@@ -1975,7 +1975,7 @@ body.color-scheme-day {
     }
 
     .codefont { //used for number hotkey label in shabads
-      color: mix($fg-brighter, $bg-base, 50%);
+      color: mix($fg-dark, $bg-base, 75%);
       // rgba(255, 255, 255, 0.5);
     }
 
@@ -2112,6 +2112,53 @@ $presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $m
 $presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
 $presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
 $svg-accent-color:                    $presentation-active-gurmukhi;
+
+@include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight, $svg-accent-color);
+
+/*
+Night Light Theme (For very dark rooms with little other light-source)
+*/
+$theme: color-scheme-night-light;
+
+$bg-presentation: #000000; // background of display page
+$bg-dark: #111111; // used in status bars
+$bg-base: #1b1b1b; // base background color
+$bg-bright: #262626; // base background color
+
+$fg-darker: #DA804D; // only suitable for small hints
+$fg-dark: #DA8D5E; // aim for 10+ contrast ratio
+$fg-base: #DE9B76; // aim for 7+ contrast ratio base/base
+$fg-bright: #D4A68A; // aim for 10+ contrast ratio
+$fg-brighter: #E1C3AE; // aim for highest contrast ratio
+
+$text-selection-bg: #EC6E5C;
+$color-selection-bg: #652B27;
+$color-selection-fg: #F2987C;
+$color-text-non-highlighted: $fg-base;
+$color-text-non-highlighted-hover: $fg-bright;
+$color-highlight: #F2987C;
+
+// presentation active gurmukhi/translation/darpan/translit
+$presentation-active-gurmukhi:        #ffa41c;
+$presentation-active-larivaar-assist: #FF8A65;
+$presentation-active-translation:     #f89300;
+$presentation-active-darpan:          #ef8200;
+$presentation-active-transliteration: #e57000;
+$presentation-active-vishraamHeavy:   #FFC107;
+$presentation-active-vishraamMedium:  #FFB300;
+$presentation-active-vishraamLight:   #F9A825;
+// $presentation-gurmukhi:               #FAFAFA;
+// $presentation-vishraamHeavy:          #FFF3E0;
+// $presentation-vishraamMedium:         #E3F2FD;
+// $presentation-vishraamLight:          #F1F8E9;
+$mixWith: #000000;
+$mixAmount: 90%;
+$presentation-gurmukhi:               mix($presentation-active-gurmukhi, $mixWith, $mixAmount);
+$presentation-larivaar-assist:        mix($presentation-active-larivaar-assist, $mixWith, $mixAmount);
+$presentation-vishraamHeavy:          mix($presentation-active-vishraamHeavy, $mixWith, $mixAmount);
+$presentation-vishraamMedium:         mix($presentation-active-vishraamMedium, $mixWith, $mixAmount);
+$presentation-vishraamLight:          mix($presentation-active-vishraamLight, $mixWith, $mixAmount);
+$svg-accent-color:                    $presentation-active-larivaar-assist;
 
 @include theme($theme, $bg-presentation, $bg-dark, $bg-base, $bg-bright, $fg-darker, $fg-dark, $fg-base, $fg-bright, $fg-brighter, $text-selection-bg, $color-selection-bg, $color-selection-fg, $color-text-non-highlighted, $color-text-non-highlighted-hover, $color-highlight, $presentation-active-gurmukhi, $presentation-active-larivaar-assist, $presentation-active-translation, $presentation-active-darpan, $presentation-active-transliteration, $presentation-active-vishraamHeavy, $presentation-active-vishraamMedium, $presentation-active-vishraamLight, $mixWith, $mixAmount, $presentation-gurmukhi, $presentation-larivaar-assist, $presentation-vishraamHeavy, $presentation-vishraamMedium, $presentation-vishraamLight, $svg-accent-color);
 
