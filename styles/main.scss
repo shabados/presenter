@@ -573,6 +573,10 @@ Maths done:
 
 svg.eof {
   margin-top: 1.25em;
+  display: none;
+}
+.active + svg.eof {
+  display: inline;
 }
 
 @-webkit-keyframes watermark {
@@ -1001,6 +1005,9 @@ body.presentation {
         visibility: hidden;
       }
     }
+    + svg.eof {
+      animation: blank 0.2s, backlight2 1s 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
   }
   .group0.active > div {
     animation: highlight 0s;
@@ -1036,6 +1043,16 @@ body.presentation {
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes backlight2 {
+  0% {
+    opacity: .166;
+  }
+
+  100% {
+    opacity: .5;
   }
 }
 
