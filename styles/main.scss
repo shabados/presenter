@@ -573,6 +573,10 @@ Maths done:
 
 svg.eof {
   margin-top: 1.25em;
+  display: none;
+}
+.active + svg.eof {
+  display: inline;
 }
 
 @-webkit-keyframes watermark {
