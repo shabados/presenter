@@ -161,7 +161,16 @@
 					clearDisplay();
                     dohm('square-o', 'Clear');
 					break;
+				case 116: //F5
+					clearDisplay();
+					dohm('square-o', 'Clear');
+					e.preventDefault;
+					break;
 				case 66: //b
+					if (e.shiftKey) {
+						clearDisplay();
+						break;
+					}
 					if (mod) {
 						window.location.href = 'banis';
                         dohm('bookmark', 'Bookmarks');
@@ -183,6 +192,10 @@
 					else return true;
 					break;
 				case 80: //p
+					if (e.altKey) {
+						e.preventDefault();
+						break;
+					}
 					if (mod) {
 						window.location.href = 'menu';
                         dohm('bars', 'Menu');
@@ -439,10 +452,14 @@
 					else $(".searchresult-a").parent().click();
 					break;
 				case 66: //b
+					if (e.shiftKey) {
+						clearDisplay();
+						break;
+					}
 					if (mod) {
 						return true;
 					}
-					else $(".searchresult-b").parent().click();
+					toggleLine();
 					break;
 				case 67: //c
 					$(".searchresult-c").parent().click();
@@ -498,6 +515,10 @@
 					$(".searchresult-o").parent().click();
 					break;
 				case 80: //p
+					if (e.altKey) {
+						e.preventDefault;
+						break;
+					}
 					if (mod) {
 						return true;
 					}
@@ -515,6 +536,10 @@
 					else $(".searchresult-r").parent().click();
 					break;
 				case 83: //s
+					if (e.shiftKey) {
+						e.preventDefault;
+						break;
+					}
 					$(".searchresult-s").parent().click();
 					break;
 				case 84: //t
@@ -579,12 +604,34 @@
 					}
 					break;
 				case 33: //page up
-					pageUpDown("up");
-					dohm('angle-up', 'Page Up');
+					if (mod || lineID == firstID && scrollTop && (akhandPaathView || e.shiftKey)) {
+						var shabadID = Number($('.activeLine').data("shabadid"));
+						if ((shabadID > 1 && shabadID <= 5543)) { // || (shabadID > 10000 && shabadID <= 13480) || (shabadID > 20000 && shabadID <= 25690) || (shabadID > 30000 && shabadID <= 30081) || (shabadID > 40000 && shabadID <= 40170)) {
+							if (mod) { location.href = 'shabad?id=' + (shabadID - 1); }
+							else { location.href = 'shabad?id=' + (shabadID -1) + '#-1';}
+						}
+						dohm('angle-up', 'Prev Shabad');
+					} else {
+						if(lineID != firstID) {
+							lineID--;
+							goToID(lineID);
+						}
+					}
 					break;
 				case 34: //page down
-					pageUpDown("down");
-					dohm('angle-down', 'Page Dn');
+					if (mod || lineID == lastID && scrollBottom && (akhandPaathView || e.shiftKey)) {
+						var shabadID = Number($('.activeLine').data("shabadid"));
+						// properly change shabadID to what ever the last shabad ID is in the database
+						if ((shabadID >= 1 && shabadID <= 5542)) { // || (shabadID >= 10000 && shabadID < 13480) || (shabadID >= 20000 && shabadID < 25690) || (shabadID >= 30000 && shabadID < 30081) || (shabadID >= 40000 && shabadID < 40170)) {
+							location.href = 'shabad?id=' + (shabadID + 1);
+						}
+						dohm('angle-down', 'Next Shabad');
+					} else {
+						if(lineID != lastID) {
+							lineID++;
+							goToID(lineID);
+						}
+					}
 					break;
 				case 35: //page end
 					goToID(lastID);
