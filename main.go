@@ -53,6 +53,7 @@ type Settings struct {
 	Rahao                   bool        `json:"sticky-rahao"`
 	Gurbani                 bool        `json:"gurbani"`
 	LarivaarGurbani         bool        `json:"larivaar-gurbani"`
+	LarivaarGurbaniAssist   bool        `json:"larivaar-gurbani-assist"`
 	SplitGurbaniLines       bool        `json:"split-gurbani-lines"`
 	EnglishTranslation      bool        `json:"english-translation"`
 	PunjabiTranslation      bool        `json:"punjabi-translation"`
@@ -262,6 +263,9 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 	if settings.LarivaarGurbani == true {
 		setClasses += ` hide-gurbani-spaces`
 	}
+	if settings.LarivaarGurbaniAssist == true {
+		setClasses += ` larivaar-gurbani-assist`
+	}
 	if settings.SplitGurbaniLines == true {
 		setClasses += ` split-gurbani-lines`
 	}
@@ -409,7 +413,7 @@ func updateShabad(id string) {
 					gak = str + `</div></div><div><div class="bgw">` // after first closing div we had <div class="nbsp">&nbsp;</div>
 				}
 			}
-			if (key % 2 == 1) {
+			if key%2 == 1 {
 				gak = `<span class="odd">` + gak
 			} else {
 				gak = `<span class="even">` + gak

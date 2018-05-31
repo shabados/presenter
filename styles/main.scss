@@ -1792,6 +1792,9 @@ body.color-scheme-day {
         color: $presentation-larivaar-assist;
       }
     }
+    &.presentation.hide-gurbani-spaces .gurmukhifont {
+      text-shadow: none;
+    }
     &.liveCaption {
       .settings {
         background: $bg-bright;
