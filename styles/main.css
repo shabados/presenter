@@ -575,6 +575,7 @@ svg.eof {
   opacity: 0;
   animation: watermark 300s infinite;
   display: none;
+  font-family: "English Transliteration";
 }
 
 body.presentation .vishraamHeavy.noColorTog, body.presentation .vishraamMedium.noColorTog, body.presentation .vishraamLight.noColorTog {
