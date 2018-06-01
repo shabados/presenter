@@ -167,7 +167,7 @@
 					e.preventDefault;
 					break;
 				case 66: //b
-					if (e.shiftKey) {
+					if (e.ctrlKey && e.shiftKey) {
 						clearDisplay();
 						break;
 					}
@@ -452,7 +452,7 @@
 					else $(".searchresult-a").parent().click();
 					break;
 				case 66: //b
-					if (e.shiftKey) {
+					if (e.ctrlKey && e.shiftKey) {
 						clearDisplay();
 						break;
 					}
