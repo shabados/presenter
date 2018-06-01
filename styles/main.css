@@ -484,6 +484,8 @@ a {
   justify-content: center;
   height: 100vh;
   font-size: 5vh;
+  position: absolute;
+  width: 100%;
 }
 
 .nbsp {
