@@ -630,12 +630,17 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 						// if index[0] == 0 {
 						// 	gurmukhiFinal = "<span class='slink-highlight'>"
 						// } else {
-						gurmukhiFinal = gurmukhi[0:index[0]+1] + "<span class='slink-highlight'>"
-						// }
-						if regToEnd.MatchString(firstLetters) {
-							gurmukhiFinal = gurmukhiFinal + gurmukhi[index[0]+1:len(gurmukhi)] + "</span>"
-						} else {
-							gurmukhiFinal = gurmukhiFinal + gurmukhi[index[0]+1:index[1]] + "</span>" + gurmukhi[index[1]:len(gurmukhi)]
+						if len(index) > 0 {
+							gurmukhiFinal = gurmukhi[0:index[0]+1] + "<span class='slink-highlight'>"
+							// }
+							if regToEnd.MatchString(firstLetters) {
+								gurmukhiFinal = gurmukhiFinal + gurmukhi[index[0]+1:len(gurmukhi)] + "</span>"
+							} else {
+								gurmukhiFinal = gurmukhiFinal + gurmukhi[index[0]+1:index[1]] + "</span>" + gurmukhi[index[1]:len(gurmukhi)]
+							}
+						}
+						else {
+							gurmukhiFinal = gurmukhi
 						}
 						gurmukhi = gurmukhiFinal
 					}
