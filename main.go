@@ -638,8 +638,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 							} else {
 								gurmukhiFinal = gurmukhiFinal + gurmukhi[index[0]+1:index[1]] + "</span>" + gurmukhi[index[1]:len(gurmukhi)]
 							}
-						}
-						else {
+						} else {
 							gurmukhiFinal = gurmukhi
 						}
 						gurmukhi = gurmukhiFinal
