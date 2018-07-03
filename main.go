@@ -335,30 +335,30 @@ func updateShabad(id string) {
 	dbHistory, err = sql.Open("sqlite3", historyDB)
 	eh(err, "5")
 	defer dbHistory.Close()
-	//if id is a string, then check compiled banis
-	if _, err := strconv.Atoi(id); err == nil {
-		query = "SELECT BANI_LINE_ID, GURMUKHI, TRANSLITERATION, ENGLISH, PUNJABI, BANI_SHABAD_TYPE, BANI_PAGE_ID FROM SHABAD NATURAL JOIN bani_" + id
-		query2 = "SELECT BANI_LINE_ID FROM bani_" + id
+	// //if id is a string, then check compiled banis
+	// if _, err := strconv.Atoi(id); err == nil {
+	// 	query = "SELECT BANI_LINE_ID, GURMUKHI, TRANSLITERATION, ENGLISH, PUNJABI, BANI_SHABAD_TYPE, BANI_PAGE_ID FROM SHABAD NATURAL JOIN bani_" + id
+	// 	query2 = "SELECT BANI_LINE_ID FROM bani_" + id
 
-		rows, err = dbHistory.Query("SELECT PK FROM HISTORY WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC LIMIT 1")
-		eh(err, "6")
-		defer rows.Close()
-		rows.Next()
-		if err := rows.Scan(&currentPK); err != nil {
-			currentPK = "1"
-		}
-	} else { // search SHABAD table instead
-		query = "SELECT order_id, gurmukhi, transliteration_english,english,punjabi FROM lines JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE lines.shabad_id='" + id + "'"
-		query2 = "SELECT order_id FROM lines WHERE shabad_id='" + id + "'"
+	// 	rows, err = dbHistory.Query("SELECT PK FROM HISTORY WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC LIMIT 1")
+	// 	eh(err, "6")
+	// 	defer rows.Close()
+	// 	rows.Next()
+	// 	if err := rows.Scan(&currentPK); err != nil {
+	// 		currentPK = "1"
+	// 	}
+	// } else { // search SHABAD table instead
+	query = "SELECT order_id, gurmukhi, transliteration_english,english,punjabi FROM lines JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE lines.shabad_id='" + id + "'"
+	query2 = "SELECT order_id FROM lines WHERE shabad_id='" + id + "'"
 
-		rows, err = dbHistory.Query("SELECT TOGGLELINES FROM SHABADS WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC")
-		eh(err, "7")
-		defer rows.Close()
-		rows.Next()
-		if err := rows.Scan(&toggleLines); err != nil {
-			toggleLines = "0-0-0"
-		}
+	rows, err = dbHistory.Query("SELECT TOGGLELINES FROM SHABADS WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC")
+	eh(err, "7")
+	defer rows.Close()
+	rows.Next()
+	if err := rows.Scan(&toggleLines); err != nil {
+		toggleLines = "0-0-0"
 	}
+	// }
 
 	rows, err = db.Query(query)
 	eh(err, "8")
@@ -371,12 +371,12 @@ func updateShabad(id string) {
 
 	for rows.Next() {
 
-		if _, err := strconv.Atoi(id); err == nil {
-			rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan, &shabadType, &pageID)
-		} else {
-			rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan)
-			pageID++
-		}
+		// if _, err := strconv.Atoi(id); err == nil {
+		// 	rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan, &shabadType, &pageID)
+		// } else {
+		rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan)
+		pageID++
+		// }
 
 		rows2.Next()
 		if err := rows2.Scan(&nextPK); err != nil {
@@ -686,11 +686,11 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 			gurmukhi = "Awsw dI vwr *"
 		}
 		eh(err, "17")
-		if _, err := strconv.Atoi(shabadID); err == nil { //determines if shabadID referes to a shabad or compiled bani
-			pageHTML += "<a href=\"shabad?id=" + shabadID + "\""
-		} else {
-			pageHTML += "<a href=\"shabad?id=" + shabadID + "#" + pk + "$" + toggleLines + "\""
-		}
+		// if _, err := strconv.Atoi(shabadID); err == nil { //determines if shabadID referes to a shabad or compiled bani
+		// 	pageHTML += "<a href=\"shabad?id=" + shabadID + "\""
+		// } else {
+		pageHTML += "<a href=\"shabad?id=" + shabadID + "#" + pk + "$" + toggleLines + "\""
+		// }
 		pageHTML += " id=\"" + strconv.Itoa(counter) + "\" class=\"navigationForDisplay searchResultUpdateHistory historyEntry\" data-lineID=\"" + pk + "\" data-shabadID=\"" + shabadID + "\" title=\"" + transliteration + "\"><div class=\"searchresult"
 
 		if counter >= len(hotkeys) {
@@ -798,11 +798,11 @@ func postHistory(w http.ResponseWriter, r *http.Request) {
 	if currentPK == "0" { //cleared display
 		clearShabad()
 	} else {
-		if _, err := strconv.Atoi(id); err == nil { //determines if shabadID referes to a shabad or compiled bani
-			query = "SELECT GURMUKHI,TRANSLITERATION FROM SHABAD NATURAL JOIN bani_" + id + " WHERE BANI_LINE_ID=" + currentPK
-		} else {
-			query = "SELECT gurmukhi,transliteration_english FROM lines WHERE order_id=" + currentPK
-		}
+		// if _, err := strconv.Atoi(id); err == nil { //determines if shabadID referes to a shabad or compiled bani
+		// 	query = "SELECT GURMUKHI,TRANSLITERATION FROM SHABAD NATURAL JOIN bani_" + id + " WHERE BANI_LINE_ID=" + currentPK
+		// } else {
+		query = "SELECT gurmukhi,transliteration_english FROM lines WHERE order_id=" + currentPK
+		// }
 
 		rows, err = db.Query(query)
 		eh(err, "24")
