@@ -348,8 +348,8 @@ func updateShabad(id string) {
 	// 		currentPK = "1"
 	// 	}
 	// } else { // search SHABAD table instead
-	query = "SELECT order_id, gurmukhi, transliteration_english,english,punjabi FROM lines JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE lines.shabad_id='" + id + "'"
-	query2 = "SELECT order_id FROM lines WHERE shabad_id='" + id + "'"
+	query = "SELECT lines.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE shabads.order_id=" + id
+	query2 = "SELECT lines.order_id FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE shabads.order_id=" + id
 
 	rows, err = dbHistory.Query("SELECT TOGGLELINES FROM SHABADS WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC")
 	eh(err, "7")
@@ -569,7 +569,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 		qArray := strings.Split(query, " ")
 		query = strings.Replace(query, " ", "%\" AND GURMUKHI LIKE \"%", -1)
 		if len(query) > 1 {
-			rows, err := db.Query("SELECT order_id, shabad_id, gurmukhi FROM lines WHERE gurmukhi LIKE \"%" + query + "%\" LIMIT 20")
+			rows, err := db.Query("SELECT lines.order_id, shabads.order_id, gurmukhi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE gurmukhi LIKE \"%" + query + "%\" LIMIT 20")
 			eh(err, "10")
 			defer rows.Close()
 			for rows.Next() {
@@ -598,7 +598,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 	} else {
 		query = strings.Replace(query, " ", "?", -1)
 		// qArray := strings.Split(q, "?")
-		stmt, err := db.Prepare("SELECT order_id, shabad_id, gurmukhi, first_letters FROM lines WHERE first_letters GLOB ? LIMIT 10")
+		stmt, err := db.Prepare("SELECT lines.order_id, shabads.order_id, gurmukhi, first_letters FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE first_letters GLOB ? LIMIT 10")
 		eh(err, "11")
 		defer stmt.Close()
 
