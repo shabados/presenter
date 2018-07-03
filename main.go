@@ -153,7 +153,7 @@ func getLineID(w http.ResponseWriter, r *http.Request) {
 
 func getLineDetails(w http.ResponseWriter, r *http.Request) {
 	var gurmukhi, englishTranslation, transliteration, author, source, ang string
-	var rows, err = db.Query("SELECT gurmukhi,translation,transliteration_english,source_id,writer_id,source_page FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) JOIN translations on (translations.line_id = lines.id) WHERE translations.translation_source_id=1 AND lines.order_id=" + currentPK)
+	var rows, err = db.Query("SELECT gurmukhi,translation,transliteration_english,source_id,writer_id,source_page FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) LEFT JOIN translations on (translations.line_id = lines.id) WHERE translations.translation_source_id=1 AND lines.order_id=" + currentPK)
 	eh(err, "0")
 	rows.Next()
 	rows.Scan(&gurmukhi, &englishTranslation, &transliteration, &source, &author, &ang)
@@ -348,7 +348,7 @@ func updateShabad(id string) {
 	// 		currentPK = "1"
 	// 	}
 	// } else { // search SHABAD table instead
-	query = "SELECT lines.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE shabads.order_id=" + id
+	query = "SELECT lines.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) LEFT JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) LEFT JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE shabads.order_id=" + id
 	query2 = "SELECT lines.order_id FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE shabads.order_id=" + id
 
 	rows, err = dbHistory.Query("SELECT TOGGLELINES FROM SHABADS WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC")
