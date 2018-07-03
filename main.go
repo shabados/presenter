@@ -153,7 +153,7 @@ func getLineID(w http.ResponseWriter, r *http.Request) {
 
 func getLineDetails(w http.ResponseWriter, r *http.Request) {
 	var gurmukhi, englishTranslation, transliteration, author, source, ang string
-	var rows, err = db.Query("SELECT gurmukhi,translation,transliteration_english,source_id,writer_id,source_page  FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) JOIN translations on (translations.line_id = lines.id) WHERE translations.translation_source_id=1 AND lines.id=" + currentPK)
+	var rows, err = db.Query("SELECT gurmukhi,translation,transliteration_english,source_id,writer_id,source_page FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) JOIN translations on (translations.line_id = lines.id) WHERE translations.translation_source_id=1 AND lines.order_id='" + currentPK + "'")
 	eh(err, "0")
 	rows.Next()
 	rows.Scan(&gurmukhi, &englishTranslation, &transliteration, &source, &author, &ang)
@@ -336,7 +336,7 @@ func updateShabad(id string) {
 	eh(err, "5")
 	defer dbHistory.Close()
 	//if id is a string, then check compiled banis
-	if _, err := strconv.Atoi(id); err != nil {
+	if _, err := strconv.Atoi(id); err == nil {
 		query = "SELECT BANI_LINE_ID, GURMUKHI, TRANSLITERATION, ENGLISH, PUNJABI, BANI_SHABAD_TYPE, BANI_PAGE_ID FROM SHABAD NATURAL JOIN bani_" + id
 		query2 = "SELECT BANI_LINE_ID FROM bani_" + id
 
@@ -348,8 +348,8 @@ func updateShabad(id string) {
 			currentPK = "1"
 		}
 	} else { // search SHABAD table instead
-		query = "SELECT id, gurmukhi, transliteration_english,english,punjabi FROM lines JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE lines.shabad_id=" + id
-		query2 = "SELECT id FROM lines WHERE shabad_id=" + id
+		query = "SELECT order_id, gurmukhi, transliteration_english,english,punjabi FROM lines JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE lines.shabad_id='" + id + "'"
+		query2 = "SELECT order_id FROM lines WHERE shabad_id='" + id + "'"
 
 		rows, err = dbHistory.Query("SELECT TOGGLELINES FROM SHABADS WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC")
 		eh(err, "7")
@@ -371,7 +371,7 @@ func updateShabad(id string) {
 
 	for rows.Next() {
 
-		if _, err := strconv.Atoi(id); err != nil {
+		if _, err := strconv.Atoi(id); err == nil {
 			rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan, &shabadType, &pageID)
 		} else {
 			rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan)
@@ -569,7 +569,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 		qArray := strings.Split(query, " ")
 		query = strings.Replace(query, " ", "%\" AND GURMUKHI LIKE \"%", -1)
 		if len(query) > 1 {
-			rows, err := db.Query("SELECT id, shabad_id, gurmukhi FROM lines WHERE gurmukhi LIKE \"%" + query + "%\" LIMIT 20")
+			rows, err := db.Query("SELECT order_id, shabad_id, gurmukhi FROM lines WHERE gurmukhi LIKE \"%" + query + "%\" LIMIT 20")
 			eh(err, "10")
 			defer rows.Close()
 			for rows.Next() {
@@ -598,7 +598,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 	} else {
 		query = strings.Replace(query, " ", "?", -1)
 		// qArray := strings.Split(q, "?")
-		stmt, err := db.Prepare("SELECT id, shabad_id, gurmukhi, first_letters FROM lines WHERE first_letters GLOB ? LIMIT 10")
+		stmt, err := db.Prepare("SELECT order_id, shabad_id, gurmukhi, first_letters FROM lines WHERE first_letters GLOB ? LIMIT 10")
 		eh(err, "11")
 		defer stmt.Close()
 
@@ -686,7 +686,7 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 			gurmukhi = "Awsw dI vwr *"
 		}
 		eh(err, "17")
-		if _, err := strconv.Atoi(shabadID); err != nil { //determines if shabadID referes to a shabad or compiled bani
+		if _, err := strconv.Atoi(shabadID); err == nil { //determines if shabadID referes to a shabad or compiled bani
 			pageHTML += "<a href=\"shabad?id=" + shabadID + "\""
 		} else {
 			pageHTML += "<a href=\"shabad?id=" + shabadID + "#" + pk + "$" + toggleLines + "\""
@@ -798,10 +798,10 @@ func postHistory(w http.ResponseWriter, r *http.Request) {
 	if currentPK == "0" { //cleared display
 		clearShabad()
 	} else {
-		if _, err := strconv.Atoi(id); err != nil { //determines if shabadID referes to a shabad or compiled bani
+		if _, err := strconv.Atoi(id); err == nil { //determines if shabadID referes to a shabad or compiled bani
 			query = "SELECT GURMUKHI,TRANSLITERATION FROM SHABAD NATURAL JOIN bani_" + id + " WHERE BANI_LINE_ID=" + currentPK
 		} else {
-			query = "SELECT gurmukhi,transliteration_english FROM lines WHERE id=" + currentPK
+			query = "SELECT gurmukhi,transliteration_english FROM lines WHERE order_id='" + currentPK + "'"
 		}
 
 		rows, err = db.Query(query)
