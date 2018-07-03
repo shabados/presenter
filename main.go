@@ -153,7 +153,7 @@ func getLineID(w http.ResponseWriter, r *http.Request) {
 
 func getLineDetails(w http.ResponseWriter, r *http.Request) {
 	var gurmukhi, englishTranslation, transliteration, author, source, ang string
-	var rows, err = db.Query("SELECT gurmukhi,translation,transliteration_english,source_id,writer_id,source_page FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) JOIN translations on (translations.line_id = lines.id) WHERE translations.translation_source_id=1 AND lines.order_id='" + currentPK + "'")
+	var rows, err = db.Query("SELECT gurmukhi,translation,transliteration_english,source_id,writer_id,source_page FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) JOIN translations on (translations.line_id = lines.id) WHERE translations.translation_source_id=1 AND lines.order_id=" + currentPK)
 	eh(err, "0")
 	rows.Next()
 	rows.Scan(&gurmukhi, &englishTranslation, &transliteration, &source, &author, &ang)
@@ -801,7 +801,7 @@ func postHistory(w http.ResponseWriter, r *http.Request) {
 		if _, err := strconv.Atoi(id); err == nil { //determines if shabadID referes to a shabad or compiled bani
 			query = "SELECT GURMUKHI,TRANSLITERATION FROM SHABAD NATURAL JOIN bani_" + id + " WHERE BANI_LINE_ID=" + currentPK
 		} else {
-			query = "SELECT gurmukhi,transliteration_english FROM lines WHERE order_id='" + currentPK + "'"
+			query = "SELECT gurmukhi,transliteration_english FROM lines WHERE order_id=" + currentPK
 		}
 
 		rows, err = db.Query(query)
