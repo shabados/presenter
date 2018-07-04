@@ -663,7 +663,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 	} else {
 		query = strings.Replace(query, " ", "?", -1)
 		// qArray := strings.Split(q, "?")
-		stmt, err := db.Prepare("SELECT lines.order_id, shabads.order_id, gurmukhi, first_letters FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE first_letters GLOB ? LIMIT 10")
+		stmt, err := db.Prepare("SELECT lines.order_id, shabads.order_id, gurmukhi, first_letters FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE first_letters GLOB ? LIMIT 100")
 		eh(err, "11")
 		defer stmt.Close()
 
