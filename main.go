@@ -433,14 +433,59 @@ func updateShabad(id string) {
 
 		gurmukhiFull += `<div><div class="bgw">` + gurmukhi + `</div></div>`
 
-		transliterationFull += " " + transliteration
+		transliterationArray := strings.Split(transliteration, " ")
+		for key := range transliterationArray {
+			gak := transliterationArray[key] // what we will replace the array element with
+			str := gak                       //element as string
+			end := str[len(str)-1:]          // last character of element
+			// this can be improved to break by heavy, then by medium, then by light.
+			// currently this logic only breaks on heavies
+			switch end {
+			case ";", ",", ".":
+				gak = `<div class="vishraam`
+				if end == ";" {
+					gak += `Heavy`
+				} else if end == "," {
+					gak += `Medium`
+				} else if end == "." {
+					gak += `Light`
+				}
+				gak += `">` + str[0:len(str)-1] + `<div class="vishraamChar">` + end + `</div></div>`
+				// if end == ";" { // fix for heavy vishraams to break on long lines
+				// 	gak += `</div><div class="bgw">`
+				// }
+				// case "]":
+				// 	// check for following, if exist, include it's work
+				// 	if key < len(transliterationArray)-1 {
+				// 		gak = str
+				// 		//transliterationArray[key+1] += `</div></div><div><div>`
+				// 	} else {
+				// 		gak = str + `</div></div><div><div class="bgw">` // after first closing div we had <div class="nbsp">&nbsp;</div>
+				// 	}
+			}
+			if key%2 == 1 {
+				gak = `<span class="odd">` + gak
+			} else {
+				gak = `<span class="even">` + gak
+			}
+			gak += `</span>`
+			transliterationArray[key] = gak
+		}
+
+		transliteration = strings.Join(transliterationArray, `<div class="nbsp">&nbsp;</div>`)
+		if len(transliterationFull) > 0 {
+			transliteration = `<div class="nbsp">&nbsp;</div>` + transliteration
+		}
+
+		// transliterationFull += `<div><div class="bgw">` + transliteration + `</div></div>`
+		transliterationFull += `<div class="nbsp">&nbsp;</div>` + transliteration
 		translationFull += " " + english
 		darpanFull += " " + darpan
 
 		if pk != nextPK {
 			//gurmukhiFull = strings.TrimSpace(gurmukhiFull)
 			gurmukhiFull = strings.Replace(gurmukhiFull, `<div><div></div></div>`, "", -1)
-			transliterationFull = strings.TrimLeft(transliterationFull, " ")
+			transliterationFull = strings.TrimLeft(strings.Replace(transliterationFull, `<div><div></div></div>`, "", -1), " ")
 			translationFull = strings.TrimLeft(translationFull, " ")
 			darpanFull = strings.TrimLeft(darpanFull, " ")
 			hotkeyClass := "notHotkey"
