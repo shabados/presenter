@@ -634,7 +634,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 		qArray := strings.Split(query, " ")
 		query = strings.Replace(query, " ", "%\" AND GURMUKHI LIKE \"%", -1)
 		if len(query) > 1 {
-			rows, err := db.Query("SELECT lines.order_id, shabads.order_id, gurmukhi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE gurmukhi LIKE \"%" + query + "%\" LIMIT 20")
+			rows, err := db.Query("SELECT lines.order_id, shabads.order_id, gurmukhi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE gurmukhi LIKE \"%" + query + "%\" LIMIT 300")
 			eh(err, "10")
 			defer rows.Close()
 			for rows.Next() {
