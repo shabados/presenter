@@ -455,7 +455,7 @@ func updateShabad(id string) {
 				pageHTML += " last" + strconv.Itoa(counter-1) + " pageID" + strconv.Itoa(counter) + " searchresult-" + hotkey + "\" data-hotkey=\"yes"
 			}
 			pageHTML += "\"><div><div class=\"gurmukhifont\"><span class=\"codefont\"><span class=\"number\">" + hotkey + "</span></span>" + gurmukhiFull + "</div></div></div></span>"
-			shabadJSONTemp += "{\"gurmukhi\":\"" + strings.Replace(gurmukhiFull, `"`, `\"`, -1) + "\",\"transliteration\":\"" + strings.Replace(transliterationFull, `"`, `\"`, -1) + "\",\"translation\":\"" + strings.Replace(translationFull, `"`, `\"`, -1) + "\",\"darpan\":\"" + strings.Replace(darpanFull, `"`, `\"`, -1) + "\",\"lineID\":\"" + strconv.Itoa(lineID) + "\",\"PK\":\"" + pk + "\"},"
+			shabadJSONTemp += "{\"gurmukhi\":\"" + strings.Replace(strings.Replace(gurmukhiFull, `\`, `\\`, -1), `"`, `\"`, -1) + "\",\"transliteration\":\"" + strings.Replace(transliterationFull, `"`, `\"`, -1) + "\",\"translation\":\"" + strings.Replace(translationFull, `"`, `\"`, -1) + "\",\"darpan\":\"" + strings.Replace(darpanFull, `"`, `\"`, -1) + "\",\"lineID\":\"" + strconv.Itoa(lineID) + "\",\"PK\":\"" + pk + "\"},"
 			gurmukhiFull = ""
 			transliterationFull = ""
 			translationFull = ""
