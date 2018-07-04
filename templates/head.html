@@ -67,7 +67,7 @@
 	}
 	function toggleLine(direction = 1) {
 		if (isNaN(shabadID) && shabadID != "current") {
-			if (shabadID == "adv") { //For Asa di Vaar, toggles between last pauri and next chhant
+			if (shabadID == "bani-10") { //For Asa di Vaar, toggles between last pauri and next chhant
 				var originalLineID = lineID;
 				while ($(".line"+lineID).data("shabadtype") !== "pauri" && lineID >= firstID) {
 					lineID--;

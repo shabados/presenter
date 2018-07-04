@@ -40,7 +40,7 @@ var settings Settings
 var settingsLive SettingsLive
 var shabadHTML string
 var pagesCount int
-var banis string
+var banis []string
 
 var localip = ""
 var host = ""
@@ -192,13 +192,14 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 		host,
 		localip,
 		"",
-		banis,
+		"",
 	}
 
 	switch r.URL.Path {
 	case "/banis":
 		data.Title = "Bookmarks"
 		templateName = "banisPage"
+		data.Banis = "[\"" + strings.Join(banis, "\",\"") + "\"]"
 	case "/connect":
 		data.Title = "Connect"
 		templateName = "connectPage"
@@ -342,7 +343,9 @@ func updateShabad(id string) {
 	if _, err := strconv.Atoi(id); err != nil { //banis
 		table = " JOIN bani_lines ON (lines.id = bani_lines.line_id)"
 		filter = " bani_id=" + strings.Replace(id, "bani-", "", 1) + " ORDER BY line_group, lines.order_id"
-
+		if id == "bani-10" {
+			shabadType = "pauri"
+		}
 		rows, err = dbHistory.Query("SELECT PK FROM HISTORY WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC LIMIT 1")
 		eh(err, "6")
 		defer rows.Close()
@@ -361,7 +364,7 @@ func updateShabad(id string) {
 			toggleLines = "0-0-0"
 		}
 	}
-	query = "SELECT lines.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) LEFT JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) LEFT JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE" + filter
+	query = "SELECT lines.order_id,shabads.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) LEFT JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) LEFT JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE" + filter
 	query2 = "SELECT lines.order_id FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) WHERE" + filter
 
 	rows, err = db.Query(query)
@@ -375,9 +378,10 @@ func updateShabad(id string) {
 
 	for rows.Next() {
 
-		rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan)
-		pageID++
-
+		rows.Scan(&pk, &pageID, &gurmukhi, &transliteration, &english, &darpan)
+		if gurmukhi == "pauVI ]" {
+			shabadType = "turnedPauri"
+		}
 		rows2.Next()
 		if err := rows2.Scan(&nextPK); err != nil {
 			nextPK = "-1"
@@ -439,16 +443,30 @@ func updateShabad(id string) {
 			transliterationFull = strings.TrimLeft(transliterationFull, " ")
 			translationFull = strings.TrimLeft(translationFull, " ")
 			darpanFull = strings.TrimLeft(darpanFull, " ")
-			hotkeyClass := "hotkey"
+			hotkeyClass := "notHotkey"
 			hotkey := ""
 
-			if lastPageID == pageID {
-				hotkeyClass = "notHotkey"
-			} else {
-				if counter < len(hotkeys) {
-					hotkey = hotkeys[counter]
+			if _, err := strconv.Atoi(id); err == nil || lastPageID != pageID {
+				if id == "bani-10" {
+					switch shabadType {
+					case "chhant":
+						shabadType = "salok"
+						break
+					case "turnedPauri":
+						shabadType = "pauri"
+						break
+					case "pauri":
+						shabadType = "chhant"
+						break
+					}
 				}
-				counter++
+				if shabadType == "chhant" || shabadType == "shabad" {
+					hotkeyClass = "hotkey"
+					if counter < len(hotkeys) {
+						hotkey = hotkeys[counter]
+					}
+					counter++
+				}
 			}
 			pageHTML += "<span id=\"" + pk + "\" class=\"navigationForDisplay line" + strconv.Itoa(lineID) + " " + hotkeyClass + "\" data-lineID=\"" + strconv.Itoa(lineID) + "\" data-shabadID=\"" + id + "\" data-pageID=\"" + strconv.Itoa(counter) + "\" data-shabadType=\"" + shabadType + "\"><div class=\"searchresult"
 			if lastPageID != pageID {
@@ -682,15 +700,15 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 		var gurmukhi string
 		var transliteration string
 		err := rows.Scan(&pk, &shabadID, &gurmukhi, &transliteration, &toggleLines)
-		if shabadID == "adv" {
-			gurmukhi = "Awsw dI vwr *"
-		}
 		eh(err, "17")
-		// if _, err := strconv.Atoi(shabadID); err != nil { //determines if shabadID referes to a shabad or compiled bani
-		// 	pageHTML += "<a href=\"shabad?id=" + shabadID + "\""
-		// } else {
-		pageHTML += "<a href=\"shabad?id=" + shabadID + "#" + pk + "$" + toggleLines + "\""
-		// }
+		if _, err := strconv.Atoi(shabadID); err != nil { //determines if shabadID referes to a shabad or compiled bani
+			pageHTML += "<a href=\"shabad?id=" + shabadID + "\""
+			id, err := strconv.Atoi(strings.Replace(shabadID, "bani-", "", 1))
+			eh(err, "175")
+			gurmukhi = banis[id-1]
+		} else {
+			pageHTML += "<a href=\"shabad?id=" + shabadID + "#" + pk + "$" + toggleLines + "\""
+		}
 		pageHTML += " id=\"" + strconv.Itoa(counter) + "\" class=\"navigationForDisplay searchResultUpdateHistory historyEntry\" data-lineID=\"" + pk + "\" data-shabadID=\"" + shabadID + "\" title=\"" + transliteration + "\"><div class=\"searchresult"
 
 		if counter >= len(hotkeys) {
@@ -1087,16 +1105,13 @@ func main() {
 	defer db.Close()
 
 	var baniName string
-	var rows, err = db.Query("SELECT name_english FROM banis ORDER BY id")
+	var rows, err = db.Query("SELECT name_gurmukhi FROM banis ORDER BY id")
 	eh(err, "465")
 	defer rows.Close()
-	rows.Next()
-	rows.Scan(&banis)
 	for rows.Next() {
 		rows.Scan(&baniName)
-		banis = banis + "\",\"" + baniName
+		banis = append(banis, baniName)
 	}
-	banis = "[\"" + banis + "\"]"
 
 	settingsFile, _ := os.Open("settings.json")
 	decoder := json.NewDecoder(settingsFile)
