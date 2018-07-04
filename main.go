@@ -40,6 +40,7 @@ var settings Settings
 var settingsLive SettingsLive
 var shabadHTML string
 var pagesCount int
+var banis string
 
 var localip = ""
 var host = ""
@@ -184,12 +185,14 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 		Host         string
 		LocalIP      string
 		SettingsJSON string
+		Banis        string
 	}{
 		"Search",
 		template.HTML(` color-scheme-` + strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)),
 		host,
 		localip,
 		"",
+		banis,
 	}
 
 	switch r.URL.Path {
@@ -324,8 +327,8 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 func updateShabad(id string) {
 	var rows, rows2 *sql.Rows
 	var err error
-	var query, query2, pk, nextPK, gurmukhi, transliteration, english, darpan string
-	pageHTML, shabadJSONTemp, gurmukhiFull, transliterationFull, translationFull, darpanFull := "", "", "", "", "", ""
+	var filter, query, query2, pk, nextPK, gurmukhi, transliteration, english, darpan string
+	table, pageHTML, shabadJSONTemp, gurmukhiFull, transliterationFull, translationFull, darpanFull := "", "", "", "", "", "", ""
 	shabadType := "shabad"
 	counter, pageID := 0, 0
 	lineID := 1
@@ -335,30 +338,31 @@ func updateShabad(id string) {
 	dbHistory, err = sql.Open("sqlite3", historyDB)
 	eh(err, "5")
 	defer dbHistory.Close()
-	// //if id is a string, then check compiled banis
-	// if _, err := strconv.Atoi(id); err == nil {
-	// 	query = "SELECT BANI_LINE_ID, GURMUKHI, TRANSLITERATION, ENGLISH, PUNJABI, BANI_SHABAD_TYPE, BANI_PAGE_ID FROM SHABAD NATURAL JOIN bani_" + id
-	// 	query2 = "SELECT BANI_LINE_ID FROM bani_" + id
 
-	// 	rows, err = dbHistory.Query("SELECT PK FROM HISTORY WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC LIMIT 1")
-	// 	eh(err, "6")
-	// 	defer rows.Close()
-	// 	rows.Next()
-	// 	if err := rows.Scan(&currentPK); err != nil {
-	// 		currentPK = "1"
-	// 	}
-	// } else { // search SHABAD table instead
-	query = "SELECT lines.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) LEFT JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) LEFT JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE shabads.order_id=" + id
-	query2 = "SELECT lines.order_id FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE shabads.order_id=" + id
+	if _, err := strconv.Atoi(id); err != nil { //banis
+		table = " JOIN bani_lines ON (lines.id = bani_lines.line_id)"
+		filter = " bani_id=" + strings.Replace(id, "bani-", "", 1) + " ORDER BY line_group, lines.order_id"
 
-	rows, err = dbHistory.Query("SELECT TOGGLELINES FROM SHABADS WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC")
-	eh(err, "7")
-	defer rows.Close()
-	rows.Next()
-	if err := rows.Scan(&toggleLines); err != nil {
-		toggleLines = "0-0-0"
+		rows, err = dbHistory.Query("SELECT PK FROM HISTORY WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC LIMIT 1")
+		eh(err, "6")
+		defer rows.Close()
+		rows.Next()
+		if err := rows.Scan(&currentPK); err != nil {
+			currentPK = "1"
+		}
+	} else { // shabads
+		filter = " shabads.order_id=" + id
+
+		rows, err = dbHistory.Query("SELECT TOGGLELINES FROM SHABADS WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC")
+		eh(err, "7")
+		defer rows.Close()
+		rows.Next()
+		if err := rows.Scan(&toggleLines); err != nil {
+			toggleLines = "0-0-0"
+		}
 	}
-	// }
+	query = "SELECT lines.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) LEFT JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) LEFT JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE" + filter
+	query2 = "SELECT lines.order_id FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) WHERE" + filter
 
 	rows, err = db.Query(query)
 	eh(err, "8")
@@ -371,12 +375,8 @@ func updateShabad(id string) {
 
 	for rows.Next() {
 
-		// if _, err := strconv.Atoi(id); err == nil {
-		// 	rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan, &shabadType, &pageID)
-		// } else {
 		rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan)
 		pageID++
-		// }
 
 		rows2.Next()
 		if err := rows2.Scan(&nextPK); err != nil {
@@ -686,7 +686,7 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 			gurmukhi = "Awsw dI vwr *"
 		}
 		eh(err, "17")
-		// if _, err := strconv.Atoi(shabadID); err == nil { //determines if shabadID referes to a shabad or compiled bani
+		// if _, err := strconv.Atoi(shabadID); err != nil { //determines if shabadID referes to a shabad or compiled bani
 		// 	pageHTML += "<a href=\"shabad?id=" + shabadID + "\""
 		// } else {
 		pageHTML += "<a href=\"shabad?id=" + shabadID + "#" + pk + "$" + toggleLines + "\""
@@ -785,7 +785,6 @@ func postHistory(w http.ResponseWriter, r *http.Request) {
 	gurmukhi, transliteration := "", ""
 	var rows *sql.Rows
 	var err error
-	var query string
 
 	if time.Since(timePostHistory).Minutes() > 10 {
 		newHistory()
@@ -798,13 +797,7 @@ func postHistory(w http.ResponseWriter, r *http.Request) {
 	if currentPK == "0" { //cleared display
 		clearShabad()
 	} else {
-		// if _, err := strconv.Atoi(id); err == nil { //determines if shabadID referes to a shabad or compiled bani
-		// 	query = "SELECT GURMUKHI,TRANSLITERATION FROM SHABAD NATURAL JOIN bani_" + id + " WHERE BANI_LINE_ID=" + currentPK
-		// } else {
-		query = "SELECT gurmukhi,transliteration_english FROM lines WHERE order_id=" + currentPK
-		// }
-
-		rows, err = db.Query(query)
+		rows, err = db.Query("SELECT gurmukhi,transliteration_english FROM lines WHERE order_id=" + currentPK)
 		eh(err, "24")
 		defer rows.Close()
 		for rows.Next() {
@@ -1092,9 +1085,22 @@ func main() {
 	db, err = sql.Open("sqlite3", "includes/database.sqlite")
 	eh(err, "46")
 	defer db.Close()
+
+	var baniName string
+	var rows, err = db.Query("SELECT name_english FROM banis ORDER BY id")
+	eh(err, "465")
+	defer rows.Close()
+	rows.Next()
+	rows.Scan(&banis)
+	for rows.Next() {
+		rows.Scan(&baniName)
+		banis = banis + "\",\"" + baniName
+	}
+	banis = "[\"" + banis + "\"]"
+
 	settingsFile, _ := os.Open("settings.json")
 	decoder := json.NewDecoder(settingsFile)
-	err := decoder.Decode(&settings)
+	err = decoder.Decode(&settings)
 	eh(err, "47")
 
 	// set local IP
