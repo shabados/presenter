@@ -578,35 +578,37 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 func convertFirstLetters(gurmukhi string) string {
 	words := strings.Split(gurmukhi, " ")
 	for key, word := range words {
-		firstLetter := word[0:1]
-		if firstLetter == "]" {
-			firstLetter = " "
-		} //EOL--this could skip a word if there's no space after!
-		if firstLetter == "i" {
-			firstLetter = word[1:2]
-		} //replace sihari
-		if firstLetter == "^" {
-			firstLetter = "K"
-		} //khakha pair bindi
-		if firstLetter == "E" {
-			firstLetter = "a"
-		} //open oora
-		if firstLetter == "&" {
-			firstLetter = "P"
-		} //phapha pair bindi
-		if firstLetter == "S" {
-			firstLetter = "s"
-		} //sassa pair bindi
-		if firstLetter == "z" {
-			firstLetter = "j"
-		} //jajjapair bindi
-		if firstLetter == "Z" {
-			firstLetter = "g"
-		} //gagga pair bindi
-		if firstLetter == "L" {
-			firstLetter = "l"
-		} //lalla pair bindi
-		words[key] = firstLetter + word[1:len(word)]
+		if len(word) > 0 {
+			firstLetter := word[0:1]
+			if firstLetter == "]" {
+				firstLetter = " "
+			} //EOL--this could skip a word if there's no space after!
+			if firstLetter == "i" {
+				firstLetter = word[1:2]
+			} //replace sihari
+			if firstLetter == "^" {
+				firstLetter = "K"
+			} //khakha pair bindi
+			if firstLetter == "E" {
+				firstLetter = "a"
+			} //open oora
+			if firstLetter == "&" {
+				firstLetter = "P"
+			} //phapha pair bindi
+			if firstLetter == "S" {
+				firstLetter = "s"
+			} //sassa pair bindi
+			if firstLetter == "z" {
+				firstLetter = "j"
+			} //jajjapair bindi
+			if firstLetter == "Z" {
+				firstLetter = "g"
+			} //gagga pair bindi
+			if firstLetter == "L" {
+				firstLetter = "l"
+			} //lalla pair bindi
+			words[key] = firstLetter + word[1:len(word)]
+		}
 	}
 	return strings.Join(words, " ")
 }
