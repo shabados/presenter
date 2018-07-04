@@ -206,6 +206,9 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 	case "/kobo":
 		data.Title = "kobo"
 		templateName = "koboPage"
+	case "/ipad":
+		data.Title = "ipad"
+		templateName = "ipadPage"
 	case "/menu":
 		data.Title = "Menu"
 		templateName = "menuPage"
