@@ -19,6 +19,7 @@
 			}
 			
 			function search(filter) {
+				t1 = event.timeStamp;
 				$(".loader").show();
 				$("#keyboardHelp").hide();
 				if(xhr && xhr.readyState != 4){
@@ -38,6 +39,7 @@
 					// try to re-apply keybindings here perhaps?
 					searchResultUpdateHistory();
 					$(".loader").hide();
+					console.log(event.timeStamp - t1);
 				}
 				});
 			}

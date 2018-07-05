@@ -565,7 +565,7 @@ body.presentation .active .gurmukhifont.gurbani-larivaar > div > div {
 
 Maths done:
   * Check for Deuteranopia (They see basically Red, Green, Blue+Purple as three channels of brown-green, yellow-orange, and blue)
-  * * For this best can be: Indigo, Green, Brick Orange/Red
+  * * For this best can \\\\\\be: Indigo, Green, Brick Orange/Red
   * Check for Average Projector Strength (Highest colors are Blue, Green/Light Green, Orange)
   * * Material wise: Blue, Light Green, and Orange
   * Old version was closest to Amber, Light Blue
@@ -586,18 +586,12 @@ svg.eof {
     opacity:0;
     top:50vh;
   }
-  1% {
-    opacity: 0.75;
+  50% {
+    opacity: 0.35;
     top: 42.5vh;
   }
-  74% {
-    opacity:0.75;
-  }
-  99% {
-    opacity: 0;
-  }
   100% {
-    opacity: 0;
+    opacity:0;
   }
 }
 
@@ -606,7 +600,7 @@ svg.eof {
   top: 42.5vh;
   font-size: 10vh;
   opacity: 0;
-  animation: watermark 300s infinite;
+  animation: watermark 3.75s cubic-bezier(0.645, 0.045, 0.355, 1);
   display: none;
   font-family: "English Transliteration"
 }
@@ -1817,6 +1811,15 @@ body.color-scheme-day {
         }
         .vishraamLight {
           color: $presentation-active-vishraamLight;
+        }
+        .transliteration .vishraamHeavy {
+          color: mix($presentation-active-vishraamHeavy, $presentation-active-transliteration, 62%);
+        }
+        .transliteration .vishraamMedium {
+          color: mix($presentation-active-vishraamMedium, $presentation-active-transliteration, 62%);
+        }
+        .transliteration .vishraamLight {
+          color: mix($presentation-active-vishraamLight, $presentation-active-transliteration, 62%);
         }
       }
       .gurmukhifont {
