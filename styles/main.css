@@ -535,7 +535,7 @@ body.presentation .active .gurmukhifont.gurbani-larivaar > div > div {
 
 Maths done:
   * Check for Deuteranopia (They see basically Red, Green, Blue+Purple as three channels of brown-green, yellow-orange, and blue)
-  * * For this best can be: Indigo, Green, Brick Orange/Red
+  * * For this best can \\\\\\be: Indigo, Green, Brick Orange/Red
   * Check for Average Projector Strength (Highest colors are Blue, Green/Light Green, Orange)
   * * Material wise: Blue, Light Green, and Orange
   * Old version was closest to Amber, Light Blue
@@ -556,15 +556,9 @@ svg.eof {
     opacity: 0;
     top: 50vh;
   }
-  1% {
-    opacity: 0.75;
+  50% {
+    opacity: 0.35;
     top: 42.5vh;
-  }
-  74% {
-    opacity: 0.75;
-  }
-  99% {
-    opacity: 0;
   }
   100% {
     opacity: 0;
@@ -575,7 +569,7 @@ svg.eof {
   top: 42.5vh;
   font-size: 10vh;
   opacity: 0;
-  animation: watermark 300s infinite;
+  animation: watermark 3.75s cubic-bezier(0.645, 0.045, 0.355, 1);
   display: none;
   font-family: "English Transliteration";
 }
@@ -1204,6 +1198,34 @@ div#kobo div.vishraamChar {
   display: none;
 }
 
+/* iPad */
+body.ipad {
+  zoom: 1 !important;
+  font-size: 48px;
+}
+body.ipad .gurmukhifont {
+  font-weight: 900;
+  line-height: 1.5;
+}
+body.ipad span.active {
+  background: rgba(255, 0, 0, 0.1);
+}
+body.ipad div#ipad {
+  margin: 24px 42px;
+}
+body.ipad div#ipad * div {
+  display: inline;
+}
+body.ipad div#ipad .gurmukhifont + .gurmukhifont {
+  margin-top: 0.5em;
+}
+body.ipad div#ipad div.nbsp {
+  display: inline-block;
+}
+body.ipad div#ipad div.vishraamChar {
+  display: none;
+}
+
 /* development */
 /**/
 /* Define mobile styles */
@@ -1606,10 +1628,10 @@ div#kobo div.vishraamChar {
      live caption tool,
      Kobo screen page
 */
-body.kobo {
+body.kobo, body.ipad {
   background: #FFFFFF;
 }
-body.kobo div#kobo .gurmukhifont {
+body.kobo div#kobo .gurmukhifont, body.ipad div#kobo .gurmukhifont {
   color: #000000;
 }
 
@@ -1656,6 +1678,15 @@ body.color-scheme-night.presentation .active .vishraamMedium {
 }
 body.color-scheme-night.presentation .active .vishraamLight {
   color: #DCEDC8;
+}
+body.color-scheme-night.presentation .active .transliteration .vishraamHeavy {
+  color: #dac7aa;
+}
+body.color-scheme-night.presentation .active .transliteration .vishraamMedium {
+  color: #b0c6d8;
+}
+body.color-scheme-night.presentation .active .transliteration .vishraamLight {
+  color: #c4cfb8;
 }
 body.color-scheme-night.presentation .gurmukhifont {
   color: #e6e6e6;
@@ -1933,6 +1964,15 @@ body.color-scheme-night-light.presentation .active .vishraamMedium {
 body.color-scheme-night-light.presentation .active .vishraamLight {
   color: #F9A825;
 }
+body.color-scheme-night-light.presentation .active .transliteration .vishraamHeavy {
+  color: #f5a204;
+}
+body.color-scheme-night-light.presentation .active .transliteration .vishraamMedium {
+  color: #f59a00;
+}
+body.color-scheme-night-light.presentation .active .transliteration .vishraamLight {
+  color: #f19317;
+}
 body.color-scheme-night-light.presentation .gurmukhifont {
   color: #e69419;
 }
@@ -2209,6 +2249,15 @@ body.color-scheme-day.presentation .active .vishraamMedium {
 body.color-scheme-day.presentation .active .vishraamLight {
   color: #33691E;
 }
+body.color-scheme-day.presentation .active .transliteration .vishraamHeavy {
+  color: #c37e25;
+}
+body.color-scheme-day.presentation .active .transliteration .vishraamMedium {
+  color: #2d5189;
+}
+body.color-scheme-day.presentation .active .transliteration .vishraamLight {
+  color: #446637;
+}
 body.color-scheme-day.presentation .gurmukhifont {
   color: #333333;
 }
@@ -2484,6 +2533,15 @@ body.color-scheme-philosophiae.presentation .active .vishraamMedium {
 }
 body.color-scheme-philosophiae.presentation .active .vishraamLight {
   color: #808080;
+}
+body.color-scheme-philosophiae.presentation .active .transliteration .vishraamHeavy {
+  color: #4f3180;
+}
+body.color-scheme-philosophiae.presentation .active .transliteration .vishraamMedium {
+  color: #4f8031;
+}
+body.color-scheme-philosophiae.presentation .active .transliteration .vishraamLight {
+  color: #4f8080;
 }
 body.color-scheme-philosophiae.presentation .gurmukhifont {
   color: #600000;
@@ -2770,6 +2828,15 @@ body.color-scheme-white-on-blue.presentation .active .vishraamMedium {
 body.color-scheme-white-on-blue.presentation .active .vishraamLight {
   color: #CE93D8;
 }
+body.color-scheme-white-on-blue.presentation .active .transliteration .vishraamHeavy {
+  color: #f9d9aa;
+}
+body.color-scheme-white-on-blue.presentation .active .transliteration .vishraamMedium {
+  color: #c1dfc2;
+}
+body.color-scheme-white-on-blue.presentation .active .transliteration .vishraamLight {
+  color: #dab6e0;
+}
 body.color-scheme-white-on-blue.presentation .gurmukhifont {
   color: #d9d9d9;
 }
@@ -3046,6 +3113,15 @@ body.color-scheme-yellow-on-blue.presentation .active .vishraamMedium {
 body.color-scheme-yellow-on-blue.presentation .active .vishraamLight {
   color: #4DD0E1;
 }
+body.color-scheme-yellow-on-blue.presentation .active .transliteration .vishraamHeavy {
+  color: #f6965b;
+}
+body.color-scheme-yellow-on-blue.presentation .active .transliteration .vishraamMedium {
+  color: #d0ad9e;
+}
+body.color-scheme-yellow-on-blue.presentation .active .transliteration .vishraamLight {
+  color: #91da8c;
+}
 body.color-scheme-yellow-on-blue.presentation .gurmukhifont {
   color: #bfb000;
 }
@@ -3321,6 +3397,15 @@ body.color-scheme-pastel-on-dark.presentation .active .vishraamMedium {
 }
 body.color-scheme-pastel-on-dark.presentation .active .vishraamLight {
   color: #D1C4E9;
+}
+body.color-scheme-pastel-on-dark.presentation .active .transliteration .vishraamHeavy {
+  color: #f9d9aa;
+}
+body.color-scheme-pastel-on-dark.presentation .active .transliteration .vishraamMedium {
+  color: #f4cedb;
+}
+body.color-scheme-pastel-on-dark.presentation .active .transliteration .vishraamLight {
+  color: #dcd4eb;
 }
 body.color-scheme-pastel-on-dark.presentation .gurmukhifont {
   color: #d9d978;
