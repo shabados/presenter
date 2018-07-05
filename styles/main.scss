@@ -1298,6 +1298,45 @@ div#kobo {
   }
 }
 
+/* iPad */
+
+body.ipad {
+  zoom: 1 !important;
+
+  font-size: 48px;
+
+  .gurmukhifont {
+    font-weight: 900;
+    line-height: 1.5;
+  }
+
+  span.active {
+    background: rgba(255, 0, 0, 0.10);
+  }
+
+  div#ipad {
+    margin: 24px 42px;
+    * div {
+      display: inline;
+    }
+    .gurmukhifont + .gurmukhifont {
+        margin-top: .5em;
+    }
+    div {
+      &.nbsp {
+        display: inline-block;
+      }
+      &.vishraamChar {
+        display: none;
+      }
+    }
+  }
+}
+
+div#ipad {
+  
+}
+
 /* development */
 
 /**/
@@ -1720,7 +1759,7 @@ div#kobo {
      live caption tool,
      Kobo screen page
 */
-body.kobo {
+body.kobo, body.ipad {
   background: #FFFFFF;
   div#kobo .gurmukhifont {
     color: #000000;
