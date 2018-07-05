@@ -210,9 +210,9 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 	case "/kobo":
 		data.Title = "kobo"
 		templateName = "koboPage"
-  case "/ipad":
-    data.Title = "ipad"
-    templateName = "ipadPage"
+	case "/ipad":
+		data.Title = "ipad"
+		templateName = "ipadPage"
 	case "/menu":
 		data.Title = "Menu"
 		templateName = "menuPage"
@@ -698,6 +698,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 						// if index[0] == 0 {
 						// 	gurmukhiFinal = "<span class='slink-highlight'>"
 						// } else {
+						// this next if is a surface fix -- MAJOR bug here needs to be tracked and fixed! Both the if and else are done to circumvent a first-letters generation issue in the column. remove the if and else statements and debug sometime, pl0x. (example breakage: hhpr)
 						if len(index) > 0 {
 							gurmukhiFinal = gurmukhi[0:index[0]+1] + "<span class='slink-highlight'>"
 							// }
