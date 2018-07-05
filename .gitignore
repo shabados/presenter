@@ -1,6 +1,7 @@
 *.swp
 *.go~
 data
+database.sqlite
 data-journal
 *.DS_Store
 tmux*

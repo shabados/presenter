@@ -67,7 +67,7 @@
 	}
 	function toggleLine(direction = 1) {
 		if (isNaN(shabadID) && shabadID != "current") {
-			if (shabadID == "adv") { //For Asa di Vaar, toggles between last pauri and next chhant
+			if (shabadID == "bani-10") { //For Asa di Vaar, toggles between last pauri and next chhant
 				var originalLineID = lineID;
 				while ($(".line"+lineID).data("shabadtype") !== "pauri" && lineID >= firstID) {
 					lineID--;
@@ -574,7 +574,7 @@
 				case 38: // up
 					if (mod || lineID == firstID && scrollTop && (akhandPaathView || e.shiftKey)) {
 						var shabadID = Number($('.activeLine').data("shabadid"));
-						if ((shabadID > 1 && shabadID <= 5543)) { // || (shabadID > 10000 && shabadID <= 13480) || (shabadID > 20000 && shabadID <= 25690) || (shabadID > 30000 && shabadID <= 30081) || (shabadID > 40000 && shabadID <= 40170)) {
+						if ((shabadID > 1 && shabadID <= 10945)) {
 							if (mod) { location.href = 'shabad?id=' + (shabadID - 1); }
 							else { location.href = 'shabad?id=' + (shabadID -1) + '#-1';}
 						}
@@ -592,7 +592,7 @@
 					if (mod || lineID == lastID && scrollBottom && (akhandPaathView || e.shiftKey)) {
 						var shabadID = Number($('.activeLine').data("shabadid"));
 						// properly change shabadID to what ever the last shabad ID is in the database
-						if ((shabadID >= 1 && shabadID <= 5542)) { // || (shabadID >= 10000 && shabadID < 13480) || (shabadID >= 20000 && shabadID < 25690) || (shabadID >= 30000 && shabadID < 30081) || (shabadID >= 40000 && shabadID < 40170)) {
+						if ((shabadID >= 1 && shabadID < 10945)) {
 							location.href = 'shabad?id=' + (shabadID + 1);
 						}
 						dohm('angle-down', 'Next Shabad');
@@ -606,7 +606,7 @@
 				case 33: //page up
 					if (mod || lineID == firstID && scrollTop && (akhandPaathView || e.shiftKey)) {
 						var shabadID = Number($('.activeLine').data("shabadid"));
-						if ((shabadID > 1 && shabadID <= 5543)) { // || (shabadID > 10000 && shabadID <= 13480) || (shabadID > 20000 && shabadID <= 25690) || (shabadID > 30000 && shabadID <= 30081) || (shabadID > 40000 && shabadID <= 40170)) {
+						if ((shabadID > 1 && shabadID <= 10945)) {
 							if (mod) { location.href = 'shabad?id=' + (shabadID - 1); }
 							else { location.href = 'shabad?id=' + (shabadID -1) + '#-1';}
 						}
@@ -622,7 +622,7 @@
 					if (mod || lineID == lastID && scrollBottom && (akhandPaathView || e.shiftKey)) {
 						var shabadID = Number($('.activeLine').data("shabadid"));
 						// properly change shabadID to what ever the last shabad ID is in the database
-						if ((shabadID >= 1 && shabadID <= 5542)) { // || (shabadID >= 10000 && shabadID < 13480) || (shabadID >= 20000 && shabadID < 25690) || (shabadID >= 30000 && shabadID < 30081) || (shabadID >= 40000 && shabadID < 40170)) {
+						if ((shabadID >= 1 && shabadID < 10945)) {
 							location.href = 'shabad?id=' + (shabadID + 1);
 						}
 						dohm('angle-down', 'Next Shabad');
@@ -669,11 +669,9 @@
 				}
 
 				const sources = {
-					"G": " - SGGS Ji - Ang ",
-					"D": " - Dasam Granth",
-					"B": " - Vaar ",
-					"N": "",
-					"A": ""
+					1: " - SGGS Ji - Ang ",
+					2: " - Dasam Granth",
+					3: " - Vaar "
 				}
 
 				const writers = {
@@ -699,24 +697,27 @@
 					20: "Bhagat Sain Ji",
 					21: "Bhagat Surdas Ji",
 					22: "Bhagat Trilochan Ji",
-					24: "Baba Sundar Ji",
-					25: "Bhatt Bal",
-					26: "Bhatt Bhal",
-					27: "Bhatt Bhikha",
-					28: "Bhatt Gayand",
-					29: "Bhatt Harbans",
-					30: "Bhatt Jalap",
-					31: "Bhatt Kalsahar",
-					32: "Bhatt Keerat",
-					33: "Bhatt Mathura",
-					34: "Bhatt Nal",
-					35: "Bhatt Sal",
-					36: "Bhatt Kallsahar",
-					37: "Bhai Balvand Rai and Bhai Satta Doom",
-					38: "Bhai Nand Lal Ji",
-					39: "Bhai Gurdas Ji",
-					40: "Disputed / Unknown (Raagmala)",
-					50: "Disputed / Unknown (Raagmala)"
+					23: "Baba Sundar Ji",
+					24: "Bhatt Bal",
+					25: "Bhatt Bhal",
+					26: "Bhatt Bhikha",
+					27: "Bhatt Gayand",
+					28: "Bhatt Harbans",
+					39: "Bhatt Jalap",
+					30: "Bhatt Kalsahar",
+					31: "Bhatt Keerat",
+					32: "Bhatt Mathura",
+					33: "Bhatt Nal",
+					34: "Bhatt Sal",
+					35: "Bhai Balvand Rai and Bhai Satta Doom",
+					36: "Bhai Gurdas Ji",
+					37: "Bhai Nand Lal Ji",
+					38: "Bhai Gurdas Singh Ji",
+					39: "Bhai Chaupa Singh Ji",
+					40: "Bhai Desa Singh Ji",
+					41: "Bhai Sukha Singh Ji",
+					42: "Sainapat",
+					43: "Disputed / Unknown (Raagmala)"
 				}
 
 				$.ajax({ url : server+"/getLineDetails", async: true, dataType: "json", success : function (data) {
@@ -730,7 +731,7 @@
 							break
 						case "ang":
 							var source = data["source"]
-							copy = writers[data["author"]] + sources[source] + (source == "G" || source == "B" ? copy : "")
+							copy = writers[data["author"]] + sources[source] + (source == "1" || source == "2" ? copy : "")
 							break
 					}
 					var $temp = $("<input>")

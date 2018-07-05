@@ -40,6 +40,7 @@ var settings Settings
 var settingsLive SettingsLive
 var shabadHTML string
 var pagesCount int
+var banis []string
 
 var localip = ""
 var host = ""
@@ -153,7 +154,7 @@ func getLineID(w http.ResponseWriter, r *http.Request) {
 
 func getLineDetails(w http.ResponseWriter, r *http.Request) {
 	var gurmukhi, englishTranslation, transliteration, author, source, ang string
-	var rows, err = db.Query("SELECT GURMUKHI,ENGLISH,TRANSLITERATION,SOURCE_ID,WRITER_ID,ANG_ID FROM SHABAD WHERE PK=" + currentPK)
+	var rows, err = db.Query("SELECT gurmukhi,translation,transliteration_english,source_id,writer_id,source_page FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) LEFT JOIN translations on (translations.line_id = lines.id) WHERE translations.translation_source_id=1 AND lines.order_id=" + currentPK)
 	eh(err, "0")
 	rows.Next()
 	rows.Scan(&gurmukhi, &englishTranslation, &transliteration, &source, &author, &ang)
@@ -184,11 +185,13 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 		Host         string
 		LocalIP      string
 		SettingsJSON string
+		Banis        string
 	}{
 		"Search",
 		template.HTML(` color-scheme-` + strings.Replace(strings.ToLower(settings.ColorScheme), " ", "-", -1)),
 		host,
 		localip,
+		"",
 		"",
 	}
 
@@ -196,6 +199,7 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 	case "/banis":
 		data.Title = "Bookmarks"
 		templateName = "banisPage"
+		data.Banis = "[\"" + strings.Join(banis, "\",\"") + "\"]"
 	case "/connect":
 		data.Title = "Connect"
 		templateName = "connectPage"
@@ -324,8 +328,8 @@ func displayHandler(w http.ResponseWriter, r *http.Request) {
 func updateShabad(id string) {
 	var rows, rows2 *sql.Rows
 	var err error
-	var query, query2, pk, nextPK, gurmukhi, transliteration, english, darpan string
-	pageHTML, shabadJSONTemp, gurmukhiFull, transliterationFull, translationFull, darpanFull := "", "", "", "", "", ""
+	var filter, query, query2, pk, nextPK, gurmukhi, transliteration, english, darpan string
+	table, pageHTML, shabadJSONTemp, gurmukhiFull, transliterationFull, translationFull, darpanFull := "", "", "", "", "", "", ""
 	shabadType := "shabad"
 	counter, pageID := 0, 0
 	lineID := 1
@@ -335,11 +339,13 @@ func updateShabad(id string) {
 	dbHistory, err = sql.Open("sqlite3", historyDB)
 	eh(err, "5")
 	defer dbHistory.Close()
-	//if id is a string, then check compiled banis
-	if _, err := strconv.Atoi(id); err != nil {
-		query = "SELECT BANI_LINE_ID, GURMUKHI, TRANSLITERATION, ENGLISH, PUNJABI, BANI_SHABAD_TYPE, BANI_PAGE_ID FROM SHABAD NATURAL JOIN bani_" + id
-		query2 = "SELECT BANI_LINE_ID FROM bani_" + id
 
+	if _, err := strconv.Atoi(id); err != nil { //banis
+		table = " JOIN bani_lines ON (lines.id = bani_lines.line_id)"
+		filter = " bani_id=" + strings.Replace(id, "bani-", "", 1) + " ORDER BY line_group, lines.order_id"
+		if id == "bani-10" {
+			shabadType = "pauri"
+		}
 		rows, err = dbHistory.Query("SELECT PK FROM HISTORY WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC LIMIT 1")
 		eh(err, "6")
 		defer rows.Close()
@@ -347,9 +353,8 @@ func updateShabad(id string) {
 		if err := rows.Scan(&currentPK); err != nil {
 			currentPK = "1"
 		}
-	} else { // search SHABAD table instead
-		query = "SELECT PK, GURMUKHI, TRANSLITERATION, ENGLISH, PUNJABI FROM SHABAD WHERE SHABAD_ID=" + id
-		query2 = "SELECT PK FROM SHABAD WHERE SHABAD_ID=" + id
+	} else { // shabads
+		filter = " shabads.order_id=" + id
 
 		rows, err = dbHistory.Query("SELECT TOGGLELINES FROM SHABADS WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC")
 		eh(err, "7")
@@ -359,6 +364,8 @@ func updateShabad(id string) {
 			toggleLines = "0-0-0"
 		}
 	}
+	query = "SELECT lines.order_id,shabads.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) LEFT JOIN (SELECT line_id,translation AS english from translations WHERE translations.translation_source_id=1) te ON (te.line_id=lines.id) LEFT JOIN (SELECT line_id,translation AS punjabi from translations WHERE translations.translation_source_id=6) tp ON (tp.line_id=lines.id) WHERE" + filter
+	query2 = "SELECT lines.order_id FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) WHERE" + filter
 
 	rows, err = db.Query(query)
 	eh(err, "8")
@@ -371,13 +378,10 @@ func updateShabad(id string) {
 
 	for rows.Next() {
 
-		if _, err := strconv.Atoi(id); err != nil {
-			rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan, &shabadType, &pageID)
-		} else {
-			rows.Scan(&pk, &gurmukhi, &transliteration, &english, &darpan)
-			pageID++
+		rows.Scan(&pk, &pageID, &gurmukhi, &transliteration, &english, &darpan)
+		if gurmukhi == "pauVI ]" {
+			shabadType = "turnedPauri"
 		}
-
 		rows2.Next()
 		if err := rows2.Scan(&nextPK); err != nil {
 			nextPK = "-1"
@@ -429,33 +433,92 @@ func updateShabad(id string) {
 
 		gurmukhiFull += `<div><div class="bgw">` + gurmukhi + `</div></div>`
 
-		transliterationFull += " " + transliteration
+		transliterationArray := strings.Split(transliteration, " ")
+		for key := range transliterationArray {
+			gak := transliterationArray[key] // what we will replace the array element with
+			str := gak                       //element as string
+			end := str[len(str)-1:]          // last character of element
+			// this can be improved to break by heavy, then by medium, then by light.
+			// currently this logic only breaks on heavies
+			switch end {
+			case ";", ",", ".":
+				gak = `<div class="vishraam`
+				if end == ";" {
+					gak += `Heavy`
+				} else if end == "," {
+					gak += `Medium`
+				} else if end == "." {
+					gak += `Light`
+				}
+				gak += `">` + str[0:len(str)-1] + `<div class="vishraamChar">` + end + `</div></div>`
+				// if end == ";" { // fix for heavy vishraams to break on long lines
+				// 	gak += `</div><div class="bgw">`
+				// }
+				// case "]":
+				// 	// check for following, if exist, include it's work
+				// 	if key < len(transliterationArray)-1 {
+				// 		gak = str
+				// 		//transliterationArray[key+1] += `</div></div><div><div>`
+				// 	} else {
+				// 		gak = str + `</div></div><div><div class="bgw">` // after first closing div we had <div class="nbsp">&nbsp;</div>
+				// 	}
+			}
+			if key%2 == 1 {
+				gak = `<span class="odd">` + gak
+			} else {
+				gak = `<span class="even">` + gak
+			}
+			gak += `</span>`
+			transliterationArray[key] = gak
+		}
+
+		transliteration = strings.Join(transliterationArray, `<div class="nbsp">&nbsp;</div>`)
+		if len(transliterationFull) > 0 {
+			transliteration = `<div class="nbsp">&nbsp;</div>` + transliteration
+		}
+
+		// transliterationFull += `<div><div class="bgw">` + transliteration + `</div></div>`
+		transliterationFull += `<div class="nbsp">&nbsp;</div>` + transliteration
 		translationFull += " " + english
 		darpanFull += " " + darpan
 
 		if pk != nextPK {
 			//gurmukhiFull = strings.TrimSpace(gurmukhiFull)
 			gurmukhiFull = strings.Replace(gurmukhiFull, `<div><div></div></div>`, "", -1)
-			transliterationFull = strings.TrimLeft(transliterationFull, " ")
+			transliterationFull = strings.TrimLeft(strings.Replace(transliterationFull, `<div><div></div></div>`, "", -1), " ")
 			translationFull = strings.TrimLeft(translationFull, " ")
 			darpanFull = strings.TrimLeft(darpanFull, " ")
-			hotkeyClass := "hotkey"
+			hotkeyClass := "notHotkey"
 			hotkey := ""
 
-			if lastPageID == pageID {
-				hotkeyClass = "notHotkey"
-			} else {
-				if counter < len(hotkeys) {
-					hotkey = hotkeys[counter]
+			if _, err := strconv.Atoi(id); err == nil || lastPageID != pageID {
+				if id == "bani-10" {
+					switch shabadType {
+					case "chhant":
+						shabadType = "salok"
+						break
+					case "turnedPauri":
+						shabadType = "pauri"
+						break
+					case "pauri":
+						shabadType = "chhant"
+						break
+					}
 				}
-				counter++
+				if shabadType == "chhant" || shabadType == "shabad" {
+					hotkeyClass = "hotkey"
+					if counter < len(hotkeys) {
+						hotkey = hotkeys[counter]
+					}
+					counter++
+				}
 			}
 			pageHTML += "<span id=\"" + pk + "\" class=\"navigationForDisplay line" + strconv.Itoa(lineID) + " " + hotkeyClass + "\" data-lineID=\"" + strconv.Itoa(lineID) + "\" data-shabadID=\"" + id + "\" data-pageID=\"" + strconv.Itoa(counter) + "\" data-shabadType=\"" + shabadType + "\"><div class=\"searchresult"
 			if lastPageID != pageID {
 				pageHTML += " last" + strconv.Itoa(counter-1) + " pageID" + strconv.Itoa(counter) + " searchresult-" + hotkey + "\" data-hotkey=\"yes"
 			}
 			pageHTML += "\"><div><div class=\"gurmukhifont\"><span class=\"codefont\"><span class=\"number\">" + hotkey + "</span></span>" + gurmukhiFull + "</div></div></div></span>"
-			shabadJSONTemp += "{\"gurmukhi\":\"" + strings.Replace(gurmukhiFull, `"`, `\"`, -1) + "\",\"transliteration\":\"" + strings.Replace(transliterationFull, `"`, `\"`, -1) + "\",\"translation\":\"" + strings.Replace(translationFull, `"`, `\"`, -1) + "\",\"darpan\":\"" + strings.Replace(darpanFull, `"`, `\"`, -1) + "\",\"lineID\":\"" + strconv.Itoa(lineID) + "\",\"PK\":\"" + pk + "\"},"
+			shabadJSONTemp += "{\"gurmukhi\":\"" + strings.Replace(strings.Replace(gurmukhiFull, `\`, `\\`, -1), `"`, `\"`, -1) + "\",\"transliteration\":\"" + strings.Replace(transliterationFull, `"`, `\"`, -1) + "\",\"translation\":\"" + strings.Replace(translationFull, `"`, `\"`, -1) + "\",\"darpan\":\"" + strings.Replace(darpanFull, `"`, `\"`, -1) + "\",\"lineID\":\"" + strconv.Itoa(lineID) + "\",\"PK\":\"" + pk + "\"},"
 			gurmukhiFull = ""
 			transliterationFull = ""
 			translationFull = ""
@@ -515,35 +578,37 @@ func navigateHandler(w http.ResponseWriter, r *http.Request) {
 func convertFirstLetters(gurmukhi string) string {
 	words := strings.Split(gurmukhi, " ")
 	for key, word := range words {
-		firstLetter := word[0:1]
-		if firstLetter == "]" {
-			firstLetter = " "
-		} //EOL--this could skip a word if there's no space after!
-		if firstLetter == "i" {
-			firstLetter = word[1:2]
-		} //replace sihari
-		if firstLetter == "^" {
-			firstLetter = "K"
-		} //khakha pair bindi
-		if firstLetter == "E" {
-			firstLetter = "a"
-		} //open oora
-		if firstLetter == "&" {
-			firstLetter = "P"
-		} //phapha pair bindi
-		if firstLetter == "S" {
-			firstLetter = "s"
-		} //sassa pair bindi
-		if firstLetter == "z" {
-			firstLetter = "j"
-		} //jajjapair bindi
-		if firstLetter == "Z" {
-			firstLetter = "g"
-		} //gagga pair bindi
-		if firstLetter == "L" {
-			firstLetter = "l"
-		} //lalla pair bindi
-		words[key] = firstLetter + word[1:len(word)]
+		if len(word) > 0 {
+			firstLetter := word[0:1]
+			if firstLetter == "]" {
+				firstLetter = " "
+			} //EOL--this could skip a word if there's no space after!
+			if firstLetter == "i" {
+				firstLetter = word[1:2]
+			} //replace sihari
+			if firstLetter == "^" {
+				firstLetter = "K"
+			} //khakha pair bindi
+			if firstLetter == "E" {
+				firstLetter = "a"
+			} //open oora
+			if firstLetter == "&" {
+				firstLetter = "P"
+			} //phapha pair bindi
+			if firstLetter == "S" {
+				firstLetter = "s"
+			} //sassa pair bindi
+			if firstLetter == "z" {
+				firstLetter = "j"
+			} //jajjapair bindi
+			if firstLetter == "Z" {
+				firstLetter = "g"
+			} //gagga pair bindi
+			if firstLetter == "L" {
+				firstLetter = "l"
+			} //lalla pair bindi
+			words[key] = firstLetter + word[1:len(word)]
+		}
 	}
 	return strings.Join(words, " ")
 }
@@ -569,7 +634,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 		qArray := strings.Split(query, " ")
 		query = strings.Replace(query, " ", "%\" AND GURMUKHI LIKE \"%", -1)
 		if len(query) > 1 {
-			rows, err := db.Query("SELECT PK, SHABAD_ID, GURMUKHI FROM SHABAD WHERE GURMUKHI LIKE \"%" + query + "%\" LIMIT 20")
+			rows, err := db.Query("SELECT lines.order_id, shabads.order_id, gurmukhi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE gurmukhi LIKE \"%" + query + "%\" LIMIT 300")
 			eh(err, "10")
 			defer rows.Close()
 			for rows.Next() {
@@ -598,7 +663,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 	} else {
 		query = strings.Replace(query, " ", "?", -1)
 		// qArray := strings.Split(q, "?")
-		stmt, err := db.Prepare("select PK, SHABAD_ID, GURMUKHI, FIRST_LETTERS from SHABAD where FIRST_LETTERS GLOB ? LIMIT 10")
+		stmt, err := db.Prepare("SELECT lines.order_id, shabads.order_id, gurmukhi, first_letters FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE first_letters GLOB ? LIMIT 100")
 		eh(err, "11")
 		defer stmt.Close()
 
@@ -682,12 +747,12 @@ func getHistoryHTML(w http.ResponseWriter, r *http.Request) {
 		var gurmukhi string
 		var transliteration string
 		err := rows.Scan(&pk, &shabadID, &gurmukhi, &transliteration, &toggleLines)
-		if shabadID == "adv" {
-			gurmukhi = "Awsw dI vwr *"
-		}
 		eh(err, "17")
 		if _, err := strconv.Atoi(shabadID); err != nil { //determines if shabadID referes to a shabad or compiled bani
 			pageHTML += "<a href=\"shabad?id=" + shabadID + "\""
+			id, err := strconv.Atoi(strings.Replace(shabadID, "bani-", "", 1))
+			eh(err, "175")
+			gurmukhi = banis[id-1]
 		} else {
 			pageHTML += "<a href=\"shabad?id=" + shabadID + "#" + pk + "$" + toggleLines + "\""
 		}
@@ -785,7 +850,6 @@ func postHistory(w http.ResponseWriter, r *http.Request) {
 	gurmukhi, transliteration := "", ""
 	var rows *sql.Rows
 	var err error
-	var query string
 
 	if time.Since(timePostHistory).Minutes() > 10 {
 		newHistory()
@@ -798,13 +862,7 @@ func postHistory(w http.ResponseWriter, r *http.Request) {
 	if currentPK == "0" { //cleared display
 		clearShabad()
 	} else {
-		if _, err := strconv.Atoi(id); err != nil { //determines if shabadID referes to a shabad or compiled bani
-			query = "SELECT GURMUKHI,TRANSLITERATION FROM SHABAD NATURAL JOIN bani_" + id + " WHERE BANI_LINE_ID=" + currentPK
-		} else {
-			query = "SELECT GURMUKHI,TRANSLITERATION FROM SHABAD WHERE PK=" + currentPK
-		}
-
-		rows, err = db.Query(query)
+		rows, err = db.Query("SELECT gurmukhi,transliteration_english FROM lines WHERE order_id=" + currentPK)
 		eh(err, "24")
 		defer rows.Close()
 		for rows.Next() {
@@ -892,151 +950,151 @@ func clearHistory(w http.ResponseWriter, r *http.Request) {
 	newHistory()
 }
 
-func updateFirstLetters(w http.ResponseWriter, r *http.Request) {
-	var rows *sql.Rows
-	var err error
-	rows, err = db.Query("SELECT PK,GURMUKHI,FIRST_LETTERS,SOURCE_ID FROM SHABAD")
-	eh(err, "38")
-	var queries []string
-	// queries = append(queries,"UPDATE SHABAD SET GURMUKHI=TRIM(REPLACE(GURMUKHI,']',' ] '))") // extra code to add padding to ]'s--ONLY USE IF PADDING NOT THERE!
+// func updateFirstLetters(w http.ResponseWriter, r *http.Request) {
+// 	var rows *sql.Rows
+// 	var err error
+// 	rows, err = db.Query("SELECT PK,GURMUKHI,FIRST_LETTERS,SOURCE_ID FROM SHABAD")
+// 	eh(err, "38")
+// 	var queries []string
+// 	// queries = append(queries,"UPDATE SHABAD SET GURMUKHI=TRIM(REPLACE(GURMUKHI,']',' ] '))") // extra code to add padding to ]'s--ONLY USE IF PADDING NOT THERE!
 
-	defer rows.Close()
-	for rows.Next() {
-		var pk int
-		var gurmukhi string
-		var firstLetters string
-		var updatedFirstLetters string
-		var source string
+// 	defer rows.Close()
+// 	for rows.Next() {
+// 		var pk int
+// 		var gurmukhi string
+// 		var firstLetters string
+// 		var updatedFirstLetters string
+// 		var source string
 
-		err := rows.Scan(&pk, &gurmukhi, &firstLetters, &source)
-		eh(err, "39")
+// 		err := rows.Scan(&pk, &gurmukhi, &firstLetters, &source)
+// 		eh(err, "39")
 
-		regex := regexp.MustCompile("] ([0-9]*) ]")
-		if regex.MatchString(gurmukhi) {
-			gurmukhi = regex.ReplaceAllString(gurmukhi, "]$1]")
-			// queries = append(queries,"UPDATE SHABAD SET GURMUKHI='" + gurmukhi + "' WHERE PK=" + strconv.Itoa(pk)) //extra code to fix "] 87 ]" to "]87]", may need to run twice!
-		}
+// 		regex := regexp.MustCompile("] ([0-9]*) ]")
+// 		if regex.MatchString(gurmukhi) {
+// 			gurmukhi = regex.ReplaceAllString(gurmukhi, "]$1]")
+// 			// queries = append(queries,"UPDATE SHABAD SET GURMUKHI='" + gurmukhi + "' WHERE PK=" + strconv.Itoa(pk)) //extra code to fix "] 87 ]" to "]87]", may need to run twice!
+// 		}
 
-		gurmukhi = strings.Replace(gurmukhi, "] rhwau ]", "] ]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] rhwau dUjw ]", "] ]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] suDu", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] jumlw", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] bweIs caupdy qQw pMcpdy", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] joVu", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] Cky 2", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] Cky 3", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
-		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
-		if gurmukhi == "Awsw ] iqpdw ] iekqukw ]" || gurmukhi == "kbIru ] mwrU ]" || gurmukhi == "muK Bwg" {
-			gurmukhi = ""
-		}
+// 		gurmukhi = strings.Replace(gurmukhi, "] rhwau ]", "] ]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] rhwau dUjw ]", "] ]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] suDu", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] jumlw", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] bweIs caupdy qQw pMcpdy", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] joVu", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] Cky 2", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] Cky 3", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
+// 		gurmukhi = strings.Replace(gurmukhi, "] Ckw 1", "]", -1)
+// 		if gurmukhi == "Awsw ] iqpdw ] iekqukw ]" || gurmukhi == "kbIru ] mwrU ]" || gurmukhi == "muK Bwg" {
+// 			gurmukhi = ""
+// 		}
 
-		regex = regexp.MustCompile("m \\d | mhlw \\d | hlI bwc | kbIr jI| bwc ]$")
-		regexDasam := regexp.MustCompile(" CMd ]")
-		if gurmukhi == "" || regex.MatchString(gurmukhi) || (regexDasam.MatchString(gurmukhi) && source == "D") {
-			updatedFirstLetters = ""
-		} else {
-			words := strings.Split(gurmukhi, " ")
-			for key := range words {
-				word := words[key]
-				firstLetter := word[0:1]
-				if firstLetter == "]" {
-					firstLetter = ""
-				} //EOL--this could skip a word if there's no space after!
-				if firstLetter == "i" {
-					firstLetter = word[1:2]
-				} //sihari
-				if firstLetter == "^" {
-					firstLetter = "K"
-				} //khakha pair bindi
-				if firstLetter == "E" {
-					firstLetter = "a"
-				} //open oora
-				if firstLetter == "&" {
-					firstLetter = "P"
-				} //phapha pair bindi
-				if firstLetter == "S" {
-					firstLetter = "s"
-				} //sassa pair bindi
-				if firstLetter == "z" {
-					firstLetter = "j"
-				} //jajjapair bindi
-				if firstLetter == "Z" {
-					firstLetter = "g"
-				} //gagga pair bindi
-				if firstLetter == "L" {
-					firstLetter = "l"
-				} //lalla pair bindi
-				words[key] = firstLetter
-			}
-			updatedFirstLetters = strings.Join(words, "")
-			if len(updatedFirstLetters) == 1 {
-				updatedFirstLetters = ""
-			}
-		}
+// 		regex = regexp.MustCompile("m \\d | mhlw \\d | hlI bwc | kbIr jI| bwc ]$")
+// 		regexDasam := regexp.MustCompile(" CMd ]")
+// 		if gurmukhi == "" || regex.MatchString(gurmukhi) || (regexDasam.MatchString(gurmukhi) && source == "D") {
+// 			updatedFirstLetters = ""
+// 		} else {
+// 			words := strings.Split(gurmukhi, " ")
+// 			for key := range words {
+// 				word := words[key]
+// 				firstLetter := word[0:1]
+// 				if firstLetter == "]" {
+// 					firstLetter = ""
+// 				} //EOL--this could skip a word if there's no space after!
+// 				if firstLetter == "i" {
+// 					firstLetter = word[1:2]
+// 				} //sihari
+// 				if firstLetter == "^" {
+// 					firstLetter = "K"
+// 				} //khakha pair bindi
+// 				if firstLetter == "E" {
+// 					firstLetter = "a"
+// 				} //open oora
+// 				if firstLetter == "&" {
+// 					firstLetter = "P"
+// 				} //phapha pair bindi
+// 				if firstLetter == "S" {
+// 					firstLetter = "s"
+// 				} //sassa pair bindi
+// 				if firstLetter == "z" {
+// 					firstLetter = "j"
+// 				} //jajjapair bindi
+// 				if firstLetter == "Z" {
+// 					firstLetter = "g"
+// 				} //gagga pair bindi
+// 				if firstLetter == "L" {
+// 					firstLetter = "l"
+// 				} //lalla pair bindi
+// 				words[key] = firstLetter
+// 			}
+// 			updatedFirstLetters = strings.Join(words, "")
+// 			if len(updatedFirstLetters) == 1 {
+// 				updatedFirstLetters = ""
+// 			}
+// 		}
 
-		if firstLetters != updatedFirstLetters {
-			queries = append(queries, "UPDATE SHABAD SET FIRST_LETTERS='"+updatedFirstLetters+"' WHERE PK="+strconv.Itoa(pk))
-		}
-	}
+// 		if firstLetters != updatedFirstLetters {
+// 			queries = append(queries, "UPDATE SHABAD SET FIRST_LETTERS='"+updatedFirstLetters+"' WHERE PK="+strconv.Itoa(pk))
+// 		}
+// 	}
 
-	file, err := os.Create("queries.txt")
-	eh(err, "40")
-	defer file.Close()
-	fmt.Fprintf(file, strings.Join(queries, ";\n"))
-}
+// 	file, err := os.Create("queries.txt")
+// 	eh(err, "40")
+// 	defer file.Close()
+// 	fmt.Fprintf(file, strings.Join(queries, ";\n"))
+// }
 
-func findMistakes(w http.ResponseWriter, r *http.Request) {
-	// previousEnglish, previousTransliteration := "",""
-	var rows *sql.Rows
-	var err error
-	rows, err = db.Query("SELECT PK,GURMUKHI,ENGLISH,TRANSLITERATION FROM SHABAD")
-	eh(err, "41")
-	var queries []string
+// func findMistakes(w http.ResponseWriter, r *http.Request) {
+// 	// previousEnglish, previousTransliteration := "",""
+// 	var rows *sql.Rows
+// 	var err error
+// 	rows, err = db.Query("SELECT PK,GURMUKHI,ENGLISH,TRANSLITERATION FROM SHABAD")
+// 	eh(err, "41")
+// 	var queries []string
 
-	defer rows.Close()
-	for rows.Next() {
-		var pk int
-		var gurmukhi, english, transliteration string
+// 	defer rows.Close()
+// 	for rows.Next() {
+// 		var pk int
+// 		var gurmukhi, english, transliteration string
 
-		rows.Scan(&pk, &gurmukhi, &english, &transliteration)
+// 		rows.Scan(&pk, &gurmukhi, &english, &transliteration)
 
-		// if ((english != "" && english == previousEnglish) || (transliteration != "" && transliteration == previousTransliteration)) {
-		// queries = append(queries,strconv.Itoa(pk-1))
-		// queries = append(queries,strconv.Itoa(pk))
-		// }
+// 		// if ((english != "" && english == previousEnglish) || (transliteration != "" && transliteration == previousTransliteration)) {
+// 		// queries = append(queries,strconv.Itoa(pk-1))
+// 		// queries = append(queries,strconv.Itoa(pk))
+// 		// }
 
-		// previousEnglish = english
-		// previousTransliteration = transliteration
+// 		// previousEnglish = english
+// 		// previousTransliteration = transliteration
 
-		english = regexp.MustCompile("]([0-9]*[Pause]*)]").FindString(english)
-		gurmukhi = regexp.MustCompile("]([0-9]*[rhwau]*)]").FindString(gurmukhi)
-		transliteration = regexp.MustCompile("]([0-9]*[Rehaao]*)]").FindString(transliteration)
-		//fmt.Println(english+gurmukhi+transliteration)
-		if true {
-			queries = append(queries, strconv.Itoa(pk))
-		}
-	}
+// 		english = regexp.MustCompile("]([0-9]*[Pause]*)]").FindString(english)
+// 		gurmukhi = regexp.MustCompile("]([0-9]*[rhwau]*)]").FindString(gurmukhi)
+// 		transliteration = regexp.MustCompile("]([0-9]*[Rehaao]*)]").FindString(transliteration)
+// 		//fmt.Println(english+gurmukhi+transliteration)
+// 		if true {
+// 			queries = append(queries, strconv.Itoa(pk))
+// 		}
+// 	}
 
-	file, err := os.Create("duplicates.txt")
-	eh(err, "42")
-	defer file.Close()
-	fmt.Fprintf(file, "SELECT GURMUKHI,TRANSLITERATION,ENGLISH FROM SHABAD WHERE PK IN ("+strings.Join(queries, ",")+")")
-}
+// 	file, err := os.Create("duplicates.txt")
+// 	eh(err, "42")
+// 	defer file.Close()
+// 	fmt.Fprintf(file, "SELECT GURMUKHI,TRANSLITERATION,ENGLISH FROM SHABAD WHERE PK IN ("+strings.Join(queries, ",")+")")
+// }
 
-func executeQuery(query string) {
-	tx, err := db.Begin()
-	eh(err, "43")
-	stmt, err := tx.Prepare(query)
-	eh(err, "44")
-	defer stmt.Close()
-	_, err = stmt.Exec()
-	eh(err, "45")
-	tx.Commit()
-}
+// func executeQuery(query string) {
+// 	tx, err := db.Begin()
+// 	eh(err, "43")
+// 	stmt, err := tx.Prepare(query)
+// 	eh(err, "44")
+// 	defer stmt.Close()
+// 	_, err = stmt.Exec()
+// 	eh(err, "45")
+// 	tx.Commit()
+// }
 
 func clearShabad() {
 	shabadJSON = "[{\"gurmukhi\":\"\",\"translation\":\"\",\"transliteration\":\"\",\"darpan\":\"\",\"PK\":\"0\"}]"
@@ -1089,12 +1147,22 @@ func main() {
 	// \nYou can minimize this. If you want to stop the program, then close this window.\n\n--- Setup ---\n1. Open Google Chrome.\n2. Type (or copy & paste) in Address Bar:\n      localhost:8080/display\n3. Display in Full Screen with F11 or through the ≡ menu.\n4. Other devices can connect to your program using this address:\n      " + ip + ":8080\n\n--- Universal Shortcuts ---\nClear Display ..... esc\nHide Controller ... shift+h\nSearch ............ shift+s\nHistory Back ...... alt+left\nHistory Forward ... alt+right\n\n--- Shabad Hotkeys ---\n1. Number (123-890) and letter keys (QWERTY-CVBNM) will activate the\n corresponding line (i.e. 'Q' for 11th line & 'F' for 24th line).\n2. (Advanced) Spacebar activates a main line toggle. You can use spacebar from\n another line to hop back to the main line and spacebar on the main line to go\n to the next line. Can be buggy if activating from display (outside controller\n box).\n3. Shift+[, Shift+] turn on/off vishraam colors/commas respectively.
 	clearShabad()
 	newHistory()
-	db, err = sql.Open("sqlite3", "includes/data")
+	db, err = sql.Open("sqlite3", "includes/database.sqlite")
 	eh(err, "46")
 	defer db.Close()
+
+	var baniName string
+	var rows, err = db.Query("SELECT name_gurmukhi FROM banis ORDER BY id")
+	eh(err, "465")
+	defer rows.Close()
+	for rows.Next() {
+		rows.Scan(&baniName)
+		banis = append(banis, baniName)
+	}
+
 	settingsFile, _ := os.Open("settings.json")
 	decoder := json.NewDecoder(settingsFile)
-	err := decoder.Decode(&settings)
+	err = decoder.Decode(&settings)
 	eh(err, "47")
 
 	// set local IP

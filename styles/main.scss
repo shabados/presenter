@@ -1779,6 +1779,15 @@ body.color-scheme-day {
         .vishraamLight {
           color: $presentation-active-vishraamLight;
         }
+        .transliteration .vishraamHeavy {
+          color: mix($presentation-active-vishraamHeavy, $presentation-active-transliteration, 62%);
+        }
+        .transliteration .vishraamMedium {
+          color: mix($presentation-active-vishraamMedium, $presentation-active-transliteration, 62%);
+        }
+        .transliteration .vishraamLight {
+          color: mix($presentation-active-vishraamLight, $presentation-active-transliteration, 62%);
+        }
       }
       .gurmukhifont {
         color: $presentation-gurmukhi;
