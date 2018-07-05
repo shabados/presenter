@@ -823,17 +823,29 @@
 			e.preventDefault();
 		});
 	}
-	function pageUpDown (direction) {
-		do {
-			if(direction == "up") {
-				lineID--;
-				if (lineID < firstID) { lineID = firstID; break; }
-			} else {
-				lineID++;
-				if (lineID > lastID) { lineID = lastID; break; }
+	function naviUpDown (direction) {
+		if ( direction == "up" ) {
+			if ( lineID == firstID ) {
+				// don't function on banis, work only within db range
+				if ( !isNaN(shabadID) && shabadID > 1 && shabadID <= 10945 ) {
+					location.href = 'shabad?id=' + ( Number(shabadID) - 1 ) + '#' + ( $(".line"+lineID).attr("id") - 1 );
+				}
 			}
-		} while ($(".line"+lineID+" > .searchresult").data("hotkey") != "yes");
-		goToID(lineID);
+			else {
+				lineID--;
+				goToID(lineID);
+			}
+		} else {
+			if ( lineID == lastID ) {
+				if ( !isNaN(shabadID) && shabadID >= 1 && shabadID < 10945) {
+					location.href = 'shabad?id=' + ( Number(shabadID) + 1 );
+				}
+			}
+			else {
+				lineID++;
+				goToID(lineID);
+			}
+		}
 	}
 	function toggleJumpTo() {
 	// $("#navi-prog").hasClass('active')
@@ -877,13 +889,13 @@
 			window.location.href = 'history';
 		});
 		$("#navi-up").click(function() {
-			pageUpDown("up");
+			naviUpDown("up");
 		});
 		$("#navi-prog").click(function() {
 			toggleJumpTo();
 		});
 		$("#navi-down").click(function() {
-			pageUpDown("down");
+			naviUpDown("down");
 		});
 		$("#navi-bookmark").click(function() {
             window.location.href = 'banis';
