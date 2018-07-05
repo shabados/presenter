@@ -825,8 +825,8 @@
 	function naviUpDown (direction) {
 		if ( direction == "up" ) {
 			if ( lineID == firstID ) {
-				// don't function on banis, work only within SGGS range
-				if ( !isNaN(shabadID) && shabadID > 1 && shabadID <= 5543 ) {
+				// don't function on banis, work only within db range
+				if ( !isNaN(shabadID) && shabadID > 1 && shabadID <= 10945 ) {
 					location.href = 'shabad?id=' + ( Number(shabadID) - 1 ) + '#' + ( $(".line"+lineID).attr("id") - 1 );
 				}
 			}
@@ -836,7 +836,7 @@
 			}
 		} else {
 			if ( lineID == lastID ) {
-				if ( !isNaN(shabadID) && shabadID >= 1 && shabadID < 5543) {
+				if ( !isNaN(shabadID) && shabadID >= 1 && shabadID < 10945) {
 					location.href = 'shabad?id=' + ( Number(shabadID) + 1 );
 				}
 			}
