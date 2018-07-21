@@ -5,7 +5,7 @@
 
 import { Lines, Shabads } from '@shabados/database'
 
-import { MAX_RESULTS } from './consts.mjs'
+import { MAX_RESULTS } from './consts'
 
 /**
  * Queries the database for all lines with the first letters of each word.

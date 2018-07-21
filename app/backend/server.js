@@ -17,10 +17,10 @@ async function main() {
   updateNotifier( { pkg } ).notify()
 
   logger.info( 'Starting...' )
-
   // Setup the express server with WebSockets
   const mounts = [
-    { prefix: '/themes', dir: './frontend/themes' },
+    { prefix: '/', dir: `${__dirname}/../frontend/dist` },
+    { prefix: '/themes', dir: `${__dirname}/../frontend/themes` },
   ]
   const server = await setupExpress( mounts )
 
