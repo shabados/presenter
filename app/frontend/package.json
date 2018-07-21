@@ -1,0 +1,47 @@
+{
+  "name": "@shabados/frontend",
+  "version": "0.1.0",
+  "description": "Frontend component of Shabad OS Desktop (@shabados/desktop)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShabadOS/core.git"
+  },
+  "author": "ShabadOS Team <shabados.com@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ShabadOS/core/issues"
+  },
+  "homepage": ".",
+  "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.5",
+    "@fortawesome/fontawesome-free-regular": "^5.0.9",
+    "@fortawesome/fontawesome-free-solid": "^5.0.9",
+    "@fortawesome/react-fontawesome": "0.0.18",
+    "event-emitter": "^0.3.5",
+    "gurmukhi-utils": "^1.4.1",
+    "material-ui": "^1.0.0-beta.40",
+    "prop-types": "^15.6.1",
+    "qs": "^6.5.2",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "react-hotkeys": "^1.1.1",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "^1.1.4",
+    "react-transition-group": "^2.3.0",
+    "reconnecting-websocket": "^3.2.2",
+    "scroll-into-view": "^1.9.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0"
+  },
+  "proxy": "http://localhost:8080"
+}
