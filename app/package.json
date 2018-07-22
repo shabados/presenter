@@ -2,11 +2,11 @@
   "name": "@shabados/backend",
   "version": "1.0.0",
   "description": "Backend component of Shabad OS Desktop (@shabados/desktop)",
-  "main": "entry.js",
+  "main": "electron.js",
   "scripts": {
     "start": "node entry.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -e mjs -L --exec npm start | bunyan"
+    "dev": "nodemon -e js -L --exec npm start | bunyan"
   },
   "repository": {
     "type": "git",

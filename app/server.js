@@ -19,8 +19,8 @@ async function main() {
   logger.info( 'Starting...' )
   // Setup the express server with WebSockets
   const mounts = [
-    { prefix: '/', dir: `${__dirname}/../frontend/dist` },
-    { prefix: '/themes', dir: `${__dirname}/../frontend/themes` },
+    { prefix: '/', dir: `${__dirname}/frontend/build` },
+    { prefix: '/themes', dir: `${__dirname}/frontend/themes` },
   ]
   const server = await setupExpress( mounts )
 

@@ -2,12 +2,12 @@ version: '3.3'
 
 services:
   backend-dev:
-    build: ./backend
+    build: ./app
     command: ["npm", "run", "dev"]
     ports:
       - "8080:8080"
     volumes:
-      - "./app/backend:/usr/src/app"
+      - "./app:/usr/src/app"
       - "/usr/src/app/node_modules"
     environment:
       - NODE_ENV=development
