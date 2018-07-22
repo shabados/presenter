@@ -11,7 +11,7 @@
     "install-deps": "npm run install-deps:backend && npm run install-deps:frontend",
     "install-deps:backend": "cd app && npm install",
     "install-deps:frontend": "cd app/frontend && npm install",
-    "pack": "electron-builder --dir",
+    "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && elecron-builder",
     "postinstall": "npm run install-deps && electron-builder install-app-deps"
   },
