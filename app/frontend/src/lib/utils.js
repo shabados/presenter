@@ -31,7 +31,7 @@ export const stripPauses = line =>
 export const classifyWord = word => ( {
   word: stripPauses( word ),
   type: Object
-    .entries( { ...PAUSE_CHARS, } )
+    .entries( { ...PAUSE_CHARS } )
     .reduce( ( type, [ pauseType, pauseChar ] ) => (
       // Check if last char in word is the current pause char, and return that type if so
       word.slice( -1 ) === pauseChar ? pauseType : type ), null ),
