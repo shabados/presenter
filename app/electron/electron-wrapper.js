@@ -1,27 +1,32 @@
-const electron = require( 'electron' )
+// eslint-disable-next-line
+import { app, BrowserWindow } from 'electron'
+import logger from 'electron-log'
+import fetch from 'electron-fetch'
 
-const { app, BrowserWindow } = electron
+const { env } = process
+const PORT = env.NODE_ENV === 'production' ? 42424 : 8080
 
-const path = require( 'path' )
-const url = require( 'url' )
-
-//! Use constants/unifiy
-const BACKEND_URL = 'http://localhost:8080'
+const BASE_URL = `http://localhost:${PORT}`
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
+  .then( () => {
+    mainWindow.loadURL( BASE_URL )
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools()
+    mainWindow.maximize()
+    mainWindow.show()
+  } )
+  .catch( () => setTimeout( loadPage, 50 ) )
+
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow()
-  mainWindow.maximize()
+  mainWindow = new BrowserWindow( { show: false } )
 
-  // and load the index.html of the app.
-  mainWindow.loadURL( BACKEND_URL )
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  loadPage()
 
   // Emitted when the window is closed.
   mainWindow.on( 'closed', () => {
@@ -56,8 +61,8 @@ app.on( 'activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-if ( process.argv[ 1 ] === '--start-server' ) {
-  require( './entry' )
-}
-
-require( 'child_process' ).spawn( process.execPath, [ '--start-server' ] )
+process.on( 'uncaughtException', error => {
+  // Handle the error
+  logger.error( error )
+  process.exit( 1 )
+} )

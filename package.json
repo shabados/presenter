@@ -2,7 +2,7 @@
   "name": "@shabados/desktop",
   "version": "0.0.1",
   "description": "Electron wrapper around Shabad OS backend and frontend",
-  "main": "app/electron.js",
+  "main": "app/electron/entry.js",
   "scripts": {
     "dev": "npm-run-all -l -p dev:*",
     "dev:backend": "cd app && npm run dev",
@@ -32,6 +32,9 @@
   },
   "build": {
     "appId": "com.shabados.desktop",
-    "asar": false
+    "asar": false,
+    "win": {
+      "artifactName": "Shabad OS.${ext}"
+    }
   }
 }

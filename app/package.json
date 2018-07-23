@@ -2,9 +2,9 @@
   "name": "@shabados/backend",
   "version": "1.0.0",
   "description": "Backend component of Shabad OS Desktop (@shabados/desktop)",
-  "main": "electron.js",
+  "main": "electron/entry.js",
   "scripts": {
-    "start": "node entry.js",
+    "start": "node -r esm server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -e js -L --exec npm start | bunyan"
   },
@@ -24,6 +24,8 @@
     "bunyan": "^1.8.12",
     "compression": "^1.7.3",
     "download-github-release": "^0.3.2",
+    "electron-fetch": "^1.2.1",
+    "electron-log": "^2.2.16",
     "esm": "^3.0.72",
     "express": "^4.16.3",
     "fs-extra": "^5.0.0",
@@ -32,7 +34,6 @@
     "objection": "^1.2.0",
     "progress": "^2.0.0",
     "semver": "^5.5.0",
-    "update-notifier": "^2.5.0",
     "ws": "^5.2.2"
   },
   "devDependencies": {
