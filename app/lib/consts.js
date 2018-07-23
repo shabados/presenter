@@ -15,3 +15,6 @@ export const TEMP_DIR = './tmp'
 
 // Max Search results to return in one go
 export const MAX_RESULTS = 20
+
+// Backend port
+export const PORT = process.env.NODE_ENV === 'production' ? 42424 : 8080
