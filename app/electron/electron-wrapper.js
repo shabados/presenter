@@ -8,10 +8,12 @@ const PORT = env.NODE_ENV === 'production' ? 42424 : 8080
 
 const BASE_URL = `http://localhost:${PORT}`
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+/**
+ * Loads the Shabad OS web page, if available.
+ * Uses server heartbeat to determine whether server is ready yet.
+ */
 const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
   .then( () => {
     mainWindow.loadURL( BASE_URL )
@@ -20,15 +22,15 @@ const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
     mainWindow.maximize()
     mainWindow.show()
   } )
-  .catch( () => setTimeout( loadPage, 50 ) )
+  .catch( () => setTimeout( loadPage, 300 ) )
 
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow( { show: false } )
 
+  // Load the web page
   loadPage()
 
-  // Emitted when the window is closed.
   mainWindow.on( 'closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -37,9 +39,6 @@ function createWindow() {
   } )
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on( 'ready', createWindow )
 
 // Quit when all windows are closed.
@@ -52,17 +51,16 @@ app.on( 'window-all-closed', () => {
 } )
 
 app.on( 'activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if ( mainWindow === null ) {
     createWindow()
   }
 } )
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+// Catch any errors
+//! Should catch port in use separately, means shabad os is likely already running
 process.on( 'uncaughtException', error => {
-  // Handle the error
+  // Log it
   logger.error( error )
+
   process.exit( 1 )
 } )
