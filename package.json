@@ -35,7 +35,7 @@
     "appId": "com.shabados.desktop",
     "asar": false,
     "win": {
-      "artifactName": "Shabad OS Setup.${ext}"
+      "artifactName": "Shabad-OS-Setup.${ext}"
     }
   }
 }
