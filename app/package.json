@@ -1,7 +1,7 @@
 {
   "name": "@shabados/backend",
   "version": "1.0.0",
-  "description": "Backend component of Shabad OS Desktop (@shabados/desktop)",
+  "description": "Next generation Gurbani presentation software",
   "main": "electron/entry.js",
   "scripts": {
     "start": "node -r esm server.js",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/ShabadOS/core.git"
   },
-  "author": "ShabadOS Team <shabados.com@gmail.com>",
+  "author": "Shabad OS Team <shabados.com@gmail.com>",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/ShabadOS/core/issues"

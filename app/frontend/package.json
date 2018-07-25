@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/ShabadOS/core.git"
   },
-  "author": "ShabadOS Team <shabados.com@gmail.com>",
+  "author": "Shabad OS Team <shabados.com@gmail.com>",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/ShabadOS/core/issues"

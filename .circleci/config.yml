@@ -1,0 +1,73 @@
+version: 2
+jobs:
+  build-mac:
+    macos:
+      xcode: "9.0"
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build application
+          command: npm run build
+      - run:
+          name: Build binaries
+          command: npm run dist -- -m
+      - run: mkdir artifacts && mv dist/Shabad* artifacts
+      - store_artifacts:
+          path: artifacts
+          destination: artifacts
+
+  build-linux:
+    docker:
+      - image: electronuserland/builder
+    environment:
+      USE_HARD_LINKS: false
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build application
+          command: npm run build
+      - run:
+          name: Build binaries
+          command: npm run dist -- -l
+      - run: mkdir artifacts && mv dist/Shabad* artifacts
+      - store_artifacts:
+          path: artifacts
+          destination: artifacts
+
+  build-windows:
+    docker:
+      - image: electronuserland/builder:wine
+    environment:
+      USE_HARD_LINKS: false
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build application
+          command: npm run build
+      - run:
+          name: Build binaries
+          command: npm run dist -- -w
+      - run: mkdir artifacts && mv dist/Shabad* artifacts
+      - store_artifacts:
+          path: artifacts
+          destination: artifacts
+      - add_ssh_keys:
+          fingerprints:
+            - "e5:71:50:86:4f:6c:3e:f6:8b:f2:d5:45:ec:f0:9a:f1"
+
+workflows:
+  version: 2
+  build-all:
+    jobs:
+      - build-windows
+      - build-mac
+      - build-linux

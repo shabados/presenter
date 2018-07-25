@@ -5,7 +5,7 @@ import { List, ListItem } from 'material-ui'
 import {
   faChevronUp,
   faChevronDown,
-  faThumbtack,
+  // faThumbtack,
   faExchangeAlt,
 } from '@fortawesome/fontawesome-free-solid'
 
