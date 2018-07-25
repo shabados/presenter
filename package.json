@@ -4,6 +4,7 @@
   "description": "Electron wrapper around Shabad OS backend and frontend",
   "main": "app/electron/entry.js",
   "scripts": {
+    "test": "echo \"No tests\"",
     "dev": "npm-run-all -l -p dev:*",
     "dev:backend": "cd app && npm run dev",
     "dev:frontend": "cd app/frontend && npm start",
@@ -12,7 +13,7 @@
     "install-deps:backend": "cd app && npm install",
     "install-deps:frontend": "cd app/frontend && npm install",
     "pack": "npm run build && electron-builder --dir",
-    "dist": "npm run build && elecron-builder",
+    "dist": "npm run build && electron-builder",
     "postinstall": "npm run install-deps && electron-builder install-app-deps"
   },
   "repository": {
@@ -34,7 +35,7 @@
     "appId": "com.shabados.desktop",
     "asar": false,
     "win": {
-      "artifactName": "Shabad OS.${ext}"
+      "artifactName": "Shabad OS Setup.${ext}"
     }
   }
 }
