@@ -60,8 +60,7 @@
     },
     "mac": {
       "target": [
-        "dmg",
-        "pkg"
+        "dmg"
       ]
     },
     "dmg": {
