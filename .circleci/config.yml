@@ -11,6 +11,8 @@ jobs:
       - run:
           name: Create application with installer
           command: npm run dist
+          environment:
+              USE_HARD_LINKS: false
       - store_artifacts:
           path: "dist/Shabad OS Installer.pkg"
       - store_artifacts:
@@ -30,6 +32,8 @@ jobs:
       - run:
           name: Create application with installer
           command: npm run dist
+          environment:
+              USE_HARD_LINKS: false
       - store_artifacts:
           path: "dist/Shabad OS Installer.exe"
       - store_artifacts:
