@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build-mac:
-    machine:
+    macos:
       xcode: "9.2"
     steps:
       - checkout
