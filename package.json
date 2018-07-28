@@ -57,6 +57,18 @@
     },
     "nsis": {
       "artifactName": "Shabad OS Installer.exe"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "pkg"
+      ]
+    },
+    "dmg": {
+      "artifactName": "Shabad OS Installer.dmg"
+    },
+    "pkg": {
+      "artifactName": "Shabad OS Installer.pkg"
     }
   }
 }

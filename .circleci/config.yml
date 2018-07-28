@@ -1,6 +1,22 @@
 version: 2
 jobs:
-  build:
+  build-mac:
+    machine:
+      xcode: "9.2"
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Create application with installer
+          command: npm run dist
+      - store_artifacts:
+          path: "dist/Shabad OS Installer.pkg"
+      - store_artifacts:
+          path: "dist/Shabad OS Installer.dmg"
+
+  build-windows:
     docker:
       - image: electronuserland/builder:wine
     steps:
@@ -41,3 +57,11 @@ jobs:
               echo "Releasing on Github"
               npm run release
             fi
+
+
+workflows:
+  version: 2
+  build-all:
+    jobs:
+      - build-windows
+      - build-mac
