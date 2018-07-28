@@ -15,7 +15,9 @@ jobs:
           name: Create application with installer
           command: npm run dist
       - store_artifacts:
-          path: dist/Shabad-OS-Setup.exe
+          path: "dist/Shabad OS Installer.exe"
+      - store_artifacts:
+          path: "dist/Shabad OS Portable.exe"
       - add_ssh_keys:
           fingerprints:
             - "e5:71:50:86:4f:6c:3e:f6:8b:f2:d5:45:ec:f0:9a:f1"

@@ -35,7 +35,28 @@
     "appId": "com.shabados.desktop",
     "asar": false,
     "win": {
-      "artifactName": "Shabad-OS-Setup.${ext}"
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        },
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "Shabad OS Portable.exe"
+    },
+    "nsis": {
+      "artifactName": "Shabad OS Installer.exe"
     }
   }
 }
