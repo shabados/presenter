@@ -2,12 +2,16 @@
  * Constants file.
  * @ignore
  */
+import { join } from 'path'
+
+import { getAppDataPath } from 'appdata-path'
 
 // Check every 15 seconds (in dev)
 export const UPDATE_CHECK_INTERVAL = 1000 * 15
 
-// Setting file locations
-export const SETTINGS_FILE = `${__dirname}/../settings.json`
+// File locations
+export const DATA_FOLDER = join( getAppDataPath( ), 'Shabad OS' )
+export const SETTINGS_FILE = join( DATA_FOLDER, 'settings.json' )
 export const DEFAULT_SETTINGS_FILE = `${__dirname}/../settings.default.json`
 
 // Temporary files directory

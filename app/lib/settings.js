@@ -3,7 +3,7 @@
  * @ignore
  */
 
-import { readJSONSync, writeJSONSync } from 'fs-extra'
+import { readJSONSync, writeJSONSync, ensureFileSync } from 'fs-extra'
 
 import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts'
 import logger from './logger'
@@ -79,6 +79,7 @@ class Settings {
       return readJSONSync( SETTINGS_FILE )
     } catch ( err ) {
       logger.warn( 'Settings file is corrupt or non-existent. Recreating.' )
+      ensureFileSync( SETTINGS_FILE )
       writeJSONSync( SETTINGS_FILE, {} )
       return {}
     }
