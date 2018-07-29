@@ -34,6 +34,9 @@
   "build": {
     "appId": "com.shabados.desktop",
     "asar": false,
+    "directories": {
+      "buildResources": "resources"
+    },
     "extraMetadata":{
       "name": "Shabad OS"
     },
