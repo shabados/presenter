@@ -24,6 +24,12 @@ services:
     ports:
       - "3000:3000"
 
+  build-frontend:
+    build: ./app
+    command: ["npm", "run", "build"]
+    volumes:
+      - "./app:/usr/src/app"
+  
   build-linux:
     image: electronuserland/builder
     environment:
@@ -31,4 +37,12 @@ services:
     volumes:
         - ".:/project"
     command: ["npm", "run", "dist"]
+
+  build-windows:
+    image: electronuserland/builder:wine
+    environment:
+      - USE_HARD_LINKS=false
+    volumes:
+        - ".:/project"
+    command: ["npm", "run", "dist", "--", "-w"]
 

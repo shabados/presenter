@@ -11,8 +11,11 @@ jobs:
           name: Install dependencies
           command: npm install
       - run:
-          name: Create application with installer
-          command: npm run dist
+          name: Build application
+          command: npm run build
+      - run:
+          name: Build binaries
+          command: npm run dist -- -m
       - run: mkdir artifacts && mv dist/Shabad* artifacts
       - store_artifacts:
           path: artifacts
@@ -29,8 +32,11 @@ jobs:
           name: Install dependencies
           command: npm install
       - run:
-          name: Create applications
-          command: npm run dist
+          name: Build application
+          command: npm run build
+      - run:
+          name: Build binaries
+          command: npm run dist -- -l
       - run: mkdir artifacts && mv dist/Shabad* artifacts
       - store_artifacts:
           path: artifacts
@@ -47,8 +53,11 @@ jobs:
           name: Install dependencies
           command: npm install
       - run:
-          name: Create application with installer
-          command: npm run dist
+          name: Build application
+          command: npm run build
+      - run:
+          name: Build binaries
+          command: npm run dist -- -w
       - run: mkdir artifacts && mv dist/Shabad* artifacts
       - store_artifacts:
           path: artifacts
