@@ -14,7 +14,23 @@ jobs:
           name: Create application with installer
           command: npm run dist
       - store_artifacts:
-          path: "dist/Shabad OS Installer.dmg"
+          path: dist/
+
+  build-linux:
+    docker:
+      - image: electronuserland/builder
+    environment:
+      USE_HARD_LINKS: false
+      steps:
+        - checkout
+        - run:
+            name: Install dependencies
+            command: npm install
+        - run:
+            name: Create applications
+            command: npm run dist
+        store_artifacts:
+          path: dist/
 
   build-windows:
     docker:
@@ -30,32 +46,10 @@ jobs:
           name: Create application with installer
           command: npm run dist
       - store_artifacts:
-          path: "dist/Shabad OS Installer.exe"
-      - store_artifacts:
-          path: "dist/Shabad OS Portable.exe"
+          path: dist/
       - add_ssh_keys:
           fingerprints:
             - "e5:71:50:86:4f:6c:3e:f6:8b:f2:d5:45:ec:f0:9a:f1"
-      - deploy:
-          name: Release executables on Github
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              # Write npm token to .npmrc
-              echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-
-              # Configure git
-              git config --global push.default current
-              # Remove .gitignore to allow the built DB to be pushed
-              rm .gitignore
-
-              # Remove data to reduce npm package size
-              rm -rf data
-
-              # Run Release script
-              chmod +x release.sh
-              echo "Releasing on Github"
-              npm run release
-            fi
 
 workflows:
   version: 2
@@ -63,3 +57,4 @@ workflows:
     jobs:
       - build-windows
       - build-mac
+      - build-linux

@@ -1,7 +1,7 @@
 {
-  "name": "ShabadOS",
+  "name": "@shabados/backend",
   "version": "1.0.0",
-  "description": "Backend component of Shabad OS Desktop (@shabados/desktop)",
+  "description": "Next generation Gurbani presentation software",
   "main": "electron/entry.js",
   "scripts": {
     "start": "node -r esm server.js",

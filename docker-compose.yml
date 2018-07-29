@@ -26,6 +26,8 @@ services:
 
   build-linux:
     image: electronuserland/builder
+    environment:
+      - USE_HARD_LINKS=false
     volumes:
         - ".:/project"
     command: ["npm", "run", "dist"]
