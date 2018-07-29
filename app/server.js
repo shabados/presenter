@@ -1,15 +1,21 @@
+import { ensureDirSync } from 'fs-extra'
+
 import { setupExpress } from './lib/express'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
 import { searchLines } from './lib/db'
 import logger from './lib/logger'
-import { PORT } from './lib/consts'
+import { PORT, DATA_FOLDER } from './lib/consts'
 
 /**
  * Async entry point for application.
  */
 async function main() {
   logger.info( 'Starting...' )
+
+  // Check if the data directory for the app exists, otherwise create it
+  ensureDirSync( DATA_FOLDER )
+
   // Setup the express server with WebSockets
   const mounts = [
     { prefix: '/', dir: `${__dirname}/frontend/build` },
