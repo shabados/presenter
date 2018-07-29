@@ -3,8 +3,6 @@ jobs:
   build-mac:
     macos:
       xcode: "9.0"
-    environment:
-      USE_HARD_LINKS: false
     steps:
       - checkout
       - run:
