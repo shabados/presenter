@@ -68,6 +68,14 @@
     },
     "pkg": {
       "artifactName": "Shabad OS Installer.pkg"
+    },
+    "linux": {
+      "target": [
+        "snap",
+        "deb",
+        "rpm",
+        "AppImage"
+      ]
     }
   }
 }

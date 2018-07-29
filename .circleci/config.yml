@@ -14,8 +14,6 @@ jobs:
           name: Create application with installer
           command: npm run dist
       - store_artifacts:
-          path: "dist/Shabad OS Installer.pkg"
-      - store_artifacts:
           path: "dist/Shabad OS Installer.dmg"
 
   build-windows:
@@ -28,9 +26,6 @@ jobs:
       - run:
           name: Install dependencies
           command: npm install
-      - run:
-          name: Run tests
-          command: npm run test
       - run:
           name: Create application with installer
           command: npm run dist
@@ -61,7 +56,6 @@ jobs:
               echo "Releasing on Github"
               npm run release
             fi
-
 
 workflows:
   version: 2
