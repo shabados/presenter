@@ -21,16 +21,16 @@ jobs:
       - image: electronuserland/builder
     environment:
       USE_HARD_LINKS: false
-      steps:
-        - checkout
-        - run:
-            name: Install dependencies
-            command: npm install
-        - run:
-            name: Create applications
-            command: npm run dist
-        - store_artifacts:
-            path: dist/
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Create applications
+          command: npm run dist
+      - store_artifacts:
+          path: dist/
 
   build-windows:
     docker:
