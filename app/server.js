@@ -1,26 +1,19 @@
-import updateNotifier from 'update-notifier'
-
 import { setupExpress } from './lib/express'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
 import { searchLines } from './lib/db'
-
 import logger from './lib/logger'
-
-import pkg from './package.json'
+import { PORT } from './lib/consts'
 
 /**
  * Async entry point for application.
  */
 async function main() {
-  // Hook in update notifier
-  updateNotifier( { pkg } ).notify()
-
   logger.info( 'Starting...' )
-
   // Setup the express server with WebSockets
   const mounts = [
-    { prefix: '/themes', dir: './frontend/themes' },
+    { prefix: '/', dir: `${__dirname}/frontend/build` },
+    { prefix: '/themes', dir: `${__dirname}/frontend/themes` },
   ]
   const server = await setupExpress( mounts )
 
@@ -36,10 +29,8 @@ async function main() {
     client.sendJSON( 'results', await searchLines( search ) ) )
 
   // Start the server
-  const port = process.env.PORT || 8080
-  server.listen( port, () => logger.info( `Running express API server on port ${port}` ) )
+  server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )
 }
-
 
 // Handle any errors by crashing
 main().catch( error => {

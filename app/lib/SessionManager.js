@@ -3,9 +3,9 @@
  * @ignore
  */
 
-import logger from './logger.mjs'
+import logger from './logger'
 import settingsManager from './settings'
-import { getShabad } from './db.mjs'
+import { getShabad } from './db'
 
 /**
  * Handles synchronisation of all the sessions.

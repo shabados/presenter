@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, Route, withRouter } from 'react-router-dom'
 
 import { HotKeys } from 'react-hotkeys'
-import queryString from 'query-string'
+import queryString from 'qs'
 
 import CssBaseline from 'material-ui/CssBaseline'
 import { IconButton } from 'material-ui'

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { Input, List, ListItem } from 'material-ui'
-import { toUnicode } from '@shabados/gurmukhi-utils'
+import { toUnicode } from 'gurmukhi-utils'
 
 import { MAX_RESULTS, MIN_SEARCH_CHARS, WILDCARD_CHAR } from '../../lib/consts'
 import { getFirstLetters, stripPauses } from '../../lib/utils'

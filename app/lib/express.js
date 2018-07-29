@@ -28,11 +28,16 @@ export const setupExpress = ( mounts = [], middleware = [] ) => {
 
   const server = http.createServer( app )
 
+  // Register middleware
   allMiddleware.forEach( m => app.use( m ) )
   logger.info( 'Loaded all middleware' )
 
+  // Serve any passed in directories
   mounts.forEach( ( { dir, prefix = '/' } ) => app.use( prefix, express.static( dir ) ) )
   logger.info( 'Loaded all directory mounts' )
+
+  // Register heartbeat route
+  app.get( '/heartbeat', ( req, res ) => res.send( 'alive' ) )
 
   return server
 }

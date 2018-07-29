@@ -5,6 +5,6 @@
 
 import bunyan from 'bunyan'
 
-const logger = bunyan.createLogger( { name: 'shabadOS-core' } )
+const logger = bunyan.createLogger( { name: 'shabadOS-backend' } )
 
 export default logger
