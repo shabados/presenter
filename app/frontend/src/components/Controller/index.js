@@ -19,7 +19,8 @@ import controller from '../../lib/controller'
 import {
   BOOKMARKS_URL,
   CONTROLLER_URL,
-  HISTORY_URL, MENU_URL,
+  HISTORY_URL,
+  MENU_URL,
   NAVIGATOR_URL,
   SEARCH_URL,
 } from '../../lib/consts'
@@ -28,6 +29,7 @@ import ToolbarButton from './ToolbarButton'
 import Search from './Search'
 import Menu from './Menu'
 import Navigator, { Bar as NavigatorBar } from './Navigator'
+import History from './History'
 
 import './index.css'
 
@@ -147,8 +149,9 @@ class Controller extends Component {
     const { history, shabad, location } = this.props
     const { pathname } = location
 
-    // Go to navigator if a different Shabad has been selected, and we're on the search page
-    if ( shabad !== prevShabad && pathname.includes( SEARCH_URL ) ) {
+    const redirects = [ SEARCH_URL, HISTORY_URL ]
+    // Go to navigator if a different Shabad has been selected, and we're on the search/history page
+    if ( shabad !== prevShabad && redirects.some( route => pathname.includes( route ) ) ) {
       history.push( { ...location, pathname: NAVIGATOR_URL } )
     }
   }
@@ -163,6 +166,7 @@ class Controller extends Component {
       [ MENU_URL, Menu ],
       [ SEARCH_URL, Search ],
       [ NAVIGATOR_URL, Navigator, NavigatorBar ],
+      [ HISTORY_URL, History ],
     ]
 
     return (

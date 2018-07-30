@@ -14,7 +14,7 @@ import {
   CONTROLLER_URL,
   HISTORY_URL, MENU_URL, NAVIGATOR_URL,
   SEARCH_URL,
-  SHORTCUTS
+  SHORTCUTS,
 } from './lib/consts'
 import controller from './lib/controller'
 import ThemeLoader from './components/ThemeLoader'
@@ -33,6 +33,7 @@ class App extends Component {
       lineId: null,
       mainLineId: null,
       viewedLines: new Set(),
+      shabadHistory: [],
       shabad: null,
       theme: 'day',
     }
@@ -46,6 +47,7 @@ class App extends Component {
     controller.on( 'line', this.onLine )
     controller.on( 'mainLine', this.onMainLine )
     controller.on( 'viewedLines', this.onViewedLines )
+    controller.on( 'history', this.onHistory )
   }
 
   componentWillUnmount() {
@@ -64,6 +66,7 @@ class App extends Component {
   onLine = lineId => this.setState( { lineId } )
   onViewedLines = viewedLines => this.setState( { viewedLines } )
   onMainLine = mainLineId => this.setState( { mainLineId } )
+  onHistory = shabadHistory => this.setState( { shabadHistory } )
 
   /**
    * More concise form to navigate to URLs, retaining query params.
@@ -86,7 +89,7 @@ class App extends Component {
     const previousSearch = queryString.parse( search )
     history.push( {
       ...location,
-      search: queryString.stringify( { ...previousSearch, ...params } )
+      search: queryString.stringify( { ...previousSearch, ...params } ),
     } )
   }
 
@@ -135,7 +138,7 @@ class App extends Component {
   preventDefault = events => Object.entries( events )
     .reduce( ( events, [ name, handler ] ) => ( {
       ...events,
-      [ name ]: event => event.preventDefault() & handler( event ),
+      [ name ]: event => event.preventDefault() || handler( event ),
     } ), {} )
 
   hotKeyHandlers = this.preventDefault( {
@@ -143,11 +146,11 @@ class App extends Component {
     'New Controller': () => window.open( `${CONTROLLER_URL}?controllerOnly=true`, '_blank' ),
     'History Back': () => this.props.history.goBack(),
     'History Forwards': () => this.props.history.goForward(),
-    'Menu': () => this.go( MENU_URL ),
-    'Search': () => this.go( SEARCH_URL ),
-    'History': () => this.go( HISTORY_URL ),
-    'Bookmarks': () => this.go( BOOKMARKS_URL ),
-    'Navigator': () => this.go( NAVIGATOR_URL ),
+    Menu: () => this.go( MENU_URL ),
+    Search: () => this.go( SEARCH_URL ),
+    History: () => this.go( HISTORY_URL ),
+    Bookmarks: () => this.go( BOOKMARKS_URL ),
+    Navigator: () => this.go( NAVIGATOR_URL ),
     'Clear Display': controller.clear,
     'Toggle Shortcuts Help': () => this.toggleQuery( 'showShortcuts' ),
     'Toggle Fullscreen Controller': this.fullscreenController,
