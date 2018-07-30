@@ -22,6 +22,7 @@ class SessionManager {
       shabad: null,
       viewedLines: new Set(),
       mainLineId: null,
+      history: [],
     }
 
     // Send all the current data on connection from a new client
@@ -31,6 +32,7 @@ class SessionManager {
     socket.on( 'shabad', this.onShabad.bind( this ) )
     socket.on( 'line', this.onLine.bind( this ) )
     socket.on( 'mainLine', this.onMainLine.bind( this ) )
+    socket.on( 'clearHistory', this.onClearHistory.bind( this ) )
   }
 
   /**
@@ -38,13 +40,14 @@ class SessionManager {
    * @param client The client to synchronise the state to.
    */
   synchronise( client ) {
-    const { baniId, mainLineId, viewedLines, lineId, shabad } = this.session
+    const { baniId, history, mainLineId, viewedLines, lineId, shabad } = this.session
 
     client.sendJSON( 'shabad', shabad )
     client.sendJSON( 'bani', baniId )
     client.sendJSON( 'line', lineId )
     client.sendJSON( 'viewedLines', viewedLines )
     client.sendJSON( 'mainLine', mainLineId )
+    client.sendJSON( 'history', history )
   }
 
   /**
@@ -57,9 +60,23 @@ class SessionManager {
     logger.info( `Setting Shabad ID to ${shabadId}` )
 
     const shabad = await getShabad( shabadId )
-    this.session = { ...this.session, shabad, lineId, viewedLines: new Set(), mainLineId: null }
+    this.session = {
+      ...this.session,
+      shabad,
+      lineId,
+      viewedLines: new Set(),
+      mainLineId: null,
+      history: [
+        ...this.session.history,
+        {
+          timestamp: new Date(),
+          line: shabad.lines.find( ( { id } ) => lineId === id ),
+        },
+      ],
+    }
 
     this.socket.broadcast( 'shabad', shabad )
+    this.socket.broadcast( 'history', this.session.history )
     this.onLine( client, lineId )
   }
 
@@ -89,6 +106,17 @@ class SessionManager {
 
     this.socket.broadcast( 'mainLine', mainLineId )
     this.session = { ...this.session, mainLineId }
+  }
+
+  /**
+   * Clear the session history.
+   */
+  onClearHistory() {
+    logger.info( 'Clearing history' )
+
+    const history = []
+    this.session = { ...this.session, history }
+    this.socket.broadcast( 'history', history )
   }
 
   /**

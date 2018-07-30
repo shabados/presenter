@@ -84,3 +84,10 @@
     color: var(--controller-text-color);
     opacity: 0.8;
 }
+
+.controller .hotkey {
+    font-weight: normal;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    font-family: "Noto Sans Regular", sans-serif;
+}

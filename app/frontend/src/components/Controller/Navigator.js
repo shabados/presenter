@@ -91,8 +91,7 @@ class Navigator extends Component {
 /**
  * Used by Menu parent to render content in the bottom bar.
  */
-export const Bar = ( {mainLineId, lineId } ) => {
-
+export const Bar = ( { mainLineId, lineId } ) => {
   console.log( mainLineId )
   const autoselectProps = {
     icon: faExchangeAlt,
