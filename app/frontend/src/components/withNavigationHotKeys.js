@@ -55,7 +55,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         if ( key === 'ArrowDown' || key === 'ArrowUp' ) {
           event.preventDefault()
           this.setNodeSize()
-          key === 'ArrowDown' ? this.nextItem() : this.prevItem()
+          if ( key === 'ArrowDown' ) { this.nextItem() } else { this.prevItem() }
           event.target.blur()
         }
       }
@@ -63,22 +63,56 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
       /**
        * Sets the length of the nodes to the correct size.
        */
-      setNodeSize = () => this.nodes.forEach(
-        ( value, key ) => value ? value : this.nodes.delete( key )
-      )
+      setNodeSize = () => this.nodes.forEach( ( value, key ) => ( (
+        value || this.nodes.delete( key ) )
+      ) )
 
       /**
-       * Registers the ref under the current list of nodes.
-       * @param name The name to identify the ref.
-       * @param ref The ref to store.
-       * @param isInput Whether or not the ref is to an `<input/>`.
+       * Sets the focus in the DOM to the `focusedIndex`'th element of the children.
        */
-      registerRef = ( name, ref, isInput ) => {
-        this.nodes.set( name, ref )
+      setFocus = () => {
+        const { focusedIndex } = this.state
 
-        // Store the input, if it is one
-        if ( isInput ) {
-          this.inputs = [ ...this.inputs, ref ]
+        // Find the DOM node for the child to focus, and focus it
+        const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
+        if ( node ) {
+          node.focus()
+          scrollIntoCenter( node )
+        }
+      }
+
+      /**
+       * Simulates a click on the focused component.
+       */
+      simulateClick = () => {
+        const { focusedIndex } = this.state
+
+        // Simulate a click on the focused element if possible
+        const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
+        if ( node ) {
+          node.click()
+        }
+      }
+
+      /**
+       * Jump to an item given it's name/identifier.
+       * @param name The name of the element.
+       * @param click Trigger the click.
+       */
+      jumpToName = ( name, click = true ) =>
+        this.jumpTo( [ ...this.nodes.keys() ].findIndex( key => key === name ), click )
+
+      /**
+       * Jumps to an element.
+       * @param focusedIndex The element index to jump to.
+       * @param click Trigger the click.
+       */
+      jumpTo = ( focusedIndex, click = true ) => {
+        this.setState( { focusedIndex } )
+
+        // Click on navigation if set
+        if ( clickOnFocus && click ) {
+          this.simulateClick()
         }
       }
 
@@ -107,51 +141,17 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
       }
 
       /**
-       * Jumps to an element.
-       * @param focusedIndex The element index to jump to.
-       * @param click Trigger the click.
+       * Registers the ref under the current list of nodes.
+       * @param name The name to identify the ref.
+       * @param ref The ref to store.
+       * @param isInput Whether or not the ref is to an `<input/>`.
        */
-      jumpTo = ( focusedIndex, click = true ) => {
-        this.setState( { focusedIndex } )
+      registerRef = ( name, ref, isInput ) => {
+        this.nodes.set( name, ref )
 
-        // Click on navigation if set
-        if ( clickOnFocus && click ) {
-          this.simulateClick()
-        }
-      }
-
-      /**
-       * Jump to an item given it's name/identifier.
-       * @param name The name of the element.
-       * @param click Trigger the click.
-       */
-      jumpToName = ( name, click = true ) =>
-        this.jumpTo( [ ...this.nodes.keys() ].findIndex( key => key === name ), click )
-
-      /**
-       * Simulates a click on the focused component.
-       */
-      simulateClick = () => {
-        const { focusedIndex } = this.state
-
-        // Simulate a click on the focused element if possible
-        const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
-        if ( node ) {
-          node.click()
-        }
-      }
-
-      /**
-       * Sets the focus in the DOM to the `focusedIndex`'th element of the children.
-       */
-      setFocus = () => {
-        const { focusedIndex } = this.state
-
-        // Find the DOM node for the child to focus, and focus it
-        const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
-        if ( node ) {
-          node.focus()
-          scrollIntoCenter( node )
+        // Store the input, if it is one
+        if ( isInput ) {
+          this.inputs = [ ...this.inputs, ref ]
         }
       }
 
@@ -191,11 +191,12 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         const focused = [ ...this.nodes.keys() ][ focusedIndex ]
 
         return (
-          <HotKeys component="document-fragment"
-                   focused
-                   attach={window}
-                   handlers={handlers}
-                   keyMap={this.keymap}
+          <HotKeys
+            component="document-fragment"
+            focused
+            attach={window}
+            handlers={handlers}
+            keyMap={this.keymap}
           >
             <WrappedComponent
               {...rest}
