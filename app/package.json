@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node -r esm server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -e js -L --exec npm start | bunyan"
+    "dev": "nodemon --ignore frontend/ -L --exec npm start | bunyan"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
     "ws": "^5.2.2"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.6",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.13.0",
