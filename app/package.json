@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node -r esm server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -e js -L --exec npm start | bunyan"
+    "dev": "nodemon --ignore frontend/ -L --exec npm start | bunyan"
   },
   "repository": {
     "type": "git",
