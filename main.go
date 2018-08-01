@@ -637,7 +637,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 		qArray := strings.Split(query, " ")
 		query = strings.Replace(query, " ", "%\" AND GURMUKHI LIKE \"%", -1)
 		if len(query) > 1 {
-			rows, err := db.Query("SELECT lines.order_id, shabads.order_id, gurmukhi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE gurmukhi LIKE \"%" + query + "%\" LIMIT 300")
+			rows, err := db.Query("SELECT lines.order_id, shabads.order_id, gurmukhi FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE gurmukhi LIKE \"%" + query + "%\" ORDER BY lines.order_id LIMIT 300")
 			eh(err, "10")
 			defer rows.Close()
 			for rows.Next() {
@@ -666,7 +666,7 @@ func getResultsHTML(w http.ResponseWriter, r *http.Request) {
 	} else {
 		query = strings.Replace(query, " ", "?", -1)
 		// qArray := strings.Split(q, "?")
-		stmt, err := db.Prepare("SELECT lines.order_id, shabads.order_id, gurmukhi, first_letters FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE first_letters GLOB ? LIMIT 100")
+		stmt, err := db.Prepare("SELECT lines.order_id, shabads.order_id, gurmukhi, first_letters FROM lines JOIN shabads ON (shabads.id = lines.shabad_id) WHERE first_letters GLOB ? ORDER BY lines.order_id LIMIT 100")
 		eh(err, "11")
 		defer stmt.Close()
 
