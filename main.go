@@ -345,7 +345,7 @@ func updateShabad(id string) {
 
 	if _, err := strconv.Atoi(id); err != nil { //banis
 		table = " JOIN bani_lines ON (lines.id = bani_lines.line_id)"
-		filter = " bani_id=" + strings.Replace(id, "bani-", "", 1) + " GROUP BY lines.order_id ORDER BY line_group, lines.order_id"
+		filter = " lines.id IN (SELECT lines.id FROM lines JOIN bani_lines ON (lines.id = bani_lines.line_id) WHERE bani_id=" + strings.Replace(id, "bani-", "", 1) + ") GROUP BY lines.order_id ORDER BY line_group, lines.order_id"
 		if id == "bani-10" {
 			shabadType = "pauri"
 		}
