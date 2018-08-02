@@ -332,7 +332,7 @@ func updateShabad(id string) {
 	var rows, rows2 *sql.Rows
 	var err error
 	var filter, query, query2, pk, nextPK, gurmukhi, transliteration, english, darpan string
-	table, pageHTML, shabadJSONTemp, gurmukhiFull, transliterationFull, translationFull, darpanFull := "", "", "", "", "", "", ""
+	table, order, pageHTML, shabadJSONTemp, gurmukhiFull, transliterationFull, translationFull, darpanFull := "", "", "", "", "", "", "", ""
 	shabadType := "shabad"
 	counter, pageID := 0, 0
 	lineID := 1
@@ -345,8 +345,10 @@ func updateShabad(id string) {
 
 	if _, err := strconv.Atoi(id); err != nil { //banis
 		table = " JOIN bani_lines ON (lines.id = bani_lines.line_id)"
-		filter = " lines.id IN (SELECT lines.id FROM lines JOIN bani_lines ON (lines.id = bani_lines.line_id) WHERE bani_id=" + strings.Replace(id, "bani-", "", 1) + ") GROUP BY lines.order_id ORDER BY line_group, lines.order_id"
-		if id == "bani-10" {
+		// filter = " lines.id IN (SELECT lines.id FROM lines JOIN bani_lines ON (lines.id = bani_lines.line_id) WHERE bani_id=" + strings.Replace(id, "bani-", "", 1) + ") GROUP BY lines.order_id ORDER BY line_group, lines.order_id"
+		filter = "SELECT lines.id FROM lines JOIN bani_lines ON (lines.id = bani_lines.line_id) WHERE bani_id=" + strings.Replace(id, "bani-", "", 1)
+		order = " GROUP BY lines.id ORDER BY line_group, lines.order_id"
+		if id == "bani-11" {
 			shabadType = "pauri"
 		}
 		rows, err = dbHistory.Query("SELECT PK FROM HISTORY WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC LIMIT 1")
@@ -357,8 +359,9 @@ func updateShabad(id string) {
 			currentPK = "1"
 		}
 	} else { // shabads
-		filter = " shabads.order_id=" + id + " GROUP BY lines.order_id"
-
+		// filter = " shabads.order_id=" + id + " GROUP BY lines.order_id"
+		filter = "SELECT lines.id FROM lines JOIN shabads ON (shabads.id = lines.shabad_ID) WHERE shabads.order_id=" + id
+		order = " ORDER BY lines.order_id"
 		rows, err = dbHistory.Query("SELECT TOGGLELINES FROM SHABADS WHERE SHABAD_ID='" + id + "' ORDER BY ID DESC")
 		eh(err, "7")
 		defer rows.Close()
@@ -367,8 +370,8 @@ func updateShabad(id string) {
 			toggleLines = "0-0-0"
 		}
 	}
-	query = "SELECT lines.order_id,shabads.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) JOIN (SELECT line_id,translation AS english from translations te JOIN translation_sources ts on (te.translation_source_id = ts.id) WHERE language_id=1) te ON (te.line_id=lines.id) JOIN (SELECT line_id,translation AS punjabi from translations te JOIN translation_sources ts on (te.translation_source_id = ts.id) WHERE language_id=2) tp ON (tp.line_id=lines.id) WHERE" + filter
-	query2 = "SELECT lines.order_id FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) WHERE" + filter
+	query = "SELECT lines.order_id,shabads.order_id, gurmukhi, transliteration_english, english, punjabi FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) JOIN (SELECT line_id,translation AS english, min(id) from translations te JOIN translation_sources ts on (te.translation_source_id = ts.id) WHERE language_id=1 AND line_id IN (" + filter + ") GROUP BY line_id) te ON (te.line_id=lines.id) JOIN (SELECT line_id,translation AS punjabi, min(id) from translations te JOIN translation_sources ts on (te.translation_source_id = ts.id) WHERE language_id=2 AND line_id IN (" + filter + ") GROUP BY line_id) tp ON (tp.line_id=lines.id) WHERE lines.id IN (" + filter + ")" + order
+	query2 = "SELECT lines.order_id FROM lines" + table + " JOIN shabads ON (shabads.id = lines.shabad_id) WHERE lines.id IN (" + filter + ")" + order
 
 	rows, err = db.Query(query)
 	eh(err, "8")
@@ -495,7 +498,7 @@ func updateShabad(id string) {
 			hotkey := ""
 
 			if _, err := strconv.Atoi(id); err == nil || lastPageID != pageID {
-				if id == "bani-10" {
+				if id == "bani-11" {
 					switch shabadType {
 					case "chhant":
 						shabadType = "salok"
