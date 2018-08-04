@@ -7,7 +7,7 @@ import {
   faCogs,
   faSearch,
   faHistory,
-  faBookmark,
+  faBookOpen,
   faWindowRestore,
   faList,
 } from '@fortawesome/fontawesome-free-solid'
@@ -22,7 +22,7 @@ const items = [
   [ 'Search', faSearch, 'search' ],
   [ 'Navigator', faList, 'navigator' ],
   [ 'History', faHistory, 'history' ],
-  [ 'Bookmarks', faBookmark, 'bookmarks' ],
+  [ 'Bookmarks', faBookOpen, 'bookmarks' ],
   [ 'Live Captions Tool', faWindowRestore, 'live-captions' ],
   [ 'Settings', faCogs, 'settings' ],
 ]
