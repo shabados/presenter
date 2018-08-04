@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node -r esm server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --ignore frontend/ -L --exec npm start | bunyan"
+    "dev": "nodemon --ignore frontend/ -L --exec npm start | bunyan",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -44,5 +45,9 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
     "nodemon": "^1.18.3"
-  }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "frontend"
+  ]
 }

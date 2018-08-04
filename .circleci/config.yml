@@ -1,5 +1,17 @@
 version: 2
 jobs:
+  lint:
+    docker:
+      - image: node:10
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install --unsafe-perm
+      - run:
+          name: Run ESLint on Frontend & Backend
+          command: npm run lint
+  
   build-mac:
     macos:
       xcode: "9.0"
@@ -7,7 +19,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm install --unsafe-perm
       - run:
           name: Build application
           command: npm run build
@@ -28,7 +40,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm install --unsafe-perm
       - run:
           name: Build application
           command: npm run build
@@ -49,7 +61,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm install --unsafe-perm
       - run:
           name: Build application
           command: npm run build
@@ -66,8 +78,15 @@ jobs:
 
 workflows:
   version: 2
-  build-all:
+  lint-build-all:
     jobs:
-      - build-windows
-      - build-mac
-      - build-linux
+      - lint
+      - build-windows:
+          requires:
+            - lint
+      - build-mac:
+          requires:
+            - lint
+      - build-linux:
+          requires:
+            - lint

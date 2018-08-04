@@ -4,6 +4,9 @@
   "description": "Electron wrapper around Shabad OS backend and frontend",
   "main": "app/electron/entry.js",
   "scripts": {
+    "lint": "npm-run-all -l -p lint:*",
+    "lint:backend": "cd app && npm run lint",
+    "lint:frontend": "cd app/frontend && npm run lint",
     "test": "echo \"No tests\"",
     "dev": "npm-run-all -l -p dev:*",
     "dev:backend": "cd app && npm run dev",
