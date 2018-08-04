@@ -82,6 +82,11 @@ class Controller extends EventEmitter {
    * Convenience method for clearing the line.
    */
   clear = () => this.sendJSON( 'line', null )
+
+  /**
+   * Clears the current history for the session.
+   */
+  clearHistory = () => this.sendJSON( 'clearHistory' )
 }
 
 // Allow only one instance by exporting it

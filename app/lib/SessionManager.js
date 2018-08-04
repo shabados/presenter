@@ -32,6 +32,7 @@ class SessionManager {
     socket.on( 'shabad', this.onShabad.bind( this ) )
     socket.on( 'line', this.onLine.bind( this ) )
     socket.on( 'mainLine', this.onMainLine.bind( this ) )
+    socket.on( 'clearHistory', this.onClearHistory.bind( this ) )
   }
 
   /**
@@ -105,6 +106,17 @@ class SessionManager {
 
     this.socket.broadcast( 'mainLine', mainLineId )
     this.session = { ...this.session, mainLineId }
+  }
+
+  /**
+   * Clear the session history.
+   */
+  onClearHistory() {
+    logger.info( 'Clearing history' )
+
+    const history = []
+    this.session = { ...this.session, history }
+    this.socket.broadcast( 'history', history )
   }
 
   /**

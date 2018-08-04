@@ -1,6 +1,14 @@
 import React from 'react'
 
-import { List, ListItem } from 'material-ui'
+import { List, ListItem, ListItemIcon } from 'material-ui'
+
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import {
+  faDownload,
+  faTasks,
+  faTrash,
+} from '@fortawesome/fontawesome-free-solid'
+
 
 import { LINE_HOTKEYS } from '../../lib/consts'
 import { stripPauses } from '../../lib/utils'
@@ -22,7 +30,25 @@ const History = ( { history, location, shabadHistory, register, focused } ) => (
         <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
         <span className="text">{stripPauses( gurmukhi )}</span>
       </ListItem>
-        ) ) }
+    ) )}
+    <ListItem onClick={controller.export}>
+      <ListItemIcon className="meta">
+        <FontAwesomeIcon icon={faDownload} />
+      </ListItemIcon>
+      Export
+    </ListItem>
+    <ListItem onClick={controller.exportAll}>
+      <ListItemIcon className="meta">
+        <FontAwesomeIcon icon={faTasks} />
+      </ListItemIcon>
+      Export (All Lines)
+    </ListItem>
+    <ListItem onClick={controller.clearHistory}>
+      <ListItemIcon className="meta">
+        <FontAwesomeIcon icon={faTrash} />
+      </ListItemIcon>
+      Clear History
+    </ListItem>
   </List>
 )
 
