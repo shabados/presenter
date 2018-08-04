@@ -15,7 +15,7 @@
     transition: 0.2s all;
 }
 
-.controller .name {
+.controller .name, .controller .middle {
     text-align: center;
     flex: 1;
     font-family: "Noto Sans Regular", sans-serif;

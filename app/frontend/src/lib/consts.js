@@ -36,7 +36,9 @@ export const PAUSE_CHARS = {
 
 // Searching modifiers
 export const WILDCARD_CHAR = '_'
-export const WORD_SEARCH = '#'
+export const WORD_ANYWHERE_CHAR = '#'
+export const WORD_ORDER_CHAR = '^'
+export const LARIVAAR_ACCENTLESS_CHAR = '%'
 
 /* Hotkeys and shortcuts */
 // Jump to navigation line ordered hot keys
