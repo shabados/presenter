@@ -10,7 +10,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/fontawesome-free-solid'
 
 import {
-  BOOKMARKS_URL,
+  BANIS_URL,
   CONTROLLER_URL,
   HISTORY_URL, MENU_URL, NAVIGATOR_URL,
   SEARCH_URL,
@@ -149,7 +149,7 @@ class App extends Component {
     Menu: () => this.go( MENU_URL ),
     Search: () => this.go( SEARCH_URL ),
     History: () => this.go( HISTORY_URL ),
-    Bookmarks: () => this.go( BOOKMARKS_URL ),
+    Bookmarks: () => this.go( BANIS_URL ),
     Navigator: () => this.go( NAVIGATOR_URL ),
     'Clear Display': controller.clear,
     'Toggle Shortcuts Help': () => this.toggleQuery( 'showShortcuts' ),

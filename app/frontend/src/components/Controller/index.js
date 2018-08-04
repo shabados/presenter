@@ -6,7 +6,7 @@ import {
   faArrowAltCircleLeft,
   faArrowAltCircleRight,
   faBars,
-  faBookmark,
+  faBookOpen,
   faHistory,
   faList,
   faSearch,
@@ -17,7 +17,7 @@ import { faSquare } from '@fortawesome/fontawesome-free-regular'
 
 import controller from '../../lib/controller'
 import {
-  BOOKMARKS_URL,
+  BANIS_URL,
   CONTROLLER_URL,
   HISTORY_URL,
   MENU_URL,
@@ -100,9 +100,9 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
     <Toolbar className="bottom bar">
       <ToolbarButton name="Search" icon={faSearch} onClick={go( SEARCH_URL )} onHover={onHover} />
       <ToolbarButton
-        name="Bookmarks"
-        icon={faBookmark}
-        onClick={go( BOOKMARKS_URL )}
+        name="Banis"
+        icon={faBookOpen}
+        onClick={go( BANIS_URL )}
         onMouseEnter={() => onHover( 'Search' )}
         onMouseLeave={resetHover}
       />
