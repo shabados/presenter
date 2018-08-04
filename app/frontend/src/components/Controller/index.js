@@ -113,7 +113,7 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
         onMouseEnter={() => onHover( 'History' )}
         onMouseLeave={resetHover}
       />
-      <div className="name">{renderContent()}</div>
+      <div className="middle">{renderContent()}</div>
       <ToolbarButton
         name="Navigator"
         icon={faList}
