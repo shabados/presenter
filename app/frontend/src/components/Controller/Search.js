@@ -21,13 +21,18 @@ class Search extends Component {
     super( props )
 
     this.state = {
-      search: '',
+      searchedValue: '',
+      inputValue: '',
       results: [],
     }
 
     this.times = []
     this.timeStart = null
     this.timeEnd = null
+  }
+
+  componentDidMount() {
+    controller.on( 'results', this.onResults )
   }
 
   componentDidUpdate( prevProps, { results: prevResults } ) {
@@ -45,15 +50,18 @@ class Search extends Component {
     }
   }
 
-  componentDidMount() {
-    controller.on( 'results', this.onResults )
-  }
-
   componentWillUnmount() {
     controller.off( 'results', this.onResults )
   }
 
-  onResults = results => this.setState( { results } )
+  /**
+   * Set the received results and update the searched vale.
+   */
+  onResults = results => {
+    const { inputValue } = this.state
+
+    this.setState( { results, searchedValue: inputValue } )
+  }
 
   /**
    * Run on change of value in the search box.
@@ -62,18 +70,16 @@ class Search extends Component {
    * @param value The new value of the search box.
    */
   onChange = ( { target: { value } } ) => {
-    const state = {}
-    const search = toUnicode( value.trim() )
+    const inputValue = toUnicode( value.trim() )
 
-    // Search if enough letters, otherwise clear results
-    if ( search.length >= MIN_SEARCH_CHARS ) {
+    // Search if enough letters
+    if ( inputValue.length >= MIN_SEARCH_CHARS ) {
       this.timeStart = window.performance.now()
-      controller.search( search )
+      this.setState( { inputValue } )
+      controller.search( inputValue )
     } else {
-      state[ 'results' ] = []
+      this.setState( { inputValue, results: [] } )
     }
-
-    this.setState( { ...state, search } )
   }
 
   /**
@@ -84,19 +90,19 @@ class Search extends Component {
    * @param The ref to the component.
    */
   Result = ( { gurmukhi, id: lineId, shabadId, ref, focused } ) => {
-    const { search } = this.state
+    const { searchedValue } = this.state
 
     // Get first letters in line and find where the match is
     const firstLetters = getFirstLetters( gurmukhi )
     // Remember to account for wildcard characters
-    const pos = firstLetters.search( search.replace( new RegExp( WILDCARD_CHAR ), '.' ) )
+    const pos = firstLetters.search( searchedValue.replace( new RegExp( WILDCARD_CHAR ), '.' ) )
 
     const words = stripPauses( gurmukhi ).split( ' ' )
 
     // Separate the line into words before the match, the match, and after the match
     const beforeMatch = words.slice( 0, pos ).join( ' ' )
-    const match = words.slice( pos, pos + search.length ).join( ' ' )
-    const afterMatch = words.slice( pos + search.length ).join( ' ' )
+    const match = words.slice( pos, pos + searchedValue.length ).join( ' ' )
+    const afterMatch = words.slice( pos + searchedValue.length ).join( ' ' )
 
     // Send the shabad id and line id to the server on click
     const onClick = () => controller.shabad( { shabadId, lineId } )
@@ -114,14 +120,14 @@ class Search extends Component {
 
   render() {
     const { register, focused } = this.props
-    const { search, results } = this.state
+    const { inputValue, results } = this.state
 
     return (
       <div className="search">
         <Input
           className="input"
           onChange={this.onChange}
-          value={search}
+          value={inputValue}
           placeholder="ਖੋਜ"
           disableUnderline
           autoFocus
