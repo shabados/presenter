@@ -18,3 +18,5 @@ node_modules
 tmp/
 settings.json
 dist/
+.nyc_output/
+coverage/

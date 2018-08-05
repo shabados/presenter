@@ -12,8 +12,12 @@ import { faPlus } from '@fortawesome/fontawesome-free-solid'
 import {
   BANIS_URL,
   CONTROLLER_URL,
-  HISTORY_URL, MENU_URL, NAVIGATOR_URL,
+  HISTORY_URL,
+  MENU_URL,
+  NAVIGATOR_URL,
   SEARCH_URL,
+  CONTROLLER_ONLY_QUERY,
+  SHOW_SHORTCUTS_QUERY,
   SHORTCUTS,
 } from './lib/consts'
 import controller from './lib/controller'
@@ -69,6 +73,21 @@ class App extends Component {
   onHistory = shabadHistory => this.setState( { shabadHistory } )
 
   /**
+   * Sets the query string parameters, retaining any currently present.
+   * @param params The query string parameters.
+   */
+  setQueryParams = params => {
+    const { history, location } = this.props
+    const { search } = location
+
+    const previousSearch = queryString.parse( search, { ignoreQueryPrefix: true } )
+    history.push( {
+      ...location,
+      search: queryString.stringify( { ...previousSearch, ...params } ),
+    } )
+  }
+
+  /**
    * More concise form to navigate to URLs, retaining query params.
    * @param pathname The path to navigate to.
    */
@@ -76,21 +95,6 @@ class App extends Component {
     const { history, location } = this.props
 
     history.push( { ...location, pathname } )
-  }
-
-  /**
-   * Navigates to a URL by setting the query string parameters, retaining any currently present.
-   * @param params The query string parameters.
-   */
-  goSearch = params => {
-    const { history, location } = this.props
-    const { search } = location
-
-    const previousSearch = queryString.parse( search )
-    history.push( {
-      ...location,
-      search: queryString.stringify( { ...previousSearch, ...params } ),
-    } )
   }
 
   /**
@@ -114,7 +118,7 @@ class App extends Component {
       this.toggleController()
     }
 
-    this.toggleQuery( 'controllerOnly' )
+    this.toggleQuery( CONTROLLER_ONLY_QUERY )
   }
 
   /**
@@ -124,8 +128,8 @@ class App extends Component {
   toggleQuery = query => {
     const { location: { search } } = this.props
 
-    const parsed = queryString.parse( search )
-    this.goSearch( {
+    const parsed = queryString.parse( search, { ignoreQueryPrefix: true } )
+    this.setQueryParams( {
       ...parsed,
       [ query ]: parsed[ query ] ? undefined : true,
     } )
@@ -143,7 +147,7 @@ class App extends Component {
 
   hotKeyHandlers = this.preventDefault( {
     'Toggle Controller': this.toggleController,
-    'New Controller': () => window.open( `${CONTROLLER_URL}?controllerOnly=true`, '_blank' ),
+    'New Controller': () => window.open( `${CONTROLLER_URL}?${CONTROLLER_ONLY_QUERY}=true`, '_blank' ),
     'History Back': () => this.props.history.goBack(),
     'History Forwards': () => this.props.history.goForward(),
     Menu: () => this.go( MENU_URL ),
@@ -152,14 +156,17 @@ class App extends Component {
     Bookmarks: () => this.go( BANIS_URL ),
     Navigator: () => this.go( NAVIGATOR_URL ),
     'Clear Display': controller.clear,
-    'Toggle Shortcuts Help': () => this.toggleQuery( 'showShortcuts' ),
+    'Toggle Shortcuts Help': () => this.toggleQuery( SHOW_SHORTCUTS_QUERY ),
     'Toggle Fullscreen Controller': this.fullscreenController,
   } )
 
   render() {
     const { shabad, lineId, theme } = this.state
     const { location: { search } } = this.props
-    const { controllerOnly, showShortcuts } = queryString.parse( search )
+    const {
+      controllerOnly,
+      showShortcuts,
+    } = queryString.parse( search, { ignoreQueryPrefix: true } )
 
     return (
       <HotKeys
