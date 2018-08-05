@@ -14,7 +14,6 @@
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-color);
-    border-radius: 2px;
 }
 
 .controller-container {
