@@ -32,7 +32,7 @@
     --controller-bar-background-color: #F5F5F5;
 
     /* Scrollbar colour */
-    --scrollbar-color: rgba(0, 0, 0, 0.5);
+    --scrollbar-color: #42424280;
 
     /* Shortcut help colors */
     --shortcuts-text-color: #212121;
