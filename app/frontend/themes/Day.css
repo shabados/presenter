@@ -5,9 +5,9 @@
 
     /* Display line colours */
     --display-gurmukhi-color: #000000;
-    --display-translation-color: #121212;
+    --display-translation-color: #212121;
     --display-punjabi-color: #424242;
-    --display-transliteration-color: #161616;
+    --display-transliteration-color: #616161;
 
     /* Display line pause/vishraam colours */
     --display-vishraam-heavy-color: #FF8F00;
