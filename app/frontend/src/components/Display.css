@@ -1,5 +1,5 @@
 .display {
     height: 100%;
-    background: var(--display-background-color) var(--display-background-image) no-repeat center;
-    background-size: 100% auto;
+    background: var(--display-background-color) var(--display-background-image);
+    background-size: var(--display-background-size);
 }
