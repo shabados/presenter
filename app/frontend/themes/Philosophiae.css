@@ -1,0 +1,41 @@
+:root {
+    /* Display background */
+    --display-background-color: #cdc7bb;
+    --display-background-image: url('/themes/images/philosophiae.png');
+    --display-background-size: auto;
+
+    /* Display line colours */
+    --display-gurmukhi-color: #800000;
+    --display-translation-color: #000080;
+    --display-punjabi-color: #008000;
+    --display-transliteration-color: #008080;
+
+    /* Display line pause/vishraam colours */
+    --display-vishraam-heavy-color: #808000;
+    --display-vishraam-medium-color: #004080;
+    --display-vishraam-light-color: #408000;
+
+    /* Controller colors */
+    --controller-background-color: #f2f2f2;
+    --controller-text-color: #424242;
+    --controller-text-hover-color: #000000;
+    --controller-selected-color: #000000;
+    --controller-selected-background-color: #ffed80;
+
+    /* Controller search colors */
+    --controller-search-background-color: transparent;
+    --controller-search-focused-background-color: #ffffff;
+    --controller-search-match-color: #0024FF;
+
+    /* Controller top and bottom bar colors */
+    --controller-bar-text-color: #616161;
+    --controller-bar-text-hover-color: #0024FF;
+    --controller-bar-background-color: #ffffff;
+
+    /* Scrollbar colour */
+    --scrollbar-color: #42424280;
+
+    /* Shortcut help colors */
+    --shortcuts-text-color: #000000;
+    --shortcuts-background-color: rgba(255, 255, 255, 0.9);
+}
