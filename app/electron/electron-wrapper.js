@@ -4,7 +4,7 @@ import logger from 'electron-log'
 import fetch from 'electron-fetch'
 
 const { env } = process
-const PORT = env.NODE_ENV === 'production' ? 42424 : 8080
+const PORT = env.NODE_ENV === 'production' ? 42424 : 42425
 
 const BASE_URL = `http://localhost:${PORT}`
 

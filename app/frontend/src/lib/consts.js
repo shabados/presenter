@@ -7,7 +7,7 @@
 /* Backend Info */
 // eslint-disable-next-line no-undef
 export const BACKEND_HOST = window.location.hostname || 'localhost'
-export const BACKEND_PORT = process.env.NODE_ENV === 'production' ? 42424 : 8080
+export const BACKEND_PORT = process.env.NODE_ENV === 'production' ? 42424 : 42425
 export const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
 export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
 

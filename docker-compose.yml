@@ -5,7 +5,7 @@ services:
     build: ./app
     command: ["npm", "run", "dev"]
     ports:
-      - "8080:8080"
+      - "42425:42425"
     volumes:
       - "./app:/usr/src/app"
       - "/usr/src/app/node_modules"

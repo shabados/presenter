@@ -21,4 +21,4 @@ export const TEMP_DIR = 'tmp'
 export const MAX_RESULTS = 20
 
 // Backend port
-export const PORT = process.env.NODE_ENV === 'production' ? 42424 : 8080
+export const PORT = process.env.NODE_ENV === 'production' ? 42424 : 42425

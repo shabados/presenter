@@ -44,6 +44,6 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:42425",
   "eslintIgnore": ["node_modules", "build"]
 }
