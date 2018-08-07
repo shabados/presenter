@@ -3,7 +3,7 @@
  * @ignore
  */
 
-import { Lines, Shabads } from '@shabados/database'
+import { Lines, Shabads, Banis } from '@shabados/database'
 
 import { MAX_RESULTS } from './consts'
 
@@ -22,3 +22,10 @@ export const getShabad = shabadId => Shabads
   .where( 'id', shabadId )
   .first()
   .eager( 'lines' )
+
+/**
+ * Retrieves a list of the available Banis.
+ */
+export const getBanis = () => Banis.query()
+
+export const getBaniLines = baniId => Banis.query().eager( 'lines' ).where( 'id', baniId ).first()

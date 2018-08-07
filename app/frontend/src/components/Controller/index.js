@@ -30,6 +30,7 @@ import Search from './Search'
 import Menu from './Menu'
 import Navigator, { Bar as NavigatorBar } from './Navigator'
 import History from './History'
+import Banis from './Banis'
 
 import './index.css'
 
@@ -103,7 +104,7 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
         name="Banis"
         icon={faBookOpen}
         onClick={go( BANIS_URL )}
-        onMouseEnter={() => onHover( 'Search' )}
+        onMouseEnter={() => onHover( 'Banis' )}
         onMouseLeave={resetHover}
       />
       <ToolbarButton
@@ -145,13 +146,14 @@ class Controller extends Component {
     }
   }
 
-  componentDidUpdate( { shabad: prevShabad } ) {
-    const { history, shabad, location } = this.props
+  componentDidUpdate( { shabad: prevShabad, bani: prevBani } ) {
+    const { history, shabad, bani, location } = this.props
     const { pathname } = location
 
-    const redirects = [ SEARCH_URL, HISTORY_URL ]
-    // Go to navigator if a different Shabad has been selected, and we're on the search/history page
-    if ( shabad !== prevShabad && redirects.some( route => pathname.includes( route ) ) ) {
+    const redirects = [ SEARCH_URL, HISTORY_URL, BANIS_URL ]
+    // Go to navigator if a different Shabad/Bani has been selected, and we're on a redirect page
+    const isNewSelection = shabad !== prevShabad || bani !== prevBani
+    if ( isNewSelection && redirects.some( route => pathname.includes( route ) ) ) {
       history.push( { ...location, pathname: NAVIGATOR_URL } )
     }
   }
@@ -167,6 +169,7 @@ class Controller extends Component {
       [ SEARCH_URL, Search ],
       [ NAVIGATOR_URL, Navigator, NavigatorBar ],
       [ HISTORY_URL, History ],
+      [ BANIS_URL, Banis ],
     ]
 
     return (

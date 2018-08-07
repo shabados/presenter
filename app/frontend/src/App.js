@@ -34,6 +34,8 @@ class App extends Component {
 
     this.state = {
       connected: false,
+      banis: [],
+      bani: null,
       lineId: null,
       mainLineId: null,
       viewedLines: new Set(),
@@ -52,6 +54,8 @@ class App extends Component {
     controller.on( 'mainLine', this.onMainLine )
     controller.on( 'viewedLines', this.onViewedLines )
     controller.on( 'history', this.onHistory )
+    controller.on( 'banis', this.onBanis )
+    controller.on( 'bani', this.onBani )
   }
 
   componentWillUnmount() {
@@ -62,15 +66,19 @@ class App extends Component {
     controller.off( 'line', this.onLine )
     controller.off( 'mainLine', this.onMainLine )
     controller.off( 'viewedLines', this.onViewedLines )
+    controller.off( 'banis', this.onBanis )
+    controller.off( 'bani', this.onBani )
   }
 
   onConnected = () => this.setState( { connected: true } )
   onDisconnected = () => this.setState( { connected: false } )
-  onShabad = shabad => this.setState( { shabad } )
+  onShabad = shabad => this.setState( { shabad, bani: null } )
   onLine = lineId => this.setState( { lineId } )
   onViewedLines = viewedLines => this.setState( { viewedLines } )
   onMainLine = mainLineId => this.setState( { mainLineId } )
   onHistory = shabadHistory => this.setState( { shabadHistory } )
+  onBanis = banis => this.setState( { banis } )
+  onBani = bani => this.setState( { bani, shabad: null } )
 
   /**
    * Sets the query string parameters, retaining any currently present.
@@ -161,7 +169,7 @@ class App extends Component {
   } )
 
   render() {
-    const { shabad, lineId, theme } = this.state
+    const { bani, shabad, lineId, theme } = this.state
     const { location: { search } } = this.props
     const {
       controllerOnly,
@@ -179,7 +187,7 @@ class App extends Component {
         <div className="app">
           <CssBaseline />
           <ThemeLoader name={theme} />
-          {!controllerOnly ? <Display shabad={shabad} lineId={lineId} /> : null}
+          {!controllerOnly ? <Display shabad={shabad} bani={bani} lineId={lineId} /> : null}
           <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
             <Link to={CONTROLLER_URL}>
               <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>

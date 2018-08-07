@@ -1,8 +1,7 @@
 import { setupExpress } from './lib/express'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
-import { searchLines } from './lib/db'
-
+import { searchLines, getBanis } from './lib/db'
 import logger from './lib/logger'
 
 /**
@@ -25,8 +24,10 @@ async function main() {
   const sessionManager = new SessionManager( socket )
 
   // Register searches on the socket instance
-  socket.on( 'search', async ( client, search ) =>
-    client.sendJSON( 'results', await searchLines( search ) ) )
+  socket.on( 'search', async ( client, search ) => client.sendJSON( 'results', await searchLines( search ) ) )
+
+  // Register Bani list requests on socket connection
+  socket.on( 'connection', async client => client.sendJSON( 'banis', await getBanis() ) )
 
   // Start the server
   const port = process.env.PORT || 8080

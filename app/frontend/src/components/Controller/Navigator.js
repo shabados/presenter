@@ -71,17 +71,18 @@ class Navigator extends Component {
 
 
   render() {
-    const { location, shabad } = this.props
+    const { location, shabad, bani } = this.props
+    const content = shabad || bani
 
     // If there's no Shabad to show, go back to the controller
-    if ( !shabad ) {
+    if ( !content ) {
       return <Redirect to={{ ...location, pathname: CONTROLLER_URL }} />
     }
 
-    const { lines } = shabad
+    const { lines } = content
     return (
       <List className="navigator">
-        {shabad && lines.map( this.Line )}
+        {lines.map( this.Line )}
       </List>
     )
   }

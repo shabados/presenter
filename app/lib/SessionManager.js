@@ -5,7 +5,7 @@
 
 import logger from './logger'
 import settingsManager from './settings'
-import { getShabad } from './db'
+import { getShabad, getBaniLines } from './db'
 
 /**
  * Handles synchronisation of all the sessions.
@@ -17,7 +17,7 @@ class SessionManager {
 
     // Setup the session's default state
     this.session = {
-      baniId: null,
+      bani: null,
       lineId: null,
       shabad: null,
       viewedLines: new Set(),
@@ -33,6 +33,7 @@ class SessionManager {
     socket.on( 'line', this.onLine.bind( this ) )
     socket.on( 'mainLine', this.onMainLine.bind( this ) )
     socket.on( 'clearHistory', this.onClearHistory.bind( this ) )
+    socket.on( 'bani', this.onBani.bind( this ) )
   }
 
   /**
@@ -40,10 +41,10 @@ class SessionManager {
    * @param client The client to synchronise the state to.
    */
   synchronise( client ) {
-    const { baniId, history, mainLineId, viewedLines, lineId, shabad } = this.session
+    const { bani, history, mainLineId, viewedLines, lineId, shabad } = this.session
 
     client.sendJSON( 'shabad', shabad )
-    client.sendJSON( 'bani', baniId )
+    client.sendJSON( 'bani', bani )
     client.sendJSON( 'line', lineId )
     client.sendJSON( 'viewedLines', viewedLines )
     client.sendJSON( 'mainLine', mainLineId )
@@ -64,6 +65,7 @@ class SessionManager {
       ...this.session,
       shabad,
       lineId,
+      bani: null,
       viewedLines: new Set(),
       mainLineId: null,
       history: [
@@ -71,6 +73,7 @@ class SessionManager {
         {
           timestamp: new Date(),
           line: shabad.lines.find( ( { id } ) => lineId === id ),
+          shabadId,
         },
       ],
     }
@@ -117,6 +120,33 @@ class SessionManager {
     const history = []
     this.session = { ...this.session, history }
     this.socket.broadcast( 'history', history )
+  }
+
+  async onBani( client, baniId ) {
+    logger.info( `Setting the Bani ID to ${baniId}` )
+
+    const bani = await getBaniLines( baniId )
+    // Get first line ID of the Bani
+    const { lines: [ firstLine ] } = bani
+    const { id } = firstLine
+
+    this.session = {
+      ...this.session,
+      bani,
+      shabad: null,
+      viewedLines: new Set(),
+      history: [
+        ...this.session.history,
+        {
+          timestamp: new Date(),
+          line: firstLine,
+          baniId,
+        },
+      ],
+    }
+
+    this.socket.broadcast( 'bani', bani )
+    this.onLine( client, id )
   }
 
   /**

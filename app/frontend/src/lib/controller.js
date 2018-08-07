@@ -87,6 +87,17 @@ class Controller extends EventEmitter {
    * Clears the current history for the session.
    */
   clearHistory = () => this.sendJSON( 'clearHistory' )
+
+  /**
+   * Requests the latest list of banis from the server.
+   */
+  getBanis = () => this.sendJSON( 'banis' )
+
+  /**
+   * Sets the current Bani ID.
+   * @param baniId The ID of the Bani to change to.
+   */
+  bani = baniId => this.sendJSON( 'bani', baniId )
 }
 
 // Allow only one instance by exporting it

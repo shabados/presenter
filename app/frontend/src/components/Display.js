@@ -11,9 +11,9 @@ import './Display.css'
  * @param shabad The Shabad to render.
  * @param lineId The current line in the Shabad.
  */
-const Display = ( { shabad, lineId } ) => {
+const Display = ( { shabad, bani, lineId } ) => {
   // Get the lines from the shabad, if they exist
-  const { lines = [] } = shabad || {}
+  const { lines = [] } = shabad || bani || {}
 
   // Find the correct line in the Shabad
   const line = lines.find( ( { id } ) => lineId === id )
@@ -27,12 +27,16 @@ const Display = ( { shabad, lineId } ) => {
 
 Display.defaultProps = {
   shabad: null,
+  bani: null,
   lineId: null,
 }
 
 Display.propTypes = {
   lineId: PropTypes.number,
   shabad: PropTypes.shape( {
+    lines: PropTypes.arrayOf( PropTypes.shape( Line.PropTypes ) ),
+  } ),
+  bani: PropTypes.shape( {
     lines: PropTypes.arrayOf( PropTypes.shape( Line.PropTypes ) ),
   } ),
 }
