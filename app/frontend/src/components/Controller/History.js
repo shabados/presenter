@@ -22,13 +22,13 @@ const History = ( { history, location, shabadHistory, register, focused } ) => (
   <List className="history">
     {shabadHistory.map( ( { timestamp, line: { id: lineId, shabadId, gurmukhi } }, index ) => (
       <ListItem
-        className={focused === index ? 'gurmukhi focused' : 'gurmukhi'}
+        className={focused === index ? 'focused' : ''}
         key={timestamp}
         ref={ref => register( index, ref )}
         onClick={() => controller.shabad( { lineId, shabadId } )}
       >
         <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        <span className="text">{stripPauses( gurmukhi )}</span>
+        <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
       </ListItem>
     ) )}
     <ListItem onClick={controller.export}>

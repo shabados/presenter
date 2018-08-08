@@ -91,3 +91,17 @@
     text-transform: uppercase;
     font-family: "Noto Sans Regular", sans-serif;
 }
+
+.controller .content .gurmukhi.text {
+    font-family: "Noto Sans Gurmukhi", sans-serif;
+    font-weight: bold;
+    height: auto;
+    color: var(--controller-text-color);
+}
+
+.controller .content .focused.text {
+    background-color: var(--controller-selected-background-color);
+    font-size: 1.2em;
+    color: var(--controller-selected-color);
+    padding-left: 1em;
+}

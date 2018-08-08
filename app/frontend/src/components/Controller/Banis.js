@@ -13,13 +13,13 @@ const Banis = ( { banis, register, focused } ) => (
   <List className="banis">
     {banis.map( ( { id, name }, index ) => (
       <ListItem
-        className={focused === index ? 'gurmukhi focused' : 'gurmukhi'}
+        className={focused === index ? 'focused' : ''}
         key={id}
         ref={ref => register( index, ref )}
         onClick={() => controller.bani( id )}
       >
         <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        <span className="text">{name}</span>
+        <span className="gurmukhi text">{name}</span>
       </ListItem>
     ) )}
   </List>

@@ -2,8 +2,3 @@
     overflow-y: auto;
     height: 100%;
 }
-
-.history .gurmukhi {
-    font-family: "Noto Sans Gurmukhi", sans-serif;
-    font-weight: bold;
-}

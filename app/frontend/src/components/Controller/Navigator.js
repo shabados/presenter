@@ -53,7 +53,7 @@ class Navigator extends Component {
     const activeLine = id === lineId
 
     // Set the class name appropriately for the active line
-    const className = activeLine ? 'current line' : 'line'
+    const className = activeLine ? 'focused' : ''
 
     // Register the reference to the line with the NavigationHotKey HOC
     const ref = line => register( id, line )
@@ -64,7 +64,7 @@ class Navigator extends Component {
     return (
       <ListItem key={id} className={className} onClick={onClick} ref={ref} tabIndex={0}>
         <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        <span className="text">{stripPauses( gurmukhi )}</span>
+        <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
       </ListItem>
     )
   }

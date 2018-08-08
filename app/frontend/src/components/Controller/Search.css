@@ -28,19 +28,6 @@
 
 .search .results {
     overflow-y: auto;
-    font-family: "Noto Sans Gurmukhi", sans-serif;
-    font-size: 1.25em;
-    font-weight: bold;
-}
-
-.search .results .result {
-    display: block;
-    cursor: pointer;
-    padding: 0.25em 0.75em;
-}
-
-.search .results .result .words {
-    font-family: "Noto Sans Gurmukhi", sans-serif;
 }
 
 .search .results .result .matched.words {

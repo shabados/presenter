@@ -107,7 +107,7 @@ class Search extends Component {
     // Send the shabad id and line id to the server on click
     const onClick = () => controller.shabad( { shabadId, lineId } )
 
-    const className = focused ? 'result focused' : 'result'
+    const className = focused ? 'focused' : ''
 
     return (
       <ListItem className={className} key={lineId} onClick={onClick} ref={ref}>
