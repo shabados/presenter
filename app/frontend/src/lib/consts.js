@@ -22,6 +22,7 @@ export const SEARCH_URL = `${CONTROLLER_URL}/search`
 export const BANIS_URL = `${CONTROLLER_URL}/banis`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
+export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
 
 // URL states
 export const CONTROLLER_ONLY_QUERY = 'controllerOnly'

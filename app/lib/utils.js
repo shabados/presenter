@@ -22,3 +22,9 @@ export const getHost = async hybridIP => {
     return ip
   }
 }
+
+/**
+ * Converts the provided date into a filename-compatible string.
+ * @param date The date to convert.
+ */
+export const getDateFilename = date => date.toISOString().replace( /T/, '_' ).replace( /:/g, '-' )

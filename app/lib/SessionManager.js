@@ -5,6 +5,7 @@
 
 import logger from './logger'
 import settingsManager from './settings'
+import History from './History'
 import { getShabad, getBaniLines } from './db'
 
 /**
@@ -22,7 +23,7 @@ class SessionManager {
       shabad: null,
       viewedLines: new Set(),
       mainLineId: null,
-      history: [],
+      history: new History( ),
     }
 
     // Send all the current data on connection from a new client
@@ -41,14 +42,14 @@ class SessionManager {
    * @param client The client to synchronise the state to.
    */
   synchronise( client ) {
-    const { bani, history, mainLineId, viewedLines, lineId, shabad } = this.session
+    const { bani, mainLineId, viewedLines, lineId, shabad, history } = this.session
 
     client.sendJSON( 'shabad', shabad )
     client.sendJSON( 'bani', bani )
     client.sendJSON( 'line', lineId )
     client.sendJSON( 'viewedLines', viewedLines )
     client.sendJSON( 'mainLine', mainLineId )
-    client.sendJSON( 'history', history )
+    client.sendJSON( 'history', history.getTransitionsOnly() )
   }
 
   /**
@@ -58,6 +59,7 @@ class SessionManager {
    * @param lineId The optional line in the Shabad.
    */
   async onShabad( client, { shabadId, lineId = null } ) {
+    const { history } = this.session
     logger.info( `Setting Shabad ID to ${shabadId}` )
 
     const shabad = await getShabad( shabadId )
@@ -68,35 +70,37 @@ class SessionManager {
       bani: null,
       viewedLines: new Set(),
       mainLineId: null,
-      history: [
-        ...this.session.history,
-        {
-          timestamp: new Date(),
-          line: shabad.lines.find( ( { id } ) => lineId === id ),
-          shabadId,
-        },
-      ],
     }
 
     this.socket.broadcast( 'shabad', shabad )
-    this.socket.broadcast( 'history', this.session.history )
-    this.onLine( client, lineId )
+    this.onLine( client, lineId, true )
+
+    // Rebroadcast history
+    this.socket.broadcast( 'history', history.getTransitionsOnly() )
   }
 
   /**
    * When a line id is received, send it to all clients.
    * @param client The socket client that sent the line id.
    * @param lineId The ID of the line.
+   * @param transition Whether or not the line change is also a Shabad change.
    */
-  onLine( client, lineId ) {
-    const { viewedLines } = this.session
+  onLine( client, lineId, transition = false ) {
+    const { viewedLines, bani, shabad, history } = this.session
     logger.info( `Setting Line ID to ${lineId}` )
 
     viewedLines.add( lineId )
+
+    const { lines } = shabad || bani
     this.session = { ...this.session, lineId }
 
     this.socket.broadcast( 'line', lineId )
     this.socket.broadcast( 'viewedLines', [ ...viewedLines ] )
+
+    // Update and save history
+    const line = lines.find( ( { id } ) => lineId === id )
+    const isTransition = transition || lineId === null
+    history.update( { line }, isTransition )
   }
 
   /**
@@ -115,14 +119,20 @@ class SessionManager {
    * Clear the session history.
    */
   onClearHistory() {
+    const { history } = this.session
     logger.info( 'Clearing history' )
 
-    const history = []
-    this.session = { ...this.session, history }
-    this.socket.broadcast( 'history', history )
+    history.reset()
+    this.socket.broadcast( 'history', history.getTransitionsOnly() )
   }
 
+  /**
+   * When a Bani ID is received, fetch the Bani and send it to all clients.
+   * @param client The socket client that sent the Bani.
+   * @param shabadId The ID of the Bani.
+   */
   async onBani( client, baniId ) {
+    const { history } = this.session
     logger.info( `Setting the Bani ID to ${baniId}` )
 
     const bani = await getBaniLines( baniId )
@@ -135,18 +145,13 @@ class SessionManager {
       bani,
       shabad: null,
       viewedLines: new Set(),
-      history: [
-        ...this.session.history,
-        {
-          timestamp: new Date(),
-          line: firstLine,
-          baniId,
-        },
-      ],
     }
 
     this.socket.broadcast( 'bani', bani )
-    this.onLine( client, id )
+    this.onLine( client, id, true )
+
+    // Rebroadcast history
+    this.socket.broadcast( 'history', history.getTransitionsOnly() )
   }
 
   /**

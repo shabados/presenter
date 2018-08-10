@@ -3,17 +3,25 @@ import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
 import { searchLines, getBanis } from './lib/db'
 import logger from './lib/logger'
+import { PORT, CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FILE, HISTORY_FOLDER } from './lib/consts'
 
 /**
  * Async entry point for application.
  */
 async function main() {
   logger.info( 'Starting...' )
+
+  // Check if the data directories for the app exists, otherwise create it
+  ;[ DATA_FOLDER, CUSTOM_THEMES_FOLDER, HISTORY_FOLDER ].map( ensureDirSync )
+
   // Setup the express server with WebSockets
   const mounts = [
     { prefix: '/', dir: `${__dirname}/frontend/build` },
     { prefix: '/themes', dir: `${__dirname}/frontend/themes` },
+    { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
+    { prefix: '/history.csv', dir: HISTORY_FILE },
   ]
+
   const server = await setupExpress( mounts )
 
   // Setup the websocket server
@@ -30,8 +38,7 @@ async function main() {
   socket.on( 'connection', async client => client.sendJSON( 'banis', await getBanis() ) )
 
   // Start the server
-  const port = process.env.PORT || 8080
-  server.listen( port, () => logger.info( `Running express API server on port ${port}` ) )
+  server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )
 }
 
 
