@@ -40,7 +40,7 @@
     "directories": {
       "buildResources": "resources"
     },
-    "extraMetadata":{
+    "extraMetadata": {
       "name": "Shabad OS"
     },
     "win": {

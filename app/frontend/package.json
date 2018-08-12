@@ -45,5 +45,8 @@
     "eslint-plugin-react": "^7.10.0"
   },
   "proxy": "http://localhost:42425",
-  "eslintIgnore": ["node_modules", "build"]
+  "eslintIgnore": [
+    "node_modules",
+    "build"
+  ]
 }
