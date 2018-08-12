@@ -6,31 +6,31 @@
 
     /* Display line colours */
     --display-gurmukhi-color: #800000;
-    --display-translation-color: #000080;
-    --display-punjabi-color: #008000;
-    --display-transliteration-color: #008080;
+    --display-translation-color: #004080;
+    --display-punjabi-color: #008040;
+    --display-transliteration-color: #055d57;
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #808000;
-    --display-vishraam-medium-color: #004080;
-    --display-vishraam-light-color: #408000;
+    --display-vishraam-heavy-color: #008080;
+    --display-vishraam-medium-color: #008000;
+    --display-vishraam-light-color: #808000;
 
     /* Controller colors */
-    --controller-background-color: #f2f2f2;
+    --controller-background-color: #eff0f4;
     --controller-text-color: #424242;
     --controller-text-hover-color: #000000;
     --controller-selected-color: #000000;
-    --controller-selected-background-color: #ffed80;
+    --controller-selected-background-color: #f7f2c5;
 
     /* Controller search colors */
     --controller-search-background-color: transparent;
     --controller-search-focused-background-color: #ffffff;
-    --controller-search-match-color: #0024FF;
+    --controller-search-match-color: #4051bf;
 
     /* Controller top and bottom bar colors */
     --controller-bar-text-color: #616161;
-    --controller-bar-text-hover-color: #0024FF;
-    --controller-bar-background-color: #ffffff;
+    --controller-bar-text-hover-color: #1a2188;
+    --controller-bar-background-color: #d5dae2;
 
     /* Scrollbar colour */
     --scrollbar-color: #42424280;
