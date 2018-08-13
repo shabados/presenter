@@ -98,6 +98,8 @@ class Controller extends EventEmitter {
    * @param baniId The ID of the Bani to change to.
    */
   bani = baniId => this.sendJSON( 'bani', baniId )
+
+  getSettings = () => this.sendJSON( 'getSettings' )
 }
 
 // Allow only one instance by exporting it
