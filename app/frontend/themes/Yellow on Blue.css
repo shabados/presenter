@@ -1,0 +1,42 @@
+:root {
+    /* Display background */
+    --display-background-color: #0031a2;
+    --display-background-image: no-repeat center;
+    --display-background-size: 100% auto;
+
+    /* Display line colours */
+    --display-gurmukhi-color: #ffd318;
+    /* Larivaar Assist: #0f97a9 */
+    --display-translation-color: #dedede;
+    --display-punjabi-color: #dedede;
+    --display-transliteration-color: #dedede;
+
+    /* Display line pause/vishraam colours */
+    --display-vishraam-heavy-color: #ff8f62;
+    --display-vishraam-medium-color: #dd62ff;
+    --display-vishraam-light-color: #2ed428;
+
+    /* Controller colors */
+    --controller-background-color: #afb3d6;
+    --controller-text-color: #424242;
+    --controller-text-hover-color: #212121;
+    --controller-selected-color: #212121;
+    --controller-selected-background-color: #cfd1e3;
+
+    /* Controller search colors */
+    --controller-search-background-color: transparent;
+    --controller-search-focused-background-color: #cfd1e3;
+    --controller-search-match-color: #1568c8;
+
+    /* Controller top and bottom bar colors */
+    --controller-bar-text-color: #616161;
+    --controller-bar-text-hover-color: #424242;
+    --controller-bar-background-color: #dedede;
+
+    /* Scrollbar colour */
+    --scrollbar-color: #42424280;
+
+    /* Shortcut help colors */
+    --shortcuts-text-color: #212121;
+    --shortcuts-background-color: rgba(255, 255, 255, 0.9);
+}
