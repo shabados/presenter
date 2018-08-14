@@ -1,8 +1,6 @@
 :root {
     /* Display background */
-    --display-background-color: #cdc7bb;
-    --display-background-image: url('/themes/images/philosophiae.png');
-    --display-background-size: auto;
+    --display-background: #cdc7bb url('/themes/images/philosophiae.png');
 
     /* Display line colours */
     --display-gurmukhi-color: #800000;

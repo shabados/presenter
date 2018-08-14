@@ -1,8 +1,6 @@
 :root {
     /* Display background */
-    --display-background-color: #0031a2;
-    --display-background-image: no-repeat center;
-    --display-background-size: 100% auto;
+    --display-background: #0031a2;
 
     /* Display line colours */
     --display-gurmukhi-color: #ffd318;

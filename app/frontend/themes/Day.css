@@ -1,8 +1,6 @@
 :root {
     /* Display background */
-    --display-background-color: #FFFFFF;
-    --display-background-image: url('/themes/images/logo.png') no-repeat center;
-    --display-background-size: 100% auto;
+    --display-background: #FFFFFF url('/themes/images/logo.png') no-repeat center/100% auto;
 
     /* Display line colours */
     --display-gurmukhi-color: #000000;

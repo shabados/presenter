@@ -1,8 +1,6 @@
 :root {
     /* Display background */
-    --display-background-color: #FFFFFF;
-    --display-background-image: url('/themes/images/darbar-sahib.jpg') no-repeat center;
-    --display-background-size: auto 100%;
+    --display-background: #FFFFFF url('/themes/images/darbar-sahib.jpg') no-repeat center/auto 100%;
 
     /* Display line colours */
     --display-gurmukhi-color: #ffffff;
