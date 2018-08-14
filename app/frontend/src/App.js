@@ -161,7 +161,7 @@ class App extends Component {
     Menu: () => this.go( MENU_URL ),
     Search: () => this.go( SEARCH_URL ),
     History: () => this.go( HISTORY_URL ),
-    Bookmarks: () => this.go( BANIS_URL ),
+    Banis: () => this.go( BANIS_URL ),
     Navigator: () => this.go( NAVIGATOR_URL ),
     'Clear Display': controller.clear,
     'Toggle Shortcuts Help': () => this.toggleQuery( SHOW_SHORTCUTS_QUERY ),

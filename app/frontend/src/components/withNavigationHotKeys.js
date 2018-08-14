@@ -170,9 +170,13 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         next: [ 'down', 'right', 'tab' ],
         previous: [ 'up', 'left', 'shift+tab' ],
         enter: [ 'enter', 'return', 'space' ],
+        first: [ 'home' ],
+        last: [ 'end' ],
       }
 
       arrowHandlers = {
+        first: () => this.jumpTo( 0 ),
+        last: () => this.jumpTo( this.nodes.size - 1 ),
         previous: this.prevItem,
         next: this.nextItem,
         enter: this.simulateClick,
