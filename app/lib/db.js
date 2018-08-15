@@ -28,4 +28,11 @@ export const getShabad = shabadId => Shabads
  */
 export const getBanis = () => Banis.query()
 
-export const getBaniLines = baniId => Banis.query().eager( 'lines' ).where( 'id', baniId ).first()
+export const getBaniLines = baniId => Banis
+  .query()
+  .eager( 'lines' )
+  .modifyEager( 'lines', builder => {
+    builder.orderBy( [ 'line_group', 'line_id' ] )
+  } )
+  .where( 'id', baniId )
+  .first()
