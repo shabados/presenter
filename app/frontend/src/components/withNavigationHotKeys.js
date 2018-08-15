@@ -25,6 +25,9 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
 
         // Stores any input types, so that their keydown can be overriden
         this.inputs = []
+
+        // Stores a list of hotkeys
+        this.hotkeys = []
       }
 
       componentDidMount() {
@@ -145,13 +148,19 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
        * @param name The name to identify the ref.
        * @param ref The ref to store.
        * @param isInput Whether or not the ref is to an `<input/>`.
+       * @param isHotKey Whether or not the ref should be registered as a hotkey.
        */
-      registerRef = ( name, ref, isInput ) => {
+      registerRef = ( name, ref, isInput = false, isHotKey = false ) => {
         this.nodes.set( name, ref )
 
         // Store the input, if it is one
         if ( isInput ) {
           this.inputs = [ ...this.inputs, ref ]
+        }
+
+        // Store as a hotkey, if it is one
+        if ( isHotKey ) {
+          this.hotkeys = [ ...this.hotkeys, name ]
         }
       }
 
@@ -159,10 +168,14 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
        * Generates handlers for each of the nodes, using the keys from LINE HOTKEYS to jump to them.
        */
       generateLineHandlers = () => LINE_HOTKEYS
-        .slice( 0, this.nodes.size )
+        .slice( 0, this.hotkeys.length || this.nodes.size )
         .reduce( ( handlers, key, i ) => ( {
           ...handlers,
-          [ key ]: () => this.jumpTo( i ),
+          [ key ]: () => (
+            this.hotkeys.length
+              ? this.jumpToName( this.hotkeys[ i ] )
+              : this.jumpTo( i )
+          ),
         } ), {} )
 
 
