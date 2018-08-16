@@ -21,6 +21,7 @@ export const MENU_URL = `${CONTROLLER_URL}/menu`
 export const SEARCH_URL = `${CONTROLLER_URL}/search`
 export const BANIS_URL = `${CONTROLLER_URL}/banis`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
+export const SETTINGS_URL = `${CONTROLLER_URL}/settings`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
 

@@ -31,6 +31,9 @@
     --controller-bar-text-hover-color: #424242;
     --controller-bar-background-color: #F5F5F5;
 
+    /* Controller setting colors */
+    --controller-settings-headers-color: #757575;
+
     /* Scrollbar colour */
     --scrollbar-color: rgba(0, 0, 0, 0.5);
 

@@ -23,6 +23,7 @@ import {
   MENU_URL,
   NAVIGATOR_URL,
   SEARCH_URL,
+  SETTINGS_URL,
 } from '../../lib/consts'
 
 import ToolbarButton from './ToolbarButton'
@@ -31,6 +32,7 @@ import Menu from './Menu'
 import Navigator, { Bar as NavigatorBar } from './Navigator'
 import History from './History'
 import Banis from './Banis'
+import Settings from './Settings'
 
 import './index.css'
 
@@ -170,6 +172,7 @@ class Controller extends Component {
       [ NAVIGATOR_URL, Navigator, NavigatorBar ],
       [ HISTORY_URL, History ],
       [ BANIS_URL, Banis ],
+      [ SETTINGS_URL, Settings ],
     ]
 
     return (
