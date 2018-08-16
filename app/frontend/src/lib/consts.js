@@ -24,6 +24,9 @@ export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
 
+export const OVERLAY_URL = '/overlay'
+export const SCREEN_READER_URL = '/screenreader'
+
 // URL states
 export const CONTROLLER_ONLY_QUERY = 'controllerOnly'
 export const SHOW_SHORTCUTS_QUERY = 'showShortcuts'

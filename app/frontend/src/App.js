@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Route, withRouter } from 'react-router-dom'
+import { Link, Route, withRouter, Switch } from 'react-router-dom'
 
 import { HotKeys } from 'react-hotkeys'
 import queryString from 'qs'
@@ -19,12 +19,17 @@ import {
   CONTROLLER_ONLY_QUERY,
   SHOW_SHORTCUTS_QUERY,
   SHORTCUTS,
+  OVERLAY_URL,
+  SCREEN_READER_URL,
 } from './lib/consts'
 import controller from './lib/controller'
 import ThemeLoader from './components/ThemeLoader'
 import Controller from './components/Controller'
 import ShortcutHelp from './components/ShortcutHelp'
 import Display from './components/Display'
+
+import ScreenReader from './ScreenReader'
+import Overlay from './Overlay'
 
 import './App.css'
 
@@ -177,29 +182,35 @@ class App extends Component {
     } = queryString.parse( search, { ignoreQueryPrefix: true } )
 
     return (
-      <HotKeys
-        component="document-fragment"
-        keyMap={SHORTCUTS}
-        handlers={this.hotKeyHandlers}
-        focused
-        attach={window}
-      >
-        <div className="app">
-          <CssBaseline />
-          <ThemeLoader name={theme} />
-          {!controllerOnly ? <Display shabad={shabad} bani={bani} lineId={lineId} /> : null}
-          <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
-            <Link to={CONTROLLER_URL}>
-              <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
-            </Link>
-            <Route
-              path={CONTROLLER_URL}
-              render={props => <Controller {...this.state} {...props} />}
-            />
-          </div>
-          {showShortcuts ? <ShortcutHelp /> : null}
-        </div>
-      </HotKeys>
+      <Switch>
+        <Route path={OVERLAY_URL}><Overlay {...this.state} /></Route>
+        <Route path={SCREEN_READER_URL}><ScreenReader {...this.state} /></Route>
+        <Route>
+          <HotKeys
+            component="document-fragment"
+            keyMap={SHORTCUTS}
+            handlers={this.hotKeyHandlers}
+            focused
+            attach={window}
+          >
+            <div className="app">
+              <CssBaseline />
+              <ThemeLoader name={theme} />
+              {!controllerOnly ? <Display shabad={shabad} bani={bani} lineId={lineId} /> : null}
+              <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
+                <Link to={CONTROLLER_URL}>
+                  <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
+                </Link>
+                <Route
+                  path={CONTROLLER_URL}
+                  render={props => <Controller {...this.state} {...props} />}
+                />
+              </div>
+              {showShortcuts ? <ShortcutHelp /> : null}
+            </div>
+          </HotKeys>
+        </Route>
+      </Switch>
     )
   }
 }
