@@ -11,9 +11,6 @@ export const BACKEND_PORT = process.env.NODE_ENV === 'production' ? 42424 : 4242
 export const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
 export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
 
-// Theme CSS and asset files located here
-export const THEME_URL = `${BACKEND_URL}/themes`
-
 /* Navigator */
 // URLs
 export const CONTROLLER_URL = '/controller'
@@ -24,6 +21,7 @@ export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
 export const SETTINGS_URL = `${CONTROLLER_URL}/settings`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
+export const THEME_URL = `${BACKEND_URL}/themes`
 
 export const OVERLAY_URL = '/overlay'
 export const SCREEN_READER_URL = '/screenreader'
@@ -44,10 +42,12 @@ export const PAUSE_CHARS = {
 }
 
 // Searching modifiers
-export const WILDCARD_CHAR = '_'
-export const WORD_ANYWHERE_CHAR = '#'
-export const WORD_ORDER_CHAR = '^'
-export const LARIVAAR_ACCENTLESS_CHAR = '%'
+export const SEARCH_CHARS = {
+  wildcard: '_',
+  wordAnywhere: '#',
+  wordOrder: '^',
+  larivaarAccentless: '%',
+}
 
 /* Hotkeys and shortcuts */
 // Jump to navigation line ordered hot keys
@@ -71,6 +71,7 @@ export const SHORTCUTS = {
   clearDisplay: 'Clear Display',
 }
 
+// Shortcut Keys
 export const SHORTCUT_MAP = {
   [ SHORTCUTS.toggleShorcutsHelp ]: [ '?', 'shift+/' ],
   [ SHORTCUTS.toggleFullscreen ]: [ 'f11' ],
@@ -86,4 +87,71 @@ export const SHORTCUT_MAP = {
   [ SHORTCUTS.history ]: [ 'ctrl+y' ],
   [ SHORTCUTS.banis ]: [ 'ctrl+b' ],
   [ SHORTCUTS.clearDisplay ]: [ 'esc' ],
+}
+
+
+/* Options */
+// Unique symbols for each option type
+export const OPTION_TYPES = {
+  dropdown: Symbol( 'Dropdown' ),
+  toggle: Symbol( 'Toggle' ),
+  slider: Symbol( 'Slider' ),
+  radio: Symbol( 'Radio' ),
+  colorPicker: Symbol( 'Color Picker' ),
+}
+
+// Categories that can appear in the menu
+export const OPTION_CATEGORIES = {
+  layout: 'Layout',
+  theme: 'Theme',
+  experimental: 'Experimental',
+}
+
+// Possible options
+export const OPTIONS = {
+  spacing: 'Spacing',
+  controllerHeight: 'Controller Height',
+  larivaarGurbani: 'Larivaar Gurbani',
+  splitGurbani: 'Split Gurbani Lines',
+  englishTranslation: 'English Translation',
+  punjabiTranslation: 'Punjabi Translation',
+  englishTransliteration: 'English Transliteration',
+  nextLine: 'Next Line',
+  fontSize: 'Font Size',
+  themeName: 'Theme Name',
+  backgroundImage: 'Background Image',
+  vishraamColors: 'Vishraam Colors',
+  vishraamCharacters: 'Vishraam Characters',
+  vishraamLight: 'Vishraam Light',
+  vishraamMedium: 'Vishraam Medium',
+  vishraamHeavy: 'Vishraam Heavy',
+}
+
+// Groupings of options
+export const OPTIONS_GROUPS = {
+  [ OPTION_CATEGORIES.experimental ]: {
+    [ OPTIONS.spacing ]: {
+      type: OPTION_TYPES.dropdown,
+      options: [
+        { name: 'Space Around', value: '' },
+        { name: 'Normal', value: '' },
+        { name: 'Space Between', value: '' },
+        { name: 'Space Evenly', value: '' },
+      ],
+    },
+    [ OPTIONS.controllerHeight ]: {
+      type: OPTION_TYPES.dropdown,
+      options: [
+        { name: 'Short', value: '450px' },
+        { name: 'Medium', value: '450px' },
+        { name: 'Tall', value: '450px' },
+      ],
+    },
+    larivaarGurbani: { type: OPTION_TYPES.toggle },
+    splitGurbani: { type: OPTION_TYPES.toggle },
+    englishTranslation: { type: OPTION_TYPES.toggle },
+    punjabiTranslation: { type: OPTION_TYPES.toggle },
+    englishTransliteration: { type: OPTION_TYPES.toggle },
+    fontSize: { type: OPTION_TYPES.slider, range: [ 10, 50 ] },
+  },
 }
