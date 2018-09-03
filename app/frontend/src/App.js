@@ -18,9 +18,10 @@ import {
   SEARCH_URL,
   CONTROLLER_ONLY_QUERY,
   SHOW_SHORTCUTS_QUERY,
-  SHORTCUTS,
   OVERLAY_URL,
   SCREEN_READER_URL,
+  SHORTCUT_MAP,
+  SHORTCUTS,
 } from './lib/consts'
 import controller from './lib/controller'
 import ThemeLoader from './components/ThemeLoader'
@@ -47,6 +48,7 @@ class App extends Component {
       shabadHistory: [],
       shabad: null,
       theme: 'day',
+      settings: {},
     }
   }
 
@@ -61,6 +63,7 @@ class App extends Component {
     controller.on( 'history', this.onHistory )
     controller.on( 'banis', this.onBanis )
     controller.on( 'bani', this.onBani )
+    controller.on( 'settings', this.onSettings )
   }
 
   componentWillUnmount() {
@@ -73,6 +76,7 @@ class App extends Component {
     controller.off( 'viewedLines', this.onViewedLines )
     controller.off( 'banis', this.onBanis )
     controller.off( 'bani', this.onBani )
+    controller.off( 'settings', this.onSettings )
   }
 
   onConnected = () => this.setState( { connected: true } )
@@ -84,6 +88,7 @@ class App extends Component {
   onHistory = shabadHistory => this.setState( { shabadHistory } )
   onBanis = banis => this.setState( { banis } )
   onBani = bani => this.setState( { bani, shabad: null } )
+  onSettings = settings => this.setState( { settings: { ...this.state.settings, ...settings } } )
 
   /**
    * Sets the query string parameters, retaining any currently present.
@@ -159,18 +164,18 @@ class App extends Component {
     } ), {} )
 
   hotKeyHandlers = this.preventDefault( {
-    'Toggle Controller': this.toggleController,
-    'New Controller': () => window.open( `${CONTROLLER_URL}?${CONTROLLER_ONLY_QUERY}=true`, '_blank' ),
-    'History Back': () => this.props.history.goBack(),
-    'History Forwards': () => this.props.history.goForward(),
-    Menu: () => this.go( MENU_URL ),
-    Search: () => this.go( SEARCH_URL ),
-    History: () => this.go( HISTORY_URL ),
-    Banis: () => this.go( BANIS_URL ),
-    Navigator: () => this.go( NAVIGATOR_URL ),
-    'Clear Display': controller.clear,
-    'Toggle Shortcuts Help': () => this.toggleQuery( SHOW_SHORTCUTS_QUERY ),
-    'Toggle Fullscreen Controller': this.fullscreenController,
+    [ SHORTCUTS.toggleController ]: this.toggleController,
+    [ SHORTCUTS.newController ]: () => window.open( `${CONTROLLER_URL}?${CONTROLLER_ONLY_QUERY}=true`, '_blank' ),
+    [ SHORTCUTS.historyBack ]: () => this.props.history.goBack(),
+    [ SHORTCUTS.historyForward ]: () => this.props.history.goForward(),
+    [ SHORTCUTS.menu ]: () => this.go( MENU_URL ),
+    [ SHORTCUTS.search ]: () => this.go( SEARCH_URL ),
+    [ SHORTCUTS.history ]: () => this.go( HISTORY_URL ),
+    [ SHORTCUTS.banis ]: () => this.go( BANIS_URL ),
+    [ SHORTCUTS.navigator ]: () => this.go( NAVIGATOR_URL ),
+    [ SHORTCUTS.clearDisplay ]: controller.clear,
+    [ SHORTCUTS.toggleShorcutsHelp ]: () => this.toggleQuery( SHOW_SHORTCUTS_QUERY ),
+    [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
   } )
 
   render() {
@@ -188,7 +193,7 @@ class App extends Component {
         <Route>
           <HotKeys
             component="document-fragment"
-            keyMap={SHORTCUTS}
+            keyMap={SHORTCUT_MAP}
             handlers={this.hotKeyHandlers}
             focused
             attach={window}
