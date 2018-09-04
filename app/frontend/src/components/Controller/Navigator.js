@@ -92,17 +92,23 @@ class Navigator extends Component {
 /**
  * Used by Menu parent to render content in the bottom bar.
  */
-export const Bar = ( { mainLineId, lineId } ) => {
+export const Bar = ( { mainLineId, lineId, shabad, bani } ) => {
   console.log( mainLineId )
+  const content = shabad || bani
+
+  if ( !content ) { return null }
+
   const autoselectProps = {
     icon: faExchangeAlt,
     onClick: () => controller.mainLine( lineId ),
   }
 
+  const { lines } = content
+
   return (
     <div className="navigator-controls">
       <ToolbarButton name="Up" icon={faChevronUp} />
-      1/16
+      {lines ? `${lines.findIndex( ( { id } ) => id === lineId ) + 1}/${lines.length}` : null}
       <ToolbarButton name="Down" icon={faChevronDown} />
       <ToolbarButton name="Autoselect" className="autoselect" {...autoselectProps} />
     </div>
