@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Input, List, ListItem } from 'material-ui'
 import { toUnicode } from 'gurmukhi-utils'
 
-import { MAX_RESULTS, MIN_SEARCH_CHARS, WILDCARD_CHAR } from '../../lib/consts'
+import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS } from '../../lib/consts'
 import { getFirstLetters, stripPauses } from '../../lib/utils'
 import controller from '../../lib/controller'
 
@@ -95,7 +95,7 @@ class Search extends Component {
     // Get first letters in line and find where the match is
     const firstLetters = getFirstLetters( gurmukhi )
     // Remember to account for wildcard characters
-    const pos = firstLetters.search( searchedValue.replace( new RegExp( WILDCARD_CHAR ), '.' ) )
+    const pos = firstLetters.search( searchedValue.replace( new RegExp( SEARCH_CHARS.wildcard ), '.' ) )
 
     const words = stripPauses( gurmukhi ).split( ' ' )
 
