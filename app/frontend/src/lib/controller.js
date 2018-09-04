@@ -17,6 +17,12 @@ class Controller extends EventEmitter {
     this.socket.addEventListener( 'open', this._onOpen )
     this.socket.addEventListener( 'close', this._onClose )
     this.socket.addEventListener( 'message', this._onMessage )
+
+    // Combine local and server settings
+    this.on( 'getSettings', settings => {
+      const localSettings = JSON.parse( localStorage.getItem( 'settings' ) )
+      this.emit( 'settings', { ...settings, ...localSettings } )
+    } )
   }
 
   /**
@@ -99,7 +105,21 @@ class Controller extends EventEmitter {
    */
   bani = baniId => this.sendJSON( 'bani', baniId )
 
+  /**
+   * Gets the default settings + server-only settings.
+   * * The server settings are combined with local settings
+   * * and retransmitted as a new event.
+   */
   getSettings = () => this.sendJSON( 'getSettings' )
+
+  /**
+   * Stores any setting changes locally and submits changes to server.
+   */
+  setSettings = settings => {
+    this.emit( 'settings', settings )
+    localStorage.setItem( 'settings', settings )
+    this.sendJSON( 'setSettings', settings )
+  }
 }
 
 // Allow only one instance by exporting it

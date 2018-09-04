@@ -24,6 +24,7 @@ class SessionManager {
       viewedLines: new Set(),
       mainLineId: null,
       history: new History( ),
+      settings: new Map(),
     }
 
     // Send all the current data on connection from a new client
