@@ -29,11 +29,15 @@ class Socket extends EventEmitter {
   onConnection() {
     this.socketServer.on( 'connection', async ( socket, { client } ) => {
       // Get hostname or proper IP
-      const address = await getHost( client.remoteAddress )
+      // eslint-disable-next-line
+      socket.host = await getHost( client.remoteAddress )
 
       // Log the connection and disconnection events
-      logger.info( `${address} connected` )
-      socket.on( 'close', () => logger.info( `${address} disconnected` ) )
+      logger.info( `${socket.host} connected` )
+      socket.on( 'close', () => {
+        logger.info( `${socket.host} disconnected` )
+        this.emit( 'disconnection', socket )
+      } )
 
       // Keep connection alive if heartbeat received
       // eslint-disable-next-line
@@ -63,12 +67,21 @@ class Socket extends EventEmitter {
    * @param excludedClients The clients to exclude from the transmission.
    */
   broadcast( event, payload, excludedClients = [] ) {
+    this.forEach( client => client.sendJSON( event, payload ), excludedClients )
+  }
+
+  /**
+  * Iterates over each actively connected client.
+  * @param fn The function to execute, provided with the client as a parameter.
+  * @param excludedClients Any excluded clients.
+  */
+  forEach( fn, excludedClients = [] ) {
     const { clients } = this.socketServer
 
     clients.forEach( client => {
-      // Transmit if not in the list and the WebSocket is open
+      // Only include non-excluded clients and open connections
       if ( !excludedClients.includes( client ) && client.readyState === WebSocket.OPEN ) {
-        client.sendJSON( event, payload )
+        fn( client )
       }
     } )
   }

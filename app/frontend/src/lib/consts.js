@@ -100,58 +100,108 @@ export const OPTION_TYPES = {
   colorPicker: Symbol( 'Color Picker' ),
 }
 
-// Categories that can appear in the menu
-export const OPTION_CATEGORIES = {
-  layout: 'Layout',
-  theme: 'Theme',
-  experimental: 'Experimental',
+export const PRIVACY_TYPES = {
+  local: Symbol( 'Local' ),
+  private: Symbol( 'Private Locally' ),
+  global: Symbol( 'Server Global' ),
 }
 
-// Possible options
+// Option names and possible values
 export const OPTIONS = {
-  spacing: 'Spacing',
-  controllerHeight: 'Controller Height',
-  larivaarGurbani: 'Larivaar Gurbani',
-  splitGurbani: 'Split Gurbani Lines',
-  englishTranslation: 'English Translation',
-  punjabiTranslation: 'Punjabi Translation',
-  englishTransliteration: 'English Transliteration',
-  nextLine: 'Next Line',
-  fontSize: 'Font Size',
-  themeName: 'Theme Name',
-  backgroundImage: 'Background Image',
-  vishraamColors: 'Vishraam Colors',
-  vishraamCharacters: 'Vishraam Characters',
-  vishraamLight: 'Vishraam Light',
-  vishraamMedium: 'Vishraam Medium',
-  vishraamHeavy: 'Vishraam Heavy',
+  spacing: {
+    name: 'Spacing',
+    type: OPTION_TYPES.dropdown,
+    privacy: PRIVACY_TYPES.local,
+    values: [
+      { name: 'Space Around', value: '' },
+      { name: 'Normal', value: '' },
+      { name: 'Space Between', value: '' },
+      { name: 'Space Evenly', value: '' },
+    ],
+  },
+  controllerHeight: {
+    name: 'Controller Height',
+    type: OPTION_TYPES.dropdown,
+    privacy: PRIVACY_TYPES.local,
+    values: [
+      { name: 'Short', value: '450px' },
+      { name: 'Medium', value: '450px' },
+      { name: 'Tall', value: '450px' },
+    ],
+  },
+  larivaarGurbani: { name: 'Larivaar Gurbani', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  splitGurbani: { name: 'Split Gurbani Lines', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  englishTranslation: { name: 'English Translation', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  punjabiTranslation: { name: 'Punjabi Translation', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  englishTransliteration: { name: 'English Transliteration', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  nextLine: { name: 'Next Line', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  fontSize: { name: 'Font Size', type: OPTION_TYPES.slider, range: [ 20, 100 ], privacy: PRIVACY_TYPES.local },
+  themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
+  backgroundImage: { name: 'Background Image', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamColors: { name: 'Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamCharacters: { name: 'Vishraam Characters', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamLight: { name: 'Vishraam Light', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamMedium: { name: 'Vishraam Medium', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamHeavy: { name: 'Vishraam Heavy', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  autoNextShabad: { name: 'Automatic Next Shabad', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  analytics: { name: 'Usage Analytics', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  launchOnStartup: { name: 'Launch On Startup', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  private: { name: 'Private Settings', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
 }
 
-// Groupings of options
-export const OPTIONS_GROUPS = {
-  [ OPTION_CATEGORIES.experimental ]: {
-    [ OPTIONS.spacing ]: {
-      type: OPTION_TYPES.dropdown,
-      options: [
-        { name: 'Space Around', value: '' },
-        { name: 'Normal', value: '' },
-        { name: 'Space Between', value: '' },
-        { name: 'Space Evenly', value: '' },
-      ],
+// Options with default values
+export const DEFAULT_OPTIONS = {
+  local: {
+    layout: {
+      name: 'Layout',
+      options: {
+        spacing: OPTIONS.spacing.values[ 0 ],
+        controllerHeight: OPTIONS.controllerHeight.values[ 0 ],
+        larivaarGurbani: false,
+        splitGurbani: true,
+        englishTranslation: true,
+        punjabiTranslation: false,
+        englishTransliteration: true,
+        nextLine: false,
+      },
     },
-    [ OPTIONS.controllerHeight ]: {
-      type: OPTION_TYPES.dropdown,
-      options: [
-        { name: 'Short', value: '450px' },
-        { name: 'Medium', value: '450px' },
-        { name: 'Tall', value: '450px' },
-      ],
+    theme: {
+      name: 'Theme',
+      options: {
+        themeName: undefined,
+        backgroundImage: true,
+        fontSize: 40,
+      },
     },
-    larivaarGurbani: { type: OPTION_TYPES.toggle },
-    splitGurbani: { type: OPTION_TYPES.toggle },
-    englishTranslation: { type: OPTION_TYPES.toggle },
-    punjabiTranslation: { type: OPTION_TYPES.toggle },
-    englishTransliteration: { type: OPTION_TYPES.toggle },
-    fontSize: { type: OPTION_TYPES.slider, range: [ 10, 50 ] },
+    vishraams: {
+      name: 'Vishraams/Pauses',
+      options: {
+        vishraamColors: true,
+        vishraamCharacters: false,
+        vishraamLight: true,
+        vishraamMedium: true,
+        vishraamHeavy: true,
+      },
+    },
+    navigation: {
+      name: 'Navigation',
+      options: {
+        autoNextShabad: false,
+      },
+    },
+    security: {
+      name: 'Security',
+      options: {
+        private: false,
+      },
+    },
+  },
+  // Special serverside settings
+  global: {
+    name: 'Server',
+    options: {
+      launchOnStartup: false,
+      analytics: true,
+    },
   },
 }

@@ -3,7 +3,7 @@
  * @ignore
  */
 
-import { readJSONSync, writeJSONSync, ensureFileSync } from 'fs-extra'
+import { readJSONSync, writeJSON, writeJSONSync, ensureFileSync } from 'fs-extra'
 
 import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts'
 import logger from './logger'
@@ -38,8 +38,8 @@ class Settings {
   /**
    * Saves the settings back to disk.
    */
-  saveSettings() {
-    writeJSONSync( SETTINGS_FILE, this.settings, { spaces: 2 } )
+  async saveSettings() {
+    writeJSON( SETTINGS_FILE, this.settings, { spaces: 2 } )
   }
 
   /**

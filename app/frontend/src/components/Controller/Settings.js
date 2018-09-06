@@ -44,6 +44,11 @@ class Settings extends Component {
   }
 
   render() {
+    const { settings } = this.props
+    const { local, global } = settings
+
+    console.log( settings )
+
     return (
       <div className="settings">
         <h1>Layout</h1>

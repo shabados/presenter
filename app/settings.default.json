@@ -1,27 +1,14 @@
 {
-  "display": {
-    "layout": {
-      "spacing": "Around",
-      "navigatorHeight": "Short",
-      "larivaar": false,
-      "splitLines": true,
-      "englishTranslation": true,
-      "englishTransliteration": true,
-      "punjabiTranslation": false,
-      "nextLine": false,
-      "fontSize": 6
-    },
-    "theme": {
-      "scheme": "Day",
-      "backgroundImage": true
-    },
-    "vishraam":{
-      "colors": true,
-      "characters": false,
-      "light": true,
-      "medium": true,
-      "heavy": true
+  "privacy": {
+    "name": "Privacy",
+    "options": {
+      "analytics": true
     }
   },
-  "analytics": false
+  "system": {
+    "name": "System Options",
+    "options": {
+      "launchOnStartup": false
+    }
+  }
 }

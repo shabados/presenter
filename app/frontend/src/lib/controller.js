@@ -6,7 +6,7 @@
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import EventEmitter from 'event-emitter'
 
-import { WS_URL } from './consts'
+import { WS_URL, DEFAULT_OPTIONS } from './consts'
 
 class Controller extends EventEmitter {
   constructor() {
@@ -17,12 +17,6 @@ class Controller extends EventEmitter {
     this.socket.addEventListener( 'open', this._onOpen )
     this.socket.addEventListener( 'close', this._onClose )
     this.socket.addEventListener( 'message', this._onMessage )
-
-    // Combine local and server settings
-    this.on( 'getSettings', settings => {
-      const localSettings = JSON.parse( localStorage.getItem( 'settings' ) )
-      this.emit( 'settings', { ...settings, ...localSettings } )
-    } )
   }
 
   /**
@@ -38,6 +32,7 @@ class Controller extends EventEmitter {
    */
   _onOpen = () => {
     console.log( 'Connected to server' )
+    this.setSettings()
     this.emit( 'connected' )
   }
 
@@ -106,19 +101,36 @@ class Controller extends EventEmitter {
   bani = baniId => this.sendJSON( 'bani', baniId )
 
   /**
-   * Gets the default settings + server-only settings.
-   * * The server settings are combined with local settings
-   * * and retransmitted as a new event.
+   * Reads the settings from local storage, and combines with default settings.
    */
-  getSettings = () => this.sendJSON( 'getSettings' )
+  readSettings = () => {
+    try {
+      const localSettings = JSON.parse( localStorage.getItem( 'settings' ) )
+      return { ...DEFAULT_OPTIONS.local, ...localSettings }
+    } catch ( e ) {
+      console.warn( 'Settings corrupted. Resetting to default.' )
+      return DEFAULT_OPTIONS
+    }
+  }
 
   /**
    * Stores any setting changes locally and submits changes to server.
+   * @param changed The changed settings.
+   * @param host The optional host to apply the settings to. Default of `local`.
    */
-  setSettings = settings => {
-    this.emit( 'settings', settings )
-    localStorage.setItem( 'settings', settings )
-    this.sendJSON( 'setSettings', settings )
+  setSettings = ( changed = {}, host = 'local' ) => {
+    let settings = {}
+    if ( host === 'local' ) {
+      settings = { local: { ...this.readSettings(), ...changed } }
+
+      const { local } = settings
+      localStorage.setItem( 'settings', JSON.stringify( local ) )
+      this.emit( 'settings', settings )
+    } else {
+      settings = { [ host ]: changed }
+    }
+
+    this.sendJSON( 'settings', settings )
   }
 }
 

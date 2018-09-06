@@ -3,6 +3,8 @@
  * @ignore
  */
 
+import get from 'get-value'
+
 import logger from './logger'
 import settingsManager from './settings'
 import History from './History'
@@ -23,12 +25,15 @@ class SessionManager {
       shabad: null,
       viewedLines: new Set(),
       mainLineId: null,
-      history: new History( ),
-      settings: new Map(),
+      history: new History(),
+      settings: {},
     }
 
     // Send all the current data on connection from a new client
     socket.on( 'connection', this.synchronise.bind( this ) )
+
+    // Remove data from caches on disconnection
+    socket.on( 'disconnection', this.clearCache.bind( this ) )
 
     // Update the state if on receiving data from the client
     socket.on( 'shabad', this.onShabad.bind( this ) )
@@ -36,6 +41,7 @@ class SessionManager {
     socket.on( 'mainLine', this.onMainLine.bind( this ) )
     socket.on( 'clearHistory', this.onClearHistory.bind( this ) )
     socket.on( 'bani', this.onBani.bind( this ) )
+    socket.on( 'settings', this.onSettings.bind( this ) )
   }
 
   /**
@@ -51,6 +57,21 @@ class SessionManager {
     client.sendJSON( 'viewedLines', viewedLines )
     client.sendJSON( 'mainLine', mainLineId )
     client.sendJSON( 'history', history.getTransitionsOnly() )
+    client.sendJSON( 'settings', this.getPublicSettings() )
+  }
+
+  /**
+   * Deletes the settings entries for a given host.
+   * @param host The hostname/IP address of the settings to remove.
+   */
+  clearCache( { host } ) {
+    this.session = {
+      ...this.session,
+      settings: {
+        ...this.session.settings,
+        [ host ]: undefined,
+      },
+    }
   }
 
   /**
@@ -153,6 +174,48 @@ class SessionManager {
 
     // Rebroadcast history
     this.socket.broadcast( 'history', history.getTransitionsOnly() )
+  }
+
+  /**
+   * Sets the settings for a given client.
+   * ! This will not work for any clients that have the hostnames of `local` or `global`.
+   */
+  onSettings( client, { local, global = {}, ...rest } ) {
+    const { host } = client
+
+    // Save global server settings
+    settingsManager.merge( global )
+
+    // Save new settings, mapping the local field back to the correct host
+    const { settings } = this.session
+    this.session = { ...this.session, settings: { ...settings, ...rest, [ host ]: local } }
+
+    // Strip out private settings
+    const publicSettings = this.getPublicSettings()
+
+    // Rebroadcast all settings, transforming fields appropriately
+    this.socket.forEach( client => {
+      const { host } = client
+      client.sendJSON( 'settings', {
+        ...publicSettings,
+        [ host ]: undefined, // Remove entry for own host
+        local: this.session.settings[ host ], // Map host settings to `local` field
+        global: settingsManager.get(), // Map server settings to `global field
+      } )
+    } )
+  }
+
+  /**
+   * Retrieves only the public settings from the server.
+   * Checks whether the [host].security.options.private value is set, else assume public.
+   */
+  getPublicSettings() {
+    const { settings } = this.session
+
+    return Object.entries( settings ).reduce( ( acc, [ host, settings ] ) => ( {
+      ...acc,
+      [ host ]: get( settings, 'security.options.private' ) ? undefined : settings,
+    } ), {} )
   }
 
   /**
