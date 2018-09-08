@@ -27,8 +27,10 @@ export const OVERLAY_URL = '/overlay'
 export const SCREEN_READER_URL = '/screenreader'
 
 // URL states
-export const CONTROLLER_ONLY_QUERY = 'controllerOnly'
-export const SHOW_SHORTCUTS_QUERY = 'showShortcuts'
+export const STATES = {
+  controllerOnly: 'controllerOnly', // Fullscreen controller
+  showShortcuts: 'showShortcuts', // Shortcut help pane
+}
 
 // Search
 export const MIN_SEARCH_CHARS = 2

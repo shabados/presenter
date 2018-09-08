@@ -16,13 +16,13 @@ import {
   MENU_URL,
   NAVIGATOR_URL,
   SEARCH_URL,
-  CONTROLLER_ONLY_QUERY,
-  SHOW_SHORTCUTS_QUERY,
+  STATES,
   OVERLAY_URL,
   SCREEN_READER_URL,
   SHORTCUT_MAP,
   SHORTCUTS,
 } from './lib/consts'
+import { getUrlState } from './lib/utils'
 import controller from './lib/controller'
 import ThemeLoader from './components/ThemeLoader'
 import Controller from './components/Controller'
@@ -98,7 +98,7 @@ class App extends Component {
     const { history, location } = this.props
     const { search } = location
 
-    const previousSearch = queryString.parse( search, { ignoreQueryPrefix: true } )
+    const previousSearch = getUrlState( search )
     history.push( {
       ...location,
       search: queryString.stringify( { ...previousSearch, ...params } ),
@@ -136,7 +136,7 @@ class App extends Component {
       this.toggleController()
     }
 
-    this.toggleQuery( CONTROLLER_ONLY_QUERY )
+    this.toggleQuery( STATES.controllerOnly )
   }
 
   /**
@@ -146,7 +146,7 @@ class App extends Component {
   toggleQuery = query => {
     const { location: { search } } = this.props
 
-    const parsed = queryString.parse( search, { ignoreQueryPrefix: true } )
+    const parsed = getUrlState( search )
     this.setQueryParams( {
       ...parsed,
       [ query ]: parsed[ query ] ? undefined : true,
@@ -165,7 +165,7 @@ class App extends Component {
 
   hotKeyHandlers = this.preventDefault( {
     [ SHORTCUTS.toggleController ]: this.toggleController,
-    [ SHORTCUTS.newController ]: () => window.open( `${CONTROLLER_URL}?${CONTROLLER_ONLY_QUERY}=true`, '_blank' ),
+    [ SHORTCUTS.newController ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
     [ SHORTCUTS.historyBack ]: () => this.props.history.goBack(),
     [ SHORTCUTS.historyForward ]: () => this.props.history.goForward(),
     [ SHORTCUTS.menu ]: () => this.go( MENU_URL ),
@@ -174,17 +174,14 @@ class App extends Component {
     [ SHORTCUTS.banis ]: () => this.go( BANIS_URL ),
     [ SHORTCUTS.navigator ]: () => this.go( NAVIGATOR_URL ),
     [ SHORTCUTS.clearDisplay ]: controller.clear,
-    [ SHORTCUTS.toggleShorcutsHelp ]: () => this.toggleQuery( SHOW_SHORTCUTS_QUERY ),
+    [ SHORTCUTS.toggleShorcutsHelp ]: () => this.toggleQuery( STATES.showShortcuts ),
     [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
   } )
 
   render() {
     const { bani, shabad, lineId, theme } = this.state
     const { location: { search } } = this.props
-    const {
-      controllerOnly,
-      showShortcuts,
-    } = queryString.parse( search, { ignoreQueryPrefix: true } )
+    const { controllerOnly, showShortcuts } = getUrlState( search )
 
     return (
       <Switch>

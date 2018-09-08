@@ -6,7 +6,9 @@
 import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
 
-import { PAUSE_CHARS } from './consts'
+import queryString from 'qs'
+
+import { PAUSE_CHARS, STATES } from './consts'
 
 /**
  * Gets the first letters in a space-separated string.
@@ -65,3 +67,18 @@ export const partitionLine = line => classifyWords( line ).reduce( ( words, { ty
  */
 // eslint-disable-next-line react/no-find-dom-node
 export const scrollIntoCenter = ref => scrollIntoView( findDOMNode( ref ), ( { time: 200 } ) )
+
+/**
+ * Returns the current query state of the URL, based on the defined states.
+ * @param search The search component of the window location.
+ */
+export const getUrlState = search => {
+  const params = queryString.parse( search, { ignoreQueryPrefix: true } )
+
+  return Object
+    .entries( STATES )
+    .reduce( ( acc, [ key, name ] ) => ( {
+      ...acc,
+      [ key ]: params[ name ],
+    } ), {} )
+}
