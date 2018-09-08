@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 
+import queryString from 'qs'
+
 import { Toolbar, Typography } from 'material-ui'
 import {
   faArrowAltCircleLeft,
@@ -12,6 +14,7 @@ import {
   faSearch,
   faSignOutAlt,
   faWindowMinimize,
+  faWindowMaximize,
 } from '@fortawesome/fontawesome-free-solid'
 import { faSquare } from '@fortawesome/fontawesome-free-regular'
 
@@ -24,7 +27,9 @@ import {
   NAVIGATOR_URL,
   SEARCH_URL,
   SETTINGS_URL,
+  STATES,
 } from '../../lib/consts'
+import { getUrlState } from '../../lib/utils'
 
 import ToolbarButton from './ToolbarButton'
 import Search from './Search'
@@ -32,7 +37,7 @@ import Menu from './Menu'
 import Navigator, { Bar as NavigatorBar } from './Navigator'
 import History from './History'
 import Banis from './Banis'
-import Settings from './Settings'
+// import Settings from './Settings'
 
 import './index.css'
 
@@ -45,6 +50,9 @@ import './index.css'
  */
 const TopBar = ( { title, history, location, onHover } ) => {
   const resetHover = () => onHover( null )
+
+  const { search } = location
+  const state = getUrlState( search )
 
   return (
     <Toolbar className="top bar">
@@ -77,10 +85,26 @@ const TopBar = ( { title, history, location, onHover } ) => {
         onMouseEnter={() => onHover( 'Minimize' )}
         onMouseLeave={resetHover}
       />
+      {state[ STATES.controllerOnly ]
+        ? <ToolbarButton
+          name="Minimize Controller"
+          icon={faWindowMaximize}
+          onClick={() => history.push( `${CONTROLLER_URL}/?${queryString.stringify( { ...state, [ STATES.controllerOnly ]: undefined } )}` )}
+          onMouseEnter={() => onHover( 'Minimize Controller' )}
+          onMouseLeave={resetHover}
+        />
+        : <ToolbarButton
+          name="Maximize Controller"
+          icon={faWindowMaximize}
+          onClick={() => history.push( `${CONTROLLER_URL}/?${queryString.stringify( { ...state, [ STATES.controllerOnly ]: true } )}` )}
+          onMouseEnter={() => onHover( 'Maximize Controller' )}
+          onMouseLeave={resetHover}
+        />
+      }
       <ToolbarButton
         name="Pop Out"
         icon={faSignOutAlt}
-        onClick={() => window.open( `${CONTROLLER_URL}/?controllerOnly=true`, '_blank' )}
+        onClick={() => window.open( `${CONTROLLER_URL}/?${STATES.controllerOnly}=true`, '_blank' )}
         onMouseEnter={() => onHover( 'Pop Out' )}
         onMouseLeave={resetHover}
       />
@@ -172,7 +196,7 @@ class Controller extends Component {
       [ NAVIGATOR_URL, Navigator, NavigatorBar ],
       [ HISTORY_URL, History ],
       [ BANIS_URL, Banis ],
-      [ SETTINGS_URL, Settings ],
+      // [ SETTINGS_URL, Settings ],
     ]
 
     return (
