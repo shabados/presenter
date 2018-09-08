@@ -22,7 +22,7 @@ const items = [
   [ 'Search', faSearch, 'search' ],
   [ 'Navigator', faList, 'navigator' ],
   [ 'History', faHistory, 'history' ],
-  [ 'Bookmarks', faBookOpen, 'bookmarks' ],
+  [ 'Banis', faBookOpen, 'bookmarks' ],
   [ 'Live Captions Tool', faWindowRestore, 'live-captions' ],
   [ 'Settings', faCogs, 'settings' ],
 ]
