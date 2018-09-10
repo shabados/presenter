@@ -3,11 +3,11 @@ import React, { Component } from 'react'
 import { Input, List, ListItem } from 'material-ui'
 import { toUnicode } from 'gurmukhi-utils'
 
-import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS } from '../../lib/consts'
-import { getFirstLetters, stripPauses } from '../../lib/utils'
-import controller from '../../lib/controller'
+import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS } from '../lib/consts'
+import { getFirstLetters, stripPauses } from '../lib/utils'
+import controller from '../lib/controller'
 
-import withNavigationHotKeys from '../withNavigationHotKeys'
+import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './Search.css'
 

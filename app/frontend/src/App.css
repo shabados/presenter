@@ -21,7 +21,7 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    height: 256px;
+    height: 273px;
     width: 416px;
 }
 
@@ -29,7 +29,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    height: 32px;
+    height: 48px;
 }
 
 .controller-container.fullscreen {

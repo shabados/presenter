@@ -12,9 +12,9 @@ import {
   faList,
 } from '@fortawesome/fontawesome-free-solid'
 
-import { CONTROLLER_URL } from '../../lib/consts'
+import { CONTROLLER_URL } from '../lib/consts'
 
-import withNavigationHotKeys from '../withNavigationHotKeys'
+import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './Menu.css'
 

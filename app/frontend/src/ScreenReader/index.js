@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import './ScreenReader.css'
+import './index.css'
 
 class ScreenReader extends Component {
   render() {

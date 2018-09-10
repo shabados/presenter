@@ -9,11 +9,11 @@ import {
   faExchangeAlt,
 } from '@fortawesome/fontawesome-free-solid'
 
-import { CONTROLLER_URL, LINE_HOTKEYS } from '../../lib/consts'
-import { stripPauses } from '../../lib/utils'
-import controller from '../../lib/controller'
+import { CONTROLLER_URL, LINE_HOTKEYS } from '../lib/consts'
+import { stripPauses } from '../lib/utils'
+import controller from '../lib/controller'
 
-import withNavigationHotKeys from '../withNavigationHotKeys'
+import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import ToolbarButton from './ToolbarButton'
 

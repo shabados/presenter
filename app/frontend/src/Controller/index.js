@@ -18,7 +18,7 @@ import {
 } from '@fortawesome/fontawesome-free-solid'
 import { faSquare } from '@fortawesome/fontawesome-free-regular'
 
-import controller from '../../lib/controller'
+import controller from '../lib/controller'
 import {
   BANIS_URL,
   CONTROLLER_URL,
@@ -26,10 +26,9 @@ import {
   MENU_URL,
   NAVIGATOR_URL,
   SEARCH_URL,
-  SETTINGS_URL,
   STATES,
-} from '../../lib/consts'
-import { getUrlState } from '../../lib/utils'
+} from '../lib/consts'
+import { getUrlState } from '../lib/utils'
 
 import ToolbarButton from './ToolbarButton'
 import Search from './Search'
@@ -37,7 +36,6 @@ import Menu from './Menu'
 import Navigator, { Bar as NavigatorBar } from './Navigator'
 import History from './History'
 import Banis from './Banis'
-// import Settings from './Settings'
 
 import './index.css'
 
@@ -196,7 +194,6 @@ class Controller extends Component {
       [ NAVIGATOR_URL, Navigator, NavigatorBar ],
       [ HISTORY_URL, History ],
       [ BANIS_URL, Banis ],
-      // [ SETTINGS_URL, Settings ],
     ]
 
     return (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import './Overlay.css'
+import './index.css'
 
 class Overlay extends Component {
   render() {

@@ -9,11 +9,11 @@ import {
 } from '@fortawesome/fontawesome-free-solid'
 
 
-import { LINE_HOTKEYS, HISTORY_DOWNLOAD_URL } from '../../lib/consts'
-import { stripPauses } from '../../lib/utils'
-import controller from '../../lib/controller'
+import { LINE_HOTKEYS, HISTORY_DOWNLOAD_URL } from '../lib/consts'
+import { stripPauses } from '../lib/utils'
+import controller from '../lib/controller'
 
-import withNavigationHotKeys from '../withNavigationHotKeys'
+import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './History.css'
 

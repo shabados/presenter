@@ -2,10 +2,10 @@ import React from 'react'
 
 import { List, ListItem } from 'material-ui'
 
-import { LINE_HOTKEYS } from '../../lib/consts'
-import controller from '../../lib/controller'
+import { LINE_HOTKEYS } from '../lib/consts'
+import controller from '../lib/controller'
 
-import withNavigationHotKeys from '../withNavigationHotKeys'
+import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './Banis.css'
 
