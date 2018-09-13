@@ -1,0 +1,9 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "includes/mdl/package.json"
+      ]
+    }
+  }
+}
