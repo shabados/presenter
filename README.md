@@ -1,4 +1,7 @@
 # ShabadOS App
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/ShabadOS/core.svg)](https://greenkeeper.io/)
+
 This is for running a web server for Shabad OS. It allows anyone on the same network to control a viewer and to view the display. It can easily be purposed for a projector, i.e. at a Sikh Gurdwara during Kirtan, for multiple viewers and controllers.
 
 If you are looking for an electron-wrapped app, where you can download it and execute it on your windows machine, please go to our [website](https://shabados.com/) for the latest release.
