@@ -119,9 +119,8 @@ export const OPTIONS = {
     privacy: PRIVACY_TYPES.local,
     values: [
       { name: 'Space Around', value: '' },
-      { name: 'Normal', value: '' },
+      { name: 'Unspaced', value: '' },
       { name: 'Space Between', value: '' },
-      { name: 'Space Evenly', value: '' },
     ],
   },
   controllerHeight: {
