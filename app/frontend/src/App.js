@@ -21,6 +21,7 @@ import {
   SCREEN_READER_URL,
   SHORTCUT_MAP,
   SHORTCUTS,
+  CONFIGURATOR_URL,
 } from './lib/consts'
 import { getUrlState } from './lib/utils'
 import controller from './lib/controller'
@@ -33,6 +34,7 @@ import ScreenReader from './ScreenReader'
 import Overlay from './Overlay'
 
 import './App.css'
+import Configurator from './Configurator'
 
 class App extends Component {
   constructor( props ) {
@@ -47,8 +49,7 @@ class App extends Component {
       viewedLines: new Set(),
       shabadHistory: [],
       shabad: null,
-      theme: 'day',
-      settings: {},
+      settings: controller.readSettings(),
     }
   }
 
@@ -179,14 +180,17 @@ class App extends Component {
   } )
 
   render() {
-    const { bani, shabad, lineId, theme } = this.state
+    const { bani, shabad, lineId, settings } = this.state
     const { location: { search } } = this.props
     const { controllerOnly, showShortcuts } = getUrlState( search )
+
+    const { theme: { options: { themeName } } } = settings
 
     return (
       <Switch>
         <Route path={OVERLAY_URL}><Overlay {...this.state} /></Route>
         <Route path={SCREEN_READER_URL}><ScreenReader {...this.state} /></Route>
+        <Route path={CONFIGURATOR_URL}><Configurator {...this.state} /></Route>
         <Route>
           <HotKeys
             component="document-fragment"
@@ -197,7 +201,7 @@ class App extends Component {
           >
             <div className="app">
               <CssBaseline />
-              <ThemeLoader name={theme} />
+              <ThemeLoader name={themeName} />
               {!controllerOnly ? <Display shabad={shabad} bani={bani} lineId={lineId} /> : null}
               <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
                 <Link to={CONTROLLER_URL}>

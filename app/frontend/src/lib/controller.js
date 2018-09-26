@@ -5,6 +5,7 @@
 
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import EventEmitter from 'event-emitter'
+import merge from 'deepmerge'
 
 import { WS_URL, DEFAULT_OPTIONS } from './consts'
 
@@ -121,7 +122,7 @@ class Controller extends EventEmitter {
   setSettings = ( changed = {}, host = 'local' ) => {
     let settings = {}
     if ( host === 'local' ) {
-      settings = { local: { ...this.readSettings(), ...changed } }
+      settings = { local: merge( this.readSettings(), changed ) }
 
       const { local } = settings
       localStorage.setItem( 'settings', JSON.stringify( local ) )

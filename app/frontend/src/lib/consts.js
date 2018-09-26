@@ -18,10 +18,13 @@ export const MENU_URL = `${CONTROLLER_URL}/menu`
 export const SEARCH_URL = `${CONTROLLER_URL}/search`
 export const BANIS_URL = `${CONTROLLER_URL}/banis`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
-export const SETTINGS_URL = `${CONTROLLER_URL}/settings`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
 export const THEME_URL = `${BACKEND_URL}/themes`
+
+export const CONFIGURATOR_URL = '/configurator'
+export const SETTINGS_URL = `${CONFIGURATOR_URL}/settings`
+export const OVERLAY_CONFIG_URL = `${CONFIGURATOR_URL}/overlay`
 
 export const OVERLAY_URL = '/overlay'
 export const SCREEN_READER_URL = '/screenreader'
@@ -138,7 +141,7 @@ export const OPTIONS = {
   englishTransliteration: { name: 'English Transliteration', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   nextLine: { name: 'Next Line', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   fontSize: { name: 'Font Size', type: OPTION_TYPES.slider, range: [ 20, 100 ], privacy: PRIVACY_TYPES.local },
-  themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
+  themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [ 'Day', 'Night' ], privacy: PRIVACY_TYPES.local },
   backgroundImage: { name: 'Background Image', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamColors: { name: 'Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamCharacters: { name: 'Vishraam Characters', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -170,7 +173,7 @@ export const DEFAULT_OPTIONS = {
     theme: {
       name: 'Theme',
       options: {
-        themeName: undefined,
+        themeName: OPTIONS.themeName.values[ 0 ],
         backgroundImage: true,
         fontSize: 40,
       },

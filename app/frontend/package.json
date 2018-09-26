@@ -17,6 +17,7 @@
     "@fortawesome/fontawesome-free-regular": "^5.0.13",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/react-fontawesome": "0.0.18",
+    "deepmerge": "^2.1.1",
     "event-emitter": "^0.3.5",
     "gurmukhi-utils": "^1.4.3",
     "material-ui": "^1.0.0-beta.46",
