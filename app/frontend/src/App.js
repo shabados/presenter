@@ -25,7 +25,7 @@ import {
 } from './lib/consts'
 import { getUrlState } from './lib/utils'
 import controller from './lib/controller'
-import ThemeLoader from './Presenter/ThemeLoader'
+import ThemeLoader from './shared/ThemeLoader'
 import Controller from './Controller'
 import ShortcutHelp from './Presenter/ShortcutHelp'
 import Display from './Presenter/Display'
