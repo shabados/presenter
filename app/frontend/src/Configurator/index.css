@@ -1,0 +1,9 @@
+.configurator .title-bar {
+    background-color: var(--configurator-title-background-color);
+}
+
+.configurator .title {
+    color: var(--configurator-title-text-color);
+    font-family: "Noto Sans Regular", sans-serif;
+    width: 100%;
+}
