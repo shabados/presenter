@@ -43,6 +43,19 @@
     --controller-settings-headers-color: #757575;
     
       /*****************/
+     /* Configurator  */
+    /*****************/
+
+    /* Configurator Title */
+    --configurator-title-background-color: #000000;
+    --configurator-title-text-color: #012345;
+
+    /* Configurator Menu */
+    --configurator-menu-background-color: #000000;
+    --configurator-menu-text-color: #ffffff;
+    --configurator-menu-icon-color: #ffffff;
+
+      /*****************/
      /* Miscellaneous */
     /*****************/
     
