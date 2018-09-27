@@ -1,4 +1,8 @@
 :root {
+      /***********/
+     /* Display */
+    /***********/
+
     /* Display background */
     --display-background-color: #FFFFFF;
     --display-background-image: url('/themes/images/logo.png');
@@ -14,11 +18,15 @@
     --display-vishraam-medium-color: #0D47A1;
     --display-vishraam-light-color: #33691E;
 
+      /**************/
+     /* Controller */
+    /**************/
+
     /* Controller colors */
     --controller-background-color: #EEEEEE;
     --controller-text-color: #424242;
     --controller-text-hover-color: #212121;
-    --controller-selected-color: #212121;
+    --controller-selected-color: var(--controller-text-hover-color);
     --controller-selected-background-color: #CFD8DC;
 
     /* Controller search colors */
@@ -28,16 +36,20 @@
 
     /* Controller top and bottom bar colors */
     --controller-bar-text-color: #616161;
-    --controller-bar-text-hover-color: #424242;
+    --controller-bar-text-hover-color: var(--controller-text-color);
     --controller-bar-background-color: #F5F5F5;
 
     /* Controller setting colors */
     --controller-settings-headers-color: #757575;
-
+    
+      /*****************/
+     /* Miscellaneous */
+    /*****************/
+    
     /* Scrollbar colour */
     --scrollbar-color: rgba(0, 0, 0, 0.5);
 
     /* Shortcut help colors */
-    --shortcuts-text-color: #212121;
+    --shortcuts-text-color: var(--controller-text-hover-color);
     --shortcuts-background-color: rgba(255, 255, 255, 0.9);
 }
