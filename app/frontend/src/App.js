@@ -3,9 +3,10 @@ import { Link, Route, withRouter, Switch } from 'react-router-dom'
 
 import { HotKeys } from 'react-hotkeys'
 import queryString from 'qs'
+import merge from 'deepmerge'
 
-import CssBaseline from 'material-ui/CssBaseline'
-import { IconButton } from 'material-ui'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import { IconButton } from '@material-ui/core'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/fontawesome-free-solid'
 
@@ -22,6 +23,7 @@ import {
   SHORTCUT_MAP,
   SHORTCUTS,
   CONFIGURATOR_URL,
+  DEFAULT_OPTIONS,
 } from './lib/consts'
 import { getUrlState } from './lib/utils'
 import controller from './lib/controller'
@@ -49,7 +51,7 @@ class App extends Component {
       viewedLines: new Set(),
       shabadHistory: [],
       shabad: null,
-      settings: controller.readSettings(),
+      settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
   }
 
@@ -89,7 +91,13 @@ class App extends Component {
   onHistory = shabadHistory => this.setState( { shabadHistory } )
   onBanis = banis => this.setState( { banis } )
   onBani = bani => this.setState( { bani, shabad: null } )
-  onSettings = settings => this.setState( { settings: { ...this.state.settings, ...settings } } )
+  onSettings = ( { global = {}, ...settings } ) => this.setState( state => ( {
+    settings: {
+      ...state.settings,
+      ...settings,
+      global: merge( state.settings.global, global ),
+    },
+  } ) )
 
   /**
    * Sets the query string parameters, retaining any currently present.
@@ -184,7 +192,8 @@ class App extends Component {
     const { location: { search } } = this.props
     const { controllerOnly, showShortcuts } = getUrlState( search )
 
-    const { theme: { options: { themeName } } } = settings
+    console.log( settings )
+    const { theme: { options: { themeName } } } = settings.local
 
     return (
       <Switch>
