@@ -13,6 +13,7 @@
     height: 1.25em;
     color: var(--controller-bar-text-color);
     transition: 0.2s all;
+    padding: 0;
 }
 
 .controller .name, .controller .middle {
