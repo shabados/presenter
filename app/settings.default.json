@@ -1,12 +1,10 @@
 {
   "privacy": {
-    "name": "Privacy",
     "options": {
       "analytics": true
     }
   },
   "system": {
-    "name": "System Options",
     "options": {
       "launchOnStartup": false
     }
