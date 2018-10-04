@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { List, ListItem } from 'material-ui'
+import { List, ListItem } from '@material-ui/core'
 
 import { LINE_HOTKEYS } from '../lib/consts'
 import controller from '../lib/controller'

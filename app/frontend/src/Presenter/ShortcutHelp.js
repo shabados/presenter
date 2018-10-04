@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Typography, GridList } from 'material-ui'
+import { Typography, GridList } from '@material-ui/core'
 
 import { SHORTCUTS, SHORTCUT_MAP } from '../lib/consts'
 

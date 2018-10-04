@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 
-import { List, ListItem } from 'material-ui'
+import { List, ListItem } from '@material-ui/core'
 import {
   faChevronUp,
   faChevronDown,

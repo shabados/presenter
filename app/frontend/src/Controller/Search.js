@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Input, List, ListItem } from 'material-ui'
+import { Input, List, ListItem } from '@material-ui/core'
 import { toUnicode } from 'gurmukhi-utils'
 
 import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS } from '../lib/consts'

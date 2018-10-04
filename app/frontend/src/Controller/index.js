@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 
 import queryString from 'qs'
 
-import { Toolbar, Typography } from 'material-ui'
+import { Toolbar, Typography } from '@material-ui/core'
 import {
   faArrowAltCircleLeft,
   faArrowAltCircleRight,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { IconButton, Select, MenuItem } from 'material-ui'
+import { IconButton, Select, MenuItem } from '@material-ui/core'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faArrowsAltV } from '@fortawesome/fontawesome-free-solid'
