@@ -12,7 +12,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
  * @param onMouseLeave MouseLeave click handler.
  * @param className Optional classname.
  */
-const ToolbarButton = ( { name, icon, onClick, onMouseEnter, onMouseLeave, className = '' } ) => (
+const ToolbarButton = ( { name, icon, onClick, onMouseEnter, onMouseLeave, className = '', ...rest } ) => (
   <IconButton
     key={name}
     className={className}
@@ -21,7 +21,7 @@ const ToolbarButton = ( { name, icon, onClick, onMouseEnter, onMouseLeave, class
     onMouseLeave={onMouseLeave}
     onClick={onClick}
   >
-    <FontAwesomeIcon icon={icon} />
+    <FontAwesomeIcon icon={icon} {...rest} />
   </IconButton>
 )
 

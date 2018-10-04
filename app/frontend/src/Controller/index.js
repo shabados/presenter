@@ -87,6 +87,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
         ? <ToolbarButton
           name="Minimize Controller"
           icon={faWindowMaximize}
+          flip="vertical"
           onClick={() => history.push( `${CONTROLLER_URL}/?${queryString.stringify( { ...state, [ STATES.controllerOnly ]: undefined } )}` )}
           onMouseEnter={() => onHover( 'Minimize Controller' )}
           onMouseLeave={resetHover}
@@ -117,7 +118,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
  * @param location A `location` object.
  * @param onHover Fired on hover with name.
  */
-const BottomBar = ( { history, renderContent, location, onHover } ) => {
+const BottomBar = ( { history, renderContent, location, onHover, lineId } ) => {
   const go = pathname => () => history.push( { ...location, pathname } )
   const resetHover = () => onHover( null )
 
@@ -139,6 +140,7 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
         onMouseLeave={resetHover}
       />
       <div className="middle">{renderContent()}</div>
+      { lineId &&
       <ToolbarButton
         name="Navigator"
         icon={faList}
@@ -146,6 +148,8 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
         onMouseEnter={() => onHover( 'Navigator' )}
         onMouseLeave={resetHover}
       />
+      }
+      { lineId &&
       <ToolbarButton
         name="Clear"
         icon={faSquare}
@@ -153,6 +157,7 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
         onMouseEnter={() => onHover( 'Clear' )}
         onMouseLeave={resetHover}
       />
+      }
     </Toolbar>
   )
 }
