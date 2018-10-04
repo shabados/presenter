@@ -1,4 +1,5 @@
 .shortcut-help {
+    z-index: 100;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -15,9 +16,6 @@
     font-family: 'Noto Sans Medium', sans-serif;
     font-size: 30px;
     margin-bottom: 20px;
-}
-
-.shortcut-help .shortcuts {
 }
 
 .shortcut-help .shortcut {
