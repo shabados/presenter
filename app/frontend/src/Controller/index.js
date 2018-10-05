@@ -140,7 +140,6 @@ const BottomBar = ( { history, renderContent, location, onHover, lineId } ) => {
         onMouseLeave={resetHover}
       />
       <div className="middle">{renderContent()}</div>
-      { lineId &&
       <ToolbarButton
         name="Navigator"
         icon={faList}
@@ -148,8 +147,6 @@ const BottomBar = ( { history, renderContent, location, onHover, lineId } ) => {
         onMouseEnter={() => onHover( 'Navigator' )}
         onMouseLeave={resetHover}
       />
-      }
-      { lineId &&
       <ToolbarButton
         name="Clear"
         icon={faSquare}
@@ -157,11 +154,9 @@ const BottomBar = ( { history, renderContent, location, onHover, lineId } ) => {
         onMouseEnter={() => onHover( 'Clear' )}
         onMouseLeave={resetHover}
       />
-      }
     </Toolbar>
   )
 }
-
 
 /**
  * Controller controls the display and configures settings.
