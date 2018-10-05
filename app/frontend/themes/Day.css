@@ -39,21 +39,23 @@
     --controller-bar-text-hover-color: var(--controller-text-color);
     --controller-bar-background-color: #F5F5F5;
 
-    /* Controller setting colors */
-    --controller-settings-headers-color: #757575;
-    
       /*****************/
      /* Configurator  */
     /*****************/
 
     /* Configurator Title */
-    --configurator-title-background-color: #000000;
-    --configurator-title-text-color: #012345;
+    --configurator-title-background-color: var(--controller-bar-background-color);
+    --configurator-title-text-color: var(--controller-bar-text-color);
 
     /* Configurator Menu */
-    --configurator-menu-background-color: #000000;
-    --configurator-menu-text-color: #ffffff;
-    --configurator-menu-icon-color: #ffffff;
+    --configurator-menu-background-image: var(--display-background-image);
+    --configurator-menu-background-color: var(--controller-bar-background-color);
+    --configurator-menu-text-color: #757575;
+    --configurator-menu-icon-color: var(--configurator-menu-text-color);
+    
+    /* Configurator Content */
+    --configurator-background-color: var(--controller-background-color);
+    --configurator-text-color: var(--controller-text-color);
 
       /*****************/
      /* Miscellaneous */
