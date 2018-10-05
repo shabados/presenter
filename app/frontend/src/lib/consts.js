@@ -1,3 +1,6 @@
+import { faPaintBrush, faShieldAlt, faEllipsisH, faArrowsAltH, faEye, faWrench } from '@fortawesome/fontawesome-free-solid'
+import { faKeyboard } from '@fortawesome/fontawesome-free-regular'
+
 /* eslint-disable quote-props */
 /**
  * Application Constants
@@ -23,8 +26,8 @@ export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
 export const THEME_URL = `${BACKEND_URL}/themes`
 
 export const CONFIGURATOR_URL = '/configurator'
-export const SETTINGS_URL = `${CONFIGURATOR_URL}/settings`
-export const OVERLAY_CONFIG_URL = `${CONFIGURATOR_URL}/overlay`
+export const CONFIGURATOR_SETTINGS_URL = `${CONFIGURATOR_URL}/settings`
+export const CONFIGURATOR_TOOLS_URL = `${CONFIGURATOR_URL}/tools`
 
 export const OVERLAY_URL = '/overlay'
 export const SCREEN_READER_URL = '/screenreader'
@@ -158,6 +161,7 @@ export const DEFAULT_OPTIONS = {
   local: {
     layout: {
       name: 'Layout',
+      icon: faArrowsAltH,
       options: {
         spacing: OPTIONS.spacing.values[ 0 ],
         controllerHeight: OPTIONS.controllerHeight.values[ 0 ],
@@ -171,6 +175,7 @@ export const DEFAULT_OPTIONS = {
     },
     theme: {
       name: 'Theme',
+      icon: faPaintBrush,
       options: {
         themeName: OPTIONS.themeName.values[ 0 ],
         backgroundImage: true,
@@ -179,6 +184,7 @@ export const DEFAULT_OPTIONS = {
     },
     vishraams: {
       name: 'Vishraams/Pauses',
+      icon: faEllipsisH,
       options: {
         vishraamColors: true,
         vishraamCharacters: false,
@@ -189,23 +195,35 @@ export const DEFAULT_OPTIONS = {
     },
     navigation: {
       name: 'Navigation',
+      icon: faKeyboard,
       options: {
         autoNextShabad: false,
       },
     },
     security: {
       name: 'Security',
+      icon: faShieldAlt,
       options: {
         private: false,
       },
     },
   },
   // Special serverside settings
+  // ! Must be in sync with settings.default.json
   global: {
-    name: 'Server',
-    options: {
-      launchOnStartup: false,
-      analytics: true,
+    privacy: {
+      name: 'Privacy',
+      icon: faEye,
+      options: {
+        analytics: true,
+      },
+    },
+    system: {
+      name: 'System Options',
+      icon: faWrench,
+      options: {
+        launchOnStartup: false,
+      },
     },
   },
 }
