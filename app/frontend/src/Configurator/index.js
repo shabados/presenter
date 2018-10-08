@@ -29,7 +29,7 @@ class Configurator extends Component {
     const { settings } = this.props
 
     const Item = ( { name, icon } ) => (
-      <ListItem className="item" button>
+      <ListItem className="item" key={name} button>
         <ListItemIcon><FontAwesomeIcon className="icon" icon={icon} /></ListItemIcon>
         <ListItemText className="text" primary={name} />
       </ListItem>
@@ -43,6 +43,7 @@ class Configurator extends Component {
             .filter( name => ![ 'local', 'global' ].includes( name ) )
             .map( device => (
               <MenuItem
+                key={device}  
                 onClick={() => this.setState( { device } )}
                 value={device}
               >
