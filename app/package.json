@@ -21,6 +21,7 @@
   "homepage": "https://github.com/ShabadOS/core#readme",
   "dependencies": {
     "@shabados/database": "^3.0.0",
+    "appdata-path": "^1.0.0",
     "body-parser": "^1.18.3",
     "bunyan": "^1.8.12",
     "compression": "^1.7.3",
