@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import { Link, Route } from 'react-router-dom'
+import { Redirect, Link, Switch, Route } from 'react-router-dom'
 
-import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, Divider, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
+import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/fontawesome-free-solid'
+import { faBars, faWindowMaximize } from '@fortawesome/fontawesome-free-solid'
 
 import ThemeLoader from '../shared/ThemeLoader'
 
-import { CONFIGURATOR_SETTINGS_URL } from '../lib/consts'
+import { CONFIGURATOR_URL, CONFIGURATOR_SETTINGS_URL, CONFIGURATOR_OVERLAY_URL } from '../lib/consts'
+
+import OverlaySettings from './OverlaySettings'
 
 import './index.css'
 
@@ -28,11 +30,13 @@ class Configurator extends Component {
     const { device } = this.state
     const { settings } = this.props
 
-    const Item = ( { name, icon } ) => (
-      <ListItem className="item" key={name} button>
-        <ListItemIcon><FontAwesomeIcon className="icon" icon={icon} /></ListItemIcon>
-        <ListItemText className="text" primary={name} />
-      </ListItem>
+    const Item = ( { name, icon, url = CONFIGURATOR_URL } ) => (
+      <Link to={url}>
+        <ListItem className="item" key={name} button>
+          <ListItemIcon><FontAwesomeIcon className="icon" icon={icon} /></ListItemIcon>
+          <ListItemText className="text" primary={name} />
+        </ListItem>
+      </Link>
     )
 
     return (
@@ -43,7 +47,7 @@ class Configurator extends Component {
             .filter( name => ![ 'local', 'global' ].includes( name ) )
             .map( device => (
               <MenuItem
-                key={device}  
+                key={device}
                 onClick={() => this.setState( { device } )}
                 value={device}
               >
@@ -53,6 +57,8 @@ class Configurator extends Component {
         {Object.values( settings[ device ] ).map( Item )}
         <Typography className="category-title">Server</Typography>
         {Object.values( settings.global ).map( Item )}
+        <Typography className="category-title">Tools</Typography>
+        <Item name="Overlay" icon={faWindowMaximize} url={CONFIGURATOR_OVERLAY_URL} />
       </List>
     )
   }
@@ -91,7 +97,11 @@ class Configurator extends Component {
         <Hidden smUp><this.MobileMenu /></Hidden>
         <Hidden xsDown implementation="css"><this.DesktopMenu /></Hidden>
         <main>
-          <Route path={CONFIGURATOR_SETTINGS_URL} component={() => <p>oi</p>} />
+          <Switch>
+            <Route path={CONFIGURATOR_SETTINGS_URL} component={() => <p>oi</p>} />
+            <Route path={CONFIGURATOR_OVERLAY_URL} component={OverlaySettings} />
+            <Redirect to={CONFIGURATOR_SETTINGS_URL} />
+          </Switch>
         </main>
       </div>
     )

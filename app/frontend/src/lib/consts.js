@@ -27,7 +27,9 @@ export const THEME_URL = `${BACKEND_URL}/themes`
 
 export const CONFIGURATOR_URL = '/configurator'
 export const CONFIGURATOR_SETTINGS_URL = `${CONFIGURATOR_URL}/settings`
+
 export const CONFIGURATOR_TOOLS_URL = `${CONFIGURATOR_URL}/tools`
+export const CONFIGURATOR_OVERLAY_URL = `${CONFIGURATOR_TOOLS_URL}/overlay`
 
 export const OVERLAY_URL = '/overlay'
 export const SCREEN_READER_URL = '/screenreader'
