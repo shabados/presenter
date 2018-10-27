@@ -5,8 +5,7 @@ import queryString from 'qs'
 
 import { Toolbar, Typography } from '@material-ui/core'
 import {
-  faArrowAltCircleLeft,
-  faArrowAltCircleRight,
+  faCog,
   faBars,
   faBookOpen,
   faHistory,
@@ -26,6 +25,7 @@ import {
   MENU_URL,
   NAVIGATOR_URL,
   SEARCH_URL,
+  CONFIGURATOR_SETTINGS_URL,
   STATES,
 } from '../lib/consts'
 import { getUrlState } from '../lib/utils'
@@ -62,17 +62,10 @@ const TopBar = ( { title, history, location, onHover } ) => {
         onMouseLeave={resetHover}
       />
       <ToolbarButton
-        name="Backwards"
-        icon={faArrowAltCircleLeft}
-        onClick={() => history.goBack()}
-        onMouseEnter={() => onHover( 'Backwards' )}
-        onMouseLeave={resetHover}
-      />
-      <ToolbarButton
-        name="Forwards"
-        icon={faArrowAltCircleRight}
-        onClick={() => history.goForward()}
-        onMouseEnter={() => onHover( 'Forwards' )}
+        name="Settings"
+        icon={faCog}
+        onClick={() => window.open( CONFIGURATOR_SETTINGS_URL )}
+        onMouseEnter={() => onHover( 'Settings' )}
         onMouseLeave={resetHover}
       />
       <Typography className="name" type="title">{title}</Typography>
@@ -80,7 +73,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
         name="Minimize"
         icon={faWindowMinimize}
         onClick={() => history.push( '/' )}
-        onMouseEnter={() => onHover( 'Minimize' )}
+        onMouseEnter={() => onHover( 'Hide Controller' )}
         onMouseLeave={resetHover}
       />
       {state[ STATES.controllerOnly ]
@@ -104,7 +97,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
         name="Pop Out"
         icon={faSignOutAlt}
         onClick={() => window.open( `${CONTROLLER_URL}/?${STATES.controllerOnly}=true`, '_blank' )}
-        onMouseEnter={() => onHover( 'Pop Out' )}
+        onMouseEnter={() => onHover( 'Pop Out Controller' )}
         onMouseLeave={resetHover}
       />
     </Toolbar>
