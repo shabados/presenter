@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect, Link, Switch, Route } from 'react-router-dom'
+import { Redirect, Link, Switch, Route, withRouter } from 'react-router-dom'
 
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
 
@@ -8,7 +8,14 @@ import { faBars, faWindowMaximize } from '@fortawesome/fontawesome-free-solid'
 
 import ThemeLoader from '../shared/ThemeLoader'
 
-import { CONFIGURATOR_URL, CONFIGURATOR_SETTINGS_URL, CONFIGURATOR_OVERLAY_URL } from '../lib/consts'
+import {
+  CONFIGURATOR_URL,
+  CONFIGURATOR_SETTINGS_URL,
+  CONFIGURATOR_OVERLAY_URL,
+  OPTIONS,
+  DEFAULT_OPTIONS,
+  OPTION_TYPES,
+} from '../lib/consts'
 
 import OverlaySettings from './OverlaySettings'
 
@@ -39,6 +46,7 @@ class Configurator extends Component {
       </Link>
     )
 
+    console.log( this.props )
     return (
       <List>
         <Select className="device-selector category-title" value={device} disableUnderline>
@@ -54,7 +62,7 @@ class Configurator extends Component {
                 {device}
               </MenuItem> ) )}
         </Select>
-        {Object.values( settings[ device ] ).map( Item )}
+        {Object.entries( settings[ device ] ).map( ( [ name, props ] ) => <Item {...props} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Server</Typography>
         {Object.values( settings.global ).map( Item )}
         <Typography className="category-title">Tools</Typography>
@@ -74,6 +82,29 @@ class Configurator extends Component {
   }
 
   DesktopMenu = () => <Drawer className="desktop menu" variant="permanent" open><this.MenuItems /></Drawer>
+
+  DynamicOptions = () => {
+    const { settings, location: { pathname } } = this.props
+    const { device } = this.state
+
+    const typeComponents = {
+      [ OPTION_TYPES.dropdown ]: ( { name, value } ) => <p>dropdown {name}: {value.name}</p>,
+      [ OPTION_TYPES.radio ]: ( { name, value } ) => <p>radio {name}: {value}</p>,
+      [ OPTION_TYPES.toggle ]: ( { name, value } ) => <p>toggle {name}: {value}</p>,
+      [ OPTION_TYPES.slider ]: ( { name, value } ) => <p>slider {name}: {value}</p>,
+      [ OPTION_TYPES.colorPicker ]: ( { name, value } ) => <p>colorPicker {name}: {value}</p>,
+    }
+
+    // Fetch correct option group from URL
+    const group = pathname.split( '/' ).pop()
+    const { options } = settings[ device ][ group ] || DEFAULT_OPTIONS.local[ group ]
+
+    return Object.entries( options ).map( ( [ option, value ] ) => {
+      const { name, type } = OPTIONS[ option ]
+      const Option = typeComponents[ type ]
+      return <Option name={name} value={value} />
+    } )
+  }
 
   render() {
     const { settings } = this.props
@@ -98,9 +129,9 @@ class Configurator extends Component {
         <Hidden xsDown implementation="css"><this.DesktopMenu /></Hidden>
         <main>
           <Switch>
-            <Route path={CONFIGURATOR_SETTINGS_URL} component={() => <p>oi</p>} />
+            <Route path={`${CONFIGURATOR_SETTINGS_URL}/*`} component={this.DynamicOptions} />
             <Route path={CONFIGURATOR_OVERLAY_URL} component={OverlaySettings} />
-            <Redirect to={CONFIGURATOR_SETTINGS_URL} />
+            <Redirect to={`${CONFIGURATOR_SETTINGS_URL}/${Object.keys( settings[ device ] )[ 0 ]}`} />
           </Switch>
         </main>
       </div>
@@ -108,4 +139,4 @@ class Configurator extends Component {
   }
 }
 
-export default Configurator
+export default withRouter( Configurator )
