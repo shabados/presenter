@@ -192,8 +192,7 @@ class App extends Component {
     const { location: { search } } = this.props
     const { controllerOnly, showShortcuts } = getUrlState( search )
 
-    console.log( settings )
-    const { theme: { options: { themeName } } } = settings.local
+    const { theme: { themeName } } = settings.local
 
     return (
       <Switch>

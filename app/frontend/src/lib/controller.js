@@ -107,9 +107,9 @@ class Controller extends EventEmitter {
   readSettings = () => {
     try {
       const localSettings = JSON.parse( localStorage.getItem( 'settings' ) )
-      return merge( { ...DEFAULT_OPTIONS.local, ...localSettings } )
-    } catch ( e ) {
-      console.warn( 'Settings corrupted. Resetting to default.' )
+      return merge( DEFAULT_OPTIONS.local, localSettings )
+    } catch ( err ) {
+      console.warn( 'Settings corrupted. Resetting to default.', err )
       return DEFAULT_OPTIONS.local
     }
   }

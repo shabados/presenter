@@ -27,6 +27,7 @@ export const THEME_URL = `${BACKEND_URL}/themes`
 
 export const CONFIGURATOR_URL = '/configurator'
 export const CONFIGURATOR_SETTINGS_URL = `${CONFIGURATOR_URL}/settings`
+export const CONFIGURATOR_SERVER_SETTINGS_URL = `${CONFIGURATOR_SETTINGS_URL}/server`
 
 export const CONFIGURATOR_TOOLS_URL = `${CONFIGURATOR_URL}/tools`
 export const CONFIGURATOR_OVERLAY_URL = `${CONFIGURATOR_TOOLS_URL}/overlay`
@@ -121,11 +122,12 @@ export const OPTIONS = {
   spacing: {
     name: 'Spacing',
     type: OPTION_TYPES.dropdown,
+    icon: faArrowsAltH,
     privacy: PRIVACY_TYPES.local,
     values: [
-      { name: 'Space Around', value: '' },
-      { name: 'Unspaced', value: '' },
-      { name: 'Space Between', value: '' },
+      { name: 'Space Around', value: 'space-around' },
+      { name: 'Unspaced', value: 'space-evenly' },
+      { name: 'Space Between', value: 'space-between' },
     ],
   },
   controllerHeight: {
@@ -134,8 +136,8 @@ export const OPTIONS = {
     privacy: PRIVACY_TYPES.local,
     values: [
       { name: 'Short', value: '450px' },
-      { name: 'Medium', value: '450px' },
-      { name: 'Tall', value: '450px' },
+      { name: 'Medium', value: '550px' },
+      { name: 'Tall', value: '650px' },
     ],
   },
   larivaarGurbani: { name: 'Larivaar Gurbani', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -158,74 +160,78 @@ export const OPTIONS = {
   private: { name: 'Private Settings', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
 }
 
+// Possible options groups
+export const OPTION_GROUPS = {
+  layout: {
+    name: 'Layout',
+    icon: faArrowsAltH,
+  },
+  theme: {
+    name: 'Theme',
+    icon: faPaintBrush,
+  },
+  vishraams: {
+    name: 'Vishraams',
+    icon: faEllipsisH,
+  },
+  navigation: {
+    name: 'Navigation',
+    icon: faKeyboard,
+  },
+  security: {
+    name: 'Security',
+    icon: faShieldAlt,
+  },
+  privacy: {
+    name: 'Privacy',
+    icon: faEye,
+  },
+  system: {
+    name: 'System Options',
+    icon: faWrench,
+  },
+}
+
 // Options with default values
 export const DEFAULT_OPTIONS = {
   local: {
     layout: {
-      name: 'Layout',
-      icon: faArrowsAltH,
-      options: {
-        spacing: OPTIONS.spacing.values[ 0 ],
-        controllerHeight: OPTIONS.controllerHeight.values[ 0 ],
-        larivaarGurbani: false,
-        splitGurbani: true,
-        englishTranslation: true,
-        punjabiTranslation: false,
-        englishTransliteration: true,
-        nextLine: false,
-      },
+      spacing: OPTIONS.spacing.values[ 0 ],
+      controllerHeight: OPTIONS.controllerHeight.values[ 0 ],
+      larivaarGurbani: false,
+      splitGurbani: true,
+      englishTranslation: true,
+      punjabiTranslation: false,
+      englishTransliteration: true,
+      nextLine: false,
     },
     theme: {
-      name: 'Theme',
-      icon: faPaintBrush,
-      options: {
-        themeName: OPTIONS.themeName.values[ 0 ],
-        backgroundImage: true,
-        fontSize: 40,
-      },
+      themeName: OPTIONS.themeName.values[ 0 ],
+      backgroundImage: true,
+      fontSize: 40,
     },
     vishraams: {
-      name: 'Vishraams/Pauses',
-      icon: faEllipsisH,
-      options: {
-        vishraamColors: true,
-        vishraamCharacters: false,
-        vishraamLight: true,
-        vishraamMedium: true,
-        vishraamHeavy: true,
-      },
+      vishraamColors: true,
+      vishraamCharacters: false,
+      vishraamLight: true,
+      vishraamMedium: true,
+      vishraamHeavy: true,
     },
     navigation: {
-      name: 'Navigation',
-      icon: faKeyboard,
-      options: {
-        autoNextShabad: false,
-      },
+      autoNextShabad: false,
     },
     security: {
-      name: 'Security',
-      icon: faShieldAlt,
-      options: {
-        private: false,
-      },
+      private: false,
     },
   },
   // Special serverside settings
   // ! Must be in sync with settings.default.json
   global: {
     privacy: {
-      name: 'Privacy',
-      icon: faEye,
-      options: {
-        analytics: true,
-      },
+      analytics: true,
     },
     system: {
-      name: 'System Options',
-      icon: faWrench,
-      options: {
-        launchOnStartup: false,
-      },
+      launchOnStartup: false,
     },
   },
 }

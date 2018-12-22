@@ -4,17 +4,22 @@ import { Redirect, Link, Switch, Route, withRouter } from 'react-router-dom'
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faBars, faWindowMaximize } from '@fortawesome/fontawesome-free-solid'
+import { faBars, faWindowMaximize, faQuestion } from '@fortawesome/fontawesome-free-solid'
 
+import Dropdown from '../shared/Dropdown'
 import ThemeLoader from '../shared/ThemeLoader'
+
+import controller from '../lib/controller'
 
 import {
   CONFIGURATOR_URL,
   CONFIGURATOR_SETTINGS_URL,
+  CONFIGURATOR_SERVER_SETTINGS_URL,
   CONFIGURATOR_OVERLAY_URL,
   OPTIONS,
   DEFAULT_OPTIONS,
   OPTION_TYPES,
+  OPTION_GROUPS,
 } from '../lib/consts'
 
 import OverlaySettings from './OverlaySettings'
@@ -62,9 +67,9 @@ class Configurator extends Component {
                 {device}
               </MenuItem> ) )}
         </Select>
-        {Object.entries( settings[ device ] ).map( ( [ name, props ] ) => <Item {...props} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
+        {Object.keys( settings[ device ] ).map( name => <Item {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Server</Typography>
-        {Object.values( settings.global ).map( Item )}
+        {Object.keys( settings.global ).map( name => <Item {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Tools</Typography>
         <Item name="Overlay" icon={faWindowMaximize} url={CONFIGURATOR_OVERLAY_URL} />
       </List>
@@ -85,10 +90,12 @@ class Configurator extends Component {
 
   DynamicOptions = () => {
     const { settings, location: { pathname } } = this.props
-    const { device } = this.state
+
+    const isServer = pathname.split( '/' ).includes( 'server' )
+    const device = isServer ? 'global' : this.state.device
 
     const typeComponents = {
-      [ OPTION_TYPES.dropdown ]: ( { name, value } ) => <p>dropdown {name}: {value.name}</p>,
+      [ OPTION_TYPES.dropdown ]: Dropdown,
       [ OPTION_TYPES.radio ]: ( { name, value } ) => <p>radio {name}: {value}</p>,
       [ OPTION_TYPES.toggle ]: ( { name, value } ) => <p>toggle {name}: {value}</p>,
       [ OPTION_TYPES.slider ]: ( { name, value } ) => <p>slider {name}: {value}</p>,
@@ -97,18 +104,28 @@ class Configurator extends Component {
 
     // Fetch correct option group from URL
     const group = pathname.split( '/' ).pop()
-    const { options } = settings[ device ][ group ] || DEFAULT_OPTIONS.local[ group ]
+    const options = settings[ device ][ group ] || DEFAULT_OPTIONS.local[ group ]
 
-    return Object.entries( options ).map( ( [ option, value ] ) => {
-      const { name, type } = OPTIONS[ option ]
+    return Object.entries( options ).map( ( [ option, data ] ) => {
+      const options = OPTIONS[ option ]
+      const { values, type } = options
+      console.log( option, data )
       const Option = typeComponents[ type ]
-      return <Option name={name} value={value} />
+      return ( <Option
+        {...options}
+        value={data}
+        onChange={( { target: { value } } ) => controller.setSettings( {
+          [ group ]: {
+            [ option ]: { value, name: values.find( ( { value: v } ) => value === v ).name },
+        },
+        }, device )}
+      /> )
     } )
   }
 
   render() {
     const { settings } = this.props
-    const { theme: { options: { themeName } } } = settings.local
+    const { theme: { themeName } } = settings.local
 
     const { device } = this.state
 
