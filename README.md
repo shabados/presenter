@@ -22,11 +22,11 @@ Using proposed ES+ modules with the `esm` shim module.
 Any changes to the backend when running using `docker-compose`,
 or `npm run dev` will result in the server restarting.
 
-In development, the backend app runs on port `42425` by default.
+In development, the backend app runs on port `42425` by default and the frontend on port `3000`.
 
 ### Packaging with Electron
 
-Windows? You must install [windows-build-tools](!https://www.npmjs.com/package/windows-build-tools), by running `npm install --global --production windows-build-tools` in an administrator Powershell.
+Windows? You must install [windows-build-tools](!https://www.npmjs.com/package/windows-build-tools), by running `npm install --global --production windows-build-tools --vs2015` in an administrator Powershell.
 
 Run `npm run pack` to generate the binaries to test for your platform, and `npm run dist` to build an installer.
 
