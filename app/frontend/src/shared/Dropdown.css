@@ -1,0 +1,8 @@
+.dropdown {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown .label {
+    font-family: 'Noto Sans Medium', sans-serif;
+}
