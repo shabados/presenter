@@ -126,18 +126,11 @@ export const OPTIONS = {
     privacy: PRIVACY_TYPES.local,
     values: [
       { name: 'Space Around', value: 'space-around' },
-      { name: 'Unspaced', value: 'space-evenly' },
+      { name: 'Space Evenly', value: 'space-evenly' },
       { name: 'Space Between', value: 'space-between' },
-    ],
-  },
-  controllerHeight: {
-    name: 'Controller Height',
-    type: OPTION_TYPES.dropdown,
-    privacy: PRIVACY_TYPES.local,
-    values: [
-      { name: 'Short', value: '450px' },
-      { name: 'Medium', value: '550px' },
-      { name: 'Tall', value: '650px' },
+      { name: 'Top', value: 'flex-start' },
+      { name: 'Middle', value: 'center' },
+      { name: 'Bottom', value: 'flex-end' },
     ],
   },
   larivaarGurbani: { name: 'Larivaar Gurbani', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -196,8 +189,7 @@ export const OPTION_GROUPS = {
 export const DEFAULT_OPTIONS = {
   local: {
     layout: {
-      spacing: OPTIONS.spacing.values[ 0 ],
-      controllerHeight: OPTIONS.controllerHeight.values[ 0 ],
+      spacing: OPTIONS.spacing.values[ 0 ].value,
       larivaarGurbani: false,
       splitGurbani: true,
       englishTranslation: true,
@@ -206,7 +198,7 @@ export const DEFAULT_OPTIONS = {
       nextLine: false,
     },
     theme: {
-      themeName: OPTIONS.themeName.values[ 0 ],
+      themeName: OPTIONS.themeName.values[ 0 ].value,
       backgroundImage: true,
       fontSize: 40,
     },
