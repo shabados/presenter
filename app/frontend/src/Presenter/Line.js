@@ -1,9 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import { string } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { partitionLine } from '../lib/utils'
+import { DEFAULT_OPTIONS } from '../lib/consts'
 
 import './Line.css'
 
@@ -15,8 +16,8 @@ import './Line.css'
  * @param translation The English translation of the line to render.
  * @param transliteration The English transliteration of the line to render.
  */
-const Line = ( { gurmukhi, punjabi, translation, transliteration } ) => (
-  <div className="line">
+const Line = ( { gurmukhi, punjabi, translation, transliteration, spacing } ) => (
+  <div className="line" style={{ justifyContent: spacing }}>
     <p className="gurmukhi">
       {partitionLine( gurmukhi )
         .map( ( line, i ) => (
@@ -40,10 +41,15 @@ const Line = ( { gurmukhi, punjabi, translation, transliteration } ) => (
 )
 
 Line.propTypes = {
-  gurmukhi: PropTypes.string.isRequired,
-  punjabi: PropTypes.string.isRequired,
-  translation: PropTypes.string.isRequired,
-  transliteration: PropTypes.string.isRequired,
+  gurmukhi: string.isRequired,
+  punjabi: string.isRequired,
+  translation: string.isRequired,
+  transliteration: string.isRequired,
+  spacing: string,
+}
+
+Line.defaultProps = {
+  spacing: DEFAULT_OPTIONS.local.layout.spacing.value,
 }
 
 export default Line

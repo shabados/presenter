@@ -192,7 +192,8 @@ class App extends Component {
     const { location: { search } } = this.props
     const { controllerOnly, showShortcuts } = getUrlState( search )
 
-    const { theme: { themeName } } = settings.local
+    const { local: localSettings } = settings
+    const { theme: { themeName } } = localSettings
 
     return (
       <Switch>
@@ -210,7 +211,7 @@ class App extends Component {
             <div className="app">
               <CssBaseline />
               <ThemeLoader name={themeName} />
-              {!controllerOnly ? <Display shabad={shabad} bani={bani} lineId={lineId} /> : null}
+              {!controllerOnly && <Display shabad={shabad} bani={bani} lineId={lineId} settings={localSettings} />}
               <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
                 <Link to={CONTROLLER_URL}>
                   <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
