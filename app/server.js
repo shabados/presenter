@@ -23,6 +23,7 @@ async function main() {
     { prefix: '/', dir: `${__dirname}/frontend/build` },
     { prefix: '/themes', dir: `${__dirname}/frontend/themes` },
     { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
+    { prefix: '/themes/*', dir: `${__dirname}/frontend/themes/Day.css` },
     { prefix: '/history.csv', dir: HISTORY_FILE },
   ]
 
