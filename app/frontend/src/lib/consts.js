@@ -140,7 +140,7 @@ export const OPTIONS = {
   englishTransliteration: { name: 'English Transliteration', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   nextLine: { name: 'Next Line', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   fontSize: { name: 'Font Size', type: OPTION_TYPES.slider, range: [ 20, 100 ], privacy: PRIVACY_TYPES.local },
-  themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [ 'Day', 'Night' ], privacy: PRIVACY_TYPES.local },
+  themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [ ], privacy: PRIVACY_TYPES.local },
   backgroundImage: { name: 'Background Image', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamColors: { name: 'Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamCharacters: { name: 'Vishraam Characters', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -189,7 +189,7 @@ export const OPTION_GROUPS = {
 export const DEFAULT_OPTIONS = {
   local: {
     layout: {
-      spacing: OPTIONS.spacing.values[ 0 ].value,
+      spacing: OPTIONS.spacing.values[ 0 ],
       larivaarGurbani: false,
       splitGurbani: true,
       englishTranslation: true,
@@ -198,7 +198,7 @@ export const DEFAULT_OPTIONS = {
       nextLine: false,
     },
     theme: {
-      themeName: OPTIONS.themeName.values[ 0 ].value,
+      themeName: OPTIONS.themeName.values[ 0 ],
       backgroundImage: true,
       fontSize: 40,
     },

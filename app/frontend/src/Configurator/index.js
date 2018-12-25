@@ -6,10 +6,8 @@ import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faBars, faWindowMaximize, faQuestion } from '@fortawesome/fontawesome-free-solid'
 
-import Dropdown from '../shared/Dropdown'
+import SettingComponentFactory from './SettingComponents'
 import ThemeLoader from '../shared/ThemeLoader'
-
-import controller from '../lib/controller'
 
 import {
   CONFIGURATOR_URL,
@@ -18,22 +16,28 @@ import {
   CONFIGURATOR_OVERLAY_URL,
   OPTIONS,
   DEFAULT_OPTIONS,
-  OPTION_TYPES,
   OPTION_GROUPS,
+  BACKEND_URL,
 } from '../lib/consts'
 
 import OverlaySettings from './OverlaySettings'
 
 import './index.css'
 
-class Configurator extends Component {
-  constructor( props ) {
-    super( props )
-
-    this.state = {
+class Configurator extends Component { 
+  state = {
       mobileOpen: false,
       device: 'local',
     }
+
+  componentDidMount() {
+    // Fetch list of themes from server
+    fetch( `${BACKEND_URL}/themes` )
+      .then( res => res.json() )
+      .then( themes => {
+        OPTIONS.themeName.values = themes.map( theme => ( { name: theme, value: theme } ) )
+        this.setState({})
+      } )
   }
 
   toggleMobileMenu = () => this.setState( { mobileOpen: !this.state.mobileOpen } )
@@ -51,7 +55,6 @@ class Configurator extends Component {
       </Link>
     )
 
-    console.log( this.props )
     return (
       <List>
         <Select className="device-selector category-title" value={device} disableUnderline>
@@ -67,9 +70,9 @@ class Configurator extends Component {
                 {device}
               </MenuItem> ) )}
         </Select>
-        {Object.keys( settings[ device ] ).map( name => <Item {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
+        {Object.keys( settings[ device ] ).map( name => <Item key={name} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Server</Typography>
-        {Object.keys( settings.global ).map( name => <Item {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`} /> )}
+        {Object.keys( settings.global ).map( name => <Item key={name} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Tools</Typography>
         <Item name="Overlay" icon={faWindowMaximize} url={CONFIGURATOR_OVERLAY_URL} />
       </List>
@@ -94,32 +97,23 @@ class Configurator extends Component {
     const isServer = pathname.split( '/' ).includes( 'server' )
     const device = isServer ? 'global' : this.state.device
 
-    const typeComponents = {
-      [ OPTION_TYPES.dropdown ]: Dropdown,
-      [ OPTION_TYPES.radio ]: ( { name, value } ) => <p>radio {name}: {value}</p>,
-      [ OPTION_TYPES.toggle ]: ( { name, value } ) => <p>toggle {name}: {value}</p>,
-      [ OPTION_TYPES.slider ]: ( { name, value } ) => <p>slider {name}: {value}</p>,
-      [ OPTION_TYPES.colorPicker ]: ( { name, value } ) => <p>colorPicker {name}: {value}</p>,
-    }
-
     // Fetch correct option group from URL
     const group = pathname.split( '/' ).pop()
-    const options = settings[ device ][ group ] || DEFAULT_OPTIONS.local[ group ]
 
-    return Object.entries( options ).map( ( [ option, data ] ) => {
+    const defaultSettings = device === 'server' ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
+
+    return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
+      const optionGroup = settings[ device ][ group ] || {}
+      const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
       const options = OPTIONS[ option ]
-      const { values, type } = options
-      console.log( option, data )
-      const Option = typeComponents[ type ]
-      return ( <Option
-        {...options}
-        value={data}
-        onChange={( { target: { value } } ) => controller.setSettings( {
-          [ group ]: {
-            [ option ]: { value, name: values.find( ( { value: v } ) => value === v ).name },
-        },
-        }, device )}
-      /> )
+      const { type } = options
+
+      console.log( option, options, value )
+
+      // Get correct component
+      const Option = SettingComponentFactory( type )( group, device )
+
+      return <Option {...options} option={option} value={value} />
     } )
   }
 

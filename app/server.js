@@ -1,4 +1,5 @@
 import { ensureDirSync } from 'fs-extra'
+import cors from 'cors'
 
 import { setupExpress } from './lib/express'
 import api from './lib/api'
@@ -25,7 +26,7 @@ async function main() {
     { prefix: '/history.csv', dir: HISTORY_FILE },
   ]
 
-  const server = await setupExpress( mounts, [ api ] )
+  const server = await setupExpress( mounts, [ cors(), api ] )
 
   // Setup the websocket server
   const socket = new Socket( server )
