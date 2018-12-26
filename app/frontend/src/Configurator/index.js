@@ -24,11 +24,11 @@ import OverlaySettings from './OverlaySettings'
 
 import './index.css'
 
-class Configurator extends Component { 
+class Configurator extends Component {
   state = {
-      mobileOpen: false,
-      device: 'local',
-    }
+    mobileOpen: false,
+    device: 'local',
+  }
 
   componentDidMount() {
     // Fetch list of themes from server
@@ -36,7 +36,7 @@ class Configurator extends Component {
       .then( res => res.json() )
       .then( themes => {
         OPTIONS.themeName.values = themes.map( theme => ( { name: theme, value: theme } ) )
-        this.setState({})
+        this.setState( {} )
       } )
   }
 

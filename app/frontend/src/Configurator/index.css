@@ -13,7 +13,7 @@
     width: 100%;
 }
 
-.menu ul {
+.menu > div {
     height: 100%;
     background-color: var(--configurator-menu-background-color);
     background-image: var(--configurator-menu-background-image);
