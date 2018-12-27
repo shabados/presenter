@@ -13,8 +13,8 @@ import './Line.css'
  * Line Component.
  * Renders the various aspects of a single line.
  * @param {String} gurmukhi The Gurmukhi of the line to render.
- * @param {String} punjabi The Punjabi of the line to render.
- * @param {String} translation The English translation of the line to render.
+ * @param {String} punjabiTranslation The Punjabi translation of the line to render.
+ * @param {String} englishTranslation The English translation of the line to render.
  * @param {String} transliteration The English transliteration of the line to render.
  * @param {String} spacing The justify content value for spacing between the lines.
  * @param {Boolean} larivaarGurbani Whether Gurbani should be continuous or not.
@@ -24,8 +24,8 @@ import './Line.css'
  */
 const Line = ( {
   gurmukhi,
-  punjabi,
-  translation,
+  punjabiTranslation,
+  englishTranslation,
   transliteration,
   spacing,
   larivaarGurbani: larivaar,
@@ -43,24 +43,27 @@ const Line = ( {
         ) )}
     </p>
     <TransitionGroup appear exit={false} component={Fragment}>
-      <CSSTransition key={translation} classNames="fade" timeout={100}>
-        <p className="translation">{translation}</p>
-      </CSSTransition>
-      <CSSTransition key={punjabi} classNames="fade" timeout={150}>
-        <p className="punjabi">{punjabi}</p>
-      </CSSTransition>
+      {englishTranslation &&
+      <CSSTransition key={englishTranslation} classNames="fade" timeout={100}>
+        <p className="english translation">{englishTranslation}</p>
+      </CSSTransition>}
+      {punjabiTranslation &&
+      <CSSTransition key={punjabiTranslation} classNames="fade" timeout={150}>
+        <p className="punjabi translation">{punjabiTranslation}</p>
+      </CSSTransition>}
+      {transliteration &&
       <CSSTransition key={transliteration} classNames="fade" timeout={200}>
         <p className="transliteration">{transliteration}</p>
-      </CSSTransition>
+      </CSSTransition>}
     </TransitionGroup>
   </div>
 )
 
 Line.propTypes = {
   gurmukhi: string.isRequired,
-  punjabi: string.isRequired,
-  translation: string.isRequired,
-  transliteration: string.isRequired,
+  punjabiTranslation: string,
+  englishTranslation: string,
+  transliteration: string,
   spacing: string,
   larivaarGurbani: boolean,
   larivaarAssist: boolean,
@@ -81,6 +84,9 @@ const {
 } = DEFAULT_OPTIONS.local
 
 Line.defaultProps = {
+  englishTranslation: null,
+  punjabiTranslation: null,
+  transliteration: null,
   spacing,
   larivaarGurbani,
   larivaarAssist,

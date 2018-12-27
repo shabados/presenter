@@ -23,7 +23,14 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
 
   return (
     <div className={classNames( { simple }, 'display' )}>
-      {line && <Line {...line} {...layout} simpleGraphics />}
+      {line && <Line
+        {...layout}
+        gurmukhi={line.gurmukhi}
+        englishTranslation={layout.englishTranslation && line.translation}
+        punjabiTranslation={layout.punjabiTranslation && line.punjabi}
+        transliteration={layout.englishTransliteration && line.transliteration}
+        simpleGraphics
+      />}
     </div>
   )
 }
