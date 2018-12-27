@@ -35,10 +35,6 @@
     display: inline-block;
 }
 
-.line .gurmukhi .partition .word:last-child {
-    margin-right: 0;
-}
-
 .line .gurmukhi .heavy {
     color: var(--display-vishraam-heavy-color) !important;
 }
