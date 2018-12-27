@@ -19,6 +19,7 @@ import './Line.css'
  * @param {String} spacing The justify content value for spacing between the lines.
  * @param {Boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {Boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
+ * @param {Boolean} splitOnVishraam If the line is too long, split it on the vishraam word.
  */
 const Line = ( {
   gurmukhi,
@@ -28,13 +29,14 @@ const Line = ( {
   spacing,
   larivaarGurbani: larivaar,
   larivaarAssist,
+  splitOnVishraam: partition,
 } ) => (
   <div className="line" style={{ justifyContent: spacing }}>
     <p className={classNames( 'gurmukhi', { larivaar, assist: larivaar && larivaarAssist } )}>
       {partitionLine( gurmukhi )
         .map( ( line, i ) => (
-          <span key={i} className="partition">
-            {line.map( ( { word, type }, i ) => <span key={i} className={type}>{word}</span> )}
+          <span key={i} className={classNames( { partition } )}>
+            {line.map( ( { word, type }, i ) => <span key={i} className={classNames( type, 'word' )}>{word}</span> )}
           </span>
         ) )}
     </p>
@@ -60,12 +62,21 @@ Line.propTypes = {
   spacing: string,
   larivaarGurbani: boolean,
   larivaarAssist: boolean,
+  splitOnVishraam: boolean,
 }
 
+const { layout: {
+  spacing,
+  larivaarAssist,
+  larivaarGurbani,
+  splitOnVishraam,
+} } = DEFAULT_OPTIONS.local
+
 Line.defaultProps = {
-  spacing: DEFAULT_OPTIONS.local.layout.spacing.value,
-  larivaarGurbani: DEFAULT_OPTIONS.local.layout.larivaarGurbani,
-  larivaarAssist: DEFAULT_OPTIONS.local.layout.larivaarGurbaniAssist,
+  spacing,
+  larivaarGurbani,
+  larivaarAssist,
+  splitOnVishraam,
 }
 
 export default Line

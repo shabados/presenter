@@ -18,20 +18,24 @@
     color: var(--display-gurmukhi-color);
 }
 
-.line .gurmukhi span {
+.line .gurmukhi .word {
     margin-right: 2.25vh;
     display: inline-block;
 }
 
-.line .gurmukhi.larivaar span {
+.line .gurmukhi.larivaar .word {
     margin-right: 0;
 }
 
-.line .gurmukhi.larivaar.assist span :nth-child(2n) {
+.line .gurmukhi.larivaar.assist .word :nth-child(2n) {
     color: var(--display-gurmukhi-larivaar-assist-color);
 }
 
-.line .gurmukhi span:last-child {
+.line .gurmukhi .partition {
+    display: inline-block;
+}
+
+.line .gurmukhi .partition .word:last-child {
     margin-right: 0;
 }
 
