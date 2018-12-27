@@ -4,6 +4,7 @@
  */
 
 import get from 'get-value'
+import merge from 'deepmerge'
 
 import logger from './logger'
 import settingsManager from './settings'
@@ -188,7 +189,14 @@ class SessionManager {
 
     // Save new settings, mapping the local field back to the correct host
     const { settings } = this.session
-    this.session = { ...this.session, settings: { ...settings, ...rest, [ host ]: local } }
+    this.session = {
+      ...this.session,
+      settings: merge.all( [
+        settings,
+        rest,
+        { [ host ]: local },
+      ] ),
+    }
 
     // Strip out private settings
     const publicSettings = this.getPublicSettings()
