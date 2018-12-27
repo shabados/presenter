@@ -27,7 +27,7 @@
     margin-right: 0;
 }
 
-.line .gurmukhi.larivaar.assist .word :nth-child(2n) {
+.line .gurmukhi.larivaar.assist .word:nth-child(2n) {
     color: var(--display-gurmukhi-larivaar-assist-color);
 }
 
