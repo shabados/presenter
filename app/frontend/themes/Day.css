@@ -9,6 +9,7 @@
 
     /* Display line colours */
     --display-gurmukhi-color: #000000;
+    --display-gurmukhi-larivaar-assist-color: red;
     --display-translation-color: #121212;
     --display-punjabi-color: #424242;
     --display-transliteration-color: #161616;

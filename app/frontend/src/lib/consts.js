@@ -134,6 +134,7 @@ export const OPTIONS = {
     ],
   },
   larivaarGurbani: { name: 'Larivaar Gurbani', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  larivaarAssist: { name: 'Larivaar Assist', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   splitGurbani: { name: 'Split Gurbani Lines', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   englishTranslation: { name: 'English Translation', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   punjabiTranslation: { name: 'Punjabi Translation', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -191,6 +192,7 @@ export const DEFAULT_OPTIONS = {
     layout: {
       spacing: OPTIONS.spacing.values[ 0 ],
       larivaarGurbani: false,
+      larivaarAssist: true,
       splitGurbani: true,
       englishTranslation: true,
       punjabiTranslation: false,

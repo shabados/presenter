@@ -19,6 +19,7 @@
     "@fortawesome/react-fontawesome": "0.0.18",
     "@material-ui/core": "^3.7.1",
     "@material-ui/lab": "^3.0.0-alpha.26",
+    "classnames": "^2.2.6",
     "deepmerge": "^2.2.1",
     "event-emitter": "^0.3.5",
     "gurmukhi-utils": "^2.0.4",

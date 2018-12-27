@@ -12,7 +12,7 @@ import './Display.css'
  * @param lineId The current line in the Shabad.
  */
 const Display = ( { shabad, bani, lineId, settings } ) => {
-  const { layout: { spacing } } = settings
+  const { layout } = settings
 
   // Get the lines from the shabad, if they exist
   const { lines = [] } = shabad || bani || {}
@@ -22,7 +22,7 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
 
   return (
     <div className="display">
-      {line && <Line {...line} spacing={spacing} />}
+      {line && <Line {...line} {...layout} />}
     </div>
   )
 }

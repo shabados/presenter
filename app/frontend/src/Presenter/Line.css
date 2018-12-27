@@ -23,24 +23,28 @@
     display: inline-block;
 }
 
-.line .gurmukhi span:last-child {
-    margin-right: 0;
-}
-
 .line .gurmukhi.larivaar span {
     margin-right: 0;
 }
 
+.line .gurmukhi.larivaar.assist span :nth-child(2n) {
+    color: var(--display-gurmukhi-larivaar-assist-color);
+}
+
+.line .gurmukhi span:last-child {
+    margin-right: 0;
+}
+
 .line .gurmukhi .heavy {
-    color: var(--display-vishraam-heavy-color);
+    color: var(--display-vishraam-heavy-color) !important;
 }
 
 .line .gurmukhi .medium {
-    color: var(--display-vishraam-medium-color);
+    color: var(--display-vishraam-medium-color) !important;
 }
 
 .line .gurmukhi .light {
-    color: var(--display-vishraam-light-color);
+    color: var(--display-vishraam-light-color) !important;
 }
 
 .line .translation {
