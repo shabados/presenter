@@ -44,7 +44,7 @@ class Configurator extends Component {
 
   MenuItems = () => {
     const { device } = this.state
-    const { settings, location: {pathname} } = this.props
+    const { settings, location: { pathname } } = this.props
 
     const group = pathname.split( '/' ).pop()
 
@@ -59,14 +59,18 @@ class Configurator extends Component {
 
     return (
       <List>
-        <Select className="device-selector category-title" value={device} disableUnderline>
+        <Select
+          className="device-selector category-title"
+          onChange={( { target: { value } } ) => this.setState( { device: value } )}
+          value={device}
+          disableUnderline
+        >
           <MenuItem value="local">This Device</MenuItem>
           {Object.keys( settings )
             .filter( name => ![ 'local', 'global' ].includes( name ) )
             .map( device => (
               <MenuItem
                 key={device}
-                onClick={() => this.setState( { device } )}
                 value={device}
               >
                 {device}
@@ -109,8 +113,6 @@ class Configurator extends Component {
       const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
       const options = OPTIONS[ option ]
       const { type } = options
-
-      console.log( option, options, value )
 
       // Get correct component
       const Option = SettingComponentFactory( type )( group, device )
