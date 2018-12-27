@@ -44,11 +44,13 @@ class Configurator extends Component {
 
   MenuItems = () => {
     const { device } = this.state
-    const { settings } = this.props
+    const { settings, location: {pathname} } = this.props
 
-    const Item = ( { name, icon, url = CONFIGURATOR_URL } ) => (
+    const group = pathname.split( '/' ).pop()
+
+    const Item = ( { name, icon, selected, url = CONFIGURATOR_URL } ) => (
       <Link to={url}>
-        <ListItem className="item" key={name} button>
+        <ListItem disableRipple selected={selected} className="item" key={name} button>
           <ListItemIcon><FontAwesomeIcon className="icon" icon={icon} /></ListItemIcon>
           <ListItemText className="text" primary={name} />
         </ListItem>
@@ -70,9 +72,9 @@ class Configurator extends Component {
                 {device}
               </MenuItem> ) )}
         </Select>
-        {Object.keys( settings[ device ] ).map( name => <Item key={name} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
+        {Object.keys( settings[ device ] ).map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Server</Typography>
-        {Object.keys( settings.global ).map( name => <Item key={name} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`} /> )}
+        {Object.keys( settings.global ).map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Tools</Typography>
         <Item name="Overlay" icon={faWindowMaximize} url={CONFIGURATOR_OVERLAY_URL} />
       </List>
@@ -100,7 +102,7 @@ class Configurator extends Component {
     // Fetch correct option group from URL
     const group = pathname.split( '/' ).pop()
 
-    const defaultSettings = device === 'server' ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
+    const defaultSettings = isServer ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
     return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
       const optionGroup = settings[ device ][ group ] || {}

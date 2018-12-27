@@ -204,7 +204,7 @@ export const DEFAULT_OPTIONS = {
       themeName: OPTIONS.themeName.values[ 0 ],
       backgroundImage: true,
       fontSize: 40,
-      simpleGraphics: true,
+      simpleGraphics: false,
     },
     vishraams: {
       vishraamColors: true,
