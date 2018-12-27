@@ -4,3 +4,7 @@
     background-size: 100% auto;
     transition: 0.3s all ease-in-out;
 }
+
+.simple.display * {
+    transition: none !important;
+}

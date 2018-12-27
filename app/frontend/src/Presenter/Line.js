@@ -20,6 +20,7 @@ import './Line.css'
  * @param {Boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {Boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
  * @param {Boolean} splitOnVishraam If the line is too long, split it on the vishraam word.
+ * @param {Boolean} simpleGraphics Disables transitions and other intensive effects.
  */
 const Line = ( {
   gurmukhi,
@@ -30,8 +31,9 @@ const Line = ( {
   larivaarGurbani: larivaar,
   larivaarAssist,
   splitOnVishraam: partition,
+  simpleGraphics: simple,
 } ) => (
-  <div className="line" style={{ justifyContent: spacing }}>
+  <div className={classNames( { simple }, 'line' )} style={{ justifyContent: spacing }}>
     <p className={classNames( 'gurmukhi', { larivaar, assist: larivaar && larivaarAssist } )}>
       {partitionLine( gurmukhi )
         .map( ( line, i ) => (
@@ -63,20 +65,27 @@ Line.propTypes = {
   larivaarGurbani: boolean,
   larivaarAssist: boolean,
   splitOnVishraam: boolean,
+  simpleGraphics: boolean,
 }
 
-const { layout: {
-  spacing,
-  larivaarAssist,
-  larivaarGurbani,
-  splitOnVishraam,
-} } = DEFAULT_OPTIONS.local
+const {
+  layout: {
+    spacing,
+    larivaarAssist,
+    larivaarGurbani,
+    splitOnVishraam,
+  },
+  theme: {
+    simpleGraphics,
+  },
+} = DEFAULT_OPTIONS.local
 
 Line.defaultProps = {
   spacing,
   larivaarGurbani,
   larivaarAssist,
   splitOnVishraam,
+  simpleGraphics,
 }
 
 export default Line

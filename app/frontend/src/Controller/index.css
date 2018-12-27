@@ -6,6 +6,10 @@
     font-size: 0.95em;
 }
 
+.simple.controller * {
+    transition: none !important;
+}
+
 .controller button {
     font-size: 1em;
     margin: 0 0.5em;

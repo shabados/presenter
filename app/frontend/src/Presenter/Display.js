@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import Line from './Line'
 
@@ -12,7 +13,7 @@ import './Display.css'
  * @param lineId The current line in the Shabad.
  */
 const Display = ( { shabad, bani, lineId, settings } ) => {
-  const { layout } = settings
+  const { layout, theme: { simpleGraphics: simple } } = settings
 
   // Get the lines from the shabad, if they exist
   const { lines = [] } = shabad || bani || {}
@@ -21,8 +22,8 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
   const line = lines.find( ( { id } ) => lineId === id )
 
   return (
-    <div className="display">
-      {line && <Line {...line} {...layout} />}
+    <div className={classNames( { simple }, 'display' )}>
+      {line && <Line {...line} {...layout} simpleGraphics />}
     </div>
   )
 }

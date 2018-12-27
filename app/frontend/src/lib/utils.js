@@ -55,9 +55,13 @@ export const partitionLine = line => classifyWords( line ).reduce( ( words, { ty
 /**
  * Scrolls an element into the center, given a ref.
  * @param ref The reference to the element to scroll.
+ * @param options Any options for the scroll function.
  */
 // eslint-disable-next-line react/no-find-dom-node
-export const scrollIntoCenter = ref => scrollIntoView( findDOMNode( ref ), ( { time: 200 } ) )
+export const scrollIntoCenter = ( ref, options ) => scrollIntoView( findDOMNode( ref ), ( {
+  time: 200,
+  ...options,
+} ) )
 
 /**
  * Returns the current query state of the URL, based on the defined states.

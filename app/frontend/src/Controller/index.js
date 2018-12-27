@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import classNames from 'classnames'
 
 import queryString from 'qs'
 
@@ -155,13 +156,7 @@ const BottomBar = ( { history, renderContent, location, onHover, lineId } ) => {
  * Controller controls the display and configures settings.
  */
 class Controller extends Component {
-  constructor( props ) {
-    super( props )
-
-    this.state = {
-      hovered: null,
-    }
-  }
+  state = { hovered: null }
 
   componentDidUpdate( { shabad: prevShabad, bani: prevBani } ) {
     const { history, shabad, bani, location } = this.props
@@ -178,8 +173,10 @@ class Controller extends Component {
   onHover = hovered => this.setState( { hovered } )
 
   render() {
-    const { location } = this.props
+    const { location, settings } = this.props
     const { hovered } = this.state
+
+    const { local: { theme: { simpleGraphics: simple } } } = settings
 
     const routes = [
       [ MENU_URL, Menu ],
@@ -196,7 +193,7 @@ class Controller extends Component {
             key={route}
             path={route}
             render={props => (
-              <div className="controller">
+              <div className={classNames( { simple }, 'controller' )}>
                 <TopBar
                   {...props}
                   title={hovered || route.split( '/' ).pop()}

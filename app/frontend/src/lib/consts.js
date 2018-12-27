@@ -143,6 +143,7 @@ export const OPTIONS = {
   fontSize: { name: 'Font Size', type: OPTION_TYPES.slider, range: [ 20, 100 ], privacy: PRIVACY_TYPES.local },
   themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [ ], privacy: PRIVACY_TYPES.local },
   backgroundImage: { name: 'Background Image', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  simpleGraphics: { name: 'Simple Graphics', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamColors: { name: 'Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamCharacters: { name: 'Vishraam Characters', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamLight: { name: 'Vishraam Light', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -203,6 +204,7 @@ export const DEFAULT_OPTIONS = {
       themeName: OPTIONS.themeName.values[ 0 ],
       backgroundImage: true,
       fontSize: 40,
+      simpleGraphics: true,
     },
     vishraams: {
       vishraamColors: true,

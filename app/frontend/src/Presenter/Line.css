@@ -71,6 +71,14 @@
     color: var(--display-transliteration-color);
 }
 
+.simple.line * {
+    transition: none;
+}
+
+.simple.line .fade-enter-active {
+    opacity: 1;
+}
+
 .line .fade-enter-done, .line .fade-appear-done {
     opacity: 1;
 }
