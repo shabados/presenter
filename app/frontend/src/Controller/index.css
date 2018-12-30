@@ -105,7 +105,7 @@
 }
 
 .controller .content .gurmukhi.text {
-    font-family: "Noto Sans Gurmukhi", sans-serif;
+    font-family: "Open Gurbani Akhar Regular", sans-serif;
     font-weight: bold;
     height: auto;
     color: var(--controller-text-color);
