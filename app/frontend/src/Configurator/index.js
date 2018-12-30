@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect, Link, Switch, Route, withRouter } from 'react-router-dom'
+import classNames from 'classnames'
 
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
 
@@ -123,12 +124,12 @@ class Configurator extends Component {
 
   render() {
     const { settings } = this.props
-    const { theme: { themeName } } = settings.local
+    const { theme: { themeName, simpleGraphics } } = settings.local
 
     const { device } = this.state
 
     return (
-      <div className="configurator">
+      <div className={classNames( { simple: simpleGraphics} ,'configurator' )}>
         <ThemeLoader name={themeName} />
         <AppBar className="title-bar" position="static">
           <Toolbar>
