@@ -13,7 +13,7 @@ import './Display.css'
  * @param lineId The current line in the Shabad.
  */
 const Display = ( { shabad, bani, lineId, settings } ) => {
-  const { layout, theme: { 
+  const { layout, theme: {
     simpleGraphics: simple,
     backgroundImage: background,
   } } = settings
@@ -26,15 +26,15 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
 
   return (
     <div className={classNames( { simple, background }, 'display' )}>
-      <div className="background-image" /> 
+      <div className="background-image" />
       {line && <Line
         {...layout}
         gurmukhi={line.gurmukhi}
-        englishTranslation={layout.englishTranslation && line.translation}
+        englishTranslation={layout.englishTranslation && line.translations[ 0 ].translation}
         punjabiTranslation={layout.punjabiTranslation && line.punjabi}
-        transliteration={layout.englishTransliteration && line.transliteration}
+        transliteration={layout.englishTransliteration && line.transliterations[ 0 ].transliteration}
         simpleGraphics
-        />}
+      />}
     </div>
   )
 }

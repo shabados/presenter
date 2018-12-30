@@ -17,7 +17,7 @@
 }
 
 .line .gurmukhi {
-    font-family: "Open Gurbani Akhar Regular", sans-serif;
+    font-family: "Open Gurbani Akhar Black", sans-serif;
     font-size: 8vh;
     color: var(--display-gurmukhi-color);
 }
@@ -53,6 +53,7 @@
 
 .line .translation {
     font-family: "Noto Sans Medium", sans-serif;
+    font-weight: bold;
     font-size: 4vh;
     transition: opacity 100ms ease-in;
     opacity: 0.05;
@@ -61,7 +62,7 @@
 
 .line .punjabi {
     font-family: "Noto Sans Gurmukhi", sans-serif;
-    font-size: 4vh;
+    font-size: 3.5vh;
     transition: opacity 150ms ease-in;
     opacity: 0.1;
     color: var(--display-punjabi-color);
@@ -69,7 +70,8 @@
 
 .line .transliteration {
     font-family: "Noto Sans Regular", sans-serif;
-    font-size: 4vh;
+    font-weight: bold;
+    font-size: 3.5vh;
     transition: opacity 200ms ease-in;
     opacity: 0.2;
     color: var(--display-transliteration-color);

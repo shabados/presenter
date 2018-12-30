@@ -6,6 +6,7 @@
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import EventEmitter from 'event-emitter'
 import merge from 'deepmerge'
+import { toAscii } from 'gurmukhi-utils'
 
 import { WS_URL, DEFAULT_OPTIONS } from './consts'
 
@@ -59,7 +60,7 @@ class Controller extends EventEmitter {
    * Convenience method for searching.
    * @param firstLetters The first letters to search with.
    */
-  search = firstLetters => this.sendJSON( 'search', firstLetters )
+  search = firstLetters => this.sendJSON( 'search', toAscii( firstLetters ) )
 
   /**
    * Convenience method for setting the line.
