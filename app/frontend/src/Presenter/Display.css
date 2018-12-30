@@ -1,7 +1,9 @@
 .display {
     height: 100%;
-    background: var(--display-background-color) var(--display-background-image) no-repeat center;
-    background-size: 100% auto;
+    background-image: var(--display-background-image);
+    background-color: var(--display-background-color);
+    background-size: var(--display-background-size);
+    background-position: center;
     transition: 0.3s all ease-in-out;
 }
 
