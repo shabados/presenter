@@ -49,34 +49,34 @@ class App extends Component {
       shabadHistory: [],
       shabad: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
-  }
+    }
 
-  componentDidMount() {
+    componentDidMount() {
     // Register controller event
-    controller.on( 'connected', this.onConnected )
-    controller.on( 'disconnected', this.onDisconnected )
-    controller.on( 'shabad', this.onShabad )
-    controller.on( 'line', this.onLine )
-    controller.on( 'mainLine', this.onMainLine )
-    controller.on( 'viewedLines', this.onViewedLines )
-    controller.on( 'history', this.onHistory )
-    controller.on( 'banis', this.onBanis )
-    controller.on( 'bani', this.onBani )
-    controller.on( 'settings', this.onSettings )
-  }
+      controller.on( 'connected', this.onConnected )
+      controller.on( 'disconnected', this.onDisconnected )
+      controller.on( 'shabad', this.onShabad )
+      controller.on( 'line', this.onLine )
+      controller.on( 'mainLine', this.onMainLine )
+      controller.on( 'viewedLines', this.onViewedLines )
+      controller.on( 'history', this.onHistory )
+      controller.on( 'banis', this.onBanis )
+      controller.on( 'bani', this.onBani )
+      controller.on( 'settings', this.onSettings )
+    }
 
-  componentWillUnmount() {
+    componentWillUnmount() {
     // Deregister event listeners from controller
-    controller.off( 'connected', this.onConnected )
-    controller.off( 'disconnected', this.onDisconnected )
-    controller.off( 'shabad', this.onShabad )
-    controller.off( 'line', this.onLine )
-    controller.off( 'mainLine', this.onMainLine )
-    controller.off( 'viewedLines', this.onViewedLines )
-    controller.off( 'banis', this.onBanis )
-    controller.off( 'bani', this.onBani )
-    controller.off( 'settings', this.onSettings )
-  }
+      controller.off( 'connected', this.onConnected )
+      controller.off( 'disconnected', this.onDisconnected )
+      controller.off( 'shabad', this.onShabad )
+      controller.off( 'line', this.onLine )
+      controller.off( 'mainLine', this.onMainLine )
+      controller.off( 'viewedLines', this.onViewedLines )
+      controller.off( 'banis', this.onBanis )
+      controller.off( 'bani', this.onBani )
+      controller.off( 'settings', this.onSettings )
+    }
 
   onConnected = () => this.setState( { connected: true, bani: null, shabad: null } )
   onDisconnected = () => this.setState( { connected: false } )
