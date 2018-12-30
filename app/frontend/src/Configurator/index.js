@@ -129,7 +129,7 @@ class Configurator extends Component {
     const { device } = this.state
 
     return (
-      <div className={classNames( { simple: simpleGraphics} ,'configurator' )}>
+      <div className={classNames( { simple: simpleGraphics }, 'configurator' )}>
         <ThemeLoader name={themeName} />
         <AppBar className="title-bar" position="static">
           <Toolbar>

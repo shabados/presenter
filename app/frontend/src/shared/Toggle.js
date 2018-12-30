@@ -7,8 +7,8 @@ import './Toggle.css'
 const Toggle = ( { name, icon, value, onChange } ) => (
   <div className="toggle">
     {icon ? <FontAwesomeIcon icon={icon} /> : null}
-    <Typography className="label">{name}</Typography>
     <Switch checked={value} onChange={onChange} />
+    <Typography className="label">{name}</Typography>
   </div>
 )
 
