@@ -27,11 +27,16 @@
     display: inline-block;
 }
 
-.line .gurmukhi.larivaar .word {
+.line .transliteration .word {
+    margin-right: 0.8vh;
+    display: inline-block;
+}
+
+.larivaar.line .word {
     margin-right: 0;
 }
 
-.line .gurmukhi.larivaar.assist .word:nth-child(2n) {
+.larivaar.assist.line .word:nth-child(2n) {
     color: var(--display-gurmukhi-larivaar-assist-color);
 }
 
@@ -75,11 +80,6 @@
     transition: opacity 200ms ease-in;
     opacity: 0.2;
     color: var(--display-transliteration-color);
-}
-
-.line .transliteration .word {
-    margin-right: 0.8vh;
-    display: inline-block;
 }
 
 .simple.line * {

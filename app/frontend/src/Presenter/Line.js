@@ -33,8 +33,8 @@ const Line = ( {
   splitOnVishraam: partition,
   simpleGraphics: simple,
 } ) => (
-  <div className={classNames( { simple }, 'line' )} style={{ justifyContent: spacing }}>
-    <p className={classNames( 'gurmukhi', { larivaar, assist: larivaar && larivaarAssist } )}>
+  <div className={classNames( { simple, larivaar, assist: larivaar && larivaarAssist }, 'line' )} style={{ justifyContent: spacing }}>
+    <p className="gurmukhi">
       {partitionLine( gurmukhi )
         .map( ( line, i ) => (
           <span key={i} className={classNames( { partition } )}>
@@ -53,7 +53,7 @@ const Line = ( {
       </CSSTransition>}
       {transliteration &&
       <CSSTransition key={transliteration} classNames="fade" timeout={200}>
-        <p className={classNames( 'transliteration', { larivaar } )}>{
+        <p className="transliteration">{
           classifyWords( transliteration )
           .map( ( { word, type }, i ) => <span key={i} className={classNames( type, 'word' )}>{word}</span> )
         }
