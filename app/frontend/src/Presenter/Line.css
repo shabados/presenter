@@ -39,15 +39,15 @@
     display: inline-block;
 }
 
-.line .gurmukhi .heavy {
+.line .word.heavy {
     color: var(--display-vishraam-heavy-color) !important;
 }
 
-.line .gurmukhi .medium {
+.line .word.medium {
     color: var(--display-vishraam-medium-color) !important;
 }
 
-.line .gurmukhi .light {
+.line .word.light {
     color: var(--display-vishraam-light-color) !important;
 }
 
@@ -75,6 +75,11 @@
     transition: opacity 200ms ease-in;
     opacity: 0.2;
     color: var(--display-transliteration-color);
+}
+
+.line .transliteration .word {
+    margin-right: 0.8vh;
+    display: inline-block;
 }
 
 .simple.line * {

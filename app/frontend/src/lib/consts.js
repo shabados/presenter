@@ -145,6 +145,7 @@ export const OPTIONS = {
   backgroundImage: { name: 'Background Image', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   simpleGraphics: { name: 'Simple Graphics', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamColors: { name: 'Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  transliterationVishraams: { name: 'Transliteration Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamCharacters: { name: 'Vishraam Characters', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamLight: { name: 'Vishraam Light', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamMedium: { name: 'Vishraam Medium', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -208,6 +209,7 @@ export const DEFAULT_OPTIONS = {
     },
     vishraams: {
       vishraamColors: true,
+      transliterationVishraams: true,
       vishraamCharacters: false,
       vishraamLight: true,
       vishraamMedium: true,

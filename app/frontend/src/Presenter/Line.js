@@ -4,7 +4,7 @@ import { string, boolean } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 
-import { partitionLine } from '../lib/utils'
+import { partitionLine, classifyWords } from '../lib/utils'
 import { DEFAULT_OPTIONS } from '../lib/consts'
 
 import './Line.css'
@@ -53,7 +53,11 @@ const Line = ( {
       </CSSTransition>}
       {transliteration &&
       <CSSTransition key={transliteration} classNames="fade" timeout={200}>
-        <p className="transliteration">{transliteration}</p>
+        <p className={classNames( 'transliteration', { larivaar } )}>{
+          classifyWords( transliteration )
+          .map( ( { word, type }, i ) => <span key={i} className={classNames( type, 'word' )}>{word}</span> )
+        }
+        </p>
       </CSSTransition>}
     </TransitionGroup>
   </div>
