@@ -39,10 +39,7 @@ import './App.css'
 import Configurator from './Configurator'
 
 class App extends Component {
-  constructor( props ) {
-    super( props )
-
-    this.state = {
+    state = {
       connected: false,
       banis: [],
       bani: null,
@@ -52,7 +49,6 @@ class App extends Component {
       shabadHistory: [],
       shabad: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
-    }
   }
 
   componentDidMount() {
