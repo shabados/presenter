@@ -50,7 +50,7 @@ class Configurator extends Component {
     const group = pathname.split( '/' ).pop()
 
     const Item = ( { name, icon, selected, url = CONFIGURATOR_URL } ) => (
-      <Link to={url}>
+      <Link to={url} onClick={this.toggleMobileMenu}>
         <ListItem disableRipple selected={selected} className="item" key={name} button>
           <ListItemIcon><FontAwesomeIcon className="icon" icon={icon} /></ListItemIcon>
           <ListItemText className="text" primary={name} />
