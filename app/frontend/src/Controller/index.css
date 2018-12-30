@@ -16,7 +16,7 @@
     width: 1.25em;
     height: 1.25em;
     color: var(--controller-bar-text-color);
-    transition: 0.2s all;
+    transition: 0.3s all;
     padding: 0;
 }
 
@@ -39,6 +39,7 @@
     padding: 0;
     min-height: 2.25em;
     background-color: var(--controller-bar-background-color);
+    transition: 0.3s all;
 }
 
 /* All subcomponents */
@@ -47,6 +48,7 @@
     z-index: 1;
     overflow: hidden;
     background-color: var(--controller-background-color);
+    transition: 0.3s all;
 }
 
 .controller .content ul {
@@ -55,6 +57,7 @@
     color: var(--controller-text-color);
     font-family: "Noto Sans Medium", sans-serif;
     font-size: 1.1em;
+    transition: 0.3s all;
 }
 
 .controller .content li {
@@ -72,10 +75,12 @@
     color: var(--controller-text-hover-color);
     background-color: var(--controller-selected-background-color);
     font-size: 1.1em;
+    transition: 0.3s all;
 }
 
 .controller .content li:not(.focused):hover  {
     color: var(--controller-text-hover-color);
+    transition: 0.3s all;
     padding-left: 1em;
 }
 
@@ -88,6 +93,7 @@
     height: 0.75em;
     margin-right: 1em;
     color: var(--controller-text-color);
+    transition: 0.3s all;
     opacity: 0.8;
 }
 
@@ -103,6 +109,7 @@
     font-weight: bold;
     height: auto;
     color: var(--controller-text-color);
+    transition: 0.3s all;
 }
 
 .controller .content .focused.text {
@@ -110,4 +117,5 @@
     font-size: 1.2em;
     color: var(--controller-selected-color);
     padding-left: 1em;
+    transition: 0.3s all;
 }
