@@ -201,7 +201,7 @@ export const DEFAULT_OPTIONS = {
       nextLine: false,
     },
     theme: {
-      themeName: OPTIONS.themeName.values[ 0 ],
+      themeName: 'Day',
       backgroundImage: true,
       fontSize: 40,
       simpleGraphics: false,
