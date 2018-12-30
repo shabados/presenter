@@ -82,7 +82,7 @@ class App extends Component {
     controller.off( 'settings', this.onSettings )
   }
 
-  onConnected = () => this.setState( { connected: true } )
+  onConnected = () => this.setState( { connected: true, bani: null, shabad: null } )
   onDisconnected = () => this.setState( { connected: false } )
   onShabad = shabad => this.setState( { shabad, bani: null } )
   onLine = lineId => this.setState( { lineId } )
