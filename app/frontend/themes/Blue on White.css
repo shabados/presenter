@@ -5,20 +5,20 @@
 
     /* Display background */
     --display-background-color: #FFFFFF;
-    --display-background-image: url('/themes/images/logo.png');
+    --display-background-image: none;
     --display-background-size: 100%;
 
     /* Display line colours */
-    --display-gurmukhi-color: #000000;
-    --display-gurmukhi-larivaar-assist-color: red;
-    --display-translation-color: #121212;
-    --display-punjabi-color: #424242;
-    --display-transliteration-color: #161616;
+    --display-gurmukhi-color: #0f4aa9;
+    --display-gurmukhi-larivaar-assist-color: #0f97a9;
+    --display-translation-color: #355383;
+    --display-punjabi-color: #5a738e;
+    --display-transliteration-color: #7e8894;
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #FF8F00;
-    --display-vishraam-medium-color: #0D47A1;
-    --display-vishraam-light-color: #33691E;
+    --display-vishraam-heavy-color: #a96e0f;
+    --display-vishraam-medium-color: #a90f4a;
+    --display-vishraam-light-color: #6e0fa9;
 
       /**************/
      /* Controller */
@@ -28,17 +28,17 @@
     --controller-background-color: #EEEEEE;
     --controller-text-color: #424242;
     --controller-text-hover-color: #212121;
-    --controller-selected-color: var(--controller-text-hover-color);
-    --controller-selected-background-color: #CFD8DC;
+    --controller-selected-color: #212121;
+    --controller-selected-background-color: #cdd8e5;
 
     /* Controller search colors */
     --controller-search-background-color: transparent;
     --controller-search-focused-background-color: #E0E0E0;
-    --controller-search-match-color: #0D47A1;
+    --controller-search-match-color: #1568c8;
 
     /* Controller top and bottom bar colors */
     --controller-bar-text-color: #616161;
-    --controller-bar-text-hover-color: var(--controller-text-color);
+    --controller-bar-text-hover-color: #424242;
     --controller-bar-background-color: #F5F5F5;
 
       /*****************/
@@ -59,14 +59,15 @@
     --configurator-background-color: var(--controller-background-color);
     --configurator-text-color: var(--controller-text-color);
 
+    
       /*****************/
      /* Miscellaneous */
     /*****************/
-
+    
     /* Scrollbar colour */
-    --scrollbar-color: rgba(0, 0, 0, 0.5);
+    --scrollbar-color: #42424280;
 
     /* Shortcut help colors */
-    --shortcuts-text-color: var(--controller-text-hover-color);
+    --shortcuts-text-color: #212121;
     --shortcuts-background-color: rgba(255, 255, 255, 0.9);
 }

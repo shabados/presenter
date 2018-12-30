@@ -5,20 +5,26 @@
 
     /* Display background */
     --display-background-color: #FFFFFF;
-    --display-background-image: url('/themes/images/logo.png');
-    --display-background-size: 100%;
+    --display-background-image: url('/themes/images/darbar-sahib.jpg');
+    --display-background-size: auto 100%;
 
     /* Display line colours */
-    --display-gurmukhi-color: #000000;
-    --display-gurmukhi-larivaar-assist-color: red;
-    --display-translation-color: #121212;
-    --display-punjabi-color: #424242;
-    --display-transliteration-color: #161616;
+    --display-gurmukhi-color: #ffffff;
+    --display-gurmukhi-larivaar-assist-color: #FF328B;
+    --display-translation-color: #fff8cc;
+    --display-punjabi-color: #fdf3c7;
+    --display-transliteration-color: #f6ecc0;
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #FF8F00;
-    --display-vishraam-medium-color: #0D47A1;
-    --display-vishraam-light-color: #33691E;
+    --display-vishraam-heavy-color: #bdd1e2;
+    --display-vishraam-medium-color: #d1b3c8;
+    --display-vishraam-light-color: #e0bcb7;
+
+    /* Display line text-shadow */
+    --display-gurmukhi-shadow: 0px 0px 6em #767c96;
+    --display-translation-shadow: 0px 0px 6em #767c96;
+    --display-punjabi-shadow: 0px 0px 6em #767c96;
+    --display-transliteration-shadow: 0px 0px 6em #767c96;
 
       /**************/
      /* Controller */
@@ -28,7 +34,7 @@
     --controller-background-color: #EEEEEE;
     --controller-text-color: #424242;
     --controller-text-hover-color: #212121;
-    --controller-selected-color: var(--controller-text-hover-color);
+    --controller-selected-color: #212121;
     --controller-selected-background-color: #CFD8DC;
 
     /* Controller search colors */
@@ -38,7 +44,7 @@
 
     /* Controller top and bottom bar colors */
     --controller-bar-text-color: #616161;
-    --controller-bar-text-hover-color: var(--controller-text-color);
+    --controller-bar-text-hover-color: #424242;
     --controller-bar-background-color: #F5F5F5;
 
       /*****************/
@@ -64,9 +70,9 @@
     /*****************/
 
     /* Scrollbar colour */
-    --scrollbar-color: rgba(0, 0, 0, 0.5);
+    --scrollbar-color: #42424280;
 
     /* Shortcut help colors */
-    --shortcuts-text-color: var(--controller-text-hover-color);
+    --shortcuts-text-color: #212121;
     --shortcuts-background-color: rgba(255, 255, 255, 0.9);
 }
