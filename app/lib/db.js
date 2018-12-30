@@ -19,9 +19,11 @@ export const searchLines = letters => Lines.query().firstLetters( letters ).limi
  */
 export const getShabad = shabadId => Shabads
   .query()
-  .where( 'id', shabadId )
-  .first()
+  .where( 'shabads.id', shabadId )
   .eager( 'lines' )
+  .withTransliterations()
+  .withTranslations()
+  .then( ( [ shabad ] ) => shabad )
 
 /**
  * Retrieves a list of the available Banis.
@@ -34,5 +36,7 @@ export const getBaniLines = baniId => Banis
   .modifyEager( 'lines', builder => {
     builder.orderBy( [ 'line_group', 'line_id' ] )
   } )
-  .where( 'id', baniId )
-  .first()
+  .where( 'banis.id', baniId )
+  .withTranslations()
+  .withTransliterations()
+  .then( ( [ bani ] ) => bani )
