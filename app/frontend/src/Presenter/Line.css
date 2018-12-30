@@ -36,8 +36,12 @@
     margin-right: 0;
 }
 
-.larivaar.assist.line .word:nth-child(2n) {
+.larivaar.assist.line .gurmukhi .word:nth-child(2n) {
     color: var(--display-gurmukhi-larivaar-assist-color);
+}
+
+.larivaar.assist.line .transliteration .word:nth-child(2n) {
+    color: var(--display-transliteration-larivaar-assist-color);
 }
 
 .line .gurmukhi .partition {

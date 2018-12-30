@@ -14,6 +14,7 @@
     --display-translation-color: #dedede;
     --display-punjabi-color: #dedede;
     --display-transliteration-color: #dedede;
+    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
     --display-vishraam-heavy-color: #ff8f62;

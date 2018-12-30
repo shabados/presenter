@@ -14,6 +14,7 @@
     --display-translation-color: #fff8cc;
     --display-punjabi-color: #fdf3c7;
     --display-transliteration-color: #f6ecc0;
+    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
     --display-vishraam-heavy-color: #bdd1e2;
