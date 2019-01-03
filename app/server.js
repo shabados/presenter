@@ -3,7 +3,7 @@ import { ensureDirSync } from 'fs-extra'
 import { setupExpress } from './lib/express'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
-import { searchLines, getBanis } from './lib/db'
+import { searchLines, getBanis, updateLoop } from './lib/db'
 import logger from './lib/logger'
 import { PORT, CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FILE, HISTORY_FOLDER, TMP_FOLDER } from './lib/consts'
 
@@ -41,6 +41,9 @@ async function main() {
 
   // Start the server
   server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )
+
+  // Check for database updates every 5 minutes
+  updateLoop()
 }
 
 

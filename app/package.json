@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/ShabadOS/core#readme",
   "dependencies": {
-    "@shabados/database": "^4.0.9",
+    "@shabados/database": "^4.0.8",
     "appdata-path": "^1.0.0",
     "body-parser": "^1.18.3",
     "bunyan": "^1.8.12",
@@ -34,8 +34,9 @@
     "fs-extra": "^5.0.0",
     "get-value": "^3.0.1",
     "helmet": "^3.12.2",
-    "knex": "^0.14.6",
-    "objection": "^1.2.0",
+    "import-fresh": "^3.0.0",
+    "objection": "^1.4.0",
+    "pacote": "^9.3.0",
     "progress": "^2.0.0",
     "semver": "^5.5.0",
     "ws": "^5.2.2"

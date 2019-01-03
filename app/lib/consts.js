@@ -8,7 +8,7 @@ import { getAppDataPath } from 'appdata-path'
 import { getDateFilename } from './utils'
 
 // Check every 5 minutes
-export const UPDATE_CHECK_INTERVAL = 1000 * 60
+export const UPDATE_CHECK_INTERVAL = 5000 * 60
 
 // Folder locations
 export const DATA_FOLDER = join( getAppDataPath(), 'Shabad OS' )
