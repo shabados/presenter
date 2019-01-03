@@ -14,6 +14,9 @@ export const BACKEND_PORT = process.env.NODE_ENV === 'production' ? 42424 : 4242
 export const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
 export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
 
+/* Sentry Data Source Name */
+export const SENTRY_DSN = 'https://51b714c1e7544cba86efb2cad85152ff@sentry.io/1363390'
+
 /* Navigator */
 // URLs
 export const CONTROLLER_URL = '/controller'
