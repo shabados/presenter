@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect, Link, Switch, Route, withRouter } from 'react-router-dom'
+import { Redirect, Link, Switch, Route } from 'react-router-dom'
 import classNames from 'classnames'
 
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
@@ -161,4 +161,4 @@ class Configurator extends Component {
   }
 }
 
-export default withRouter( Configurator )
+export default Configurator

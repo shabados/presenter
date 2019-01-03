@@ -17,26 +17,3 @@
     background-color: var(--scrollbar-color);
     border-radius: 2px;
 }
-
-.controller-container {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    height: 273px;
-    width: 416px;
-}
-
-.controller-container .expand-icon {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    height: 48px;
-}
-
-.controller-container.fullscreen {
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    font-size: 3vmin;
-}
