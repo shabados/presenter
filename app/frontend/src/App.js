@@ -3,7 +3,6 @@ import { Link, Route, withRouter, Switch } from 'react-router-dom'
 
 import { HotKeys } from 'react-hotkeys'
 import queryString from 'qs'
-import merge from 'deepmerge'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { IconButton } from '@material-ui/core'
@@ -20,12 +19,12 @@ import {
   STATES,
   OVERLAY_URL,
   SCREEN_READER_URL,
-  SHORTCUT_MAP,
+  DEFAULT_SHORTCUT_MAP,
   SHORTCUTS,
   CONFIGURATOR_URL,
   DEFAULT_OPTIONS,
 } from './lib/consts'
-import { getUrlState } from './lib/utils'
+import { getUrlState, merge } from './lib/utils'
 import controller from './lib/controller'
 import ThemeLoader from './shared/ThemeLoader'
 import Controller from './Controller'
@@ -48,7 +47,7 @@ class App extends Component {
       viewedLines: new Set(),
       shabadHistory: [],
       shabad: null,
-      settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
+      settings: merge( DEFAULT_OPTIONS, { local: controller.readSettings() } ),
     }
 
     componentDidMount() {
@@ -199,7 +198,7 @@ class App extends Component {
         <Route>
           <HotKeys
             component="document-fragment"
-            keyMap={SHORTCUT_MAP}
+            keyMap={DEFAULT_SHORTCUT_MAP}
             handlers={this.hotKeyHandlers}
             focused
             attach={window}

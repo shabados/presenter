@@ -5,10 +5,16 @@
 
 import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
-
+import deepmerge from 'deepmerge'
 import queryString from 'qs'
 
 import { PAUSE_CHARS, STATES } from './consts'
+
+export const merge = ( source, destination ) => deepmerge(
+  source,
+  destination,
+  { arrayMerge: ( _, source ) => source },
+)
 
 /**
  * Removes the pause characters from the string.
