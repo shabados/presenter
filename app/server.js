@@ -1,5 +1,6 @@
 import { ensureDirSync } from 'fs-extra'
 
+import analytics from './lib/analytics'
 import { setupExpress } from './lib/express'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'

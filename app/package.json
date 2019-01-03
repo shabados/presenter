@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ShabadOS/core#readme",
   "dependencies": {
+    "@sentry/node": "^4.4.2",
     "@shabados/database": "^4.0.11",
     "appdata-path": "^1.0.0",
     "body-parser": "^1.18.3",
