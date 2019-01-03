@@ -10,6 +10,7 @@ import {
   faBookOpen,
   faWindowRestore,
   faList,
+  faWifi,
 } from '@fortawesome/fontawesome-free-solid'
 
 import { CONTROLLER_URL } from '../lib/consts'
@@ -23,6 +24,7 @@ const items = [
   [ 'Navigator', faList, 'navigator' ],
   [ 'History', faHistory, 'history' ],
   [ 'Banis', faBookOpen, 'bookmarks' ],
+  [ 'Connect To...', faWifi, '' ],
   [ 'Live Captions Tool', faWindowRestore, 'live-captions' ],
   [ 'Settings', faCogs, 'settings' ],
 ]
