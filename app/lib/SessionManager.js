@@ -195,7 +195,7 @@ class SessionManager {
         settings,
         rest,
         { [ host ]: local },
-      ] ),
+      ], { arrayMerge: ( _, source ) => source } ),
     }
 
     // Strip out private settings
