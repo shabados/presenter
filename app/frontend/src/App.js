@@ -19,7 +19,6 @@ import {
   STATES,
   OVERLAY_URL,
   SCREEN_READER_URL,
-  DEFAULT_SHORTCUT_MAP,
   SHORTCUTS,
   CONFIGURATOR_URL,
   DEFAULT_OPTIONS,
@@ -47,7 +46,7 @@ class App extends Component {
       viewedLines: new Set(),
       shabadHistory: [],
       shabad: null,
-      settings: merge( DEFAULT_OPTIONS, { local: controller.readSettings() } ),
+      settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
 
     componentDidMount() {
@@ -188,7 +187,7 @@ class App extends Component {
     const { controllerOnly, showShortcuts } = getUrlState( search )
 
     const { local: localSettings } = settings
-    const { theme: { themeName } } = localSettings
+    const { theme: { themeName }, hotkeys } = localSettings
 
     return (
       <Switch>
@@ -198,7 +197,7 @@ class App extends Component {
         <Route>
           <HotKeys
             component="document-fragment"
-            keyMap={DEFAULT_SHORTCUT_MAP}
+            keyMap={hotkeys}
             handlers={this.hotKeyHandlers}
             focused
             attach={window}

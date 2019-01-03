@@ -19,8 +19,10 @@ import {
   DEFAULT_OPTIONS,
   OPTION_GROUPS,
   BACKEND_URL,
+  SHORTCUTS,
 } from '../lib/consts'
 
+import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
 
 import './index.css'
@@ -129,7 +131,7 @@ class Configurator extends Component {
     const { theme: { simpleGraphics } } = settings.local
 
     const { device } = this.state
-    const { theme: { themeName } } = settings[ device ]
+    const { theme: { themeName }, hotkeys } = settings[ device ]
 
     return (
       <div className={classNames( { simple: simpleGraphics }, 'configurator' )}>
@@ -148,6 +150,7 @@ class Configurator extends Component {
         <Hidden xsDown implementation="css"><this.DesktopMenu /></Hidden>
         <main>
           <Switch>
+            <Route path={`${CONFIGURATOR_SETTINGS_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/*`} component={this.DynamicOptions} />
             <Route path={CONFIGURATOR_OVERLAY_URL} component={OverlaySettings} />
             <Redirect to={`${CONFIGURATOR_SETTINGS_URL}/${Object.keys( settings[ device ] )[ 0 ]}`} />

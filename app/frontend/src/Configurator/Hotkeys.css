@@ -1,0 +1,7 @@
+.hotkeys code {
+  background-color: var(--configurator-text-color);
+  color: var(--configurator-background-color);
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+}

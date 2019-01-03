@@ -83,7 +83,7 @@ export const SHORTCUTS = {
 }
 
 // Shortcut Keys
-export const SHORTCUT_MAP = {
+export const DEFAULT_SHORTCUT_MAP = {
   [ SHORTCUTS.toggleShorcutsHelp ]: [ '?', 'shift+/' ],
   [ SHORTCUTS.toggleFullscreen ]: [ 'f11' ],
   [ SHORTCUTS.toggleFullscreenController ]: [ 'shift+f' ],
@@ -170,8 +170,8 @@ export const OPTION_GROUPS = {
     name: 'Vishraams',
     icon: faEllipsisH,
   },
-  navigation: {
-    name: 'Navigation',
+  hotkeys: {
+    name: 'Hotkeys',
     icon: faKeyboard,
   },
   security: {
@@ -200,6 +200,7 @@ export const DEFAULT_OPTIONS = {
       punjabiTranslation: false,
       englishTransliteration: true,
       nextLine: false,
+      autoNextShabad: false,
     },
     theme: {
       themeName: 'Day',
@@ -215,9 +216,7 @@ export const DEFAULT_OPTIONS = {
       vishraamMedium: true,
       vishraamHeavy: true,
     },
-    navigation: {
-      autoNextShabad: false,
-    },
+    hotkeys: DEFAULT_SHORTCUT_MAP,
     security: {
       private: false,
     },
