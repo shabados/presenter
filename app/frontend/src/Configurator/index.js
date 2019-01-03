@@ -77,7 +77,9 @@ class Configurator extends Component {
                 {device}
               </MenuItem> ) )}
         </Select>
-        {Object.keys( settings[ device ] ).map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
+        {Object.keys( settings[ device ] )
+          .filter( name => OPTION_GROUPS[ name ] )
+          .map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Server</Typography>
         {Object.keys( settings.global ).map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Tools</Typography>
