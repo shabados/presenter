@@ -124,9 +124,10 @@ class Configurator extends Component {
 
   render() {
     const { settings } = this.props
-    const { theme: { themeName, simpleGraphics } } = settings.local
+    const { theme: { simpleGraphics } } = settings.local
 
     const { device } = this.state
+    const { theme: { themeName } } = settings[ device ]
 
     return (
       <div className={classNames( { simple: simpleGraphics }, 'configurator' )}>
