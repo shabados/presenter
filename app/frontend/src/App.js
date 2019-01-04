@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import React, { PureComponent } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import { OVERLAY_URL, SCREEN_READER_URL, CONFIGURATOR_URL, DEFAULT_OPTIONS } from './lib/consts'
+import { OVERLAY_URL, SCREEN_READER_URL, CONFIGURATOR_URL, DEFAULT_OPTIONS, PRESENTER_URL } from './lib/consts'
 import { merge } from './lib/utils'
 import controller from './lib/controller'
 
@@ -12,7 +12,7 @@ import Presenter from './Presenter'
 
 import './App.css'
 
-class App extends Component {
+class App extends PureComponent {
     state = {
       connected: false,
       banis: [],
@@ -69,14 +69,26 @@ class App extends Component {
     },
   } ) )
 
+  components = [
+    [ Overlay, OVERLAY_URL ],
+    [ ScreenReader, SCREEN_READER_URL ],
+    [ Configurator, CONFIGURATOR_URL ],
+    [ Presenter, PRESENTER_URL ],
+  ]
+
   render() {
     return (
-      <Switch>
-        <Route path={OVERLAY_URL} render={() => <Overlay {...this.state} />} />
-        <Route path={SCREEN_READER_URL} render={() => <ScreenReader {...this.state} />} />
-        <Route path={CONFIGURATOR_URL} render={props => <Configurator {...props} {...this.state} />} />
-        <Route render={props => <Presenter {...props} {...this.state} />} />
-      </Switch>
+      <Router>
+        <Switch>
+          {this.components.map( ( [ Component, path ] ) => (
+            <Route
+              key={path}
+              path={path}
+              render={props => <Component {...props} {...this.state} />}
+            />
+          ) )}
+        </Switch>
+      </Router>
     )
   }
 }
