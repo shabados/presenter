@@ -13,10 +13,14 @@ import './Display.css'
  * @param lineId The current line in the Shabad.
  */
 const Display = ( { shabad, bani, lineId, settings } ) => {
-  const { layout, theme: {
-    simpleGraphics: simple,
-    backgroundImage: background,
-  } } = settings
+  const {
+    layout,
+    vishraams,
+    theme: {
+      simpleGraphics: simple,
+      backgroundImage: background,
+    },
+  } = settings
 
   // Get the lines from the shabad, if they exist
   const { lines = [] } = shabad || bani || {}
@@ -29,11 +33,12 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
       <div className="background-image" />
       {line && <Line
         {...layout}
+        {...vishraams}
         gurmukhi={line.gurmukhi}
         englishTranslation={layout.englishTranslation && line.translations[ 0 ].translation}
         punjabiTranslation={layout.punjabiTranslation && line.punjabi}
         transliteration={layout.englishTransliteration && line.transliterations[ 0 ].transliteration}
-        simpleGraphics
+        simpleGraphics={simple}
       />}
     </div>
   )

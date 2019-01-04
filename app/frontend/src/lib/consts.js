@@ -33,6 +33,7 @@ export const CONFIGURATOR_URL = '/configurator'
 export const CONFIGURATOR_SETTINGS_URL = `${CONFIGURATOR_URL}/settings`
 export const CONFIGURATOR_SERVER_SETTINGS_URL = `${CONFIGURATOR_SETTINGS_URL}/server`
 
+export const CONFIGURATOR_ABOUT_URL = `${CONFIGURATOR_URL}/about`
 export const CONFIGURATOR_TOOLS_URL = `${CONFIGURATOR_URL}/tools`
 export const CONFIGURATOR_OVERLAY_URL = `${CONFIGURATOR_TOOLS_URL}/overlay`
 
@@ -149,7 +150,7 @@ export const OPTIONS = {
   backgroundImage: { name: 'Background Image', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   simpleGraphics: { name: 'Simple Graphics', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamColors: { name: 'Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  transliterationVishraams: { name: 'Transliteration Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamTransliterationColors: { name: 'Transliteration Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamCharacters: { name: 'Vishraam Characters', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamLight: { name: 'Vishraam Light', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamMedium: { name: 'Vishraam Medium', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -214,7 +215,7 @@ export const DEFAULT_OPTIONS = {
     },
     vishraams: {
       vishraamColors: true,
-      transliterationVishraams: true,
+      vishraamTransliterationColors: true,
       vishraamCharacters: false,
       vishraamLight: true,
       vishraamMedium: true,

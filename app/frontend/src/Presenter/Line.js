@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import React, { Fragment } from 'react'
-import { string, boolean } from 'prop-types'
+import React from 'react'
+import { string, bool } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 
@@ -19,6 +19,12 @@ import './Line.css'
  * @param {String} spacing The justify content value for spacing between the lines.
  * @param {Boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {Boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
+ * @param {Boolean} vishraamColors Enables colors for vishraams.
+ * @param {Boolean} vishraamTransliterationColors Enables colors for vishraams in transliteration.
+ * @param {Boolean} vishraamCharacters Enables display of vishraam characters.
+ * @param {Boolean} vishraamLight Enables colors for light vishraams.
+ * @param {Boolean} vishraamMedium Enables colors for medium vishraams.
+ * @param {Boolean} vishraamHeavy Enables colors for heavy vishraams.
  * @param {Boolean} splitOnVishraam If the line is too long, split it on the vishraam word.
  * @param {Boolean} simpleGraphics Disables transitions and other intensive effects.
  */
@@ -30,32 +36,49 @@ const Line = ( {
   spacing,
   larivaarGurbani: larivaar,
   larivaarAssist,
+  vishraamColors: vishraams,
+  vishraamTransliterationColors,
+  vishraamCharacters,
+  vishraamLight,
+  vishraamMedium,
+  vishraamHeavy,
   splitOnVishraam: partition,
   simpleGraphics: simple,
 } ) => (
-  <div className={classNames( { simple, larivaar, assist: larivaar && larivaarAssist }, 'line' )} style={{ justifyContent: spacing }}>
+  <div
+    className={classNames( {
+      assist: larivaar && larivaarAssist,
+      light: vishraams && vishraamLight,
+      medium: vishraams && vishraamMedium,
+      heavy: vishraams && vishraamHeavy,
+      vishraams,
+      larivaar,
+      simple,
+  }, 'line' )}
+    style={{ justifyContent: spacing }}
+  >
     <p className="gurmukhi">
       {partitionLine( gurmukhi )
-        .map( ( line, i ) => (
-          <span key={i} className={classNames( { partition } )}>
-            {line.map( ( { word, type }, i ) => <span key={i} className={classNames( type, 'word' )}>{word}</span> )}
+        .map( ( line, lineIndex ) => (
+          <span key={lineIndex} className={classNames( { partition } )}>
+            {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
           </span>
         ) )}
     </p>
-    <TransitionGroup appear exit={false} component={Fragment}>
+    <TransitionGroup appear exit={false} component={null}>
       {englishTranslation &&
-      <CSSTransition key={englishTranslation} classNames="fade" timeout={100}>
+      <CSSTransition key={englishTranslation} classNames="fade" timeout={0}>
         <p className="english translation">{englishTranslation}</p>
       </CSSTransition>}
       {punjabiTranslation &&
-      <CSSTransition key={punjabiTranslation} classNames="fade" timeout={150}>
+      <CSSTransition key={punjabiTranslation} classNames="fade" timeout={0}>
         <p className="punjabi translation">{punjabiTranslation}</p>
       </CSSTransition>}
       {transliteration &&
-      <CSSTransition key={transliteration} classNames="fade" timeout={200}>
-        <p className="transliteration">{
+      <CSSTransition key={`${transliteration}`} classNames="fade" timeout={0}>
+        <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'transliteration' )}>{
           classifyWords( transliteration )
-          .map( ( { word, type }, i ) => <span key={i} className={classNames( type, 'word' )}>{word}</span> )
+          .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
         }
         </p>
       </CSSTransition>}
@@ -69,10 +92,16 @@ Line.propTypes = {
   englishTranslation: string,
   transliteration: string,
   spacing: string,
-  larivaarGurbani: boolean,
-  larivaarAssist: boolean,
-  splitOnVishraam: boolean,
-  simpleGraphics: boolean,
+  larivaarGurbani: bool,
+  larivaarAssist: bool,
+  vishraamColors: bool,
+  vishraamTransliterationColors: bool,
+  vishraamCharacters: bool,
+  vishraamLight: bool,
+  vishraamMedium: bool,
+  vishraamHeavy: bool,
+  splitOnVishraam: bool,
+  simpleGraphics: bool,
 }
 
 const {
@@ -80,6 +109,12 @@ const {
     spacing,
     larivaarAssist,
     larivaarGurbani,
+    vishraamColors,
+    vishraamTransliterationColors,
+    vishraamCharacters,
+    vishraamHeavy,
+    vishraamMedium,
+    vishraamLight,
     splitOnVishraam,
   },
   theme: {
@@ -94,6 +129,12 @@ Line.defaultProps = {
   spacing,
   larivaarGurbani,
   larivaarAssist,
+  vishraamColors,
+  vishraamTransliterationColors,
+  vishraamCharacters,
+  vishraamHeavy,
+  vishraamMedium,
+  vishraamLight,
   splitOnVishraam,
   simpleGraphics,
 }

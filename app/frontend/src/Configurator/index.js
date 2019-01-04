@@ -5,20 +5,21 @@ import classNames from 'classnames'
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faBars, faWindowMaximize, faQuestion } from '@fortawesome/fontawesome-free-solid'
+import { faBars, faWindowMaximize, faInfo } from '@fortawesome/fontawesome-free-solid'
 
 import SettingComponentFactory from './SettingComponents'
 import ThemeLoader from '../shared/ThemeLoader'
 
 import {
+  BACKEND_URL,
   CONFIGURATOR_URL,
   CONFIGURATOR_SETTINGS_URL,
   CONFIGURATOR_SERVER_SETTINGS_URL,
   CONFIGURATOR_OVERLAY_URL,
+  CONFIGURATOR_ABOUT_URL,
   OPTIONS,
   DEFAULT_OPTIONS,
   OPTION_GROUPS,
-  BACKEND_URL,
   SHORTCUTS,
 } from '../lib/consts'
 
@@ -34,6 +35,8 @@ class Configurator extends Component {
   }
 
   componentDidMount() {
+    console.log( 'CAUGHT YOU' )
+
     // Fetch list of themes from server
     fetch( `${BACKEND_URL}/themes` )
       .then( res => res.json() )
@@ -86,6 +89,8 @@ class Configurator extends Component {
         {Object.keys( settings.global ).map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Tools</Typography>
         <Item name="Overlay" icon={faWindowMaximize} url={CONFIGURATOR_OVERLAY_URL} />
+        <Typography className="category-title">Information</Typography>
+        <Item name="About" icon={faInfo} url={CONFIGURATOR_ABOUT_URL} />
       </List>
     )
   }
@@ -124,6 +129,10 @@ class Configurator extends Component {
 
       return <Option {...options} option={option} value={value} />
     } )
+  }
+
+  shouldComponentUpdate( ...args ) {
+    return true
   }
 
   render() {
