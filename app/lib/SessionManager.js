@@ -52,8 +52,8 @@ class SessionManager {
   synchronise( client ) {
     const { bani, mainLineId, viewedLines, lineId, shabad, history } = this.session
 
-    client.sendJSON( 'shabad', shabad )
-    client.sendJSON( 'bani', bani )
+    if ( bani ) client.sendJSON( 'bani', bani )
+    else client.sendJSON( 'shabad', shabad )
     client.sendJSON( 'line', lineId )
     client.sendJSON( 'viewedLines', viewedLines )
     client.sendJSON( 'mainLine', mainLineId )
