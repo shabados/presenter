@@ -11,7 +11,7 @@ import './Banis.css'
 
 const Banis = ( { banis, register, focused } ) => (
   <List className="banis">
-    {banis.map( ( { id, name }, index ) => (
+    {banis.map( ( { id, nameGurmukhi }, index ) => (
       <ListItem
         className={focused === index ? 'focused' : ''}
         key={id}
@@ -19,7 +19,7 @@ const Banis = ( { banis, register, focused } ) => (
         onClick={() => controller.bani( id )}
       >
         <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        <span className="gurmukhi text">{name}</span>
+        <span className="gurmukhi text">{nameGurmukhi}</span>
       </ListItem>
     ) )}
   </List>
