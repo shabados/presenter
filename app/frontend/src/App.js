@@ -74,18 +74,14 @@ class App extends PureComponent {
     [ ScreenReader, SCREEN_READER_URL ],
     [ Configurator, CONFIGURATOR_URL ],
     [ Presenter, PRESENTER_URL ],
-  ]
+  ].map( ( [ Component, path ] ) => [ props => <Component {...props} {...this.state} />, path ] )
 
   render() {
     return (
       <Router>
         <Switch>
           {this.components.map( ( [ Component, path ] ) => (
-            <Route
-              key={path}
-              path={path}
-              render={props => <Component {...props} {...this.state} />}
-            />
+            <Route key={path} path={path} component={Component} />
           ) )}
         </Switch>
       </Router>
