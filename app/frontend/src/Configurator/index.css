@@ -16,49 +16,54 @@
 
 .configurator .title {
     color: var(--configurator-title-text-color);
-    width: 100%;
+    text-transform: capitalize;
     transition: 0.3s all;
-}
-
-.menu > div {
+    margin-left: 20px;
+  }
+  
+  .menu > div {
     height: 100%;
     background-color: var(--configurator-menu-background-color);
     background-image: var(--configurator-menu-background-image);
     transition: 0.3s all;
-}
+  }
 
-.menu .icon {
+  .menu .icon {
     color: var(--configurator-menu-icon-color);
     transition: 0.3s all;
 }
 
 .category-title {
-    color: var(--configurator-menu-text-color) !important;
-    margin: 10px 20px !important;
+  color: var(--configurator-menu-text-color) !important;
+  margin: 10px 20px !important;
     text-transform: uppercase;
     font-size: 0.875rem !important;
     transition: 0.3s all;
-}
-
-.item .text span {
+  }
+  
+  .item .text span {
     color: var(--configurator-menu-text-color);
     transition: 0.3s all;
-}
-
-main {
+  }
+  
+  main {
     padding: 25px;
     background-color: var(--configurator-background-color);
     color: var(--configurator-text-color);
     height: 100%;
     transition: 0.3s all;
-}
-
-main p {
+  }
+  
+  main p {
     color: var(--configurator-text-color) !important;
 }
 
 @media only screen and (min-width: 600px) {
-    main {
-        margin-left: 223px;
-    }
+  main {
+    margin-left: 223px;
+  }
+
+  .configurator .title {
+    margin-left: 240px;
+  }
 }

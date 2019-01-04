@@ -131,30 +131,32 @@ class Configurator extends Component {
     } )
   }
 
-  shouldComponentUpdate( ...args ) {
-    return true
-  }
+
+  Titlebar = ( { title = 'Settings' } ) => (
+    <AppBar className="title-bar" position="static">
+      <Toolbar>
+        <Hidden mdUp>
+          <IconButton onClick={this.toggleMobileMenu}>
+            <FontAwesomeIcon icon={faBars} />
+          </IconButton>
+        </Hidden>
+        <Typography className="title" align="center" variant="title">{title}</Typography>
+      </Toolbar>
+    </AppBar>
+  )
 
   render() {
-    const { settings } = this.props
-    const { theme: { simpleGraphics } } = settings.local
-
     const { device } = this.state
+    const { location: { pathname }, settings } = this.props
+
+    const { theme: { simpleGraphics } } = settings.local
     const { theme: { themeName }, hotkeys } = settings[ device ]
+    const group = pathname.split( '/' ).pop()
 
     return (
       <div className={classNames( { simple: simpleGraphics }, 'configurator' )}>
         <ThemeLoader name={themeName} />
-        <AppBar className="title-bar" position="static">
-          <Toolbar>
-            <Hidden mdUp>
-              <IconButton onClick={this.toggleMobileMenu}>
-                <FontAwesomeIcon icon={faBars} />
-              </IconButton>
-            </Hidden>
-            <Typography className="title" align="center" variant="title">Layout</Typography>
-          </Toolbar>
-        </AppBar>
+        <this.Titlebar title={group} />
         <Hidden smUp><this.MobileMenu /></Hidden>
         <Hidden xsDown implementation="css"><this.DesktopMenu /></Hidden>
         <main>
