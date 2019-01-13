@@ -1,4 +1,4 @@
-# ShabadOS-Core
+# ShabadOS-Desktop
 
 Contains the standalone frontend and backend applications for ShabadOS, with an Electron wrapper.
 
@@ -6,11 +6,17 @@ Contains the standalone frontend and backend applications for ShabadOS, with an 
 
 The `app` folder contains the Electron wrapper, the backend Node application, and the frontend React application.
 
-To install dependencies, run `npm install`, which will also install the dependencies for the frontend and backend. 
+To install dependencies, run `npm install`, which will also install the dependencies for the frontend and backend.
 
 To spin up the development servers, run `npm run dev`, which will launch a frontend server on `https://localhost:3000`, and a backend server on `https://localhost:42425`.
 
 If you'd prefer to use docker-compose, `docker-compose up` will install the dependencies and spin up the backend and frontend.
+
+## Installation troubleshooting
+
+*Notes For Mac OSX*
+* Install XCode or XCode tools via `sudo xcode-select --install`.
+* Update to latest npm via `npm i -g npm`, since older npm has outdated node-gyp for building dependencies like `dtrace-provider`.
 
 ### Frontend
 
