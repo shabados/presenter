@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Route, withRouter, Switch } from 'react-router-dom'
+import { location, history } from 'react-router-prop-types'
 
 import { HotKeys } from 'react-hotkeys'
 import queryString from 'qs'
@@ -27,17 +28,21 @@ import {
 } from './lib/consts'
 import { getUrlState } from './lib/utils'
 import controller from './lib/controller'
+
 import ThemeLoader from './shared/ThemeLoader'
-import Controller from './Controller'
 import ShortcutHelp from './Presenter/ShortcutHelp'
 import Display from './Presenter/Display'
-
 import ScreenReader from './ScreenReader'
+import Configurator from './Configurator'
 import Overlay from './Overlay'
+import Controller from './Controller'
 
 import './App.css'
-import Configurator from './Configurator'
 
+/**
+ * Main frontend application.
+ * Handles states and routing to other components.
+ */
 class App extends Component {
   constructor( props ) {
     super( props )
@@ -101,7 +106,7 @@ class App extends Component {
 
   /**
    * Sets the query string parameters, retaining any currently present.
-   * @param params The query string parameters.
+   * @param {Object} params The query string parameters.
    */
   setQueryParams = params => {
     const { history, location } = this.props
@@ -116,7 +121,7 @@ class App extends Component {
 
   /**
    * More concise form to navigate to URLs, retaining query params.
-   * @param pathname The path to navigate to.
+   * @param {string} pathname The path to navigate to.
    */
   go = pathname => {
     const { history, location } = this.props
@@ -150,7 +155,7 @@ class App extends Component {
 
   /**
    * Toggles the given query string parameter.
-   * @param query The query string parameter to toggle.
+   * @param {string} query The query string parameter to toggle.
    */
   toggleQuery = query => {
     const { location: { search } } = this.props
@@ -164,7 +169,7 @@ class App extends Component {
 
   /**
    * Prevents the default action from occurring for each handler.
-   * @param events An object containing the event names and corresponding handlers.
+   * @param {Object} events An object containing the event names and corresponding handlers.
    */
   preventDefault = events => Object.entries( events )
     .reduce( ( events, [ name, handler ] ) => ( {
@@ -192,7 +197,6 @@ class App extends Component {
     const { location: { search } } = this.props
     const { controllerOnly, showShortcuts } = getUrlState( search )
 
-    console.log( settings )
     const { theme: { options: { themeName } } } = settings.local
 
     return (
@@ -228,6 +232,11 @@ class App extends Component {
       </Switch>
     )
   }
+}
+
+App.propTypes = {
+  history: history.isRequired,
+  location: location.isRequired,
 }
 
 export default withRouter( App )
