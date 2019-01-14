@@ -3,7 +3,7 @@
  * @ignore
  */
 
-import {hostname} from 'os'
+import { hostname } from 'os'
 import { reverse } from 'dns'
 import { promisify } from 'util'
 
