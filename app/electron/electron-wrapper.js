@@ -13,7 +13,6 @@ let mainWindow
 /**
  * Loads the Shabad OS web page, if available.
  * Uses server heartbeat to determine whether server is ready yet.
- * @returns {Promise} A promise with no result.
  */
 const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
   .then( () => {
