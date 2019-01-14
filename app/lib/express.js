@@ -16,8 +16,8 @@ const DEFAULT_MIDDLEWARE = [ helmet(), compression(), bodyParser.json() ]
 
 /**
  * Sets up Express
- * @param mounts Array of { dir, prefix } of directories to mount.
- * @param middleware Any array of middleware that will be registered
+ * @param {Array} mounts Array of { dir, prefix } of directories to mount.
+ * @param {Array} middleware Any array of middleware that will be registered
  * @returns {Function} The instance of the http server
  */
 export const setupExpress = ( mounts = [], middleware = [] ) => {

@@ -13,6 +13,7 @@ let mainWindow
 /**
  * Loads the Shabad OS web page, if available.
  * Uses server heartbeat to determine whether server is ready yet.
+ * @returns {Promise} A promise with no result.
  */
 const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
   .then( () => {
@@ -24,6 +25,9 @@ const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
   } )
   .catch( () => setTimeout( loadPage, 300 ) )
 
+/**
+ * Creates a browser window.
+ */
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow( { show: false } )

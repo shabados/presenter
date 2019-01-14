@@ -19,6 +19,11 @@ const CSV_FIELDS = [
  * Class for reading, writing, and retrieving history.
  */
 class History {
+  /**
+   * Initialises the History class.
+   * Generates the correct fields and opens a write file stream.
+   * @param {Array} fields The fields from a line to write to file.
+   */
   constructor( fields = CSV_FIELDS ) {
     this.writeStream = null
     this.history = []
@@ -38,6 +43,11 @@ class History {
     }
   }
 
+  /**
+   * Updates the history with a new line, if it's unique.
+   * @param {Object} data The data to update the history with.
+   * @param {Boolean} transition Whether this entry was triggered by a new Shabad selection.
+   */
   update( data, transition = false ) {
     const { line = {} } = data
 
@@ -45,9 +55,7 @@ class History {
     if ( this.history.length ) {
       const { line: prevLine = {} } = this.history[ this.history.length - 1 ]
 
-      if ( line.id === prevLine.id ) {
-        return
-      }
+      if ( line.id === prevLine.id ) return
     }
 
     const entry = {
@@ -60,18 +68,34 @@ class History {
     this.append( entry )
   }
 
+  /**
+   * Gets all history entries which are transitions to new Shabads.
+   * @returns {Array} A list of the history entries.
+   */
   getTransitionsOnly() {
     return this.history.filter( ( { transition } ) => transition )
   }
 
+  /**
+   * Gets all the history.
+   * @returns {Array} A list of all the history.
+   */
   get() {
     return this.history
   }
 
+  /**
+   * Clears all history.
+   */
   reset() {
     this.history = []
   }
 
+  /**
+   * Filters out the correct fields for each row.
+   * @param {Array} data The data to filter.
+   * @returns {Array} A list of filtered data rows.
+   */
   pluckFields( data ) {
     return this.fields.reduce( ( final, [ field, transform = x => x ] ) => [
       ...final,
@@ -79,6 +103,10 @@ class History {
     ], [] )
   }
 
+  /**
+   * Appends a CSV line to file.
+   * @param {Array} data A list representing the row to append, as is.
+   */
   appendLine( data ) {
     const csv = CSV.stringify( data )
     this.writeStream.write( csv )
