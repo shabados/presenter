@@ -7,7 +7,7 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "plugins": [
-    "require-jsdoc-except"
+    "jsdoc"
   ],
   "rules": {
     "array-bracket-spacing": [
@@ -32,6 +32,7 @@
     "import/extensions": 0,
     "import/no-unresolved": 0,
     "import/prefer-default-export": 0,
+    "jsx-a11y/anchor-is-valid": 0,
     "linebreak-style": 0,
     "no-await-in-loop": 0,
     "no-loop-func": 0,
@@ -44,27 +45,6 @@
       }
     ],
     "react/jsx-filename-extension": 0,
-    "require-jsdoc-except/require-jsdoc": [
-      "warn",
-      {
-        "ignore": [
-          "render",
-          "componentDidMount",
-          "getDerivedStateFromProps",
-          "getSnapshotBeforeUpdate",
-          "componentDidUpdate",
-          "componentWillUnmount",
-          "componentDidCatch"
-        ],
-        "require": {
-          "ArrowFunctionExpression": true,
-          "ClassDeclaration": true,
-          "FunctionDeclaration": true,
-          "FunctionExpression": true,
-          "MethodDefinition": true
-        }
-      }
-    ],
     "semi": [
       "error",
       "never"
@@ -82,18 +62,18 @@
         ]
       }
     ],
-    "valid-jsdoc": [
-      "warn",
-      {
-        "preferType": {
-          "array": "Array",
-          "boolean": "Boolean",
-          "number": "Number",
-          "object": "Object",
-          "string": "String"
-        },
-        "requireReturn": false
-      }
-    ]
+    "jsdoc/check-examples": 1,
+    "jsdoc/check-param-names": 1,
+    "jsdoc/check-tag-names": 1,
+    "jsdoc/check-types": 1,
+    "jsdoc/no-undefined-types": 1,
+    "jsdoc/require-description-complete-sentence": 1,
+    "jsdoc/require-param-description": 1,
+    "jsdoc/require-param-name": 1,
+    "jsdoc/require-param-type": 1,
+    "jsdoc/require-returns": 1,
+    "jsdoc/require-returns-description": 1,
+    "jsdoc/require-returns-type": 1,
+    "jsdoc/valid-types": 1
   }
 }
