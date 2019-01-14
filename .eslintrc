@@ -1,36 +1,18 @@
 {
-  "extends": "airbnb",
-  "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "node": true,
-    "es6": true
+    "es6": true,
+    "node": true
   },
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "plugins": [
+    "require-jsdoc-except"
+  ],
   "rules": {
-    "func-names": [
-      "error",
-      "never"
-    ],
-    "space-in-parens": [
-      "error",
-      "always"
-    ],
     "array-bracket-spacing": [
       "error",
       "always"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ],
-    "import/extensions": 0,
-    "import/no-unresolved": 0,
-    "import/prefer-default-export": 0,
-    "object-curly-newline": [
-      "error",
-      {
-        "consistent": true
-      }
     ],
     "arrow-parens": [
       "error",
@@ -39,25 +21,79 @@
         "requireForBlockBody": false
       }
     ],
-    "no-unused-vars": [
+    "computed-property-spacing": [
       "error",
-      {
-        "argsIgnorePattern": "(res|next)"
-      }
+      "always"
     ],
-    "react/jsx-filename-extension": 0,
+    "func-names": [
+      "error",
+      "never"
+    ],
+    "import/extensions": 0,
+    "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
     "linebreak-style": 0,
-    "no-shadow": 0,
     "no-await-in-loop": 0,
     "no-loop-func": 0,
     "no-restricted-syntax": 0,
+    "no-shadow": 0,
+    "object-curly-newline": [
+      "error",
+      {
+        "consistent": true
+      }
+    ],
+    "react/jsx-filename-extension": 0,
+    "require-jsdoc-except/require-jsdoc": [
+      "warn",
+      {
+        "ignore": [
+          "render",
+          "componentDidMount",
+          "getDerivedStateFromProps",
+          "getSnapshotBeforeUpdate",
+          "componentDidUpdate",
+          "componentWillUnmount",
+          "componentDidCatch"
+        ],
+        "require": {
+          "ArrowFunctionExpression": true,
+          "ClassDeclaration": true,
+          "FunctionDeclaration": true,
+          "FunctionExpression": true,
+          "MethodDefinition": true
+        }
+      }
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
     "semi-style": [
       "error",
       "first"
     ],
-    "computed-property-spacing": [
+    "space-in-parens": [
       "error",
-      "always"
+      "always",
+      {
+        "exceptions": [
+          "empty"
+        ]
+      }
+    ],
+    "valid-jsdoc": [
+      "warn",
+      {
+        "preferType": {
+          "array": "Array",
+          "boolean": "Boolean",
+          "number": "Number",
+          "object": "Object",
+          "string": "String"
+        },
+        "requireReturn": false
+      }
     ]
   }
 }
