@@ -66,7 +66,7 @@ class Socket extends EventEmitter {
 
   /**
    * Broadcasts the provided data to each client, optionally excluding any.
-   * @param {String} event The event name.
+   * @param {string} event The event name.
    * @param {*} payload The JSON data to send.
    * @param {WebSocket[]} excludedClients The clients to exclude from the transmission.
    */

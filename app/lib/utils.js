@@ -11,9 +11,9 @@ const asyncReverse = promisify( reverse )
 
 /**
  * Returns the hostname for the IP, if found, else the IP.
- * @param {String} hybridIP The IP address to resolve the hostname for.
+ * @param {string} hybridIP The IP address to resolve the hostname for.
  * @async
- * @returns {String} The resolved hostname.
+ * @returns {string} The resolved hostname.
  */
 export const getHost = async hybridIP => {
   // Remove the IPv6 compoonent, if the address is a hybrid v4-v6
@@ -32,6 +32,6 @@ export const getHost = async hybridIP => {
 /**
  * Converts the provided date into a filename-compatible string.
  * @param {Date} date The date to convert.
- * @returns {String} An illegal-character stripped string.
+ * @returns {string} An illegal-character stripped string.
  */
 export const getDateFilename = date => date.toISOString().replace( /T/, '_' ).replace( /:/g, '-' )

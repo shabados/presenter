@@ -17,7 +17,7 @@ const databasePackage = `@shabados/database@${dependencies[ '@shabados/database'
 
 /**
  * Queries the database for all lines with the first letters of each word.
- * @param {String} letters The letters to search for.
+ * @param {string} letters The letters to search for.
  * @async
  * @returns {Array} A list of lines with the provided first letters of each word.
  */
@@ -28,7 +28,7 @@ export const searchLines = letters => Lines
 
 /**
  * Gets the Shabad of given `shabadId`, along with all the lines.
- * @param {Number|String} shabadId The id of the Shabad to fetch results for.
+ * @param {number|string} shabadId The id of the Shabad to fetch results for.
  * @async
  * @returns {Object} The Shabad with the given `shabadId`.
  */
@@ -49,7 +49,7 @@ export const getBanis = () => Banis.query()
 
 /**
  * Gets all the lines in a given Bani.
- * @param {Number|String} baniId The id of the Bani to fetch lines for.
+ * @param {number|string} baniId The id of the Bani to fetch lines for.
  * @async
  * @returns {Array} A list of all lines with translations and transliterations.
  */
@@ -67,7 +67,7 @@ export const getBaniLines = baniId => Banis
 /**
  * Determines whether the database is the latest version, according to semver.
  * @async
- * @returns {Boolean} Whether or not the latest database is installed.
+ * @returns {boolean} Whether or not the latest database is installed.
  */
 export const isLatestDatabase = async () => {
   // Read package.json database semver and database package file
@@ -123,7 +123,7 @@ export const checkUpdates = async () => {
 
 /**
  * Provides a recursive update checking function.
- * Checks for udpates at constant interval
+ * Checks for udpates at constant interval.
  */
 export const updateLoop = async () => {
   await checkUpdates()

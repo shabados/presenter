@@ -15,10 +15,10 @@ import logger from './logger'
 const DEFAULT_MIDDLEWARE = [ helmet(), compression(), bodyParser.json() ]
 
 /**
- * Sets up Express
+ * Sets up Express.
  * @param {Array} mounts Array of { dir, prefix } of directories to mount.
- * @param {Array} middleware Any array of middleware that will be registered
- * @returns {Function} The instance of the http server
+ * @param {Array} middleware Any array of middleware that will be registered.
+ * @returns {Function} The instance of the http server.
  */
 export const setupExpress = ( mounts = [], middleware = [] ) => {
   const allMiddleware = [ ...DEFAULT_MIDDLEWARE, ...middleware ]

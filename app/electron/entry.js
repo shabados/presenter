@@ -11,7 +11,6 @@ env.NODE_ENV = 'production'
 
 /**
  * Launches a server in a separate process, with flag.
- * @returns {ChildProcess} The spawned child process.
  */
 const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ] )
 

@@ -67,7 +67,7 @@ class SessionManager {
 
   /**
    * Deletes the settings entries for a given host.
-   * @param {String} host The hostname/IP address of the settings to remove.
+   * @param {string} host The hostname/IP address of the settings to remove.
    */
   clearCache( { host } ) {
     this.session = {
@@ -82,8 +82,8 @@ class SessionManager {
   /**
    * When a Shabad ID is received, fetch the Shabad and send it to all clients.
    * @param {WebSocket} client The socket client that sent the Shabad.
-   * @param {String} shabadId The ID of the Shabad.
-   * @param {String} lineId The optional line in the Shabad.
+   * @param {string} shabadId The ID of the Shabad.
+   * @param {string} lineId The optional line in the Shabad.
    */
   async onShabad( client, { shabadId, lineId = null } ) {
     const { history } = this.session
@@ -109,8 +109,8 @@ class SessionManager {
   /**
    * When a line id is received, send it to all clients.
    * @param {WebSocket} client The socket client that sent the line id.
-   * @param {String} lineId The ID of the line.
-   * @param {Boolean} transition Whether or not the line change is also a Shabad change.
+   * @param {string} lineId The ID of the line.
+   * @param {boolean} transition Whether or not the line change is also a Shabad change.
    */
   onLine( client, lineId, transition = false ) {
     const { viewedLines, bani, shabad, history } = this.session
@@ -133,7 +133,7 @@ class SessionManager {
   /**
    * When the main line has been set by a client, send it to all clients.
    * @param {WebSocket} client The socket client that sent the line id.
-   * @param {String} mainLineId The ID of the user defined main line in the Shabad.
+   * @param {string} mainLineId The ID of the user defined main line in the Shabad.
    */
   onMainLine( client, mainLineId ) {
     logger.info( `Setting the main Line ID to ${mainLineId}` )
@@ -156,7 +156,7 @@ class SessionManager {
   /**
    * When a Bani ID is received, fetch the Bani and send it to all clients.
    * @param {WebSocket} client The socket client that sent the Bani.
-   * @param {String} baniId The ID of the Bani.
+   * @param {string} baniId The ID of the Bani.
    */
   async onBani( client, baniId ) {
     const { history } = this.session
@@ -227,7 +227,7 @@ class SessionManager {
 
   /**
    * Sets the state of the session, and/or settings.
-   * @param {Object} data The data containing new state, and/or settings
+   * @param {Object} data The data containing new state, and/or settings.
    */
   set( data = {} ) {
     const { settings = {}, state = {} } = data

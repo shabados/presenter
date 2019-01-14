@@ -46,7 +46,7 @@ class History {
   /**
    * Updates the history with a new line, if it's unique.
    * @param {Object} data The data to update the history with.
-   * @param {Boolean} transition Whether this entry was triggered by a new Shabad selection.
+   * @param {boolean} transition Whether this entry was triggered by a new Shabad selection.
    */
   update( data, transition = false ) {
     const { line = {} } = data
