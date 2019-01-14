@@ -1,4 +1,5 @@
 import React from 'react'
+import { func, number, arrayOf, shape, instanceOf, string } from 'prop-types'
 
 import { List, ListItem, ListItemIcon } from '@material-ui/core'
 
@@ -17,7 +18,7 @@ import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './History.css'
 
-const History = ( { history, location, shabadHistory, register, focused } ) => (
+const History = ( { shabadHistory, register, focused } ) => (
   <List className="history">
     {shabadHistory.map( ( { timestamp, line: { id: lineId, shabadId, gurmukhi } }, index ) => (
       <ListItem
@@ -44,6 +45,19 @@ const History = ( { history, location, shabadHistory, register, focused } ) => (
     </ListItem>
   </List>
 )
+
+History.propTypes = {
+  register: func.isRequired,
+  focused: number.isRequired,
+  shabadHistory: arrayOf( shape( {
+    timestamp: instanceOf( Date ),
+    line: shape( {
+      id: string,
+      shabadId: string,
+      gurmukhi: string,
+    } ),
+  } ) ).isRequired,
+}
 
 export default withNavigationHotKeys( {
   arrowKeys: true,

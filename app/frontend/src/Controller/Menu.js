@@ -1,4 +1,6 @@
 import React from 'react'
+import { string, func } from 'prop-types'
+import { history, location } from 'react-router-prop-types'
 
 import { List, ListItem, ListItemIcon } from '@material-ui/core'
 
@@ -48,5 +50,12 @@ const Menu = ( { history, location, register, focused } ) => (
     ) )}
   </List>
 )
+
+Menu.propTypes = {
+  history: history.isRequired,
+  location: location.isRequired,
+  focused: string.isRequired,
+  register: func.isRequired,
+}
 
 export default withNavigationHotKeys( {} )( Menu )

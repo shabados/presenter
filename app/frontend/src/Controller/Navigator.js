@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import { string, func, shape, arrayOf } from 'prop-types'
+import { location } from 'react-router-prop-types'
 
 import { List, ListItem } from '@material-ui/core'
 import {
   faChevronUp,
   faChevronDown,
-  // faThumbtack,
   faExchangeAlt,
 } from '@fortawesome/fontawesome-free-solid'
 
@@ -88,6 +89,19 @@ class Navigator extends Component {
   }
 }
 
+Navigator.propTypes = {
+  lineId: string.isRequired,
+  updateFocus: func.isRequired,
+  register: func.isRequired,
+  location: location.isRequired,
+  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+}
+
+Navigator.defaultProps = {
+  shabad: undefined,
+  bani: undefined,
+}
 
 /**
  * Used by Menu parent to render content in the bottom bar.
@@ -96,7 +110,7 @@ export const Bar = ( { mainLineId, lineId, shabad, bani } ) => {
   console.log( mainLineId )
   const content = shabad || bani
 
-  if ( !content ) { return null }
+  if ( !content ) return null
 
   const autoselectProps = {
     icon: faExchangeAlt,
@@ -115,6 +129,19 @@ export const Bar = ( { mainLineId, lineId, shabad, bani } ) => {
   )
 }
 
+Bar.propTypes = {
+  mainLineId: string,
+  lineId: string,
+  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+}
+
+Bar.defaultProps = {
+  mainLineId: undefined,
+  lineId: undefined,
+  shabad: undefined,
+  bani: undefined,
+}
 
 export default withNavigationHotKeys( {
   arrowKeys: true,

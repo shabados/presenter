@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Link, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import { shape, string } from 'prop-types'
 
-import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, Divider, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
+import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/fontawesome-free-solid'
@@ -13,14 +14,10 @@ import { CONFIGURATOR_SETTINGS_URL } from '../lib/consts'
 import './index.css'
 
 class Configurator extends Component {
-  constructor( props ) {
-    super( props )
-
-    this.state = {
+    state = {
       mobileOpen: false,
       device: 'local',
     }
-  }
 
   toggleMobileMenu = () => this.setState( { mobileOpen: !this.state.mobileOpen } )
 
@@ -72,7 +69,7 @@ class Configurator extends Component {
     const { settings } = this.props
     const { theme: { options: { themeName } } } = settings.local
 
-    const { device } = this.state
+    // const { device } = this.state
 
     return (
       <div className="configurator">
@@ -95,6 +92,12 @@ class Configurator extends Component {
       </div>
     )
   }
+}
+
+Configurator.propTypes = {
+  settings: shape( { local: shape( {
+    theme: shape( { options: shape( { themeName: string } ) } ),
+  } ) } ).isRequired,
 }
 
 export default Configurator
