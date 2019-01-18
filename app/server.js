@@ -1,6 +1,7 @@
 import { ensureDirSync } from 'fs-extra'
 import cors from 'cors'
 
+// eslint-disable-next-line
 import analytics from './lib/analytics'
 import { setupExpress } from './lib/express'
 import api from './lib/api'

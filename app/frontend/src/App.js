@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 
 import { OVERLAY_URL, SCREEN_READER_URL, CONFIGURATOR_URL, DEFAULT_OPTIONS, PRESENTER_URL } from './lib/consts'
 import { merge } from './lib/utils'
 import controller from './lib/controller'
 
 import ScreenReader from './ScreenReader'
-import Overlay from './Overlay'
 import Configurator from './Configurator'
+import Overlay from './Overlay'
 import Presenter from './Presenter'
 
 import './App.css'

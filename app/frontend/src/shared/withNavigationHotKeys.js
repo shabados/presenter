@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
+import { instanceOf } from 'prop-types'
 
 import { HotKeys } from 'react-hotkeys'
 
@@ -8,9 +9,10 @@ import { LINE_HOTKEYS } from '../lib/consts'
 
 /**
  * HOC to automatically add navigational key bindings to child elements.
- * @param arrowKeys Navigate with arrow keys to the next and previous DOM elements.
- * @param lineKeys Enable line jumping via hotkeys.
- * @param clickOnFocus Simulate a click on the item that is newly focused.
+ * @param {boolean} arrowKeys Navigate with arrow keys to the next and previous DOM elements.
+ * @param {boolean} lineKeys Enable line jumping via hotkeys.
+ * @param {boolean} clickOnFocus Simulate a click on the item that is newly focused.
+ * @returns {Component} The decorated component.
  */
 const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =>
   WrappedComponent => {
@@ -77,6 +79,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         const { focusedIndex } = this.state
 
         // Find the DOM node for the child to focus, and focus it
+        // eslint-disable-next-line react/no-find-dom-node
         const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
         if ( node ) {
           node.focus()
@@ -91,6 +94,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         const { focusedIndex } = this.state
 
         // Simulate a click on the focused element if possible
+        // eslint-disable-next-line react/no-find-dom-node
         const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
         if ( node ) {
           node.click()
@@ -227,9 +231,12 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
       }
     }
 
+    WithNavigationHotKeys.propTypes = {
+      forwardedRef: instanceOf( WithNavigationHotKeys ).isRequired,
+    }
+
     const forwardRef = ( props, ref ) => <WithNavigationHotKeys {...props} forwardedRef={ref} />
     return React.forwardRef( forwardRef )
   }
-
 
 export default withNavigationHotKeys

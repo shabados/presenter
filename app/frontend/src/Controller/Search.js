@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { number, func } from 'prop-types'
 
 import { Input, List, ListItem } from '@material-ui/core'
 import { toUnicode, firstLetters, toAscii } from 'gurmukhi-utils'
@@ -56,18 +57,18 @@ class Search extends Component {
 
   /**
    * Set the received results and update the searched vale.
+   * @param {Object[]} results An array of the returned results.
    */
-  onResults = results => {
-    const { inputValue } = this.state
-
-    this.setState( { results, searchedValue: inputValue } )
-  }
+  onResults = results => this.setState( ( { inputValue: searchedValue } ) => ( {
+    results,
+    searchedValue,
+  } ) )
 
   /**
    * Run on change of value in the search box.
    * Converts ascii to unicode if need be.
    * Sends the search through to the controller.
-   * @param value The new value of the search box.
+   * @param {string} value The new value of the search box.
    */
   onChange = ( { target: { value } } ) => {
     const inputValue = toUnicode( value.trim() )
@@ -84,10 +85,10 @@ class Search extends Component {
 
   /**
    * Renders a single result, highlighting the match.
-   * @param gurmukhi The shabad line to display.
-   * @param lineId The id of the line.
-   * @param shabadId The id of the shabad.
-   * @param The ref to the component.
+   * @param {string} gurmukhi The shabad line to display.
+   * @param {string} lineId The id of the line.
+   * @param {string} shabadId The id of the shabad.
+   * @param {Component} ref The ref to the component.
    */
   Result = ( { gurmukhi, id: lineId, shabadId, ref, focused } ) => {
     const { searchedValue } = this.state
@@ -149,6 +150,11 @@ class Search extends Component {
       </div>
     )
   }
+}
+
+Search.propTypes = {
+  focused: number.isRequired,
+  register: func.isRequired,
 }
 
 export default withNavigationHotKeys( {} )( Search )

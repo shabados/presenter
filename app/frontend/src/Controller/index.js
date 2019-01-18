@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import classNames from 'classnames'
+import { history, location } from 'react-router-prop-types'
+import { string, func, shape, arrayOf } from 'prop-types'
 
+import classNames from 'classnames'
 import queryString from 'qs'
 
 import { Toolbar, Typography } from '@material-ui/core'
@@ -105,6 +107,18 @@ const TopBar = ( { title, history, location, onHover } ) => {
   )
 }
 
+TopBar.propTypes = {
+  history: history.isRequired,
+  location: location.isRequired,
+  title: string,
+  onHover: func,
+}
+
+TopBar.defaultProps = {
+  title: '',
+  onHover: () => {},
+}
+
 /**
  * Renders the bottom navigation bar.
  * @param history A `history` object.
@@ -112,7 +126,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
  * @param location A `location` object.
  * @param onHover Fired on hover with name.
  */
-const BottomBar = ( { history, renderContent, location, onHover, lineId } ) => {
+const BottomBar = ( { history, renderContent, location, onHover } ) => {
   const go = pathname => () => history.push( { ...location, pathname } )
   const resetHover = () => onHover( null )
 
@@ -150,6 +164,18 @@ const BottomBar = ( { history, renderContent, location, onHover, lineId } ) => {
       />
     </Toolbar>
   )
+}
+
+BottomBar.propTypes = {
+  history: history.isRequired,
+  location: location.isRequired,
+  onHover: func,
+  renderContent: func,
+}
+
+BottomBar.defaultProps = {
+  onHover: () => {},
+  renderContent: () => null,
 }
 
 /**
@@ -215,6 +241,18 @@ class Controller extends Component {
       </Switch>
     )
   }
+}
+
+Controller.propTypes = {
+  history: history.isRequired,
+  location: location.isRequired,
+  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+}
+
+Controller.defaultProps = {
+  shabad: undefined,
+  bani: undefined,
 }
 
 export default Controller

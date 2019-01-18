@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect, Link, Switch, Route } from 'react-router-dom'
+import { shape, string } from 'prop-types'
 import classNames from 'classnames'
 
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
@@ -170,6 +171,12 @@ class Configurator extends Component {
       </div>
     )
   }
+}
+
+Configurator.propTypes = {
+  settings: shape( { local: shape( {
+    theme: shape( { options: shape( { themeName: string } ) } ),
+  } ) } ).isRequired,
 }
 
 export default Configurator

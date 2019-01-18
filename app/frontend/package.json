@@ -30,6 +30,7 @@
     "react-dom": "^16.4.1",
     "react-hotkeys": "^1.1.4",
     "react-router-dom": "^4.3.1",
+    "react-router-prop-types": "^1.0.4",
     "react-scripts": "^1.1.4",
     "react-transition-group": "^2.4.0",
     "reconnecting-websocket": "^3.2.2",
@@ -42,9 +43,11 @@
     "lint": "eslint ."
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.6",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsdoc": "^3.15.1",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0"
   },

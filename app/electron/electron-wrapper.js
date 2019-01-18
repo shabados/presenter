@@ -24,6 +24,9 @@ const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
   } )
   .catch( () => setTimeout( loadPage, 300 ) )
 
+/**
+ * Creates a browser window.
+ */
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow( { show: false } )
