@@ -6,7 +6,7 @@
     /* Display background */
     --display-background-color: #000000; 
     --display-background-image: url('/themes/images/logo.png');
-    --display-background-size: 100% center;
+    --display-background-size: 120%;
 
     /* Display line colours */
     --display-gurmukhi-color: #ffffff;
