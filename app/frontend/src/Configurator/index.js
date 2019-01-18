@@ -36,8 +36,6 @@ class Configurator extends Component {
   }
 
   componentDidMount() {
-    console.log( 'CAUGHT YOU' )
-
     // Fetch list of themes from server
     fetch( `${BACKEND_URL}/themes` )
       .then( res => res.json() )

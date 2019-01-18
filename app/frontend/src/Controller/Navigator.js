@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Redirect } from 'react-router-dom'
 import { string, func, shape, arrayOf } from 'prop-types'
 import { location } from 'react-router-prop-types'
@@ -24,7 +24,7 @@ import './Navigator.css'
  * Navigator Component.
  * Displays lines from Shabad and allows navigation.
  */
-class Navigator extends Component {
+class Navigator extends PureComponent {
   componentDidMount() {
     const { updateFocus, lineId } = this.props
 
