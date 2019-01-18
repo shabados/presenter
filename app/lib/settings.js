@@ -12,6 +12,10 @@ import logger from './logger'
  * Simple class to manage application settings
  */
 class Settings {
+  /**
+   * Initialises the Settings class.
+   * Loads in the existing settings.
+   */
   constructor() {
     this.settings = {}
 
@@ -44,6 +48,8 @@ class Settings {
 
   /**
    * Returns all settings if no parameters, else the path provided.
+   * @param {String} path The setting path to deep-get.
+   * @returns {*} The value at `path`.
    */
   get( path ) {
     return path
@@ -53,8 +59,8 @@ class Settings {
 
   /**
    * Sets a key-value pair and saves.
-   * @param key The key to set the value for
-   * @param value The new value of the key
+   * @param {String} key The key to set the value for.
+   * @param {*} value The new value of the key.
    */
   set( key, value ) {
     this.settings[ key ] = value
@@ -63,7 +69,7 @@ class Settings {
 
   /**
    * Merges a given settings object with the current settings and saves.
-   * @param settings The settings object to merge with
+   * @param {Object} settings The settings object to merge with.
    */
   merge( settings = {} ) {
     this.settings = { ...this.settings, ...settings }
@@ -72,6 +78,8 @@ class Settings {
 
   /**
    * Creates a settings.json file if it doesn't already exist, or is corrupt.
+   * @static
+   * @returns {Object} An object containing the settings.
    */
   static checkCreateSettings() {
     // If we can't read the JSON file, recreate it

@@ -17,7 +17,9 @@ const databasePackage = `@shabados/database@${dependencies[ '@shabados/database'
 
 /**
  * Queries the database for all lines with the first letters of each word.
- * @param {String} letters The letters to search for.
+ * @param {string} letters The letters to search for.
+ * @async
+ * @returns {Array} A list of lines with the provided first letters of each word.
  */
 export const searchLines = letters => Lines
   .query()
@@ -26,7 +28,9 @@ export const searchLines = letters => Lines
 
 /**
  * Gets the Shabad of given `shabadId`, along with all the lines.
- * @param {Number|String} shabadId The id of the Shabad to fetch results for.
+ * @param {number|string} shabadId The id of the Shabad to fetch results for.
+ * @async
+ * @returns {Object} The Shabad with the given `shabadId`.
  */
 export const getShabad = shabadId => Shabads
   .query()
@@ -38,12 +42,16 @@ export const getShabad = shabadId => Shabads
 
 /**
  * Retrieves a list of the available Banis.
+ * @async
+ * @returns {Array} A list of all banis.
  */
 export const getBanis = () => Banis.query()
 
 /**
  * Gets all the lines in a given Bani.
- * @param {Number|String} baniId The id of the Bani to fetch lines for.
+ * @param {number|string} baniId The id of the Bani to fetch lines for.
+ * @async
+ * @returns {Array} A list of all lines with translations and transliterations.
  */
 export const getBaniLines = baniId => Banis
   .query()
@@ -58,6 +66,8 @@ export const getBaniLines = baniId => Banis
 
 /**
  * Determines whether the database is the latest version, according to semver.
+ * @async
+ * @returns {boolean} Whether or not the latest database is installed.
  */
 export const isLatestDatabase = async () => {
   // Read package.json database semver and database package file
@@ -76,6 +86,7 @@ export const isLatestDatabase = async () => {
  * Downloads the latest version of the database, according to semver.
  * Hot-reloads the data only.
  * ! Code will not be hot-reloaded, and code updates require a restart.
+ * @async
  */
 export const updateDatabase = async () => {
   // Download and extract the database package from npm
@@ -90,25 +101,29 @@ export const updateDatabase = async () => {
   await move( UPDATE_TMP_FOLDER, 'node_modules/@shabados/database', { overwrite: true } )
   // Reimport the database
   //! Relies on knex being reinitialised globally
-  return importFresh( '@shabados/database' )
+  importFresh( '@shabados/database' )
 }
 
 /**
  * Checks for database updates, according to semver, and updates if there are.
+ * @async
  */
 export const checkUpdates = async () => {
   logger.info( `Checking for database updates satisfying ${databasePackage}` )
 
   // Exit if there aren't any updates
-  if ( await isLatestDatabase() ) return logger.info( 'No database updates available' )
+  if ( await isLatestDatabase() ) {
+    logger.info( 'No database updates available' )
+    return
+  }
 
   await updateDatabase()
-  return logger.info( 'Database successfully updated' )
+  logger.info( 'Database successfully updated' )
 }
 
 /**
  * Provides a recursive update checking function.
- * Checks for udpates at constant interval
+ * Checks for udpates at constant interval.
  */
 export const updateLoop = async () => {
   await checkUpdates()

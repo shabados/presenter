@@ -15,9 +15,9 @@ class Controller extends EventEmitter {
 
     // Setup WebSocket connection to server
     this.socket = new ReconnectingWebSocket( WS_URL )
-    this.socket.addEventListener( 'open', this._onOpen )
-    this.socket.addEventListener( 'close', this._onClose )
-    this.socket.addEventListener( 'message', this._onMessage )
+    this.socket.addEventListener( 'open', this.onOpen )
+    this.socket.addEventListener( 'close', this.onClose )
+    this.socket.addEventListener( 'message', this.onMessage )
   }
 
   /**
@@ -31,7 +31,7 @@ class Controller extends EventEmitter {
    * Called when the WebSocket is connected.
    * @private
    */
-  _onOpen = () => {
+  onOpen = () => {
     console.log( 'Connected to server' )
     this.setSettings()
     this.emit( 'connected' )
@@ -41,7 +41,7 @@ class Controller extends EventEmitter {
    * Called when the WebSocket is disconnected.
    * @private
    */
-  _onClose = () => {
+  onClose = () => {
     console.log( 'Disconnected from server' )
     this.emit( 'connected' )
   }
@@ -50,7 +50,7 @@ class Controller extends EventEmitter {
    * Called when the WebSocket receives a message.
    * @param data The data sent by the server.
    */
-  _onMessage = ( { data } ) => {
+  onMessage = ( { data } ) => {
     const { event, payload } = JSON.parse( data )
     this.emit( event, payload )
   }

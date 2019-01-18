@@ -1,4 +1,5 @@
 import React from 'react'
+import { arrayOf, shape, string, func, number } from 'prop-types'
 
 import { List, ListItem } from '@material-ui/core'
 
@@ -24,6 +25,15 @@ const Banis = ( { banis, register, focused } ) => (
     ) )}
   </List>
 )
+
+Banis.propTypes = {
+  banis: arrayOf( shape( {
+    id: string,
+    name: string,
+  } ) ).isRequired,
+  register: func.isRequired,
+  focused: number.isRequired,
+}
 
 export default withNavigationHotKeys( {
   arrowKeys: true,
