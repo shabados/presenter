@@ -1,4 +1,4 @@
-# ShabadOS-Desktop
+# Shabad OS Desktop
 
 Contains the standalone frontend and backend applications for ShabadOS, with an Electron wrapper.
 
