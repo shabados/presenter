@@ -3,8 +3,7 @@ import { app, BrowserWindow } from 'electron'
 import logger from 'electron-log'
 import fetch from 'electron-fetch'
 
-const { env } = process
-const PORT = env.NODE_ENV === 'production' ? 42424 : 42425
+import { PORT } from '../lib/consts'
 
 const BASE_URL = `http://localhost:${PORT}`
 
@@ -17,22 +16,24 @@ let mainWindow
 const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
   .then( () => {
     mainWindow.loadURL( BASE_URL )
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools()
-    mainWindow.maximize()
-    mainWindow.show()
   } )
   .catch( () => setTimeout( loadPage, 300 ) )
 
-/**
- * Creates a browser window.
- */
+  /**
+   * Creates a browser window.
+   */
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow( { show: false } )
 
   // Load the web page
   loadPage()
+
+  mainWindow.on( 'ready-to-show', () => {
+    mainWindow.maximize()
+    mainWindow.show()
+    mainWindow.focus()
+  } )
 
   mainWindow.on( 'closed', () => {
     // Dereference the window object, usually you would store windows

@@ -28,4 +28,16 @@ const loadElectron = () => { require( './electron-wrapper' ) }
 
 // Load either Electron shell or backend server depending on flag
 const [ , processFlag ] = argv
-module.exports = processFlag === LAUNCH_FLAG ? loadServer() : spawnServer() && loadElectron()
+
+if ( processFlag === LAUNCH_FLAG ) {
+  loadServer()
+} else {
+  const server = spawnServer()
+  const killServer = () => server.kill()
+
+  process.on( 'SIGINT', killServer )
+  process.on( 'uncaughtException', killServer )
+  process.on( 'exit', killServer )
+
+  loadElectron()
+}
