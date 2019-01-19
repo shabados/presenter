@@ -35,9 +35,14 @@ export const getHost = async hybridIP => {
  */
 export const getDateFilename = date => date.toISOString().replace( /T/, '_' ).replace( /:/g, '-' )
 
+/**
+ * Creates required filesystem directories for the app to work.
+ */
 export const ensureRequiredDirs = () => {
   const dirPerms = {
-    mode: 0o2775
+    mode: 0o2775,
   }
-  ;[ DATA_FOLDER, CUSTOM_THEMES_FOLDER, HISTORY_FOLDER, TMP_FOLDER ].map( dir => ensureDirSync(dir, dirPerms) )
+
+  ;[ DATA_FOLDER, CUSTOM_THEMES_FOLDER, HISTORY_FOLDER, TMP_FOLDER ]
+    .map( dir => ensureDirSync( dir, dirPerms ) )
 }

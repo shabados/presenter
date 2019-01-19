@@ -5,7 +5,7 @@ import Socket from './lib/Sockets'
 import { searchLines, getBanis, updateLoop } from './lib/db'
 import logger from './lib/logger'
 import { PORT, CUSTOM_THEMES_FOLDER, HISTORY_FILE } from './lib/consts'
-import { ensureRequiredDirs } from './lib/utils';
+import { ensureRequiredDirs } from './lib/utils'
 
 /**
  * Async entry point for application.
