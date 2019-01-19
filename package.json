@@ -22,14 +22,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ShabadOS/core.git"
+    "url": "git+https://github.com/ShabadOS/desktop.git"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/ShabadOS/core/issues"
+    "url": "https://github.com/ShabadOS/desktop/issues"
   },
-  "homepage": "https://github.com/ShabadOS/core#readme",
+  "homepage": "https://github.com/ShabadOS/desktop#readme",
   "devDependencies": {
     "electron": "^2.0.5",
     "electron-builder": "^20.24.4",
