@@ -17,6 +17,7 @@
     "install-deps:frontend": "cd app/frontend && npm install",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
+    "release": "build",
     "postinstall": "npm run install-deps && electron-builder install-app-deps"
   },
   "repository": {
