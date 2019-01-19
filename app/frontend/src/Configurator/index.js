@@ -152,6 +152,8 @@ class Configurator extends Component {
     const { theme: { themeName }, hotkeys } = settings[ device ]
     const group = pathname.split( '/' ).pop()
 
+    const defaultUrl = `${CONFIGURATOR_SETTINGS_URL}/${Object.keys( settings[ device ] )[ 0 ]}`
+
     return (
       <div className={classNames( { simple: simpleGraphics }, 'configurator' )}>
         <ThemeLoader name={themeName} />
@@ -160,10 +162,11 @@ class Configurator extends Component {
         <Hidden xsDown implementation="css"><this.DesktopMenu /></Hidden>
         <main>
           <Switch>
+            <Redirect exact from={CONFIGURATOR_SETTINGS_URL} to={defaultUrl} />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/*`} component={this.DynamicOptions} />
             <Route path={CONFIGURATOR_OVERLAY_URL} component={OverlaySettings} />
-            <Redirect to={`${CONFIGURATOR_SETTINGS_URL}/${Object.keys( settings[ device ] )[ 0 ]}`} />
+            <Redirect to={defaultUrl} />
           </Switch>
         </main>
       </div>
