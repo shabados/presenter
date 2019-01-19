@@ -12,12 +12,6 @@ To spin up the development servers, run `npm run dev`, which will launch a front
 
 If you'd prefer to use docker-compose, `docker-compose up` will install the dependencies and spin up the backend and frontend.
 
-## Installation troubleshooting
-
-*Notes For Mac OSX*
-* Install XCode or XCode tools via `sudo xcode-select --install`.
-* Update to latest npm via `npm i -g npm`, since older npm has outdated node-gyp for building dependencies like `dtrace-provider`.
-
 ### Frontend
 
 Using `create-react-app`. Websockets for synchronising clients. API for search.
