@@ -24,6 +24,7 @@ async function main() {
     { prefix: '/themes', dir: `${__dirname}/frontend/themes` },
     { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
     { prefix: '/history.csv', dir: HISTORY_FILE },
+    { prefix: '*', dir: `${__dirname}/frontend/build/index.html` },
   ]
 
   const server = await setupExpress( mounts )
@@ -48,9 +49,8 @@ async function main() {
   updateLoop()
 }
 
-
-// Handle any errors by crashing
-main().catch( error => {
+// Handle any errors by logging and re-throwing
+export default main().catch( error => {
   logger.error( error )
-  process.exit( 1 )
+  throw error
 } )
