@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import analytics from './lib/analytics'
 import { setupExpress } from './lib/express'
 import SessionManager from './lib/SessionManager'

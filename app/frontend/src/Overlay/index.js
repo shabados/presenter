@@ -1,15 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import './index.css'
 
-class Overlay extends Component {
-  render() {
-    return (
-      <div className="overlay">
+const Overlay = () => (
+  <div className="overlay">
             Welcome to the overlay
-      </div>
-    )
-  }
-}
+  </div>
+)
 
 export default Overlay

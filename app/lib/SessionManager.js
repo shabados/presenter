@@ -14,6 +14,11 @@ import { getShabad, getBaniLines } from './db'
  * Handles synchronisation of all the sessions.
  */
 class SessionManager {
+  /**
+   * Initialises a Session Manager.
+   * Sets up initial state and registered socket events.
+   * @param {WebSocket} socket The WebSocket server.
+   */
   constructor( socket ) {
     // Store the socket
     this.socket = socket
@@ -46,7 +51,7 @@ class SessionManager {
 
   /**
    * Synchronises a client with the current state.
-   * @param client The client to synchronise the state to.
+   * @param {WebSocket} client The client to synchronise the state to.
    */
   synchronise( client ) {
     const { bani, mainLineId, viewedLines, lineId, shabad, history } = this.session
@@ -62,7 +67,7 @@ class SessionManager {
 
   /**
    * Deletes the settings entries for a given host.
-   * @param host The hostname/IP address of the settings to remove.
+   * @param {string} host The hostname/IP address of the settings to remove.
    */
   clearCache( { host } ) {
     this.session = {
@@ -76,9 +81,9 @@ class SessionManager {
 
   /**
    * When a Shabad ID is received, fetch the Shabad and send it to all clients.
-   * @param client The socket client that sent the Shabad.
-   * @param shabadId The ID of the Shabad.
-   * @param lineId The optional line in the Shabad.
+   * @param {WebSocket} client The socket client that sent the Shabad.
+   * @param {string} shabadId The ID of the Shabad.
+   * @param {string} lineId The optional line in the Shabad.
    */
   async onShabad( client, { shabadId, lineId = null } ) {
     const { history } = this.session
@@ -103,9 +108,9 @@ class SessionManager {
 
   /**
    * When a line id is received, send it to all clients.
-   * @param client The socket client that sent the line id.
-   * @param lineId The ID of the line.
-   * @param transition Whether or not the line change is also a Shabad change.
+   * @param {WebSocket} client The socket client that sent the line id.
+   * @param {string} lineId The ID of the line.
+   * @param {boolean} transition Whether or not the line change is also a Shabad change.
    */
   onLine( client, lineId, transition = false ) {
     const { viewedLines, bani, shabad, history } = this.session
@@ -127,8 +132,8 @@ class SessionManager {
 
   /**
    * When the main line has been set by a client, send it to all clients.
-   * @param client The socket client that sent the line id.
-   * @param mainLineId The ID of the user defined main line in the Shabad.
+   * @param {WebSocket} client The socket client that sent the line id.
+   * @param {string} mainLineId The ID of the user defined main line in the Shabad.
    */
   onMainLine( client, mainLineId ) {
     logger.info( `Setting the main Line ID to ${mainLineId}` )
@@ -150,8 +155,8 @@ class SessionManager {
 
   /**
    * When a Bani ID is received, fetch the Bani and send it to all clients.
-   * @param client The socket client that sent the Bani.
-   * @param shabadId The ID of the Bani.
+   * @param {WebSocket} client The socket client that sent the Bani.
+   * @param {string} baniId The ID of the Bani.
    */
   async onBani( client, baniId ) {
     const { history } = this.session
@@ -179,6 +184,7 @@ class SessionManager {
   /**
    * Sets the settings for a given client.
    * ! This will not work for any clients that have the hostnames of `local` or `global`.
+   * @param {WebSocket} client The socket client that sent the settings update.
    */
   onSettings( client, { local, global = {}, ...rest } ) {
     const { host } = client
@@ -208,6 +214,7 @@ class SessionManager {
   /**
    * Retrieves only the public settings from the server.
    * Checks whether the [host].security.options.private value is set, else assume public.
+   * @returns {Object} An object of client settings, where the private value is `false`.
    */
   getPublicSettings() {
     const { settings } = this.session
@@ -220,7 +227,7 @@ class SessionManager {
 
   /**
    * Sets the state of the session, and/or settings.
-   * @param data The data containing new state, and/or settings
+   * @param {Object} data The data containing new state, and/or settings.
    */
   set( data = {} ) {
     const { settings = {}, state = {} } = data
@@ -234,6 +241,7 @@ class SessionManager {
 
   /**
    * Gets the current state and settings.
+   * @returns {Object} An object containing the current settings and session state.
    */
   get() {
     return { settings: settingsManager.get(), session: this.session }

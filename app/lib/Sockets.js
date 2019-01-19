@@ -14,6 +14,10 @@ import logger from './logger'
  * Wrapper for WebSockets with convenience methods.
  */
 class Socket extends EventEmitter {
+  /**
+   * Initialses the WebSocket class.
+   * @param {Object} server The HTTP server to bind the WebSocket server to.
+   */
   constructor( server ) {
     super()
 
@@ -62,9 +66,9 @@ class Socket extends EventEmitter {
 
   /**
    * Broadcasts the provided data to each client, optionally excluding any.
-   * @param event The event name.
-   * @param payload The JSON data to send.
-   * @param excludedClients The clients to exclude from the transmission.
+   * @param {string} event The event name.
+   * @param {*} payload The JSON data to send.
+   * @param {WebSocket[]} excludedClients The clients to exclude from the transmission.
    */
   broadcast( event, payload, excludedClients = [] ) {
     this.forEach( client => client.sendJSON( event, payload ), excludedClients )
@@ -72,8 +76,8 @@ class Socket extends EventEmitter {
 
   /**
   * Iterates over each actively connected client.
-  * @param fn The function to execute, provided with the client as a parameter.
-  * @param excludedClients Any excluded clients.
+  * @param {Function} fn The function to execute, provided with the client as a parameter.
+  * @param {WebSocket[]} excludedClients Any excluded clients.
   */
   forEach( fn, excludedClients = [] ) {
     const { clients } = this.socketServer
@@ -108,8 +112,8 @@ class Socket extends EventEmitter {
 
   /**
    * Sets up a WebSocket server.
-   * @param server The HTTP server to bind the WebSocket server to
-   * @returns {Function} The event socket
+   * @param {Object} server The HTTP server to bind the WebSocket server to.
+   * @returns {Function} The event socket.
    */
   static setupWebsocket( server ) {
     logger.info( 'Setting up WebSocket server' )

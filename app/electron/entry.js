@@ -9,11 +9,22 @@ require = require( 'esm' )( module )
 const { execPath, argv, env } = process
 env.NODE_ENV = 'production'
 
-// Launches server in a separate process, with flag
+/**
+ * Launches a server in a separate process, with flag.
+ */
 const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ] )
+
 // Define loader functions
-const loadServer = () => require( '../server' )
-const loadElectron = () => require( './electron-wrapper' )
+
+/**
+ * Function to load server.
+ */
+const loadServer = () => { require( '../server' ) }
+
+/**
+ * Function to load the electron wrapper for frontend.
+ */
+const loadElectron = () => { require( './electron-wrapper' ) }
 
 // Load either Electron shell or backend server depending on flag
 const [ , processFlag ] = argv

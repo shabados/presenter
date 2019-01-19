@@ -12,6 +12,10 @@ import { SENTRY_DSN } from './consts'
  * Analytics class for tracking events and providing error reporting.
  */
 class Analytics {
+  /**
+   * Initialises the analytics class.
+   * Loads Sentry.
+   */
   constructor() {
     Analytics.initSentry()
   }
