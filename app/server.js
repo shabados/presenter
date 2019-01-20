@@ -1,6 +1,3 @@
-import { ensureDirSync } from 'fs-extra'
-import cors from 'cors'
-
 // eslint-disable-next-line
 import analytics from './lib/analytics'
 import { setupExpress } from './lib/express'
@@ -9,7 +6,8 @@ import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
 import { searchLines, getBanis, updateLoop } from './lib/db'
 import logger from './lib/logger'
-import { PORT, CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FILE, HISTORY_FOLDER, TMP_FOLDER } from './lib/consts'
+import { PORT, CUSTOM_THEMES_FOLDER, HISTORY_FILE } from './lib/consts'
+import { ensureRequiredDirs } from './lib/utils'
 
 /**
  * Async entry point for application.
@@ -18,7 +16,7 @@ async function main() {
   logger.info( 'Starting...' )
 
   // Check if the data directories for the app exists, otherwise create it
-  ;[ DATA_FOLDER, CUSTOM_THEMES_FOLDER, HISTORY_FOLDER, TMP_FOLDER ].map( ensureDirSync )
+  ensureRequiredDirs()
 
   // Setup the express server with WebSockets
   const mounts = [
@@ -27,6 +25,7 @@ async function main() {
     { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
     { prefix: '/themes/*', dir: `${__dirname}/frontend/themes/Day.css` },
     { prefix: '/history.csv', dir: HISTORY_FILE },
+    { prefix: '*', dir: `${__dirname}/frontend/build/index.html` },
   ]
 
   const server = await setupExpress( mounts, [ cors(), api ] )
@@ -51,9 +50,8 @@ async function main() {
   updateLoop()
 }
 
-
-// Handle any errors by crashing
-main().catch( error => {
+// Handle any errors by logging and re-throwing
+export default main().catch( error => {
   logger.error( error )
-  process.exit( 1 )
+  throw error
 } )

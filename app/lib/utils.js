@@ -5,9 +5,12 @@
 
 import { hostname } from 'os'
 import { reverse } from 'dns'
+import { ensureDirSync } from 'fs-extra'
 import { promisify } from 'util'
 import { readdir } from 'fs-extra'
 import { extname } from 'path'
+
+import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER } from './consts'
 
 const asyncReverse = promisify( reverse )
 
@@ -46,4 +49,16 @@ export const getDateFilename = date => date.toISOString().replace( /T/, '_' ).re
 export const listCSSFiles = async path => {
   const files = await readdir( path )
   return files.filter( file => extname( file ) === '.css' )
+}
+
+/*
+ * Creates required filesystem directories for the app to work.
+ */
+export const ensureRequiredDirs = () => {
+  const dirPerms = {
+    mode: 0o2775,
+  }
+
+  ;[ DATA_FOLDER, CUSTOM_THEMES_FOLDER, HISTORY_FOLDER, TMP_FOLDER ]
+    .map( dir => ensureDirSync( dir, dirPerms ) )
 }

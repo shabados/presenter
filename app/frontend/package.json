@@ -4,12 +4,12 @@
   "description": "Frontend component of Shabad OS Desktop (@shabados/desktop)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ShabadOS/core.git"
+    "url": "git+https://github.com/ShabadOS/desktop.git"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/ShabadOS/core/issues"
+    "url": "https://github.com/ShabadOS/desktop/issues"
   },
   "homepage": ".",
   "dependencies": {

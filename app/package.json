@@ -1,6 +1,6 @@
 {
   "name": "@shabados/backend",
-  "version": "1.0.0",
+  "version": "2.0.0-alpha",
   "description": "Next generation Gurbani presentation software",
   "main": "electron/entry.js",
   "scripts": {
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ShabadOS/core.git"
+    "url": "git+https://github.com/ShabadOS/desktop.git"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/ShabadOS/core/issues"
+    "url": "https://github.com/ShabadOS/desktop/issues"
   },
-  "homepage": "https://github.com/ShabadOS/core#readme",
+  "homepage": "https://github.com/ShabadOS/desktop#readme",
   "dependencies": {
     "@sentry/node": "^4.4.2",
     "@shabados/database": "^4.0.11",
