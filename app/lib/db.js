@@ -55,10 +55,8 @@ export const getBanis = () => Banis.query()
  */
 export const getBaniLines = baniId => Banis
   .query()
-  .eager( 'lines' )
-  .modifyEager( 'lines', builder => {
-    builder.orderBy( [ 'line_group', 'line_id' ] )
-  } )
+  .joinEager( 'lines' )
+  .orderBy( [ 'line_group', 'order_id' ] )
   .where( 'banis.id', baniId )
   .withTranslations()
   .withTransliterations()
