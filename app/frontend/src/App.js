@@ -24,6 +24,7 @@ import {
   SHORTCUTS,
   CONFIGURATOR_URL,
   DEFAULT_OPTIONS,
+  CONNECT_TO_URL,
 } from './lib/consts'
 import { getUrlState } from './lib/utils'
 import controller from './lib/controller'
@@ -50,6 +51,7 @@ class App extends Component {
       mainLineId: null,
       viewedLines: new Set(),
       shabadHistory: [],
+      devices: [],
       shabad: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
@@ -67,6 +69,7 @@ class App extends Component {
     controller.on( 'banis', this.onBanis )
     controller.on( 'bani', this.onBani )
     controller.on( 'settings', this.onSettings )
+    controller.on( 'connect-to', this.onConnectTo )
   }
 
   componentWillUnmount() {
@@ -80,6 +83,7 @@ class App extends Component {
     controller.off( 'banis', this.onBanis )
     controller.off( 'bani', this.onBani )
     controller.off( 'settings', this.onSettings )
+    controller.off( 'connect-to', this.onConnectTo )
   }
 
   onConnected = () => this.setState( { connected: true } )
@@ -98,6 +102,7 @@ class App extends Component {
       global: merge( state.settings.global, global ),
     },
   } ) )
+  onConnectTo = devices => this.setState( { devices } )
 
   /**
    * Sets the query string parameters, retaining any currently present.
@@ -185,6 +190,7 @@ class App extends Component {
     [ SHORTCUTS.clearDisplay ]: controller.clear,
     [ SHORTCUTS.toggleShorcutsHelp ]: () => this.toggleQuery( STATES.showShortcuts ),
     [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
+    [ SHORTCUTS.devices ]: this.go( CONNECT_TO_URL ),
   } )
 
   render() {

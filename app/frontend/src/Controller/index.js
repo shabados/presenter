@@ -27,6 +27,7 @@ import {
   NAVIGATOR_URL,
   SEARCH_URL,
   STATES,
+  CONNECT_TO_URL,
 } from '../lib/consts'
 import { getUrlState } from '../lib/utils'
 
@@ -36,6 +37,7 @@ import Menu from './Menu'
 import Navigator, { Bar as NavigatorBar } from './Navigator'
 import History from './History'
 import Banis from './Banis'
+import Devices from './Devices'
 
 import './index.css'
 
@@ -194,6 +196,7 @@ class Controller extends Component {
       [ NAVIGATOR_URL, Navigator, NavigatorBar ],
       [ HISTORY_URL, History ],
       [ BANIS_URL, Banis ],
+      [ CONNECT_TO_URL, Devices ],
     ]
 
     return (

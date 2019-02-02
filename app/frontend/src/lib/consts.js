@@ -21,6 +21,7 @@ export const MENU_URL = `${CONTROLLER_URL}/menu`
 export const SEARCH_URL = `${CONTROLLER_URL}/search`
 export const BANIS_URL = `${CONTROLLER_URL}/banis`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
+export const CONNECT_TO_URL = `${CONTROLLER_URL}/connect-to`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
 export const THEME_URL = `${BACKEND_URL}/themes`
@@ -77,6 +78,7 @@ export const SHORTCUTS = {
   history: 'History',
   banis: 'Banis',
   clearDisplay: 'Clear Display',
+  devices: 'Devices',
 }
 
 // Shortcut Keys
@@ -95,6 +97,7 @@ export const SHORTCUT_MAP = {
   [ SHORTCUTS.history ]: [ 'ctrl+y' ],
   [ SHORTCUTS.banis ]: [ 'ctrl+b' ],
   [ SHORTCUTS.clearDisplay ]: [ 'esc' ],
+  [ SHORTCUTS.devices ]: [ 'ctrl+d' ],
 }
 
 

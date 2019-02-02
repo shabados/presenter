@@ -24,7 +24,7 @@ const items = [
   [ 'Navigator', faList, 'navigator' ],
   [ 'History', faHistory, 'history' ],
   [ 'Banis', faBookOpen, 'bookmarks' ],
-  [ 'Connect To...', faWifi, '' ],
+  [ 'Connect To...', faWifi, 'connect-to' ],
   [ 'Live Captions Tool', faWindowRestore, 'live-captions' ],
   [ 'Settings', faCogs, 'settings' ],
 ]

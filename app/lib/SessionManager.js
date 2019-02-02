@@ -8,6 +8,7 @@ import get from 'get-value'
 import logger from './logger'
 import settingsManager from './settings'
 import History from './History'
+import devices from './devices'
 import { getShabad, getBaniLines } from './db'
 
 /**
@@ -27,6 +28,7 @@ class SessionManager {
       mainLineId: null,
       history: new History(),
       settings: {},
+      devices,
     }
 
     // Send all the current data on connection from a new client
@@ -49,7 +51,7 @@ class SessionManager {
    * @param client The client to synchronise the state to.
    */
   synchronise( client ) {
-    const { bani, mainLineId, viewedLines, lineId, shabad, history } = this.session
+    const { bani, mainLineId, viewedLines, lineId, shabad, history, devices } = this.session
 
     client.sendJSON( 'shabad', shabad )
     client.sendJSON( 'bani', bani )
@@ -58,6 +60,7 @@ class SessionManager {
     client.sendJSON( 'mainLine', mainLineId )
     client.sendJSON( 'history', history.getTransitionsOnly() )
     client.sendJSON( 'settings', this.getPublicSettings() )
+    client.sendJSON( 'connect-to', devices )
   }
 
   /**
