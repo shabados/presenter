@@ -24,6 +24,7 @@ import {
   SHORTCUTS,
 } from '../lib/consts'
 
+import About from './About'
 import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
 
@@ -86,10 +87,9 @@ class Configurator extends Component {
           .map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
         <Typography className="category-title">Server</Typography>
         {Object.keys( settings.global ).map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`} /> )}
+        <Item name="About" icon={faInfo} url={CONFIGURATOR_ABOUT_URL} />
         <Typography className="category-title">Tools</Typography>
         <Item name="Overlay" icon={faWindowMaximize} url={CONFIGURATOR_OVERLAY_URL} />
-        <Typography className="category-title">Information</Typography>
-        <Item name="About" icon={faInfo} url={CONFIGURATOR_ABOUT_URL} />
       </List>
     )
   }
@@ -163,6 +163,7 @@ class Configurator extends Component {
         <main>
           <Switch>
             <Redirect exact from={CONFIGURATOR_SETTINGS_URL} to={defaultUrl} />
+            <Route path={CONFIGURATOR_ABOUT_URL} render={() => <About connected={Object.keys( settings ).length - 1} />} />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/*`} component={this.DynamicOptions} />
             <Route path={CONFIGURATOR_OVERLAY_URL} component={OverlaySettings} />

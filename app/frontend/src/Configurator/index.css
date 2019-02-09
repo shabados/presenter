@@ -47,6 +47,8 @@
   }
   
   main {
+    display: flex;
+    flex-direction: column;
     padding: 25px;
     background-color: var(--configurator-background-color);
     color: var(--configurator-text-color);
