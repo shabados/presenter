@@ -1,3 +1,5 @@
+import cors from 'cors'
+
 // eslint-disable-next-line
 import analytics from './lib/analytics'
 import { setupExpress } from './lib/express'
@@ -8,6 +10,8 @@ import { searchLines, getBanis, updateLoop } from './lib/db'
 import logger from './lib/logger'
 import { PORT, CUSTOM_THEMES_FOLDER, HISTORY_FILE } from './lib/consts'
 import { ensureRequiredDirs } from './lib/utils'
+
+const { NODE_ENV } = process.env
 
 /**
  * Async entry point for application.
@@ -46,8 +50,8 @@ async function main() {
   // Start the server
   server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )
 
-  // Check for database updates every 5 minutes
-  updateLoop()
+  // Check for database updates every 5 minutes, in production only
+  if ( NODE_ENV === 'production' ) updateLoop()
 }
 
 // Handle any errors by logging and re-throwing
