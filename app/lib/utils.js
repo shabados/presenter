@@ -5,9 +5,8 @@
 
 import { hostname } from 'os'
 import { reverse } from 'dns'
-import { ensureDirSync } from 'fs-extra'
+import { ensureDirSync, readdir } from 'fs-extra'
 import { promisify } from 'util'
-import { readdir } from 'fs-extra'
 import { extname } from 'path'
 
 import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER } from './consts'
@@ -44,7 +43,7 @@ export const getDateFilename = date => date.toISOString().replace( /T/, '_' ).re
 /**
  * Lists all CSS files in the given path.
  * @param {String} path The path to list all CSS files in.
- * @returns {Promise} An array of the listed CSS files
+ * @returns {Promise} An array of the listed CSS files.
  */
 export const listCSSFiles = async path => {
   const files = await readdir( path )
