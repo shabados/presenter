@@ -25,9 +25,9 @@ async function main() {
   // Setup the express server with WebSockets
   const mounts = [
     { prefix: '/', dir: `${__dirname}/frontend/build` },
-    { prefix: '/themes', dir: `${__dirname}/frontend/themes` },
+    { prefix: '/themes', dir: `${__dirname}/frontend/src/themes` },
     { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
-    { prefix: '/themes/*', dir: `${__dirname}/frontend/themes/Day.css` },
+    { prefix: '/themes/*', dir: `${__dirname}/frontend/src/themes/Day.css` },
     { prefix: '/history.csv', dir: HISTORY_FILE },
     { prefix: '*', dir: `${__dirname}/frontend/build/index.html` },
   ]

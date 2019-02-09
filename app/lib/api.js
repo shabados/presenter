@@ -10,7 +10,7 @@ const api = Router()
 api.get( '/heartbeat', ( _, res ) => res.send( 'alive' ) )
 
 api.get( '/themes', ( _, res ) => Promise.all( (
-  [ 'frontend/themes', CUSTOM_THEMES_FOLDER ].map( listCSSFiles )
+  [ 'frontend/src/themes', CUSTOM_THEMES_FOLDER ].map( listCSSFiles )
 ) ).then( ( [ themes, customThemes ] ) => res.json( [ ...themes, ...customThemes ].map( x => basename( x, '.css' ) ) ) ) )
 
 export default api
