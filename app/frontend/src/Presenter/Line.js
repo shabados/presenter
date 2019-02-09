@@ -17,9 +17,9 @@ import './Line.css'
  * @param {String} englishTranslation The English translation of the line to render.
  * @param {String} transliteration The English transliteration of the line to render.
  * @param {String} spacing The justify content value for spacing between the lines.
- * @param {Boolean} larivaarGurbani Whether Gurbani should be continuous or not.
- * @param {Boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
- * @param {Boolean} vishraamColors Enables colors for vishraams.
+ * @param {boolean} larivaarGurbani Whether Gurbani should be continuous or not.
+ * @param {boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
+ * @param {boolean} vishraamColors Enables colors for vishraams.
  * @param {Boolean} vishraamTransliterationColors Enables colors for vishraams in transliteration.
  * @param {Boolean} vishraamCharacters Enables display of vishraam characters.
  * @param {Boolean} vishraamLight Enables colors for light vishraams.
@@ -58,7 +58,7 @@ const Line = ( {
     style={{ justifyContent: spacing }}
   >
     <p className="gurmukhi">
-      {partitionLine( gurmukhi )
+      {partitionLine( gurmukhi, !vishraamCharacters )
         .map( ( line, lineIndex ) => (
           <span key={lineIndex} className={classNames( { partition } )}>
             {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
@@ -77,7 +77,7 @@ const Line = ( {
       {transliteration &&
       <CSSTransition key={`${transliteration}`} classNames="fade" timeout={0}>
         <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'transliteration' )}>{
-          classifyWords( transliteration )
+          classifyWords( transliteration, !vishraamCharacters )
           .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
         }
         </p>

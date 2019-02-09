@@ -26,9 +26,10 @@ export const stripPauses = line =>
 /**
  * Classifies the pause for a single word, returning an object of the word and type.
  * @param word The word to classify.
+ * @param strip Whether or not to strip the vishraam character.
  */
-export const classifyWord = word => ( {
-  word: stripPauses( word ),
+export const classifyWord = ( word, strip = true ) => ( {
+  word: strip ? stripPauses( word ) : word,
   type: Object
     .entries( { ...PAUSE_CHARS } )
     .reduce( ( type, [ pauseType, pauseChar ] ) => (
@@ -39,23 +40,26 @@ export const classifyWord = word => ( {
 /**
  * Returns an array of objects with their text and pause type.
  * @param line The line to process.
+ * @param strip Whether or not to strip vishraam characters.
  */
-export const classifyWords = line => line.split( ' ' ).map( classifyWord )
+export const classifyWords = ( line, strip = true ) => line.split( ' ' ).map( word => classifyWord( word, strip ) )
 
 /**
  * Partitions the line by heavy pause into arrays.
  * @param line The line to partition.
+ * @param strip Whether or not to strip vishraam chars from the word.
  */
-export const partitionLine = line => classifyWords( line ).reduce( ( words, { type, word } ) => {
+export const partitionLine = ( line, strip = true ) => classifyWords( line, strip )
+  .reduce( ( words, { type, word } ) => {
   // Get last list of words, removing it from the words list
-  const lastWords = words.pop()
+    const lastWords = words.pop()
 
-  // Add the words to the last list of words
-  const nextWords = [ ...words, [ ...lastWords, { type, word } ] ]
+    // Add the words to the last list of words
+    const nextWords = [ ...words, [ ...lastWords, { type, word } ] ]
 
-  // If it's a heavy pause, start a new array after it for the next words
-  return type === 'heavy' ? [ ...nextWords, [] ] : nextWords
-}, [ [] ] )
+    // If it's a heavy pause, start a new array after it for the next words
+    return type === 'heavy' ? [ ...nextWords, [] ] : nextWords
+  }, [ [] ] )
 
 
 /**
