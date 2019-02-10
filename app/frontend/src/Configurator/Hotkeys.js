@@ -13,7 +13,7 @@ const Hotkeys = ( { keys, shortcuts } ) => (
   <List className="hotkeys">
     {Object.values( shortcuts ).map( name => (
       <ListItem key={name}>
-        <Grid container xs alignItems="center">
+        <Grid container alignItems="center">
           <Grid item xs>
             <Grid container xs>
               {keys[ name ].map( key => (
@@ -24,7 +24,7 @@ const Hotkeys = ( { keys, shortcuts } ) => (
             </Grid>
           </Grid>
           <Grid item xs>
-            <ListItemText>{name}</ListItemText>
+            <ListItemText className="text">{name}</ListItemText>
           </Grid>
         </Grid>
       </ListItem>

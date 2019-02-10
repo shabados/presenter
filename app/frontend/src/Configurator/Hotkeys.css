@@ -1,3 +1,7 @@
+.hotkeys .text > * {
+  color: var(--configurator-text-color);
+}
+
 .hotkeys code {
   background-color: var(--configurator-text-color);
   color: var(--configurator-background-color);
