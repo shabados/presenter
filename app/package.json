@@ -4,9 +4,8 @@
   "description": "Next generation Gurbani presentation software",
   "main": "electron/entry.js",
   "scripts": {
-    "start": "node -r esm server.js",
+    "start": "nodemon --ignore frontend/ -L --exec npm start | bunyan",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --ignore frontend/ -L --exec npm start | bunyan",
     "lint": "eslint ."
   },
   "repository": {
