@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect, Link, Switch, Route } from 'react-router-dom'
 import { shape, string } from 'prop-types'
+import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
@@ -119,6 +120,10 @@ class Configurator extends Component {
 
     const defaultSettings = isServer ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
+    const setSettings = ( option, value ) => controller.setSettings( {
+      [ group ]: { [ option ]: value },
+    }, device )
+
     return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
       const optionGroup = settings[ device ][ group ] || {}
       const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
@@ -126,9 +131,9 @@ class Configurator extends Component {
       const { type } = options
 
       // Get correct component
-      const Option = SettingComponentFactory( type )( group, device )
+      const Option = SettingComponentFactory( type )
 
-      return <Option {...options} option={option} value={value} />
+      return <Option {...options} option={option} value={value} onChange={setSettings} />
     } )
   }
 
@@ -166,7 +171,10 @@ class Configurator extends Component {
         <main>
           <Switch>
             <Redirect exact from={CONFIGURATOR_SETTINGS_URL} to={defaultUrl} />
-            <Route path={CONFIGURATOR_ABOUT_URL} render={() => <About connected={Object.keys( settings ).length - 1} />} />
+            <Route
+              path={CONFIGURATOR_ABOUT_URL}
+              render={() => <About connected={Object.keys( settings ).length - 1} />}
+            />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/*`} component={this.DynamicOptions} />
@@ -183,6 +191,7 @@ Configurator.propTypes = {
   settings: shape( { local: shape( {
     theme: shape( { options: shape( { themeName: string } ) } ),
   } ) } ).isRequired,
+  location: location.isRequired,
 }
 
 export default Configurator

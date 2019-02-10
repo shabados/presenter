@@ -111,7 +111,6 @@ export const OPTION_TYPES = {
   dropdown: Symbol( 'Dropdown' ),
   toggle: Symbol( 'Toggle' ),
   slider: Symbol( 'Slider' ),
-  radio: Symbol( 'Radio' ),
   colorPicker: Symbol( 'Color Picker' ),
 }
 
