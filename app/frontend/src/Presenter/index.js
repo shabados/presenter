@@ -135,7 +135,7 @@ class Presenter extends Component {
           <div className="app">
             <CssBaseline />
             <ThemeLoader name={themeName} />
-            {!controllerOnly && <Display shabad={shabad} bani={bani} lineId={lineId} settings={localSettings} />}
+            {!controllerOnly && <Display {...this.props} settings={localSettings} />}
             <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
               <Link to={CONTROLLER_URL}>
                 <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>

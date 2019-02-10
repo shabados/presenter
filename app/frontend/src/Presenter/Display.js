@@ -16,6 +16,7 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
   const {
     layout,
     vishraams,
+    sources,
     theme: {
       simpleGraphics: simple,
       backgroundImage: background,
@@ -28,6 +29,16 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
   // Find the correct line in the Shabad
   const line = lines.find( ( { id } ) => lineId === id )
 
+  // Gets the right translation
+  const getTranslation = languageId => {
+    const { sourceId } = shabad
+    const { id: translationId } = sources[ sourceId ].translationSources[ languageId ]
+
+    return line.translations.find( (
+      ( { translationSourceId: id } ) => translationId === id
+    ) ).translation
+  }
+
   return (
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
@@ -35,8 +46,8 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
         {...layout}
         {...vishraams}
         gurmukhi={line.gurmukhi}
-        englishTranslation={layout.englishTranslation && line.translations[ 0 ].translation}
-        punjabiTranslation={layout.punjabiTranslation && line.punjabi}
+        englishTranslation={layout.englishTranslation && getTranslation( 1 )}
+        punjabiTranslation={layout.punjabiTranslation && getTranslation( 2 )}
         transliteration={layout.englishTransliteration && line.transliterations[ 0 ].transliteration}
         simpleGraphics={simple}
       />}
