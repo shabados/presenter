@@ -1,63 +1,63 @@
 .configurator {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
 .simple.configurator * {
-    transition: none !important;
+  transition: none !important;
 }
 
 .configurator .title-bar {
-    background-color: var(--configurator-title-background-color);
-    transition: 0.3s all;
+  background-color: var(--configurator-title-background-color);
+  transition: 0.3s all;
 }
 
 .configurator .title {
-    color: var(--configurator-title-text-color);
-    text-transform: capitalize;
-    transition: 0.3s all;
-    margin-left: 20px;
-  }
+  color: var(--configurator-title-text-color);
+  text-transform: capitalize;
+  transition: 0.3s all;
+  margin-left: 20px;
+}
   
-  .menu > div {
-    height: 100%;
-    background-color: var(--configurator-menu-background-color);
-    background-image: var(--configurator-menu-background-image);
-    transition: 0.3s all;
+.menu > div {
+  height: 100%;
+  background-color: var(--configurator-menu-background-color);
+  background-image: var(--configurator-menu-background-image);
+  transition: 0.3s all;
   }
 
-  .menu .icon {
-    color: var(--configurator-menu-icon-color);
-    transition: 0.3s all;
+.menu .icon {
+  color: var(--configurator-menu-icon-color);
+  transition: 0.3s all;
 }
 
 .category-title {
   color: var(--configurator-menu-text-color) !important;
   margin: 10px 20px !important;
-    text-transform: uppercase;
-    font-size: 0.875rem !important;
-    transition: 0.3s all;
+  text-transform: uppercase;
+  font-size: 0.875rem !important;
+  transition: 0.3s all;
   }
   
-  .item .text span {
-    color: var(--configurator-menu-text-color);
-    transition: 0.3s all;
-  }
+.item .text span {
+  color: var(--configurator-menu-text-color);
+  transition: 0.3s all;
+}
   
-  main {
-    display: flex;
-    flex-direction: column;
-    padding: 25px;
-    background-color: var(--configurator-background-color);
-    color: var(--configurator-text-color);
-    height: 100%;
-    transition: 0.3s all;
-  }
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  background-color: var(--configurator-background-color);
+  color: var(--configurator-text-color);
+  height: 100%;
+  transition: 0.3s all;
+}
   
-  main p {
-    color: var(--configurator-text-color) !important;
+main p, main svg {
+  color: var(--configurator-text-color) !important;
 }
 
 @media only screen and (min-width: 600px) {

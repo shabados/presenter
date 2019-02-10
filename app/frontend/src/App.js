@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 
-import { OVERLAY_URL, SCREEN_READER_URL, CONFIGURATOR_URL, DEFAULT_OPTIONS, PRESENTER_URL } from './lib/consts'
+import { OVERLAY_URL, SCREEN_READER_URL, CONFIGURATOR_URL, DEFAULT_OPTIONS, PRESENTER_URL, BACKEND_URL } from './lib/consts'
 import { merge } from './lib/utils'
 import controller from './lib/controller'
 
@@ -22,6 +22,7 @@ class App extends PureComponent {
       viewedLines: new Set(),
       shabadHistory: [],
       shabad: null,
+      recommendedSources: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
 
@@ -37,6 +38,15 @@ class App extends PureComponent {
       controller.on( 'banis', this.onBanis )
       controller.on( 'bani', this.onBani )
       controller.on( 'settings', this.onSettings )
+
+      // Get recommended sources and set as settings, if there are none
+      const { settings: { local: { sources } } } = this.state
+      fetch( `${BACKEND_URL}/sources` )
+        .then( res => res.json() )
+        .then( ( { recommended } ) => {
+          this.setState( { recommendedSources: sources } )
+          if ( !sources ) controller.setSettings( { sources: recommended } )
+        } )
     }
 
     componentWillUnmount() {

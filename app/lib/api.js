@@ -5,6 +5,7 @@ import { readJSON } from 'fs-extra'
 
 import { CUSTOM_THEMES_FOLDER } from './consts'
 import { listCSSFiles } from './utils'
+import { getSources, getLanguages } from './db'
 
 const api = Router()
 
@@ -28,5 +29,11 @@ api.get( '/about', ( _, res ) => Promise.all( [
   cpus: `${cpus().length}x ${cpus()[ 0 ].model}`,
   platform: platform(),
 } ) ) )
+
+// Gurbani Sources, with possible and recommended translations
+api.get( '/sources', ( _, res ) => getSources().then( sources => res.json( sources ) ) )
+
+// Gurbani Sources, with possible translations
+api.get( '/languages', ( _, res ) => getLanguages().then( languages => res.json( { languages } ) ) )
 
 export default api

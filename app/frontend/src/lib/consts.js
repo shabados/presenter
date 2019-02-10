@@ -1,4 +1,4 @@
-import { faPaintBrush, faShieldAlt, faEllipsisH, faArrowsAltH, faEye, faWrench } from '@fortawesome/fontawesome-free-solid'
+import { faPaintBrush, faShieldAlt, faEllipsisH, faArrowsAltH, faEye, faWrench, faBook } from '@fortawesome/fontawesome-free-solid'
 import { faKeyboard } from '@fortawesome/fontawesome-free-regular'
 
 /* eslint-disable quote-props */
@@ -105,7 +105,6 @@ export const DEFAULT_SHORTCUT_MAP = {
   [ SHORTCUTS.clearDisplay ]: [ 'esc' ],
 }
 
-
 /* Options */
 // Unique symbols for each option type
 export const OPTION_TYPES = {
@@ -146,7 +145,7 @@ export const OPTIONS = {
   englishTransliteration: { name: 'English Transliteration', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   nextLine: { name: 'Next Line', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   fontSize: { name: 'Font Size', type: OPTION_TYPES.slider, range: [ 20, 100 ], privacy: PRIVACY_TYPES.local },
-  themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [ ], privacy: PRIVACY_TYPES.local },
+  themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
   backgroundImage: { name: 'Background Image', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   simpleGraphics: { name: 'Simple Graphics', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamColors: { name: 'Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -175,6 +174,10 @@ export const OPTION_GROUPS = {
     name: 'Vishraams',
     icon: faEllipsisH,
   },
+  sources: {
+    name: 'Sources',
+    icon: faBook,
+  },
   hotkeys: {
     name: 'Hotkeys',
     icon: faKeyboard,
@@ -197,7 +200,7 @@ export const OPTION_GROUPS = {
 export const DEFAULT_OPTIONS = {
   local: {
     layout: {
-      spacing: OPTIONS.spacing.values[ 0 ],
+      spacing: OPTIONS.spacing.values[ 0 ].value,
       larivaarGurbani: false,
       larivaarAssist: true,
       splitOnVishraam: true,
@@ -221,6 +224,7 @@ export const DEFAULT_OPTIONS = {
       vishraamMedium: true,
       vishraamHeavy: true,
     },
+    sources: [],
     hotkeys: DEFAULT_SHORTCUT_MAP,
     security: {
       private: false,

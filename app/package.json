@@ -38,6 +38,7 @@
     "get-value": "^3.0.1",
     "helmet": "^3.12.2",
     "import-fresh": "^3.0.0",
+    "lodash": "^4.17.11",
     "objection": "^1.4.0",
     "pacote": "^9.3.0",
     "progress": "^2.0.0",

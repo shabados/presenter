@@ -24,11 +24,13 @@ import {
   SHORTCUTS,
 } from '../lib/consts'
 
+import Sources from './Sources'
 import About from './About'
 import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
 
 import './index.css'
+import controller from '../lib/controller'
 
 class Configurator extends Component {
   state = {
@@ -153,6 +155,7 @@ class Configurator extends Component {
     const group = pathname.split( '/' ).pop()
 
     const defaultUrl = `${CONFIGURATOR_SETTINGS_URL}/${Object.keys( settings[ device ] )[ 0 ]}`
+    const setSettings = settings => controller.setSettings( settings, device )
 
     return (
       <div className={classNames( { simple: simpleGraphics }, 'configurator' )}>
@@ -165,6 +168,7 @@ class Configurator extends Component {
             <Redirect exact from={CONFIGURATOR_SETTINGS_URL} to={defaultUrl} />
             <Route path={CONFIGURATOR_ABOUT_URL} render={() => <About connected={Object.keys( settings ).length - 1} />} />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
+            <Route path={`${CONFIGURATOR_SETTINGS_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
             <Route path={`${CONFIGURATOR_SETTINGS_URL}/*`} component={this.DynamicOptions} />
             <Route path={CONFIGURATOR_OVERLAY_URL} component={OverlaySettings} />
             <Redirect to={defaultUrl} />
