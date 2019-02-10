@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { func, string, oneOfType, number } from 'prop-types'
 
 import { Input, List, ListItem } from '@material-ui/core'
-import { toUnicode, firstLetters, toAscii } from 'gurmukhi-utils'
+import { firstLetters, toAscii } from 'gurmukhi-utils'
 
 import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
