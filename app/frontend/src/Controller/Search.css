@@ -10,13 +10,13 @@
     flex-shrink: 0;
     width: 100%;
     margin-bottom: 0.2em;
-}
-
-.search input {
+  }
+  
+  .search input {
     padding: 0 0.5em;
     font-size: 1.25em;
     font-weight: bold;
-    font-family: "Noto Sans Gurmukhi", sans-serif;
+    font-family: 'Open Gurbani Akhar Bold';
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
     background-color: var(--controller-search-background-color);
     transition: 0.2s all;

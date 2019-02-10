@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { number, func } from 'prop-types'
+import { func, string, oneOfType, number } from 'prop-types'
 
 import { Input, List, ListItem } from '@material-ui/core'
 import { toUnicode, firstLetters, toAscii } from 'gurmukhi-utils'
@@ -36,7 +36,7 @@ class Search extends Component {
     controller.on( 'results', this.onResults )
   }
 
-  componentDidUpdate( prevProps, { results: prevResults } ) {
+  componentDidUpdate( _, { results: prevResults } ) {
     const { results } = this.state
 
     // Timing
@@ -71,7 +71,7 @@ class Search extends Component {
    * @param {string} value The new value of the search box.
    */
   onChange = ( { target: { value } } ) => {
-    const inputValue = toUnicode( value.trim() )
+    const inputValue = toAscii( value.trim() )
 
     // Search if enough letters
     if ( inputValue.length >= MIN_SEARCH_CHARS ) {
@@ -96,7 +96,7 @@ class Search extends Component {
     // Get first letters in line and find where the match is
     const firstLettersLine = firstLetters( gurmukhi )
     // Remember to account for wildcard characters
-    const pos = firstLettersLine.search( toAscii( searchedValue ).replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '.' ) )
+    const pos = firstLettersLine.search( searchedValue.replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '.' ) )
 
     const words = stripPauses( gurmukhi ).split( ' ' )
 
@@ -131,9 +131,10 @@ class Search extends Component {
           className="input"
           onChange={this.onChange}
           value={inputValue}
-          placeholder="ਖੋਜ"
+          placeholder="Koj"
           disableUnderline
           autoFocus
+          spellCheck={false}
           inputRef={c => register( 'search', c, true )}
         />
         <List className="results">
@@ -153,8 +154,12 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  focused: number.isRequired,
+  focused: oneOfType( [ string, number ] ),
   register: func.isRequired,
+}
+
+Search.defaultProps = {
+  focused: undefined,
 }
 
 export default withNavigationHotKeys( {} )( Search )
