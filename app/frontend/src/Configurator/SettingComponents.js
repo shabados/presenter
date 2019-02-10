@@ -1,27 +1,59 @@
 import React from 'react'
-
-import Dropdown from '../shared/Dropdown'
-import Toggle from '../shared/Toggle'
-import Slider from '../shared/Slider'
+import { string, func } from 'prop-types'
+import { Switch, Select, MenuItem } from '@material-ui/core'
+import { Slider as MSlider } from '@material-ui/lab'
 
 import { OPTION_TYPES } from '../lib/consts'
 
-const GeneralSettingEvent = Component => ( { option, onChange, ...props } ) => (
-  <Component {...props} onChange={( { target: { value } } ) => onChange( option, value )} />
-)
+import './SettingComponents.css'
 
-const GeneralSettingParam = Component => ( { option, onChange, ...props } ) => (
-  <Component {...props} onChange={( _, value ) => onChange( option, value )} />
-)
+const generalPropTypes = {
+  option: string.isRequired,
+  onChange: func,
+}
 
-const ToggleSetting = GeneralSettingParam( Toggle )
-const SliderSetting = GeneralSettingParam( Slider )
-const DropdownSetting = GeneralSettingEvent( Dropdown )
+const generalDefaultProps = {
+  onChange: () => {},
+}
+
+const GeneralSettingEvent = Component => {
+  const HOC = ( { option, onChange, ...props } ) => (
+    <Component {...props} onChange={( { target: { value } } ) => onChange( option, value )} />
+  )
+
+  HOC.propTypes = generalPropTypes
+  HOC.defaultProps = generalDefaultProps
+
+  return HOC
+}
+
+const GeneralSettingParam = Component => {
+  const HOC = ( { option, onChange, ...props } ) => (
+    <Component {...props} onChange={( _, value ) => onChange( option, value )} />
+  )
+
+  HOC.propTypes = generalPropTypes
+  HOC.defaultProps = generalDefaultProps
+
+  return HOC
+}
+
+export const Toggle = ( { value, ...props } ) => <Switch className="toggle" checked={value}{...props} />
+
+
+export const Slider = props => <MSlider className="slider" {...props} />
+
+export const Dropdown = ( { value, values, onChange } ) => (
+  <Select className="select" value={value} onChange={onChange}>
+    {values.map( ( { name, value } ) =>
+      <MenuItem key={value} value={value}>{name || value}</MenuItem> )}
+  </Select>
+)
 
 const typeComponents = {
-  [ OPTION_TYPES.dropdown ]: DropdownSetting,
-  [ OPTION_TYPES.toggle ]: ToggleSetting,
-  [ OPTION_TYPES.slider ]: SliderSetting,
+  [ OPTION_TYPES.dropdown ]: GeneralSettingEvent( Dropdown ),
+  [ OPTION_TYPES.toggle ]: GeneralSettingParam( Toggle ),
+  [ OPTION_TYPES.slider ]: GeneralSettingParam( Slider ),
   [ OPTION_TYPES.colorPicker ]: ( { name, value } ) => <p>colorPicker {name}: {value}</p>,
 }
 

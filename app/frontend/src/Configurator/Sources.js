@@ -4,7 +4,7 @@ import { ExpandMore } from '@material-ui/icons'
 
 import { BACKEND_URL } from '../lib/consts'
 
-import Dropdown from '../shared/Dropdown'
+import { Dropdown } from './SettingComponents'
 
 import './Sources.css'
 

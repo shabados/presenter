@@ -128,12 +128,12 @@ class Configurator extends Component {
       const optionGroup = settings[ device ][ group ] || {}
       const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
       const options = OPTIONS[ option ]
-      const { type } = options
+      const { type, privacy, ...props } = options
 
       // Get correct component
       const Option = SettingComponentFactory( type )
 
-      return <Option {...options} option={option} value={value} onChange={setSettings} />
+      return <Option {...props} option={option} value={value} onChange={setSettings} />
     } )
   }
 
