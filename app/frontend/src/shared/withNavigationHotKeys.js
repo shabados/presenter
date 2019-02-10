@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { instanceOf } from 'prop-types'
 
-import { HotKeys } from 'react-hotkeys'
+import { GlobalHotKeys } from 'react-hotkeys'
 
 import { scrollIntoCenter } from '../lib/utils'
 import { LINE_HOTKEYS } from '../lib/consts'
@@ -212,13 +212,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         const focused = [ ...this.nodes.keys() ][ focusedIndex ]
 
         return (
-          <HotKeys
-            component="document-fragment"
-            focused
-            attach={window}
-            handlers={handlers}
-            keyMap={this.keymap}
-          >
+          <GlobalHotKeys handlers={handlers} keyMap={this.keymap}>
             <WrappedComponent
               {...rest}
               ref={forwardedRef}
@@ -226,7 +220,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
               updateFocus={this.jumpToName}
               focused={focused}
             />
-          </HotKeys>
+          </GlobalHotKeys>
         )
       }
     }

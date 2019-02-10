@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { shape, string } from 'prop-types'
 import { location } from 'react-router-prop-types'
-import { HotKeys } from 'react-hotkeys'
+import { GlobalHotKeys } from 'react-hotkeys'
 import { Link, Route } from 'react-router-dom'
 import queryString from 'qs'
 import { CssBaseline, IconButton } from '@material-ui/core'
@@ -125,13 +125,7 @@ class Presenter extends Component {
 
     return (
       <div className="presenter">
-        <HotKeys
-          component="document-fragment"
-          keyMap={hotkeys}
-          handlers={this.hotKeyHandlers}
-          focused
-          attach={window}
-        >
+        <GlobalHotKeys keyMap={hotkeys} handlers={this.hotKeyHandlers}>
           <div className="app">
             <CssBaseline />
             <ThemeLoader name={themeName} />
@@ -147,7 +141,7 @@ class Presenter extends Component {
             </div>
             {showShortcuts ? <ShortcutHelp /> : null}
           </div>
-        </HotKeys>
+        </GlobalHotKeys>
       </div>
     )
   }

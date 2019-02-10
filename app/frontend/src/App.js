@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
+import { configure } from 'react-hotkeys'
 
 import { OVERLAY_URL, SCREEN_READER_URL, CONFIGURATOR_URL, DEFAULT_OPTIONS, PRESENTER_URL, BACKEND_URL } from './lib/consts'
 import { merge } from './lib/utils'
@@ -24,6 +25,13 @@ class App extends PureComponent {
       shabad: null,
       recommendedSources: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
+    }
+
+    componentWillMount() {
+      // Configure react-hotkeys
+      configure( {
+        ignoreTags: [],
+      } )
     }
 
     componentDidMount() {
