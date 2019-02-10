@@ -3,7 +3,8 @@ import { HotKeys } from 'react-hotkeys'
 import { Link, Route } from 'react-router-dom'
 import queryString from 'qs'
 import { CssBaseline, IconButton } from '@material-ui/core'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import Display from './Display'

@@ -18,10 +18,10 @@ import {
   Select,
   MenuItem,
   Grid,
-  SvgIcon,
 } from '@material-ui/core'
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { faBars, faWindowMaximize, faInfo } from '@fortawesome/free-solid-svg-icons'
 
 import SettingComponentFactory from './SettingComponents'
@@ -167,7 +167,7 @@ class Configurator extends Component {
 
       return (
         <Grid key={option} container className="option" alignItems="center">
-          <Grid item xs={2}>{icon && <FontAwesomeIcon className="icon" icon={icon} />}</Grid>
+          <Grid item xs={2} lg={1}>{icon && <FontAwesomeIcon className="icon" icon={icon} />}</Grid>
           <Grid item xs={6} lg={3}><Typography>{name}</Typography></Grid>
           <Grid item xs={4}>
             <Option {...props} option={option} value={value} onChange={setSettings} />

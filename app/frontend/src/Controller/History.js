@@ -3,7 +3,8 @@ import { func, number, arrayOf, shape, instanceOf, string } from 'prop-types'
 
 import { List, ListItem, ListItemIcon } from '@material-ui/core'
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import {
   faDownload,
   faTrash,
