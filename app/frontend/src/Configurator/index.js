@@ -4,10 +4,25 @@ import { shape, string } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
-import { AppBar, Toolbar, IconButton, Typography, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Select, MenuItem } from '@material-ui/core'
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Drawer,
+  Hidden,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Select,
+  MenuItem,
+  Grid,
+  SvgIcon,
+} from '@material-ui/core'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faBars, faWindowMaximize, faInfo } from '@fortawesome/fontawesome-free-solid'
+import { faBars, faWindowMaximize, faInfo } from '@fortawesome/free-solid-svg-icons'
 
 import SettingComponentFactory from './SettingComponents'
 import ThemeLoader from '../shared/ThemeLoader'
@@ -60,7 +75,9 @@ class Configurator extends Component {
     const Item = ( { name, icon, selected, url = CONFIGURATOR_URL } ) => (
       <Link to={url} onClick={this.toggleMobileMenu}>
         <ListItem disableRipple selected={selected} className="item" key={name} button>
-          <ListItemIcon><FontAwesomeIcon className="icon" icon={icon} /></ListItemIcon>
+          <ListItemIcon>
+            <FontAwesomeIcon className="icon" icon={icon} />
+          </ListItemIcon>
           <ListItemText className="text" primary={name} />
         </ListItem>
       </Link>
@@ -87,10 +104,25 @@ class Configurator extends Component {
         </Select>
         {Object.keys( settings[ device ] )
           .filter( name => OPTION_GROUPS[ name ] )
-          .map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SETTINGS_URL}/${name}`} /> )}
+          .map( name => (
+            <Item
+              key={name}
+              selected={name === group}
+              {...OPTION_GROUPS[ name ]}
+              url={`${CONFIGURATOR_SETTINGS_URL}/${name}`}
+            /> ) )}
         <Typography className="category-title">Server</Typography>
-        {Object.keys( settings.global ).map( name => <Item key={name} selected={name === group} {...OPTION_GROUPS[ name ]} url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`} /> )}
-        <Item name="About" icon={faInfo} url={CONFIGURATOR_ABOUT_URL} />
+        {Object.keys( settings.global )
+          .filter( name => OPTION_GROUPS[ name ] )
+          .map( name => (
+            <Item
+              key={name}
+              selected={name === group}
+              {...OPTION_GROUPS[ name ]}
+              url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`}
+            />
+          ) )}
+        <Item name="About" icon={faInfo} url={CONFIGURATOR_ABOUT_URL} selected={group === 'about'} />
         <Typography className="category-title">Tools</Typography>
         <Item name="Overlay" icon={faWindowMaximize} url={CONFIGURATOR_OVERLAY_URL} />
       </List>
@@ -128,12 +160,20 @@ class Configurator extends Component {
       const optionGroup = settings[ device ][ group ] || {}
       const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
       const options = OPTIONS[ option ]
-      const { type, privacy, ...props } = options
+      const { type, privacy, name, icon, ...props } = options
 
       // Get correct component
       const Option = SettingComponentFactory( type )
 
-      return <Option {...props} option={option} value={value} onChange={setSettings} />
+      return (
+        <Grid key={option} container className="option" alignItems="center">
+          <Grid item xs={2}>{icon && <FontAwesomeIcon className="icon" icon={icon} />}</Grid>
+          <Grid item xs={6} lg={3}><Typography>{name}</Typography></Grid>
+          <Grid item xs={4}>
+            <Option {...props} option={option} value={value} onChange={setSettings} />
+          </Grid>
+        </Grid>
+      )
     } )
   }
 

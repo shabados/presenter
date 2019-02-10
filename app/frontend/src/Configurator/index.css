@@ -30,6 +30,7 @@
 
 .menu .icon {
   color: var(--configurator-menu-icon-color);
+  width: 30px;
   transition: 0.3s all;
 }
 
@@ -58,6 +59,17 @@ main {
   
 main p, main svg {
   color: var(--configurator-text-color) !important;
+}
+
+main .option {
+  margin: 5px;
+}
+
+main .icon {
+  color: var(--configurator-menu-icon-color) !important;
+  height: 25px !important;
+  width: 25px !important;
+  transition: 0.3s all;
 }
 
 @media only screen and (min-width: 600px) {

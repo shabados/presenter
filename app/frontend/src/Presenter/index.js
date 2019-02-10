@@ -4,7 +4,7 @@ import { Link, Route } from 'react-router-dom'
 import queryString from 'qs'
 import { CssBaseline, IconButton } from '@material-ui/core'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/fontawesome-free-solid'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import Display from './Display'
 import Controller from '../Controller'

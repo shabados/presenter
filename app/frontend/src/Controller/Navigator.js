@@ -8,7 +8,7 @@ import {
   faChevronUp,
   faChevronDown,
   faExchangeAlt,
-} from '@fortawesome/fontawesome-free-solid'
+} from '@fortawesome/free-solid-svg-icons'
 
 import { CONTROLLER_URL, LINE_HOTKEYS } from '../lib/consts'
 import { stripPauses } from '../lib/utils'

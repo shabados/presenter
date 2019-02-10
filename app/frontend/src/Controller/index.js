@@ -17,8 +17,8 @@ import {
   faSignOutAlt,
   faWindowMinimize,
   faWindowMaximize,
-} from '@fortawesome/fontawesome-free-solid'
-import { faSquare } from '@fortawesome/fontawesome-free-regular'
+} from '@fortawesome/free-solid-svg-icons'
+import { faSquare } from '@fortawesome/free-regular-svg-icons'
 
 import controller from '../lib/controller'
 import {

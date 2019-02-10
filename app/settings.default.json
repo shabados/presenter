@@ -1,8 +1,6 @@
 {
-  "privacy": {
-    "analytics": true
-  },
   "system": {
-    "launchOnStartup": false
+    "launchOnStartup": false,
+    "analytics": true
   }
 }

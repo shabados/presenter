@@ -1,5 +1,32 @@
-import { faPaintBrush, faShieldAlt, faEllipsisH, faArrowsAltH, faEye, faWrench, faBook } from '@fortawesome/fontawesome-free-solid'
-import { faKeyboard } from '@fortawesome/fontawesome-free-regular'
+import {
+  faPaintBrush,
+  faShieldAlt,
+  faEllipsisH,
+  faArrowsAltH,
+  faWrench,
+  faBook,
+  faAlignCenter,
+  faSignature,
+  faGripLines,
+  faBookReader,
+  faClosedCaptioning,
+  faAlignJustify,
+  faFont,
+  faPalette,
+  faImage,
+  faLowVision,
+  faFill,
+  faFillDrip,
+  faAngleDoubleRight,
+  faChartPie,
+  faDoorOpen,
+  faLock,
+} from '@fortawesome/free-solid-svg-icons'
+import {
+  faKeyboard,
+  faClosedCaptioning as farClosedCaptioning,
+  faDotCircle,
+} from '@fortawesome/free-regular-svg-icons'
 
 /* eslint-disable quote-props */
 /**
@@ -125,7 +152,7 @@ export const OPTIONS = {
   spacing: {
     name: 'Spacing',
     type: OPTION_TYPES.dropdown,
-    icon: faArrowsAltH,
+    icon: faAlignCenter,
     privacy: PRIVACY_TYPES.local,
     values: [
       { name: 'Space Around', value: 'space-around' },
@@ -136,27 +163,27 @@ export const OPTIONS = {
       { name: 'Bottom', value: 'flex-end' },
     ],
   },
-  larivaarGurbani: { name: 'Larivaar Gurbani', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  larivaarAssist: { name: 'Larivaar Assist', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  splitOnVishraam: { name: 'Split Long Gurbani Lines on Vishraams', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  englishTranslation: { name: 'English Translation', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  punjabiTranslation: { name: 'Punjabi Translation', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  englishTransliteration: { name: 'English Transliteration', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  nextLine: { name: 'Next Line', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  fontSize: { name: 'Font Size', type: OPTION_TYPES.slider, range: [ 20, 100 ], privacy: PRIVACY_TYPES.local },
-  themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
-  backgroundImage: { name: 'Background Image', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  simpleGraphics: { name: 'Simple Graphics', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamColors: { name: 'Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamTransliterationColors: { name: 'Transliteration Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamCharacters: { name: 'Vishraam Characters', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamLight: { name: 'Vishraam Light', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamMedium: { name: 'Vishraam Medium', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamHeavy: { name: 'Vishraam Heavy', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  autoNextShabad: { name: 'Automatic Next Shabad', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  analytics: { name: 'Usage Analytics', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
-  launchOnStartup: { name: 'Launch On Startup', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
-  private: { name: 'Private Settings', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
+  larivaarGurbani: { name: 'Larivaar Gurbani', icon: faSignature, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  larivaarAssist: { name: 'Larivaar Assist', icon: faBookReader, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  splitOnVishraam: { name: 'Split Long Gurbani Lines on Vishraams', icon: faGripLines, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  englishTranslation: { name: 'English Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  punjabiTranslation: { name: 'Punjabi Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  englishTransliteration: { name: 'English Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  nextLine: { name: 'Next Line', icon: faAlignJustify, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  fontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, range: [ 20, 100 ], privacy: PRIVACY_TYPES.local },
+  themeName: { name: 'Theme Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
+  backgroundImage: { name: 'Background Image', icon: faImage, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  simpleGraphics: { name: 'Simple Graphics', icon: faLowVision, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamColors: { name: 'Vishraam Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamTransliterationColors: { name: 'Transliteration Vishraam Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamCharacters: { name: 'Vishraam Characters', icon: faDotCircle, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamLight: { name: 'Vishraam Light', icon: faFillDrip, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamMedium: { name: 'Vishraam Medium', icon: faFillDrip, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamHeavy: { name: 'Vishraam Heavy', icon: faFillDrip, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  autoNextShabad: { name: 'Automatic Next Shabad', icon: faAngleDoubleRight, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  analytics: { name: 'Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
 }
 
 // Possible options groups
@@ -184,10 +211,6 @@ export const OPTION_GROUPS = {
   security: {
     name: 'Security',
     icon: faShieldAlt,
-  },
-  privacy: {
-    name: 'Privacy',
-    icon: faEye,
   },
   system: {
     name: 'System Options',
@@ -232,11 +255,9 @@ export const DEFAULT_OPTIONS = {
   // Special serverside settings
   // ! Must be in sync with settings.default.json
   global: {
-    privacy: {
-      analytics: true,
-    },
     system: {
       launchOnStartup: false,
+      analytics: true,
     },
   },
 }

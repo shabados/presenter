@@ -12,7 +12,7 @@ import {
   faBookOpen,
   faWindowRestore,
   faList,
-} from '@fortawesome/fontawesome-free-solid'
+} from '@fortawesome/free-solid-svg-icons'
 
 import { CONTROLLER_URL } from '../lib/consts'
 
