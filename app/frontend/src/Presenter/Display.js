@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { shape, bool, arrayOf, string } from 'prop-types'
 import classNames from 'classnames'
 
 import Line from './Line'
@@ -48,27 +48,35 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
         gurmukhi={line.gurmukhi}
         englishTranslation={layout.englishTranslation && getTranslation( 1 )}
         punjabiTranslation={layout.punjabiTranslation && getTranslation( 2 )}
-        transliteration={layout.englishTransliteration && line.transliterations[ 0 ].transliteration}
+        transliteration={
+          layout.englishTransliteration && line.transliterations[ 0 ].transliteration
+        }
         simpleGraphics={simple}
       />}
     </div>
   )
 }
 
+Display.propTypes = {
+  lineId: string,
+  shabad: shape( {
+    lines: arrayOf( shape( Line.PropTypes ) ),
+  } ),
+  bani: shape( {
+    lines: arrayOf( shape( Line.PropTypes ) ),
+  } ),
+  settings: shape( {
+    theme: shape( {
+      simpleGraphics: bool,
+      backgroundImage: bool,
+    } ),
+  } ).isRequired,
+}
+
 Display.defaultProps = {
   shabad: null,
   bani: null,
   lineId: null,
-}
-
-Display.propTypes = {
-  lineId: PropTypes.number,
-  shabad: PropTypes.shape( {
-    lines: PropTypes.arrayOf( PropTypes.shape( Line.PropTypes ) ),
-  } ),
-  bani: PropTypes.shape( {
-    lines: PropTypes.arrayOf( PropTypes.shape( Line.PropTypes ) ),
-  } ),
 }
 
 export default Display

@@ -15,7 +15,7 @@ const Hotkeys = ( { keys, shortcuts } ) => (
       <ListItem key={name}>
         <Grid container alignItems="center">
           <Grid item xs>
-            <Grid container xs>
+            <Grid container>
               {keys[ name ].map( key => (
                 <Grid key={key} item xs>
                   <code>{key}</code>

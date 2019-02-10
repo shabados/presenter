@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { shape, objectOf, string, number, func } from 'prop-types'
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, CircularProgress, Typography, Grid } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
 
@@ -8,7 +9,9 @@ import { Dropdown } from './SettingComponents'
 
 import './Sources.css'
 
-
+/**
+ * View to configure source content, such as translations.
+ */
 const Sources = ( { sources: currentSources, setSettings } ) => {
   const [ languages, setLanguages ] = useState()
   const [ { sources, recommendedSources }, setSources ] = useState( {} )
@@ -80,6 +83,18 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
         ) )}
     </div>
   )
+}
+
+Sources.propTypes = {
+  sources: objectOf( shape( {
+    nameEnglish: string.isRequired,
+    nameGurmukhi: string.isRequired,
+    translationSources: objectOf( shape( {
+      id: number.isRequired,
+      nameEnglish: string.isRequired,
+    } ) ),
+  } ) ).isRequired,
+  setSettings: func.isRequired,
 }
 
 export default Sources

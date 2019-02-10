@@ -246,7 +246,7 @@ export const DEFAULT_OPTIONS = {
       vishraamMedium: true,
       vishraamHeavy: true,
     },
-    sources: [],
+    sources: {},
     hotkeys: DEFAULT_SHORTCUT_MAP,
     security: {
       private: false,

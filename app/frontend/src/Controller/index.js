@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { history, location } from 'react-router-prop-types'
-import { string, func, shape, arrayOf } from 'prop-types'
+import { string, func, shape, arrayOf, bool } from 'prop-types'
 
 import classNames from 'classnames'
 import queryString from 'qs'
@@ -248,6 +248,9 @@ Controller.propTypes = {
   location: location.isRequired,
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  settings: shape( {
+    local: shape( { theme: shape( { simpleGraphics: bool } ) } ),
+  } ).isRequired,
 }
 
 Controller.defaultProps = {

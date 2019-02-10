@@ -45,7 +45,7 @@ class App extends PureComponent {
         .then( res => res.json() )
         .then( ( { recommended } ) => {
           this.setState( { recommendedSources: sources } )
-          if ( !sources ) controller.setSettings( { sources: recommended } )
+          if ( !Object.keys( sources ).length ) controller.setSettings( { sources: recommended } )
         } )
     }
 

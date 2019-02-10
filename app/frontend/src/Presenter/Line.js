@@ -12,19 +12,19 @@ import './Line.css'
 /**
  * Line Component.
  * Renders the various aspects of a single line.
- * @param {String} gurmukhi The Gurmukhi of the line to render.
- * @param {String} punjabiTranslation The Punjabi translation of the line to render.
- * @param {String} englishTranslation The English translation of the line to render.
- * @param {String} transliteration The English transliteration of the line to render.
- * @param {String} spacing The justify content value for spacing between the lines.
+ * @param {string} gurmukhi The Gurmukhi of the line to render.
+ * @param {string} punjabiTranslation The Punjabi translation of the line to render.
+ * @param {string} englishTranslation The English translation of the line to render.
+ * @param {string} transliteration The English transliteration of the line to render.
+ * @param {string} spacing The justify content value for spacing between the lines.
  * @param {boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
  * @param {boolean} vishraamColors Enables colors for vishraams.
- * @param {Boolean} vishraamTransliterationColors Enables colors for vishraams in transliteration.
- * @param {Boolean} vishraamCharacters Enables display of vishraam characters.
- * @param {Boolean} vishraamLight Enables colors for light vishraams.
- * @param {Boolean} vishraamMedium Enables colors for medium vishraams.
- * @param {Boolean} vishraamHeavy Enables colors for heavy vishraams.
+ * @param {boolean} vishraamTransliterationColors Enables colors for vishraams in transliteration.
+ * @param {boolean} vishraamCharacters Enables display of vishraam characters.
+ * @param {boolean} vishraamLight Enables colors for light vishraams.
+ * @param {boolean} vishraamMedium Enables colors for medium vishraams.
+ * @param {boolean} vishraamHeavy Enables colors for heavy vishraams.
  * @param {Boolean} splitOnVishraam If the line is too long, split it on the vishraam word.
  * @param {Boolean} simpleGraphics Disables transitions and other intensive effects.
  */

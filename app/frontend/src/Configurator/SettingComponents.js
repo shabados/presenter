@@ -1,5 +1,5 @@
 import React from 'react'
-import { string, func } from 'prop-types'
+import { string, func, any, arrayOf } from 'prop-types'
 import { Switch, Select, MenuItem } from '@material-ui/core'
 import { Slider as MSlider } from '@material-ui/lab'
 
@@ -39,7 +39,9 @@ const GeneralSettingParam = Component => {
 }
 
 export const Toggle = ( { value, ...props } ) => <Switch className="toggle" checked={value}{...props} />
-
+Toggle.propTypes = {
+  value: any.isRequired, // eslint-disable-line react/forbid-prop-types
+}
 
 export const Slider = props => <MSlider className="slider" {...props} />
 
@@ -50,11 +52,20 @@ export const Dropdown = ( { value, values, onChange } ) => (
   </Select>
 )
 
+Dropdown.propTypes = {
+  value: any.isRequired, // eslint-disable-line react/forbid-prop-types
+  values: arrayOf( any ).isRequired,
+  onChange: func,
+}
+
+Dropdown.defaultProps = {
+  onChange: () => {},
+}
+
 const typeComponents = {
   [ OPTION_TYPES.dropdown ]: GeneralSettingEvent( Dropdown ),
   [ OPTION_TYPES.toggle ]: GeneralSettingParam( Toggle ),
   [ OPTION_TYPES.slider ]: GeneralSettingParam( Slider ),
-  [ OPTION_TYPES.colorPicker ]: ( { name, value } ) => <p>colorPicker {name}: {value}</p>,
 }
 
 export default type => typeComponents[ type ]

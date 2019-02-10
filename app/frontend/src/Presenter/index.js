@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { shape, string } from 'prop-types'
+import { location } from 'react-router-prop-types'
 import { HotKeys } from 'react-hotkeys'
 import { Link, Route } from 'react-router-dom'
 import queryString from 'qs'
@@ -103,8 +105,6 @@ class Presenter extends Component {
   hotKeyHandlers = this.preventDefault( {
     [ SHORTCUTS.toggleController ]: this.toggleController,
     [ SHORTCUTS.newController ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
-    [ SHORTCUTS.historyBack ]: () => this.props.history.goBack(),
-    [ SHORTCUTS.historyForward ]: () => this.props.history.goForward(),
     [ SHORTCUTS.menu ]: () => this.go( MENU_URL ),
     [ SHORTCUTS.search ]: () => this.go( SEARCH_URL ),
     [ SHORTCUTS.history ]: () => this.go( HISTORY_URL ),
@@ -117,8 +117,7 @@ class Presenter extends Component {
 
 
   render() {
-    const { bani, shabad, lineId, settings } = this.props
-    const { location: { search } } = this.props
+    const { settings, location: { search } } = this.props
     const { controllerOnly, showShortcuts } = getUrlState( search )
 
     const { local: localSettings } = settings
@@ -154,5 +153,18 @@ class Presenter extends Component {
   }
 }
 
+Presenter.propTypes = {
+  ...Display.propTypes,
+  settings: shape( {
+    theme: shape( {
+      themeName: string,
+    } ),
+  } ).isRequired,
+  location: location.isRequired,
+}
+
+Presenter.defaultProps = {
+  ...Display.defaultProps,
+}
 
 export default Presenter

@@ -90,7 +90,7 @@ class Navigator extends PureComponent {
 }
 
 Navigator.propTypes = {
-  lineId: string.isRequired,
+  lineId: string,
   updateFocus: func.isRequired,
   register: func.isRequired,
   location: location.isRequired,
@@ -101,6 +101,7 @@ Navigator.propTypes = {
 Navigator.defaultProps = {
   shabad: undefined,
   bani: undefined,
+  lineId: undefined,
 }
 
 /**
