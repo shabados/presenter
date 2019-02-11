@@ -135,7 +135,7 @@ class Search extends Component {
           disableUnderline
           autoFocus
           spellCheck={false}
-          inputRef={c => register( 'search', c, true )}
+          inputRef={c => register( 'search', c )}
         />
         <List className="results">
           {results ?
@@ -162,4 +162,9 @@ Search.defaultProps = {
   focused: undefined,
 }
 
-export default withNavigationHotKeys( {} )( Search )
+export default withNavigationHotKeys( {
+  keymap: {
+    next: [ 'down', 'tab' ],
+    previous: [ 'up', 'shift+tab' ],
+  },
+} )( Search )
