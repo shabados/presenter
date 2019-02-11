@@ -31,20 +31,20 @@ jobs:
           path: artifacts
           destination: artifacts
 
-    publish-mac:
-      macos:
-        xcode: "9.0"
-      steps:
-        - checkout
-        - run:
-            name: Install depdendencies
-            command: npm install --unsafe-perm
-        - run:
-            name: Build application
-            command: npm run build
-        - run:
-            name: Publish application
-            command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -l
+  publish-mac:
+    macos:
+      xcode: "9.0"
+    steps:
+      - checkout
+      - run:
+          name: Install depdendencies
+          command: npm install --unsafe-perm
+      - run:
+          name: Build application
+          command: npm run build
+      - run:
+          name: Publish application
+          command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -l
 
   build-linux:
     docker:
@@ -67,22 +67,22 @@ jobs:
           path: artifacts
           destination: artifacts
 
-    publish-linux:
-      docker:
-        - image: electronuserland/builder
-      environment:
-        USE_HARD_LINKS: false
-      steps:
-        - checkout
-        - run:
-            name: Install depdendencies
-            command: npm install --unsafe-perm
-        - run:
-            name: Build application
-            command: npm run build
-        - run:
-            name: Publish application
-            command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -l
+  publish-linux:
+    docker:
+      - image: electronuserland/builder
+    environment:
+      USE_HARD_LINKS: false
+    steps:
+      - checkout
+      - run:
+          name: Install depdendencies
+          command: npm install --unsafe-perm
+      - run:
+          name: Build application
+          command: npm run build
+      - run:
+          name: Publish application
+          command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -l
 
   build-windows:
     docker:
@@ -108,22 +108,22 @@ jobs:
           fingerprints:
             - "e5:71:50:86:4f:6c:3e:f6:8b:f2:d5:45:ec:f0:9a:f1"
 
-    publish-windows:
-      docker:
-        - image: electronuserland/builder:wine
-      environment:
-        USE_HARD_LINKS: false
-      steps:
-        - checkout
-        - run:
-            name: Install depdendencies
-            command: npm install --unsafe-perm
-        - run:
-            name: Build application
-            command: npm run build
-        - run:
-            name: Publish application
-            command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -w
+  publish-windows:
+    docker:
+      - image: electronuserland/builder:wine
+    environment:
+      USE_HARD_LINKS: false
+    steps:
+      - checkout
+      - run:
+          name: Install depdendencies
+          command: npm install --unsafe-perm
+      - run:
+          name: Build application
+          command: npm run build
+      - run:
+          name: Publish application
+          command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -w
 
 workflows:
   version: 2
