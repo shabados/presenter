@@ -32,7 +32,7 @@
     "download-github-release": "^0.3.2",
     "electron-fetch": "^1.2.1",
     "electron-log": "^2.2.16",
-    "esm": "^3.0.84",
+    "esm": "^3.2.4",
     "express": "^4.16.3",
     "fs-extra": "^5.0.0",
     "get-value": "^3.0.1",
