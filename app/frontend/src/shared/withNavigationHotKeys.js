@@ -96,7 +96,6 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keym
        * @param click Trigger the click.
        */
       jumpTo = ( focusedIndex, click = true ) => {
-        console.log( focusedIndex )
         this.setState( { focusedIndex } )
 
         // Click on navigation if set
