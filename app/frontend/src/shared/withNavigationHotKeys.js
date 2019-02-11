@@ -178,7 +178,6 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keym
 
         // Get the name of the currently focused element
         const focused = [ ...this.nodes.keys() ][ focusedIndex ]
-        //! glitchy focus  - force state update on external component?
 
         return (
           <GlobalHotKeys handlers={this.handlers} keyMap={this.keymap}>
