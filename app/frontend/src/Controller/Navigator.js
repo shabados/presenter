@@ -104,7 +104,7 @@ class Navigator extends PureComponent {
 
     const { lines } = content
     return (
-      <List className="navigator">
+      <List className="navigator" onKeyDown={e => e.preventDefault()}>
         {lines.map( ( line, index ) => (
           <NavigatorLine
             {...line}
