@@ -136,27 +136,30 @@ workflows:
       - publish-windows:
           requires:
             - build-windows
-          branches:
-            only:
-              - master
-              - dev
+          filters:
+            branches:
+              only:
+                - master
+                - dev
       - build-mac:
           requires:
             - lint
       - publish-mac:
           requires:
             - build-mac
-          branches:
-            only:
-              - master
-              - dev
+          filters:
+            branches:
+              only:
+                - master
+                - dev
       - build-linux:
           requires:
             - lint
       - publish-linux:
           requires:
             - build-linux
-          branches:
-            only:
-              - master
-              - dev
+          filters:
+            branches:
+              only:
+                - master
+                - dev
