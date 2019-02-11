@@ -119,7 +119,7 @@ class SessionManager {
 
     viewedLines.add( lineId )
 
-    const { lines } = shabad || bani
+    const { lines = [] } = shabad || bani || {}
     this.session = { ...this.session, lineId }
 
     this.socket.broadcast( 'line', lineId )
