@@ -32,6 +32,9 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
   // Gets the right translation
   const getTranslation = languageId => {
     const { sourceId } = shabad || line.shabad
+
+    if ( !( sources && sources[ sourceId ] ) ) return null
+
     const { id: translationId } = sources[ sourceId ].translationSources[ languageId ]
 
     return line.translations.find( (
