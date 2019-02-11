@@ -12,9 +12,10 @@ import { LINE_HOTKEYS } from '../lib/consts'
  * @param {boolean} arrowKeys Navigate with arrow keys to the next and previous DOM elements.
  * @param {boolean} lineKeys Enable line jumping via hotkeys.
  * @param {boolean} clickOnFocus Simulate a click on the item that is newly focused.
+ * @param {Object} keymap Keymap to combine with existing keymap.
  * @returns {Component} The decorated component.
  */
-const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =>
+const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keymap } ) =>
   WrappedComponent => {
     class WithNavigationHotKeys extends Component {
       constructor( props ) {
@@ -25,44 +26,24 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         // Stores the ref to the parent containing the children
         this.nodes = new Map()
 
-        // Stores any input types, so that their keydown can be overriden
-        this.inputs = []
-
         // Stores a list of hotkeys
         this.hotkeys = []
+
+        // Generate the handlers in advance
+        this.handlers = {
+          ...( arrowKeys && this.arrowHandlers ),
+          ...( lineKeys && this.lineHandlers ),
+        }
       }
 
       componentDidMount() {
         this.setNodeSize()
         this.setFocus()
-
-        // Add event listeners to inputs
-        this.inputs.forEach( input => input.addEventListener( 'keydown', this.onKeyDown ) )
       }
 
       componentDidUpdate() {
         this.setNodeSize()
         this.setFocus()
-      }
-
-      componentWillUnmount() {
-        // Remove event listeners from inputs
-        this.inputs.forEach( input => input.removeEventListener( 'keydown', this.onKeyDown ) )
-      }
-
-      /**
-       * Defocuses an input on keydown, when up or down is pressed.
-       * @param event The keydown event.
-       */
-      onKeyDown = event => {
-        const { key } = event
-
-        if ( key === 'ArrowDown' || key === 'ArrowUp' ) {
-          event.preventDefault()
-          this.setNodeSize()
-          if ( key === 'ArrowDown' ) { this.nextItem() } else { this.prevItem() }
-          event.target.blur()
-        }
       }
 
       /**
@@ -82,8 +63,8 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         // eslint-disable-next-line react/no-find-dom-node
         const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
         if ( node ) {
-          node.focus()
           scrollIntoCenter( node )
+          node.focus()
         }
       }
 
@@ -115,6 +96,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
        * @param click Trigger the click.
        */
       jumpTo = ( focusedIndex, click = true ) => {
+        console.log( focusedIndex )
         this.setState( { focusedIndex } )
 
         // Click on navigation if set
@@ -151,16 +133,10 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
        * Registers the ref under the current list of nodes.
        * @param name The name to identify the ref.
        * @param ref The ref to store.
-       * @param isInput Whether or not the ref is to an `<input/>`.
        * @param isHotKey Whether or not the ref should be registered as a hotkey.
        */
-      registerRef = ( name, ref, isInput = false, isHotKey = false ) => {
+      registerRef = ( name, ref, isHotKey = false ) => {
         this.nodes.set( name, ref )
-
-        // Store the input, if it is one
-        if ( isInput ) {
-          this.inputs = [ ...this.inputs, ref ]
-        }
 
         // Store as a hotkey, if it is one
         if ( isHotKey ) {
@@ -171,25 +147,10 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
       /**
        * Generates handlers for each of the nodes, using the keys from LINE HOTKEYS to jump to them.
        */
-      generateLineHandlers = () => LINE_HOTKEYS
-        .slice( 0, this.hotkeys.length || this.nodes.size )
-        .reduce( ( handlers, key, i ) => ( {
-          ...handlers,
-          [ key ]: () => (
-            this.hotkeys.length
-              ? this.jumpToName( this.hotkeys[ i ] )
-              : this.jumpTo( i )
-          ),
-        } ), {} )
-
-
-      keymap = {
-        next: [ 'down', 'right', 'tab' ],
-        previous: [ 'up', 'left', 'shift+tab' ],
-        enter: [ 'enter', 'return', 'space' ],
-        first: [ 'home' ],
-        last: [ 'end' ],
-      }
+      lineHandlers = LINE_HOTKEYS.reduce( ( handlers, key, i ) => ( {
+        ...handlers,
+        [ key ]: () => this.jumpTo( i ),
+      } ), {} )
 
       arrowHandlers = {
         first: () => this.jumpTo( 0 ),
@@ -199,20 +160,29 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         enter: this.simulateClick,
       }
 
+      keymap = {
+        next: [ 'down', 'right', 'tab' ],
+        previous: [ 'up', 'left', 'shift+tab' ],
+        enter: [ 'enter', 'return', 'space' ],
+        first: [ 'home' ],
+        last: [ 'end' ],
+        ...( lineKeys && LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
+          ...keymap,
+          [ hotkey ]: hotkey,
+        } ), {} ) ),
+        ...keymap,
+      }
+
       render() {
         const { forwardedRef, ...rest } = this.props
         const { focusedIndex } = this.state
 
-        const handlers = {
-          ...( arrowKeys ? this.arrowHandlers : {} ),
-          ...( lineKeys ? this.generateLineHandlers() : {} ),
-        }
-
         // Get the name of the currently focused element
         const focused = [ ...this.nodes.keys() ][ focusedIndex ]
+        //! glitchy focus  - force state update on external component?
 
         return (
-          <GlobalHotKeys handlers={handlers} keyMap={this.keymap}>
+          <GlobalHotKeys handlers={this.handlers} keyMap={this.keymap}>
             <WrappedComponent
               {...rest}
               ref={forwardedRef}
