@@ -29,11 +29,11 @@ import ThemeLoader from '../shared/ThemeLoader'
 
 import {
   BACKEND_URL,
-  CONFIGURATOR_URL,
-  CONFIGURATOR_SETTINGS_URL,
-  CONFIGURATOR_SERVER_SETTINGS_URL,
-  CONFIGURATOR_OVERLAY_URL,
-  CONFIGURATOR_ABOUT_URL,
+  SETTINGS_URL,
+  SETTINGS_DEVICE_URL,
+  SETTINGS_SERVER_URL,
+  SETTINGS_OVERLAY_URL,
+  SETTINGS_ABOUT_URL,
   OPTIONS,
   DEFAULT_OPTIONS,
   OPTION_GROUPS,
@@ -48,7 +48,7 @@ import OverlaySettings from './OverlaySettings'
 import './index.css'
 import controller from '../lib/controller'
 
-class Configurator extends Component {
+class Settings extends Component {
   state = {
     mobileOpen: false,
     device: 'local',
@@ -72,7 +72,7 @@ class Configurator extends Component {
 
     const group = pathname.split( '/' ).pop()
 
-    const Item = ( { name, icon, selected, url = CONFIGURATOR_URL } ) => (
+    const Item = ( { name, icon, selected, url = SETTINGS_URL } ) => (
       <Link to={url} onClick={this.toggleMobileMenu}>
         <ListItem disableRipple selected={selected} className="item" key={name} button>
           <ListItemIcon>
@@ -109,7 +109,7 @@ class Configurator extends Component {
               key={name}
               selected={name === group}
               {...OPTION_GROUPS[ name ]}
-              url={`${CONFIGURATOR_SETTINGS_URL}/${name}`}
+              url={`${SETTINGS_DEVICE_URL}/${name}`}
             /> ) )}
         <Typography className="category-title">Server</Typography>
         {Object.keys( settings.global )
@@ -119,12 +119,12 @@ class Configurator extends Component {
               key={name}
               selected={name === group}
               {...OPTION_GROUPS[ name ]}
-              url={`${CONFIGURATOR_SERVER_SETTINGS_URL}/${name}`}
+              url={`${SETTINGS_SERVER_URL}/${name}`}
             />
           ) )}
-        <Item name="About" icon={faInfo} url={CONFIGURATOR_ABOUT_URL} selected={group === 'about'} />
+        <Item name="About" icon={faInfo} url={SETTINGS_ABOUT_URL} selected={group === 'about'} />
         <Typography className="category-title">Tools</Typography>
-        <Item name="Overlay" icon={faWindowMaximize} url={CONFIGURATOR_OVERLAY_URL} />
+        <Item name="Overlay" icon={faWindowMaximize} url={SETTINGS_OVERLAY_URL} />
       </List>
     )
   }
@@ -199,26 +199,26 @@ class Configurator extends Component {
     const { theme: { themeName }, hotkeys } = settings[ device ]
     const group = pathname.split( '/' ).pop()
 
-    const defaultUrl = `${CONFIGURATOR_SETTINGS_URL}/${Object.keys( settings[ device ] )[ 0 ]}`
+    const defaultUrl = `${SETTINGS_DEVICE_URL}/${Object.keys( settings[ device ] )[ 0 ]}`
     const setSettings = settings => controller.setSettings( settings, device )
 
     return (
-      <div className={classNames( { simple: simpleGraphics }, 'configurator' )}>
+      <div className={classNames( { simple: simpleGraphics }, 'settings' )}>
         <ThemeLoader name={themeName} />
         <this.Titlebar title={group} />
         <Hidden smUp><this.MobileMenu /></Hidden>
         <Hidden xsDown implementation="css"><this.DesktopMenu /></Hidden>
         <main>
           <Switch>
-            <Redirect exact from={CONFIGURATOR_SETTINGS_URL} to={defaultUrl} />
+            <Redirect exact from={SETTINGS_DEVICE_URL} to={defaultUrl} />
             <Route
-              path={CONFIGURATOR_ABOUT_URL}
+              path={SETTINGS_ABOUT_URL}
               render={() => <About connected={Object.keys( settings ).length - 1} />}
             />
-            <Route path={`${CONFIGURATOR_SETTINGS_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
-            <Route path={`${CONFIGURATOR_SETTINGS_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
-            <Route path={`${CONFIGURATOR_SETTINGS_URL}/*`} component={this.DynamicOptions} />
-            <Route path={CONFIGURATOR_OVERLAY_URL} component={OverlaySettings} />
+            <Route path={`${SETTINGS_DEVICE_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
+            <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
+            <Route path={`${SETTINGS_DEVICE_URL}/*`} component={this.DynamicOptions} />
+            <Route path={SETTINGS_OVERLAY_URL} component={OverlaySettings} />
             <Redirect to={defaultUrl} />
           </Switch>
         </main>
@@ -227,11 +227,11 @@ class Configurator extends Component {
   }
 }
 
-Configurator.propTypes = {
+Settings.propTypes = {
   settings: shape( { local: shape( {
     theme: shape( { options: shape( { themeName: string } ) } ),
   } ) } ).isRequired,
   location: location.isRequired,
 }
 
-export default Configurator
+export default Settings

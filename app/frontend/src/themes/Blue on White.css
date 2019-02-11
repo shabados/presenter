@@ -43,22 +43,22 @@
     --controller-bar-background-color: #F5F5F5;
 
       /*****************/
-     /* Configurator  */
+     /* Settings      */
     /*****************/
 
-    /* Configurator Title */
-    --configurator-title-background-color: var(--controller-bar-background-color);
-    --configurator-title-text-color: var(--controller-bar-text-color);
+    /* Settings Title */
+    --settings-title-background-color: var(--controller-bar-background-color);
+    --settings-title-text-color: var(--controller-bar-text-color);
 
-    /* Configurator Menu */
-    --configurator-menu-background-image: var(--display-background-image);
-    --configurator-menu-background-color: var(--controller-bar-background-color);
-    --configurator-menu-text-color: var(--controller-bar-text-color);
-    --configurator-menu-icon-color: var(--configurator-menu-text-color);
+    /* Settings Menu */
+    --settings-menu-background-image: var(--display-background-image);
+    --settings-menu-background-color: var(--controller-bar-background-color);
+    --settings-menu-text-color: var(--controller-bar-text-color);
+    --settings-menu-icon-color: var(--settings-menu-text-color);
     
-    /* Configurator Content */
-    --configurator-background-color: var(--controller-background-color);
-    --configurator-text-color: var(--controller-text-color);
+    /* Settings Content */
+    --settings-background-color: var(--controller-background-color);
+    --settings-text-color: var(--controller-text-color);
 
     
       /*****************/

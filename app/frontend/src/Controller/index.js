@@ -28,7 +28,7 @@ import {
   MENU_URL,
   NAVIGATOR_URL,
   SEARCH_URL,
-  CONFIGURATOR_URL,
+  SETTINGS_URL,
   STATES,
 } from '../lib/consts'
 import { getUrlState } from '../lib/utils'
@@ -67,7 +67,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
       <ToolbarButton
         name="Settings"
         icon={faCog}
-        onClick={() => window.open( CONFIGURATOR_URL )}
+        onClick={() => window.open( SETTINGS_URL )}
         onMouseEnter={() => onHover( 'Settings' )}
         onMouseLeave={resetHover}
       />

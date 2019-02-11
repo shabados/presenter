@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { configure } from 'react-hotkeys'
 
-import { OVERLAY_URL, SCREEN_READER_URL, CONFIGURATOR_URL, DEFAULT_OPTIONS, PRESENTER_URL, BACKEND_URL } from './lib/consts'
+import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, DEFAULT_OPTIONS, PRESENTER_URL, BACKEND_URL } from './lib/consts'
 import { merge } from './lib/utils'
 import controller from './lib/controller'
 
 import ScreenReader from './ScreenReader'
-import Configurator from './Configurator'
+import Settings from './Settings'
 import Overlay from './Overlay'
 import Presenter from './Presenter'
 
@@ -90,7 +90,7 @@ class App extends PureComponent {
   components = [
     [ Overlay, OVERLAY_URL ],
     [ ScreenReader, SCREEN_READER_URL ],
-    [ Configurator, CONFIGURATOR_URL ],
+    [ Settings, SETTINGS_URL ],
     [ Presenter, PRESENTER_URL ],
   ].map( ( [ Component, path ] ) => [ props => <Component {...props} {...this.state} />, path ] )
 

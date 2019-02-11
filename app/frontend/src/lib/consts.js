@@ -56,13 +56,13 @@ export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
 export const THEME_URL = `${BACKEND_URL}/themes`
 
-export const CONFIGURATOR_URL = '/configurator'
-export const CONFIGURATOR_SETTINGS_URL = `${CONFIGURATOR_URL}/settings`
-export const CONFIGURATOR_SERVER_SETTINGS_URL = `${CONFIGURATOR_SETTINGS_URL}/server`
+export const SETTINGS_URL = '/settings'
+export const SETTINGS_DEVICE_URL = `${SETTINGS_URL}/device`
+export const SETTINGS_SERVER_URL = `${SETTINGS_DEVICE_URL}/server`
 
-export const CONFIGURATOR_ABOUT_URL = `${CONFIGURATOR_SERVER_SETTINGS_URL}/about`
-export const CONFIGURATOR_TOOLS_URL = `${CONFIGURATOR_URL}/tools`
-export const CONFIGURATOR_OVERLAY_URL = `${CONFIGURATOR_TOOLS_URL}/overlay`
+export const SETTINGS_ABOUT_URL = `${SETTINGS_SERVER_URL}/about`
+export const SETTINGS_TOOLS_URL = `${SETTINGS_URL}/tools`
+export const SETTINGS_OVERLAY_URL = `${SETTINGS_TOOLS_URL}/overlay`
 
 export const OVERLAY_URL = '/overlay'
 export const SCREEN_READER_URL = '/screenreader'

@@ -1,6 +1,6 @@
 .select {
   font-size: 0.9em !important;
-  color: var(--configurator-text-color) !important;
+  color: var(--settings-text-color) !important;
 }
 
 .select::before {
