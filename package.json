@@ -8,9 +8,9 @@
     "lint:backend": "cd app && npm run lint",
     "lint:frontend": "cd app/frontend && npm run lint",
     "test": "echo \"No tests\"",
-    "dev": "npm-run-all -l -p dev:*",
-    "dev:backend": "cd app && npm run dev",
-    "dev:frontend": "cd app/frontend && npm start",
+    "start": "npm-run-all -l -p start:*",
+    "start:backend": "cd app && npm run start",
+    "start:frontend": "cd app/frontend && npm start",
     "build": "cd app/frontend && npm run build",
     "install-deps": "npm run install-deps:backend && npm run install-deps:frontend",
     "install-deps:backend": "cd app && npm install",
@@ -93,5 +93,6 @@
         }
       ]
     }
-  }
+  },
+  "dependencies": {}
 }

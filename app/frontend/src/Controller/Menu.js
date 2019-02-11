@@ -4,7 +4,8 @@ import { history, location } from 'react-router-prop-types'
 
 import { List, ListItem, ListItemIcon } from '@material-ui/core'
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import {
   faCogs,
   faSearch,
@@ -12,7 +13,7 @@ import {
   faBookOpen,
   faWindowRestore,
   faList,
-} from '@fortawesome/fontawesome-free-solid'
+} from '@fortawesome/free-solid-svg-icons'
 
 import { CONTROLLER_URL } from '../lib/consts'
 

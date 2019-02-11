@@ -1,12 +1,17 @@
+import cors from 'cors'
+
 // eslint-disable-next-line
 import analytics from './lib/analytics'
 import { setupExpress } from './lib/express'
+import api from './lib/api'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
 import { searchLines, getBanis, updateLoop } from './lib/db'
 import logger from './lib/logger'
 import { PORT, CUSTOM_THEMES_FOLDER, HISTORY_FILE } from './lib/consts'
 import { ensureRequiredDirs } from './lib/utils'
+
+const { NODE_ENV } = process.env
 
 /**
  * Async entry point for application.
@@ -20,13 +25,14 @@ async function main() {
   // Setup the express server with WebSockets
   const mounts = [
     { prefix: '/', dir: `${__dirname}/frontend/build` },
-    { prefix: '/themes', dir: `${__dirname}/frontend/themes` },
+    { prefix: '/themes', dir: `${__dirname}/frontend/src/themes` },
     { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
+    { prefix: '/themes/*', dir: `${__dirname}/frontend/src/themes/Day.css` },
     { prefix: '/history.csv', dir: HISTORY_FILE },
     { prefix: '*', dir: `${__dirname}/frontend/build/index.html` },
   ]
 
-  const server = await setupExpress( mounts )
+  const server = await setupExpress( mounts, [ cors(), api ] )
 
   // Setup the websocket server
   const socket = new Socket( server )
@@ -44,8 +50,8 @@ async function main() {
   // Start the server
   server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )
 
-  // Check for database updates every 5 minutes
-  updateLoop()
+  // Check for database updates every 5 minutes, in production only
+  if ( NODE_ENV === 'production' ) updateLoop()
 }
 
 // Handle any errors by logging and re-throwing

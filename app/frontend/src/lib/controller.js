@@ -5,8 +5,9 @@
 
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import EventEmitter from 'event-emitter'
-import merge from 'deepmerge'
+import { toAscii } from 'gurmukhi-utils'
 
+import { merge } from './utils'
 import { WS_URL, DEFAULT_OPTIONS } from './consts'
 
 class Controller extends EventEmitter {
@@ -59,7 +60,7 @@ class Controller extends EventEmitter {
    * Convenience method for searching.
    * @param firstLetters The first letters to search with.
    */
-  search = firstLetters => this.sendJSON( 'search', firstLetters )
+  search = firstLetters => this.sendJSON( 'search', toAscii( firstLetters ) )
 
   /**
    * Convenience method for setting the line.
@@ -107,9 +108,9 @@ class Controller extends EventEmitter {
   readSettings = () => {
     try {
       const localSettings = JSON.parse( localStorage.getItem( 'settings' ) )
-      return merge( { ...DEFAULT_OPTIONS.local, ...localSettings } )
-    } catch ( e ) {
-      console.warn( 'Settings corrupted. Resetting to default.' )
+      return merge( DEFAULT_OPTIONS.local, localSettings )
+    } catch ( err ) {
+      console.warn( 'Settings corrupted. Resetting to default.', err )
       return DEFAULT_OPTIONS.local
     }
   }

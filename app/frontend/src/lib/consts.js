@@ -1,5 +1,32 @@
-import { faPaintBrush, faShieldAlt, faEllipsisH, faArrowsAltH, faEye, faWrench } from '@fortawesome/fontawesome-free-solid'
-import { faKeyboard } from '@fortawesome/fontawesome-free-regular'
+import {
+  faPaintBrush,
+  faShieldAlt,
+  faEllipsisH,
+  faArrowsAltH,
+  faWrench,
+  faBook,
+  faAlignCenter,
+  faSignature,
+  faGripLines,
+  faBookReader,
+  faClosedCaptioning,
+  faAlignJustify,
+  faFont,
+  faPalette,
+  faImage,
+  faLowVision,
+  faFill,
+  faFillDrip,
+  faAngleDoubleRight,
+  faChartPie,
+  faDoorOpen,
+  faLock,
+} from '@fortawesome/free-solid-svg-icons'
+import {
+  faKeyboard,
+  faClosedCaptioning as farClosedCaptioning,
+  faDotCircle,
+} from '@fortawesome/free-regular-svg-icons'
 
 /* eslint-disable quote-props */
 /**
@@ -19,7 +46,8 @@ export const SENTRY_DSN = 'https://51b714c1e7544cba86efb2cad85152ff@sentry.io/13
 
 /* Navigator */
 // URLs
-export const CONTROLLER_URL = '/controller'
+export const PRESENTER_URL = ''
+export const CONTROLLER_URL = `${PRESENTER_URL}/controller`
 export const MENU_URL = `${CONTROLLER_URL}/menu`
 export const SEARCH_URL = `${CONTROLLER_URL}/search`
 export const BANIS_URL = `${CONTROLLER_URL}/banis`
@@ -28,9 +56,13 @@ export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
 export const THEME_URL = `${BACKEND_URL}/themes`
 
-export const CONFIGURATOR_URL = '/configurator'
-export const CONFIGURATOR_SETTINGS_URL = `${CONFIGURATOR_URL}/settings`
-export const CONFIGURATOR_TOOLS_URL = `${CONFIGURATOR_URL}/tools`
+export const SETTINGS_URL = '/settings'
+export const SETTINGS_DEVICE_URL = `${SETTINGS_URL}/device`
+export const SETTINGS_SERVER_URL = `${SETTINGS_DEVICE_URL}/server`
+
+export const SETTINGS_ABOUT_URL = `${SETTINGS_SERVER_URL}/about`
+export const SETTINGS_TOOLS_URL = `${SETTINGS_URL}/tools`
+export const SETTINGS_OVERLAY_URL = `${SETTINGS_TOOLS_URL}/overlay`
 
 export const OVERLAY_URL = '/overlay'
 export const SCREEN_READER_URL = '/screenreader'
@@ -83,7 +115,7 @@ export const SHORTCUTS = {
 }
 
 // Shortcut Keys
-export const SHORTCUT_MAP = {
+export const DEFAULT_SHORTCUT_MAP = {
   [ SHORTCUTS.toggleShorcutsHelp ]: [ '?', 'shift+/' ],
   [ SHORTCUTS.toggleFullscreen ]: [ 'f11' ],
   [ SHORTCUTS.toggleFullscreenController ]: [ 'shift+f' ],
@@ -100,14 +132,12 @@ export const SHORTCUT_MAP = {
   [ SHORTCUTS.clearDisplay ]: [ 'esc' ],
 }
 
-
 /* Options */
 // Unique symbols for each option type
 export const OPTION_TYPES = {
   dropdown: Symbol( 'Dropdown' ),
   toggle: Symbol( 'Toggle' ),
   slider: Symbol( 'Slider' ),
-  radio: Symbol( 'Radio' ),
   colorPicker: Symbol( 'Color Picker' ),
 }
 
@@ -122,111 +152,112 @@ export const OPTIONS = {
   spacing: {
     name: 'Spacing',
     type: OPTION_TYPES.dropdown,
+    icon: faAlignCenter,
     privacy: PRIVACY_TYPES.local,
     values: [
-      { name: 'Space Around', value: '' },
-      { name: 'Unspaced', value: '' },
-      { name: 'Space Between', value: '' },
+      { name: 'Space Around', value: 'space-around' },
+      { name: 'Space Evenly', value: 'space-evenly' },
+      { name: 'Space Between', value: 'space-between' },
+      { name: 'Top', value: 'flex-start' },
+      { name: 'Middle', value: 'center' },
+      { name: 'Bottom', value: 'flex-end' },
     ],
   },
-  controllerHeight: {
-    name: 'Controller Height',
-    type: OPTION_TYPES.dropdown,
-    privacy: PRIVACY_TYPES.local,
-    values: [
-      { name: 'Short', value: '450px' },
-      { name: 'Medium', value: '450px' },
-      { name: 'Tall', value: '450px' },
-    ],
+  larivaarGurbani: { name: 'Larivaar Gurbani', icon: faSignature, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  larivaarAssist: { name: 'Larivaar Assist', icon: faBookReader, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  splitOnVishraam: { name: 'Split Long Gurbani Lines on Vishraams', icon: faGripLines, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  englishTranslation: { name: 'English Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  punjabiTranslation: { name: 'Punjabi Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  englishTransliteration: { name: 'English Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  nextLine: { name: 'Next Line', icon: faAlignJustify, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  fontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, range: [ 20, 100 ], privacy: PRIVACY_TYPES.local },
+  themeName: { name: 'Theme Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
+  backgroundImage: { name: 'Background Image', icon: faImage, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  simpleGraphics: { name: 'Simple Graphics', icon: faLowVision, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamColors: { name: 'Vishraam Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamTransliterationColors: { name: 'Transliteration Vishraam Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamCharacters: { name: 'Vishraam Characters', icon: faDotCircle, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamLight: { name: 'Vishraam Light', icon: faFillDrip, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamMedium: { name: 'Vishraam Medium', icon: faFillDrip, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamHeavy: { name: 'Vishraam Heavy', icon: faFillDrip, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  autoNextShabad: { name: 'Automatic Next Shabad', icon: faAngleDoubleRight, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  analytics: { name: 'Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
+}
+
+// Possible options groups
+export const OPTION_GROUPS = {
+  layout: {
+    name: 'Layout',
+    icon: faArrowsAltH,
   },
-  larivaarGurbani: { name: 'Larivaar Gurbani', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  splitGurbani: { name: 'Split Gurbani Lines', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  englishTranslation: { name: 'English Translation', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  punjabiTranslation: { name: 'Punjabi Translation', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  englishTransliteration: { name: 'English Transliteration', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  nextLine: { name: 'Next Line', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  fontSize: { name: 'Font Size', type: OPTION_TYPES.slider, range: [ 20, 100 ], privacy: PRIVACY_TYPES.local },
-  themeName: { name: 'Theme Name', type: OPTION_TYPES.dropdown, values: [ 'Day', 'Night' ], privacy: PRIVACY_TYPES.local },
-  backgroundImage: { name: 'Background Image', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamColors: { name: 'Vishraam Colors', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamCharacters: { name: 'Vishraam Characters', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamLight: { name: 'Vishraam Light', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamMedium: { name: 'Vishraam Medium', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamHeavy: { name: 'Vishraam Heavy', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  autoNextShabad: { name: 'Automatic Next Shabad', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  analytics: { name: 'Usage Analytics', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
-  launchOnStartup: { name: 'Launch On Startup', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
-  private: { name: 'Private Settings', type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
+  theme: {
+    name: 'Theme',
+    icon: faPaintBrush,
+  },
+  vishraams: {
+    name: 'Vishraams',
+    icon: faEllipsisH,
+  },
+  sources: {
+    name: 'Sources',
+    icon: faBook,
+  },
+  hotkeys: {
+    name: 'Hotkeys',
+    icon: faKeyboard,
+  },
+  security: {
+    name: 'Security',
+    icon: faShieldAlt,
+  },
+  system: {
+    name: 'System Options',
+    icon: faWrench,
+  },
 }
 
 // Options with default values
 export const DEFAULT_OPTIONS = {
   local: {
     layout: {
-      name: 'Layout',
-      icon: faArrowsAltH,
-      options: {
-        spacing: OPTIONS.spacing.values[ 0 ],
-        controllerHeight: OPTIONS.controllerHeight.values[ 0 ],
-        larivaarGurbani: false,
-        splitGurbani: true,
-        englishTranslation: true,
-        punjabiTranslation: false,
-        englishTransliteration: true,
-        nextLine: false,
-      },
+      spacing: OPTIONS.spacing.values[ 0 ].value,
+      larivaarGurbani: false,
+      larivaarAssist: true,
+      splitOnVishraam: true,
+      englishTranslation: true,
+      punjabiTranslation: false,
+      englishTransliteration: true,
+      nextLine: false,
+      autoNextShabad: false,
     },
     theme: {
-      name: 'Theme',
-      icon: faPaintBrush,
-      options: {
-        themeName: OPTIONS.themeName.values[ 0 ],
-        backgroundImage: true,
-        fontSize: 40,
-      },
+      themeName: 'Day',
+      backgroundImage: true,
+      fontSize: 40,
+      simpleGraphics: false,
     },
     vishraams: {
-      name: 'Vishraams/Pauses',
-      icon: faEllipsisH,
-      options: {
-        vishraamColors: true,
-        vishraamCharacters: false,
-        vishraamLight: true,
-        vishraamMedium: true,
-        vishraamHeavy: true,
-      },
+      vishraamColors: true,
+      vishraamTransliterationColors: true,
+      vishraamCharacters: false,
+      vishraamLight: true,
+      vishraamMedium: true,
+      vishraamHeavy: true,
     },
-    navigation: {
-      name: 'Navigation',
-      icon: faKeyboard,
-      options: {
-        autoNextShabad: false,
-      },
-    },
+    sources: {},
+    hotkeys: DEFAULT_SHORTCUT_MAP,
     security: {
-      name: 'Security',
-      icon: faShieldAlt,
-      options: {
-        private: false,
-      },
+      private: false,
     },
   },
   // Special serverside settings
   // ! Must be in sync with settings.default.json
   global: {
-    privacy: {
-      name: 'Privacy',
-      icon: faEye,
-      options: {
-        analytics: true,
-      },
-    },
     system: {
-      name: 'System Options',
-      icon: faWrench,
-      options: {
-        launchOnStartup: false,
-      },
+      launchOnStartup: false,
+      analytics: true,
     },
   },
 }

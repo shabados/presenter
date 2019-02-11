@@ -12,7 +12,7 @@ Requirements:
 
 To install dependencies, run `npm install`, which will also install the dependencies for the frontend and backend.
 
-To spin up the development servers, run `npm run dev`, which will launch a frontend server on `https://localhost:3000`, and a backend server on `https://localhost:42425`.
+To spin up the development servers, run `npm start`, which will launch a frontend server on `https://localhost:3000`, and a backend server on `https://localhost:42425`.
 
 If you'd prefer to use docker-compose, `docker-compose up` will install the dependencies and spin up the backend and frontend.
 
@@ -24,7 +24,7 @@ Using `create-react-app`. Websockets for synchronising clients. API for search.
 
 Using proposed ES+ modules with the `esm` shim module.
 Any changes to the backend when running using `docker-compose`,
-or `npm run dev` will result in the server restarting.
+or `npm start` will result in the server restarting.
 
 In development, the backend app runs on port `42425` by default.
 

@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import { string, func, shape, arrayOf } from 'prop-types'
 import { history, location } from 'react-router-prop-types'
+import { string, func, shape, arrayOf, bool } from 'prop-types'
 
+import classNames from 'classnames'
 import queryString from 'qs'
 
 import { Toolbar, Typography } from '@material-ui/core'
 import {
-  faArrowAltCircleLeft,
-  faArrowAltCircleRight,
+  faCog,
   faBars,
   faBookOpen,
   faHistory,
@@ -17,8 +17,8 @@ import {
   faSignOutAlt,
   faWindowMinimize,
   faWindowMaximize,
-} from '@fortawesome/fontawesome-free-solid'
-import { faSquare } from '@fortawesome/fontawesome-free-regular'
+} from '@fortawesome/free-solid-svg-icons'
+import { faSquare } from '@fortawesome/free-regular-svg-icons'
 
 import controller from '../lib/controller'
 import {
@@ -28,6 +28,7 @@ import {
   MENU_URL,
   NAVIGATOR_URL,
   SEARCH_URL,
+  SETTINGS_URL,
   STATES,
 } from '../lib/consts'
 import { getUrlState } from '../lib/utils'
@@ -64,17 +65,10 @@ const TopBar = ( { title, history, location, onHover } ) => {
         onMouseLeave={resetHover}
       />
       <ToolbarButton
-        name="Backwards"
-        icon={faArrowAltCircleLeft}
-        onClick={() => history.goBack()}
-        onMouseEnter={() => onHover( 'Backwards' )}
-        onMouseLeave={resetHover}
-      />
-      <ToolbarButton
-        name="Forwards"
-        icon={faArrowAltCircleRight}
-        onClick={() => history.goForward()}
-        onMouseEnter={() => onHover( 'Forwards' )}
+        name="Settings"
+        icon={faCog}
+        onClick={() => window.open( SETTINGS_URL )}
+        onMouseEnter={() => onHover( 'Settings' )}
         onMouseLeave={resetHover}
       />
       <Typography className="name" type="title">{title}</Typography>
@@ -82,7 +76,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
         name="Minimize"
         icon={faWindowMinimize}
         onClick={() => history.push( '/' )}
-        onMouseEnter={() => onHover( 'Minimize' )}
+        onMouseEnter={() => onHover( 'Hide Controller' )}
         onMouseLeave={resetHover}
       />
       {state[ STATES.controllerOnly ]
@@ -106,7 +100,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
         name="Pop Out"
         icon={faSignOutAlt}
         onClick={() => window.open( `${CONTROLLER_URL}/?${STATES.controllerOnly}=true`, '_blank' )}
-        onMouseEnter={() => onHover( 'Pop Out' )}
+        onMouseEnter={() => onHover( 'Pop Out Controller' )}
         onMouseLeave={resetHover}
       />
     </Toolbar>
@@ -188,13 +182,7 @@ BottomBar.defaultProps = {
  * Controller controls the display and configures settings.
  */
 class Controller extends Component {
-  constructor( props ) {
-    super( props )
-
-    this.state = {
-      hovered: null,
-    }
-  }
+  state = { hovered: null }
 
   componentDidUpdate( { shabad: prevShabad, bani: prevBani } ) {
     const { history, shabad, bani, location } = this.props
@@ -211,8 +199,10 @@ class Controller extends Component {
   onHover = hovered => this.setState( { hovered } )
 
   render() {
-    const { location } = this.props
+    const { location, settings } = this.props
     const { hovered } = this.state
+
+    const { local: { theme: { simpleGraphics: simple } } } = settings
 
     const routes = [
       [ MENU_URL, Menu ],
@@ -229,7 +219,7 @@ class Controller extends Component {
             key={route}
             path={route}
             render={props => (
-              <div className="controller">
+              <div className={classNames( { simple }, 'controller' )}>
                 <TopBar
                   {...props}
                   title={hovered || route.split( '/' ).pop()}
@@ -258,6 +248,9 @@ Controller.propTypes = {
   location: location.isRequired,
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  settings: shape( {
+    local: shape( { theme: shape( { simpleGraphics: bool } ) } ),
+  } ).isRequired,
 }
 
 Controller.defaultProps = {

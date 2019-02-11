@@ -1,0 +1,83 @@
+.settings {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.simple.settings * {
+  transition: none !important;
+}
+
+.settings .title-bar {
+  background-color: var(--settings-title-background-color);
+  transition: 0.3s all;
+}
+
+.settings .title {
+  color: var(--settings-title-text-color);
+  text-transform: capitalize;
+  transition: 0.3s all;
+  margin-left: 20px;
+}
+  
+.menu > div {
+  height: 100%;
+  background-color: var(--settings-menu-background-color);
+  background-image: var(--settings-menu-background-image);
+  transition: 0.3s all;
+  }
+
+.menu .icon {
+  color: var(--settings-menu-icon-color);
+  width: 30px;
+  transition: 0.3s all;
+}
+
+.category-title {
+  color: var(--settings-menu-text-color) !important;
+  margin: 10px 20px !important;
+  text-transform: uppercase;
+  font-size: 0.875rem !important;
+  transition: 0.3s all;
+  }
+  
+.item .text span {
+  color: var(--settings-menu-text-color);
+  transition: 0.3s all;
+}
+  
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  background-color: var(--settings-background-color);
+  color: var(--settings-text-color);
+  height: 100%;
+  transition: 0.3s all;
+}
+  
+main p, main svg {
+  color: var(--settings-text-color) !important;
+}
+
+main .option {
+  margin: 5px;
+}
+
+main .icon {
+  color: var(--settings-menu-icon-color) !important;
+  height: 25px !important;
+  width: 25px !important;
+  transition: 0.3s all;
+}
+
+@media only screen and (min-width: 600px) {
+  main {
+    margin-left: 223px;
+  }
+
+  .settings .title {
+    margin-left: 240px;
+  }
+}

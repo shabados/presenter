@@ -1,4 +1,8 @@
 .line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -13,60 +17,101 @@
 }
 
 .line .gurmukhi {
-    font-family: "Open Gurbani Akhar Regular", sans-serif;
+    font-family: "Open Gurbani Akhar Black", sans-serif;
     font-size: 8vh;
     color: var(--display-gurmukhi-color);
+    transition: 0.3s all;
 }
 
-.line .gurmukhi span {
-    margin-right: 2.25vh;
+.line .gurmukhi .word {
+  margin-right: 2.25vh;
+  display: inline-block;
+  transition: 0.3s all;
+}
+
+.line .transliteration .word {
+  margin-right: 0.8vh;
+  display: inline-block;
+  transition: 0.3s all;
+}
+
+.larivaar.line .word {
+    margin-right: 0;
+}
+
+.larivaar.assist.line .gurmukhi .word:nth-child(2n) {
+    color: var(--display-gurmukhi-larivaar-assist-color);
+}
+
+.larivaar.assist.line .transliteration .word:nth-child(2n) {
+    color: var(--display-transliteration-larivaar-assist-color);
+}
+
+.line .gurmukhi .partition {
     display: inline-block;
 }
 
-.line .gurmukhi span:last-child {
-    margin-right: 0;
+.heavy.vishraams.line .gurmukhi .word.heavy,
+.heavy.vishraams.line .vishraams.transliteration .word.heavy {
+    color: var(--display-vishraam-heavy-color) !important;
 }
 
-.line .gurmukhi.larivaar span {
-    margin-right: 0;
+.medium.vishraams.line .gurmukhi .word.medium,
+.medium.vishraams.line .vishraams.transliteration .word.medium {
+    color: var(--display-vishraam-medium-color) !important;
 }
 
-.line .gurmukhi .heavy {
-    color: var(--display-vishraam-heavy-color);
-}
-
-.line .gurmukhi .medium {
-    color: var(--display-vishraam-medium-color);
-}
-
-.line .gurmukhi .light {
-    color: var(--display-vishraam-light-color);
+.light.vishraams.line .gurmukhi .word.light,
+.light.vishraams.line .vishraams.transliteration .word.light {
+    color: var(--display-vishraam-light-color) !important;
 }
 
 .line .translation {
     font-family: "Noto Sans Medium", sans-serif;
+    font-weight: bold;
     font-size: 4vh;
     transition: opacity 100ms ease-in;
     opacity: 0.05;
     color: var(--display-translation-color);
+    transition: 0.1s all ease-in;
+}
+
+.line .translation.fade-enter {
+  opacity: 0.05;
 }
 
 .line .punjabi {
     font-family: "Noto Sans Gurmukhi", sans-serif;
-    font-size: 4vh;
-    transition: opacity 150ms ease-in;
+    font-size: 3.5vh;
     opacity: 0.1;
     color: var(--display-punjabi-color);
+    transition: 0.15s all ease-in;
+}
+
+.line .punjabi.fade-enter {
+  opacity: 0.1;
 }
 
 .line .transliteration {
     font-family: "Noto Sans Regular", sans-serif;
-    font-size: 4vh;
-    transition: opacity 200ms ease-in;
-    opacity: 0.2;
+    font-weight: bold;
+    font-size: 3.5vh;
     color: var(--display-transliteration-color);
+    transition: 0.2s all ease-in;
+  }
+
+.line .transliteration.fade-enter {
+  opacity: 0.2;
 }
 
-.line .fade-enter-done, .line .fade-appear-done {
+.simple.line * {
+    transition: none;
+}
+
+.simple.line .fade-enter {
+    opacity: 1;
+}
+
+.line .fade-enter-done {
     opacity: 1;
 }

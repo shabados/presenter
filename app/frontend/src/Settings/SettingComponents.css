@@ -1,0 +1,12 @@
+.select {
+  font-size: 0.9em !important;
+  color: var(--settings-text-color) !important;
+}
+
+.select::before {
+  display: none;
+}
+
+.select::after {
+  border-bottom: 2px solid #f50057 !important;
+}

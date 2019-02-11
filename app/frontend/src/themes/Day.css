@@ -6,12 +6,15 @@
     /* Display background */
     --display-background-color: #FFFFFF;
     --display-background-image: url('/themes/images/logo.png');
+    --display-background-size: 120%;
 
     /* Display line colours */
     --display-gurmukhi-color: #000000;
+    --display-gurmukhi-larivaar-assist-color: red;
     --display-translation-color: #121212;
     --display-punjabi-color: #424242;
     --display-transliteration-color: #161616;
+    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
     --display-vishraam-heavy-color: #FF8F00;
@@ -40,27 +43,27 @@
     --controller-bar-background-color: #F5F5F5;
 
       /*****************/
-     /* Configurator  */
+     /* Settings      */
     /*****************/
 
-    /* Configurator Title */
-    --configurator-title-background-color: var(--controller-bar-background-color);
-    --configurator-title-text-color: var(--controller-bar-text-color);
+    /* Settings Title */
+    --settings-title-background-color: var(--controller-bar-background-color);
+    --settings-title-text-color: var(--controller-bar-text-color);
 
-    /* Configurator Menu */
-    --configurator-menu-background-image: var(--display-background-image);
-    --configurator-menu-background-color: var(--controller-bar-background-color);
-    --configurator-menu-text-color: #757575;
-    --configurator-menu-icon-color: var(--configurator-menu-text-color);
+    /* Settings Menu */
+    --settings-menu-background-image: var(--display-background-image);
+    --settings-menu-background-color: var(--controller-bar-background-color);
+    --settings-menu-text-color: var(--controller-bar-text-color);
+    --settings-menu-icon-color: var(--settings-menu-text-color);
     
-    /* Configurator Content */
-    --configurator-background-color: var(--controller-background-color);
-    --configurator-text-color: var(--controller-text-color);
+    /* Settings Content */
+    --settings-background-color: var(--controller-background-color);
+    --settings-text-color: var(--controller-text-color);
 
       /*****************/
      /* Miscellaneous */
     /*****************/
-    
+
     /* Scrollbar colour */
     --scrollbar-color: rgba(0, 0, 0, 0.5);
 

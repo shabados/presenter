@@ -3,11 +3,12 @@ import { func, number, arrayOf, shape, instanceOf, string } from 'prop-types'
 
 import { List, ListItem, ListItemIcon } from '@material-ui/core'
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import {
   faDownload,
   faTrash,
-} from '@fortawesome/fontawesome-free-solid'
+} from '@fortawesome/free-solid-svg-icons'
 
 
 import { LINE_HOTKEYS, HISTORY_DOWNLOAD_URL } from '../lib/consts'

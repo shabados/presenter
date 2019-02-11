@@ -1,53 +1,20 @@
-import React, { Component } from 'react'
-import { Link, Route, withRouter, Switch } from 'react-router-dom'
-import { location, history } from 'react-router-prop-types'
+import React, { PureComponent } from 'react'
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
+import { configure } from 'react-hotkeys'
 
-import { HotKeys } from 'react-hotkeys'
-import queryString from 'qs'
-import merge from 'deepmerge'
-
-import CssBaseline from '@material-ui/core/CssBaseline'
-import { IconButton } from '@material-ui/core'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/fontawesome-free-solid'
-
-import {
-  BANIS_URL,
-  CONTROLLER_URL,
-  HISTORY_URL,
-  MENU_URL,
-  NAVIGATOR_URL,
-  SEARCH_URL,
-  STATES,
-  OVERLAY_URL,
-  SCREEN_READER_URL,
-  SHORTCUT_MAP,
-  SHORTCUTS,
-  CONFIGURATOR_URL,
-  DEFAULT_OPTIONS,
-} from './lib/consts'
-import { getUrlState } from './lib/utils'
+import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, DEFAULT_OPTIONS, PRESENTER_URL, BACKEND_URL } from './lib/consts'
+import { merge } from './lib/utils'
 import controller from './lib/controller'
 
-import ThemeLoader from './shared/ThemeLoader'
-import ShortcutHelp from './Presenter/ShortcutHelp'
-import Display from './Presenter/Display'
 import ScreenReader from './ScreenReader'
-import Configurator from './Configurator'
+import Settings from './Settings'
 import Overlay from './Overlay'
-import Controller from './Controller'
+import Presenter from './Presenter'
 
 import './App.css'
 
-/**
- * Main frontend application.
- * Handles states and routing to other components.
- */
-class App extends Component {
-  constructor( props ) {
-    super( props )
-
-    this.state = {
+class App extends PureComponent {
+    state = {
       connected: false,
       banis: [],
       bani: null,
@@ -56,38 +23,54 @@ class App extends Component {
       viewedLines: new Set(),
       shabadHistory: [],
       shabad: null,
+      recommendedSources: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
-  }
 
-  componentDidMount() {
+    componentWillMount() {
+      // Configure react-hotkeys
+      configure( {
+        ignoreTags: [],
+      } )
+    }
+
+    componentDidMount() {
     // Register controller event
-    controller.on( 'connected', this.onConnected )
-    controller.on( 'disconnected', this.onDisconnected )
-    controller.on( 'shabad', this.onShabad )
-    controller.on( 'line', this.onLine )
-    controller.on( 'mainLine', this.onMainLine )
-    controller.on( 'viewedLines', this.onViewedLines )
-    controller.on( 'history', this.onHistory )
-    controller.on( 'banis', this.onBanis )
-    controller.on( 'bani', this.onBani )
-    controller.on( 'settings', this.onSettings )
-  }
+      controller.on( 'connected', this.onConnected )
+      controller.on( 'disconnected', this.onDisconnected )
+      controller.on( 'shabad', this.onShabad )
+      controller.on( 'line', this.onLine )
+      controller.on( 'mainLine', this.onMainLine )
+      controller.on( 'viewedLines', this.onViewedLines )
+      controller.on( 'history', this.onHistory )
+      controller.on( 'banis', this.onBanis )
+      controller.on( 'bani', this.onBani )
+      controller.on( 'settings', this.onSettings )
 
-  componentWillUnmount() {
+      // Get recommended sources and set as settings, if there are none
+      const { settings: { local: { sources } } } = this.state
+      fetch( `${BACKEND_URL}/sources` )
+        .then( res => res.json() )
+        .then( ( { recommended } ) => {
+          this.setState( { recommendedSources: sources } )
+          if ( !Object.keys( sources ).length ) controller.setSettings( { sources: recommended } )
+        } )
+    }
+
+    componentWillUnmount() {
     // Deregister event listeners from controller
-    controller.off( 'connected', this.onConnected )
-    controller.off( 'disconnected', this.onDisconnected )
-    controller.off( 'shabad', this.onShabad )
-    controller.off( 'line', this.onLine )
-    controller.off( 'mainLine', this.onMainLine )
-    controller.off( 'viewedLines', this.onViewedLines )
-    controller.off( 'banis', this.onBanis )
-    controller.off( 'bani', this.onBani )
-    controller.off( 'settings', this.onSettings )
-  }
+      controller.off( 'connected', this.onConnected )
+      controller.off( 'disconnected', this.onDisconnected )
+      controller.off( 'shabad', this.onShabad )
+      controller.off( 'line', this.onLine )
+      controller.off( 'mainLine', this.onMainLine )
+      controller.off( 'viewedLines', this.onViewedLines )
+      controller.off( 'banis', this.onBanis )
+      controller.off( 'bani', this.onBani )
+      controller.off( 'settings', this.onSettings )
+    }
 
-  onConnected = () => this.setState( { connected: true } )
+  onConnected = () => this.setState( { connected: true, bani: null, shabad: null } )
   onDisconnected = () => this.setState( { connected: false } )
   onShabad = shabad => this.setState( { shabad, bani: null } )
   onLine = lineId => this.setState( { lineId } )
@@ -104,139 +87,24 @@ class App extends Component {
     },
   } ) )
 
-  /**
-   * Sets the query string parameters, retaining any currently present.
-   * @param {Object} params The query string parameters.
-   */
-  setQueryParams = params => {
-    const { history, location } = this.props
-    const { search } = location
-
-    const previousSearch = getUrlState( search )
-    history.push( {
-      ...location,
-      search: queryString.stringify( { ...previousSearch, ...params } ),
-    } )
-  }
-
-  /**
-   * More concise form to navigate to URLs, retaining query params.
-   * @param {string} pathname The path to navigate to.
-   */
-  go = pathname => {
-    const { history, location } = this.props
-
-    history.push( { ...location, pathname } )
-  }
-
-  /**
-   * Toggles the controller.
-   */
-  toggleController = () => {
-    const { location: { pathname } } = this.props
-
-    const nextURL = pathname.includes( CONTROLLER_URL ) ? '/' : CONTROLLER_URL
-    this.go( nextURL )
-  }
-
-  /**
-   * Places the controller in fullscreen.
-   */
-  fullscreenController = () => {
-    const { location: { pathname } } = this.props
-
-    // Navigates to the controller first, if not there
-    if ( !pathname.includes( CONTROLLER_URL ) ) {
-      this.toggleController()
-    }
-
-    this.toggleQuery( STATES.controllerOnly )
-  }
-
-  /**
-   * Toggles the given query string parameter.
-   * @param {string} query The query string parameter to toggle.
-   */
-  toggleQuery = query => {
-    const { location: { search } } = this.props
-
-    const parsed = getUrlState( search )
-    this.setQueryParams( {
-      ...parsed,
-      [ query ]: parsed[ query ] ? undefined : true,
-    } )
-  }
-
-  /**
-   * Prevents the default action from occurring for each handler.
-   * @param {Object} events An object containing the event names and corresponding handlers.
-   */
-  preventDefault = events => Object.entries( events )
-    .reduce( ( events, [ name, handler ] ) => ( {
-      ...events,
-      [ name ]: event => event.preventDefault() || handler( event ),
-    } ), {} )
-
-  hotKeyHandlers = this.preventDefault( {
-    [ SHORTCUTS.toggleController ]: this.toggleController,
-    [ SHORTCUTS.newController ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
-    [ SHORTCUTS.historyBack ]: () => this.props.history.goBack(),
-    [ SHORTCUTS.historyForward ]: () => this.props.history.goForward(),
-    [ SHORTCUTS.menu ]: () => this.go( MENU_URL ),
-    [ SHORTCUTS.search ]: () => this.go( SEARCH_URL ),
-    [ SHORTCUTS.history ]: () => this.go( HISTORY_URL ),
-    [ SHORTCUTS.banis ]: () => this.go( BANIS_URL ),
-    [ SHORTCUTS.navigator ]: () => this.go( NAVIGATOR_URL ),
-    [ SHORTCUTS.clearDisplay ]: controller.clear,
-    [ SHORTCUTS.toggleShorcutsHelp ]: () => this.toggleQuery( STATES.showShortcuts ),
-    [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
-  } )
+  components = [
+    [ Overlay, OVERLAY_URL ],
+    [ ScreenReader, SCREEN_READER_URL ],
+    [ Settings, SETTINGS_URL ],
+    [ Presenter, PRESENTER_URL ],
+  ].map( ( [ Component, path ] ) => [ props => <Component {...props} {...this.state} />, path ] )
 
   render() {
-    const { bani, shabad, lineId, settings } = this.state
-    const { location: { search } } = this.props
-    const { controllerOnly, showShortcuts } = getUrlState( search )
-
-    const { theme: { options: { themeName } } } = settings.local
-
     return (
-      <Switch>
-        <Route path={OVERLAY_URL}><Overlay {...this.state} /></Route>
-        <Route path={SCREEN_READER_URL}><ScreenReader {...this.state} /></Route>
-        <Route path={CONFIGURATOR_URL}><Configurator {...this.state} /></Route>
-        <Route>
-          <HotKeys
-            component="document-fragment"
-            keyMap={SHORTCUT_MAP}
-            handlers={this.hotKeyHandlers}
-            focused
-            attach={window}
-          >
-            <div className="app">
-              <CssBaseline />
-              <ThemeLoader name={themeName} />
-              {!controllerOnly ? <Display shabad={shabad} bani={bani} lineId={lineId} /> : null}
-              <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
-                <Link to={CONTROLLER_URL}>
-                  <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
-                </Link>
-                <Route
-                  path={CONTROLLER_URL}
-                  render={props => <Controller {...this.state} {...props} />}
-                />
-              </div>
-              {showShortcuts ? <ShortcutHelp /> : null}
-            </div>
-          </HotKeys>
-        </Route>
-      </Switch>
+      <Router>
+        <Switch>
+          {this.components.map( ( [ Component, path ] ) => (
+            <Route key={path} path={path} component={Component} />
+          ) )}
+        </Switch>
+      </Router>
     )
   }
 }
 
-App.propTypes = {
-  history: history.isRequired,
-  location: location.isRequired,
-}
-
-export default withRouter( App )
+export default App

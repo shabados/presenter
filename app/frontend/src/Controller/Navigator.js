@@ -1,14 +1,17 @@
-import React, { Component } from 'react'
+/* eslint-disable react/no-multi-comp */
+
+import React, { PureComponent } from 'react'
 import { Redirect } from 'react-router-dom'
-import { string, func, shape, arrayOf } from 'prop-types'
+import { string, func, shape, arrayOf, bool } from 'prop-types'
 import { location } from 'react-router-prop-types'
+import classNames from 'classnames'
 
 import { List, ListItem } from '@material-ui/core'
 import {
   faChevronUp,
   faChevronDown,
   faExchangeAlt,
-} from '@fortawesome/fontawesome-free-solid'
+} from '@fortawesome/free-solid-svg-icons'
 
 import { CONTROLLER_URL, LINE_HOTKEYS } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
@@ -21,10 +24,59 @@ import ToolbarButton from './ToolbarButton'
 import './Navigator.css'
 
 /**
+* Line component that attaches click handlers.
+* @param gurmukhi The Gurmukhi for the line to render.
+* @param id The id of the line.
+* @param index The index of the line.
+*/
+class NavigatorLine extends PureComponent {
+  // Move to the line id on click
+  onClick = () => {
+    const { id } = this.props
+    controller.line( id )
+  }
+
+  // Register the reference to the line with the NavigationHotKey HOC
+  register = line => {
+    const { register, id } = this.props
+    register( id, line, true )
+  }
+
+  render() {
+    const { focused, gurmukhi, id, hotkey } = this.props
+
+    return (
+      <ListItem
+        key={id}
+        className={classNames( { focused } )}
+        onClick={this.onClick}
+        ref={this.register}
+        tabIndex={0}
+      >
+        <span className="hotkey meta">{hotkey}</span>
+        <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
+      </ListItem>
+    )
+  }
+}
+
+NavigatorLine.propTypes = {
+  register: func.isRequired,
+  gurmukhi: string.isRequired,
+  focused: bool.isRequired,
+  id: string.isRequired,
+  hotkey: string,
+}
+
+NavigatorLine.defaultProps = {
+  hotkey: null,
+}
+
+/**
  * Navigator Component.
  * Displays lines from Shabad and allows navigation.
  */
-class Navigator extends Component {
+class Navigator extends PureComponent {
   componentDidMount() {
     const { updateFocus, lineId } = this.props
 
@@ -41,38 +93,8 @@ class Navigator extends Component {
     }
   }
 
-  /**
-   * Line component that attaches click handlers.
-   * @param gurmukhi The Gurmukhi for the line to render.
-   * @param id The id of the line.
-   * @param index The index of the line.
-   */
-  Line = ( { gurmukhi, id }, index ) => {
-    const { lineId, register } = this.props
-
-    // Check if the line being rendered is the currently displayed line
-    const activeLine = id === lineId
-
-    // Set the class name appropriately for the active line
-    const className = activeLine ? 'focused' : ''
-
-    // Register the reference to the line with the NavigationHotKey HOC
-    const ref = line => register( id, line )
-
-    // Move to the line id on click
-    const onClick = () => controller.line( id )
-
-    return (
-      <ListItem key={id} className={className} onClick={onClick} ref={ref} tabIndex={0}>
-        <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
-      </ListItem>
-    )
-  }
-
-
   render() {
-    const { location, shabad, bani } = this.props
+    const { location, shabad, bani, lineId, register } = this.props
     const content = shabad || bani
 
     // If there's no Shabad to show, go back to the controller
@@ -82,15 +104,22 @@ class Navigator extends Component {
 
     const { lines } = content
     return (
-      <List className="navigator">
-        {lines.map( this.Line )}
+      <List className="navigator" onKeyDown={e => e.preventDefault()}>
+        {lines.map( ( line, index ) => (
+          <NavigatorLine
+            {...line}
+            focused={line.id === lineId}
+            hotkey={LINE_HOTKEYS[ index ]}
+            register={register}
+          />
+        ) )}
       </List>
     )
   }
 }
 
 Navigator.propTypes = {
-  lineId: string.isRequired,
+  lineId: string,
   updateFocus: func.isRequired,
   register: func.isRequired,
   location: location.isRequired,
@@ -101,6 +130,7 @@ Navigator.propTypes = {
 Navigator.defaultProps = {
   shabad: undefined,
   bani: undefined,
+  lineId: undefined,
 }
 
 /**

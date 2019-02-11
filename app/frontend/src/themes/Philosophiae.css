@@ -1,0 +1,73 @@
+:root {
+      /***********/
+     /* Display */
+    /***********/
+
+    /* Display background */
+    --display-background-color: #cdc7bb;
+    --display-background-image: url('/themes/images/philosophiae.png');
+    --display-background-size: auto;
+
+    /* Display line colours */
+    --display-gurmukhi-color: #800000;
+    --display-gurmukhi-larivaar-assist-color: #ffffff;
+    --display-translation-color: #004080;
+    --display-punjabi-color: #008040;
+    --display-transliteration-color: #055d57;
+    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
+
+    /* Display line pause/vishraam colours */
+    --display-vishraam-heavy-color: #008080;
+    --display-vishraam-medium-color: #008000;
+    --display-vishraam-light-color: #808000;
+
+      /**************/
+     /* Controller */
+    /**************/
+
+    /* Controller colors */
+    --controller-background-color: #eff0f4;
+    --controller-text-color: #424242;
+    --controller-text-hover-color: #000000;
+    --controller-selected-color: #000000;
+    --controller-selected-background-color: #f7f2c5;
+
+    /* Controller search colors */
+    --controller-search-background-color: transparent;
+    --controller-search-focused-background-color: #ffffff;
+    --controller-search-match-color: #4051bf;
+
+    /* Controller top and bottom bar colors */
+    --controller-bar-text-color: #616161;
+    --controller-bar-text-hover-color: #1a2188;
+    --controller-bar-background-color: #d5dae2;
+
+      /*****************/
+     /* Settings      */
+    /*****************/
+
+    /* Settings Title */
+    --settings-title-background-color: var(--controller-bar-background-color);
+    --settings-title-text-color: var(--controller-bar-text-color);
+
+    /* Settings Menu */
+    --settings-menu-background-image: var(--display-background-image);
+    --settings-menu-background-color: var(--controller-bar-background-color);
+    --settings-menu-text-color: var(--controller-bar-text-color);
+    --settings-menu-icon-color: var(--settings-menu-text-color);
+    
+    /* Settings Content */
+    --settings-background-color: var(--controller-background-color);
+    --settings-text-color: var(--controller-text-color);
+
+      /*****************/
+     /* Miscellaneous */
+    /*****************/
+    
+    /* Scrollbar colour */
+    --scrollbar-color: #42424280;
+
+    /* Shortcut help colors */
+    --shortcuts-text-color: #000000;
+    --shortcuts-background-color: rgba(255, 255, 255, 0.9);
+}

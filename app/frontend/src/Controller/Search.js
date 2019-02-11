@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { number, func } from 'prop-types'
+import { func, string, oneOfType, number } from 'prop-types'
 
 import { Input, List, ListItem } from '@material-ui/core'
-import { toUnicode } from 'gurmukhi-utils'
+import { firstLetters, toAscii } from 'gurmukhi-utils'
 
 import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS } from '../lib/consts'
-import { getFirstLetters, stripPauses } from '../lib/utils'
+import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
@@ -36,7 +36,7 @@ class Search extends Component {
     controller.on( 'results', this.onResults )
   }
 
-  componentDidUpdate( prevProps, { results: prevResults } ) {
+  componentDidUpdate( _, { results: prevResults } ) {
     const { results } = this.state
 
     // Timing
@@ -71,7 +71,7 @@ class Search extends Component {
    * @param {string} value The new value of the search box.
    */
   onChange = ( { target: { value } } ) => {
-    const inputValue = toUnicode( value.trim() )
+    const inputValue = toAscii( value.trim() )
 
     // Search if enough letters
     if ( inputValue.length >= MIN_SEARCH_CHARS ) {
@@ -94,9 +94,9 @@ class Search extends Component {
     const { searchedValue } = this.state
 
     // Get first letters in line and find where the match is
-    const firstLetters = getFirstLetters( gurmukhi )
+    const firstLettersLine = firstLetters( gurmukhi )
     // Remember to account for wildcard characters
-    const pos = firstLetters.search( searchedValue.replace( new RegExp( SEARCH_CHARS.wildcard ), '.' ) )
+    const pos = firstLettersLine.search( searchedValue.replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '.' ) )
 
     const words = stripPauses( gurmukhi ).split( ' ' )
 
@@ -131,10 +131,11 @@ class Search extends Component {
           className="input"
           onChange={this.onChange}
           value={inputValue}
-          placeholder="ਖੋਜ"
+          placeholder="Koj"
           disableUnderline
           autoFocus
-          inputRef={c => register( 'search', c, true )}
+          spellCheck={false}
+          inputRef={c => register( 'search', c )}
         />
         <List className="results">
           {results ?
@@ -153,8 +154,17 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  focused: number.isRequired,
+  focused: oneOfType( [ string, number ] ),
   register: func.isRequired,
 }
 
-export default withNavigationHotKeys( {} )( Search )
+Search.defaultProps = {
+  focused: undefined,
+}
+
+export default withNavigationHotKeys( {
+  keymap: {
+    next: [ 'down', 'tab' ],
+    previous: [ 'up', 'shift+tab' ],
+  },
+} )( Search )

@@ -5,19 +5,16 @@
 
 import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
-
+import deepmerge from 'deepmerge'
 import queryString from 'qs'
 
 import { PAUSE_CHARS, STATES } from './consts'
 
-/**
- * Gets the first letters in a space-separated string.
- * @param line The line to retrieve the first letters from.
- * @returns {string} The first letters of each word in the line.
- */
-export const getFirstLetters = line => line
-  .split( ' ' )
-  .reduce( ( firstLetters, [ firstLetter ] ) => firstLetters + firstLetter, '' )
+export const merge = ( source, destination ) => deepmerge(
+  source,
+  destination,
+  { arrayMerge: ( _, source ) => source },
+)
 
 /**
  * Removes the pause characters from the string.
@@ -29,9 +26,10 @@ export const stripPauses = line =>
 /**
  * Classifies the pause for a single word, returning an object of the word and type.
  * @param word The word to classify.
+ * @param strip Whether or not to strip the vishraam character.
  */
-export const classifyWord = word => ( {
-  word: stripPauses( word ),
+export const classifyWord = ( word, strip = true ) => ( {
+  word: strip ? stripPauses( word ) : word,
   type: Object
     .entries( { ...PAUSE_CHARS } )
     .reduce( ( type, [ pauseType, pauseChar ] ) => (
@@ -42,31 +40,38 @@ export const classifyWord = word => ( {
 /**
  * Returns an array of objects with their text and pause type.
  * @param line The line to process.
+ * @param strip Whether or not to strip vishraam characters.
  */
-export const classifyWords = line => line.split( ' ' ).map( classifyWord )
+export const classifyWords = ( line, strip = true ) => line.split( ' ' ).map( word => classifyWord( word, strip ) )
 
 /**
  * Partitions the line by heavy pause into arrays.
  * @param line The line to partition.
+ * @param strip Whether or not to strip vishraam chars from the word.
  */
-export const partitionLine = line => classifyWords( line ).reduce( ( words, { type, word } ) => {
+export const partitionLine = ( line, strip = true ) => classifyWords( line, strip )
+  .reduce( ( words, { type, word } ) => {
   // Get last list of words, removing it from the words list
-  const lastWords = words.pop()
+    const lastWords = words.pop()
 
-  // Add the words to the last list of words
-  const nextWords = [ ...words, [ ...lastWords, { type, word } ] ]
+    // Add the words to the last list of words
+    const nextWords = [ ...words, [ ...lastWords, { type, word } ] ]
 
-  // If it's a heavy pause, start a new array after it for the next words
-  return type === 'heavy' ? [ ...nextWords, [] ] : nextWords
-}, [ [] ] )
+    // If it's a heavy pause, start a new array after it for the next words
+    return type === 'heavy' ? [ ...nextWords, [] ] : nextWords
+  }, [ [] ] )
 
 
 /**
  * Scrolls an element into the center, given a ref.
  * @param ref The reference to the element to scroll.
+ * @param options Any options for the scroll function.
  */
 // eslint-disable-next-line react/no-find-dom-node
-export const scrollIntoCenter = ref => scrollIntoView( findDOMNode( ref ), ( { time: 200 } ) )
+export const scrollIntoCenter = ( ref, options ) => scrollIntoView( findDOMNode( ref ), ( {
+  time: 200,
+  ...options,
+} ) )
 
 /**
  * Returns the current query state of the URL, based on the defined states.

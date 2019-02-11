@@ -36,8 +36,5 @@ export const setupExpress = ( mounts = [], middleware = [] ) => {
   mounts.forEach( ( { dir, prefix = '/' } ) => app.use( prefix, express.static( dir ) ) )
   logger.info( 'Loaded all directory mounts' )
 
-  // Register heartbeat route
-  app.get( '/heartbeat', ( req, res ) => res.send( 'alive' ) )
-
   return server
 }

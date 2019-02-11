@@ -3,10 +3,11 @@
  * @ignore
  */
 
+import { groupBy, last } from 'lodash'
 import { readJSON, remove, move } from 'fs-extra'
 import { manifest, extract } from 'pacote'
 import importFresh from 'import-fresh'
-import { Lines, Shabads, Banis, knex } from '@shabados/database'
+import { Lines, Shabads, Banis, Sources, Languages, knex } from '@shabados/database'
 
 import logger from './logger'
 import { MAX_RESULTS, UPDATE_TMP_FOLDER, UPDATE_CHECK_INTERVAL } from './consts'
@@ -55,14 +56,52 @@ export const getBanis = () => Banis.query()
  */
 export const getBaniLines = baniId => Banis
   .query()
-  .eager( 'lines' )
-  .modifyEager( 'lines', builder => {
-    builder.orderBy( [ 'line_group', 'line_id' ] )
-  } )
+  .joinEager( 'lines.shabad' )
+  .orderBy( [ 'line_group', 'l.order_id' ] )
   .where( 'banis.id', baniId )
   .withTranslations()
   .withTransliterations()
+  .eagerOptions( { minimize: false, aliases: { lines: 'l' } } )
   .then( ( [ bani ] ) => bani )
+
+/**
+ * Gets all the sources, with possible translations per source.
+ * @async
+ * @returns {Array} A list of all sources, with possible translations.
+ */
+export const getSources = () => Sources
+  .query()
+  .eager( 'translationSources' )
+  .then( sources => sources.reduce( (
+    ( acc, { translationSources, id, ...source } ) => ( {
+      ...acc,
+      [ id ]: {
+        ...source,
+        translationSources: groupBy(
+          translationSources,
+          ( { languageId } ) => languageId,
+        ),
+      },
+    } ) ), {} ) )
+  .then( sources => ( {
+    sources,
+    recommended: Object.entries( sources ).reduce( (
+      ( acc, [ id, { translationSources, ...source } ] ) => ( {
+        ...acc,
+        [ id ]: {
+          ...source,
+          translationSources: Object.entries( translationSources )
+            .reduce( ( acc, [ id, sources ] ) => ( { ...acc, [ id ]: last( sources ) } ), {} ),
+        },
+      } ) ), {} ),
+  } ) )
+
+/**
+ * Gets all the languages.
+ * @async
+ * @returns {Array} A list of all languages.
+ */
+export const getLanguages = () => Languages.query()
 
 /**
  * Determines whether the database is the latest version, according to semver.

@@ -4,6 +4,7 @@
  */
 
 import get from 'get-value'
+import merge from 'deepmerge'
 
 import logger from './logger'
 import settingsManager from './settings'
@@ -56,8 +57,8 @@ class SessionManager {
   synchronise( client ) {
     const { bani, mainLineId, viewedLines, lineId, shabad, history } = this.session
 
-    client.sendJSON( 'shabad', shabad )
-    client.sendJSON( 'bani', bani )
+    if ( bani ) client.sendJSON( 'bani', bani )
+    else client.sendJSON( 'shabad', shabad )
     client.sendJSON( 'line', lineId )
     client.sendJSON( 'viewedLines', viewedLines )
     client.sendJSON( 'mainLine', mainLineId )
@@ -118,7 +119,7 @@ class SessionManager {
 
     viewedLines.add( lineId )
 
-    const { lines } = shabad || bani
+    const { lines = [] } = shabad || bani || {}
     this.session = { ...this.session, lineId }
 
     this.socket.broadcast( 'line', lineId )
@@ -194,7 +195,14 @@ class SessionManager {
 
     // Save new settings, mapping the local field back to the correct host
     const { settings } = this.session
-    this.session = { ...this.session, settings: { ...settings, ...rest, [ host ]: local } }
+    this.session = {
+      ...this.session,
+      settings: merge.all( [
+        settings,
+        rest,
+        { [ host ]: local },
+      ], { arrayMerge: ( _, source ) => source } ),
+    }
 
     // Strip out private settings
     const publicSettings = this.getPublicSettings()
