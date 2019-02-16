@@ -58,10 +58,12 @@ async function main() {
       interval: UPDATE_CHECK_INTERVAL,
     } )
 
-    updater.on( 'database-update', () => logger.info( 'Database update available' ) )
-    updater.on( 'database-updated', () => logger.info( 'Database updated' ) )
-    updater.on( 'application-update', () => logger.info( 'Updating' ) )
-    updater.on( 'application-updated', () => logger.info( 'Restart to apply' ) )
+    updater.on( 'database-updated', () => {
+      sessionManager.setStatus( 'Database updated' )
+      this.setTimeout( () => sessionManager.setStatus(), 1000 * 30 ) // Remove after 30 seconds
+    } )
+
+    updater.on( 'application-updated', () => sessionManager.setStatus( 'Restart to apply update' ) )
   }
 }
 
