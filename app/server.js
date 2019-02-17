@@ -6,9 +6,10 @@ import { setupExpress } from './lib/express'
 import api from './lib/api'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
-import { searchLines, getBanis, updateLoop } from './lib/db'
+import { searchLines, getBanis } from './lib/db'
+import Updater from './lib/Updater'
 import logger from './lib/logger'
-import { PORT, CUSTOM_THEMES_FOLDER, HISTORY_FILE } from './lib/consts'
+import { PORT, CUSTOM_THEMES_FOLDER, HISTORY_FILE, UPDATE_TMP_FOLDER, UPDATE_CHECK_INTERVAL } from './lib/consts'
 import { ensureRequiredDirs } from './lib/utils'
 
 const { NODE_ENV } = process.env
@@ -50,8 +51,23 @@ async function main() {
   // Start the server
   server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )
 
-  // Check for database updates every 5 minutes, in production only
-  if ( NODE_ENV === 'production' ) updateLoop()
+  // Check for updates every 5 minutes, in production only
+  if ( NODE_ENV === 'production' ) {
+    const updater = new Updater( {
+      tempFolder: UPDATE_TMP_FOLDER,
+      interval: UPDATE_CHECK_INTERVAL,
+    } )
+
+    updater.on( 'database-updated', () => {
+      sessionManager.setStatus( 'Database updated' )
+      setTimeout( () => sessionManager.setStatus(), 1000 * 10 ) // Remove after 10 seconds
+    } )
+
+    updater.on( 'application-updated', () => {
+      sessionManager.setStatus( 'Restart to apply update' )
+      setTimeout( () => sessionManager.setStatus(), 1000 * 30 ) // Remove after 30 seconds
+    } )
+  }
 }
 
 // Handle any errors by logging and re-throwing

@@ -33,6 +33,7 @@ class SessionManager {
       mainLineId: null,
       history: new History(),
       settings: {},
+      status: null,
     }
 
     // Send all the current data on connection from a new client
@@ -55,13 +56,14 @@ class SessionManager {
    * @param {WebSocket} client The client to synchronise the state to.
    */
   synchronise( client ) {
-    const { bani, mainLineId, viewedLines, lineId, shabad, history } = this.session
+    const { bani, mainLineId, viewedLines, lineId, shabad, history, status } = this.session
 
     if ( bani ) client.sendJSON( 'bani', bani )
     else client.sendJSON( 'shabad', shabad )
     client.sendJSON( 'line', lineId )
     client.sendJSON( 'viewedLines', viewedLines )
     client.sendJSON( 'mainLine', mainLineId )
+    client.sendJSON( 'status', status )
     client.sendJSON( 'history', history.getTransitionsOnly() )
     client.sendJSON( 'settings', this.getPublicSettings() )
   }
@@ -231,6 +233,16 @@ class SessionManager {
       ...acc,
       [ host ]: get( settings, 'security.options.private' ) ? undefined : settings,
     } ), {} )
+  }
+
+  /**
+   * Sets the status provided by the backend.
+   * @param {string} status The status of the application.
+   */
+  setStatus( status = null ) {
+    this.session = { ...this.session, status }
+
+    this.socket.broadcast( 'status', status )
   }
 
   /**

@@ -14,10 +14,12 @@ export const UPDATE_CHECK_INTERVAL = 5000 * 60
 export const DATA_FOLDER = join( getAppDataPath(), 'Shabad OS' )
 export const CUSTOM_THEMES_FOLDER = join( DATA_FOLDER, 'themes' )
 export const HISTORY_FOLDER = join( DATA_FOLDER, 'history' )
+export const LOG_FOLDER = join( DATA_FOLDER, 'logs' )
 export const TMP_FOLDER = join( DATA_FOLDER, 'temp' )
 export const UPDATE_TMP_FOLDER = join( TMP_FOLDER, '@shabados', 'database' )
 
 // File locations
+export const LOG_FILE = join( LOG_FOLDER, `${getDateFilename( new Date() )}.log` )
 export const HISTORY_FILE = join( HISTORY_FOLDER, `${getDateFilename( new Date() )}.csv` )
 export const SETTINGS_FILE = join( DATA_FOLDER, 'settings.json' )
 export const DEFAULT_SETTINGS_FILE = `${__dirname}/../settings.default.json`

@@ -1,8 +1,8 @@
 // eslint-disable-next-line
 import { app, BrowserWindow } from 'electron'
-import logger from 'electron-log'
 import fetch from 'electron-fetch'
 
+import logger from '../lib/logger'
 import { PORT } from '../lib/consts'
 
 const BASE_URL = `http://localhost:${PORT}`
