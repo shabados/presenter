@@ -19,7 +19,19 @@ const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ] )
 /**
  * Function to load server.
  */
-const loadServer = () => { require( '../server' ) }
+const loadServer = () => {
+  // Add file logging
+  const { LOG_FILE } = require( '../lib/consts' )
+  const logger = require( '../lib/logger' ).default
+
+  logger.addStream( {
+    path: LOG_FILE,
+    level: 'info',
+  } )
+
+  // Start the server
+  require( '../server' )
+}
 
 /**
  * Function to load the electron wrapper for frontend.

@@ -3,16 +3,11 @@ import { app, BrowserWindow } from 'electron'
 import fetch from 'electron-fetch'
 
 import logger from '../lib/logger'
-import { PORT, LOG_FILE } from '../lib/consts'
+import { PORT } from '../lib/consts'
 
 const BASE_URL = `http://localhost:${PORT}`
 
 let mainWindow
-
-logger.addStream( {
-  path: LOG_FILE,
-  level: 'info',
-} )
 
 /**
  * Loads the Shabad OS web page, if available.
