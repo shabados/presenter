@@ -1,10 +1,11 @@
 .status.toast {
   position: absolute;
-  bottom: 6px;
-  left: 6px;
+  bottom: 12px;
+  left: 12px;
   font-size: 2.25vh;
   padding: 1vh 1vw;
-  color: var(--display-gurmukhi-color);
+  color: var(--controller-text-color);
+  background-color: var(--controller-selected-background-color);
   transition: 0.3s all;
 }
 
