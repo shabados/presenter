@@ -3,7 +3,9 @@
  * @ignore
  */
 
+import { EventEmitter } from 'events'
 import { readJSONSync, writeJSON, writeJSONSync, ensureFileSync } from 'fs-extra'
+import merge from 'deepmerge'
 
 import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts'
 import logger from './logger'
@@ -11,12 +13,13 @@ import logger from './logger'
 /**
  * Simple class to manage application settings
  */
-class Settings {
+class Settings extends EventEmitter {
   /**
    * Initialises the Settings class.
    * Loads in the existing settings.
    */
   constructor() {
+    super()
     this.settings = {}
 
     this.loadSettings()
@@ -33,7 +36,7 @@ class Settings {
     const settings = Settings.checkCreateSettings()
 
     // Merge and store them
-    this.settings = { ...defaultSettings, ...settings }
+    this.settings = merge( defaultSettings, settings )
 
     // Save them for good measure
     this.saveSettings()
@@ -43,12 +46,13 @@ class Settings {
    * Saves the settings back to disk.
    */
   async saveSettings() {
-    writeJSON( SETTINGS_FILE, this.settings, { spaces: 2 } )
+    await writeJSON( SETTINGS_FILE, this.settings, { spaces: 2 } )
+    this.emit( 'change', this.settings )
   }
 
   /**
    * Returns all settings if no parameters, else the path provided.
-   * @param {String} path The setting path to deep-get.
+   * @param {string} path The setting path to deep-get.
    * @returns {*} The value at `path`.
    */
   get( path ) {
@@ -59,7 +63,7 @@ class Settings {
 
   /**
    * Sets a key-value pair and saves.
-   * @param {String} key The key to set the value for.
+   * @param {string} key The key to set the value for.
    * @param {*} value The new value of the key.
    */
   set( key, value ) {
@@ -72,7 +76,7 @@ class Settings {
    * @param {Object} settings The settings object to merge with.
    */
   merge( settings = {} ) {
-    this.settings = { ...this.settings, ...settings }
+    this.settings = merge( this.settings, settings )
     this.saveSettings()
   }
 
