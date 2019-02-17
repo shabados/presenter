@@ -111,14 +111,13 @@ class Presenter extends Component {
     [ SHORTCUTS.banis ]: () => this.go( BANIS_URL ),
     [ SHORTCUTS.navigator ]: () => this.go( NAVIGATOR_URL ),
     [ SHORTCUTS.clearDisplay ]: controller.clear,
-    [ SHORTCUTS.toggleShorcutsHelp ]: () => this.toggleQuery( STATES.showShortcuts ),
     [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
   } )
 
 
   render() {
     const { settings, location: { search }, status } = this.props
-    const { controllerOnly, showShortcuts } = getUrlState( search )
+    const { controllerOnly } = getUrlState( search )
 
     const { local: localSettings } = settings
     const { theme: { themeName }, hotkeys } = localSettings
