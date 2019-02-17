@@ -67,6 +67,8 @@ async function main() {
       sessionManager.setStatus( 'Restart to apply update' )
       setTimeout( () => sessionManager.setStatus(), 1000 * 30 ) // Remove after 30 seconds
     } )
+
+    updater.start()
   }
 }
 
