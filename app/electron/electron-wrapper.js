@@ -1,13 +1,18 @@
 // eslint-disable-next-line
 import { app, BrowserWindow } from 'electron'
-import logger from 'electron-log'
 import fetch from 'electron-fetch'
 
-import { PORT } from '../lib/consts'
+import logger from '../lib/logger'
+import { PORT, LOG_FILE } from '../lib/consts'
 
 const BASE_URL = `http://localhost:${PORT}`
 
 let mainWindow
+
+logger.addStream( {
+  path: LOG_FILE,
+  level: 'info',
+} )
 
 /**
  * Loads the Shabad OS web page, if available.
