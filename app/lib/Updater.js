@@ -8,26 +8,38 @@ import { autoUpdater } from 'electron-updater'
 import { dependencies } from '../package.json'
 
 import logger from './logger'
+import settings from './settings'
 
 const databasePackage = `@shabados/database@${dependencies[ '@shabados/database' ]}`
 
 class Updater extends EventEmitter {
-  constructor( { tempFolder, interval, beta = false } ) {
+  constructor( { tempFolder, interval } ) {
     super()
 
     this.tempFolder = tempFolder
     this.interval = interval
 
-    // Set up application autoupdates
-    autoUpdater.allowDowngrade = true
-    autoUpdater.allowPrerelease = beta
-    autoUpdater.on( 'update-available', info => this.emit( 'application-update', info ) )
-    autoUpdater.on( 'update-downloaded', info => this.emit( 'application-updated', info ) )
+    if ( process.versions.electron ) this.initElectronUpdates()
   }
 
   async start() {
     this.updateLoop( this.checkDatabaseUpdates )
     this.updateLoop( Updater.checkApplicationUpdates )
+  }
+
+  initElectronUpdates() {
+    autoUpdater.logger = logger
+    autoUpdater.allowDowngrade = true
+
+    // Change beta opt-in on settings change
+    settings.on( 'change', ( { system: { betaOptIn = false } } ) => {
+      logger.info( 'Setting beta updates to', betaOptIn )
+      autoUpdater.allowPrerelease = betaOptIn
+    } )
+
+    // Set up application autoupdates
+    autoUpdater.on( 'update-available', info => this.emit( 'application-update', info ) )
+    autoUpdater.on( 'update-downloaded', info => this.emit( 'application-updated', info ) )
   }
 
   /**
