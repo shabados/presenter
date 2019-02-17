@@ -60,7 +60,7 @@ async function main() {
 
     updater.on( 'database-updated', () => {
       sessionManager.setStatus( 'Database updated' )
-      this.setTimeout( () => sessionManager.setStatus(), 1000 * 30 ) // Remove after 30 seconds
+      setTimeout( () => sessionManager.setStatus(), 1000 * 30 ) // Remove after 30 seconds
     } )
 
     updater.on( 'application-updated', () => sessionManager.setStatus( 'Restart to apply update' ) )

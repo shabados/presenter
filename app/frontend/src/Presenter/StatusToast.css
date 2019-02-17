@@ -1,0 +1,23 @@
+.status.toast {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  font-size: 2.25vh;
+  padding: 1vh 1vw;
+  color: var(--display-transliteration-color);
+  transition: 0.3s all;
+}
+
+.status.toast.fade-enter,
+.status.toast.fade-exit {
+  opacity: 0;
+}
+
+.presenter .status.toast.fade-enter-active {
+  opacity: 1;
+}
+
+.presenter .status.toast span {
+  margin-left: 2vh;
+  font-family: 'Noto Sans Medium', Helvetica;
+}

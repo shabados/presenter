@@ -24,6 +24,7 @@ class App extends PureComponent {
       shabadHistory: [],
       shabad: null,
       recommendedSources: null,
+      status: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
 
@@ -45,6 +46,7 @@ class App extends PureComponent {
       controller.on( 'history', this.onHistory )
       controller.on( 'banis', this.onBanis )
       controller.on( 'bani', this.onBani )
+      controller.on( 'status', this.onStatus )
       controller.on( 'settings', this.onSettings )
 
       // Get recommended sources and set as settings, if there are none
@@ -58,7 +60,7 @@ class App extends PureComponent {
     }
 
     componentWillUnmount() {
-    // Deregister event listeners from controller
+      // Deregister event listeners from controller
       controller.off( 'connected', this.onConnected )
       controller.off( 'disconnected', this.onDisconnected )
       controller.off( 'shabad', this.onShabad )
@@ -67,6 +69,7 @@ class App extends PureComponent {
       controller.off( 'viewedLines', this.onViewedLines )
       controller.off( 'banis', this.onBanis )
       controller.off( 'bani', this.onBani )
+      controller.off( 'status', this.onStatus )
       controller.off( 'settings', this.onSettings )
     }
 
@@ -77,6 +80,7 @@ class App extends PureComponent {
   onViewedLines = viewedLines => this.setState( { viewedLines } )
   onMainLine = mainLineId => this.setState( { mainLineId } )
   onHistory = shabadHistory => this.setState( { shabadHistory } )
+  onStatus = status => this.setState( { status } )
   onBanis = banis => this.setState( { banis } )
   onBani = bani => this.setState( { bani, shabad: null } )
   onSettings = ( { global = {}, ...settings } ) => this.setState( state => ( {

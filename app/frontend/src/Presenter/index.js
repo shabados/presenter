@@ -11,6 +11,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import Display from './Display'
 import Controller from '../Controller'
+import StatusToast from './StatusToast'
 import ShortcutHelp from './ShortcutHelp'
 import ThemeLoader from '../shared/ThemeLoader'
 import controller from '../lib/controller'
@@ -117,7 +118,7 @@ class Presenter extends Component {
 
 
   render() {
-    const { settings, location: { search } } = this.props
+    const { settings, location: { search }, status } = this.props
     const { controllerOnly, showShortcuts } = getUrlState( search )
 
     const { local: localSettings } = settings
@@ -139,7 +140,8 @@ class Presenter extends Component {
                 render={props => <Controller {...this.props} {...props} />}
               />
             </div>
-            {showShortcuts ? <ShortcutHelp /> : null}
+            <StatusToast status={status} />
+            {showShortcuts && <ShortcutHelp />}
           </div>
         </GlobalHotKeys>
       </div>
@@ -149,6 +151,7 @@ class Presenter extends Component {
 
 Presenter.propTypes = {
   ...Display.propTypes,
+  status: string,
   settings: shape( {
     theme: shape( {
       themeName: string,
@@ -159,6 +162,7 @@ Presenter.propTypes = {
 
 Presenter.defaultProps = {
   ...Display.defaultProps,
+  status: null,
 }
 
 export default Presenter
