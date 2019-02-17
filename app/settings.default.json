@@ -1,6 +1,7 @@
 {
   "system": {
     "launchOnStartup": false,
-    "analytics": true
+    "analytics": true,
+    "betaOptIn": false
   }
 }
