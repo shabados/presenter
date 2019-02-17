@@ -12,7 +12,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import Display from './Display'
 import Controller from '../Controller'
 import StatusToast from './StatusToast'
-import ShortcutHelp from './ShortcutHelp'
 import ThemeLoader from '../shared/ThemeLoader'
 import controller from '../lib/controller'
 import { getUrlState } from '../lib/utils'
@@ -141,7 +140,6 @@ class Presenter extends Component {
               />
             </div>
             <StatusToast status={status} />
-            {showShortcuts && <ShortcutHelp />}
           </div>
         </GlobalHotKeys>
       </div>

@@ -99,7 +99,6 @@ export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfghjklzxcvbnm' )
 
 // Global application shortcuts
 export const SHORTCUTS = {
-  toggleShorcutsHelp: 'Toggle Shortcuts Help',
   toggleFullscreen: 'Toggle Fullscreen',
   toggleFullscreenController: 'Toggle Fullscreen Controller',
   refresh: 'Refresh',
@@ -117,7 +116,6 @@ export const SHORTCUTS = {
 
 // Shortcut Keys
 export const DEFAULT_SHORTCUT_MAP = {
-  [ SHORTCUTS.toggleShorcutsHelp ]: [ '?', 'shift+/' ],
   [ SHORTCUTS.toggleFullscreen ]: [ 'f11' ],
   [ SHORTCUTS.toggleFullscreenController ]: [ 'shift+f' ],
   [ SHORTCUTS.refresh ]: [ 'ctrl+r' ],
