@@ -4,7 +4,7 @@
   left: 6px;
   font-size: 2.25vh;
   padding: 1vh 1vw;
-  color: var(--display-transliteration-color);
+  color: var(--display-gurmukhi-color);
   transition: 0.3s all;
 }
 
