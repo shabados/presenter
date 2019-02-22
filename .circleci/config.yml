@@ -15,7 +15,7 @@ build: &build
     - persist_to_workspace:
         root: ./
         paths:
-          - app
+          - node_modules
           - dist
     - store_artifacts:
         path: artifacts
