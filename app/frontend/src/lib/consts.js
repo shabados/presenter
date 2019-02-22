@@ -223,7 +223,7 @@ export const DEFAULT_OPTIONS = {
     layout: {
       spacing: OPTIONS.spacing.values[ 0 ].value,
       larivaarGurbani: false,
-      larivaarAssist: true,
+      larivaarAssist: false,
       splitOnVishraam: true,
       englishTranslation: true,
       punjabiTranslation: false,
