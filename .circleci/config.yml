@@ -1,3 +1,39 @@
+# Generic build job
+build: &build
+  steps:
+    - checkout
+    - run:
+        name: Install dependencies
+        command: npm install --unsafe-perm
+    - run:
+        name: Build application
+        command: npm run build
+    - run:
+        name: Build binaries
+        command: npm run dist -- -${PLATFORM_FLAG}
+    - run: mkdir artifacts && cp dist/Shabad* artifacts
+    - persist_to_workspace:
+      root: ./
+      paths:
+        - app
+        - dist
+    - store_artifacts:
+        path: artifacts
+        destination: artifacts
+    - add_ssh_keys:
+        fingerprints:
+          - "e5:71:50:86:4f:6c:3e:f6:8b:f2:d5:45:ec:f0:9a:f1"
+
+# Generic publish job
+publish: &publish
+  steps:
+    - checkout
+    - attach_workspace:
+        at: ./
+    - run:
+        name: Publish application
+        command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG}
+
 version: 2
 jobs:
   lint:
@@ -13,117 +49,50 @@ jobs:
           command: npm run lint
   
   build-mac:
+    <<: *build
     macos:
       xcode: "9.0"
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: npm install --unsafe-perm
-      - run:
-          name: Build application
-          command: npm run build
-      - run:
-          name: Build binaries
-          command: npm run dist -- -m
-      - run: mkdir artifacts && mv dist/Shabad* artifacts
-      - store_artifacts:
-          path: artifacts
-          destination: artifacts
-
-  publish-mac:
-    macos:
-      xcode: "9.0"
-    steps:
-      - checkout
-      - run:
-          name: Install depdendencies
-          command: npm install --unsafe-perm
-      - run:
-          name: Build application
-          command: npm run build
-      - run:
-          name: Publish application
-          command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -l
+    environment:
+      PLATFORM_FLAG: "m"
 
   build-linux:
+    <<: *build
     docker:
       - image: electronuserland/builder
     environment:
       USE_HARD_LINKS: false
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: npm install --unsafe-perm
-      - run:
-          name: Build application
-          command: npm run build
-      - run:
-          name: Build binaries
-          command: npm run dist -- -l
-      - run: mkdir artifacts && mv dist/Shabad* artifacts
-      - store_artifacts:
-          path: artifacts
-          destination: artifacts
-
-  publish-linux:
-    docker:
-      - image: electronuserland/builder
-    environment:
-      USE_HARD_LINKS: false
-    steps:
-      - checkout
-      - run:
-          name: Install depdendencies
-          command: npm install --unsafe-perm
-      - run:
-          name: Build application
-          command: npm run build
-      - run:
-          name: Publish application
-          command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -l
+      PLATFORM_FLAG: "l"
 
   build-windows:
+    <<: *build
     docker:
       - image: electronuserland/builder:wine
     environment:
       USE_HARD_LINKS: false
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: npm install --unsafe-perm
-      - run:
-          name: Build application
-          command: npm run build
-      - run:
-          name: Build binaries
-          command: npm run dist -- -w
-      - run: mkdir artifacts && mv dist/Shabad* artifacts
-      - store_artifacts:
-          path: artifacts
-          destination: artifacts
-      - add_ssh_keys:
-          fingerprints:
-            - "e5:71:50:86:4f:6c:3e:f6:8b:f2:d5:45:ec:f0:9a:f1"
+      PLATFORM_FLAG: "w"
+
+  publish-mac:
+    <<: *publish
+    macos:
+      xcode: "9.0"
+    environment:
+      PLATFORM_FLAG: "m"
+
+  publish-linux:
+    <<: *publish
+    docker:
+      - image: electronuserland/builder
+    environment:
+      USE_HARD_LINKS: false
+      PLATFORM_FLAG: "l"
 
   publish-windows:
+    <<: *publish
     docker:
       - image: electronuserland/builder:wine
     environment:
       USE_HARD_LINKS: false
-    steps:
-      - checkout
-      - run:
-          name: Install depdendencies
-          command: npm install --unsafe-perm
-      - run:
-          name: Build application
-          command: npm run build
-      - run:
-          name: Publish application
-          command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -w
+      PLATFORM_FLAG: "w"
 
 workflows:
   version: 2
