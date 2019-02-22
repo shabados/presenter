@@ -13,10 +13,10 @@ build: &build
         command: npm run dist -- -${PLATFORM_FLAG}
     - run: mkdir artifacts && cp dist/Shabad* artifacts
     - persist_to_workspace:
-      root: ./
-      paths:
-        - app
-        - dist
+        root: ./
+        paths:
+          - app
+          - dist
     - store_artifacts:
         path: artifacts
         destination: artifacts
