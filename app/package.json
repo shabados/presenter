@@ -1,6 +1,6 @@
 {
   "name": "@shabados/backend",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "description": "Next generation Gurbani presentation software",
   "main": "electron/entry.js",
   "scripts": {
