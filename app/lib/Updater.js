@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events'
 import { readJSON, remove, move } from 'fs-extra'
+import { join } from 'path'
 import { manifest, extract } from 'pacote'
 import importFresh from 'import-fresh'
 import { knex } from '@shabados/database'
@@ -9,6 +10,7 @@ import { dependencies } from '../package.json'
 
 import logger from './logger'
 import settings from './settings'
+import { DATABASE_FOLDER } from './consts.js'
 
 const databasePackage = `@shabados/database@${dependencies[ '@shabados/database' ]}`
 
@@ -33,7 +35,6 @@ class Updater extends EventEmitter {
 
     // Change beta opt-in on settings change
     settings.on( 'change', ( { system: { betaOptIn = false } } ) => {
-      logger.info( 'Setting beta updates to', betaOptIn )
       autoUpdater.allowPrerelease = betaOptIn
     } )
 
@@ -46,6 +47,7 @@ class Updater extends EventEmitter {
    * Executes electron-autoupdater's checker.
    */
   static async checkApplicationUpdates() {
+    logger.info( 'Checking for app updates, beta:', autoUpdater.allowPrerelease )
     const { downloadPromise } = await autoUpdater.checkForUpdates()
     return downloadPromise
   }
@@ -59,7 +61,7 @@ class Updater extends EventEmitter {
     // Read package.json database semver and database package file
     const [ remotePackage, localPackage ] = await Promise.all( [
       manifest( databasePackage ),
-      readJSON( 'node_modules/@shabados/database/package.json', 'utf-8' ),
+      readJSON( join( DATABASE_FOLDER, 'package.json' ), 'utf-8' ),
     ] )
 
     const { version: local } = localPackage
@@ -88,7 +90,7 @@ class Updater extends EventEmitter {
     // Disconnect the Shabad OS database connection
     await knex.destroy()
     // Move across the updated npm database module
-    await move( this.tempFolder, 'node_modules/@shabados/database', { overwrite: true } )
+    await move( this.tempFolder, DATABASE_FOLDER, { overwrite: true } )
     // Reimport the database
     //! Relies on knex being reinitialised globally
     importFresh( '@shabados/database' )
