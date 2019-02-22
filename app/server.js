@@ -1,3 +1,4 @@
+import { join } from 'path'
 import cors from 'cors'
 
 // eslint-disable-next-line
@@ -9,7 +10,15 @@ import Socket from './lib/Sockets'
 import { searchLines, getBanis } from './lib/db'
 import Updater from './lib/Updater'
 import logger from './lib/logger'
-import { PORT, CUSTOM_THEMES_FOLDER, HISTORY_FILE, UPDATE_TMP_FOLDER, UPDATE_CHECK_INTERVAL } from './lib/consts'
+import {
+  PORT,
+  CUSTOM_THEMES_FOLDER,
+  HISTORY_FILE,
+  UPDATE_TMP_FOLDER,
+  UPDATE_CHECK_INTERVAL,
+  FRONTEND_BUILD_FOLDER,
+  FRONTEND_THEMES_FOLDER,
+} from './lib/consts'
 import { ensureRequiredDirs } from './lib/utils'
 
 const { NODE_ENV } = process.env
@@ -25,12 +34,12 @@ async function main() {
 
   // Setup the express server with WebSockets
   const mounts = [
-    { prefix: '/', dir: `${__dirname}/frontend/build` },
-    { prefix: '/themes', dir: `${__dirname}/frontend/src/themes` },
+    { prefix: '/', dir: FRONTEND_BUILD_FOLDER },
+    { prefix: '/themes', dir: FRONTEND_THEMES_FOLDER },
     { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
-    { prefix: '/themes/*', dir: `${__dirname}/frontend/src/themes/Day.css` },
+    { prefix: '/themes/*', dir: join( FRONTEND_THEMES_FOLDER, 'Day.css' ) },
     { prefix: '/history.csv', dir: HISTORY_FILE },
-    { prefix: '*', dir: `${__dirname}/frontend/build/index.html` },
+    { prefix: '*', dir: join( FRONTEND_BUILD_FOLDER, 'index.html' ) },
   ]
 
   const server = await setupExpress( mounts, [ cors(), api ] )
