@@ -10,7 +10,15 @@ import { getDateFilename } from './utils'
 // Check every 5 minutes
 export const UPDATE_CHECK_INTERVAL = 5000 * 60
 
-// Folder locations
+// App folder locations
+export const APP_FOLDER = join( __dirname, '..' )
+export const FRONTEND_FOLDER = join( APP_FOLDER, 'frontend' )
+export const FRONTEND_SRC_FOLDER = join( FRONTEND_FOLDER, 'src' )
+export const FRONTEND_BUILD_FOLDER = join( FRONTEND_FOLDER, 'build' )
+export const FRONTEND_THEMES_FOLDER = join( FRONTEND_SRC_FOLDER, 'themes' )
+export const DATABASE_FOLDER = join( APP_FOLDER, 'node_modules', '@shabados', 'database' )
+
+// Data folder locations
 export const DATA_FOLDER = join( getAppDataPath(), 'Shabad OS' )
 export const CUSTOM_THEMES_FOLDER = join( DATA_FOLDER, 'themes' )
 export const HISTORY_FOLDER = join( DATA_FOLDER, 'history' )
@@ -18,11 +26,11 @@ export const LOG_FOLDER = join( DATA_FOLDER, 'logs' )
 export const TMP_FOLDER = join( DATA_FOLDER, 'temp' )
 export const UPDATE_TMP_FOLDER = join( TMP_FOLDER, '@shabados', 'database' )
 
-// File locations
+// Data file locations
 export const LOG_FILE = join( LOG_FOLDER, `${getDateFilename( new Date() )}.log` )
 export const HISTORY_FILE = join( HISTORY_FOLDER, `${getDateFilename( new Date() )}.csv` )
 export const SETTINGS_FILE = join( DATA_FOLDER, 'settings.json' )
-export const DEFAULT_SETTINGS_FILE = `${__dirname}/../settings.default.json`
+export const DEFAULT_SETTINGS_FILE = join( APP_FOLDER, 'settings.default.json' )
 
 // Max Search results to return in one go
 export const MAX_RESULTS = 20

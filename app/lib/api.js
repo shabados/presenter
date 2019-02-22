@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import { basename } from 'path'
+import { basename, join } from 'path'
 import { hostname, platform, arch, cpus } from 'os'
 import { readJSON } from 'fs-extra'
 
-import { CUSTOM_THEMES_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, APP_FOLDER, FRONTEND_THEMES_FOLDER, DATABASE_FOLDER } from './consts'
 import { listCSSFiles } from './utils'
 import { getSources, getLanguages } from './db'
 
@@ -14,13 +14,13 @@ api.get( '/heartbeat', ( _, res ) => res.send( 'alive' ) )
 
 // Serve any themes
 api.get( '/themes', ( _, res ) => Promise.all( (
-  [ 'frontend/src/themes', CUSTOM_THEMES_FOLDER ].map( listCSSFiles )
+  [ FRONTEND_THEMES_FOLDER, CUSTOM_THEMES_FOLDER ].map( listCSSFiles )
 ) ).then( ( [ themes, customThemes ] ) => res.json( [ ...themes, ...customThemes ].map( x => basename( x, '.css' ) ) ) ) )
 
 // Version information
 api.get( '/about', ( _, res ) => Promise.all( [
-  readJSON( 'package.json', 'utf-8' ),
-  readJSON( 'node_modules/@shabados/database/package.json', 'utf-8' ),
+  readJSON( join( APP_FOLDER, 'package.json' ), 'utf-8' ),
+  readJSON( join( DATABASE_FOLDER, 'package.json' ), 'utf-8' ),
 ] ).then( ( [ { version }, { version: databaseVersion } ] ) => res.json( {
   version,
   databaseVersion,
