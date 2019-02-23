@@ -49,6 +49,9 @@
       "buildResources": "resources"
     },
     "productName": "Shabad OS",
+    "extraMetadata": {
+      "name": "Shabad-OS"
+    },
     "win": {
       "artifactName": "Shabad-OS-Setup-${version}.${ext}",
       "target": [

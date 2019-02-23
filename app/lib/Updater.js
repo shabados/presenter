@@ -32,6 +32,7 @@ class Updater extends EventEmitter {
   initElectronUpdates() {
     autoUpdater.logger = logger
     autoUpdater.allowDowngrade = true
+    autoUpdater.autoInstallOnAppQuit = true
 
     // Change beta opt-in on settings change
     settings.on( 'change', ( { system: { betaOptIn = false } } ) => {
