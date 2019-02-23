@@ -32,7 +32,7 @@
   "homepage": "https://github.com/ShabadOS/desktop#readme",
   "devDependencies": {
     "babel-eslint": "^8.2.6",
-    "electron": "^4.0.5",
+    "electron": "4.0.3",
     "electron-builder": "^20.38.5",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
