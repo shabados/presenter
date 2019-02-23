@@ -48,10 +48,9 @@
     "directories": {
       "buildResources": "resources"
     },
-    "extraMetadata": {
-      "name": "Shabad OS"
-    },
+    "productName": "Shabad OS",
     "win": {
+      "artifactName": "Shabad-OS-Setup-${version}.${ext}",
       "target": [
         {
           "target": "nsis",
@@ -63,11 +62,13 @@
       ]
     },
     "mac": {
+      "artifactName": "Shabad-OS-${version}.${ext}",
       "target": [
         "dmg"
       ]
     },
     "linux": {
+      "artifactName": "Shabad-OS-${version}_${arch}.${ext}",
       "target": [
         "snap",
         {
