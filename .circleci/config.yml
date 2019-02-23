@@ -1,5 +1,6 @@
 # Generic build job
 build: &build
+  working_directory: ~/shabad-os
   steps:
     - checkout
     - run:
@@ -13,7 +14,7 @@ build: &build
         command: npm run dist -- -${PLATFORM_FLAG}
     - run: mkdir artifacts && cp dist/Shabad* artifacts
     - persist_to_workspace:
-        root: ./
+        root: ~/shabad-os
         paths:
           - node_modules
           - dist
@@ -26,10 +27,11 @@ build: &build
 
 # Generic publish job
 publish: &publish
+  working_directory: ~/shabad-os
   steps:
     - checkout
     - attach_workspace:
-        at: ./
+        at: ~/shabad-os
     - run:
         name: Publish application
         command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG}
@@ -39,6 +41,7 @@ jobs:
   lint:
     docker:
       - image: node:10
+    working_directory: ~/shabad-os
     steps:
       - checkout
       - run:
