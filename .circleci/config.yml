@@ -17,7 +17,7 @@ build: &build
         root: ~/shabad-os
         paths:
           - node_modules
-          - dist
+          - app/frontend/build
     - store_artifacts:
         path: artifacts
         destination: artifacts
