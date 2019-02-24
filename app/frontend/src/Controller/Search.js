@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { func, string, oneOfType, number } from 'prop-types'
+import { history, location } from 'react-router-prop-types'
 
+import { stringify } from 'querystring'
 import { Input, List, ListItem } from '@material-ui/core'
 import { firstLetters, toAscii } from 'gurmukhi-utils'
 
 import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS } from '../lib/consts'
-import { stripPauses } from '../lib/utils'
+import { stripPauses, getUrlState } from '../lib/utils'
 import controller from '../lib/controller'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
@@ -34,21 +36,12 @@ class Search extends Component {
 
   componentDidMount() {
     controller.on( 'results', this.onResults )
-  }
 
-  componentDidUpdate( _, { results: prevResults } ) {
-    const { results } = this.state
+    // Set the initial search query from URL
+    const { location: { search } } = this.props
+    const { query = '' } = getUrlState( search )
 
-    // Timing
-    if ( results.length && results !== prevResults ) {
-      this.timeEnd = window.performance.now()
-      const duration = this.timeEnd - this.timeStart
-      this.times.push( duration )
-
-      const average = this.times.reduce( ( sum, time ) => sum + time, 0 ) / this.times.length
-
-      console.log( `Searched in ${duration}ms, average: ${average}ms` )
-    }
+    this.onChange( { target: { value: query } } )
   }
 
   componentWillUnmount() {
@@ -71,16 +64,22 @@ class Search extends Component {
    * @param {string} value The new value of the search box.
    */
   onChange = ( { target: { value } } ) => {
+    const { location: { search }, history } = this.props
     const inputValue = toAscii( value.trim() )
 
     // Search if enough letters
     if ( inputValue.length >= MIN_SEARCH_CHARS ) {
-      this.timeStart = window.performance.now()
       this.setState( { inputValue } )
       controller.search( inputValue )
     } else {
       this.setState( { inputValue, results: [] } )
     }
+
+    // Update URL with search
+    history.push( { search: `?${stringify( {
+      ...getUrlState( search ),
+      query: inputValue,
+    } )}` } )
   }
 
   /**
@@ -156,6 +155,8 @@ class Search extends Component {
 Search.propTypes = {
   focused: oneOfType( [ string, number ] ),
   register: func.isRequired,
+  history: history.isRequired,
+  location: location.isRequired,
 }
 
 Search.defaultProps = {

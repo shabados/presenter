@@ -26,8 +26,12 @@ class Controller extends EventEmitter {
    * @param event The event name.
    * @param payload The JSON data to send.
    */
-  sendJSON = ( event, payload ) => this.socket.send( JSON.stringify( { event, payload } ) )
+  sendJSON = ( event, payload ) => {
+    const sendJSON = () => this.socket.send( JSON.stringify( { event, payload } ) )
 
+    if ( this.socket.readyState === 1 ) sendJSON()
+    else this.once( 'connected', sendJSON )
+  }
   /**
    * Called when the WebSocket is connected.
    * @private

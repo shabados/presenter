@@ -10,6 +10,11 @@ import queryString from 'qs'
 
 import { PAUSE_CHARS, STATES } from './consts'
 
+/**
+ * Merges the source object into the destination, replacing arrays.
+ * @param {Object} source The source object.
+ * @param {Object} destination The destination object.
+ */
 export const merge = ( source, destination ) => deepmerge(
   source,
   destination,
@@ -76,14 +81,15 @@ export const scrollIntoCenter = ( ref, options ) => scrollIntoView( findDOMNode(
 /**
  * Returns the current query state of the URL, based on the defined states.
  * @param search The search component of the window location.
+ * @returns {Object} Key-value pairs of the state and values.
  */
 export const getUrlState = search => {
   const params = queryString.parse( search, { ignoreQueryPrefix: true } )
 
   return Object
     .entries( STATES )
-    .reduce( ( acc, [ key, name ] ) => ( {
+    .reduce( ( acc, [ key, name ] ) => ( params[ name ] ? {
       ...acc,
       [ key ]: params[ name ],
-    } ), {} )
+    } : acc ), {} )
 }

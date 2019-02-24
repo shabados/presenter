@@ -76,6 +76,7 @@ export const SCREEN_READER_URL = '/screenreader'
 // URL states
 export const STATES = {
   controllerOnly: 'controllerOnly', // Fullscreen controller
+  query: 'query', // Search query
 }
 
 // Search
