@@ -3,11 +3,11 @@ import React from 'react'
 import { List, ListItem, ListItemIcon } from '@material-ui/core'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
-import './Devices.css'
+import './ConnectTo.css'
 
-const Devices = ( { devices } ) => (
+const ConnectTo = ( { discoveredDevices } ) => (
   <List className="devices">
-    { devices.map( device => (
+    { discoveredDevices.map( device => (
       <ListItem>
         { device }
       </ListItem>
@@ -18,4 +18,4 @@ const Devices = ( { devices } ) => (
 export default withNavigationHotKeys( {
   arrowKeys: true,
   lineKeys: true,
-} )( Devices )
+} )( ConnectTo )

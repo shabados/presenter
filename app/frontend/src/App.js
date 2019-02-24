@@ -51,7 +51,7 @@ class App extends Component {
       mainLineId: null,
       viewedLines: new Set(),
       shabadHistory: [],
-      devices: [],
+      discoveredDevices: [],
       shabad: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
@@ -102,7 +102,7 @@ class App extends Component {
       global: merge( state.settings.global, global ),
     },
   } ) )
-  onConnectTo = devices => this.setState( { devices } )
+  onConnectTo = discoveredDevices => this.setState( { discoveredDevices } )
 
   /**
    * Sets the query string parameters, retaining any currently present.
