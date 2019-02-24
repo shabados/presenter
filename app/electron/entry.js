@@ -9,10 +9,22 @@ require = require( 'esm' )( module )
 const { execPath, argv, env } = process
 env.NODE_ENV = 'production'
 
+const { LOG_FILE } = require( '../lib/consts' )
+
+// Add file logging
+const logger = require( '../lib/logger' ).default
+
+logger.addStream( {
+  path: env.LOG_FILE || LOG_FILE,
+  level: 'info',
+} )
+
 /**
  * Launches a server in a separate process, with flag.
  */
-const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ] )
+const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ], {
+  env: { LOG_FILE },
+} )
 
 // Define loader functions
 
@@ -20,15 +32,6 @@ const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ] )
  * Function to load server.
  */
 const loadServer = () => {
-  // Add file logging
-  const { LOG_FILE } = require( '../lib/consts' )
-  const logger = require( '../lib/logger' ).default
-
-  logger.addStream( {
-    path: LOG_FILE,
-    level: 'info',
-  } )
-
   // Start the server
   require( '../server' )
 }
