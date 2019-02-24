@@ -50,10 +50,10 @@
     },
     "productName": "Shabad OS",
     "extraMetadata": {
-      "name": "Shabad-OS"
+      "name": "Shabad OS"
     },
     "win": {
-      "artifactName": "Shabad-OS-Setup-${version}.${ext}",
+      "artifactName": "Shabad.OS-Setup-${version}.${ext}",
       "target": [
         {
           "target": "nsis",
@@ -65,13 +65,13 @@
       ]
     },
     "mac": {
-      "artifactName": "Shabad-OS-${version}.${ext}",
+      "artifactName": "Shabad.OS-${version}.${ext}",
       "target": [
         "dmg"
       ]
     },
     "linux": {
-      "artifactName": "Shabad-OS-${version}_${arch}.${ext}",
+      "artifactName": "Shabad.OS-${version}_${arch}.${ext}",
       "target": [
         "snap",
         {
