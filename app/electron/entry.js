@@ -1,5 +1,7 @@
 /* eslint-disable global-require, no-global-assign */
 const { spawn } = require( 'child_process' )
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { app } = require( 'electron' )
 
 const LAUNCH_FLAG = '--start-server'
 
@@ -24,6 +26,8 @@ logger.addStream( {
  */
 const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ], {
   env: { LOG_FILE },
+  detached: true,
+  stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ],
 } )
 
 // Define loader functions
@@ -32,6 +36,12 @@ const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ], {
  * Function to load server.
  */
 const loadServer = () => {
+  // IPC message handler used to indicate termination
+  process.on( 'message', () => {
+    logger.info( 'Gracefully quitting backend' )
+    app.quit()
+  } )
+
   // Start the server
   require( '../server' )
 }
@@ -48,7 +58,7 @@ if ( processFlag === LAUNCH_FLAG ) {
   loadServer()
 } else {
   const server = spawnServer()
-  const killServer = () => server.kill()
+  const killServer = () => server.send( 'quit' )
 
   process.on( 'SIGINT', killServer )
   process.on( 'uncaughtException', killServer )
