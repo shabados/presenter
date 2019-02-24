@@ -19,6 +19,7 @@
     font-family: 'Open Gurbani Akhar Bold';
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
     background-color: var(--controller-search-background-color);
+    color: var(--controller-text-color);
     transition: 0.2s all;
     height: 100%;
 }
