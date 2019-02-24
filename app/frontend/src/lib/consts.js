@@ -22,11 +22,16 @@ import {
   faDoorOpen,
   faLock,
   faFlask,
+  faPlug,
+  faArchive,
+  faDownload,
+  faPowerOff,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
   faClosedCaptioning as farClosedCaptioning,
   faDotCircle,
+  faBell,
 } from '@fortawesome/free-regular-svg-icons'
 
 /* eslint-disable quote-props */
@@ -183,6 +188,10 @@ export const OPTIONS = {
   launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   betaOptIn: { name: 'Beta Updates', icon: faFlask, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
+  connectionEvents: { name: 'Connections', icon: faPlug, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  disconnectionEvents: { name: 'Disconnections', icon: faPowerOff, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  downloadEvents: { name: 'Update Download', icon: faDownload, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  downloadedEvents: { name: 'Update Download Complete', icon: faArchive, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
 }
 
 // Possible options groups
@@ -210,6 +219,10 @@ export const OPTION_GROUPS = {
   security: {
     name: 'Security',
     icon: faShieldAlt,
+  },
+  notifications: {
+    name: 'Notifications',
+    icon: faBell,
   },
   system: {
     name: 'System Options',
@@ -258,6 +271,12 @@ export const DEFAULT_OPTIONS = {
       launchOnStartup: false,
       analytics: true,
       betaOptIn: false,
+    },
+    notifications: {
+      connectionEvents: true,
+      disconnectionEvents: false,
+      downloadEvents: true,
+      downloadedEvents: true,
     },
   },
 }
