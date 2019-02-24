@@ -1,3 +1,8 @@
+.presenter {
+  height: 100%;
+  display: flex;
+}
+
 .presenter .controller-container {
   position: absolute;
   right: 0;
