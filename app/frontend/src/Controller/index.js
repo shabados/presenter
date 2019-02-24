@@ -30,6 +30,7 @@ import {
   SEARCH_URL,
   SETTINGS_URL,
   STATES,
+  PRESENTER_URL,
 } from '../lib/consts'
 import { getUrlState } from '../lib/utils'
 
@@ -75,7 +76,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
       <ToolbarButton
         name="Minimize"
         icon={faWindowMinimize}
-        onClick={() => history.push( '/' )}
+        onClick={() => history.push( PRESENTER_URL )}
         onMouseEnter={() => onHover( 'Hide Controller' )}
         onMouseLeave={resetHover}
       />
@@ -99,7 +100,10 @@ const TopBar = ( { title, history, location, onHover } ) => {
       <ToolbarButton
         name="Pop Out"
         icon={faSignOutAlt}
-        onClick={() => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' )}
+        onClick={() => {
+          history.push( PRESENTER_URL )
+          window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' )
+        }}
         onMouseEnter={() => onHover( 'Pop Out Controller' )}
         onMouseLeave={resetHover}
       />
