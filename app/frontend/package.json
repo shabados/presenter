@@ -26,6 +26,7 @@
     "event-emitter": "^0.3.5",
     "gurmukhi-utils": "^2.0.5",
     "install": "^0.12.2",
+    "lodash": "^4.17.11",
     "npm": "^6.7.0",
     "prop-types": "^15.6.2",
     "qs": "^6.6.0",

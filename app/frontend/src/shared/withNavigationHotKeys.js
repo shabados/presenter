@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { instanceOf } from 'prop-types'
 
+import { debounce } from 'lodash'
 import { GlobalHotKeys } from 'react-hotkeys'
 
 import { scrollIntoCenter } from '../lib/utils'
@@ -71,7 +72,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keym
       /**
        * Simulates a click on the focused component.
        */
-      simulateClick = () => {
+      simulateClick = debounce( () => {
         const { focusedIndex } = this.state
 
         // Simulate a click on the focused element if possible
@@ -80,7 +81,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keym
         if ( node ) {
           node.click()
         }
-      }
+      }, 300, { leading: true } )
 
       /**
        * Jump to an item given it's name/identifier.

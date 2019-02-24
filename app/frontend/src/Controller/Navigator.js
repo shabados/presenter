@@ -94,7 +94,7 @@ class Navigator extends PureComponent {
   }
 
   render() {
-    const { location, shabad, bani, lineId, register } = this.props
+    const { location, shabad, bani, lineId, register, focused } = this.props
     const content = shabad || bani
 
     // If there's no Shabad to show, go back to the controller
@@ -108,7 +108,7 @@ class Navigator extends PureComponent {
         {lines.map( ( line, index ) => (
           <NavigatorLine
             {...line}
-            focused={line.id === lineId}
+            focused={line.id === focused}
             hotkey={LINE_HOTKEYS[ index ]}
             register={register}
           />
