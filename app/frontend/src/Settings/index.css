@@ -47,8 +47,9 @@
   transition: 0.3s all;
 }
   
-main {
+.settings main {
   display: flex;
+  min-height: 100%;
   flex-direction: column;
   padding: 25px;
   background-color: var(--settings-background-color);
@@ -57,15 +58,15 @@ main {
   transition: 0.3s all;
 }
   
-main p, main svg {
+.settings main p, .settings main svg {
   color: var(--settings-text-color) !important;
 }
 
-main .option {
+.settings main .option {
   margin: 5px;
 }
 
-main .icon {
+.settings main .icon {
   color: var(--settings-menu-icon-color) !important;
   height: 25px !important;
   width: 25px !important;
@@ -73,7 +74,7 @@ main .icon {
 }
 
 @media only screen and (min-width: 600px) {
-  main {
+  .settings main {
     margin-left: 223px;
   }
 
