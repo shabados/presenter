@@ -3,5 +3,11 @@
     "launchOnStartup": false,
     "analytics": true,
     "betaOptIn": false
+  },
+  "notifications": {
+    "connectionEvents": true,
+    "disconnectionEvents": false,
+    "downloadEvents": true,
+    "downloadedEvents": true
   }
 }

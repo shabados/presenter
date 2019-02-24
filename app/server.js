@@ -9,6 +9,7 @@ import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
 import { searchLines, getBanis } from './lib/db'
 import Updater from './lib/Updater'
+import settings from './lib/settings'
 import logger from './lib/logger'
 import {
   PORT,
@@ -19,9 +20,41 @@ import {
   FRONTEND_BUILD_FOLDER,
   FRONTEND_THEMES_FOLDER,
 } from './lib/consts'
-import { ensureRequiredDirs } from './lib/utils'
+import { ensureRequiredDirs, notify } from './lib/utils'
 
 const { NODE_ENV } = process.env
+
+
+/**
+ * Sets up updates.
+ * @param {SessionManager} sessionManager An instance of sessionManager.
+ */
+const initialiseUpdater = sessionManager => {
+  const updater = new Updater( {
+    tempFolder: UPDATE_TMP_FOLDER,
+    interval: UPDATE_CHECK_INTERVAL,
+  } )
+
+  // Display notification for 30s, with optional toast
+  const notification = ( message, toast ) => {
+    sessionManager.setStatus( message )
+    if ( toast ) notify( message )
+    setTimeout( () => sessionManager.setStatus(), 1000 * 30 )
+  }
+
+  const downloadEvents = () => settings.get( 'notifications.downloadEvents' )
+  const downloadedEvents = () => settings.get( 'notifications.downloadedEvents' )
+
+  // Database download events
+  updater.on( 'database-update', () => notification( 'Downloading database update', downloadEvents() ) )
+  updater.on( 'database-updated', () => notification( 'Database updated', downloadedEvents() ) )
+
+  // Application updater events
+  updater.on( 'application-update', () => notification( 'Downloading app update', downloadEvents() ) )
+  updater.on( 'application-updated', () => notification( 'Close to install app update', downloadedEvents() ) )
+
+  updater.start()
+}
 
 /**
  * Async entry point for application.
@@ -48,7 +81,6 @@ async function main() {
   const socket = new Socket( server )
 
   // Setup the session manager on top of the Socket instance
-  // eslint-disable-next-line
   const sessionManager = new SessionManager( socket )
 
   // Register searches on the socket instance
@@ -61,24 +93,7 @@ async function main() {
   server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )
 
   // Check for updates every 5 minutes, in production only
-  if ( NODE_ENV === 'production' ) {
-    const updater = new Updater( {
-      tempFolder: UPDATE_TMP_FOLDER,
-      interval: UPDATE_CHECK_INTERVAL,
-    } )
-
-    updater.on( 'database-updated', () => {
-      sessionManager.setStatus( 'Database updated' )
-      setTimeout( () => sessionManager.setStatus(), 1000 * 10 ) // Remove after 10 seconds
-    } )
-
-    updater.on( 'application-updated', () => {
-      sessionManager.setStatus( 'Restart to apply update' )
-      setTimeout( () => sessionManager.setStatus(), 1000 * 30 ) // Remove after 30 seconds
-    } )
-
-    updater.start()
-  }
+  if ( NODE_ENV === 'production' ) initialiseUpdater( sessionManager )
 }
 
 // Handle any errors by logging and re-throwing

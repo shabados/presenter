@@ -8,8 +8,9 @@ import { reverse } from 'dns'
 import { ensureDirSync, readdir } from 'fs-extra'
 import { promisify } from 'util'
 import { extname } from 'path'
+import notifier from 'node-notifier'
 
-import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, APP_FOLDER } from './consts'
 
 const asyncReverse = promisify( reverse )
 
@@ -61,3 +62,16 @@ export const ensureRequiredDirs = () => {
   ;[ DATA_FOLDER, LOG_FOLDER, CUSTOM_THEMES_FOLDER, HISTORY_FOLDER, TMP_FOLDER ]
     .map( dir => ensureDirSync( dir, dirPerms ) )
 }
+
+/**
+ * Posts an OS toast notification.
+ * @param {string} message The message to send.
+ */
+export const notify = message => notifier.notify( {
+  appID: 'com.shabados.desktop',
+  title: 'Shabad OS',
+  message,
+  icon: `${APP_FOLDER}/lib/logo.png`,
+  contentImage: `${APP_FOLDER}/lib/logo.png`,
+  wait: true,
+} )
