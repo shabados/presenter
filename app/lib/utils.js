@@ -9,7 +9,7 @@ import { ensureDirSync, readdir } from 'fs-extra'
 import { promisify } from 'util'
 import { extname } from 'path'
 
-import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER } from './consts'
 
 const asyncReverse = promisify( reverse )
 
@@ -42,7 +42,7 @@ export const getDateFilename = date => date.toISOString().replace( /T/, '_' ).re
 
 /**
  * Lists all CSS files in the given path.
- * @param {String} path The path to list all CSS files in.
+ * @param {string} path The path to list all CSS files in.
  * @returns {Promise} An array of the listed CSS files.
  */
 export const listCSSFiles = async path => {
@@ -58,6 +58,6 @@ export const ensureRequiredDirs = () => {
     mode: 0o2775,
   }
 
-  ;[ DATA_FOLDER, CUSTOM_THEMES_FOLDER, HISTORY_FOLDER, TMP_FOLDER ]
+  ;[ DATA_FOLDER, LOG_FOLDER, CUSTOM_THEMES_FOLDER, HISTORY_FOLDER, TMP_FOLDER ]
     .map( dir => ensureDirSync( dir, dirPerms ) )
 }
