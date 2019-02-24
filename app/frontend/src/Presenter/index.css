@@ -8,6 +8,7 @@
 
 .presenter .controller-container .expand-icon {
   position: absolute;
+  color: var(--controller-text-color);
   bottom: 0;
   right: 0;
   height: 48px;
