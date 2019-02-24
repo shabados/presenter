@@ -123,25 +123,23 @@ class Presenter extends Component {
     const { theme: { themeName }, hotkeys } = localSettings
 
     return (
-      <div className="presenter">
-        <GlobalHotKeys keyMap={hotkeys} handlers={this.hotKeyHandlers}>
-          <div className="app">
-            <CssBaseline />
-            <ThemeLoader name={themeName} />
-            {!controllerOnly && <Display {...this.props} settings={localSettings} />}
-            <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
-              <Link to={CONTROLLER_URL}>
-                <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
-              </Link>
-              <Route
-                path={CONTROLLER_URL}
-                render={props => <Controller {...this.props} {...props} />}
-              />
-            </div>
-            <StatusToast status={status} />
+      <GlobalHotKeys keyMap={hotkeys} handlers={this.hotKeyHandlers}>
+        <div className="presenter">
+          <CssBaseline />
+          <ThemeLoader name={themeName} />
+          {!controllerOnly && <Display {...this.props} settings={localSettings} />}
+          <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
+            <Link to={CONTROLLER_URL}>
+              <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
+            </Link>
+            <Route
+              path={CONTROLLER_URL}
+              render={props => <Controller {...this.props} {...props} />}
+            />
           </div>
-        </GlobalHotKeys>
-      </div>
+          <StatusToast status={status} />
+        </div>
+      </GlobalHotKeys>
     )
   }
 }

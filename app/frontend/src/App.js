@@ -100,13 +100,15 @@ class App extends PureComponent {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          {this.components.map( ( [ Component, path ] ) => (
-            <Route key={path} path={path} component={Component} />
+      <div className="app">
+        <Router>
+          <Switch>
+            {this.components.map( ( [ Component, path ] ) => (
+              <Route key={path} path={path} component={Component} />
           ) )}
-        </Switch>
-      </Router>
+          </Switch>
+        </Router>
+      </div>
     )
   }
 }
