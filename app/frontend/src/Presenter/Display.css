@@ -1,26 +1,35 @@
 .display {
-    height: 100%;
-    transition: 0.3s all ease-in-out;
-  }
+  height: 100%;
+  width: 100%;
+  transition: 0.3s all ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
   
-  .display .background-image {
-    position: absolute;
-    top :0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: var(--display-background-color);
-    background-size: var(--display-background-size);
-    background-image: var(--display-background-image);
-    background-position: center;
-    opacity: 0;
-    transition: 0.3s all ease-in-out;
+.display .background-image {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--display-background-color);
+  background-size: var(--display-background-size);
+  background-image: var(--display-background-image);
+  background-position: center;
+  opacity: 0;
+  transition: 0.3s all ease-in-out;
+}
+
+.display .next-line {
+  height: auto;
+  line-height: 20vh;
 }
 
 .background.display .background-image {
-    opacity: 1;
+  opacity: 1;
 }
 
 .simple.display, .simple.display * {
-    transition: none !important;
+  transition: none !important;
 }

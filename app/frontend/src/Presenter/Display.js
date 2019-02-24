@@ -27,7 +27,12 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
   const { lines = [] } = shabad || bani || {}
 
   // Find the correct line in the Shabad
-  const line = lines.find( ( { id } ) => lineId === id )
+  const lineIndex = lines.findIndex( ( { id } ) => lineId === id )
+  const line = lineIndex > -1 ? lines[ lineIndex ] : null
+
+  // Get the next lines
+  const { nextLines: nextLineCount } = layout
+  const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
   // Gets the right translation
   const getTranslation = languageId => {
@@ -56,6 +61,15 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
         }
         simpleGraphics={simple}
       />}
+      {nextLines.map( ( { gurmukhi } ) => (
+        <Line
+          className="next-line"
+          simpleGraphics={simple}
+          {...layout}
+          {...vishraams}
+          gurmukhi={gurmukhi}
+        />
+        ) )}
     </div>
   )
 }
