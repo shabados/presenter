@@ -1,6 +1,7 @@
 .presenter {
   height: 100%;
   display: flex;
+  overflow: hidden;
 }
 
 .presenter .controller-container {
