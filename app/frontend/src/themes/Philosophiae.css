@@ -31,6 +31,8 @@
     --controller-text-hover-color: #000000;
     --controller-selected-color: #000000;
     --controller-selected-background-color: #f7f2c5;
+    --controller-hover-background-color: #TK;
+    --controller-selected-hover-background-color: #TK;
 
     /* Controller search colors */
     --controller-search-background-color: transparent;

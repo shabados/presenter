@@ -26,11 +26,14 @@
     /**************/
 
     /* Controller colors */
+
     --controller-background-color: #EEEEEE;
     --controller-text-color: #424242;
     --controller-text-hover-color: #212121;
     --controller-selected-color: #212121;
     --controller-selected-background-color: #cdd8e5;
+    --controller-hover-background-color: #E0E0E0;
+    --controller-selected-hover-background-color: #D7DCE3;
 
     /* Controller search colors */
     --controller-search-background-color: transparent;

@@ -78,7 +78,13 @@
 }
 
 .controller .content li:not(.focused):hover  {
+	background-color: var(--controller-hover-background-color);
     color: var(--controller-text-hover-color);
+    transition: 0.3s all;
+}
+
+.controller .content li.focused:hover  {
+	background-color: var(--controller-selected-hover-background-color);
     transition: 0.3s all;
 }
 
