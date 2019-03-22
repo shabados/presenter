@@ -106,7 +106,6 @@
 
 .controller .content .gurmukhi.text {
     font-family: "Open Gurbani Akhar Bold", sans-serif;
-    font-weight: bold;
     height: auto;
     color: var(--controller-text-color);
     transition: 0.3s all;
