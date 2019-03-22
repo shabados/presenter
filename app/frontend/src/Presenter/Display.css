@@ -21,10 +21,6 @@
   transition: 0.3s all ease-in-out;
 }
 
-.display .next-line {
-  height: auto;
-}
-
 .background.display .background-image {
   opacity: 1;
 }
