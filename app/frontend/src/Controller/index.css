@@ -74,14 +74,12 @@
 .controller .content .focused {
     color: var(--controller-text-hover-color);
     background-color: var(--controller-selected-background-color);
-    font-size: 1.1em;
     transition: 0.3s all;
 }
 
 .controller .content li:not(.focused):hover  {
     color: var(--controller-text-hover-color);
     transition: 0.3s all;
-    padding-left: 1em;
 }
 
 .controller .content .meta {
@@ -113,8 +111,6 @@
 
 .controller .content .focused.text {
     background-color: var(--controller-selected-background-color);
-    font-size: 1.2em;
     color: var(--controller-selected-color);
-    padding-left: 1em;
     transition: 0.3s all;
 }
