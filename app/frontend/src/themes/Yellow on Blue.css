@@ -53,7 +53,6 @@
     --settings-title-text-color: var(--controller-bar-text-color);
 
     /* Settings Menu */
-    --settings-menu-background-image: var(--display-background-image);
     --settings-menu-background-color: var(--controller-bar-background-color);
     --settings-menu-text-color: var(--controller-bar-text-color);
     --settings-menu-icon-color: var(--settings-menu-text-color);
