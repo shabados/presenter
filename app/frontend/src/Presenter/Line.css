@@ -112,3 +112,7 @@
 .line .fade-enter-done {
     opacity: 1;
 }
+
+.next-line + .next-line {
+	padding-top: 0;
+}
