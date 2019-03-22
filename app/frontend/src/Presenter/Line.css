@@ -1,11 +1,14 @@
 .line {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 1vh;
+    padding: 5vh 5vw;
     text-align: center;
+}
+
+.line:not(.next-line) {
+	flex-grow: 1;
 }
 
 .line p {
@@ -64,7 +67,6 @@
 
 .line .translation {
     font-family: "Noto Sans Medium", sans-serif;
-    font-weight: bold;
     font-size: 4vh;
     transition: opacity 100ms ease-in;
     opacity: 0.05;
@@ -90,7 +92,6 @@
 
 .line .transliteration {
     font-family: "Noto Sans Regular", sans-serif;
-    font-weight: bold;
     font-size: 3.5vh;
     color: var(--display-transliteration-color);
     transition: 0.2s all ease-in;

@@ -9,28 +9,31 @@
     --display-background-size: 120%;
 
     /* Display line colours */
-    --display-gurmukhi-color: #0f4aa9;
-    --display-gurmukhi-larivaar-assist-color: #0f97a9;
-    --display-translation-color: #355383;
-    --display-punjabi-color: #5a738e;
-    --display-transliteration-color: #7e8894;
+    --display-gurmukhi-color: #004daa;
+    --display-gurmukhi-larivaar-assist-color: #006bc9;
+    --display-translation-color: #555555;
+    --display-punjabi-color: #555555;
+    --display-transliteration-color: #555555;
     --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #a96e0f;
-    --display-vishraam-medium-color: #a90f4a;
-    --display-vishraam-light-color: #6e0fa9;
+    --display-vishraam-heavy-color: #db5f00;
+    --display-vishraam-medium-color: #870865;
+    --display-vishraam-light-color: #005d42;
 
       /**************/
      /* Controller */
     /**************/
 
     /* Controller colors */
+
     --controller-background-color: #EEEEEE;
     --controller-text-color: #424242;
     --controller-text-hover-color: #212121;
     --controller-selected-color: #212121;
     --controller-selected-background-color: #cdd8e5;
+    --controller-hover-background-color: #E0E0E0;
+    --controller-selected-hover-background-color: #D7DCE3;
 
     /* Controller search colors */
     --controller-search-background-color: transparent;
