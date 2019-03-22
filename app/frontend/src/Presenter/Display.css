@@ -21,6 +21,10 @@
   transition: 0.3s all ease-in-out;
 }
 
+.display .current-line {
+	flex-grow: 1;
+}
+
 .background.display .background-image {
   opacity: 1;
 }
