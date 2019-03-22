@@ -67,7 +67,6 @@
 
 .line .translation {
     font-family: "Noto Sans Medium", sans-serif;
-    font-weight: bold;
     font-size: 4vh;
     transition: opacity 100ms ease-in;
     opacity: 0.05;
