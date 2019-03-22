@@ -94,7 +94,7 @@ class Navigator extends PureComponent {
   }
 
   render() {
-    const { location, shabad, bani, lineId, register, focused } = this.props
+    const { location, shabad, bani, register, focused } = this.props
     const content = shabad || bani
 
     // If there's no Shabad to show, go back to the controller
@@ -123,6 +123,7 @@ Navigator.propTypes = {
   updateFocus: func.isRequired,
   register: func.isRequired,
   location: location.isRequired,
+  focused: string,
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
 }
@@ -131,6 +132,7 @@ Navigator.defaultProps = {
   shabad: undefined,
   bani: undefined,
   lineId: undefined,
+  focused: undefined,
 }
 
 /**
