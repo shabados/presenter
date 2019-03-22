@@ -51,6 +51,7 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
       {line && <Line
+        className="current-line"
         {...layout}
         {...vishraams}
         gurmukhi={line.gurmukhi}

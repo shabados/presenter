@@ -7,7 +7,7 @@
     text-align: center;
 }
 
-.line:not(.next-line) {
+.line.current-line {
 	flex-grow: 1;
 }
 
