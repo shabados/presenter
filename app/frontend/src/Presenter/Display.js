@@ -31,7 +31,10 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
   const line = lineIndex > -1 ? lines[ lineIndex ] : null
 
   // Get the next lines
-  const { nextLines: nextLineCount } = layout
+  const { nextLines: nextLineCount, previousLines: previousLineCount } = layout
+  const previousLines = previousLineCount && lineIndex
+    ? lines.slice( Math.max( lineIndex - previousLineCount, 0 ), lineIndex )
+    : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
   // Gets the right translation
@@ -50,7 +53,17 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
   return (
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
+      {previousLines.map( ( { gurmukhi } ) => (
+        <Line
+          className="previous-line"
+          simpleGraphics={simple}
+          {...layout}
+          {...vishraams}
+          gurmukhi={gurmukhi}
+        />
+        ) )}
       {line && <Line
+        className="current-line"
         {...layout}
         {...vishraams}
         gurmukhi={line.gurmukhi}

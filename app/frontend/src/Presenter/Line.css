@@ -7,10 +7,6 @@
     text-align: center;
 }
 
-.line:not(.next-line) {
-	flex-grow: 1;
-}
-
 .line p {
     margin: 0;
 }
