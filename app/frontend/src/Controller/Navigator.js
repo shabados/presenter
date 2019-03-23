@@ -6,7 +6,9 @@ import { string, func, shape, arrayOf, bool } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
-import { List, ListItem } from '@material-ui/core'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+
 import {
   faChevronUp,
   faChevronDown,

@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { shape, objectOf, string, number, func } from 'prop-types'
 
-import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography, Grid } from '@material-ui/core'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
@@ -45,7 +50,7 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
         translationSources,
       } ] ) => (
         <ExpansionPanel key={sourceId} className="source">
-          <ExpansionPanelSummary className="source-title" expandIcon={<FontAwesomeIcon icon={faChevronDown}></FontAwesomeIcon>}>
+          <ExpansionPanelSummary className="source-title" expandIcon={<FontAwesomeIcon size="sm" icon={faChevronDown} />}>
             <Grid container>
               <Grid item xs={5}>
                 <Typography variant="body2">{nameEnglish}</Typography>

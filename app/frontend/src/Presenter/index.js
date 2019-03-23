@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, lazy } from 'react'
 import { shape, string } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { Link, Route } from 'react-router-dom'
 import queryString from 'qs'
-import { CssBaseline, IconButton } from '@material-ui/core'
+
+import CssBaseline from '@material-ui/core/CssBaseline'
+import IconButton from '@material-ui/core/IconButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
