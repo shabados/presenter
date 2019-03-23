@@ -21,10 +21,9 @@ import {
 } from '@material-ui/core'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { faBars, faWindowMaximize, faInfo } from '@fortawesome/free-solid-svg-icons'
 
-import SettingComponentFactory from './SettingComponents'
+import controller from '../lib/controller'
 import ThemeLoader from '../shared/ThemeLoader'
 
 import {
@@ -40,13 +39,13 @@ import {
   SHORTCUTS,
 } from '../lib/consts'
 
+import SettingComponentFactory from './SettingComponents'
 import Sources from './Sources'
 import About from './About'
 import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
 
 import './index.css'
-import controller from '../lib/controller'
 
 class Settings extends Component {
   state = {
