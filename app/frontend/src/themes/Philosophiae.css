@@ -17,9 +17,9 @@
     --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #008080;
+    --display-vishraam-heavy-color: #808000;
     --display-vishraam-medium-color: #008000;
-    --display-vishraam-light-color: #808000;
+    --display-vishraam-light-color: #008080;
 
       /**************/
      /* Controller */
