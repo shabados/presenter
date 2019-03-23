@@ -4,27 +4,24 @@ import { shape, string } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Drawer,
-  Hidden,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Select,
-  MenuItem,
-  Grid,
-} from '@material-ui/core'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import Drawer from '@material-ui/core/Drawer'
+import Hidden from '@material-ui/core/Hidden'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import Grid from '@material-ui/core/Grid'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { faBars, faWindowMaximize, faInfo } from '@fortawesome/free-solid-svg-icons'
 
-import SettingComponentFactory from './SettingComponents'
+import controller from '../lib/controller'
 import ThemeLoader from '../shared/ThemeLoader'
 
 import {
@@ -40,13 +37,13 @@ import {
   SHORTCUTS,
 } from '../lib/consts'
 
+import SettingComponentFactory from './SettingComponents'
 import Sources from './Sources'
 import About from './About'
 import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
 
 import './index.css'
-import controller from '../lib/controller'
 
 class Settings extends Component {
   state = {

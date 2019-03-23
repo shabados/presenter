@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import { func, string, oneOfType, number } from 'prop-types'
 import { history, location } from 'react-router-prop-types'
 
+import Input from '@material-ui/core/Input'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+
 import { stringify } from 'querystring'
-import { Input, List, ListItem } from '@material-ui/core'
 import { firstLetters, toAscii } from 'gurmukhi-utils'
 
 import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS } from '../lib/consts'

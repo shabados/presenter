@@ -6,7 +6,9 @@ import { string, func, shape, arrayOf, bool } from 'prop-types'
 import classNames from 'classnames'
 import queryString from 'qs'
 
-import { Toolbar, Typography } from '@material-ui/core'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+
 import {
   faCog,
   faBars,

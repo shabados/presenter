@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { number } from 'prop-types'
-import { List, ListItem, CircularProgress, Grid, Typography } from '@material-ui/core'
+
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
 import { BACKEND_URL } from '../lib/consts'
 

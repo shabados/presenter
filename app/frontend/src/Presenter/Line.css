@@ -8,14 +8,14 @@
 }
 
 .line p {
-    margin: 0;
+  margin: 0;
 }
 
 .line .gurmukhi {
-    font-family: "Open Gurbani Akhar Black", sans-serif;
-    font-size: 8vh;
-    color: var(--display-gurmukhi-color);
-    transition: 0.3s all;
+  font-family: "Open Gurbani Akhar Black", sans-serif;
+  font-size: 8vh;
+  color: var(--display-gurmukhi-color);
+  transition: 0.3s all;
 }
 
 .line .gurmukhi .word {
@@ -31,34 +31,34 @@
 }
 
 .larivaar.line .word {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .larivaar.assist.line .gurmukhi .word:nth-child(2n) {
-    color: var(--display-gurmukhi-larivaar-assist-color);
+  color: var(--display-gurmukhi-larivaar-assist-color);
 }
 
 .larivaar.assist.line .transliteration .word:nth-child(2n) {
-    color: var(--display-transliteration-larivaar-assist-color);
+  color: var(--display-transliteration-larivaar-assist-color);
 }
 
 .line .gurmukhi .partition {
-    display: inline-block;
+  display: inline-block;
 }
 
 .heavy.vishraams.line .gurmukhi .word.heavy,
 .heavy.vishraams.line .vishraams.transliteration .word.heavy {
-    color: var(--display-vishraam-heavy-color) !important;
+  color: var(--display-vishraam-heavy-color) !important;
 }
 
 .medium.vishraams.line .gurmukhi .word.medium,
 .medium.vishraams.line .vishraams.transliteration .word.medium {
-    color: var(--display-vishraam-medium-color) !important;
+  color: var(--display-vishraam-medium-color) !important;
 }
 
 .light.vishraams.line .gurmukhi .word.light,
 .light.vishraams.line .vishraams.transliteration .word.light {
-    color: var(--display-vishraam-light-color) !important;
+  color: var(--display-vishraam-light-color) !important;
 }
 
 .line .translation {
@@ -75,11 +75,11 @@
 }
 
 .line .punjabi {
-    font-family: "Open Anmol Uni Bold", sans-serif;
-    font-size: 3.5vh;
-    opacity: 0.1;
-    color: var(--display-punjabi-color);
-    transition: 0.15s all ease-in;
+  font-family: "Open Anmol Uni Bold", sans-serif;
+  font-size: 3.5vh;
+  opacity: 0.1;
+  color: var(--display-punjabi-color);
+  transition: 0.15s all ease-in;
 }
 
 .line .punjabi.fade-enter {
@@ -98,13 +98,13 @@
 }
 
 .simple.line * {
-    transition: none;
+  transition: none;
 }
 
 .simple.line .fade-enter {
-    opacity: 1;
+  opacity: 1;
 }
 
 .line .fade-enter-done {
-    opacity: 1;
+  opacity: 1;
 }
