@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { instanceOf } from 'prop-types'
 
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import { GlobalHotKeys } from 'react-hotkeys'
 
 import { scrollIntoCenter } from '../lib/utils'

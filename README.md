@@ -20,6 +20,8 @@ If you'd prefer to use docker-compose, `docker-compose up` will install the depe
 
 Using `create-react-app`. Websockets for synchronising clients. API for search.
 
+Run `npm run analyze` to produce a treemap of the bundle and see where bloat is coming from. Make sure you've run `npm run build` first.
+
 ### Backend
 
 Using proposed ES+ modules with the `esm` shim module.

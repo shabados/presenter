@@ -1,7 +1,9 @@
 import React from 'react'
 import { func, number, arrayOf, shape, instanceOf, string } from 'prop-types'
 
-import { List, ListItem, ListItemIcon } from '@material-ui/core'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
