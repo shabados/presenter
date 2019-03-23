@@ -1,9 +1,10 @@
-import React, { Component, lazy } from 'react'
+import React, { Component, lazy, Suspense } from 'react'
 import { shape, string } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { Link, Route } from 'react-router-dom'
 import queryString from 'qs'
+import classNames from 'classnames'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import IconButton from '@material-ui/core/IconButton'
@@ -11,8 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-import Display from './Display'
-import Controller from '../Controller'
 import StatusToast from './StatusToast'
 import ThemeLoader from '../shared/ThemeLoader'
 import controller from '../lib/controller'
@@ -29,6 +28,10 @@ import {
 } from '../lib/consts'
 
 import './index.css'
+import Loader from '../shared/Loader'
+
+const Display = lazy( () => import( './Display' ) )
+const Controller = lazy( () => import( '../Controller' ) )
 
 class Presenter extends Component {
   /**
@@ -130,16 +133,21 @@ class Presenter extends Component {
           <div className="app">
             <CssBaseline />
             <ThemeLoader name={themeName} />
-            {!controllerOnly && <Display {...this.props} settings={localSettings} />}
-            <div className={`controller-container ${controllerOnly ? 'fullscreen' : ''}`}>
-              <Link to={CONTROLLER_URL}>
-                <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
-              </Link>
-              <Route
-                path={CONTROLLER_URL}
-                render={props => <Controller {...this.props} {...props} />}
-              />
-            </div>
+            <Suspense fallback={<Loader />}>
+              {!controllerOnly && <Display {...this.props} settings={localSettings} />}
+            </Suspense>
+
+            <Suspense fallback={null}>
+              <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
+                <Link to={CONTROLLER_URL}>
+                  <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
+                </Link>
+                <Route
+                  path={CONTROLLER_URL}
+                  render={props => <Controller {...this.props} {...props} />}
+                />
+              </div>
+            </Suspense>
             <StatusToast status={status} />
           </div>
         </GlobalHotKeys>
