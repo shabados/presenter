@@ -7,6 +7,7 @@ import { merge } from './lib/utils'
 import controller from './lib/controller'
 
 import Overlay from './Overlay'
+import Loader from './shared/Loader'
 
 import './App.css'
 
@@ -101,7 +102,7 @@ class App extends PureComponent {
 
   render() {
     return (
-      <Suspense fallback={<p>Loading</p>}>
+      <Suspense fallback={<Loader />}>
         <Router>
           <Switch>
             {this.components.map( ( [ Component, path ] ) => (

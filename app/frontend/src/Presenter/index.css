@@ -1,3 +1,7 @@
+.presenter {
+  animation: fade-in 800ms;
+}
+
 .presenter .controller-container {
   position: absolute;
   right: 0;
@@ -20,4 +24,13 @@
   height: 100%;
   width: 100%;
   font-size: 3vmin;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
