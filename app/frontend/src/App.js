@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, lazy, Suspense } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { configure } from 'react-hotkeys'
 
@@ -6,72 +6,74 @@ import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, DEFAULT_OPTIONS, PRESENTE
 import { merge } from './lib/utils'
 import controller from './lib/controller'
 
-import ScreenReader from './ScreenReader'
-import Settings from './Settings'
 import Overlay from './Overlay'
-import Presenter from './Presenter'
+import Loader from './shared/Loader'
 
 import './App.css'
 
+const ScreenReader = lazy( () => import( './ScreenReader' ) )
+const Presenter = lazy( () => import( './Presenter' ) )
+const Settings = lazy( () => import( './Settings' ) )
+
 class App extends PureComponent {
-    state = {
-      connected: false,
-      banis: [],
-      bani: null,
-      lineId: null,
-      mainLineId: null,
-      viewedLines: new Set(),
-      shabadHistory: [],
-      shabad: null,
-      recommendedSources: null,
-      status: null,
-      settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
-    }
+  state = {
+    connected: false,
+    banis: [],
+    bani: null,
+    lineId: null,
+    mainLineId: null,
+    viewedLines: new Set(),
+    shabadHistory: [],
+    shabad: null,
+    recommendedSources: null,
+    status: null,
+    settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
+  }
 
-    componentWillMount() {
-      // Configure react-hotkeys
-      configure( {
-        ignoreTags: [],
-      } )
-    }
+  componentWillMount() {
+    // Configure react-hotkeys
+    configure( {
+      ignoreTags: [],
+    } )
+  }
 
-    componentDidMount() {
+  componentDidMount() {
     // Register controller event
-      controller.on( 'connected', this.onConnected )
-      controller.on( 'disconnected', this.onDisconnected )
-      controller.on( 'shabad', this.onShabad )
-      controller.on( 'line', this.onLine )
-      controller.on( 'mainLine', this.onMainLine )
-      controller.on( 'viewedLines', this.onViewedLines )
-      controller.on( 'history', this.onHistory )
-      controller.on( 'banis', this.onBanis )
-      controller.on( 'bani', this.onBani )
-      controller.on( 'status', this.onStatus )
-      controller.on( 'settings', this.onSettings )
+    controller.on( 'connected', this.onConnected )
+    controller.on( 'disconnected', this.onDisconnected )
+    controller.on( 'shabad', this.onShabad )
+    controller.on( 'line', this.onLine )
+    controller.on( 'mainLine', this.onMainLine )
+    controller.on( 'viewedLines', this.onViewedLines )
+    controller.on( 'history', this.onHistory )
+    controller.on( 'banis', this.onBanis )
+    controller.on( 'bani', this.onBani )
+    controller.on( 'status', this.onStatus )
+    controller.on( 'settings', this.onSettings )
 
-      // Get recommended sources and set as settings, if there are none
-      const { settings: { local: { sources } } } = this.state
-      fetch( `${BACKEND_URL}/sources` )
-        .then( res => res.json() )
-        .then( ( { recommended } ) => {
-          this.setState( { recommendedSources: sources } )
-          if ( !Object.keys( sources ).length ) controller.setSettings( { sources: recommended } )
-        } )
-    }
+    // Get recommended sources and set as settings, if there are none
+    const { settings: { local: { sources } } } = this.state
+    fetch( `${BACKEND_URL}/sources` )
+      .then( res => res.json() )
+      .then( ( { recommended } ) => {
+        this.setState( { recommendedSources: sources } )
+        if ( !Object.keys( sources ).length ) controller.setSettings( { sources: recommended } )
+      } )
+  }
 
-    componentWillUnmount() {
-      // Deregister event listeners from controller
-      controller.off( 'connected', this.onConnected )
-      controller.off( 'disconnected', this.onDisconnected )
-      controller.off( 'shabad', this.onShabad )
-      controller.off( 'line', this.onLine )
-      controller.off( 'mainLine', this.onMainLine )
-      controller.off( 'viewedLines', this.onViewedLines )
-      controller.off( 'banis', this.onBanis )
-      controller.off( 'bani', this.onBani )
-      controller.off( 'status', this.onStatus )
-      controller.off( 'settings', this.onSettings )
-    }
+  componentWillUnmount() {
+    // Deregister event listeners from controller
+    controller.off( 'connected', this.onConnected )
+    controller.off( 'disconnected', this.onDisconnected )
+    controller.off( 'shabad', this.onShabad )
+    controller.off( 'line', this.onLine )
+    controller.off( 'mainLine', this.onMainLine )
+    controller.off( 'viewedLines', this.onViewedLines )
+    controller.off( 'banis', this.onBanis )
+    controller.off( 'bani', this.onBani )
+    controller.off( 'status', this.onStatus )
+    controller.off( 'settings', this.onSettings )
+  }
 
   onConnected = () => this.setState( { connected: true, bani: null, shabad: null } )
   onDisconnected = () => this.setState( { connected: false } )
@@ -100,13 +102,15 @@ class App extends PureComponent {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          {this.components.map( ( [ Component, path ] ) => (
-            <Route key={path} path={path} component={Component} />
-          ) )}
-        </Switch>
-      </Router>
+      <Suspense fallback={<Loader />}>
+        <Router>
+          <Switch>
+            {this.components.map( ( [ Component, path ] ) => (
+              <Route key={path} path={path} component={Component} />
+            ) )}
+          </Switch>
+        </Router>
+      </Suspense>
     )
   }
 }

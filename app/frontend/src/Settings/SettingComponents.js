@@ -1,7 +1,10 @@
 import React from 'react'
 import { string, func, any, arrayOf } from 'prop-types'
-import { Switch, Select, MenuItem } from '@material-ui/core'
-import { Slider as MSlider } from '@material-ui/lab'
+
+import Switch from '@material-ui/core/Switch'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import MSlider from '@material-ui/lab/Slider'
 
 import { OPTION_TYPES } from '../lib/consts'
 

@@ -2,7 +2,9 @@ import React from 'react'
 import { string, func } from 'prop-types'
 import { history, location } from 'react-router-prop-types'
 
-import { List, ListItem, ListItemIcon } from '@material-ui/core'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
