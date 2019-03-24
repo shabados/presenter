@@ -9,11 +9,30 @@
     --display-background-size: 120%;
 
     /* Display line colours */
-    --display-gurmukhi-color: #ffffff;
+    --display-line-1-color: #ffffff;
+    --display-line-2-color: var(--display-line-1-color);
+    --display-line-3-color: var(--display-line-1-color);
+    --display-line-4-color: var(--display-line-1-color);
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: .95;
+    --display-line-3-opacity: .90;
+    --display-line-4-opacity: .85;
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .95;
+    --display-extra-line-2-opacity: .90;
+    --display-extra-line-3-opacity: .85;
+    --display-extra-line-4-opacity: .80;
+    --display-extra-line-5-opacity: .75;
+
     --display-gurmukhi-larivaar-assist-color: #FF328B;
-    --display-translation-color: #e0e0e0;
-    --display-punjabi-color: #bdbdbd;
-    --display-transliteration-color: #9e9e9e;
+    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
     /* Legacy Golang version was less saturated or more faded than these 3:

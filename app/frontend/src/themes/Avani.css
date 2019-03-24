@@ -9,11 +9,29 @@
     --display-background-size: 100%;
 
     /* Display line colours */
-    --display-gurmukhi-color: #1A191A;
+    --display-line-1-color: #1A191A;
+    --display-line-2-color: #302E2C;
+    --display-line-3-color: #413F3E;
+    --display-line-4-color: #51504F;
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: var(--display-line-1-opacity);
+    --display-line-3-opacity: var(--display-line-1-opacity);
+    --display-line-4-opacity: var(--display-line-1-opacity);
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .87;
+    --display-extra-line-2-opacity: .74;
+    --display-extra-line-3-opacity: .61;
+    --display-extra-line-4-opacity: .48;
+    --display-extra-line-5-opacity: .35;
+
     --display-gurmukhi-larivaar-assist-color: #5D1C34;
-    --display-translation-color: #302E2C;
-    --display-punjabi-color: #413F3E;
-    --display-transliteration-color: #51504F;
     --display-transliteration-larivaar-assist-color: #855C68;
 
     /* Display line pause/vishraam colours */
