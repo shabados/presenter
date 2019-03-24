@@ -1,9 +1,11 @@
 .display {
+  z-index: -2;
   height: 100%;
   width: 100%;
   transition: 0.3s all ease-in-out;
   display: flex;
   flex-direction: column;
+  background-color: var(--display-background-color);
 }
   
 .display .background-image {
@@ -13,7 +15,6 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: var(--display-background-color);
   background-size: var(--display-background-size);
   background-image: var(--display-background-image);
   background-position: center;
