@@ -1,9 +1,17 @@
+:root {
+	--animation-duration: 0.125s;
+	--animation-line-delay: 0.25s;
+	--animation-sleepy-duration: calc(2*var(--animation-line-delay));
+	--overscan-vertical-padding: 5vh;
+	--overscan-horizontal-padding: 5vw;
+}
+
 .line {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 5vh 5vw;
+    padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding);
     text-align: center;
 }
 
@@ -15,35 +23,57 @@
     font-family: "Open Gurbani Akhar Black", sans-serif;
     font-size: 8vh;
     color: var(--display-gurmukhi-color);
-    transition: 0.3s all;
+    transition: color var(--animation-duration) linear, font-size var(--animation-duration) linear;
+}
+
+.line .translation {
+    font-family: "Noto Sans Medium", sans-serif;
+    font-size: 5.185185185vh;
+    line-height: 1.575;
+    color: var(--display-translation-color);
+    transition: color var(--animation-duration) linear, font-size var(--animation-duration) linear;
+}
+
+.line .punjabi {
+    font-family: "Open Anmol Uni Bold", sans-serif;
+    font-size: 6vh;
+    line-height: 1.35;
+    color: var(--display-punjabi-color);
+    transition: color var(--animation-duration) linear, font-size var(--animation-duration) linear;
+}
+
+.line .transliteration {
+    font-family: "Noto Sans Regular", sans-serif;
+    font-size: 5.185185185vh;
+    line-height: 1.575;
+    color: var(--display-transliteration-color);
+    transition: color var(--animation-duration) linear, font-size var(--animation-duration) linear;
+}
+
+.line .gurmukhi .partition {
+    display: inline-block;
+}
+
+.line .gurmukhi .word, .line .transliteration .word {
+    display: inline-block;
+    transition: var(--animation-duration) all;
 }
 
 .line .gurmukhi .word {
-  margin-right: 2.25vh;
-  display: inline-block;
-  transition: 0.3s all;
+    margin-right: 2.25vh;
 }
 
 .line .transliteration .word {
-  margin-right: 0.8vh;
-  display: inline-block;
-  transition: 0.3s all;
+    margin-right: 0.8vh;
 }
 
 .larivaar.line .word {
     margin-right: 0;
 }
 
-.larivaar.assist.line .gurmukhi .word:nth-child(2n) {
-    color: var(--display-gurmukhi-larivaar-assist-color);
-}
-
+.larivaar.assist.line .gurmukhi .word:nth-child(2n),
 .larivaar.assist.line .transliteration .word:nth-child(2n) {
-    color: var(--display-transliteration-larivaar-assist-color);
-}
-
-.line .gurmukhi .partition {
-    display: inline-block;
+    color: var(--display-gurmukhi-larivaar-assist-color);
 }
 
 .heavy.vishraams.line .gurmukhi .word.heavy,
@@ -61,40 +91,87 @@
     color: var(--display-vishraam-light-color) !important;
 }
 
-.line .translation {
-    font-family: "Noto Sans Medium", sans-serif;
-    font-size: 4vh;
-    transition: opacity 100ms ease-in;
-    opacity: 0.05;
-    color: var(--display-translation-color);
-    transition: 0.1s all ease-in;
+.current-line p:nth-of-type(1),
+.current-line p:nth-of-type(2),
+.current-line p:nth-of-type(3),
+.current-line p:nth-of-type(4) {
+    opacity: .74;
+    transform: translate(1vw, 0);
+    transition: all var(--animation-sleepy-duration) cubic-bezier(.43,.14,.58,.95),
+                opacity var(--animation-sleepy-duration) cubic-bezier(.43,.02,.85,.61),
+                transform var(--animation-sleepy-duration) cubic-bezier(.35,0,.74,1);
 }
 
-.line .translation.fade-enter {
-  opacity: 0.05;
+.current-line p:nth-of-type(1).fade-enter-done,
+.current-line p:nth-of-type(2).fade-enter-done,
+.current-line p:nth-of-type(3).fade-enter-done,
+.current-line p:nth-of-type(4).fade-enter-done {
+    opacity: 1;
+    transform: translate(0, 0);
 }
 
-.line .punjabi {
-    font-family: "Open Anmol Uni Bold", sans-serif;
-    font-size: 3.5vh;
-    opacity: 0.1;
-    color: var(--display-punjabi-color);
-    transition: 0.15s all ease-in;
+.previous-line:nth-last-child(1) > p,
+.next-line:nth-child(1) > p,
+.previous-line:nth-last-child(2) > p,
+.next-line:nth-child(2) > p,
+.previous-line:nth-last-child(3) > p,
+.next-line:nth-child(3) > p,
+.previous-line:nth-last-child(4) > p,
+.next-line:nth-child(4) > p,
+.previous-line:nth-last-child(5) > p,
+.next-line:nth-child(5) > p {
+	opacity: 0;
+    transition: all var(--animation-sleepy-duration) cubic-bezier(.43,.14,.58,.95),
+                opacity var(--animation-sleepy-duration) cubic-bezier(.43,.02,.85,.61);
 }
 
-.line .punjabi.fade-enter {
-  opacity: 0.1;
+.previous-line:nth-last-child(1) > p.fade-enter-done,
+.next-line:nth-child(1) > p.fade-enter-done,
+.previous-line:nth-last-child(2) > p.fade-enter-done,
+.next-line:nth-child(2) > p.fade-enter-done,
+.previous-line:nth-last-child(3) > p.fade-enter-done,
+.next-line:nth-child(3) > p.fade-enter-done,
+.previous-line:nth-last-child(4) > p.fade-enter-done,
+.next-line:nth-child(4) > p.fade-enter-done,
+.previous-line:nth-last-child(5) > p.fade-enter-done,
+.next-line:nth-child(5) > p.fade-enter-done {
+	opacity: 1;
 }
 
-.line .transliteration {
-    font-family: "Noto Sans Regular", sans-serif;
-    font-size: 3.5vh;
-    color: var(--display-transliteration-color);
-    transition: 0.2s all ease-in;
-  }
+.current-line p:nth-of-type(1) {
+	transition-delay: calc(0*var(--animation-line-delay));
+}
 
-.line .transliteration.fade-enter {
-  opacity: 0.2;
+.current-line p:nth-of-type(2) {
+	transition-delay: calc(1*var(--animation-line-delay));
+}
+
+.current-line p:nth-of-type(3) {
+	transition-delay: calc(2*var(--animation-line-delay));
+}
+
+.current-line p:nth-of-type(4) {
+	transition-delay: calc(3*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(1) > p, .next-line:nth-child(1) > p {
+	transition-delay: calc(1*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(2) > p, .next-line:nth-child(2) > p {
+	transition-delay: calc(2*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(3) > p, .next-line:nth-child(3) > p {
+	transition-delay: calc(3*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(4) > p, .next-line:nth-child(4) > p {
+	transition-delay: calc(4*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(5) > p, .next-line:nth-child(5) > p {
+	transition-delay: calc(5*var(--animation-line-delay));
 }
 
 .simple.line * {
@@ -103,12 +180,15 @@
 
 .simple.line .fade-enter {
     opacity: 1;
+    transform: translate(0, 0);
 }
 
-.line .fade-enter-done {
-    opacity: 1;
+.previous-line, .next-line {
+	padding: 0 var(--overscan-horizontal-padding);
 }
-
-.next-line + .next-line {
-	padding-top: 0;
+.previous-line:first-child {
+	padding-top: var(--overscan-vertical-padding);
+}
+.next-line:last-child {
+	padding-bottom: var(--overscan-vertical-padding);
 }
