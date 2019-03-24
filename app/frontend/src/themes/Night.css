@@ -16,9 +16,14 @@
     --display-transliteration-color: #9e9e9e;
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #FFA060;
-    --display-vishraam-medium-color: #ACED88;
-    --display-vishraam-light-color: #9BCEFF;
+    /* Legacy Golang version was less saturated or more faded than these 3:
+          FFE0B2
+          DCEDC8
+          BBDEFB
+    */
+    --display-vishraam-heavy-color: #ffd88b;
+    --display-vishraam-medium-color: #cbe7aa;
+    --display-vishraam-light-color: #ace6ff;
 
       /**************/
      /* Controller */
