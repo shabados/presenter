@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { shape, objectOf, string, number, func } from 'prop-types'
-import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, CircularProgress, Typography, Grid } from '@material-ui/core'
-import { ExpandMore } from '@material-ui/icons'
 
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+
+import Loader from '../shared/Loader'
 import { BACKEND_URL } from '../lib/consts'
 
 import { Dropdown } from './SettingComponents'
@@ -25,7 +33,7 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
   }, [] )
 
 
-  if ( !sources || !languages ) return <CircularProgress style={{ alignSelf: 'center' }} />
+  if ( !sources || !languages ) return <Loader />
 
   // Gets the current selected value of a language's translation, using the recommended otherwise.
   const getCurrentValue = ( sourceId, languageId ) => {
@@ -42,7 +50,7 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
         translationSources,
       } ] ) => (
         <ExpansionPanel key={sourceId} className="source">
-          <ExpansionPanelSummary className="source-title" expandIcon={<ExpandMore />}>
+          <ExpansionPanelSummary className="source-title" expandIcon={<FontAwesomeIcon size="sm" icon={faChevronDown} />}>
             <Grid container>
               <Grid item xs={5}>
                 <Typography variant="body2">{nameEnglish}</Typography>

@@ -16,7 +16,7 @@
 }
 
 .line p {
-    margin: 0;
+  margin: 0;
 }
 
 .line .gurmukhi {
@@ -68,7 +68,7 @@
 }
 
 .larivaar.line .word {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .larivaar.assist.line .gurmukhi .word:nth-child(2n),
@@ -78,17 +78,17 @@
 
 .heavy.vishraams.line .gurmukhi .word.heavy,
 .heavy.vishraams.line .vishraams.transliteration .word.heavy {
-    color: var(--display-vishraam-heavy-color) !important;
+  color: var(--display-vishraam-heavy-color) !important;
 }
 
 .medium.vishraams.line .gurmukhi .word.medium,
 .medium.vishraams.line .vishraams.transliteration .word.medium {
-    color: var(--display-vishraam-medium-color) !important;
+  color: var(--display-vishraam-medium-color) !important;
 }
 
 .light.vishraams.line .gurmukhi .word.light,
 .light.vishraams.line .vishraams.transliteration .word.light {
-    color: var(--display-vishraam-light-color) !important;
+  color: var(--display-vishraam-light-color) !important;
 }
 
 .current-line p:nth-of-type(1),
@@ -175,7 +175,7 @@
 }
 
 .simple.line * {
-    transition: none;
+  transition: none;
 }
 
 .simple.line .fade-enter {

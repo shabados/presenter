@@ -48,3 +48,8 @@
 .simple.display, .simple.display * {
   transition: none !important;
 }
+
+.simple.display,
+.simple.display * {
+  transition: none !important;
+}
