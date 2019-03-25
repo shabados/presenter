@@ -1,6 +1,6 @@
 :root {
     --animation-duration: 0.125s;
-    --animation-line-delay: 0.25s;
+    --animation-line-delay: var(--animation-duration);
     --animation-sleepy-duration: calc(2*var(--animation-line-delay));
     --overscan-vertical-padding: 5vh;
     --overscan-horizontal-padding: 5vw;
@@ -103,22 +103,15 @@
 }
 
 /* ------------------------------------
-   Current Line
+   Current Line Transition duration, curves, and ending opacities
    ------------------------------------ */
 
-.current-line p:nth-of-type(1),
 .current-line p:nth-of-type(2),
 .current-line p:nth-of-type(3),
 .current-line p:nth-of-type(4) {
-    opacity: .74;
-    transform: translate(calc(var(--overscan-horizontal-padding) * 1.35), 0);
+    opacity: 0.165195187;
     transition: all var(--animation-sleepy-duration) cubic-bezier(.43,.14,.58,.95),
                 opacity var(--animation-sleepy-duration) cubic-bezier(.43,.02,.85,.61),
-                transform var(--animation-sleepy-duration) cubic-bezier(.35,0,.74,1);
-}
-
-.current-line p:nth-of-type(1).fade-enter-done {
-    opacity: var(--display-line-1-opacity);
 }
 
 .current-line p:nth-of-type(2).fade-enter-done {
@@ -133,15 +126,8 @@
     opacity: var(--display-line-4-opacity);
 }
 
-.current-line p:nth-of-type(1).fade-enter-done,
-.current-line p:nth-of-type(2).fade-enter-done,
-.current-line p:nth-of-type(3).fade-enter-done,
-.current-line p:nth-of-type(4).fade-enter-done {
-    transform: translate(0, 0);
-}
-
 /* ------------------------------------
-   Extra Lines
+   Extra Lines transition duration, curves, and ending opacities
    ------------------------------------ */
 
 .previous-line:nth-last-child(1) > p,
@@ -156,7 +142,7 @@
 .next-line:nth-child(5) > p {
     opacity: 0;
     transition: all var(--animation-sleepy-duration) cubic-bezier(.43,.14,.58,.95),
-                opacity var(--animation-sleepy-duration) cubic-bezier(.43,.02,.85,.61);
+                opacity calc(var(--animation-sleepy-duration) * 4) cubic-bezier(.43,.02,.85,.61);
 }
 
 .previous-line:nth-last-child(1) > p.fade-enter-done,
@@ -185,7 +171,7 @@
 }
 
 /* ------------------------------------
-   Lines Color, Transition + Delay
+   Lines's color and transition delays
    ------------------------------------ */
 
 .current-line p:nth-of-type(1) {
@@ -195,17 +181,17 @@
 
 .current-line p:nth-of-type(2) {
     color: var(--display-line-2-color);
-    transition-delay: calc(1*var(--animation-line-delay));
+    transition-delay: calc(0*var(--animation-line-delay));
 }
 
 .current-line p:nth-of-type(3) {
     color: var(--display-line-3-color);
-    transition-delay: calc(2*var(--animation-line-delay));
+    transition-delay: calc(1*var(--animation-line-delay));
 }
 
 .current-line p:nth-of-type(4) {
     color: var(--display-line-4-color);
-    transition-delay: calc(3*var(--animation-line-delay));
+    transition-delay: calc(2*var(--animation-line-delay));
 }
 
 .previous-line:nth-last-child(1) > p, .next-line:nth-child(1) > p {
@@ -243,5 +229,4 @@
 
 .simple.line .fade-enter {
     opacity: 1;
-    transform: translate(0, 0);
 }
