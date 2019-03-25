@@ -23,28 +23,57 @@
   margin: 0;
 }
 
+
+/*
+    Notes for the future:
+    Aiming for 1.35*(x-height) for line-heights
+    Open Gurbani Akhar line-height by x-height = 1.4
+    Noto Sans Medium at 700 = 1.4
+    Open Anmol Uni bold = 1.5
+    
+    English x-height to Open Gurbani Akhar Black = 4:5 ratio
+    Open Anmol Uni Bold to Open Gurbani Akhar Black = 15:16 ratio
+
+    So for 1.35 line-height of Open Gurbani Akhar Black we have to set it's CSS line-height to 1.4
+
+    gurmukh is 8vh, corresponding english is 4/5*8vh = 6.4vh
+    corresponding english should be 1/1.35=0.740740741, which means 6.4vh is now 4.740740741vh
+
+    gurmukh is 8vh, corresponding punjabi is 15/16*8vh = 7.5vh
+    corresponding english should be 1/1.35=0.740740741, which means 7.6vh is now 5.555555555vh
+
+    The line-heights will be 1.35 times what we already have, 1.89 for english and 2.025 for punjabi
+
+    For whatever reason gurmukhi fonts require a negative bottom margin hack
+*/
+
 .line .gurmukhi {
     font-family: "Open Gurbani Akhar Black", sans-serif;
     font-size: 8vh;
+    line-height: 1.4;
 }
 
-.line .translation {
+.current-line .gurmukhi {
+    margin-bottom: -.12em;
+}
+
+.line .english {
     font-family: "Noto Sans Medium", sans-serif;
-    font-size: 5.185185185vh;
-    line-height: 1.575;
+    font-size: 4.740740741vh;
+    line-height: 1.89;
+    line-height: 1.4;
+    font-weight: 700;
 }
 
 .line .punjabi {
     font-family: "Open Anmol Uni Bold", sans-serif;
-    font-size: 6vh;
-    line-height: 1.35;
+    font-size: 5.555555555vh;
+    line-height: 2.025;
+    line-height: 1.75;
+    line-height: 1.5;
+    margin-bottom: -.15em;
 }
 
-.line .transliteration {
-    font-family: "Noto Sans Regular", sans-serif;
-    font-size: 5.185185185vh;
-    line-height: 1.575;
-}
 
 .line .gurmukhi .partition {
     display: inline-block;

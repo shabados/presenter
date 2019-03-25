@@ -5,7 +5,7 @@
 
     /* Display background */
     --display-background-color: #f0ede9;
-    --display-background-image: "";
+    --display-background-image: url('/themes/images/logo-avani.png');
     --display-background-size: 100%;
 
     /* Display line colours */

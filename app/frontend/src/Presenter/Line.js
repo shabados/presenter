@@ -80,7 +80,7 @@ const Line = ( {
       </CSSTransition>}
       {transliteration &&
       <CSSTransition key={`${transliteration}`} classNames="fade" timeout={0}>
-        <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'transliteration' )}>{
+        <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'english transliteration' )}>{
           classifyWords( transliteration, !vishraamCharacters )
           .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
         }
