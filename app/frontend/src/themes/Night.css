@@ -30,6 +30,8 @@
     --controller-text-hover-color: #e0e0e0;
     --controller-selected-color: #e0e0e0;
     --controller-selected-background-color: #37474f;
+    --controller-hover-background-color: #3b3b3b;
+    --controller-selected-hover-background-color: #394145;
 
     /* Controller search colors */
     --controller-search-background-color: #363636;

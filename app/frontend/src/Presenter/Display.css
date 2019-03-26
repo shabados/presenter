@@ -1,10 +1,14 @@
 .display {
   height: 100%;
+  width: 100%;
   transition: 0.3s all ease-in-out;
+  display: flex;
+  flex-direction: column;
 }
-
+  
 .display .background-image {
   position: absolute;
+  z-index: -1;
   top: 0;
   left: 0;
   height: 100%;
@@ -17,8 +21,16 @@
   transition: 0.3s all ease-in-out;
 }
 
+.display .current-line {
+	flex-grow: 1;
+}
+
 .background.display .background-image {
   opacity: 1;
+}
+
+.simple.display, .simple.display * {
+  transition: none !important;
 }
 
 .simple.display,

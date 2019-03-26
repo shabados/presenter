@@ -12,6 +12,7 @@ import './Line.css'
 /**
  * Line Component.
  * Renders the various aspects of a single line.
+ * @param {string} className An optional class name to append.
  * @param {string} gurmukhi The Gurmukhi of the line to render.
  * @param {string} punjabiTranslation The Punjabi translation of the line to render.
  * @param {string} englishTranslation The English translation of the line to render.
@@ -25,10 +26,11 @@ import './Line.css'
  * @param {boolean} vishraamLight Enables colors for light vishraams.
  * @param {boolean} vishraamMedium Enables colors for medium vishraams.
  * @param {boolean} vishraamHeavy Enables colors for heavy vishraams.
- * @param {Boolean} splitOnVishraam If the line is too long, split it on the vishraam word.
+ * @param {boolean} splitOnVishraam If the line is too long, split it on the vishraam word.
  * @param {Boolean} simpleGraphics Disables transitions and other intensive effects.
  */
 const Line = ( {
+  className,
   gurmukhi,
   punjabiTranslation,
   englishTranslation,
@@ -46,7 +48,7 @@ const Line = ( {
   simpleGraphics: simple,
 } ) => (
   <div
-    className={classNames( {
+    className={classNames( className, {
       assist: larivaar && larivaarAssist,
       light: vishraams && vishraamLight,
       medium: vishraams && vishraamMedium,
@@ -87,6 +89,7 @@ const Line = ( {
 )
 
 Line.propTypes = {
+  className: string,
   gurmukhi: string.isRequired,
   punjabiTranslation: string,
   englishTranslation: string,
@@ -123,6 +126,7 @@ const {
 } = DEFAULT_OPTIONS.local
 
 Line.defaultProps = {
+  className: null,
   englishTranslation: null,
   punjabiTranslation: null,
   transliteration: null,

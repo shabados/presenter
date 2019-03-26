@@ -1,15 +1,10 @@
 .line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 1vh;
-  text-align: center;
-  overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 5vh 5vw;
+    text-align: center;
 }
 
 .line p {
@@ -67,13 +62,12 @@
 }
 
 .line .translation {
-  font-family: "Noto Sans Medium", sans-serif;
-  font-weight: bold;
-  font-size: 4vh;
-  transition: opacity 100ms ease-in;
-  opacity: 0.05;
-  color: var(--display-translation-color);
-  transition: 0.1s all ease-in;
+    font-family: "Noto Sans Medium", sans-serif;
+    font-size: 4vh;
+    transition: opacity 100ms ease-in;
+    opacity: 0.05;
+    color: var(--display-translation-color);
+    transition: 0.1s all ease-in;
 }
 
 .line .translation.fade-enter {
@@ -93,12 +87,11 @@
 }
 
 .line .transliteration {
-  font-family: "Noto Sans Regular", sans-serif;
-  font-weight: bold;
-  font-size: 3.5vh;
-  color: var(--display-transliteration-color);
-  transition: 0.2s all ease-in;
-}
+    font-family: "Noto Sans Regular", sans-serif;
+    font-size: 3.5vh;
+    color: var(--display-transliteration-color);
+    transition: 0.2s all ease-in;
+  }
 
 .line .transliteration.fade-enter {
   opacity: 0.2;

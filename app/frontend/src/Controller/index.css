@@ -74,14 +74,18 @@
 .controller .content .focused {
     color: var(--controller-text-hover-color);
     background-color: var(--controller-selected-background-color);
-    font-size: 1.1em;
     transition: 0.3s all;
 }
 
 .controller .content li:not(.focused):hover  {
+	background-color: var(--controller-hover-background-color);
     color: var(--controller-text-hover-color);
     transition: 0.3s all;
-    padding-left: 1em;
+}
+
+.controller .content li.focused:hover  {
+	background-color: var(--controller-selected-hover-background-color);
+    transition: 0.3s all;
 }
 
 .controller .content .meta {
@@ -106,7 +110,6 @@
 
 .controller .content .gurmukhi.text {
     font-family: "Open Gurbani Akhar Bold", sans-serif;
-    font-weight: bold;
     height: auto;
     color: var(--controller-text-color);
     transition: 0.3s all;
@@ -114,8 +117,6 @@
 
 .controller .content .focused.text {
     background-color: var(--controller-selected-background-color);
-    font-size: 1.2em;
     color: var(--controller-selected-color);
-    padding-left: 1em;
     transition: 0.3s all;
 }

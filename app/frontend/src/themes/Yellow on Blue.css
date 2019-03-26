@@ -26,21 +26,23 @@
     /**************/
 
     /* Controller colors */
-    --controller-background-color: #afb3d6;
-    --controller-text-color: #424242;
-    --controller-text-hover-color: #212121;
-    --controller-selected-color: #212121;
-    --controller-selected-background-color: #cfd1e3;
+    --controller-background-color: #EDEDED;
+    --controller-text-color: #404040;
+    --controller-text-hover-color: #1f1f1f;
+    --controller-selected-color: #FFF1BE;
+    --controller-selected-background-color: #f1e1a1;
+    --controller-hover-background-color: #f9f4da;
+    --controller-selected-hover-background-color: #FFEDA9;
 
     /* Controller search colors */
-    --controller-search-background-color: transparent;
-    --controller-search-focused-background-color: #cfd1e3;
-    --controller-search-match-color: #1568c8;
+    --controller-search-background-color: #dedede;
+    --controller-search-focused-background-color: transparent;
+    --controller-search-match-color: #274dc4;
 
     /* Controller top and bottom bar colors */
-    --controller-bar-text-color: #616161;
-    --controller-bar-text-hover-color: #424242;
-    --controller-bar-background-color: #dedede;
+    --controller-bar-text-color: #5f5f5f;
+    --controller-bar-text-hover-color: #404040;
+    --controller-bar-background-color: #f4f4f4;
 
       /*****************/
      /* Settings      */
@@ -65,7 +67,7 @@
     /*****************/
 
     /* Scrollbar colour */
-    --scrollbar-color: #42424280;
+    --scrollbar-color: #40404080;
 
     /* Shortcut help colors */
     --shortcuts-text-color: #212121;

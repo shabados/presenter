@@ -128,30 +128,27 @@ class Presenter extends Component {
     const { theme: { themeName }, hotkeys } = localSettings
 
     return (
-      <div className="presenter">
-        <GlobalHotKeys keyMap={hotkeys} handlers={this.hotKeyHandlers}>
-          <div className="app">
-            <CssBaseline />
-            <ThemeLoader name={themeName} />
-            <Suspense fallback={<Loader />}>
-              {!controllerOnly && <Display {...this.props} settings={localSettings} />}
-            </Suspense>
-
-            <Suspense fallback={null}>
-              <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
-                <Link to={CONTROLLER_URL}>
-                  <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
-                </Link>
-                <Route
-                  path={CONTROLLER_URL}
-                  render={props => <Controller {...this.props} {...props} />}
-                />
-              </div>
-            </Suspense>
-            <StatusToast status={status} />
-          </div>
-        </GlobalHotKeys>
-      </div>
+      <GlobalHotKeys keyMap={hotkeys} handlers={this.hotKeyHandlers}>
+        <div className="presenter">
+          <CssBaseline />
+          <ThemeLoader name={themeName} />
+          <Suspense fallback={<Loader />}>
+            {!controllerOnly && <Display {...this.props} settings={localSettings} />}
+          </Suspense>
+          <Suspense fallback={null}>
+            <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
+              <Link to={CONTROLLER_URL}>
+                <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
+              </Link>
+              <Route
+                path={CONTROLLER_URL}
+                render={props => <Controller {...this.props} {...props} />}
+              />
+            </div>
+          </Suspense>
+          <StatusToast status={status} />
+        </div>
+      </GlobalHotKeys>
     )
   }
 }

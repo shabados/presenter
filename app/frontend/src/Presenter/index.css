@@ -1,4 +1,7 @@
 .presenter {
+  height: 100%;
+  display: flex;
+  overflow: hidden;
   animation: fade-in 800ms;
 }
 
