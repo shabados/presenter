@@ -26,6 +26,135 @@
   flex-grow: 1;
 }
 
+.display .previous-line, .next-line {
+  padding: 0 var(--overscan-horizontal-padding);
+}
+
+.display .previous-line:first-child {
+  padding-top: var(--overscan-vertical-padding);
+}
+
+.display .next-line:last-child {
+  padding-bottom: var(--overscan-vertical-padding);
+}
+
+/* ------------------------------------
+   Current Line Transition duration, curves, and ending opacities
+   ------------------------------------ */
+
+.display .current-line p:nth-of-type(2),
+.display .current-line p:nth-of-type(3),
+.display .current-line p:nth-of-type(4) {
+    opacity: 0.165195187;
+    transition: all var(--animation-sleepy-duration) cubic-bezier(.43,.14,.58,.95),
+                opacity var(--animation-sleepy-duration) cubic-bezier(.43,.02,.85,.61),
+}
+
+.display .current-line p:nth-of-type(2).fade-enter-done {
+    opacity: var(--display-line-2-opacity);
+}
+
+.display .current-line p:nth-of-type(3).fade-enter-done {
+    opacity: var(--display-line-3-opacity);
+}
+
+.display .current-line p:nth-of-type(4).fade-enter-done {
+    opacity: var(--display-line-4-opacity);
+}
+
+/* ------------------------------------
+   Extra Lines transition duration, curves, and ending opacities
+   ------------------------------------ */
+
+.display .previous-line:nth-last-child(1) > p,
+.display .next-line:nth-child(1) > p,
+.display .previous-line:nth-last-child(2) > p,
+.display .next-line:nth-child(2) > p,
+.display .previous-line:nth-last-child(3) > p,
+.display .next-line:nth-child(3) > p,
+.display .previous-line:nth-last-child(4) > p,
+.display .next-line:nth-child(4) > p,
+.display .previous-line:nth-last-child(5) > p,
+.display .next-line:nth-child(5) > p {
+    opacity: 0;
+    transition: all var(--animation-sleepy-duration) cubic-bezier(.43,.14,.58,.95),
+                opacity calc(var(--animation-sleepy-duration) * 4) cubic-bezier(.43,.02,.85,.61);
+}
+
+.display .previous-line:nth-last-child(1) > p.fade-enter-done,
+.display .next-line:nth-child(1) > p.fade-enter-done {
+    opacity: var(--display-extra-line-1-opacity);
+}
+
+.display .previous-line:nth-last-child(2) > p.fade-enter-done,
+.display .next-line:nth-child(2) > p.fade-enter-done {
+    opacity: var(--display-extra-line-2-opacity);
+}
+
+.display .previous-line:nth-last-child(3) > p.fade-enter-done,
+.display .next-line:nth-child(3) > p.fade-enter-done {
+    opacity: var(--display-extra-line-3-opacity);
+}
+
+.display .previous-line:nth-last-child(4) > p.fade-enter-done,
+.display .next-line:nth-child(4) > p.fade-enter-done {
+    opacity: var(--display-extra-line-4-opacity);
+}
+
+.display .previous-line:nth-last-child(5) > p.fade-enter-done,
+.display .next-line:nth-child(5) > p.fade-enter-done {
+    opacity: var(--display-extra-line-5-opacity);
+}
+
+/* ------------------------------------
+   Lines's color and transition delays
+   ------------------------------------ */
+
+.display .current-line p:nth-of-type(1) {
+    color: var(--display-line-1-color);
+    transition-delay: calc(0*var(--animation-line-delay));
+}
+
+.display .current-line p:nth-of-type(2) {
+    color: var(--display-line-2-color);
+    transition-delay: calc(0*var(--animation-line-delay));
+}
+
+.display .current-line p:nth-of-type(3) {
+    color: var(--display-line-3-color);
+    transition-delay: calc(1*var(--animation-line-delay));
+}
+
+.display .current-line p:nth-of-type(4) {
+    color: var(--display-line-4-color);
+    transition-delay: calc(2*var(--animation-line-delay));
+}
+
+.display .previous-line:nth-last-child(1) > p, .next-line:nth-child(1) > p {
+    color: var(--display-extra-line-1-color);
+    transition-delay: calc(1*var(--animation-line-delay));
+}
+
+.display .previous-line:nth-last-child(2) > p, .next-line:nth-child(2) > p {
+    color: var(--display-extra-line-2-color);
+    transition-delay: calc(2*var(--animation-line-delay));
+}
+
+.display .previous-line:nth-last-child(3) > p, .next-line:nth-child(3) > p {
+    color: var(--display-extra-line-4-color);
+    transition-delay: calc(3*var(--animation-line-delay));
+}
+
+.display .previous-line:nth-last-child(4) > p, .next-line:nth-child(4) > p {
+    color: var(--display-extra-line-5-color);
+    transition-delay: calc(4*var(--animation-line-delay));
+}
+
+.display .previous-line:nth-last-child(5) > p, .next-line:nth-child(5) > p {
+    color: var(--display-extra-line-5-color);
+    transition-delay: calc(5*var(--animation-line-delay));
+}
+
 .display .previous-lines,
 .display .next-lines {
   display: flex;
