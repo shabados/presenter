@@ -1,9 +1,21 @@
+:root {
+    --animation-duration: 0.125s;
+    --animation-line-delay: var(--animation-duration);
+    --animation-sleepy-duration: calc(2*var(--animation-line-delay));
+    --overscan-vertical-padding: 5vh;
+    --overscan-horizontal-padding: 5vw;
+}
+
+/* ------------------------------------
+   Line
+   ------------------------------------ */
+
 .line {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 5vh 5vw;
+    padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding);
     text-align: center;
 }
 
@@ -11,23 +23,73 @@
   margin: 0;
 }
 
+
+/*
+    Notes for the future:
+    Aiming for 1.35*(x-height) for line-heights
+    Open Gurbani Akhar line-height by x-height = 1.4
+    Noto Sans Medium at 700 = 1.4
+    Open Anmol Uni bold = 1.5
+    
+    English x-height to Open Gurbani Akhar Black = 4:5 ratio
+    Open Anmol Uni Bold to Open Gurbani Akhar Black = 15:16 ratio
+
+    So for 1.35 line-height of Open Gurbani Akhar Black we have to set it's CSS line-height to 1.4
+
+    gurmukh is 8vh, corresponding english is 4/5*8vh = 6.4vh
+    corresponding english should be 1/1.35=0.740740741, which means 6.4vh is now 4.740740741vh
+
+    gurmukh is 8vh, corresponding punjabi is 15/16*8vh = 7.5vh
+    corresponding english should be 1/1.35=0.740740741, which means 7.6vh is now 5.555555555vh
+
+    The line-heights will be 1.35 times what we already have, 1.89 for english and 2.025 for punjabi
+
+    For whatever reason gurmukhi fonts require a negative bottom margin hack
+*/
+
 .line .gurmukhi {
-  font-family: "Open Gurbani Akhar Black", sans-serif;
-  font-size: 8vh;
-  color: var(--display-gurmukhi-color);
-  transition: 0.3s all;
+    font-family: "Open Gurbani Akhar Black", sans-serif;
+    font-size: 8vh;
+    line-height: 1.4;
+}
+
+.current-line .gurmukhi {
+    margin-bottom: -.12em;
+}
+
+.line .english {
+    font-family: "Noto Sans Medium", sans-serif;
+    font-size: 4.740740741vh;
+    line-height: 1.89;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.line .punjabi {
+    font-family: "Open Anmol Uni Bold", sans-serif;
+    font-size: 5.555555555vh;
+    line-height: 2.025;
+    line-height: 1.75;
+    line-height: 1.5;
+    margin-bottom: -.15em;
+}
+
+
+.line .gurmukhi .partition {
+    display: inline-block;
+}
+
+.line .gurmukhi .word, .line .transliteration .word {
+    display: inline-block;
+    transition: var(--animation-duration) all;
 }
 
 .line .gurmukhi .word {
-  margin-right: 2.25vh;
-  display: inline-block;
-  transition: 0.3s all;
+    margin-right: 2.25vh;
 }
 
 .line .transliteration .word {
-  margin-right: 0.8vh;
-  display: inline-block;
-  transition: 0.3s all;
+    margin-right: 0.8vh;
 }
 
 .larivaar.line .word {
@@ -35,15 +97,11 @@
 }
 
 .larivaar.assist.line .gurmukhi .word:nth-child(2n) {
-  color: var(--display-gurmukhi-larivaar-assist-color);
+    color: var(--display-larivaar-assist-color);
 }
 
 .larivaar.assist.line .transliteration .word:nth-child(2n) {
-  color: var(--display-transliteration-larivaar-assist-color);
-}
-
-.line .gurmukhi .partition {
-  display: inline-block;
+    color: var(--display-transliteration-larivaar-assist-color);
 }
 
 .heavy.vishraams.line .gurmukhi .word.heavy,
@@ -61,29 +119,16 @@
   color: var(--display-vishraam-light-color) !important;
 }
 
-.line .translation {
-    font-family: "Noto Sans Medium", sans-serif;
-    font-size: 4vh;
-    transition: opacity 100ms ease-in;
-    opacity: 0.05;
-    color: var(--display-translation-color);
-    transition: 0.1s all ease-in;
+.previous-line, .next-line {
+    padding: 0 var(--overscan-horizontal-padding);
 }
 
-.line .translation.fade-enter {
-  opacity: 0.05;
+.previous-line:first-child {
+    padding-top: var(--overscan-vertical-padding);
 }
 
-.line .punjabi {
-  font-family: "Open Anmol Uni Bold", sans-serif;
-  font-size: 3.5vh;
-  opacity: 0.1;
-  color: var(--display-punjabi-color);
-  transition: 0.15s all ease-in;
-}
-
-.line .punjabi.fade-enter {
-  opacity: 0.1;
+.next-line:last-child {
+    padding-bottom: var(--overscan-vertical-padding);
 }
 
 .line .transliteration {
@@ -93,22 +138,131 @@
     transition: 0.2s all ease-in;
   }
 
-.line .transliteration.fade-enter {
-  opacity: 0.2;
+/* ------------------------------------
+   Current Line Transition duration, curves, and ending opacities
+   ------------------------------------ */
+
+.current-line p:nth-of-type(2),
+.current-line p:nth-of-type(3),
+.current-line p:nth-of-type(4) {
+    opacity: 0.165195187;
+    transition: all var(--animation-sleepy-duration) cubic-bezier(.43,.14,.58,.95),
+                opacity var(--animation-sleepy-duration) cubic-bezier(.43,.02,.85,.61),
 }
+
+.current-line p:nth-of-type(2).fade-enter-done {
+    opacity: var(--display-line-2-opacity);
+}
+
+.current-line p:nth-of-type(3).fade-enter-done {
+    opacity: var(--display-line-3-opacity);
+}
+
+.current-line p:nth-of-type(4).fade-enter-done {
+    opacity: var(--display-line-4-opacity);
+}
+
+/* ------------------------------------
+   Extra Lines transition duration, curves, and ending opacities
+   ------------------------------------ */
+
+.previous-line:nth-last-child(1) > p,
+.next-line:nth-child(1) > p,
+.previous-line:nth-last-child(2) > p,
+.next-line:nth-child(2) > p,
+.previous-line:nth-last-child(3) > p,
+.next-line:nth-child(3) > p,
+.previous-line:nth-last-child(4) > p,
+.next-line:nth-child(4) > p,
+.previous-line:nth-last-child(5) > p,
+.next-line:nth-child(5) > p {
+    opacity: 0;
+    transition: all var(--animation-sleepy-duration) cubic-bezier(.43,.14,.58,.95),
+                opacity calc(var(--animation-sleepy-duration) * 4) cubic-bezier(.43,.02,.85,.61);
+}
+
+.previous-line:nth-last-child(1) > p.fade-enter-done,
+.next-line:nth-child(1) > p.fade-enter-done {
+    opacity: var(--display-extra-line-1-opacity);
+}
+
+.previous-line:nth-last-child(2) > p.fade-enter-done,
+.next-line:nth-child(2) > p.fade-enter-done {
+    opacity: var(--display-extra-line-2-opacity);
+}
+
+.previous-line:nth-last-child(3) > p.fade-enter-done,
+.next-line:nth-child(3) > p.fade-enter-done {
+    opacity: var(--display-extra-line-3-opacity);
+}
+
+.previous-line:nth-last-child(4) > p.fade-enter-done,
+.next-line:nth-child(4) > p.fade-enter-done {
+    opacity: var(--display-extra-line-4-opacity);
+}
+
+.previous-line:nth-last-child(5) > p.fade-enter-done,
+.next-line:nth-child(5) > p.fade-enter-done {
+    opacity: var(--display-extra-line-5-opacity);
+}
+
+/* ------------------------------------
+   Lines's color and transition delays
+   ------------------------------------ */
+
+.current-line p:nth-of-type(1) {
+    color: var(--display-line-1-color);
+    transition-delay: calc(0*var(--animation-line-delay));
+}
+
+.current-line p:nth-of-type(2) {
+    color: var(--display-line-2-color);
+    transition-delay: calc(0*var(--animation-line-delay));
+}
+
+.current-line p:nth-of-type(3) {
+    color: var(--display-line-3-color);
+    transition-delay: calc(1*var(--animation-line-delay));
+}
+
+.current-line p:nth-of-type(4) {
+    color: var(--display-line-4-color);
+    transition-delay: calc(2*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(1) > p, .next-line:nth-child(1) > p {
+    color: var(--display-extra-line-1-color);
+    transition-delay: calc(1*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(2) > p, .next-line:nth-child(2) > p {
+    color: var(--display-extra-line-2-color);
+    transition-delay: calc(2*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(3) > p, .next-line:nth-child(3) > p {
+    color: var(--display-extra-line-4-color);
+    transition-delay: calc(3*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(4) > p, .next-line:nth-child(4) > p {
+    color: var(--display-extra-line-5-color);
+    transition-delay: calc(4*var(--animation-line-delay));
+}
+
+.previous-line:nth-last-child(5) > p, .next-line:nth-child(5) > p {
+    color: var(--display-extra-line-5-color);
+    transition-delay: calc(5*var(--animation-line-delay));
+}
+
+/* ------------------------------------
+   Simple lines - remove animations
+   ------------------------------------ */
 
 .simple.line * {
   transition: none;
 }
 
 .simple.line .fade-enter {
-  opacity: 1;
-}
-
-.line .fade-enter-done {
     opacity: 1;
-}
-
-.next-line + .next-line {
-	padding-top: 0;
 }

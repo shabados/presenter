@@ -4,25 +4,41 @@
   transition: 0.3s all ease-in-out;
   display: flex;
   flex-direction: column;
+  background-color: var(--display-background-color);
+  z-index: -2;
 }
   
 .display .background-image {
   position: absolute;
-  z-index: -1;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: var(--display-background-color);
   background-size: var(--display-background-size);
   background-image: var(--display-background-image);
   background-position: center;
   opacity: 0;
   transition: 0.3s all ease-in-out;
+  z-index: -1;
 }
 
 .display .current-line {
-	flex-grow: 1;
+  flex-grow: 1;
+}
+
+.display .previous-lines,
+.display .next-lines {
+  display: flex;
+  flex-direction: column;
+  max-height: 50%;
+}
+
+.display .previous-lines {
+  justify-content: flex-end;
+}
+
+.display .next-lines {
+  justify-content: flex-start;
 }
 
 .background.display .background-image {

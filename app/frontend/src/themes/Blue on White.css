@@ -9,11 +9,29 @@
     --display-background-size: 120%;
 
     /* Display line colours */
-    --display-gurmukhi-color: #004daa;
+    --display-line-1-color: #004daa;
+    --display-line-2-color: #555555;
+    --display-line-3-color: var(--display-line-2-color);
+    --display-line-4-color: var(--display-line-2-color);
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: var(--display-line-1-opacity);
+    --display-line-3-opacity: var(--display-line-1-opacity);
+    --display-line-4-opacity: var(--display-line-1-opacity);
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .95;
+    --display-extra-line-2-opacity: .90;
+    --display-extra-line-3-opacity: .85;
+    --display-extra-line-4-opacity: .80;
+    --display-extra-line-5-opacity: .75;
+
     --display-gurmukhi-larivaar-assist-color: #006bc9;
-    --display-translation-color: #555555;
-    --display-punjabi-color: #555555;
-    --display-transliteration-color: #555555;
     --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
