@@ -85,8 +85,4 @@
 
     /* Scrollbar colour */
     --scrollbar-color: rgba(0, 0, 0, 0.5);
-
-    /* Shortcut help colors */
-    --shortcuts-text-color: var(--controller-text-hover-color);
-    --shortcuts-background-color: rgba(255, 255, 255, 0.9);
 }

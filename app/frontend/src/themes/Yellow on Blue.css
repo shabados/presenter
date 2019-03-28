@@ -85,8 +85,4 @@
 
     /* Scrollbar colour */
     --scrollbar-color: #40404080;
-
-    /* Shortcut help colors */
-    --shortcuts-text-color: #212121;
-    --shortcuts-background-color: rgba(255, 255, 255, 0.9);
 }
