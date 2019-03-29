@@ -1,10 +1,4 @@
-:root {
-    --animation-duration: 0.125s;
-    --animation-line-delay: var(--animation-duration);
-    --animation-sleepy-duration: calc(2*var(--animation-line-delay));
-    --overscan-vertical-padding: 5vh;
-    --overscan-horizontal-padding: 5vw;
-}
+@import url('../lib/consts.css');
 
 /* ------------------------------------
    Line
