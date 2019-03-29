@@ -4,15 +4,15 @@
     /***********/
 
     /* Display background */
-    --display-background-color: #0031a2;
-    --display-background-image: none;
-    --display-background-size: 120%;
+    --display-background-color: #f0ede9;
+    --display-background-image: url('/themes/images/logo-avani.png');
+    --display-background-size: 100%;
 
     /* Display line colours */
-    --display-line-1-color: #ffd318;
-    --display-line-2-color: #dedede;
-    --display-line-3-color: var(--display-line-2-color);
-    --display-line-4-color: var(--display-line-2-color);
+    --display-line-1-color: #1A191A;
+    --display-line-2-color: #302E2C;
+    --display-line-3-color: #413F3E;
+    --display-line-4-color: #51504F;
 
     --display-line-1-opacity: 1;
     --display-line-2-opacity: var(--display-line-1-opacity);
@@ -25,42 +25,42 @@
     --display-extra-line-4-color: var(--display-extra-line-1-color);
     --display-extra-line-5-color: var(--display-extra-line-1-color);
 
-    --display-extra-line-1-opacity: .95;
-    --display-extra-line-2-opacity: .90;
-    --display-extra-line-3-opacity: .85;
-    --display-extra-line-4-opacity: .80;
-    --display-extra-line-5-opacity: .75;
+    --display-extra-line-1-opacity: .87;
+    --display-extra-line-2-opacity: .74;
+    --display-extra-line-3-opacity: .61;
+    --display-extra-line-4-opacity: .48;
+    --display-extra-line-5-opacity: .35;
 
-    --display-gurmukhi-larivaar-assist-color: #0f97a9;
-    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
+    --display-gurmukhi-larivaar-assist-color: #5D1C34;
+    --display-transliteration-larivaar-assist-color: #855C68;
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #ff8f62;
-    --display-vishraam-medium-color: #2ed428;
-    --display-vishraam-light-color: #dd62ff;
+    --display-vishraam-heavy-color: #AD0028;
+    --display-vishraam-medium-color: #00603C;
+    --display-vishraam-light-color: #005583;
 
       /**************/
      /* Controller */
     /**************/
 
     /* Controller colors */
-    --controller-background-color: #EDEDED;
-    --controller-text-color: #404040;
-    --controller-text-hover-color: #1f1f1f;
-    --controller-selected-color: #FFF1BE;
-    --controller-selected-background-color: #f1e1a1;
-    --controller-hover-background-color: #f9f4da;
-    --controller-selected-hover-background-color: #FFEDA9;
+    --controller-background-color: #bdb3b5; /* EFE6E7 at 74% opacity on 2d2026 bg */
+    --controller-text-color: #403338;
+    --controller-text-hover-color: #491D2E;
+    --controller-selected-color: #2D2026;
+    --controller-selected-background-color: #f2eef0;
+    --controller-hover-background-color: #d3cbcd;
+    --controller-selected-hover-background-color: #E3DDDF;
 
     /* Controller search colors */
-    --controller-search-background-color: #dedede;
-    --controller-search-focused-background-color: transparent;
-    --controller-search-match-color: #274dc4;
+    --controller-search-background-color: transparent;
+    --controller-search-focused-background-color: #ffffff;
+    --controller-search-match-color: #491D2E;
 
     /* Controller top and bottom bar colors */
-    --controller-bar-text-color: #5f5f5f;
-    --controller-bar-text-hover-color: #404040;
-    --controller-bar-background-color: #f4f4f4;
+    --controller-bar-text-color: #B2B0AE;
+    --controller-bar-text-hover-color: #E6C7CE;
+    --controller-bar-background-color: #2d2026;
 
       /*****************/
      /* Settings      */
@@ -73,8 +73,8 @@
     /* Settings Menu */
     --settings-menu-background-color: var(--controller-bar-background-color);
     --settings-menu-text-color: var(--controller-bar-text-color);
-    --settings-menu-icon-color: var(--settings-menu-text-color);
-    
+    --settings-menu-icon-color: #9C747E;
+
     /* Settings Content */
     --settings-background-color: var(--controller-background-color);
     --settings-text-color: var(--controller-text-color);
@@ -84,5 +84,5 @@
     /*****************/
 
     /* Scrollbar colour */
-    --scrollbar-color: #40404080;
+    --scrollbar-color: rgba(0, 0, 0, 0.5);
 }

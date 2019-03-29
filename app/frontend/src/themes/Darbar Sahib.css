@@ -4,16 +4,34 @@
     /***********/
 
     /* Display background */
-    --display-background-color: #FFFFFF;
+    --display-background-color: #0C297B;
     --display-background-image: url('/themes/images/darbar-sahib.jpg');
     --display-background-size: auto 100%;
 
     /* Display line colours */
-    --display-gurmukhi-color: #ffffff;
-    --display-gurmukhi-larivaar-assist-color: #FF328B;
-    --display-translation-color: #fff8cc;
-    --display-punjabi-color: #fdf3c7;
-    --display-transliteration-color: #f6ecc0;
+    --display-line-1-color: #ffffff;
+    --display-line-2-color: #fff8cc;
+    --display-line-3-color: #fdf3c7;
+    --display-line-4-color: #f6ecc0;
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: var(--display-line-1-opacity);
+    --display-line-3-opacity: var(--display-line-1-opacity);
+    --display-line-4-opacity: var(--display-line-1-opacity);
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .87;
+    --display-extra-line-2-opacity: .74;
+    --display-extra-line-3-opacity: .61;
+    --display-extra-line-4-opacity: .48;
+    --display-extra-line-5-opacity: .35;
+
+    --display-gurmukhi-larivaar-assist-color: #ff328b;
     --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
@@ -59,7 +77,6 @@
     --settings-title-text-color: var(--controller-bar-text-color);
 
     /* Settings Menu */
-    --settings-menu-background-image: var(--display-background-image);
     --settings-menu-background-color: var(--controller-bar-background-color);
     --settings-menu-text-color: var(--controller-bar-text-color);
     --settings-menu-icon-color: var(--settings-menu-text-color);
@@ -74,8 +91,4 @@
 
     /* Scrollbar colour */
     --scrollbar-color: #42424280;
-
-    /* Shortcut help colors */
-    --shortcuts-text-color: #212121;
-    --shortcuts-background-color: rgba(255, 255, 255, 0.9);
 }

@@ -1,9 +1,15 @@
+@import url('../lib/consts.css');
+
+/* ------------------------------------
+   Line
+   ------------------------------------ */
+
 .line {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 5vh 5vw;
+    padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding);
     text-align: center;
 }
 
@@ -11,23 +17,73 @@
   margin: 0;
 }
 
+
+/*
+    Notes for the future:
+    Aiming for 1.35*(x-height) for line-heights
+    Open Gurbani Akhar line-height by x-height = 1.4
+    Noto Sans Medium at 700 = 1.4
+    Open Anmol Uni bold = 1.5
+    
+    English x-height to Open Gurbani Akhar Black = 4:5 ratio
+    Open Anmol Uni Bold to Open Gurbani Akhar Black = 15:16 ratio
+
+    So for 1.35 line-height of Open Gurbani Akhar Black we have to set it's CSS line-height to 1.4
+
+    gurmukh is 8vh, corresponding english is 4/5*8vh = 6.4vh
+    corresponding english should be 1/1.35=0.740740741, which means 6.4vh is now 4.740740741vh
+
+    gurmukh is 8vh, corresponding punjabi is 15/16*8vh = 7.5vh
+    corresponding english should be 1/1.35=0.740740741, which means 7.6vh is now 5.555555555vh
+
+    The line-heights will be 1.35 times what we already have, 1.89 for english and 2.025 for punjabi
+
+    For whatever reason gurmukhi fonts require a negative bottom margin hack
+*/
+
 .line .gurmukhi {
-  font-family: "Open Gurbani Akhar Black", sans-serif;
-  font-size: 8vh;
-  color: var(--display-gurmukhi-color);
-  transition: 0.3s all;
+    font-family: "Open Gurbani Akhar Black", sans-serif;
+    font-size: 8vh;
+    line-height: 1.4;
+}
+
+.current-line .gurmukhi {
+    margin-bottom: -.12em;
+}
+
+.line .english {
+    font-family: "Noto Sans Medium", sans-serif;
+    font-size: 4.740740741vh;
+    line-height: 1.89;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.line .punjabi {
+    font-family: "Open Anmol Uni Bold", sans-serif;
+    font-size: 5.555555555vh;
+    line-height: 2.025;
+    line-height: 1.75;
+    line-height: 1.5;
+    margin-bottom: -.15em;
+}
+
+
+.line .gurmukhi .partition {
+    display: inline-block;
+}
+
+.line .gurmukhi .word, .line .transliteration .word {
+    display: inline-block;
+    transition: var(--animation-duration) all;
 }
 
 .line .gurmukhi .word {
-  margin-right: 2.25vh;
-  display: inline-block;
-  transition: 0.3s all;
+    margin-right: 2.25vh;
 }
 
 .line .transliteration .word {
-  margin-right: 0.8vh;
-  display: inline-block;
-  transition: 0.3s all;
+    margin-right: 0.8vh;
 }
 
 .larivaar.line .word {
@@ -35,15 +91,11 @@
 }
 
 .larivaar.assist.line .gurmukhi .word:nth-child(2n) {
-  color: var(--display-gurmukhi-larivaar-assist-color);
+    color: var(--display-gurmukhi-larivaar-assist-color);
 }
 
 .larivaar.assist.line .transliteration .word:nth-child(2n) {
-  color: var(--display-transliteration-larivaar-assist-color);
-}
-
-.line .gurmukhi .partition {
-  display: inline-block;
+    color: var(--display-transliteration-larivaar-assist-color);
 }
 
 .heavy.vishraams.line .gurmukhi .word.heavy,
@@ -61,31 +113,6 @@
   color: var(--display-vishraam-light-color) !important;
 }
 
-.line .translation {
-    font-family: "Noto Sans Medium", sans-serif;
-    font-size: 4vh;
-    transition: opacity 100ms ease-in;
-    opacity: 0.05;
-    color: var(--display-translation-color);
-    transition: 0.1s all ease-in;
-}
-
-.line .translation.fade-enter {
-  opacity: 0.05;
-}
-
-.line .punjabi {
-  font-family: "Open Anmol Uni Bold", sans-serif;
-  font-size: 3.5vh;
-  opacity: 0.1;
-  color: var(--display-punjabi-color);
-  transition: 0.15s all ease-in;
-}
-
-.line .punjabi.fade-enter {
-  opacity: 0.1;
-}
-
 .line .transliteration {
     font-family: "Noto Sans Regular", sans-serif;
     font-size: 3.5vh;
@@ -93,18 +120,14 @@
     transition: 0.2s all ease-in;
   }
 
-.line .transliteration.fade-enter {
-  opacity: 0.2;
-}
+/* ------------------------------------
+   Simple lines - remove animations
+   ------------------------------------ */
 
 .simple.line * {
   transition: none;
 }
 
 .simple.line .fade-enter {
-  opacity: 1;
-}
-
-.line .fade-enter-done {
-  opacity: 1;
+    opacity: 1;
 }

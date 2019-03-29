@@ -9,17 +9,35 @@
     --display-background-size: 120%;
 
     /* Display line colours */
-    --display-gurmukhi-color: #004daa;
+    --display-line-1-color: #004daa;
+    --display-line-2-color: #555555;
+    --display-line-3-color: var(--display-line-2-color);
+    --display-line-4-color: var(--display-line-2-color);
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: var(--display-line-1-opacity);
+    --display-line-3-opacity: var(--display-line-1-opacity);
+    --display-line-4-opacity: var(--display-line-1-opacity);
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .95;
+    --display-extra-line-2-opacity: .90;
+    --display-extra-line-3-opacity: .85;
+    --display-extra-line-4-opacity: .80;
+    --display-extra-line-5-opacity: .75;
+
     --display-gurmukhi-larivaar-assist-color: #006bc9;
-    --display-translation-color: #555555;
-    --display-punjabi-color: #555555;
-    --display-transliteration-color: #555555;
     --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
     --display-vishraam-heavy-color: #db5f00;
-    --display-vishraam-medium-color: #870865;
-    --display-vishraam-light-color: #005d42;
+    --display-vishraam-medium-color: #005d42;
+    --display-vishraam-light-color: #870865;
 
       /**************/
      /* Controller */
@@ -54,7 +72,6 @@
     --settings-title-text-color: var(--controller-bar-text-color);
 
     /* Settings Menu */
-    --settings-menu-background-image: var(--display-background-image);
     --settings-menu-background-color: var(--controller-bar-background-color);
     --settings-menu-text-color: var(--controller-bar-text-color);
     --settings-menu-icon-color: var(--settings-menu-text-color);
@@ -70,8 +87,4 @@
     
     /* Scrollbar colour */
     --scrollbar-color: #42424280;
-
-    /* Shortcut help colors */
-    --shortcuts-text-color: #212121;
-    --shortcuts-background-color: rgba(255, 255, 255, 0.9);
 }

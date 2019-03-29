@@ -59,15 +59,17 @@ const Line = ( {
   }, 'line' )}
     style={{ justifyContent: spacing }}
   >
-    <p className="gurmukhi">
-      {partitionLine( gurmukhi, !vishraamCharacters )
-        .map( ( line, lineIndex ) => (
-          <span key={lineIndex} className={classNames( { partition } )}>
-            {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
-          </span>
-        ) )}
-    </p>
     <TransitionGroup appear exit={false} component={null}>
+      <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
+        <p className="gurmukhi">
+          {partitionLine( gurmukhi, !vishraamCharacters )
+            .map( ( line, lineIndex ) => (
+              <span key={lineIndex} className={classNames( { partition } )}>
+                {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
+              </span>
+            ) )}
+        </p>
+      </CSSTransition>
       {englishTranslation &&
       <CSSTransition key={englishTranslation} classNames="fade" timeout={0}>
         <p className="english translation">{englishTranslation}</p>
@@ -78,7 +80,7 @@ const Line = ( {
       </CSSTransition>}
       {transliteration &&
       <CSSTransition key={`${transliteration}`} classNames="fade" timeout={0}>
-        <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'transliteration' )}>{
+        <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'english transliteration' )}>{
           classifyWords( transliteration, !vishraamCharacters )
           .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
         }
