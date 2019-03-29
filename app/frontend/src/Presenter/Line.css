@@ -97,7 +97,7 @@
 }
 
 .larivaar.assist.line .gurmukhi .word:nth-child(2n) {
-    color: var(--display-larivaar-assist-color);
+    color: var(--display-gurmukhi-larivaar-assist-color);
 }
 
 .larivaar.assist.line .transliteration .word:nth-child(2n) {
