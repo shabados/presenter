@@ -175,7 +175,7 @@ export const OPTIONS = {
   englishTransliteration: { name: 'English Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   previousLines: { name: 'Previous Lines', icon: faAlignJustify, type: OPTION_TYPES.slider, max: 5, step: 1, privacy: PRIVACY_TYPES.local },
   nextLines: { name: 'Next Lines', icon: faAlignJustify, type: OPTION_TYPES.slider, max: 5, step: 1, privacy: PRIVACY_TYPES.local },
-  fontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, min: 20, max: 100, privacy: PRIVACY_TYPES.local },
+  fontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, min: 20, max: 100, step: 1, privacy: PRIVACY_TYPES.local },
   themeName: { name: 'Theme Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
   backgroundImage: { name: 'Background Image', icon: faImage, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   simpleGraphics: { name: 'Simple Graphics', icon: faLowVision, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
