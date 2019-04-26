@@ -12,9 +12,9 @@ import Typography from '@material-ui/core/Typography'
 import {
   faCog,
   faBars,
-  faBookOpen,
+  faStar,
   faHistory,
-  faList,
+  faPlay,
   faSearch,
   faSignOutAlt,
   faWindowMinimize,
@@ -141,7 +141,7 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
       <ToolbarButton name="Search" icon={faSearch} onClick={go( SEARCH_URL )} onHover={onHover} />
       <ToolbarButton
         name="Banis"
-        icon={faBookOpen}
+        icon={faStar}
         onClick={go( BANIS_URL )}
         onMouseEnter={() => onHover( 'Banis' )}
         onMouseLeave={resetHover}
@@ -156,7 +156,7 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
       <div className="middle">{renderContent()}</div>
       <ToolbarButton
         name="Navigator"
-        icon={faList}
+        icon={faPlay}
         onClick={go( NAVIGATOR_URL )}
         onMouseEnter={() => onHover( 'Navigator' )}
         onMouseLeave={resetHover}
