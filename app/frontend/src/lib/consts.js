@@ -100,7 +100,7 @@ export const SEARCH_CHARS = {
 
 /* Hotkeys and shortcuts */
 // Jump to navigation line ordered hot keys
-export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfghjklzxcvbnm' )
+export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfg' )
 
 // Global application shortcuts
 export const SHORTCUTS = {
