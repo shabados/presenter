@@ -54,7 +54,7 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
       <div className="previous-lines">
-        {previousLines.map( ( { gurmukhi } ) => (
+        {line && previousLines.map( ( { gurmukhi } ) => (
           <Line
             className="previous-line"
             simpleGraphics={simple}
@@ -77,7 +77,7 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
         simpleGraphics={simple}
       />}
       <div className="next-lines">
-        {nextLines.map( ( { gurmukhi } ) => (
+        {line && nextLines.map( ( { gurmukhi } ) => (
           <Line
             className="next-line"
             simpleGraphics={simple}
