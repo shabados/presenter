@@ -106,6 +106,17 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keym
       }
 
       /**
+       * Jumps to the first element, excluding inputs.
+       */
+      jumpToFirst = () => {
+        const index = [ ...this.nodes.values() ].findIndex( (
+          element => !( element instanceof HTMLElement && element.tagName.toLowerCase() === 'input' )
+        ) )
+
+        this.jumpTo( index )
+      }
+
+      /**
        * Focuses the previous item in the list of elements.
        */
       prevItem = () => {
@@ -153,7 +164,7 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keym
       } ), {} )
 
       arrowHandlers = {
-        first: () => this.jumpTo( 0 ),
+        first: this.jumpToFirst,
         last: () => this.jumpTo( this.nodes.size - 1 ),
         previous: this.prevItem,
         next: this.nextItem,
