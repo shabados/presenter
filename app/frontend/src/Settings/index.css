@@ -31,6 +31,7 @@
 .menu .icon {
   color: var(--settings-menu-icon-color);
   width: 30px;
+  font-size: 20px;
   transition: 0.3s all;
 }
 
