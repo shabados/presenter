@@ -121,16 +121,16 @@ export const SHORTCUTS = {
 
 // Shortcut Keys
 export const DEFAULT_SHORTCUT_MAP = {
-  [ SHORTCUTS.toggleFullscreen ]: [ 'f11' ],
+  [ SHORTCUTS.toggleFullscreen ]: [ 'f11', 'ctrl+f' ],
   [ SHORTCUTS.toggleFullscreenController ]: [ 'shift+f' ],
   [ SHORTCUTS.refresh ]: [ 'ctrl+r' ],
   [ SHORTCUTS.newController ]: [ 'ctrl+x', 'ctrl+shift+x' ],
   [ SHORTCUTS.toggleController ]: [ 'ctrl+h', 'ctrl+shift+h' ],
   [ SHORTCUTS.historyBack ]: [ 'ctrl+left', 'alt+left' ],
   [ SHORTCUTS.historyForward ]: [ 'ctrl+right', 'alt+right' ],
-  [ SHORTCUTS.search ]: [ 'ctrl+/', 'ctrl+f' ],
+  [ SHORTCUTS.search ]: [ 'ctrl+/' ],
   [ SHORTCUTS.menu ]: [ 'ctrl+p', 'ctrl+,' ],
-  [ SHORTCUTS.navigator ]: [ 'ctrl+c' ],
+  [ SHORTCUTS.navigator ]: [ 'ctrl+c', 'ctrl+enter' ],
   [ SHORTCUTS.history ]: [ 'ctrl+y' ],
   [ SHORTCUTS.banis ]: [ 'ctrl+b' ],
   [ SHORTCUTS.clearDisplay ]: [ 'esc' ],
