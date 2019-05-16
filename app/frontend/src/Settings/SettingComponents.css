@@ -1,3 +1,5 @@
+/*! Warning: These styles assume the structure of Material-UI components and so maybe break when upgrading it */
+
 .select {
   font-size: 0.9em !important;
   color: var(--settings-text-color) !important;
@@ -8,5 +10,32 @@
 }
 
 .select::after {
-  border-bottom: 2px solid #f50057 !important;
+  border-bottom: 2px solid var(--settings-setting-color) !important;
+}
+
+.select-menu ul {
+  background-color: var(--settings-background-color);
+}
+
+.select-menu li {
+  color: var(--settings-text-color);
+}
+
+.checked.toggle > span {
+  color: var(--settings-setting-color);
+}
+
+.checked.toggle > span:last-child,
+.slider button,
+.slider > div > div:first-child,
+.slider > div > div:last-child {
+  background-color: var(--settings-setting-color);
+}
+
+.slider > div > div:first-child {
+  opacity: 0.7;
+}
+
+.slider > div > div:last-child {
+  opacity: 0.3;
 }

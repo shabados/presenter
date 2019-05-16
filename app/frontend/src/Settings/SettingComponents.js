@@ -1,8 +1,12 @@
 import React from 'react'
-import { string, func, any, arrayOf } from 'prop-types'
+import { string, func, any, arrayOf, number } from 'prop-types'
+
+import classNames from 'classnames'
 
 import Switch from '@material-ui/core/Switch'
 import Select from '@material-ui/core/Select'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
 import MenuItem from '@material-ui/core/MenuItem'
 import MSlider from '@material-ui/lab/Slider'
 
@@ -41,15 +45,29 @@ const GeneralSettingParam = Component => {
   return HOC
 }
 
-export const Toggle = ( { value, ...props } ) => <Switch className="toggle" checked={value}{...props} />
+export const Toggle = ( { value, ...props } ) => <Switch className={classNames( 'toggle', { checked: value } )} checked={value}{...props} />
+
 Toggle.propTypes = {
   value: any.isRequired, // eslint-disable-line react/forbid-prop-types
 }
 
-export const Slider = props => <MSlider className="slider" {...props} />
+export const Slider = props => (
+  <Grid container item alignItems="center" spacing={16}>
+    <Grid item xs={5}>
+      <MSlider className="slider" {...props} />
+    </Grid>
+    <Grid item>
+      <Typography>{props.value}</Typography>
+    </Grid>
+  </Grid>
+)
+
+Slider.propTypes = {
+  value: number.isRequired,
+}
 
 export const Dropdown = ( { value, values, onChange } ) => (
-  <Select className="select" value={value} onChange={onChange}>
+  <Select className="select" MenuProps={{ className: 'select-menu' }} value={value} onChange={onChange}>
     {values.map( ( { name, value } ) =>
       <MenuItem key={value} value={value}>{name || value}</MenuItem> )}
   </Select>
