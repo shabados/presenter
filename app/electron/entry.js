@@ -1,12 +1,9 @@
-/* eslint-disable global-require, no-global-assign */
+/* eslint-disable global-require */
 const { spawn } = require( 'child_process' )
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { app } = require( 'electron' )
 
 const LAUNCH_FLAG = '--start-server'
-
-// Patch require to allow for ES6 imports
-require = require( 'esm' )( module )
 
 const { execPath, argv, env } = process
 env.NODE_ENV = 'production'

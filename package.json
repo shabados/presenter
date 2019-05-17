@@ -2,7 +2,7 @@
   "name": "@shabados/desktop",
   "version": "0.0.1",
   "description": "Electron wrapper around Shabad OS backend and frontend",
-  "main": "app/electron/entry.js",
+  "main": "app/electron/esm-wrapper.js",
   "scripts": {
     "lint": "npm-run-all -l -p lint:*",
     "lint:backend": "cd app && npm run lint",
@@ -11,6 +11,7 @@
     "start": "npm-run-all -l -p start:*",
     "start:backend": "cd app && npm run start",
     "start:frontend": "cd app/frontend && npm start",
+    "start:electron": "cd app && electron electron/esm-wrapper electron-wrapper",
     "build": "cd app/frontend && npm run build",
     "install-deps": "npm run install-deps:backend && npm run install-deps:frontend",
     "install-deps:backend": "cd app && npm install",

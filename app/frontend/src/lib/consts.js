@@ -40,10 +40,13 @@ import {
  * @ignore
  */
 
+export const isElectron = navigator.userAgent.indexOf( 'Electron' ) > -1
+export const isDev = process.env.NODE_ENV !== 'production'
+
 /* Backend Info */
 // eslint-disable-next-line no-undef
 export const BACKEND_HOST = window.location.hostname || 'localhost'
-export const BACKEND_PORT = process.env.NODE_ENV === 'production' ? 1699 : 42425
+export const BACKEND_PORT = !isDev ? 1699 : 42425
 export const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
 export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
 

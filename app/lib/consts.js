@@ -7,6 +7,9 @@ import { getAppDataPath } from 'appdata-path'
 
 import { getDateFilename } from './utils'
 
+// Dev environment
+export const isDev = process.env.NODE_ENV !== 'production'
+
 // Check every 5 minutes
 export const UPDATE_CHECK_INTERVAL = 5000 * 60
 
@@ -36,7 +39,7 @@ export const DEFAULT_SETTINGS_FILE = join( APP_FOLDER, 'settings.default.json' )
 export const MAX_RESULTS = 20
 
 // Backend port
-export const PORT = process.env.NODE_ENV === 'production' ? 1699 : 42425
+export const PORT = !isDev ? 1699 : 42425
 
 // Sentry Data Source Name
 export const SENTRY_DSN = 'https://bd6e4bbf9db44f5b8e9cb8f0eeaa950a@sentry.io/1363382'

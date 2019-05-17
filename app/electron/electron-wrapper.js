@@ -1,11 +1,11 @@
-// eslint-disable-next-line
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow } from 'electron'
 import fetch from 'electron-fetch'
 
 import logger from '../lib/logger'
-import { PORT } from '../lib/consts'
+import { PORT, isDev } from '../lib/consts'
 
-const BASE_URL = `http://localhost:${PORT}`
+const BASE_URL = !isDev ? `http://localhost:${PORT}` : `http://localhost:${3000}`
 
 let mainWindow
 
