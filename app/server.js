@@ -7,7 +7,7 @@ import { setupExpress } from './lib/express'
 import api from './lib/api'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
-import { searchLines, getBanis } from './lib/db'
+import { firstLetterSearch, fullWordSearch, getBanis } from './lib/db'
 import Updater from './lib/Updater'
 import settings from './lib/settings'
 import logger from './lib/logger'
@@ -84,7 +84,9 @@ async function main() {
   const sessionManager = new SessionManager( socket )
 
   // Register searches on the socket instance
-  socket.on( 'search', async ( client, search ) => client.sendJSON( 'results', await searchLines( search ) ) )
+  const search = searchFn => async ( client, query ) => client.sendJSON( 'results', await searchFn( query ) )
+  socket.on( 'search:first-letter', search( firstLetterSearch ) )
+  socket.on( 'search:full-word', search( fullWordSearch ) )
 
   // Register Bani list requests on socket connection
   socket.on( 'connection', async client => client.sendJSON( 'banis', await getBanis() ) )

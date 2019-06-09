@@ -14,10 +14,21 @@ import { MAX_RESULTS } from './consts'
  * @async
  * @returns {Array} A list of lines with the provided first letters of each word.
  */
-export const searchLines = letters => Lines
+export const firstLetterSearch = letters => Lines
   .query()
-  .firstLetters( letters )
   .limit( MAX_RESULTS )
+  .firstLetters( letters )
+
+/**
+ * Queries the database for all lines, containing the full word.
+ * @param {string} words The words to search for.
+ * @async
+ * @returns {Array} A list of lines containing the full word.
+ */
+export const fullWordSearch = words => Lines
+  .query()
+  .limit( MAX_RESULTS )
+  .fullWord( words )
 
 /**
  * Gets the Shabad of given `shabadId`, along with all the lines.
