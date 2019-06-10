@@ -84,6 +84,14 @@ class Presenter extends Component {
   }
 
   /**
+   * Toggles presenter fullscreen.
+   */
+  toggleFullscreen = () => ( !document.webkitFullscreenElement
+    ? document.documentElement.webkitRequestFullScreen()
+    : document.webkitExitFullscreen()
+  )
+
+  /**
    * Toggles the given query string parameter.
    * @param query The query string parameter to toggle.
    */
@@ -117,6 +125,7 @@ class Presenter extends Component {
     [ SHORTCUTS.navigator ]: () => this.go( NAVIGATOR_URL ),
     [ SHORTCUTS.clearDisplay ]: controller.clear,
     [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
+    [ SHORTCUTS.toggleFullscreen ]: this.toggleFullscreen,
   } )
 
 
