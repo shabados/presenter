@@ -23,7 +23,7 @@ import {
   SEARCH_URL,
   HISTORY_URL,
   NAVIGATOR_URL,
-  BANIS_URL,
+  BOOKMARKS_URL,
   STATES,
 } from '../lib/consts'
 
@@ -113,7 +113,7 @@ class Presenter extends Component {
     [ SHORTCUTS.menu ]: () => this.go( MENU_URL ),
     [ SHORTCUTS.search ]: () => this.go( SEARCH_URL ),
     [ SHORTCUTS.history ]: () => this.go( HISTORY_URL ),
-    [ SHORTCUTS.banis ]: () => this.go( BANIS_URL ),
+    [ SHORTCUTS.bookmarks ]: () => this.go( BOOKMARKS_URL ),
     [ SHORTCUTS.navigator ]: () => this.go( NAVIGATOR_URL ),
     [ SHORTCUTS.clearDisplay ]: controller.clear,
     [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,

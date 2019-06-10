@@ -24,7 +24,7 @@ import { faSquare } from '@fortawesome/free-regular-svg-icons'
 
 import controller from '../lib/controller'
 import {
-  BANIS_URL,
+  BOOKMARKS_URL,
   CONTROLLER_URL,
   HISTORY_URL,
   MENU_URL,
@@ -41,7 +41,7 @@ import Search from './Search'
 import Menu from './Menu'
 import Navigator, { Bar as NavigatorBar } from './Navigator'
 import History from './History'
-import Banis from './Banis'
+import Bookmarks from './Bookmarks'
 
 import './index.css'
 
@@ -140,10 +140,10 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
     <Toolbar className="bottom bar">
       <ToolbarButton name="Search" icon={faSearch} onClick={go( SEARCH_URL )} onHover={onHover} />
       <ToolbarButton
-        name="Banis"
+        name="Bookmarks"
         icon={faStar}
-        onClick={go( BANIS_URL )}
-        onMouseEnter={() => onHover( 'Banis' )}
+        onClick={go( BOOKMARKS_URL )}
+        onMouseEnter={() => onHover( 'Bookmarks' )}
         onMouseLeave={resetHover}
       />
       <ToolbarButton
@@ -194,7 +194,7 @@ class Controller extends Component {
     const { history, shabad, bani, location } = this.props
     const { pathname } = location
 
-    const redirects = [ SEARCH_URL, HISTORY_URL, BANIS_URL ]
+    const redirects = [ SEARCH_URL, HISTORY_URL, BOOKMARKS_URL ]
     // Go to navigator if a different Shabad/Bani has been selected, and we're on a redirect page
     const isNewSelection = shabad !== prevShabad || bani !== prevBani
     if ( isNewSelection && redirects.some( route => pathname.includes( route ) ) ) {
@@ -215,7 +215,7 @@ class Controller extends Component {
       [ SEARCH_URL, Search ],
       [ NAVIGATOR_URL, Navigator, NavigatorBar ],
       [ HISTORY_URL, History ],
-      [ BANIS_URL, Banis ],
+      [ BOOKMARKS_URL, Bookmarks ],
     ]
 
     return (

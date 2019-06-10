@@ -56,7 +56,7 @@ export const PRESENTER_URL = ''
 export const CONTROLLER_URL = `${PRESENTER_URL}/controller`
 export const MENU_URL = `${CONTROLLER_URL}/menu`
 export const SEARCH_URL = `${CONTROLLER_URL}/search`
-export const BANIS_URL = `${CONTROLLER_URL}/banis`
+export const BOOKMARKS_URL = `${CONTROLLER_URL}/bookmarks`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
@@ -115,7 +115,7 @@ export const SHORTCUTS = {
   menu: 'Menu',
   navigator: 'Navigator',
   history: 'History',
-  banis: 'Banis',
+  bookmarks: 'Bookmarks',
   clearDisplay: 'Clear Display',
 }
 
@@ -132,7 +132,7 @@ export const DEFAULT_SHORTCUT_MAP = {
   [ SHORTCUTS.menu ]: [ 'ctrl+p', 'ctrl+,' ],
   [ SHORTCUTS.navigator ]: [ 'ctrl+c' ],
   [ SHORTCUTS.history ]: [ 'ctrl+y' ],
-  [ SHORTCUTS.banis ]: [ 'ctrl+b' ],
+  [ SHORTCUTS.bookmarks ]: [ 'ctrl+b' ],
   [ SHORTCUTS.clearDisplay ]: [ 'esc' ],
 }
 
