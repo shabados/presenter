@@ -95,7 +95,7 @@ export const PAUSE_CHARS = {
 
 // Searching modifiers
 export const SEARCH_CHARS = {
-  wildcard: '_',
+  wildcard: ' ',
   wordAnywhere: '#',
   wordOrder: '^',
   larivaarAccentless: '%',
