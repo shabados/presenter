@@ -126,6 +126,7 @@ class Presenter extends Component {
     [ SHORTCUTS.clearDisplay ]: controller.clear,
     [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
     [ SHORTCUTS.toggleFullscreen ]: this.toggleFullscreen,
+    [ SHORTCUTS.quit ]: window.close,
   } )
 
 

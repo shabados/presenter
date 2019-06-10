@@ -120,6 +120,7 @@ export const SHORTCUTS = {
   history: 'History',
   banis: 'Banis',
   clearDisplay: 'Clear Display',
+  quit: 'Quit',
 }
 
 // Shortcut Keys
@@ -137,6 +138,7 @@ export const DEFAULT_SHORTCUT_MAP = {
   [ SHORTCUTS.history ]: [ 'ctrl+y' ],
   [ SHORTCUTS.banis ]: [ 'ctrl+b' ],
   [ SHORTCUTS.clearDisplay ]: [ 'esc', 'ctrl+shift+b' ],
+  [ SHORTCUTS.quit ]: [ 'ctrl+q' ],
 }
 
 /* Options */
