@@ -8,7 +8,7 @@ import EventEmitter from 'event-emitter'
 import { toAscii } from 'gurmukhi-utils'
 
 import { merge } from './utils'
-import { WS_URL, DEFAULT_OPTIONS, SEARCH_TYPES } from './consts'
+import { WS_URL, DEFAULT_OPTIONS } from './consts'
 
 class Controller extends EventEmitter {
   constructor() {

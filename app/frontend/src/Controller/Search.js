@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { func, string, oneOfType, number } from 'prop-types'
 import { history, location } from 'react-router-prop-types'
+import classNames from 'classnames'
 
 import Input from '@material-ui/core/Input'
 import List from '@material-ui/core/List'
@@ -124,10 +125,8 @@ class Search extends Component {
     // Send the shabad id and line id to the server on click
     const onClick = () => controller.shabad( { shabadId, lineId } )
 
-    const className = focused ? 'focused' : ''
-
     return (
-      <ListItem className={className} key={lineId} onClick={onClick} ref={ref}>
+      <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
         <span className="gurmukhi text result">
           {beforeMatch ? <span className="words">{beforeMatch}</span> : null}
           {match ? <span className="matched words">{match}</span> : null}
