@@ -8,10 +8,10 @@ import controller from '../lib/controller'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
-import './Banis.css'
+import './Bookmarks.css'
 
-const Banis = ( { banis, register, focused } ) => (
-  <List className="banis">
+const Bookmarks = ( { banis, register, focused } ) => (
+  <List className="bookmarks">
     {banis.map( ( { id, nameGurmukhi }, index ) => (
       <ListItem
         className={focused === index ? 'focused' : ''}
@@ -26,7 +26,7 @@ const Banis = ( { banis, register, focused } ) => (
   </List>
 )
 
-Banis.propTypes = {
+Bookmarks.propTypes = {
   banis: arrayOf( shape( {
     id: string,
     name: string,
@@ -38,4 +38,4 @@ Banis.propTypes = {
 export default withNavigationHotKeys( {
   arrowKeys: true,
   lineKeys: true,
-} )( Banis )
+} )( Bookmarks )
