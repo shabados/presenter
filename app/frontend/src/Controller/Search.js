@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem'
 import { stringify } from 'querystring'
 import { firstLetters, toAscii } from 'gurmukhi-utils'
 
-import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS } from '../lib/consts'
+import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS, SEARCH_TYPES, SEARCH_ANCHORS } from '../lib/consts'
 import { stripPauses, getUrlState } from '../lib/utils'
 import controller from '../lib/controller'
 
@@ -29,12 +29,16 @@ class Search extends Component {
     this.state = {
       searchedValue: '',
       inputValue: '',
+      anchor: null,
       results: [],
     }
 
     this.times = []
     this.timeStart = null
     this.timeEnd = null
+
+    // Generate the regex for capturing anchor chars, optionally
+    this.searchRegex = new RegExp( `^([${Object.keys( SEARCH_ANCHORS ).map( anchor => `\\${anchor}` ).join( '' )}])?(.*)` )
   }
 
   componentDidMount() {
@@ -68,20 +72,26 @@ class Search extends Component {
    */
   onChange = ( { target: { value } } ) => {
     const { location: { search }, history } = this.props
-    const inputValue = toAscii( value.trim() )
+
+    // Extract anchors and search query
+    const [ , anchor, query ] = value.match( this.searchRegex )
+
+    const inputValue = toAscii( query )
+
+    // Get search type from anchor char, if any
+    const searchType = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
 
     // Search if enough letters
-    if ( inputValue.length >= MIN_SEARCH_CHARS ) {
-      this.setState( { inputValue } )
-      controller.search( inputValue )
-    } else {
-      this.setState( { inputValue, results: [] } )
-    }
+    const doSearch = inputValue.length >= MIN_SEARCH_CHARS
+
+    if ( doSearch ) controller.search( inputValue, searchType )
+
+    this.setState( { inputValue, anchor, ...( !doSearch && { results: [] } ) } )
 
     // Update URL with search
     history.push( { search: `?${stringify( {
       ...getUrlState( search ),
-      query: inputValue,
+      query: value,
     } )}` } )
   }
 
@@ -93,19 +103,23 @@ class Search extends Component {
    * @param {Component} ref The ref to the component.
    */
   Result = ( { gurmukhi, id: lineId, shabadId, ref, focused } ) => {
-    const { searchedValue } = this.state
+    const { searchedValue, anchor } = this.state
 
     // Get first letters in line and find where the match is
-    const firstLettersLine = firstLetters( gurmukhi )
-    // Remember to account for wildcard characters
-    const pos = firstLettersLine.search( searchedValue.replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '.' ) )
+    const query = !anchor ? firstLetters( gurmukhi ) : gurmukhi
 
-    const words = stripPauses( gurmukhi ).split( ' ' )
+    // Split on each word if using first letter because letters correspond to whole words
+    const splitChar = !anchor ? ' ' : ''
+
+    // Remember to account for wildcard characters
+    const pos = query.search( searchedValue.replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '.' ) )
+
+    const words = stripPauses( gurmukhi ).split( splitChar )
 
     // Separate the line into words before the match, the match, and after the match
-    const beforeMatch = words.slice( 0, pos ).join( ' ' )
-    const match = words.slice( pos, pos + searchedValue.length ).join( ' ' )
-    const afterMatch = words.slice( pos + searchedValue.length ).join( ' ' )
+    const beforeMatch = words.slice( 0, pos ).join( splitChar ) + splitChar
+    const match = words.slice( pos, pos + searchedValue.length ).join( splitChar ) + splitChar
+    const afterMatch = words.slice( pos + searchedValue.length ).join( splitChar ) + splitChar
 
     // Send the shabad id and line id to the server on click
     const onClick = () => controller.shabad( { shabadId, lineId } )
@@ -125,14 +139,14 @@ class Search extends Component {
 
   render() {
     const { register, focused } = this.props
-    const { inputValue, results } = this.state
+    const { inputValue, results, anchor } = this.state
 
     return (
       <div className="search">
         <Input
           className="input"
           onChange={this.onChange}
-          value={inputValue}
+          value={`${anchor || ''}${inputValue}`}
           placeholder="Koj"
           disableUnderline
           autoFocus

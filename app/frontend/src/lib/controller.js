@@ -8,7 +8,7 @@ import EventEmitter from 'event-emitter'
 import { toAscii } from 'gurmukhi-utils'
 
 import { merge } from './utils'
-import { WS_URL, DEFAULT_OPTIONS } from './consts'
+import { WS_URL, DEFAULT_OPTIONS, SEARCH_TYPES } from './consts'
 
 class Controller extends EventEmitter {
   constructor() {
@@ -62,9 +62,10 @@ class Controller extends EventEmitter {
 
   /**
    * Convenience method for searching.
-   * @param firstLetters The first letters to search with.
+   * @param query The first letters to search with.
+   * @param type The type of search (first-letter/full-word).
    */
-  search = firstLetters => this.sendJSON( 'search', toAscii( firstLetters ) )
+  search = ( query, type ) => this.sendJSON( `search:${type}`, toAscii( query ) )
 
   /**
    * Convenience method for setting the line.
