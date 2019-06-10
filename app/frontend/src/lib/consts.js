@@ -136,7 +136,7 @@ export const DEFAULT_SHORTCUT_MAP = {
   [ SHORTCUTS.navigator ]: [ 'ctrl+c', 'ctrl+enter' ],
   [ SHORTCUTS.history ]: [ 'ctrl+y' ],
   [ SHORTCUTS.banis ]: [ 'ctrl+b' ],
-  [ SHORTCUTS.clearDisplay ]: [ 'esc' ],
+  [ SHORTCUTS.clearDisplay ]: [ 'esc', 'ctrl+shift+b' ],
 }
 
 /* Options */
