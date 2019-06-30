@@ -93,12 +93,23 @@ export const PAUSE_CHARS = {
   light: '.',
 }
 
+// Search type names
+export const SEARCH_TYPES = {
+  fullWord: 'full-word',
+  firstLetter: 'first-letter',
+}
+
 // Searching modifiers
 export const SEARCH_CHARS = {
   wildcard: ' ',
   wordAnywhere: '#',
   wordOrder: '^',
   larivaarAccentless: '%',
+}
+
+// Search modifier anchors
+export const SEARCH_ANCHORS = {
+  [ SEARCH_CHARS.wordAnywhere ]: SEARCH_TYPES.fullWord,
 }
 
 /* Hotkeys and shortcuts */

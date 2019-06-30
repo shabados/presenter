@@ -62,9 +62,10 @@ class Controller extends EventEmitter {
 
   /**
    * Convenience method for searching.
-   * @param firstLetters The first letters to search with.
+   * @param query The first letters to search with.
+   * @param type The type of search (first-letter/full-word).
    */
-  search = firstLetters => this.sendJSON( 'search', toAscii( firstLetters ) )
+  search = ( query, type ) => this.sendJSON( `search:${type}`, toAscii( query ) )
 
   /**
    * Convenience method for setting the line.
