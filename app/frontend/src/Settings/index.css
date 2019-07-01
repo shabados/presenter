@@ -50,7 +50,7 @@
   
 .settings main {
   display: flex;
-  min-height: 100%;
+  min-height: fit-content;
   flex-direction: column;
   padding: 25px;
   background-color: var(--settings-background-color);
