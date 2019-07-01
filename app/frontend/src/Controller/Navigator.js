@@ -6,6 +6,8 @@ import { string, func, shape, arrayOf, bool } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
+import { GlobalHotKeys } from 'react-hotkeys'
+
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 
@@ -15,7 +17,8 @@ import {
   faExchangeAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { CONTROLLER_URL, LINE_HOTKEYS } from '../lib/consts'
+import { LINE_HOTKEYS } from '../lib/keyMap'
+import { CONTROLLER_URL } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
 
@@ -106,16 +109,18 @@ class Navigator extends PureComponent {
 
     const { lines } = content
     return (
-      <List className="navigator" onKeyDown={e => e.preventDefault()}>
-        {lines.map( ( line, index ) => (
-          <NavigatorLine
-            {...line}
-            focused={line.id === focused}
-            hotkey={LINE_HOTKEYS[ index ]}
-            register={register}
-          />
-        ) )}
-      </List>
+      <GlobalHotKeys handlers={this.handlers} keyMap={this.keyMap}>
+        <List className="navigator" onKeyDown={e => e.preventDefault()}>
+          {lines.map( ( line, index ) => (
+            <NavigatorLine
+              {...line}
+              focused={line.id === focused}
+              hotkey={LINE_HOTKEYS[ index ]}
+              register={register}
+            />
+          ) )}
+        </List>
+      </GlobalHotKeys>
     )
   }
 }

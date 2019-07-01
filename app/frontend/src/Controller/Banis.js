@@ -3,7 +3,7 @@ import { arrayOf, shape, string, func, number } from 'prop-types'
 
 import { List, ListItem } from '@material-ui/core'
 
-import { LINE_HOTKEYS } from '../lib/consts'
+import { LINE_HOTKEYS } from '../lib/keyMap'
 import controller from '../lib/controller'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'

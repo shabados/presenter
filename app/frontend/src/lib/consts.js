@@ -34,7 +34,8 @@ import {
   faBell,
 } from '@fortawesome/free-regular-svg-icons'
 
-/* eslint-disable quote-props */
+import SHORTCUTS from './keyMap'
+
 /**
  * Application Constants
  * @ignore
@@ -101,45 +102,11 @@ export const SEARCH_CHARS = {
   larivaarAccentless: '%',
 }
 
-/* Hotkeys and shortcuts */
-// Jump to navigation line ordered hot keys
-export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfg' )
-
-// Global application shortcuts
-export const SHORTCUTS = {
-  toggleFullscreen: 'Toggle Fullscreen',
-  toggleFullscreenController: 'Toggle Fullscreen Controller',
-  refresh: 'Refresh',
-  newController: 'New Controller',
-  toggleController: 'Toggle Controller',
-  historyBack: 'History Back',
-  historyForward: 'History Forward',
-  search: 'Search',
-  menu: 'Menu',
-  navigator: 'Navigator',
-  history: 'History',
-  banis: 'Banis',
-  clearDisplay: 'Clear Display',
-  quit: 'Quit',
-}
-
-// Shortcut Keys
-export const DEFAULT_SHORTCUT_MAP = {
-  [ SHORTCUTS.toggleFullscreen ]: [ 'f11', 'ctrl+f' ],
-  [ SHORTCUTS.toggleFullscreenController ]: [ 'shift+f' ],
-  [ SHORTCUTS.refresh ]: [ 'ctrl+r' ],
-  [ SHORTCUTS.newController ]: [ 'ctrl+x', 'ctrl+shift+x' ],
-  [ SHORTCUTS.toggleController ]: [ 'ctrl+h', 'ctrl+shift+h' ],
-  [ SHORTCUTS.historyBack ]: [ 'ctrl+left', 'alt+left' ],
-  [ SHORTCUTS.historyForward ]: [ 'ctrl+right', 'alt+right' ],
-  [ SHORTCUTS.search ]: [ 'ctrl+/' ],
-  [ SHORTCUTS.menu ]: [ 'ctrl+p', 'ctrl+,' ],
-  [ SHORTCUTS.navigator ]: [ 'ctrl+c', 'ctrl+enter' ],
-  [ SHORTCUTS.history ]: [ 'ctrl+y' ],
-  [ SHORTCUTS.banis ]: [ 'ctrl+b' ],
-  [ SHORTCUTS.clearDisplay ]: [ 'esc', 'ctrl+shift+b' ],
-  [ SHORTCUTS.quit ]: [ 'ctrl+q' ],
-}
+/* Default hotkeys */
+const hotkeys = Object.values( SHORTCUTS ).reduce( ( hotkeys, { name, sequences } ) => ( {
+  ...hotkeys,
+  [ name ]: sequences,
+} ), {} )
 
 /* Options */
 // Unique symbols for each option type
@@ -267,7 +234,7 @@ export const DEFAULT_OPTIONS = {
       vishraamHeavy: true,
     },
     sources: {},
-    hotkeys: DEFAULT_SHORTCUT_MAP,
+    hotkeys,
     security: {
       private: false,
     },

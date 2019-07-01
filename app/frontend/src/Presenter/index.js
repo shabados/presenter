@@ -14,11 +14,11 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import StatusToast from './StatusToast'
 import ThemeLoader from '../shared/ThemeLoader'
+import Loader from '../shared/Loader'
 import controller from '../lib/controller'
 import { getUrlState } from '../lib/utils'
 import {
   CONTROLLER_URL,
-  SHORTCUTS,
   MENU_URL,
   SEARCH_URL,
   HISTORY_URL,
@@ -26,9 +26,9 @@ import {
   BANIS_URL,
   STATES,
 } from '../lib/consts'
+import SHORTCUTS from '../lib/keyMap'
 
 import './index.css'
-import Loader from '../shared/Loader'
 
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
@@ -116,19 +116,18 @@ class Presenter extends Component {
     } ), {} )
 
   hotKeyHandlers = this.preventDefault( {
-    [ SHORTCUTS.toggleController ]: this.toggleController,
-    [ SHORTCUTS.newController ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
-    [ SHORTCUTS.menu ]: () => this.go( MENU_URL ),
-    [ SHORTCUTS.search ]: () => this.go( SEARCH_URL ),
-    [ SHORTCUTS.history ]: () => this.go( HISTORY_URL ),
-    [ SHORTCUTS.banis ]: () => this.go( BANIS_URL ),
-    [ SHORTCUTS.navigator ]: () => this.go( NAVIGATOR_URL ),
-    [ SHORTCUTS.clearDisplay ]: controller.clear,
-    [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
-    [ SHORTCUTS.toggleFullscreen ]: this.toggleFullscreen,
-    [ SHORTCUTS.quit ]: window.close,
+    [ SHORTCUTS.toggleController.name ]: this.toggleController,
+    [ SHORTCUTS.newController.name ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
+    [ SHORTCUTS.menu.name ]: () => this.go( MENU_URL ),
+    [ SHORTCUTS.search.name ]: () => this.go( SEARCH_URL ),
+    [ SHORTCUTS.history.name ]: () => this.go( HISTORY_URL ),
+    [ SHORTCUTS.bookmarks.name ]: () => this.go( BANIS_URL ),
+    [ SHORTCUTS.navigator.name ]: () => this.go( NAVIGATOR_URL ),
+    [ SHORTCUTS.clearDisplay.name ]: controller.clear,
+    [ SHORTCUTS.toggleFullscreenController.name ]: this.fullscreenController,
+    [ SHORTCUTS.toggleFullscreen.name ]: this.toggleFullscreen,
+    [ SHORTCUTS.quit.name ]: window.close,
   } )
-
 
   render() {
     const { settings, location: { search }, status } = this.props

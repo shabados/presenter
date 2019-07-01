@@ -1,11 +1,17 @@
 import React from 'react'
-import { objectOf, arrayOf, string } from 'prop-types'
+import { objectOf, arrayOf, string, shape } from 'prop-types'
+import { groupBy } from 'lodash'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
+
 
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-
+import ListSubheader from '@material-ui/core/ListSubheader'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import './Hotkeys.css'
 
@@ -16,29 +22,49 @@ import './Hotkeys.css'
  */
 const Hotkeys = ( { keys, shortcuts } ) => (
   <List className="hotkeys">
-    {Object.values( shortcuts ).map( name => (
-      <ListItem key={name}>
-        <Grid container alignItems="center">
-          <Grid item xs>
-            <Grid container>
-              {keys[ name ].map( key => (
-                <Grid key={key} item xs>
-                  <code>{key}</code>
+    {Object
+      .entries( groupBy( shortcuts, ( { group } ) => group ) )
+      .map( ( [ groupName, hotkeys ] ) => (
+        <ListItem key={groupName} className="group">
+          <ListSubheader className="name" disableSticky>{groupName}</ListSubheader>
+          <List className="group-hotkeys">
+            {Object.values( hotkeys ).map( ( { name, description } ) => (
+              <ListItem key={name} className="hotkey">
+                <Grid container className="name" alignItems="center">
+
+                  <Grid item xs={4}>
+                    <ListItemText className="text" >{name}</ListItemText>
+                  </Grid>
+
+                  <Grid item xs={1}>
+                    {description && (
+                    <Tooltip title={description}>
+                      <FontAwesomeIcon icon={faQuestionCircle} />
+                    </Tooltip>
+                    )}
+                  </Grid>
+
+                  <Grid className="keys" item xs={6}>
+                    <Grid container>
+                      {keys[ name ].map( key => (
+                        <Grid key={key} item xs>
+                          <code>{key}</code>
+                        </Grid>
+                ) )}
+                    </Grid>
+                  </Grid>
+
                 </Grid>
-            ) )}
-            </Grid>
-          </Grid>
-          <Grid item xs>
-            <ListItemText className="text">{name}</ListItemText>
-          </Grid>
-        </Grid>
-      </ListItem>
-      ) ) }
+              </ListItem>
+          ) )}
+          </List>
+        </ListItem>
+    ) )}
   </List>
 )
 
 Hotkeys.propTypes = {
-  shortcuts: objectOf( string ).isRequired,
+  shortcuts: objectOf( shape( { name: string, group: string, description: string } ) ).isRequired,
   keys: objectOf( arrayOf( string ) ).isRequired,
 }
 

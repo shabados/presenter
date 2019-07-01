@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce'
 import { GlobalHotKeys } from 'react-hotkeys'
 
 import { scrollIntoCenter } from '../lib/utils'
-import { LINE_HOTKEYS } from '../lib/consts'
+import { LINE_HOTKEYS } from '../lib/keyMap'
 
 /**
  * HOC to automatically add navigational key bindings to child elements.

@@ -12,8 +12,8 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons'
 
-
-import { LINE_HOTKEYS, HISTORY_DOWNLOAD_URL } from '../lib/consts'
+import { LINE_HOTKEYS } from '../lib/keyMap'
+import { HISTORY_DOWNLOAD_URL } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
 
