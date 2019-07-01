@@ -75,4 +75,38 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
   },
 } )( 'Global' )
 
-export default { ...GLOBAL_SHORTCUTS }
+// Navigator-specific hotkeys
+export const NAVIGATOR_SHORTCUTS = decorateGroup( {
+  firstLine: {
+    name: 'Jump First Line',
+    description: 'Jumps to first line. If on first line, jumps to last line of previous shabad.',
+    sequences: [ 'ctrl+up' ],
+  },
+  lastLine: {
+    name: 'Jump Last Line',
+    description: 'Jumps to last line. If on last line, jumps to last line of previous shabad.',
+    sequences: [ 'ctrl+down' ],
+  },
+  autoToggle: {
+    name: 'Auto Jump',
+    description: 'Jumps to main line, or to the next available line.',
+    sequences: [ 'space', 'b' ],
+  },
+  setMainLine: {
+    name: 'Set Main Line',
+    description: 'Sets the main line.',
+    sequences: [ 'ctrl+space ctrl+space' ],
+  },
+  goNextLine: {
+    name: 'Jump Next Line',
+    description: 'Jumps to the next line if on the main line.',
+    sequences: [ 'shift+.' ],
+  },
+  goMainLine: {
+    name: 'Jump Main Line',
+    description: 'Jumps to the main line.',
+    sequences: [ 'shift+,' ],
+  },
+} )( 'Navigator' )
+
+export default { ...GLOBAL_SHORTCUTS, ...NAVIGATOR_SHORTCUTS }
