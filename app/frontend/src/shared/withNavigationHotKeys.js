@@ -175,8 +175,8 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keym
         next: [ 'down', 'right', 'tab', 'PageDown' ],
         previous: [ 'up', 'left', 'shift+tab', 'PageUp' ],
         enter: [ 'enter', 'return', 'space' ],
-        first: [ 'home' ],
-        last: [ 'end' ],
+        first: [ 'home', 'ctrl+up' ],
+        last: [ 'end', 'ctrl+down' ],
         ...( lineKeys && LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
           ...keymap,
           [ hotkey ]: hotkey,
