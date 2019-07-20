@@ -17,7 +17,7 @@ import {
   faExchangeAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { LINE_HOTKEYS } from '../lib/keyMap'
+import { LINE_HOTKEYS, NAVIGATOR_SHORTCUTS } from '../lib/keyMap'
 import { CONTROLLER_URL } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
@@ -98,8 +98,35 @@ class Navigator extends PureComponent {
     }
   }
 
+  jumpFirstLine = () => {
+    const { focused, shabad, bani } = this.props
+    const { lines: [ firstLine ] } = shabad || bani
+
+    // Go to the previous shabad if the first line is highlighted (but not for banis)
+    if ( !bani && focused === firstLine.id ) controller.previousShabad( shabad.orderId )
+    else controller.line( firstLine.id )
+  }
+
+  jumpLastLine = () => {
+    const { focused, shabad, bani } = this.props
+    const { lines } = shabad || bani
+    const lastLine = lines[ lines.length - 1 ]
+
+    // Go to the next shabad if the last line is highlighted (but not for banis)
+    if ( !bani && focused === lastLine.id ) controller.nextShabad( shabad.orderId )
+    else controller.line( lastLine.id )
+  }
+
+  handlers = {
+    [ NAVIGATOR_SHORTCUTS.firstLine.name ]: this.jumpFirstLine,
+    [ NAVIGATOR_SHORTCUTS.lastLine.name ]: this.jumpLastLine,
+    [ NAVIGATOR_SHORTCUTS.autoToggle.name ]: () => console.log( 'autojump' ),
+  }
+
   render() {
-    const { location, shabad, bani, register, focused } = this.props
+    const { location, shabad, bani, register, focused, settings } = this.props
+
+    const { local: { hotkeys } } = settings
     const content = shabad || bani
 
     // If there's no Shabad to show, go back to the controller
@@ -109,7 +136,7 @@ class Navigator extends PureComponent {
 
     const { lines } = content
     return (
-      <GlobalHotKeys handlers={this.handlers} keyMap={this.keyMap}>
+      <GlobalHotKeys handlers={this.handlers} keyMap={hotkeys}>
         <List className="navigator" onKeyDown={e => e.preventDefault()}>
           {lines.map( ( line, index ) => (
             <NavigatorLine
@@ -133,6 +160,7 @@ Navigator.propTypes = {
   focused: string,
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  settings: shape( { local: shape( { hotkeys: shape( {} ) } ) } ).isRequired,
 }
 
 Navigator.defaultProps = {
@@ -146,7 +174,7 @@ Navigator.defaultProps = {
  * Used by Menu parent to render content in the bottom bar.
  */
 export const Bar = ( { mainLineId, lineId, shabad, bani } ) => {
-  console.log( mainLineId )
+  console.log( mainLineId, lineId )
   const content = shabad || bani
 
   if ( !content ) return null
@@ -158,11 +186,27 @@ export const Bar = ( { mainLineId, lineId, shabad, bani } ) => {
 
   const { lines } = content
 
+  const currentLine = lines.find( ( { id } ) => id === lineId )
+
+  const onUpClick = () => {
+    const firstLine = lines[ 0 ]
+    // Go to the previous shabad if the first line is highlighted (but not for banis)
+    if ( !bani && lineId === firstLine.id ) controller.previousShabad( shabad.orderId )
+    else controller.previousLine( currentLine.orderId )
+  }
+
+  const onDownClick = () => {
+    const lastLine = lines[ lines.length - 1 ]
+    // Go to the previous shabad if the first line is highlighted (but not for banis)
+    if ( !bani && lineId === lastLine.id ) controller.nextShabad( shabad.orderId )
+    else controller.nextLine( currentLine.orderId )
+  }
+
   return (
     <div className="navigator-controls">
-      <ToolbarButton name="Up" icon={faChevronUp} />
+      <ToolbarButton name="Up" icon={faChevronUp} onClick={onUpClick} />
       {lines ? `${lines.findIndex( ( { id } ) => id === lineId ) + 1}/${lines.length}` : null}
-      <ToolbarButton name="Down" icon={faChevronDown} />
+      <ToolbarButton name="Down" icon={faChevronDown} onClick={onDownClick} />
       <ToolbarButton name="Autoselect" className="autoselect" {...autoselectProps} />
     </div>
   )

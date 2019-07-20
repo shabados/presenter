@@ -5,11 +5,12 @@
 
 import get from 'get-value'
 import merge from 'deepmerge'
+import { clamp } from 'lodash'
 
 import logger from './logger'
 import settingsManager from './settings'
 import History from './History'
-import { getShabad, getBaniLines } from './db'
+import { getShabad, getBaniLines, getShabadByOrderId, getShabadRange } from './db'
 
 /**
  * Handles synchronisation of all the sessions.
@@ -88,22 +89,30 @@ class SessionManager {
    * @param {string} shabadId The ID of the Shabad.
    * @param {string} lineId The optional line in the Shabad.
    */
-  async onShabad( client, { shabadId, lineId = null } ) {
+  async onShabad( client, { shabadId, shabadOrderId = null, ...rest } ) {
     const { history } = this.session
-    logger.info( `Setting Shabad ID to ${shabadId}` )
 
-    const shabad = await getShabad( shabadId )
+    // Clamp Shabad order IDs that exceed the limit, if specified
+    const shabadOrderIdRange = await getShabadRange()
+    const clampedShabadOrderId = clamp( shabadOrderId, ...shabadOrderIdRange ) || null
+
+    // Get Shabad by order ID if specified
+    const shabad = shabadOrderId
+      ? await getShabadByOrderId( clampedShabadOrderId )
+      : await getShabad( shabadId )
+
+    logger.info( `Setting Shabad ID to ${shabad.id}` )
+
     this.session = {
       ...this.session,
       shabad,
-      lineId,
       bani: null,
       viewedLines: new Set(),
       mainLineId: null,
     }
 
     this.socket.broadcast( 'shabad', shabad )
-    this.onLine( client, lineId, true )
+    this.onLine( client, rest, true )
 
     // Rebroadcast history
     this.socket.broadcast( 'history', history.getTransitionsOnly() )
@@ -115,21 +124,34 @@ class SessionManager {
    * @param {string} lineId The ID of the line.
    * @param {boolean} transition Whether or not the line change is also a Shabad change.
    */
-  onLine( client, lineId, transition = false ) {
+  onLine( client, { lineId, lineOrderId }, transition = false ) {
     const { viewedLines, bani, shabad, history } = this.session
-    logger.info( `Setting Line ID to ${lineId}` )
 
-    viewedLines.add( lineId )
+    // Clamp line order IDs that exceed the Shabad's range of lines, if specified
+    const lineOrderIdRange = [
+      shabad.lines[ 0 ],
+      shabad.lines[ shabad.lines.length - 1 ],
+    ].map( ( { orderId } ) => orderId )
+    const clampedLineOrderId = clamp( lineOrderId, ...lineOrderIdRange ) || null
+
+    // Get the line id, or find the line id from the order id, or assume none was provided
+    const newLineId = lineId
+      || ( shabad.lines.find( ( { orderId } ) => orderId === clampedLineOrderId ) || {} ).id
+      || null
+
+    logger.info( `Setting Line ID to ${newLineId}` )
+
+    viewedLines.add( newLineId )
 
     const { lines = [] } = shabad || bani || {}
-    this.session = { ...this.session, lineId }
+    this.session = { ...this.session, lineId: newLineId }
 
-    this.socket.broadcast( 'line', lineId )
+    this.socket.broadcast( 'line', newLineId )
     this.socket.broadcast( 'viewedLines', [ ...viewedLines ] )
 
     // Update and save history
-    const line = lines.find( ( { id } ) => lineId === id )
-    const isTransition = transition || lineId === null
+    const line = lines.find( ( { id } ) => newLineId === id )
+    const isTransition = transition || newLineId === null
     history.update( { line }, isTransition )
   }
 

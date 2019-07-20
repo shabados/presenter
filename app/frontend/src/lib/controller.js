@@ -70,7 +70,11 @@ class Controller extends EventEmitter {
    * Convenience method for setting the line.
    * @param lineId The line id to change the display to.
    */
-  line = lineId => this.sendJSON( 'line', lineId )
+  line = lineId => this.sendJSON( 'line', { lineId } )
+
+  previousLine = lineId => this.sendJSON( 'line', { lineOrderId: lineId - 1 } )
+
+  nextLine = lineId => this.sendJSON( 'line', { lineOrderId: lineId + 1 } )
 
   /**
    * Convenience method for setting the main line.
@@ -83,7 +87,18 @@ class Controller extends EventEmitter {
    * @param shabadId The shabad ID to change the server to.
    * @param lineId The line id to change the display to.
    */
-  shabad = ( { shabadId, lineId = null } ) => this.sendJSON( 'shabad', { shabadId, lineId } )
+  shabad = ( { shabadId, shabadOrderId = null, lineId = null, lineOrderId = null } ) =>
+    this.sendJSON( 'shabad', { shabadId, shabadOrderId, lineId, lineOrderId } )
+
+  previousShabad = ( orderId, setLine = true ) => this.shabad( {
+    shabadOrderId: orderId - 1,
+    lineOrderId: setLine ? 1e20 : null,
+  } )
+
+  nextShabad = ( orderId, setLine = true ) => this.shabad( {
+    shabadOrderId: orderId + 1,
+    lineOrderId: setLine ? 0 : null,
+  } )
 
   /**
    * Convenience method for clearing the line.
