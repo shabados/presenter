@@ -62,7 +62,7 @@ class SessionManager {
     if ( bani ) client.sendJSON( 'bani', bani )
     else client.sendJSON( 'shabad', shabad )
     client.sendJSON( 'line', lineId )
-    client.sendJSON( 'viewedLines', viewedLines )
+    client.sendJSON( 'viewedLines', [ ...viewedLines ] )
     client.sendJSON( 'mainLine', mainLineId )
     client.sendJSON( 'status', status )
     client.sendJSON( 'history', history.getTransitionsOnly() )
@@ -127,16 +127,18 @@ class SessionManager {
   onLine( client, { lineId, lineOrderId }, transition = false ) {
     const { viewedLines, bani, shabad, history } = this.session
 
+    const content = shabad || bani
+
     // Clamp line order IDs that exceed the Shabad's range of lines, if specified
     const lineOrderIdRange = [
-      shabad.lines[ 0 ],
-      shabad.lines[ shabad.lines.length - 1 ],
+      content.lines[ 0 ],
+      content.lines[ content.lines.length - 1 ],
     ].map( ( { orderId } ) => orderId )
     const clampedLineOrderId = clamp( lineOrderId, ...lineOrderIdRange ) || null
 
     // Get the line id, or find the line id from the order id, or assume none was provided
     const newLineId = lineId
-      || ( shabad.lines.find( ( { orderId } ) => orderId === clampedLineOrderId ) || {} ).id
+      || ( content.lines.find( ( { orderId } ) => orderId === clampedLineOrderId ) || {} ).id
       || null
 
     logger.info( `Setting Line ID to ${newLineId}` )
@@ -203,7 +205,7 @@ class SessionManager {
     }
 
     this.socket.broadcast( 'bani', bani )
-    this.onLine( client, id, true )
+    this.onLine( client, { lineId: id }, true )
 
     // Rebroadcast history
     this.socket.broadcast( 'history', history.getTransitionsOnly() )

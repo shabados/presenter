@@ -79,7 +79,7 @@ class App extends PureComponent {
   onDisconnected = () => this.setState( { connected: false } )
   onShabad = shabad => this.setState( { shabad, bani: null } )
   onLine = lineId => this.setState( { lineId } )
-  onViewedLines = viewedLines => this.setState( { viewedLines } )
+  onViewedLines = viewedLines => this.setState( { viewedLines: new Set( viewedLines || [] ) } )
   onMainLine = mainLineId => this.setState( { mainLineId } )
   onHistory = shabadHistory => this.setState( { shabadHistory } )
   onStatus = status => this.setState( { status } )
