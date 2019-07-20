@@ -149,6 +149,9 @@ class SessionManager {
     this.socket.broadcast( 'line', newLineId )
     this.socket.broadcast( 'viewedLines', [ ...viewedLines ] )
 
+    // Set the main line if transition
+    if ( transition ) this.onMainLine( client, lineId )
+
     // Update and save history
     const line = lines.find( ( { id } ) => newLineId === id )
     const isTransition = transition || newLineId === null
