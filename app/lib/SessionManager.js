@@ -30,7 +30,7 @@ class SessionManager {
       bani: null,
       lineId: null,
       shabad: null,
-      viewedLines: new Set(),
+      viewedLines: [],
       mainLineId: null,
       history: new History(),
       settings: {},
@@ -62,7 +62,7 @@ class SessionManager {
     if ( bani ) client.sendJSON( 'bani', bani )
     else client.sendJSON( 'shabad', shabad )
     client.sendJSON( 'line', lineId )
-    client.sendJSON( 'viewedLines', [ ...viewedLines ] )
+    client.sendJSON( 'viewedLines', viewedLines )
     client.sendJSON( 'mainLine', mainLineId )
     client.sendJSON( 'status', status )
     client.sendJSON( 'history', history.getTransitionsOnly() )
@@ -107,7 +107,7 @@ class SessionManager {
       ...this.session,
       shabad,
       bani: null,
-      viewedLines: new Set(),
+      viewedLines: [],
       mainLineId: null,
     }
 
@@ -143,13 +143,13 @@ class SessionManager {
 
     logger.info( `Setting Line ID to ${newLineId}` )
 
-    viewedLines.add( newLineId )
+    const newViewedLines = [ ...viewedLines, newLineId ]
 
     const { lines = [] } = shabad || bani || {}
-    this.session = { ...this.session, lineId: newLineId }
+    this.session = { ...this.session, lineId: newLineId, viewedLines: newViewedLines }
 
     this.socket.broadcast( 'line', newLineId )
-    this.socket.broadcast( 'viewedLines', [ ...viewedLines ] )
+    this.socket.broadcast( 'viewedLines', newViewedLines )
 
     // Set the main line if transition
     if ( transition ) this.onMainLine( client, lineId )
@@ -201,7 +201,7 @@ class SessionManager {
       ...this.session,
       bani,
       shabad: null,
-      viewedLines: new Set(),
+      viewedLines: [],
     }
 
     this.socket.broadcast( 'bani', bani )
