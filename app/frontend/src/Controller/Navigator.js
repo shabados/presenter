@@ -117,10 +117,17 @@ class Navigator extends PureComponent {
     else controller.line( lastLine.id )
   }
 
+  autoToggle = () => {
+    const { shabad } = this.props
+
+    if ( shabad ) controller.autoToggleShabad( this.props )
+    // Todo: For banis, just jump to the next section, or do nothing?
+  }
+
   handlers = {
     [ NAVIGATOR_SHORTCUTS.firstLine.name ]: this.jumpFirstLine,
     [ NAVIGATOR_SHORTCUTS.lastLine.name ]: this.jumpLastLine,
-    [ NAVIGATOR_SHORTCUTS.autoToggle.name ]: () => console.log( 'autojump' ),
+    [ NAVIGATOR_SHORTCUTS.autoToggle.name ]: this.autoToggle,
   }
 
   render() {
@@ -173,16 +180,11 @@ Navigator.defaultProps = {
 /**
  * Used by Menu parent to render content in the bottom bar.
  */
-export const Bar = ( { mainLineId, lineId, shabad, bani } ) => {
-  console.log( mainLineId, lineId )
+export const Bar = props => {
+  const { lineId, shabad, bani } = props
   const content = shabad || bani
 
   if ( !content ) return null
-
-  const autoselectProps = {
-    icon: faExchangeAlt,
-    onClick: () => controller.mainLine( lineId ),
-  }
 
   const { lines } = content
 
@@ -202,25 +204,25 @@ export const Bar = ( { mainLineId, lineId, shabad, bani } ) => {
     else controller.nextLine( currentLine.orderId )
   }
 
+  const onAutoToggle = () => controller.autoToggleShabad( props )
+
   return (
     <div className="navigator-controls">
       <ToolbarButton name="Up" icon={faChevronUp} onClick={onUpClick} />
       {lines ? `${lines.findIndex( ( { id } ) => id === lineId ) + 1}/${lines.length}` : null}
       <ToolbarButton name="Down" icon={faChevronDown} onClick={onDownClick} />
-      <ToolbarButton name="Autoselect" className="autoselect" {...autoselectProps} />
+      {shabad && <ToolbarButton className="autoselect" name="Autoselect" icon={faExchangeAlt} onClick={onAutoToggle} />}
     </div>
   )
 }
 
 Bar.propTypes = {
-  mainLineId: string,
   lineId: string,
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
 }
 
 Bar.defaultProps = {
-  mainLineId: undefined,
   lineId: undefined,
   shabad: undefined,
   bani: undefined,

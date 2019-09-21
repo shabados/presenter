@@ -100,10 +100,36 @@ class Controller extends EventEmitter {
     lineOrderId: setLine ? 0 : null,
   } )
 
+  autoToggleShabad = ( { viewedLines, mainLineId, lineId, shabad: { lines } } ) => {
+    if ( !mainLineId ) return
+
+    // Find last non-main line
+    const lastNonMainLineId = viewedLines.reverse().find( id => id !== mainLineId )
+
+    // Find where it corresponds to in lines and select the next non-main line
+    const nextLineIndex = Math.min(
+      lines.findIndex( ( { id } ) => id === lastNonMainLineId && id !== mainLineId ) + 1,
+      lines.length - 1,
+    )
+
+    // Whether the auto-select should cross the main line
+    const shouldCrossMainLine = lineId === mainLineId && lines[ nextLineIndex ].id === mainLineId
+
+    const { id: nextNonMainLineId } = lines[ Math.min(
+      nextLineIndex + shouldCrossMainLine,
+      lines.length - 1,
+    ) ]
+
+    // If the current line is the main line, jump to the next line
+    const nextLineId = mainLineId === lineId ? nextNonMainLineId : mainLineId
+
+    this.line( nextLineId )
+  }
+
   /**
    * Convenience method for clearing the line.
    */
-  clear = () => this.sendJSON( 'line', null )
+  clear = () => this.sendJSON( 'line', { lineId: null } )
 
   /**
    * Clears the current history for the session.
