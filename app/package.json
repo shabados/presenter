@@ -2,7 +2,7 @@
   "name": "@shabados/backend",
   "version": "2.0.0-alpha.11",
   "description": "Next generation Gurbani presentation software",
-  "main": "electron/entry.js",
+  "main": "electron/esm-wrapper.js",
   "scripts": {
     "start": "nodemon --ignore frontend/ --ignore electron/ -L --exec npm run start:production | bunyan",
     "start:production": "node -r esm server",
