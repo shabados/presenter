@@ -21,9 +21,9 @@ import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './History.css'
 
-const History = ( { shabadHistory, register, focused } ) => (
+const History = ( { transitionHistory, register, focused } ) => (
   <List className="history">
-    {shabadHistory.map( ( { timestamp, line: { id: lineId, shabadId, gurmukhi } }, index ) => (
+    {transitionHistory.map( ( { timestamp, line: { id: lineId, shabadId, gurmukhi } }, index ) => (
       <ListItem
         className={focused === index ? 'focused' : ''}
         key={timestamp}
@@ -34,7 +34,7 @@ const History = ( { shabadHistory, register, focused } ) => (
         <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
       </ListItem>
     ) )}
-    <ListItem onClick={() => ( shabadHistory.length ? window.open( HISTORY_DOWNLOAD_URL ) : null )}>
+    <ListItem onClick={() => transitionHistory.length && window.open( HISTORY_DOWNLOAD_URL )}>
       <ListItemIcon className="meta">
         <FontAwesomeIcon icon={faDownload} />
       </ListItemIcon>
@@ -52,14 +52,18 @@ const History = ( { shabadHistory, register, focused } ) => (
 History.propTypes = {
   register: func.isRequired,
   focused: number.isRequired,
-  shabadHistory: arrayOf( shape( {
+  transitionHistory: arrayOf( shape( {
     timestamp: instanceOf( Date ),
     line: shape( {
       id: string,
       shabadId: string,
       gurmukhi: string,
     } ),
-  } ) ).isRequired,
+  } ) ),
+}
+
+History.defaultProps = {
+  transitionHistory: [],
 }
 
 export default withNavigationHotKeys( {

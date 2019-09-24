@@ -23,7 +23,7 @@ class App extends PureComponent {
     lineId: null,
     mainLineId: null,
     viewedLines: new Set(),
-    shabadHistory: [],
+    transitionHistory: [],
     shabad: null,
     recommendedSources: null,
     status: null,
@@ -81,7 +81,7 @@ class App extends PureComponent {
   onLine = lineId => this.setState( { lineId } )
   onViewedLines = viewedLines => this.setState( { viewedLines } )
   onMainLine = mainLineId => this.setState( { mainLineId } )
-  onHistory = shabadHistory => this.setState( { shabadHistory } )
+  onHistory = history => this.setState( { transitionHistory: history.reverse() } )
   onStatus = status => this.setState( { status } )
   onBanis = banis => this.setState( { banis } )
   onBani = bani => this.setState( { bani, shabad: null } )
