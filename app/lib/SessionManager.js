@@ -130,7 +130,7 @@ class SessionManager {
     // Update and save history
     const line = lines.find( ( { id } ) => lineId === id )
     const isTransition = transition || lineId === null
-    history.update( { line }, isTransition )
+    history.update( { line, bani, shabad }, isTransition )
   }
 
   /**

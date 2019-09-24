@@ -23,7 +23,11 @@ import './History.css'
 
 const History = ( { transitionHistory, register, focused } ) => (
   <List className="history">
-    {transitionHistory.map( ( { timestamp, line: { id: lineId, shabadId, gurmukhi } }, index ) => (
+    {transitionHistory.map( ( {
+      timestamp,
+      line: { id: lineId, shabadId, gurmukhi },
+      bani,
+    }, index ) => (
       <ListItem
         className={focused === index ? 'focused' : ''}
         key={timestamp}
@@ -31,7 +35,7 @@ const History = ( { transitionHistory, register, focused } ) => (
         onClick={() => controller.shabad( { lineId, shabadId } )}
       >
         <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
+        <span className="gurmukhi text">{bani ? bani.nameGurmukhi : stripPauses( gurmukhi )}</span>
       </ListItem>
     ) )}
     <ListItem onClick={() => transitionHistory.length && window.open( HISTORY_DOWNLOAD_URL )}>
@@ -59,6 +63,7 @@ History.propTypes = {
       shabadId: string,
       gurmukhi: string,
     } ),
+    bani: shape( { nameGurmukhi: string } ),
   } ) ),
 }
 

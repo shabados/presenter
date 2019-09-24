@@ -1,5 +1,6 @@
 import { createWriteStream } from 'fs'
 import * as CSV from 'csv-string'
+import { omit } from 'lodash'
 
 import { HISTORY_FILE } from './consts'
 
@@ -49,7 +50,7 @@ class History {
    * @param {boolean} transition Whether this entry was triggered by a new Shabad selection.
    */
   update( data, transition = false ) {
-    const { line = {} } = data
+    const { line = {}, bani } = data
 
     // Do not add entry if it's the same line as the last
     if ( this.history.length ) {
@@ -61,6 +62,7 @@ class History {
     const entry = {
       timestamp: new Date(),
       ...data,
+      ...( bani && { bani: omit( bani, [ 'lines' ] ) } ),
       transition,
     }
 
