@@ -1,5 +1,5 @@
 import React from 'react'
-import { func, number, arrayOf, shape, instanceOf, string } from 'prop-types'
+import { func, number, arrayOf, shape, instanceOf, string, objectOf } from 'prop-types'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -21,23 +21,34 @@ import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './History.css'
 
-const History = ( { transitionHistory, register, focused } ) => (
+const History = ( { transitionHistory, latestLines, register, focused } ) => (
   <List className="history">
     {transitionHistory.map( ( {
       timestamp,
       line: { id: lineId, shabadId, gurmukhi },
       bani,
-    }, index ) => (
-      <ListItem
-        className={focused === index ? 'focused' : ''}
-        key={timestamp}
-        ref={ref => register( index, ref )}
-        onClick={() => controller.shabad( { lineId, shabadId } )}
-      >
-        <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        <span className="gurmukhi text">{bani ? bani.nameGurmukhi : stripPauses( gurmukhi )}</span>
-      </ListItem>
-    ) )}
+    }, index ) => {
+      const { line: latestLine } = latestLines[ timestamp ] || {}
+
+      // Use timestamp to get latest line for that navigation period
+      const latestLineId = latestLine ? latestLine.id : lineId
+
+      const onClick = () => ( bani
+        ? controller.bani( bani.id, latestLineId )
+        : controller.shabad( shabadId, latestLineId ) )
+
+      return (
+        <ListItem
+          className={focused === index ? 'focused' : ''}
+          key={timestamp}
+          ref={ref => register( index, ref )}
+          onClick={onClick}
+        >
+          <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
+          <span className="gurmukhi text">{bani ? bani.nameGurmukhi : stripPauses( gurmukhi )}</span>
+        </ListItem>
+      )
+    } ) }
     <ListItem onClick={() => transitionHistory.length && window.open( HISTORY_DOWNLOAD_URL )}>
       <ListItemIcon className="meta">
         <FontAwesomeIcon icon={faDownload} />
@@ -53,22 +64,26 @@ const History = ( { transitionHistory, register, focused } ) => (
   </List>
 )
 
+const lineHistoryType = shape( {
+  timestamp: instanceOf( Date ),
+  line: shape( {
+    id: string,
+    shabadId: string,
+    gurmukhi: string,
+  } ),
+  bani: shape( { nameGurmukhi: string } ),
+} )
+
 History.propTypes = {
   register: func.isRequired,
   focused: number.isRequired,
-  transitionHistory: arrayOf( shape( {
-    timestamp: instanceOf( Date ),
-    line: shape( {
-      id: string,
-      shabadId: string,
-      gurmukhi: string,
-    } ),
-    bani: shape( { nameGurmukhi: string } ),
-  } ) ),
+  transitionHistory: arrayOf( lineHistoryType ),
+  latestLines: objectOf( lineHistoryType ),
 }
 
 History.defaultProps = {
   transitionHistory: [],
+  latestLines: {},
 }
 
 export default withNavigationHotKeys( {

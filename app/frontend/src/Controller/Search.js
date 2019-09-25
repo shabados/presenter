@@ -123,7 +123,7 @@ class Search extends Component {
     const afterMatch = words.slice( pos + searchedValue.length ).join( splitChar ) + splitChar
 
     // Send the shabad id and line id to the server on click
-    const onClick = () => controller.shabad( { shabadId, lineId } )
+    const onClick = () => controller.shabad( shabadId, lineId )
 
     return (
       <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>

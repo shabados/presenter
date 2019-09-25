@@ -24,6 +24,7 @@ class App extends PureComponent {
     mainLineId: null,
     viewedLines: new Set(),
     transitionHistory: [],
+    latestLines: {},
     shabad: null,
     recommendedSources: null,
     status: null,
@@ -45,7 +46,8 @@ class App extends PureComponent {
     controller.on( 'line', this.onLine )
     controller.on( 'mainLine', this.onMainLine )
     controller.on( 'viewedLines', this.onViewedLines )
-    controller.on( 'history', this.onHistory )
+    controller.on( 'history:transitions', this.onTransitionHistory )
+    controller.on( 'history:latestLines', this.onLatestLineHistory )
     controller.on( 'banis', this.onBanis )
     controller.on( 'bani', this.onBani )
     controller.on( 'status', this.onStatus )
@@ -67,6 +69,8 @@ class App extends PureComponent {
     controller.off( 'disconnected', this.onDisconnected )
     controller.off( 'shabad', this.onShabad )
     controller.off( 'line', this.onLine )
+    controller.off( 'history:transitions', this.onTransitionHistory )
+    controller.off( 'history:latestLines', this.onLatestLineHistory )
     controller.off( 'mainLine', this.onMainLine )
     controller.off( 'viewedLines', this.onViewedLines )
     controller.off( 'banis', this.onBanis )
@@ -81,7 +85,8 @@ class App extends PureComponent {
   onLine = lineId => this.setState( { lineId } )
   onViewedLines = viewedLines => this.setState( { viewedLines } )
   onMainLine = mainLineId => this.setState( { mainLineId } )
-  onHistory = history => this.setState( { transitionHistory: history.reverse() } )
+  onTransitionHistory = history => this.setState( { transitionHistory: history.reverse() } )
+  onLatestLineHistory = latestLines => this.setState( { latestLines } )
   onStatus = status => this.setState( { status } )
   onBanis = banis => this.setState( { banis } )
   onBani = bani => this.setState( { bani, shabad: null } )
