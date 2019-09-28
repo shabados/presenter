@@ -12,7 +12,7 @@ It is recommended to install an ESLint plugin for your editor (VS Code's `ESLint
 
 ## Commit Message Guidelines
 
-Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a subject:
+Each commit message consists of a header, body, and footer. The header has a special format that includes a type, scope, and subject:
 
 ```
 <type>(<scope>): <subject>
