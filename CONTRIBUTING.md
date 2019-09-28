@@ -26,7 +26,9 @@ The header's type and subject is mandatory, while it's scope is optional.
 
 Any line of the commit message cannot be longer than 100 characters! This allows the message to be read easily on GitHub as well as in various git tools.
 
-The footer should contain a closing reference to an issue if any, such as `Closes #21`.
+The footer should contain references to any issues, such as `Closes #21` or `Related #75`.
+
+Using keywords in the footer, such as `Close, Closes, Fix, Fixes #32`, will automatically close an issue when the corresponding commit is merged.
 
 Examples:
 ```
