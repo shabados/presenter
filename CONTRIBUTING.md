@@ -45,6 +45,13 @@ Fixes #53
 ### Revert
 If the commit reverts a previous commit, it should begin with `revert:` , followed by the header of the reverted commit. In the body it should say: `This reverts commit <hash>.`, where the hash is the SHA of the commit being reverted.
 
+Example:
+```
+revert: docs(readme): add contributing guidelines
+
+This reverts commit 18db94aed359fdea.
+```
+
 ### Type
 
 Must be one of the following:
