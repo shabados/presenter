@@ -1,6 +1,6 @@
 # Contributing Guildeines
 
-We're glad you're interesting in contributing!
+We're glad you're interested in contributing!
 
 ## Style
 
