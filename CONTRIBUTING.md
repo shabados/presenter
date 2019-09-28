@@ -10,8 +10,6 @@ An ESLint file is provided,
 and your code will automatically be checked on-commit for style.
 It is recommended to install an ESLint plugin for your editor (VS Code's `ESLint` plugin works out of the box), so you can receive linter suggestions as you type.
 
-Create one feature per branch, preferably working against an issue. PRs will be squashed and merged when complete.
-
 ## Commit Message Guidelines
 
 Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a subject:
