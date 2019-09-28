@@ -24,7 +24,7 @@ Each commit message consists of a header, a body and a footer. The header has a 
 
 The header is mandatory and the scope of the header is optional.
 
-Any line of the commit message cannot be longer 100 characters! This allows the message to be easier to read on GitHub as well as in various git tools.
+Any line of the commit message cannot be longer than 100 characters! This allows the message to be read easily on GitHub as well as in various git tools.
 
 The footer should contain a closing reference to an issue if any, such as `Closes #21`.
 
