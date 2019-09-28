@@ -86,6 +86,12 @@
     margin-right: 0.8vh;
 }
 
+.line .gurmukhi .word:last-child,
+.line .transliteration .word:last-child,
+.line .translation .word:last-child {
+  margin-right: 0;
+}
+
 .larivaar.line .word {
   margin-right: 0;
 }
