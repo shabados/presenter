@@ -5,18 +5,17 @@
    ------------------------------------ */
 
 .line {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding);
-    text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding);
+  text-align: center;
 }
 
 .line p {
   margin: 0;
 }
-
 
 /*
     Notes for the future:
@@ -42,66 +41,63 @@
 */
 
 .line .gurmukhi {
-    font-family: "Open Gurbani Akhar Black", sans-serif;
-    font-size: 8vh;
-    line-height: 1.4;
+  font-family: "Open Gurbani Akhar Black", sans-serif;
+  font-size: 8vh;
+  line-height: 1.4;
 }
 
 .current-line .gurmukhi {
-    margin-bottom: -.12em;
+  margin-bottom: -.12em;
 }
 
 .line .english {
-    font-family: "Noto Sans Medium", sans-serif;
-    font-size: 4.740740741vh;
-    line-height: 1.89;
-    line-height: 1.4;
-    font-weight: 700;
+  font-family: "Noto Sans Medium", sans-serif;
+  font-size: 4.740740741vh;
+  line-height: 1.89;
+  line-height: 1.4;
+  font-weight: 700;
 }
 
 .line .punjabi {
-    font-family: "Open Anmol Uni Bold", sans-serif;
-    font-size: 5.555555555vh;
-    line-height: 2.025;
-    line-height: 1.75;
-    line-height: 1.5;
-    margin-bottom: -.15em;
+  font-family: "Open Anmol Uni Bold", sans-serif;
+  font-size: 5.555555555vh;
+  line-height: 2.025;
+  line-height: 1.75;
+  line-height: 1.5;
+  margin-bottom: -.15em;
 }
-
 
 .line .gurmukhi .partition {
-    display: inline-block;
+  display: inline-block;
 }
 
-.line .gurmukhi .word, .line .transliteration .word {
-    display: inline-block;
-    transition: var(--animation-duration) all;
-}
-
-.line .gurmukhi .word {
-    margin-right: 2.25vh;
-}
-
+.line .gurmukhi .word,
 .line .transliteration .word {
-    margin-right: 0.8vh;
+  display: inline-block;
+  transition: var(--animation-duration) all;
 }
 
-.line .gurmukhi .word:last-child,
-.line .transliteration .word:last-child,
-.line .translation .word:last-child {
-  margin-right: 0;
+.line .gurmukhi .word:after,
+.line .transliteration .word:after {
+  content: "\00a0";
 }
 
-.larivaar.line .word {
-  margin-right: 0;
+.line .gurmukhi .word:last-child:after,
+.line .transliteration .word:last-child:after,
+.line .translation .word:last-child:after {
+  content: none;
+}
+
+.larivaar.line .word:after {
+  content: none;
 }
 
 .larivaar.assist.line .gurmukhi .word:nth-child(2n) {
-    color: var(--display-gurmukhi-larivaar-assist-color);
+  color: var(--display-gurmukhi-larivaar-assist-color);
 }
 
 .larivaar.assist.line .transliteration .word:nth-child(2n) {
-    color: var(--display-transliteration-larivaar-assist-color);
+  color: var(--display-transliteration-larivaar-assist-color);
 }
 
 .heavy.vishraams.line .gurmukhi .word.heavy,
@@ -120,11 +116,11 @@
 }
 
 .line .transliteration {
-    font-family: "Noto Sans Regular", sans-serif;
-    font-size: 3.5vh;
-    color: var(--display-transliteration-color);
-    transition: 0.2s all ease-in;
-  }
+  font-family: "Noto Sans Regular", sans-serif;
+  font-size: 3.5vh;
+  color: var(--display-transliteration-color);
+  transition: 0.2s all ease-in;
+}
 
 /* ------------------------------------
    Simple lines - remove animations
@@ -135,5 +131,5 @@
 }
 
 .simple.line .fade-enter {
-    opacity: 1;
+  opacity: 1;
 }
