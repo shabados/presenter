@@ -1,9 +1,3 @@
-.overlay-line {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 .overlay-line p {
   margin: 0;
 }
@@ -20,15 +14,6 @@
   font-family: "Open Anmol Uni Bold", sans-serif;
 }
 
-.overlay-line .gurmukhi .partition {
-  display: inline-block;
-}
-
-.overlay-line .gurmukhi .word,
-.overlay-line .transliteration .word {
-  display: inline-block;
-}
-
 .overlay-line .gurmukhi .word:after,
 .overlay-line .transliteration .word:after {
   content: "\00a0";
@@ -36,26 +21,12 @@
 
 .overlay-line .gurmukhi .word:last-child:after,
 .overlay-line .transliteration .word:last-child:after,
-.overlay-line .translation .word:last-child:after {
-  content: none;
-}
-
-.larivaar.overlay-line .word:after, .overlay-line .larivaar .word:after {
+.overlay-line .translation .word:last-child:after,
+.larivaar.overlay-line .word:after,
+.overlay-line .larivaar .word:after {
   content: none;
 }
 
 .overlay-line .transliteration {
   font-family: "Noto Sans Regular", sans-serif;
-}
-
-/* ------------------------------------
-   Simple lines - remove animations
-   ------------------------------------ */
-
-.simple.overlay-line * {
-  transition: none;
-}
-
-.simple.overlay-line .fade-enter {
-  opacity: 1;
 }
