@@ -60,10 +60,16 @@ class Search extends Component {
    * Set the received results and update the searched vale.
    * @param {Object[]} results An array of the returned results.
    */
-  onResults = results => this.setState( ( { inputValue: searchedValue } ) => ( {
-    results,
-    searchedValue,
-  } ) )
+  onResults = results => {
+    const { updateFocus } = this.props
+
+    this.setState( ( { inputValue: searchedValue } ) => ( {
+      results,
+      searchedValue,
+    } ) )
+
+    updateFocus( 0 )
+  }
 
   /**
    * Run on change of value in the search box.
@@ -171,6 +177,7 @@ class Search extends Component {
 Search.propTypes = {
   focused: oneOfType( [ string, number ] ),
   register: func.isRequired,
+  updateFocus: func.isRequired,
   history: history.isRequired,
   location: location.isRequired,
 }
