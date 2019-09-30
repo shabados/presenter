@@ -24,6 +24,7 @@ export const DATABASE_FOLDER = join( APP_FOLDER, 'node_modules', '@shabados', 'd
 // Data folder locations
 export const DATA_FOLDER = join( getAppDataPath(), 'Shabad OS' )
 export const CUSTOM_THEMES_FOLDER = join( DATA_FOLDER, 'themes' )
+export const CUSTOM_OVERLAY_THEMES_FOLDER = join( DATA_FOLDER, 'overlay' )
 export const HISTORY_FOLDER = join( DATA_FOLDER, 'history' )
 export const LOG_FOLDER = join( DATA_FOLDER, 'logs' )
 export const TMP_FOLDER = join( DATA_FOLDER, 'temp' )

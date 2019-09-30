@@ -2,6 +2,7 @@ import React from 'react'
 import { shape, arrayOf, string } from 'prop-types'
 
 import Line from './Line'
+import ThemeLoader from './ThemeLoader'
 
 import { getTranslation } from '../lib/utils'
 
@@ -22,6 +23,7 @@ const Overlay = ( { shabad, bani, lineId, settings } ) => {
 
   return (
     <div className="overlay">
+      <ThemeLoader />
       <Line
         simpleGraphics
         gurmukhi={line ? line.gurmukhi : ''}
