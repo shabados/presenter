@@ -1,7 +1,7 @@
 import React from 'react'
 import { shape, arrayOf, string } from 'prop-types'
 
-import Line from '../Presenter/Line'
+import Line from './Line'
 
 import { getTranslation } from '../lib/utils'
 
