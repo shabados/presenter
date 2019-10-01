@@ -5,8 +5,6 @@
 import { join } from 'path'
 import { getAppDataPath } from 'appdata-path'
 
-import { getDateFilename } from './utils'
-
 // Dev environment
 export const isDev = process.env.NODE_ENV !== 'production'
 
@@ -30,8 +28,9 @@ export const TMP_FOLDER = join( DATA_FOLDER, 'temp' )
 export const UPDATE_TMP_FOLDER = join( TMP_FOLDER, '@shabados', 'database' )
 
 // Data file locations
-export const LOG_FILE = join( LOG_FOLDER, `${getDateFilename( new Date() )}.log` )
-export const HISTORY_FILE = join( HISTORY_FOLDER, `${getDateFilename( new Date() )}.csv` )
+const dateName = ( new Date() ).toISOString().replace( /T/, '_' ).replace( /:/g, '-' )
+export const LOG_FILE = join( LOG_FOLDER, `${dateName}.log` )
+export const HISTORY_FILE = join( HISTORY_FOLDER, `${dateName}.csv` )
 export const SETTINGS_FILE = join( DATA_FOLDER, 'settings.json' )
 export const DEFAULT_SETTINGS_FILE = join( APP_FOLDER, 'settings.default.json' )
 

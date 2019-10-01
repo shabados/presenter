@@ -3,8 +3,8 @@
  * @ignore
  */
 
-import bunyan from 'bunyan'
+import pino from 'pino'
 
-const logger = bunyan.createLogger( { name: 'shabadOS-backend' } )
+const logger = pino()
 
 export default logger
