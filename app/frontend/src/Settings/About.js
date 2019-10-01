@@ -19,13 +19,13 @@ const aboutFields = [
 ]
 
 const About = ( { connected } ) => {
-  const [ about, setAbout ] = useState()
+  const [ about, setAbout ] = useState( null )
 
   useEffect( () => {
     fetch( `${BACKEND_URL}/about` )
       .then( res => res.json() )
       .then( setAbout )
-  } )
+  }, [] )
 
   if ( !about ) return <CircularProgress style={{ alignSelf: 'center' }} />
 
