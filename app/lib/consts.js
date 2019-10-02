@@ -8,6 +8,9 @@ import { getAppDataPath } from 'appdata-path'
 // Dev environment
 export const isDev = process.env.NODE_ENV !== 'production'
 
+// Electron environment
+export const electronVersion = process.versions.electron
+
 // Check every 5 minutes
 export const UPDATE_CHECK_INTERVAL = 5000 * 60
 

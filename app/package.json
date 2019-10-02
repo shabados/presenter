@@ -4,7 +4,7 @@
   "description": "Next generation Gurbani presentation software",
   "main": "electron/esm-wrapper.js",
   "scripts": {
-    "start": "nodemon --ignore frontend/ --ignore electron/ -L --exec npm run start:production | pino-pretty -t HH:MM:ss.l -i hostname",
+    "start": "nodemon --ignore frontend/ --ignore electron/ -L --exec npm run start:production",
     "start:production": "node -r esm server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ."
@@ -40,6 +40,7 @@
     "node-notifier": "^6.0.0",
     "pacote": "^9.5.8",
     "pino": "^5.13.4",
+    "pino-tee": "^0.2.2",
     "ws": "^7.1.2"
   },
   "devDependencies": {
