@@ -9,7 +9,6 @@ import * as Sentry from '@sentry/browser'
 import { SENTRY_DSN } from './lib/consts'
 
 import App from './App'
-import './index.css'
 
 // Enable Sentry if in production
 if ( process.env === 'production' ) Sentry.init( { dsn: SENTRY_DSN } )

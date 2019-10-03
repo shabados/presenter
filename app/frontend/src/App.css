@@ -2,20 +2,39 @@
 @import url("./fonts/OpenGurbaniAkhar/index.css");
 @import url("./fonts/OpenAnmolUni/index.css");
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+:focus {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
 .app {
-	width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    user-select: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-color);
-    border-radius: 2px;
+  background-color: var(--scrollbar-color);
+  border-radius: 2px;
 }
