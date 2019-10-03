@@ -92,7 +92,10 @@ const withNavigationHotKeys = ( {
        * @param name The name of the element.
        * @param click Trigger the click.
        */
-      jumpToName = ( name, click = true ) => this.jumpTo( [ ...this.nodes.keys() ].findIndex( key => key === name ), click )
+      jumpToName = ( name, click = true ) => this.jumpTo(
+        [ ...this.nodes.keys() ].findIndex( key => key === name ),
+        click,
+      )
 
       /**
        * Jumps to an element.
