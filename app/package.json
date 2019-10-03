@@ -40,7 +40,6 @@
     "node-notifier": "^6.0.0",
     "pacote": "^9.5.8",
     "pino": "^5.13.4",
-    "pino-tee": "^0.2.2",
     "ws": "^7.1.2"
   },
   "devDependencies": {

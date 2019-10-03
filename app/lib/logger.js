@@ -4,11 +4,11 @@
  */
 
 import pino from 'pino'
-import { spawn } from 'child_process'
+import { appendFile } from 'fs-extra'
 import { PassThrough } from 'stream'
-import { env, execPath, stdout } from 'process'
+import { env, stdout } from 'process'
 
-import { electronVersion, isDev } from './consts'
+import { electronVersion, isDev, LOG_FILE } from './consts'
 
 const logThrough = new PassThrough()
 
@@ -18,17 +18,10 @@ const logger = pino( {
 
 
 if ( electronVersion && !isDev ) {
-  const { LOG_FILE } = env
-
-  const child = spawn( execPath, [
-    require.resolve( 'pino-tee' ),
-    'info', LOG_FILE,
-  ], {
-    cwd: __dirname,
-    env,
-  } )
-
-  logThrough.pipe( child.stdin )
+  logThrough.on( 'data', data => appendFile(
+    env.LOG_FILE || LOG_FILE,
+    data.toString(),
+  ) )
 }
 
 logThrough.pipe( stdout )
