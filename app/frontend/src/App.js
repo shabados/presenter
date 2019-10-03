@@ -1,6 +1,7 @@
 import React, { PureComponent, lazy, Suspense } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { configure } from 'react-hotkeys'
+import { hot } from 'react-hot-loader/root'
 
 import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, DEFAULT_OPTIONS, PRESENTER_URL, BACKEND_URL } from './lib/consts'
 import { merge } from './lib/utils'
@@ -122,4 +123,4 @@ class App extends PureComponent {
   }
 }
 
-export default App
+export default hot( App )

@@ -1,4 +1,6 @@
 /* eslint-disable no-undef */
+import 'react-hot-loader'
+
 /* App entry point */
 import React from 'react'
 import ReactDOM from 'react-dom'
