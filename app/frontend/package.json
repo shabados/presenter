@@ -48,10 +48,6 @@
     "source-map-explorer": "^2.1.0"
   },
   "proxy": "http://localhost:42425",
-  "eslintIgnore": [
-    "node_modules",
-    "build"
-  ],
   "browserslist": {
     "production": [
       ">0.2%",
