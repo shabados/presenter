@@ -183,7 +183,7 @@ class Settings extends Component {
             <FontAwesomeIcon icon={faBars} />
           </IconButton>
         </Hidden>
-        <Typography className="title" align="center" variant="title">{title}</Typography>
+        <Typography className="title" align="center" variant="h6">{title}</Typography>
       </Toolbar>
     </AppBar>
   )

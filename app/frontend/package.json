@@ -13,32 +13,29 @@
   },
   "homepage": "/",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.14",
-    "@fortawesome/free-regular-svg-icons": "^5.7.1",
-    "@fortawesome/free-solid-svg-icons": "^5.7.1",
-    "@fortawesome/react-fontawesome": "^0.1.4",
-    "@material-ui/core": "^3.9.2",
-    "@material-ui/lab": "^3.0.0-alpha.30",
-    "@sentry/browser": "^4.5.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-regular-svg-icons": "^5.11.2",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/react-fontawesome": "^0.1.5",
+    "@material-ui/core": "^4.5.0",
+    "@sentry/browser": "^5.6.3",
     "classnames": "^2.2.6",
-    "deepmerge": "^3.1.0",
+    "deepmerge": "^4.0.0",
     "event-emitter": "^0.3.5",
-    "gurmukhi-utils": "^2.0.5",
-    "install": "^0.12.2",
-    "lodash": "^4.17.11",
-    "npm": "^6.7.0",
-    "prop-types": "^15.6.2",
-    "qs": "^6.6.0",
-    "react": "^16.8.1",
-    "react-dom": "^16.8.1",
-    "react-hotkeys": "^2.0.0-pre4",
-    "react-router-dom": "^4.3.1",
+    "gurmukhi-utils": "^2.1.0",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
+    "qs": "^6.9.0",
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1",
+    "react-hot-loader": "^4.12.14",
+    "react-hotkeys": "^2.0.0",
+    "react-router-dom": "^5.1.2",
     "react-router-prop-types": "^1.0.4",
-    "react-scripts": "^1.1.4",
-    "react-transition-group": "^2.5.3",
-    "reconnecting-websocket": "^3.2.2",
-    "scroll-into-view": "^1.9.3",
-    "source-map-explorer": "^1.8.0"
+    "react-scripts": "^3.0.1",
+    "react-transition-group": "^4.3.0",
+    "reconnecting-websocket": "^4.2.0",
+    "scroll-into-view": "^1.9.7"
   },
   "scripts": {
     "analyze": "source-map-explorer build/static/js/*.js",
@@ -48,17 +45,23 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.6",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsdoc": "^3.15.1",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4"
+    "source-map-explorer": "^2.1.0"
   },
   "proxy": "http://localhost:42425",
   "eslintIgnore": [
     "node_modules",
     "build"
-  ]
+  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

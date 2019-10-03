@@ -1,6 +1,7 @@
 import React, { PureComponent, lazy, Suspense } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { configure } from 'react-hotkeys'
+import { hot } from 'react-hot-loader/root'
 
 import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, DEFAULT_OPTIONS, PRESENTER_URL, BACKEND_URL } from './lib/consts'
 import { merge } from './lib/utils'
@@ -23,7 +24,8 @@ class App extends PureComponent {
     lineId: null,
     mainLineId: null,
     viewedLines: new Set(),
-    shabadHistory: [],
+    transitionHistory: [],
+    latestLines: {},
     shabad: null,
     recommendedSources: null,
     status: null,
@@ -45,7 +47,8 @@ class App extends PureComponent {
     controller.on( 'line', this.onLine )
     controller.on( 'mainLine', this.onMainLine )
     controller.on( 'viewedLines', this.onViewedLines )
-    controller.on( 'history', this.onHistory )
+    controller.on( 'history:transitions', this.onTransitionHistory )
+    controller.on( 'history:latestLines', this.onLatestLineHistory )
     controller.on( 'banis', this.onBanis )
     controller.on( 'bani', this.onBani )
     controller.on( 'status', this.onStatus )
@@ -67,6 +70,8 @@ class App extends PureComponent {
     controller.off( 'disconnected', this.onDisconnected )
     controller.off( 'shabad', this.onShabad )
     controller.off( 'line', this.onLine )
+    controller.off( 'history:transitions', this.onTransitionHistory )
+    controller.off( 'history:latestLines', this.onLatestLineHistory )
     controller.off( 'mainLine', this.onMainLine )
     controller.off( 'viewedLines', this.onViewedLines )
     controller.off( 'banis', this.onBanis )
@@ -81,7 +86,8 @@ class App extends PureComponent {
   onLine = lineId => this.setState( { lineId } )
   onViewedLines = viewedLines => this.setState( { viewedLines } )
   onMainLine = mainLineId => this.setState( { mainLineId } )
-  onHistory = shabadHistory => this.setState( { shabadHistory } )
+  onTransitionHistory = history => this.setState( { transitionHistory: history.reverse() } )
+  onLatestLineHistory = latestLines => this.setState( { latestLines } )
   onStatus = status => this.setState( { status } )
   onBanis = banis => this.setState( { banis } )
   onBani = bani => this.setState( { bani, shabad: null } )
@@ -117,4 +123,4 @@ class App extends PureComponent {
   }
 }
 
-export default App
+export default hot( App )

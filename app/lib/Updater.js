@@ -4,13 +4,12 @@ import { join } from 'path'
 import { manifest, extract } from 'pacote'
 import importFresh from 'import-fresh'
 import { knex } from '@shabados/database'
-import { autoUpdater } from 'electron-updater'
 
 import { dependencies } from '../package.json'
 
 import logger from './logger'
 import settings from './settings'
-import { DATABASE_FOLDER } from './consts.js'
+import { DATABASE_FOLDER, electronVersion } from './consts'
 
 const databasePackage = `@shabados/database@${dependencies[ '@shabados/database' ]}`
 
@@ -21,15 +20,18 @@ class Updater extends EventEmitter {
     this.tempFolder = tempFolder
     this.interval = interval
 
-    if ( process.versions.electron ) this.initElectronUpdates()
+    if ( electronVersion ) this.initElectronUpdates()
   }
 
   async start() {
     this.updateLoop( this.checkDatabaseUpdates )
-    this.updateLoop( Updater.checkApplicationUpdates )
+    if ( electronVersion ) this.updateLoop( Updater.checkApplicationUpdates )
   }
 
   initElectronUpdates() {
+    // eslint-disable-next-line global-require
+    const autoUpdater = require( 'electron-updater' )
+
     autoUpdater.logger = logger
     autoUpdater.allowDowngrade = true
 
@@ -47,6 +49,9 @@ class Updater extends EventEmitter {
    * Executes electron-autoupdater's checker.
    */
   static async checkApplicationUpdates() {
+    // eslint-disable-next-line global-require
+    const autoUpdater = require( 'electron-updater' )
+
     logger.info( 'Checking for app updates, beta:', autoUpdater.allowPrerelease )
     const { downloadPromise } = await autoUpdater.checkForUpdates()
     return downloadPromise

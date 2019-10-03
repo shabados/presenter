@@ -60,10 +60,16 @@ class Search extends Component {
    * Set the received results and update the searched vale.
    * @param {Object[]} results An array of the returned results.
    */
-  onResults = results => this.setState( ( { inputValue: searchedValue } ) => ( {
-    results,
-    searchedValue,
-  } ) )
+  onResults = results => {
+    const { updateFocus } = this.props
+
+    this.setState( ( { inputValue: searchedValue } ) => ( {
+      results,
+      searchedValue,
+    } ) )
+
+    updateFocus( 0 )
+  }
 
   /**
    * Run on change of value in the search box.
@@ -123,7 +129,7 @@ class Search extends Component {
     const afterMatch = words.slice( pos + searchedValue.length ).join( splitChar ) + splitChar
 
     // Send the shabad id and line id to the server on click
-    const onClick = () => controller.shabad( { shabadId, lineId } )
+    const onClick = () => controller.shabad( shabadId, lineId )
 
     return (
       <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
@@ -171,6 +177,7 @@ class Search extends Component {
 Search.propTypes = {
   focused: oneOfType( [ string, number ] ),
   register: func.isRequired,
+  updateFocus: func.isRequired,
   history: history.isRequired,
   location: location.isRequired,
 }

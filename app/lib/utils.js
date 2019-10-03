@@ -35,13 +35,6 @@ export const getHost = async hybridIP => {
 }
 
 /**
- * Converts the provided date into a filename-compatible string.
- * @param {Date} date The date to convert.
- * @returns {string} An illegal-character stripped string.
- */
-export const getDateFilename = date => date.toISOString().replace( /T/, '_' ).replace( /:/g, '-' )
-
-/**
  * Lists all CSS files in the given path.
  * @param {string} path The path to list all CSS files in.
  * @returns {Promise} An array of the listed CSS files.

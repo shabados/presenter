@@ -1,122 +1,125 @@
 .controller {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    font-size: 0.95em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  font-size: 0.95em;
 }
 
 .simple.controller * {
-    transition: none !important;
+  transition: none !important;
 }
 
 .controller button {
-    font-size: 1em;
-    margin: 0 0.5em;
-    width: 1.25em;
-    height: 1.25em;
-    color: var(--controller-bar-text-color);
-    transition: 0.3s all;
-    padding: 0;
+  font-size: 1em;
+  margin: 0 0.5em;
+  width: 1.25em;
+  height: 1.25em;
+  color: var(--controller-bar-text-color);
+  transition: 0.3s all;
+  padding: 0;
 }
 
-.controller .name, .controller .middle {
-    text-align: center;
-    flex: 1;
-    font-family: "Noto Sans Regular", sans-serif;
-    font-weight: 600;
-    text-transform: capitalize;
-    font-size: 1em;
-    color: var(--controller-bar-text-color);
-    transition: 0.3s all;
+.controller .name,
+.controller .middle {
+  text-align: center;
+  flex: 1;
+  font-family: "Noto Sans Regular", sans-serif;
+  font-weight: 600;
+  text-transform: capitalize;
+  font-size: 1em;
+  color: var(--controller-bar-text-color);
+  transition: 0.3s all;
 }
 
-.controller button:hover, .controller .name:hover {
-    color: var(--controller-bar-text-hover-color);
+.controller button:hover,
+.controller .name:hover {
+  color: var(--controller-bar-text-hover-color);
 }
 
 .controller .bar {
-    padding: 0;
-    min-height: 2.25em;
-    background-color: var(--controller-bar-background-color);
-    transition: 0.3s all;
+  padding: 0;
+  min-height: 2.25em;
+  background-color: var(--controller-bar-background-color);
+  transition: 0.3s all;
 }
 
 /* All subcomponents */
 .controller .content {
-    height: 100%;
-    z-index: 1;
-    overflow: hidden;
-    background-color: var(--controller-background-color);
-    transition: 0.3s all;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  background-color: var(--controller-background-color);
+  transition: 0.3s all;
 }
 
 .controller .content ul {
-    padding: 0;
-    text-decoration: none;
-    color: var(--controller-text-color);
-    font-family: "Noto Sans Medium", sans-serif;
-    font-size: 1.1em;
-    transition: 0.3s all;
+  padding: 0;
+  text-decoration: none;
+  color: var(--controller-text-color);
+  font-family: "Noto Sans Medium", sans-serif;
+  font-size: 1.1em;
+  transition: 0.3s all;
 }
 
 .controller .content li {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-    padding: 0.15em 0.15em 0.15em 0.75em;
-    min-height: 2em;
-    transition: 0.2s all;
-    cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  padding: 0.15em 0.15em 0.15em 0.75em;
+  min-height: 2em;
+  transition: 0.2s all;
+  cursor: pointer;
 }
 
 .controller .content .focused {
-    color: var(--controller-text-hover-color);
-    background-color: var(--controller-selected-background-color);
-    transition: 0.3s all;
+  color: var(--controller-text-hover-color);
+  background-color: var(--controller-selected-background-color);
+  transition: 0.3s all;
 }
 
-.controller .content li:not(.focused):hover  {
-	background-color: var(--controller-hover-background-color);
-    color: var(--controller-text-hover-color);
-    transition: 0.3s all;
+.controller .content li:not(.focused):hover {
+  background-color: var(--controller-hover-background-color);
+  color: var(--controller-text-hover-color);
+  transition: 0.3s all;
 }
 
-.controller .content li.focused:hover  {
-	background-color: var(--controller-selected-hover-background-color);
-    transition: 0.3s all;
+.controller .content li.focused:hover {
+  background-color: var(--controller-selected-hover-background-color);
+  transition: 0.3s all;
 }
 
 .controller .content .meta {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 0.75em;
-    height: 0.75em;
-    margin-right: 1em;
-    color: var(--controller-text-color);
-    transition: 0.3s all;
-    opacity: 0.8;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 0.75em;
+  height: 0.75em;
+  margin-right: 1em;
+  color: var(--controller-text-color);
+  transition: 0.3s all;
+  opacity: 0.8;
+  min-width: unset;
 }
 
 .controller .hotkey {
-    font-weight: normal;
-    font-size: 0.75em;
-    text-transform: uppercase;
-    font-family: "Noto Sans Regular", sans-serif;
+  font-weight: normal;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  font-family: "Noto Sans Regular", sans-serif;
 }
 
 .controller .content .gurmukhi.text {
-    font-family: "Open Gurbani Akhar Bold", sans-serif;
-    height: auto;
-    color: var(--controller-text-color);
-    transition: 0.3s all;
+  font-family: "Open Gurbani Akhar Bold", sans-serif;
+  height: auto;
+  color: var(--controller-text-color);
+  transition: 0.3s all;
 }
 
 .controller .content .focused.text {
-    background-color: var(--controller-selected-background-color);
-    color: var(--controller-selected-color);
-    transition: 0.3s all;
+  background-color: var(--controller-selected-background-color);
+  color: var(--controller-selected-color);
+  transition: 0.3s all;
 }

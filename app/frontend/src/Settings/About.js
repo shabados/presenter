@@ -19,18 +19,18 @@ const aboutFields = [
 ]
 
 const About = ( { connected } ) => {
-  const [ about, setAbout ] = useState()
+  const [ about, setAbout ] = useState( null )
 
   useEffect( () => {
     fetch( `${BACKEND_URL}/about` )
       .then( res => res.json() )
       .then( setAbout )
-  } )
+  }, [] )
 
   if ( !about ) return <CircularProgress style={{ alignSelf: 'center' }} />
 
   return (
-    <List className="about" >
+    <List className="about">
       {aboutFields.map( ( [ key, name ] ) => (
         <ListItem key={key}>
           <Grid container>
@@ -38,9 +38,9 @@ const About = ( { connected } ) => {
             <Grid item xs={6}><Typography>{about[ key ]}</Typography></Grid>
           </Grid>
         </ListItem>
-    ) )}
+      ) )}
 
-      <ListItem >
+      <ListItem>
         <Grid container>
           <Grid item xs={6}><Typography variant="body2">Connected Devices</Typography></Grid>
           <Grid item xs={6}><Typography>{connected}</Typography></Grid>

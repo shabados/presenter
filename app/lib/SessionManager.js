@@ -64,7 +64,8 @@ class SessionManager {
     client.sendJSON( 'viewedLines', viewedLines )
     client.sendJSON( 'mainLine', mainLineId )
     client.sendJSON( 'status', status )
-    client.sendJSON( 'history', history.getTransitionsOnly() )
+    client.sendJSON( 'history:transitions', history.getTransitionsOnly() )
+    client.sendJSON( 'history:latestLines', history.getLatestLines() )
     client.sendJSON( 'settings', this.getPublicSettings() )
   }
 
@@ -106,7 +107,8 @@ class SessionManager {
     this.onLine( client, lineId, true )
 
     // Rebroadcast history
-    this.socket.broadcast( 'history', history.getTransitionsOnly() )
+    this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
+    this.socket.broadcast( 'history:latestLines', history.getLatestLines() )
   }
 
   /**
@@ -130,7 +132,10 @@ class SessionManager {
     // Update and save history
     const line = lines.find( ( { id } ) => lineId === id )
     const isTransition = transition || lineId === null
-    history.update( { line }, isTransition )
+    history.update( { line, bani, shabad }, isTransition )
+
+    // Update the latest lines
+    this.socket.broadcast( 'history:latestLines', history.getLatestLines() )
   }
 
   /**
@@ -153,7 +158,8 @@ class SessionManager {
     logger.info( 'Clearing history' )
 
     history.reset()
-    this.socket.broadcast( 'history', history.getTransitionsOnly() )
+    this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
+    this.socket.broadcast( 'history:latestLines', history.getLatestLines() )
   }
 
   /**
@@ -161,14 +167,15 @@ class SessionManager {
    * @param {WebSocket} client The socket client that sent the Bani.
    * @param {string} baniId The ID of the Bani.
    */
-  async onBani( client, baniId ) {
+  async onBani( client, { baniId, lineId = null } ) {
     const { history } = this.session
     logger.info( `Setting the Bani ID to ${baniId}` )
 
     const bani = await getBaniLines( baniId )
+
     // Get first line ID of the Bani
     const { lines: [ firstLine ] } = bani
-    const { id } = firstLine
+    const id = lineId || firstLine.id
 
     this.session = {
       ...this.session,
@@ -181,7 +188,7 @@ class SessionManager {
     this.onLine( client, id, true )
 
     // Rebroadcast history
-    this.socket.broadcast( 'history', history.getTransitionsOnly() )
+    this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
   }
 
   /**

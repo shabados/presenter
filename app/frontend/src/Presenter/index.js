@@ -140,10 +140,9 @@ class Presenter extends Component {
               <Link to={CONTROLLER_URL}>
                 <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
               </Link>
-              <Route
-                path={CONTROLLER_URL}
-                render={props => <Controller {...this.props} {...props} />}
-              />
+              <Route path={CONTROLLER_URL}>
+                {props => <Controller {...this.props} {...props} />}
+              </Route>
             </div>
           </Suspense>
           <StatusToast status={status} />
@@ -170,3 +169,4 @@ Presenter.defaultProps = {
 }
 
 export default Presenter
+

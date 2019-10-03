@@ -84,7 +84,7 @@ class Controller extends EventEmitter {
    * @param shabadId The shabad ID to change the server to.
    * @param lineId The line id to change the display to.
    */
-  shabad = ( { shabadId, lineId = null } ) => this.sendJSON( 'shabad', { shabadId, lineId } )
+  shabad = ( shabadId, lineId = null ) => this.sendJSON( 'shabad', { shabadId, lineId } )
 
   /**
    * Convenience method for clearing the line.
@@ -105,7 +105,7 @@ class Controller extends EventEmitter {
    * Sets the current Bani ID.
    * @param baniId The ID of the Bani to change to.
    */
-  bani = baniId => this.sendJSON( 'bani', baniId )
+  bani = ( baniId, lineId = null ) => this.sendJSON( 'bani', { baniId, lineId } )
 
   /**
    * Reads the settings from local storage, and combines with default settings.
