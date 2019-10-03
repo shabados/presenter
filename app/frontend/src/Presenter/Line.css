@@ -79,17 +79,14 @@
 
 .line .gurmukhi .word:after,
 .line .transliteration .word:after {
-  content: "\00a0";
+  content: "\20";
 }
 
 .line .gurmukhi .word:last-child:after,
 .line .transliteration .word:last-child:after,
-.line .translation .word:last-child:after {
-  content: none;
-}
-
+.line .translation .word:last-child:after,
 .larivaar.line .word:after {
-  content: none;
+  content: "\200B";
 }
 
 .larivaar.assist.line .gurmukhi .word:nth-child(2n) {

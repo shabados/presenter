@@ -16,7 +16,7 @@
 
 .overlay-line .gurmukhi .word:after,
 .overlay-line .transliteration .word:after {
-  content: "\00a0";
+  content: "\20";
 }
 
 .overlay-line .gurmukhi .word:last-child:after,
@@ -24,7 +24,7 @@
 .overlay-line .translation .word:last-child:after,
 .larivaar.overlay-line .word:after,
 .overlay-line .larivaar .word:after {
-  content: none;
+  content: "\200B";
 }
 
 .overlay-line .transliteration {
