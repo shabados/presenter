@@ -21,6 +21,10 @@
   color: var(--settings-text-color);
 }
 
+.select-menu .MuiSelect-icon {
+  color: var(--settings-text-color);
+}
+
 .checked.toggle > span,
 .slider {
   color: var(--settings-setting-color) !important;

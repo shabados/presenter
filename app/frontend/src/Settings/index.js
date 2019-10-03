@@ -85,7 +85,7 @@ class Settings extends Component {
     return (
       <List>
         <Select
-          className="device-selector category-title"
+          className="select-menu device-selector category-title"
           onChange={( { target: { value } } ) => this.setState( { device: value } )}
           value={device}
           disableUnderline
