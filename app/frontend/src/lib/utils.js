@@ -25,8 +25,7 @@ export const merge = ( source, destination ) => deepmerge(
  * Removes the pause characters from the string.
  * @param line The line to remove the pause characters from.
  */
-export const stripPauses = line =>
-  line.replace( new RegExp( `[${Object.values( PAUSE_CHARS )}]`, 'g' ), '' )
+export const stripPauses = line => line.replace( new RegExp( `[${Object.values( PAUSE_CHARS )}]`, 'g' ), '' )
 
 /**
  * Classifies the pause for a single word, returning an object of the word and type.

@@ -83,29 +83,27 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
                       <Grid item xs={5} md={3}><Typography variant="overline">{nameEnglish}</Typography></Grid>
 
                       <Grid item xs>
-                        { translationSources[ id ].length > 1
-                          ? (
-                            <Select
-                              value={getCurrentValue( sourceId, id )}
-                              values={translationSources[ id ].map( (
-                                ( { nameEnglish: name, id: value } ) => ( { name, value } )
-                              ) )}
-                              onChange={( { target: { value } } ) => setSettings( {
-                                sources: {
-                                  [ sourceId ]: {
-                                    translationSources: {
-                                      [ id ]: translationSources[ id ].find(
-                                        ( { id } ) => id === value,
-                                      ),
-                                    },
+                        { translationSources[ id ].length > 1 ? (
+                          <Select
+                            value={getCurrentValue( sourceId, id )}
+                            values={translationSources[ id ].map( (
+                              ( { nameEnglish: name, id: value } ) => ( { name, value } )
+                            ) )}
+                            onChange={( { target: { value } } ) => setSettings( {
+                              sources: {
+                                [ sourceId ]: {
+                                  translationSources: {
+                                    [ id ]: translationSources[ id ].find(
+                                      ( { id } ) => id === value,
+                                    ),
                                   },
                                 },
-                              } )}
-                            />
-                          )
-                          : (
-                            <Typography variant="body2">{translationSources[ id ][ 0 ].nameEnglish}</Typography>
-                          ) }
+                              },
+                            } )}
+                          />
+                        ) : (
+                          <Typography variant="body2">{translationSources[ id ][ 0 ].nameEnglish}</Typography>
+                        ) }
                       </Grid>
 
                     </Grid>

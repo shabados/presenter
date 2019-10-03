@@ -119,7 +119,6 @@ class Presenter extends Component {
     [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
   } )
 
-
   render() {
     const { settings, location: { search }, status } = this.props
     const { controllerOnly } = getUrlState( search )
@@ -169,4 +168,3 @@ Presenter.defaultProps = {
 }
 
 export default Presenter
-

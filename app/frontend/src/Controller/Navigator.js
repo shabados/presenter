@@ -31,35 +31,25 @@ import './Navigator.css'
 * @param id The id of the line.
 * @param index The index of the line.
 */
-class NavigatorLine extends PureComponent {
+const NavigatorLine = ( { id, register, focused, gurmukhi, hotkey } ) => {
   // Move to the line id on click
-  onClick = () => {
-    const { id } = this.props
-    controller.line( id )
-  }
+  const onClick = () => controller.line( id )
 
   // Register the reference to the line with the NavigationHotKey HOC
-  register = line => {
-    const { register, id } = this.props
-    register( id, line, true )
-  }
+  const registerLine = line => register( id, line, true )
 
-  render() {
-    const { focused, gurmukhi, id, hotkey } = this.props
-
-    return (
-      <ListItem
-        key={id}
-        className={classNames( { focused } )}
-        onClick={this.onClick}
-        ref={this.register}
-        tabIndex={0}
-      >
-        <span className="hotkey meta">{hotkey}</span>
-        <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
-      </ListItem>
-    )
-  }
+  return (
+    <ListItem
+      key={id}
+      className={classNames( { focused } )}
+      onClick={onClick}
+      ref={registerLine}
+      tabIndex={0}
+    >
+      <span className="hotkey meta">{hotkey}</span>
+      <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
+    </ListItem>
+  )
 }
 
 NavigatorLine.propTypes = {
@@ -109,6 +99,7 @@ class Navigator extends PureComponent {
       <List className="navigator" onKeyDown={e => e.preventDefault()}>
         {lines.map( ( line, index ) => (
           <NavigatorLine
+            key={line.id}
             {...line}
             focused={line.id === focused}
             hotkey={LINE_HOTKEYS[ index ]}

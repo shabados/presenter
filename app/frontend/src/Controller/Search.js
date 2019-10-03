@@ -159,8 +159,8 @@ class Search extends Component {
           inputRef={c => register( 'search', c )}
         />
         <List className="results">
-          {results ?
-            results
+          {results
+            ? results
               .slice( 0, MAX_RESULTS )
               .map( ( props, i ) => this.Result( {
                 ...props,

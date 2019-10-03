@@ -36,7 +36,7 @@ const Bookmarks = ( { banis, transitionHistory, latestLines, register, focused }
           <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
           <span className="gurmukhi text">{nameGurmukhi}</span>
         </ListItem>
-    ) )}
+      ) )}
     </List>
   )
 }

@@ -6,7 +6,6 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 
-
 import './Hotkeys.css'
 
 /**
@@ -25,7 +24,7 @@ const Hotkeys = ( { keys, shortcuts } ) => (
                 <Grid key={key} item xs>
                   <code>{key}</code>
                 </Grid>
-            ) )}
+              ) )}
             </Grid>
           </Grid>
           <Grid item xs>
@@ -33,7 +32,7 @@ const Hotkeys = ( { keys, shortcuts } ) => (
           </Grid>
         </Grid>
       </ListItem>
-      ) ) }
+    ) ) }
   </List>
 )
 

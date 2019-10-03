@@ -58,7 +58,7 @@ const Line = ( {
       vishraams,
       larivaar,
       simple,
-  }, 'line' )}
+    }, 'line' )}
     style={{ justifyContent: spacing, fontSize: `${fontSize}Vh` }}
   >
     <TransitionGroup appear exit={false} component={null}>
@@ -72,22 +72,28 @@ const Line = ( {
             ) )}
         </p>
       </CSSTransition>
-      {englishTranslation &&
+      {englishTranslation && (
       <CSSTransition key={englishTranslation} classNames="fade" timeout={0}>
         <p className="english translation">{englishTranslation}</p>
-      </CSSTransition>}
-      {punjabiTranslation &&
+      </CSSTransition>
+      )}
+      {punjabiTranslation
+      && (
       <CSSTransition key={punjabiTranslation} classNames="fade" timeout={0}>
         <p className="punjabi translation">{punjabiTranslation}</p>
-      </CSSTransition>}
-      {transliteration &&
+      </CSSTransition>
+      )}
+      {transliteration
+      && (
       <CSSTransition key={`${transliteration}`} classNames="fade" timeout={0}>
-        <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'english transliteration' )}>{
+        <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'english transliteration' )}>
+          {
           classifyWords( transliteration, !vishraamCharacters )
-          .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
+            .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
         }
         </p>
-      </CSSTransition>}
+      </CSSTransition>
+      )}
     </TransitionGroup>
   </div>
 )

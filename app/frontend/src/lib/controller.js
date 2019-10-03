@@ -32,6 +32,7 @@ class Controller extends EventEmitter {
     if ( this.socket.readyState === 1 ) sendJSON()
     else this.once( 'connected', sendJSON )
   }
+
   /**
    * Called when the WebSocket is connected.
    * @private

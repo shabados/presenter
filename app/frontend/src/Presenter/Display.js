@@ -12,7 +12,7 @@ import './Display.css'
  * @param shabad The Shabad to render.
  * @param lineId The current line in the Shabad.
  */
-const Display = ( { shabad, bani, lineId, settings } ) => {
+const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
   const {
     layout,
     vishraams,
@@ -44,6 +44,7 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
     if ( !( sources && sources[ sourceId ] ) ) return null
 
     const { id: translationId } = sources[ sourceId ].translationSources[ languageId ]
+      || recommendedSources[ sourceId ].translationSources[ languageId ]
 
     return line.translations.find( (
       ( { translationSourceId: id } ) => translationId === id
@@ -54,8 +55,9 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
       <div className="previous-lines">
-        {line && previousLines.map( ( { gurmukhi } ) => (
+        {line && previousLines.map( ( { id, gurmukhi } ) => (
           <Line
+            key={id}
             className="previous-line"
             simpleGraphics={simple}
             {...layout}
@@ -64,7 +66,8 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
           />
         ) )}
       </div>
-      {line && <Line
+      {line && (
+      <Line
         className="current-line"
         {...layout}
         {...vishraams}
@@ -75,10 +78,12 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
           layout.englishTransliteration && line.transliterations[ 0 ].transliteration
         }
         simpleGraphics={simple}
-      />}
+      />
+      )}
       <div className="next-lines">
-        {line && nextLines.map( ( { gurmukhi } ) => (
+        {line && nextLines.map( ( { id, gurmukhi } ) => (
           <Line
+            key={id}
             className="next-line"
             simpleGraphics={simple}
             {...layout}
@@ -105,6 +110,7 @@ Display.propTypes = {
       backgroundImage: bool,
     } ),
   } ).isRequired,
+  recommendedSources: shape( { nameEnglish: string } ).isRequired,
 }
 
 Display.defaultProps = {

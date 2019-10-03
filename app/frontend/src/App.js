@@ -17,26 +17,35 @@ const Presenter = lazy( () => import( './Presenter' ) )
 const Settings = lazy( () => import( './Settings' ) )
 
 class App extends PureComponent {
-  state = {
-    connected: false,
-    banis: [],
-    bani: null,
-    lineId: null,
-    mainLineId: null,
-    viewedLines: new Set(),
-    transitionHistory: [],
-    latestLines: {},
-    shabad: null,
-    recommendedSources: null,
-    status: null,
-    settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
-  }
+  components = [
+    [ Overlay, OVERLAY_URL ],
+    [ ScreenReader, SCREEN_READER_URL ],
+    [ Settings, SETTINGS_URL ],
+    [ Presenter, PRESENTER_URL ],
+  ].map( ( [ Component, path ] ) => [ props => <Component {...props} {...this.state} />, path ] )
 
-  componentWillMount() {
+  constructor( props ) {
+    super( props )
+
     // Configure react-hotkeys
     configure( {
       ignoreTags: [],
     } )
+
+    this.state = {
+      connected: false,
+      banis: [],
+      bani: null,
+      lineId: null,
+      mainLineId: null,
+      viewedLines: new Set(),
+      transitionHistory: [],
+      latestLines: {},
+      shabad: null,
+      recommendedSources: null,
+      status: null,
+      settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
+    }
   }
 
   componentDidMount() {
@@ -58,9 +67,9 @@ class App extends PureComponent {
     const { settings: { local: { sources } } } = this.state
     fetch( `${BACKEND_URL}/sources` )
       .then( res => res.json() )
-      .then( ( { recommended } ) => {
-        this.setState( { recommendedSources: sources } )
-        if ( !Object.keys( sources ).length ) controller.setSettings( { sources: recommended } )
+      .then( ( { recommended: recommendedSources } ) => {
+        this.setState( { recommendedSources } )
+        controller.setSettings( { sources: merge( recommendedSources, sources ) } )
       } )
   }
 
@@ -81,16 +90,27 @@ class App extends PureComponent {
   }
 
   onConnected = () => this.setState( { connected: true, bani: null, shabad: null } )
+
   onDisconnected = () => this.setState( { connected: false } )
+
   onShabad = shabad => this.setState( { shabad, bani: null } )
+
   onLine = lineId => this.setState( { lineId } )
+
   onViewedLines = viewedLines => this.setState( { viewedLines } )
+
   onMainLine = mainLineId => this.setState( { mainLineId } )
+
   onTransitionHistory = history => this.setState( { transitionHistory: history.reverse() } )
+
   onLatestLineHistory = latestLines => this.setState( { latestLines } )
+
   onStatus = status => this.setState( { status } )
+
   onBanis = banis => this.setState( { banis } )
+
   onBani = bani => this.setState( { bani, shabad: null } )
+
   onSettings = ( { global = {}, ...settings } ) => this.setState( state => ( {
     settings: {
       ...state.settings,
@@ -98,13 +118,6 @@ class App extends PureComponent {
       global: merge( state.settings.global, global ),
     },
   } ) )
-
-  components = [
-    [ Overlay, OVERLAY_URL ],
-    [ ScreenReader, SCREEN_READER_URL ],
-    [ Settings, SETTINGS_URL ],
-    [ Presenter, PRESENTER_URL ],
-  ].map( ( [ Component, path ] ) => [ props => <Component {...props} {...this.state} />, path ] )
 
   render() {
     return (
@@ -114,7 +127,7 @@ class App extends PureComponent {
             <Switch>
               {this.components.map( ( [ Component, path ] ) => (
                 <Route key={path} path={path} component={Component} />
-            ) )}
+              ) )}
             </Switch>
           </Router>
         </Suspense>
