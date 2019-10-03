@@ -73,7 +73,6 @@
 
 .line .gurmukhi .word,
 .line .transliteration .word {
-  display: inline-block;
   transition: var(--animation-duration) all;
 }
 
@@ -82,9 +81,6 @@
   content: "\20";
 }
 
-.line .gurmukhi .word:last-child:after,
-.line .transliteration .word:last-child:after,
-.line .translation .word:last-child:after,
 .larivaar.line .word:after {
   content: "\200B";
 }

@@ -19,9 +19,6 @@
   content: "\20";
 }
 
-.overlay-line .gurmukhi .word:last-child:after,
-.overlay-line .transliteration .word:last-child:after,
-.overlay-line .translation .word:last-child:after,
 .larivaar.overlay-line .word:after,
 .overlay-line .larivaar .word:after {
   content: "\200B";
