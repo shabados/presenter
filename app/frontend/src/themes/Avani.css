@@ -78,6 +78,8 @@
     /* Settings Content */
     --settings-background-color: var(--controller-background-color);
     --settings-text-color: var(--controller-text-color);
+    --settings-setting-color: rgb(129, 77, 90);
+    --settings-setting-shadow: rgb(129, 77, 90, 0.16);
 
       /*****************/
      /* Miscellaneous */
