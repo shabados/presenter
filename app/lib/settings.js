@@ -90,7 +90,7 @@ class Settings extends EventEmitter {
     try {
       return readJSONSync( SETTINGS_FILE )
     } catch ( err ) {
-      logger.warn( 'Settings file is corrupt or non-existent. Recreating.' )
+      logger.warn( 'Settings file is corrupt or non-existent. Recreating', SETTINGS_FILE )
       ensureFileSync( SETTINGS_FILE )
       writeJSONSync( SETTINGS_FILE, {} )
       return {}
