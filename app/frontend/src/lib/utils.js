@@ -25,8 +25,7 @@ export const merge = ( source, destination ) => deepmerge(
  * Removes the pause characters from the string.
  * @param line The line to remove the pause characters from.
  */
-export const stripPauses = line =>
-  line.replace( new RegExp( `[${Object.values( PAUSE_CHARS )}]`, 'g' ), '' )
+export const stripPauses = line => line.replace( new RegExp( `[${Object.values( PAUSE_CHARS )}]`, 'g' ), '' )
 
 /**
  * Classifies the pause for a single word, returning an object of the word and type.
@@ -101,12 +100,13 @@ export const getUrlState = search => {
  * @param {Object} sources Any sources.
  * @param {number} languageId The identifier of the language.
  */
-export const getTranslation = ( { shabad, line, sources, languageId } ) => {
+export const getTranslation = ( { shabad, line, sources, recommendedSources, languageId } ) => {
   const { sourceId } = shabad || line.shabad
 
   if ( !( sources && sources[ sourceId ] ) ) return null
 
   const { id: translationId } = sources[ sourceId ].translationSources[ languageId ]
+    || recommendedSources[ sourceId ].translationSources[ languageId ]
 
   return line.translations.find( (
     ( { translationSourceId: id } ) => translationId === id

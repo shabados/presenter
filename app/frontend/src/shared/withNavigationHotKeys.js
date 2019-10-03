@@ -16,36 +16,40 @@ import { LINE_HOTKEYS } from '../lib/consts'
  * @param {Object} keymap Keymap to combine with existing keymap.
  * @returns {Component} The decorated component.
  */
-const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keymap } ) =>
-  WrappedComponent => {
-    class WithNavigationHotKeys extends Component {
-      constructor( props ) {
-        super( props )
+const withNavigationHotKeys = ( {
+  arrowKeys = true,
+  lineKeys,
+  clickOnFocus,
+  keymap,
+} ) => WrappedComponent => {
+  class WithNavigationHotKeys extends Component {
+    constructor( props ) {
+      super( props )
 
-        this.state = { focusedIndex: 0 }
+      this.state = { focusedIndex: 0 }
 
-        // Stores the ref to the parent containing the children
-        this.nodes = new Map()
+      // Stores the ref to the parent containing the children
+      this.nodes = new Map()
 
-        // Stores a list of hotkeys
-        this.hotkeys = []
+      // Stores a list of hotkeys
+      this.hotkeys = []
 
-        // Generate the handlers in advance
-        this.handlers = {
-          ...( arrowKeys && this.arrowHandlers ),
-          ...( lineKeys && this.lineHandlers ),
-        }
+      // Generate the handlers in advance
+      this.handlers = {
+        ...( arrowKeys && this.arrowHandlers ),
+        ...( lineKeys && this.lineHandlers ),
       }
+    }
 
-      componentDidMount() {
-        this.setNodeSize()
-        this.setFocus()
-      }
+    componentDidMount() {
+      this.setNodeSize()
+      this.setFocus()
+    }
 
-      componentDidUpdate() {
-        this.setNodeSize()
-        this.setFocus()
-      }
+    componentDidUpdate() {
+      this.setNodeSize()
+      this.setFocus()
+    }
 
       /**
        * Sets the length of the nodes to the correct size.
@@ -88,8 +92,10 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keym
        * @param name The name of the element.
        * @param click Trigger the click.
        */
-      jumpToName = ( name, click = true ) =>
-        this.jumpTo( [ ...this.nodes.keys() ].findIndex( key => key === name ), click )
+      jumpToName = ( name, click = true ) => this.jumpTo(
+        [ ...this.nodes.keys() ].findIndex( key => key === name ),
+        click,
+      )
 
       /**
        * Jumps to an element.
@@ -203,14 +209,14 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus, keym
           </GlobalHotKeys>
         )
       }
-    }
-
-    WithNavigationHotKeys.propTypes = {
-      forwardedRef: instanceOf( WithNavigationHotKeys ).isRequired,
-    }
-
-    const forwardRef = ( props, ref ) => <WithNavigationHotKeys {...props} forwardedRef={ref} />
-    return React.forwardRef( forwardRef )
   }
+
+  WithNavigationHotKeys.propTypes = {
+    forwardedRef: instanceOf( WithNavigationHotKeys ).isRequired,
+  }
+
+  const forwardRef = ( props, ref ) => <WithNavigationHotKeys {...props} forwardedRef={ref} />
+  return React.forwardRef( forwardRef )
+}
 
 export default withNavigationHotKeys

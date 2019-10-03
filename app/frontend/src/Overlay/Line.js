@@ -25,20 +25,21 @@ const Line = ( {
 } ) => {
   const line = partitionLine( gurmukhi )
     .map( ( line, lineIndex ) => (
-      <span key={lineIndex} >
+      <span key={lineIndex}>
         {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
       </span>
     ) )
 
   return (
-    <div className={classNames( className, 'overlay-line' )} >
+    <div className={classNames( className, 'overlay-line' )}>
       <p className="gurmukhi larivaar">{line}</p>
       <p className="gurmukhi">{line}</p>
       <p className="english translation">{englishTranslation}</p>
       <p className="punjabi translation">{punjabiTranslation}</p>
-      <p className="english transliteration">{
+      <p className="english transliteration">
+        {
           classifyWords( transliteration )
-          .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
+            .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
         }
       </p>
     </div>

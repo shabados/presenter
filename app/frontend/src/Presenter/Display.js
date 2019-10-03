@@ -14,7 +14,7 @@ import './Display.css'
  * @param shabad The Shabad to render.
  * @param lineId The current line in the Shabad.
  */
-const Display = ( { shabad, bani, lineId, settings } ) => {
+const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
   const {
     layout,
     vishraams,
@@ -39,14 +39,21 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
     : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
-  const getTranslationFor = languageId => getTranslation( { shabad, sources, line, languageId } )
+  const getTranslationFor = languageId => getTranslation( {
+    shabad,
+    recommendedSources,
+    sources,
+    line,
+    languageId,
+  } )
 
   return (
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
       <div className="previous-lines">
-        {line && previousLines.map( ( { gurmukhi } ) => (
+        {line && previousLines.map( ( { id, gurmukhi } ) => (
           <Line
+            key={id}
             className="previous-line"
             simpleGraphics={simple}
             {...layout}
@@ -55,7 +62,8 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
           />
         ) )}
       </div>
-      {line && <Line
+      {line && (
+      <Line
         className="current-line"
         {...layout}
         {...vishraams}
@@ -66,10 +74,12 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
           layout.englishTransliteration && line.transliterations[ 0 ].transliteration
         }
         simpleGraphics={simple}
-      />}
+      />
+      )}
       <div className="next-lines">
-        {line && nextLines.map( ( { gurmukhi } ) => (
+        {line && nextLines.map( ( { id, gurmukhi } ) => (
           <Line
+            key={id}
             className="next-line"
             simpleGraphics={simple}
             {...layout}
@@ -96,6 +106,7 @@ Display.propTypes = {
       backgroundImage: bool,
     } ),
   } ).isRequired,
+  recommendedSources: shape( { nameEnglish: string } ).isRequired,
 }
 
 Display.defaultProps = {

@@ -82,8 +82,8 @@ const TopBar = ( { title, history, location, onHover } ) => {
         onMouseEnter={() => onHover( 'Hide Controller' )}
         onMouseLeave={resetHover}
       />
-      {state[ STATES.controllerOnly ]
-        ? <ToolbarButton
+      {state[ STATES.controllerOnly ] ? (
+        <ToolbarButton
           name="Minimize Controller"
           icon={faWindowMaximize}
           flip="vertical"
@@ -91,14 +91,15 @@ const TopBar = ( { title, history, location, onHover } ) => {
           onMouseEnter={() => onHover( 'Minimize Controller' )}
           onMouseLeave={resetHover}
         />
-        : <ToolbarButton
+      ) : (
+        <ToolbarButton
           name="Maximize Controller"
           icon={faWindowMaximize}
           onClick={() => history.push( `${CONTROLLER_URL}?${queryString.stringify( { ...state, [ STATES.controllerOnly ]: true } )}` )}
           onMouseEnter={() => onHover( 'Maximize Controller' )}
           onMouseLeave={resetHover}
         />
-      }
+      )}
       <ToolbarButton
         name="Pop Out"
         icon={faSignOutAlt}

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { shape, objectOf, string, number, func } from 'prop-types'
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
+import {
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  Typography,
+  Grid,
+} from '@material-ui/core'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
@@ -13,7 +15,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import Loader from '../shared/Loader'
 import { BACKEND_URL } from '../lib/consts'
 
-import { Dropdown } from './SettingComponents'
+import { Dropdown as Select } from './SettingComponents'
 
 import './Sources.css'
 
@@ -22,7 +24,7 @@ import './Sources.css'
  */
 const Sources = ( { sources: currentSources, setSettings } ) => {
   const [ languages, setLanguages ] = useState()
-  const [ { sources, recommendedSources }, setSources ] = useState( {} )
+  const [ { sources, recommended }, setSources ] = useState( {} )
 
   useEffect( () => {
     fetch( `${BACKEND_URL}/languages` ).then( res => res.json() ).then( ( { languages } ) => setLanguages( languages ) )
@@ -37,57 +39,80 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
 
   // Gets the current selected value of a language's translation, using the recommended otherwise.
   const getCurrentValue = ( sourceId, languageId ) => {
-    const currentSource = currentSources[ sourceId ] || recommendedSources[ sourceId ]
+    const currentSource = currentSources[ sourceId ]
 
-    return currentSource.translationSources[ languageId ]
+    const { id } = currentSource.translationSources[ languageId ]
+      || recommended[ sourceId ].translationSources[ languageId ]
+
+    return id
   }
 
   return (
     <div className="sources">
-      {Object.entries( sources ).map( ( [ sourceId, {
-        nameEnglish,
-        nameGurmukhi,
-        translationSources,
-      } ] ) => (
-        <ExpansionPanel key={sourceId} className="source">
-          <ExpansionPanelSummary className="source-title" expandIcon={<FontAwesomeIcon size="sm" icon={faChevronDown} />}>
-            <Grid container>
-              <Grid item xs={5}>
-                <Typography variant="body2">{nameEnglish}</Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography className="gurmukhi">{nameGurmukhi}</Typography>
-              </Grid>
-            </Grid>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className="source-details">
-            <Grid container className="translations">
-              <Grid item xs={12}><Typography className="source-heading">Translations</Typography></Grid>
-              {languages
-              .filter( ( { id } ) => !!translationSources[ id ] )
-              .map( ( { id, nameEnglish } ) => (
-                <Grid key={id} item xs={12}>
-                  <Dropdown
-                    name={nameEnglish}
-                    value={getCurrentValue( sourceId, id ).id}
-                    values={translationSources[ id ].map( (
-                    ( { nameEnglish: name, id: value } ) => ( { name, value } )
-                  ) )}
-                    onChange={( { target: { value } } ) => setSettings( {
-                      sources: {
-                        [ sourceId ]: {
-                        translationSources: {
-                          [ id ]: translationSources[ id ].find( ( { id } ) => id === value ),
-                        },
-                        },
-                      },
-                    } )}
-                  />
+      {Object
+        .entries( sources )
+        .filter( ( [ , { translationSources } ] ) => Object.keys( translationSources ).length )
+        .map( ( [ sourceId, {
+          nameEnglish,
+          nameGurmukhi,
+          translationSources,
+        } ] ) => (
+          <ExpansionPanel key={sourceId} className="source">
+            <ExpansionPanelSummary className="source-title" expandIcon={<FontAwesomeIcon size="sm" icon={faChevronDown} />}>
+              <Grid container>
+                <Grid item xs={6} md={5}>
+                  <Typography variant="body2">{nameEnglish}</Typography>
                 </Grid>
-              ) )}
-            </Grid>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+                <Grid item xs>
+                  <Typography className="gurmukhi">{nameGurmukhi}</Typography>
+                </Grid>
+              </Grid>
+            </ExpansionPanelSummary>
+
+            <ExpansionPanelDetails className="source-details">
+              <Grid container className="translations">
+
+                <Grid item xs={12}>
+                  <Typography className="source-heading">Translations</Typography>
+                </Grid>
+
+                {languages
+                  .filter( ( { id } ) => !!translationSources[ id ] )
+                  .map( ( { id, nameEnglish } ) => (
+                    <Grid key={id} container item xs={12}>
+                      <Grid item xs={5} md={3}><Typography variant="overline">{nameEnglish}</Typography></Grid>
+
+                      <Grid item xs>
+                        { translationSources[ id ].length > 1 ? (
+                          <Select
+                            value={getCurrentValue( sourceId, id )}
+                            values={translationSources[ id ].map( (
+                              ( { nameEnglish: name, id: value } ) => ( { name, value } )
+                            ) )}
+                            onChange={( { target: { value } } ) => setSettings( {
+                              sources: {
+                                [ sourceId ]: {
+                                  translationSources: {
+                                    [ id ]: translationSources[ id ].find(
+                                      ( { id } ) => id === value,
+                                    ),
+                                  },
+                                },
+                              },
+                            } )}
+                          />
+                        ) : (
+                          <Typography variant="body2">{translationSources[ id ][ 0 ].nameEnglish}</Typography>
+                        ) }
+                      </Grid>
+
+                    </Grid>
+                  ) )}
+
+              </Grid>
+            </ExpansionPanelDetails>
+
+          </ExpansionPanel>
         ) )}
     </div>
   )
