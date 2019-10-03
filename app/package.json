@@ -45,9 +45,5 @@
   "devDependencies": {
     "nodemon": "^1.19.3",
     "pino-pretty": "^3.2.1"
-  },
-  "eslintIgnore": [
-    "node_modules",
-    "frontend"
-  ]
+  }
 }

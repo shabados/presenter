@@ -32,7 +32,7 @@
     "react-hotkeys": "^2.0.0",
     "react-router-dom": "^5.1.2",
     "react-router-prop-types": "^1.0.4",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^3.2.0",
     "react-transition-group": "^4.3.0",
     "reconnecting-websocket": "^4.2.0",
     "scroll-into-view": "^1.9.7"
