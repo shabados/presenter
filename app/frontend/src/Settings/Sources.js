@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { shape, objectOf, string, number, func } from 'prop-types'
 
-import { 
-   ExpansionPanel,
-    ExpansionPanelDetails,
-     ExpansionPanelSummary,
-     Typography,
-     Grid,
-     FormControl,
-     FormHelperText,
-     InputLabel,
-     } from '@material-ui/core'
+import {
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  Typography,
+  Grid,
+} from '@material-ui/core'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
@@ -52,65 +49,73 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
 
   return (
     <div className="sources">
-      {Object.entries( sources ).map( ( [ sourceId, {
-        nameEnglish,
-        nameGurmukhi,
-        translationSources,
-      } ] ) => (
-        <ExpansionPanel key={sourceId} className="source">
-          <ExpansionPanelSummary className="source-title" expandIcon={<FontAwesomeIcon size="sm" icon={faChevronDown} />}>
-            <Grid container>
-              <Grid item xs={6} md={5}>
-                <Typography variant="body2">{nameEnglish}</Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography className="gurmukhi">{nameGurmukhi}</Typography>
-              </Grid>
-            </Grid>
-          </ExpansionPanelSummary>
-
-          <ExpansionPanelDetails className="source-details">
-            <Grid container className="translations">
-             
-              <Grid item xs={12}>
-                <Typography className="source-heading">{Object.keys(translationSources).length 
-                ? 'Translations'
-                : 'No Translations Available'
-                }</Typography>
-              </Grid>
-              
-              {languages
-              .filter( ( { id } ) => !!translationSources[ id ] )
-              .map( ( { id, nameEnglish } ) => (
-                <Grid key={id} container item xs={12}>
-                  <Grid item xs={5} md={3}><Typography variant="overline">{nameEnglish}</Typography></Grid>
-
-                  <Grid item xs>
-                  <Select
-                    value={getCurrentValue( sourceId, id )}
-                    values={translationSources[ id ].map( (
-                      ( { nameEnglish: name, id: value } ) => ( { name, value } )
-                    ) )}
-                    onChange={( { target: { value } } ) => setSettings( {
-                      sources: {
-                        [ sourceId ]: {
-                          translationSources: {
-                            [ id ]: translationSources[ id ].find( ( { id } ) => id === value ),
-                          },
-                        },
-                      },
-                    } )}
-                    />
-                    </Grid>
-
+      {Object
+        .entries( sources )
+        .filter( ( [ , { translationSources } ] ) => Object.keys( translationSources ).length )
+        .map( ( [ sourceId, {
+          nameEnglish,
+          nameGurmukhi,
+          translationSources,
+        } ] ) => (
+          <ExpansionPanel key={sourceId} className="source">
+            <ExpansionPanelSummary className="source-title" expandIcon={<FontAwesomeIcon size="sm" icon={faChevronDown} />}>
+              <Grid container>
+                <Grid item xs={6} md={5}>
+                  <Typography variant="body2">{nameEnglish}</Typography>
                 </Grid>
-              ) )}
+                <Grid item xs>
+                  <Typography className="gurmukhi">{nameGurmukhi}</Typography>
+                </Grid>
+              </Grid>
+            </ExpansionPanelSummary>
 
-            </Grid>
-          </ExpansionPanelDetails>
+            <ExpansionPanelDetails className="source-details">
+              <Grid container className="translations">
+
+                <Grid item xs={12}>
+                  <Typography className="source-heading">Translations</Typography>
+                </Grid>
+
+                {languages
+                  .filter( ( { id } ) => !!translationSources[ id ] )
+                  .map( ( { id, nameEnglish } ) => (
+                    <Grid key={id} container item xs={12}>
+                      <Grid item xs={5} md={3}><Typography variant="overline">{nameEnglish}</Typography></Grid>
+
+                      <Grid item xs>
+                        { translationSources[ id ].length > 1
+                          ? (
+                            <Select
+                              value={getCurrentValue( sourceId, id )}
+                              values={translationSources[ id ].map( (
+                                ( { nameEnglish: name, id: value } ) => ( { name, value } )
+                              ) )}
+                              onChange={( { target: { value } } ) => setSettings( {
+                                sources: {
+                                  [ sourceId ]: {
+                                    translationSources: {
+                                      [ id ]: translationSources[ id ].find(
+                                        ( { id } ) => id === value,
+                                      ),
+                                    },
+                                  },
+                                },
+                              } )}
+                            />
+                          )
+                          : (
+                            <Typography variant="body2">{translationSources[ id ][ 0 ].nameEnglish}</Typography>
+                          ) }
+                      </Grid>
+
+                    </Grid>
+                  ) )}
+
+              </Grid>
+            </ExpansionPanelDetails>
 
           </ExpansionPanel>
-          ) )}
+        ) )}
     </div>
   )
 }
