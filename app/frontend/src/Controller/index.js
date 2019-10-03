@@ -99,8 +99,7 @@ const TopBar = ( { title, history, location, onHover } ) => {
           onMouseEnter={() => onHover( 'Maximize Controller' )}
           onMouseLeave={resetHover}
         />
-      )
-      }
+      )}
       <ToolbarButton
         name="Pop Out"
         icon={faSignOutAlt}
