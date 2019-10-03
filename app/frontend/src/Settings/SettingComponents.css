@@ -21,21 +21,19 @@
   color: var(--settings-text-color);
 }
 
-.checked.toggle > span {
-  color: var(--settings-setting-color);
+.checked.toggle > span,
+.slider {
+  color: var(--settings-setting-color) !important;
 }
 
-.checked.toggle > span:last-child,
-.slider button,
-.slider > div > div:first-child,
-.slider > div > div:last-child {
+.checked.toggle > span:last-child {
   background-color: var(--settings-setting-color);
 }
 
-.slider > div > div:first-child {
-  opacity: 0.7;
+.checked.toggle > :hover {
+  background-color: var(--settings-setting-shadow) !important;
 }
 
-.slider > div > div:last-child {
-  opacity: 0.3;
+.slider .MuiSlider-thumb:hover, .slider .MuiSlider-thumb.MuiSlider-active {
+  box-shadow: 0px 0px 0px 8px var(--settings-setting-shadow) !important;
 }

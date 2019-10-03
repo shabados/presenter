@@ -3,7 +3,7 @@ import { string, func, any, arrayOf, number } from 'prop-types'
 
 import classNames from 'classnames'
 
-import { Switch, Select, Typography, Grid, MenuItem, Slider as MSlider } from '@material-ui/core'
+import { Switch, Select, MenuItem, Slider as MSlider } from '@material-ui/core'
 
 import { OPTION_TYPES } from '../lib/consts'
 
@@ -47,14 +47,12 @@ Toggle.propTypes = {
 }
 
 export const Slider = ( { value, ...props } ) => (
-  <Grid container item alignItems="center">
-    <Grid item xs={5}>
-      <MSlider className="slider" {...props} />
-    </Grid>
-    <Grid item xs={5} md={3}>
-      <Typography align="center">{value}</Typography>
-    </Grid>
-  </Grid>
+  <MSlider
+    className="slider"
+    valueLabelDisplay="auto"
+    value={value}
+    {...props}
+  />
 )
 
 Slider.propTypes = {
