@@ -265,7 +265,6 @@ export const DEFAULT_OPTIONS = {
     theme: {
       themeName: 'Day',
       backgroundImage: true,
-      fontSize: 40,
       simpleGraphics: false,
     },
     vishraams: {
