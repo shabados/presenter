@@ -61,8 +61,8 @@ Slider.propTypes = {
   value: number.isRequired,
 }
 
-export const Dropdown = ( { value, values, onChange } ) => (
-  <Select className="select" MenuProps={{ className: 'select-menu' }} value={value} onChange={onChange}>
+export const Dropdown = ( { value, values, onChange, ...props } ) => (
+  <Select className="select" MenuProps={{ className: 'select-menu' }} value={value} onChange={onChange} {...props}>
     {values.map( ( { name, value } ) =>
       <MenuItem key={value} value={value}>{name || value}</MenuItem> )}
   </Select>
