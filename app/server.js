@@ -14,6 +14,7 @@ import logger from './lib/logger'
 import {
   PORT,
   CUSTOM_THEMES_FOLDER,
+  CUSTOM_OVERLAY_THEMES_FOLDER,
   HISTORY_FILE,
   UPDATE_TMP_FOLDER,
   UPDATE_CHECK_INTERVAL,
@@ -71,6 +72,7 @@ async function main() {
     { prefix: '/themes', dir: FRONTEND_THEMES_FOLDER },
     { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
     { prefix: '/themes/*', dir: join( FRONTEND_THEMES_FOLDER, 'Day.css' ) },
+    { prefix: '/overlay/themes/', dir: CUSTOM_OVERLAY_THEMES_FOLDER },
     { prefix: '/history.csv', dir: HISTORY_FILE },
     { prefix: '*', dir: join( FRONTEND_BUILD_FOLDER, 'index.html' ) },
   ]

@@ -92,3 +92,23 @@ export const getUrlState = search => {
       [ key ]: params[ name ],
     } : acc ), {} )
 }
+
+/**
+ * Returns the corresponding translation for a given line.
+ * @param {Object} [shabad] The current shabad.
+ * @param {Object} line The current line.
+ * @param {Object} sources Any sources.
+ * @param {number} languageId The identifier of the language.
+ */
+export const getTranslation = ( { shabad, line, sources, recommendedSources, languageId } ) => {
+  const { sourceId } = shabad || line.shabad
+
+  if ( !( sources && sources[ sourceId ] ) ) return null
+
+  const { id: translationId } = sources[ sourceId ].translationSources[ languageId ]
+    || recommendedSources[ sourceId ].translationSources[ languageId ]
+
+  return line.translations.find( (
+    ( { translationSourceId: id } ) => translationId === id
+  ) ).translation
+}
