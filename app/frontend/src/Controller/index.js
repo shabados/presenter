@@ -55,7 +55,7 @@ import './index.css'
 const TopBar = ( { title, history, location, onHover } ) => {
   const resetHover = () => onHover( null )
 
-  const { search } = location
+  const { search, pathname } = location
   const state = getUrlState( search )
 
   return (
@@ -104,8 +104,10 @@ const TopBar = ( { title, history, location, onHover } ) => {
         name="Pop Out"
         icon={faSignOutAlt}
         onClick={() => {
+          const popOutQuery = queryString.stringify( { ...state, [ STATES.controllerOnly ]: true } )
+
+          window.open( `${pathname}?${popOutQuery}`, '_blank' )
           history.push( PRESENTER_URL )
-          window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' )
         }}
         onMouseEnter={() => onHover( 'Pop Out Controller' )}
         onMouseLeave={resetHover}
