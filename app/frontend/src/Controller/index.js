@@ -191,7 +191,25 @@ BottomBar.defaultProps = {
  * Controller controls the display and configures settings.
  */
 class Controller extends Component {
-  state = { hovered: null }
+  state = { hovered: null, lastUrl: SEARCH_URL }
+
+  unlistenHistory = () => {}
+
+  componentDidMount() {
+    const { history } = this.props
+
+    this.unlistenHistory = history.listen( ( { pathname, search } ) => {
+      // Save navigation to any subroutes
+      if ( pathname.match( `${CONTROLLER_URL}/.*` ) ) {
+        const lastUrl = `${pathname}${search}`
+        this.setState( { lastUrl } )
+      }
+    } )
+  }
+
+  componentWillUnmount() {
+    this.unlistenHistory()
+  }
 
   componentDidUpdate( { shabad: prevShabad, bani: prevBani } ) {
     const { history, shabad, bani, location } = this.props
@@ -208,8 +226,8 @@ class Controller extends Component {
   onHover = hovered => this.setState( { hovered } )
 
   render() {
-    const { location, settings } = this.props
-    const { hovered } = this.state
+    const { settings } = this.props
+    const { hovered, lastUrl } = this.state
 
     const { local: { theme: { simpleGraphics: simple } } } = settings
 
@@ -246,7 +264,7 @@ class Controller extends Component {
             )}
           />
         ) )}
-        <Redirect to={{ ...location, pathname: SEARCH_URL }} />
+        <Redirect to={lastUrl} />
       </Switch>
     )
   }
