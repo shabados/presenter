@@ -71,6 +71,10 @@
   display: inline-block;
 }
 
+.partition + .partition:before {
+  content: "\200B\20"
+}
+
 .line .gurmukhi .word,
 .line .transliteration .word {
   transition: var(--animation-duration) all;
