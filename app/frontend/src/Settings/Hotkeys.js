@@ -33,7 +33,7 @@ const Hotkeys = ( { keys, shortcuts } ) => (
                 <Grid container className="name" alignItems="center">
 
                   <Grid item xs={4}>
-                    <ListItemText className="text" >{name}</ListItemText>
+                    <ListItemText className="text">{name}</ListItemText>
                   </Grid>
 
                   <Grid item xs={1}>
@@ -50,16 +50,16 @@ const Hotkeys = ( { keys, shortcuts } ) => (
                         <Grid key={key} item xs>
                           <code>{key}</code>
                         </Grid>
-                ) )}
+                      ) )}
                     </Grid>
                   </Grid>
 
                 </Grid>
               </ListItem>
-          ) )}
+            ) )}
           </List>
         </ListItem>
-    ) )}
+      ) )}
   </List>
 )
 

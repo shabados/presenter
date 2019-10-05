@@ -60,11 +60,12 @@ export const PRESENTER_URL = ''
 export const CONTROLLER_URL = `${PRESENTER_URL}/controller`
 export const MENU_URL = `${CONTROLLER_URL}/menu`
 export const SEARCH_URL = `${CONTROLLER_URL}/search`
-export const BANIS_URL = `${CONTROLLER_URL}/banis`
+export const BOOKMARKS_URL = `${CONTROLLER_URL}/bookmarks`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
-export const THEME_URL = `${BACKEND_URL}/themes`
+export const THEMES_URL = `${BACKEND_URL}/themes`
+export const OVERLAY_THEMES_URL = `${BACKEND_URL}/overlay/themes`
 
 export const SETTINGS_URL = '/settings'
 export const SETTINGS_DEVICE_URL = `${SETTINGS_URL}/device`
@@ -94,6 +95,12 @@ export const PAUSE_CHARS = {
   light: '.',
 }
 
+// Search type names
+export const SEARCH_TYPES = {
+  fullWord: 'full-word',
+  firstLetter: 'first-letter',
+}
+
 // Searching modifiers
 export const SEARCH_CHARS = {
   wildcard: ' ',
@@ -107,6 +114,11 @@ const hotkeys = Object.values( SHORTCUTS ).reduce( ( hotkeys, { name, sequences 
   ...hotkeys,
   [ name ]: sequences,
 } ), {} )
+
+// Search modifier anchors
+export const SEARCH_ANCHORS = {
+  [ SEARCH_CHARS.wordAnywhere ]: SEARCH_TYPES.fullWord,
+}
 
 /* Options */
 // Unique symbols for each option type
@@ -147,7 +159,7 @@ export const OPTIONS = {
   englishTransliteration: { name: 'English Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   previousLines: { name: 'Previous Lines', icon: faAlignJustify, type: OPTION_TYPES.slider, max: 5, step: 1, privacy: PRIVACY_TYPES.local },
   nextLines: { name: 'Next Lines', icon: faAlignJustify, type: OPTION_TYPES.slider, max: 5, step: 1, privacy: PRIVACY_TYPES.local },
-  fontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, min: 20, max: 100, step: 1, privacy: PRIVACY_TYPES.local },
+  fontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, min: 3, max: 13, step: 0.1, privacy: PRIVACY_TYPES.local },
   themeName: { name: 'Theme Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
   backgroundImage: { name: 'Background Image', icon: faImage, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   simpleGraphics: { name: 'Simple Graphics', icon: faLowVision, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -212,6 +224,7 @@ export const DEFAULT_OPTIONS = {
       larivaarGurbani: false,
       larivaarAssist: false,
       splitOnVishraam: true,
+      fontSize: 8,
       englishTranslation: true,
       punjabiTranslation: false,
       englishTransliteration: true,
@@ -222,7 +235,6 @@ export const DEFAULT_OPTIONS = {
     theme: {
       themeName: 'Day',
       backgroundImage: true,
-      fontSize: 40,
       simpleGraphics: false,
     },
     vishraams: {

@@ -1,0 +1,29 @@
+.overlay-line p {
+  margin: 0;
+}
+
+.overlay-line .gurmukhi {
+  font-family: "Open Gurbani Akhar Black", sans-serif;
+}
+
+.overlay-line .english {
+  font-family: "Noto Sans Medium", sans-serif;
+}
+
+.overlay-line .punjabi {
+  font-family: "Open Anmol Uni Bold", sans-serif;
+}
+
+.overlay-line .gurmukhi .word:after,
+.overlay-line .transliteration .word:after {
+  content: "\20";
+}
+
+.larivaar.overlay-line .word:after,
+.overlay-line .larivaar .word:after {
+  content: "\200B";
+}
+
+.overlay-line .transliteration {
+  font-family: "Noto Sans Regular", sans-serif;
+}

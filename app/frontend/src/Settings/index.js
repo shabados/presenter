@@ -4,19 +4,21 @@ import { shape, string } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import Drawer from '@material-ui/core/Drawer'
-import Hidden from '@material-ui/core/Hidden'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import Grid from '@material-ui/core/Grid'
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Drawer,
+  Hidden,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Select,
+  MenuItem,
+  Grid,
+} from '@material-ui/core'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faWindowMaximize, faInfo } from '@fortawesome/free-solid-svg-icons'
@@ -61,7 +63,7 @@ class Settings extends Component {
       } )
   }
 
-  toggleMobileMenu = () => this.setState( { mobileOpen: !this.state.mobileOpen } )
+  toggleMobileMenu = () => this.setState( ( { mobileOpen } ) => ( { mobileOpen: !mobileOpen } ) )
 
   MenuItems = () => {
     const { device } = this.state
@@ -83,7 +85,7 @@ class Settings extends Component {
     return (
       <List>
         <Select
-          className="device-selector category-title"
+          className="select-menu device-selector category-title"
           onChange={( { target: { value } } ) => this.setState( { device: value } )}
           value={device}
           disableUnderline
@@ -97,7 +99,8 @@ class Settings extends Component {
                 value={device}
               >
                 {device}
-              </MenuItem> ) )}
+              </MenuItem>
+            ) )}
         </Select>
         {Object.keys( settings[ device ] )
           .filter( name => OPTION_GROUPS[ name ] )
@@ -107,7 +110,8 @@ class Settings extends Component {
               selected={name === group}
               {...OPTION_GROUPS[ name ]}
               url={`${SETTINGS_DEVICE_URL}/${name}`}
-            /> ) )}
+            />
+          ) )}
         <Typography className="category-title">Server</Typography>
         {Object.keys( settings.global )
           .filter( name => OPTION_GROUPS[ name ] )
@@ -140,9 +144,10 @@ class Settings extends Component {
 
   DynamicOptions = () => {
     const { settings, location: { pathname } } = this.props
+    const { device } = this.state
 
     const isServer = pathname.split( '/' ).includes( 'server' )
-    const device = isServer ? 'global' : this.state.device
+    const selectedDevice = isServer ? 'global' : device
 
     // Fetch correct option group from URL
     const group = pathname.split( '/' ).pop()
@@ -151,10 +156,10 @@ class Settings extends Component {
 
     const setSettings = ( option, value ) => controller.setSettings( {
       [ group ]: { [ option ]: value },
-    }, device )
+    }, selectedDevice )
 
     return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
-      const optionGroup = settings[ device ][ group ] || {}
+      const optionGroup = settings[ selectedDevice ][ group ] || {}
       const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
       const options = OPTIONS[ option ]
       const { type, privacy, name, icon, ...props } = options
@@ -166,7 +171,7 @@ class Settings extends Component {
         <Grid key={option} container className="option" alignItems="center">
           <Grid item xs={2} lg={1}>{icon && <FontAwesomeIcon className="icon" icon={icon} />}</Grid>
           <Grid item xs={6} lg={3}><Typography>{name}</Typography></Grid>
-          <Grid item xs={4}>
+          <Grid item container xs={3} justify="center">
             <Option {...props} option={option} value={value} onChange={setSettings} />
           </Grid>
         </Grid>
@@ -183,7 +188,7 @@ class Settings extends Component {
             <FontAwesomeIcon icon={faBars} />
           </IconButton>
         </Hidden>
-        <Typography className="title" align="center" variant="title">{title}</Typography>
+        <Typography className="title" align="center" variant="h6">{title}</Typography>
       </Toolbar>
     </AppBar>
   )

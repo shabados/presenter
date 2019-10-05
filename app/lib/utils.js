@@ -10,7 +10,7 @@ import { promisify } from 'util'
 import { extname } from 'path'
 import notifier from 'node-notifier'
 
-import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, APP_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, APP_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER } from './consts'
 
 const asyncReverse = promisify( reverse )
 
@@ -35,13 +35,6 @@ export const getHost = async hybridIP => {
 }
 
 /**
- * Converts the provided date into a filename-compatible string.
- * @param {Date} date The date to convert.
- * @returns {string} An illegal-character stripped string.
- */
-export const getDateFilename = date => date.toISOString().replace( /T/, '_' ).replace( /:/g, '-' )
-
-/**
  * Lists all CSS files in the given path.
  * @param {string} path The path to list all CSS files in.
  * @returns {Promise} An array of the listed CSS files.
@@ -55,11 +48,16 @@ export const listCSSFiles = async path => {
  * Creates required filesystem directories for the app to work.
  */
 export const ensureRequiredDirs = () => {
-  const dirPerms = {
-    mode: 0o2775,
-  }
+  const dirPerms = { mode: 0o2775 }
 
-  ;[ DATA_FOLDER, LOG_FOLDER, CUSTOM_THEMES_FOLDER, HISTORY_FOLDER, TMP_FOLDER ]
+  ;[
+    DATA_FOLDER,
+    LOG_FOLDER,
+    CUSTOM_THEMES_FOLDER,
+    CUSTOM_OVERLAY_THEMES_FOLDER,
+    HISTORY_FOLDER,
+    TMP_FOLDER,
+  ]
     .map( dir => ensureDirSync( dir, dirPerms ) )
 }
 

@@ -2,6 +2,8 @@ import React from 'react'
 import { shape, bool, arrayOf, string } from 'prop-types'
 import classNames from 'classnames'
 
+import { getTranslation } from '../lib/utils'
+
 import Line from './Line'
 
 import './Display.css'
@@ -12,7 +14,7 @@ import './Display.css'
  * @param shabad The Shabad to render.
  * @param lineId The current line in the Shabad.
  */
-const Display = ( { shabad, bani, lineId, settings } ) => {
+const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
   const {
     layout,
     vishraams,
@@ -37,25 +39,21 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
     : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
-  // Gets the right translation
-  const getTranslation = languageId => {
-    const { sourceId } = shabad || line.shabad
-
-    if ( !( sources && sources[ sourceId ] ) ) return null
-
-    const { id: translationId } = sources[ sourceId ].translationSources[ languageId ]
-
-    return line.translations.find( (
-      ( { translationSourceId: id } ) => translationId === id
-    ) ).translation
-  }
+  const getTranslationFor = languageId => getTranslation( {
+    shabad,
+    recommendedSources,
+    sources,
+    line,
+    languageId,
+  } )
 
   return (
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
       <div className="previous-lines">
-        {line && previousLines.map( ( { gurmukhi } ) => (
+        {line && previousLines.map( ( { id, gurmukhi } ) => (
           <Line
+            key={id}
             className="previous-line"
             simpleGraphics={simple}
             {...layout}
@@ -64,21 +62,24 @@ const Display = ( { shabad, bani, lineId, settings } ) => {
           />
         ) )}
       </div>
-      {line && <Line
+      {line && (
+      <Line
         className="current-line"
         {...layout}
         {...vishraams}
         gurmukhi={line.gurmukhi}
-        englishTranslation={layout.englishTranslation && getTranslation( 1 )}
-        punjabiTranslation={layout.punjabiTranslation && getTranslation( 2 )}
+        englishTranslation={layout.englishTranslation && getTranslationFor( 1 )}
+        punjabiTranslation={layout.punjabiTranslation && getTranslationFor( 2 )}
         transliteration={
           layout.englishTransliteration && line.transliterations[ 0 ].transliteration
         }
         simpleGraphics={simple}
-      />}
+      />
+      )}
       <div className="next-lines">
-        {line && nextLines.map( ( { gurmukhi } ) => (
+        {line && nextLines.map( ( { id, gurmukhi } ) => (
           <Line
+            key={id}
             className="next-line"
             simpleGraphics={simple}
             {...layout}
@@ -105,6 +106,7 @@ Display.propTypes = {
       backgroundImage: bool,
     } ),
   } ).isRequired,
+  recommendedSources: shape( { nameEnglish: string } ).isRequired,
 }
 
 Display.defaultProps = {

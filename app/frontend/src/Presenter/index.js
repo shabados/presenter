@@ -23,7 +23,7 @@ import {
   SEARCH_URL,
   HISTORY_URL,
   NAVIGATOR_URL,
-  BANIS_URL,
+  BOOKMARKS_URL,
   STATES,
 } from '../lib/consts'
 import SHORTCUTS from '../lib/keyMap'
@@ -121,7 +121,7 @@ class Presenter extends Component {
     [ SHORTCUTS.menu.name ]: () => this.go( MENU_URL ),
     [ SHORTCUTS.search.name ]: () => this.go( SEARCH_URL ),
     [ SHORTCUTS.history.name ]: () => this.go( HISTORY_URL ),
-    [ SHORTCUTS.bookmarks.name ]: () => this.go( BANIS_URL ),
+    [ SHORTCUTS.bookmarks.name ]: () => this.go( BOOKMARKS_URL ),
     [ SHORTCUTS.navigator.name ]: () => this.go( NAVIGATOR_URL ),
     [ SHORTCUTS.clearDisplay.name ]: controller.clear,
     [ SHORTCUTS.toggleFullscreenController.name ]: this.fullscreenController,
@@ -149,10 +149,9 @@ class Presenter extends Component {
               <Link to={CONTROLLER_URL}>
                 <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
               </Link>
-              <Route
-                path={CONTROLLER_URL}
-                render={props => <Controller {...this.props} {...props} />}
-              />
+              <Route path={CONTROLLER_URL}>
+                {props => <Controller {...this.props} {...props} />}
+              </Route>
             </div>
           </Suspense>
           <StatusToast status={status} />

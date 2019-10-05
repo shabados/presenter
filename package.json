@@ -18,7 +18,7 @@
     "install-deps:frontend": "cd app/frontend && npm install",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "release": "build",
+    "release": "electron-builder",
     "postinstall": "npm run install-deps && electron-builder install-app-deps"
   },
   "repository": {
@@ -32,16 +32,16 @@
   },
   "homepage": "https://github.com/ShabadOS/desktop#readme",
   "devDependencies": {
-    "babel-eslint": "^8.2.6",
-    "electron": "4.0.3",
-    "electron-builder": "^20.38.5",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.10.0",
-    "eslint-plugin-require-jsdoc-except": "^1.3.0",
-    "npm-run-all": "^4.1.3"
+    "babel-eslint": "^10.0.3",
+    "electron": "^7.0.0-beta.5",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsdoc": "^3.15.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.15.1",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "npm-run-all": "^4.1.5"
   },
   "build": {
     "appId": "com.shabados.desktop",
@@ -74,7 +74,6 @@
     "linux": {
       "artifactName": "Shabad.OS-${version}_${arch}.${ext}",
       "target": [
-        "snap",
         {
           "target": "AppImage",
           "arch": [
@@ -92,5 +91,7 @@
       ]
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "electron-builder": "^21.2.0"
+  }
 }

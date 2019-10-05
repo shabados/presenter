@@ -1,5 +1,6 @@
 import { createWriteStream } from 'fs'
 import * as CSV from 'csv-string'
+import { omit } from 'lodash'
 
 import { HISTORY_FILE } from './consts'
 
@@ -49,7 +50,8 @@ class History {
    * @param {boolean} transition Whether this entry was triggered by a new Shabad selection.
    */
   update( data, transition = false ) {
-    const { line = {} } = data
+    const { line = {}, bani } = data
+    const { shabad } = line
 
     // Do not add entry if it's the same line as the last
     if ( this.history.length ) {
@@ -60,8 +62,10 @@ class History {
 
     const entry = {
       timestamp: new Date(),
-      ...data,
       transition,
+      shabad,
+      line: omit( line, [ 'transliterations', 'translations', 'shabad' ] ),
+      ...( bani && { bani: omit( bani, [ 'lines' ] ) } ),
     }
 
     this.history = [ ...this.history, entry ]
@@ -73,7 +77,31 @@ class History {
    * @returns {Array} A list of the history entries.
    */
   getTransitionsOnly() {
+    this.getLatestLines()
     return this.history.filter( ( { transition } ) => transition )
+  }
+
+  /**
+   * Gets the latest line of each transition.
+   */
+  getLatestLines() {
+    const { timestamps } = this.history.reduce( (
+      { latestTimestamp, timestamps },
+      { timestamp, transition, line, shabad, bani },
+    ) => {
+      if ( !( line && line.id ) ) return { timestamps, latestTimestamp }
+
+      // Timestamp of latest transition
+      const transitionTimestamp = transition ? timestamp : latestTimestamp
+
+      const data = { line, shabad, bani }
+      return {
+        timestamps: { ...timestamps, [ transitionTimestamp.toISOString() ]: data },
+        latestTimestamp: transitionTimestamp,
+      }
+    }, { latestTimestamp: null, timestamps: {} } )
+
+    return timestamps
   }
 
   /**

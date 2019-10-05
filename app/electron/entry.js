@@ -13,11 +13,6 @@ const { LOG_FILE } = require( '../lib/consts' )
 // Add file logging
 const logger = require( '../lib/logger' ).default
 
-logger.addStream( {
-  path: env.LOG_FILE || LOG_FILE,
-  level: 'info',
-} )
-
 /**
  * Launches a server in a separate process, with flag.
  */

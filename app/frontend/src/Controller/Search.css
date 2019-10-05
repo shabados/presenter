@@ -34,8 +34,3 @@
 .search .results .result .matched.words {
     color: var(--controller-search-match-color);
 }
-
-.search .results .result .words::after {
-    white-space: pre-wrap;
-    content: " ";
-}

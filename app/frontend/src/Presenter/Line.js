@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
-import { string, bool } from 'prop-types'
+import { string, bool, number } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 
@@ -18,6 +18,7 @@ import './Line.css'
  * @param {string} englishTranslation The English translation of the line to render.
  * @param {string} transliteration The English transliteration of the line to render.
  * @param {string} spacing The justify content value for spacing between the lines.
+ * @param {number} fontSize The fontSize for the Gurbani lines.
  * @param {boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
  * @param {boolean} vishraamColors Enables colors for vishraams.
@@ -27,7 +28,7 @@ import './Line.css'
  * @param {boolean} vishraamMedium Enables colors for medium vishraams.
  * @param {boolean} vishraamHeavy Enables colors for heavy vishraams.
  * @param {boolean} splitOnVishraam If the line is too long, split it on the vishraam word.
- * @param {Boolean} simpleGraphics Disables transitions and other intensive effects.
+ * @param {boolean} simpleGraphics Disables transitions and other intensive effects.
  */
 const Line = ( {
   className,
@@ -36,6 +37,7 @@ const Line = ( {
   englishTranslation,
   transliteration,
   spacing,
+  fontSize,
   larivaarGurbani: larivaar,
   larivaarAssist,
   vishraamColors: vishraams,
@@ -56,8 +58,8 @@ const Line = ( {
       vishraams,
       larivaar,
       simple,
-  }, 'line' )}
-    style={{ justifyContent: spacing }}
+    }, 'line' )}
+    style={{ justifyContent: spacing, fontSize: `${fontSize}Vh` }}
   >
     <TransitionGroup appear exit={false} component={null}>
       <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
@@ -70,22 +72,28 @@ const Line = ( {
             ) )}
         </p>
       </CSSTransition>
-      {englishTranslation &&
+      {englishTranslation && (
       <CSSTransition key={englishTranslation} classNames="fade" timeout={0}>
         <p className="english translation">{englishTranslation}</p>
-      </CSSTransition>}
-      {punjabiTranslation &&
+      </CSSTransition>
+      )}
+      {punjabiTranslation
+      && (
       <CSSTransition key={punjabiTranslation} classNames="fade" timeout={0}>
         <p className="punjabi translation">{punjabiTranslation}</p>
-      </CSSTransition>}
-      {transliteration &&
+      </CSSTransition>
+      )}
+      {transliteration
+      && (
       <CSSTransition key={`${transliteration}`} classNames="fade" timeout={0}>
-        <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'english transliteration' )}>{
+        <p className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'english transliteration' )}>
+          {
           classifyWords( transliteration, !vishraamCharacters )
-          .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
+            .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
         }
         </p>
-      </CSSTransition>}
+      </CSSTransition>
+      )}
     </TransitionGroup>
   </div>
 )
@@ -107,6 +115,7 @@ Line.propTypes = {
   vishraamHeavy: bool,
   splitOnVishraam: bool,
   simpleGraphics: bool,
+  fontSize: number,
 }
 
 const {
@@ -121,6 +130,7 @@ const {
     vishraamMedium,
     vishraamLight,
     splitOnVishraam,
+    fontSize,
   },
   theme: {
     simpleGraphics,
@@ -143,6 +153,7 @@ Line.defaultProps = {
   vishraamLight,
   splitOnVishraam,
   simpleGraphics,
+  fontSize,
 }
 
 export default Line

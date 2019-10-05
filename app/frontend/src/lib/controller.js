@@ -32,6 +32,7 @@ class Controller extends EventEmitter {
     if ( this.socket.readyState === 1 ) sendJSON()
     else this.once( 'connected', sendJSON )
   }
+
   /**
    * Called when the WebSocket is connected.
    * @private
@@ -62,9 +63,10 @@ class Controller extends EventEmitter {
 
   /**
    * Convenience method for searching.
-   * @param firstLetters The first letters to search with.
+   * @param query The first letters to search with.
+   * @param type The type of search (first-letter/full-word).
    */
-  search = firstLetters => this.sendJSON( 'search', toAscii( firstLetters ) )
+  search = ( query, type ) => this.sendJSON( `search:${type}`, toAscii( query ) )
 
   /**
    * Convenience method for setting the line.
@@ -87,8 +89,12 @@ class Controller extends EventEmitter {
    * @param shabadId The shabad ID to change the server to.
    * @param lineId The line id to change the display to.
    */
-  shabad = ( { shabadId, shabadOrderId = null, lineId = null, lineOrderId = null } ) =>
-    this.sendJSON( 'shabad', { shabadId, shabadOrderId, lineId, lineOrderId } )
+  shabad = ( {
+    shabadId,
+    shabadOrderId = null,
+    lineId = null,
+    lineOrderId = null,
+  } ) => this.sendJSON( 'shabad', { shabadId, shabadOrderId, lineId, lineOrderId } )
 
   previousShabad = ( orderId, setLine = true ) => this.shabad( {
     shabadOrderId: orderId - 1,
@@ -145,7 +151,7 @@ class Controller extends EventEmitter {
    * Sets the current Bani ID.
    * @param baniId The ID of the Bani to change to.
    */
-  bani = baniId => this.sendJSON( 'bani', baniId )
+  bani = ( { baniId, lineId = null } ) => this.sendJSON( 'bani', { baniId, lineId } )
 
   /**
    * Reads the settings from local storage, and combines with default settings.

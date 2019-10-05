@@ -7,13 +7,14 @@ import { setupExpress } from './lib/express'
 import api from './lib/api'
 import SessionManager from './lib/SessionManager'
 import Socket from './lib/Sockets'
-import { searchLines, getBanis } from './lib/db'
+import { firstLetterSearch, fullWordSearch, getBanis } from './lib/db'
 import Updater from './lib/Updater'
 import settings from './lib/settings'
 import logger from './lib/logger'
 import {
   PORT,
   CUSTOM_THEMES_FOLDER,
+  CUSTOM_OVERLAY_THEMES_FOLDER,
   HISTORY_FILE,
   UPDATE_TMP_FOLDER,
   UPDATE_CHECK_INTERVAL,
@@ -71,6 +72,7 @@ async function main() {
     { prefix: '/themes', dir: FRONTEND_THEMES_FOLDER },
     { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
     { prefix: '/themes/*', dir: join( FRONTEND_THEMES_FOLDER, 'Day.css' ) },
+    { prefix: '/overlay/themes/', dir: CUSTOM_OVERLAY_THEMES_FOLDER },
     { prefix: '/history.csv', dir: HISTORY_FILE },
     { prefix: '*', dir: join( FRONTEND_BUILD_FOLDER, 'index.html' ) },
   ]
@@ -84,7 +86,9 @@ async function main() {
   const sessionManager = new SessionManager( socket )
 
   // Register searches on the socket instance
-  socket.on( 'search', async ( client, search ) => client.sendJSON( 'results', await searchLines( search ) ) )
+  const search = searchFn => async ( client, query ) => client.sendJSON( 'results', await searchFn( query ) )
+  socket.on( 'search:first-letter', search( firstLetterSearch ) )
+  socket.on( 'search:full-word', search( fullWordSearch ) )
 
   // Register Bani list requests on socket connection
   socket.on( 'connection', async client => client.sendJSON( 'banis', await getBanis() ) )
