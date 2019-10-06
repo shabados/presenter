@@ -1,5 +1,6 @@
 import React, { Component, lazy, Suspense } from 'react'
 import { shape, string } from 'prop-types'
+import { hot } from 'react-hot-loader/root'
 import { location } from 'react-router-prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { Link, Route } from 'react-router-dom'
@@ -12,9 +13,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-import StatusToast from './StatusToast'
-import ThemeLoader from '../shared/ThemeLoader'
-import Loader from '../shared/Loader'
 import controller from '../lib/controller'
 import { getUrlState } from '../lib/utils'
 import {
@@ -27,6 +25,11 @@ import {
   STATES,
 } from '../lib/consts'
 import SHORTCUTS from '../lib/keyMap'
+
+import ThemeLoader from '../shared/ThemeLoader'
+import Loader from '../shared/Loader'
+
+import StatusToast from './StatusToast'
 
 import './index.css'
 
@@ -177,4 +180,4 @@ Presenter.defaultProps = {
   status: null,
 }
 
-export default Presenter
+export default hot( Presenter )

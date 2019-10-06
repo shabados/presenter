@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { shape, arrayOf, string } from 'prop-types'
+import { hot } from 'react-hot-loader/root'
 
 import './index.css'
 
@@ -23,4 +24,4 @@ ScreenReader.defaultProps = {
   bani: undefined,
 }
 
-export default ScreenReader
+export default hot( ScreenReader )
