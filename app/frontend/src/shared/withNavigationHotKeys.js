@@ -21,6 +21,7 @@ const withNavigationHotKeys = ( {
   lineKeys,
   clickOnFocus,
   keymap,
+  wrapAround = true,
 } ) => WrappedComponent => {
   class WithNavigationHotKeys extends Component {
     constructor( props ) {
@@ -128,6 +129,8 @@ const withNavigationHotKeys = ( {
       prevItem = () => {
         const { focusedIndex: prevIndex } = this.state
 
+        if ( !wrapAround && prevIndex === 0 ) return
+
         // Set the previous focus, with wrap-around
         const focusedIndex = prevIndex > 0 ? prevIndex - 1 : this.nodes.size - 1
 
@@ -139,6 +142,8 @@ const withNavigationHotKeys = ( {
        */
       nextItem = () => {
         const { focusedIndex: prevIndex } = this.state
+
+        if ( !wrapAround && prevIndex === this.nodes.size - 1 ) return
 
         // Set the next focus, with wrap-around
         const focusedIndex = prevIndex < this.nodes.size - 1 ? prevIndex + 1 : 0

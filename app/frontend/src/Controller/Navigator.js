@@ -223,4 +223,5 @@ export default withNavigationHotKeys( {
   arrowKeys: true,
   lineKeys: true,
   clickOnFocus: true,
+  wrapAround: false,
 } )( Navigator )
