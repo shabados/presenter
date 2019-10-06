@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { hot } from 'react-hot-loader/root'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { history, location } from 'react-router-prop-types'
 import { string, func, shape, arrayOf, bool } from 'prop-types'
@@ -267,4 +268,4 @@ Controller.defaultProps = {
   bani: undefined,
 }
 
-export default Controller
+export default hot( Controller )

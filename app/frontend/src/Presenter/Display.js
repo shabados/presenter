@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 import { shape, bool, arrayOf, string } from 'prop-types'
 import classNames from 'classnames'
 
@@ -115,4 +116,4 @@ Display.defaultProps = {
   lineId: null,
 }
 
-export default Display
+export default hot( Display )

@@ -1,5 +1,6 @@
 import React, { Component, lazy, Suspense } from 'react'
 import { shape, string } from 'prop-types'
+import { hot } from 'react-hot-loader/root'
 import { location } from 'react-router-prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { Link, Route } from 'react-router-dom'
@@ -27,8 +28,9 @@ import {
   STATES,
 } from '../lib/consts'
 
-import './index.css'
 import Loader from '../shared/Loader'
+
+import './index.css'
 
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
@@ -167,4 +169,4 @@ Presenter.defaultProps = {
   status: null,
 }
 
-export default Presenter
+export default hot( Presenter )

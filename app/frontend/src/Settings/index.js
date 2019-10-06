@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { hot } from 'react-hot-loader/root'
 import { Redirect, Link, Switch, Route } from 'react-router-dom'
 import { shape, string } from 'prop-types'
 import { location } from 'react-router-prop-types'
@@ -236,4 +237,4 @@ Settings.propTypes = {
   location: location.isRequired,
 }
 
-export default Settings
+export default hot( Settings )
