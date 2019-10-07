@@ -44,12 +44,12 @@ class SessionManager {
     socket.on( 'disconnection', this.clearCache.bind( this ) )
 
     // Update the state if on receiving data from the client
-    socket.on( 'shabad', this.onShabad.bind( this ) )
-    socket.on( 'line', this.onLine.bind( this ) )
-    socket.on( 'mainLine', this.onMainLine.bind( this ) )
-    socket.on( 'clearHistory', this.onClearHistory.bind( this ) )
-    socket.on( 'bani', this.onBani.bind( this ) )
-    socket.on( 'settings', this.onSettings.bind( this ) )
+    socket.on( 'shabads:current', this.onShabad.bind( this ) )
+    socket.on( 'lines:current', this.onLine.bind( this ) )
+    socket.on( 'lines:main', this.onMainLine.bind( this ) )
+    socket.on( 'history:clear', this.onClearHistory.bind( this ) )
+    socket.on( 'banis:current', this.onBani.bind( this ) )
+    socket.on( 'settings:all', this.onSettings.bind( this ) )
   }
 
   /**
@@ -59,15 +59,15 @@ class SessionManager {
   synchronise( client ) {
     const { bani, mainLineId, viewedLines, lineId, shabad, history, status } = this.session
 
-    if ( bani ) client.sendJSON( 'bani', bani )
-    else client.sendJSON( 'shabad', shabad )
-    client.sendJSON( 'line', lineId )
-    client.sendJSON( 'viewedLines', viewedLines )
-    client.sendJSON( 'mainLine', mainLineId )
+    if ( bani ) client.sendJSON( 'banis:current', bani )
+    else client.sendJSON( 'shabads:current', shabad )
+    client.sendJSON( 'lines:current', lineId )
+    client.sendJSON( 'lines:viewed', viewedLines )
+    client.sendJSON( 'lines:main', mainLineId )
     client.sendJSON( 'status', status )
     client.sendJSON( 'history:transitions', history.getTransitionsOnly() )
-    client.sendJSON( 'history:latestLines', history.getLatestLines() )
-    client.sendJSON( 'settings', this.getPublicSettings() )
+    client.sendJSON( 'history:latest-lines', history.getLatestLines() )
+    client.sendJSON( 'settings:all', this.getPublicSettings() )
   }
 
   /**
@@ -112,12 +112,12 @@ class SessionManager {
       mainLineId: null,
     }
 
-    this.socket.broadcast( 'shabad', shabad )
+    this.socket.broadcast( 'shabads:current', shabad )
     this.onLine( client, rest, true )
 
     // Rebroadcast history
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
-    this.socket.broadcast( 'history:latestLines', history.getLatestLines() )
+    this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
   }
 
   /**
@@ -150,8 +150,8 @@ class SessionManager {
     const { lines = [] } = shabad || bani || {}
     this.session = { ...this.session, lineId: newLineId, viewedLines: newViewedLines }
 
-    this.socket.broadcast( 'line', newLineId )
-    this.socket.broadcast( 'viewedLines', newViewedLines )
+    this.socket.broadcast( 'lines:current', newLineId )
+    this.socket.broadcast( 'lines:viewed', newViewedLines )
 
     // Set the main line if transition
     if ( transition ) this.onMainLine( client, lineId )
@@ -160,9 +160,9 @@ class SessionManager {
     const line = lines.find( ( { id } ) => newLineId === id )
     const isTransition = transition || newLineId === null
     history.update( { line, bani, shabad }, isTransition )
-    
+
     // Update the latest lines
-    this.socket.broadcast( 'history:latestLines', history.getLatestLines() )
+    this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
   }
 
   /**
@@ -173,7 +173,7 @@ class SessionManager {
   onMainLine( client, mainLineId ) {
     logger.info( `Setting the main Line ID to ${mainLineId}` )
 
-    this.socket.broadcast( 'mainLine', mainLineId )
+    this.socket.broadcast( 'lines:main', mainLineId )
     this.session = { ...this.session, mainLineId }
   }
 
@@ -186,7 +186,7 @@ class SessionManager {
 
     history.reset()
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
-    this.socket.broadcast( 'history:latestLines', history.getLatestLines() )
+    this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
   }
 
   /**
@@ -211,7 +211,7 @@ class SessionManager {
       viewedLines: [],
     }
 
-    this.socket.broadcast( 'bani', bani )
+    this.socket.broadcast( 'banis:current', bani )
     this.onLine( client, { lineId: id }, true )
 
     // Rebroadcast history
@@ -246,7 +246,7 @@ class SessionManager {
     // Rebroadcast all settings, transforming fields appropriately
     this.socket.forEach( client => {
       const { host } = client
-      client.sendJSON( 'settings', {
+      client.sendJSON( 'settings:all', {
         ...publicSettings,
         [ host ]: undefined, // Remove entry for own host
         local: this.session.settings[ host ], // Map host settings to `local` field

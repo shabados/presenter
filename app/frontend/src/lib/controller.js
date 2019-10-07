@@ -72,17 +72,17 @@ class Controller extends EventEmitter {
    * Convenience method for setting the line.
    * @param lineId The line id to change the display to.
    */
-  line = lineId => this.sendJSON( 'line', { lineId } )
+  line = lineId => this.sendJSON( 'lines:current', { lineId } )
 
-  previousLine = lineId => this.sendJSON( 'line', { lineOrderId: lineId - 1 } )
+  previousLine = lineId => this.sendJSON( 'lines:current', { lineOrderId: lineId - 1 } )
 
-  nextLine = lineId => this.sendJSON( 'line', { lineOrderId: lineId + 1 } )
+  nextLine = lineId => this.sendJSON( 'lines:current', { lineOrderId: lineId + 1 } )
 
   /**
    * Convenience method for setting the main line.
    * @param lineId The line id to change the display to.
    */
-  mainLine = lineId => this.sendJSON( 'mainLine', lineId )
+  mainLine = lineId => this.sendJSON( 'lines:main', lineId )
 
   /**
    * Convenience method for setting the current shabad.
@@ -94,7 +94,7 @@ class Controller extends EventEmitter {
     shabadOrderId = null,
     lineId = null,
     lineOrderId = null,
-  } ) => this.sendJSON( 'shabad', { shabadId, shabadOrderId, lineId, lineOrderId } )
+  } ) => this.sendJSON( 'shabads:current', { shabadId, shabadOrderId, lineId, lineOrderId } )
 
   previousShabad = ( orderId, setLine = true ) => this.shabad( {
     shabadOrderId: orderId - 1,
@@ -135,23 +135,28 @@ class Controller extends EventEmitter {
   /**
    * Convenience method for clearing the line.
    */
-  clear = () => this.sendJSON( 'line', { lineId: null } )
+  clear = () => this.sendJSON( 'lines:current', { lineId: null } )
 
   /**
    * Clears the current history for the session.
    */
-  clearHistory = () => this.sendJSON( 'clearHistory' )
+  clearHistory = () => this.sendJSON( 'history:clear' )
+
+  /**
+   * Clears the current history for the session.
+   */
+  getHistory = timestamp => this.sendJSON( 'history:get', timestamp )
 
   /**
    * Requests the latest list of banis from the server.
    */
-  getBanis = () => this.sendJSON( 'banis' )
+  getBanis = () => this.sendJSON( 'banis:list' )
 
   /**
    * Sets the current Bani ID.
    * @param baniId The ID of the Bani to change to.
    */
-  bani = ( { baniId, lineId = null } ) => this.sendJSON( 'bani', { baniId, lineId } )
+  bani = ( { baniId, lineId = null } ) => this.sendJSON( 'banis:current', { baniId, lineId } )
 
   /**
    * Reads the settings from local storage, and combines with default settings.
@@ -178,12 +183,12 @@ class Controller extends EventEmitter {
 
       const { local } = settings
       localStorage.setItem( 'settings', JSON.stringify( local ) )
-      this.emit( 'settings', settings )
+      this.emit( 'settings:all', settings )
     } else {
       settings = { [ host ]: changed }
     }
 
-    this.sendJSON( 'settings', settings )
+    this.sendJSON( 'settings:all', settings )
   }
 }
 
