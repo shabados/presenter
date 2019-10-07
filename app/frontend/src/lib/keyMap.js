@@ -95,10 +95,10 @@ export const NAVIGATOR_SHORTCUTS = decorateGroup( {
   setMainLine: {
     name: 'Set Main Line',
     description: 'Sets the main line.',
-    sequences: [ 'ctrl+space ctrl+space' ],
+    sequences: [ 'ctrl+space' ],
   },
   goNextLine: {
-    name: 'Jump Next Line',
+    name: 'Jump Next Non-Main Line',
     description: 'Jumps to the next line if on the main line.',
     sequences: [ 'shift+.' ],
   },
