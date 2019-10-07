@@ -114,7 +114,7 @@ class Controller extends EventEmitter {
   } )
 
   autoToggleShabad = ( { viewedLines, mainLineId, lineId, shabad: { lines } } ) => {
-    if ( !mainLineId ) return
+    if ( !mainLineId || !lines ) return
 
     // Find last non-main line
     const lastNonMainLineId = viewedLines.reverse().find( id => id !== mainLineId )

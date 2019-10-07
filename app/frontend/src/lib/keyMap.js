@@ -107,6 +107,11 @@ export const NAVIGATOR_SHORTCUTS = decorateGroup( {
     description: 'Jumps to the main line.',
     sequences: [ 'shift+,' ],
   },
+  restoreLine: {
+    name: 'Restore Line',
+    description: 'Restores the line prior to a cleared screen',
+    seqeunces: [ 'enter' ],
+  },
 } )( 'Navigator' )
 
 export default { ...GLOBAL_SHORTCUTS, ...NAVIGATOR_SHORTCUTS }

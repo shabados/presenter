@@ -114,10 +114,44 @@ class Navigator extends PureComponent {
     // Todo: For banis, just jump to the next section, or do nothing?
   }
 
+  restoreLine = () => {
+    const { lineId, viewedLines } = this.props
+
+    if ( lineId || !viewedLines.length ) return
+
+    controller.line( viewedLines[ viewedLines.length - 1 ] )
+  }
+
+  setMainLine = () => {
+    const { lineId } = this.props
+
+    if ( !lineId ) return
+
+    controller.mainLine( lineId )
+  }
+
+  goMainLine = () => {
+    const { mainLineId } = this.props
+
+    if ( mainLineId ) controller.line( mainLineId )
+  }
+
+  goNextLine = () => {
+    const { viewedLines, mainLineId, lineId, shabad } = this.props
+
+    if ( lineId === mainLineId ) {
+      controller.autoToggleShabad( { viewedLines, mainLineId, lineId: mainLineId, shabad } )
+    }
+  }
+
   handlers = {
     [ NAVIGATOR_SHORTCUTS.firstLine.name ]: this.jumpFirstLine,
     [ NAVIGATOR_SHORTCUTS.lastLine.name ]: this.jumpLastLine,
     [ NAVIGATOR_SHORTCUTS.autoToggle.name ]: this.autoToggle,
+    [ NAVIGATOR_SHORTCUTS.restoreLine.name ]: this.restoreLine,
+    [ NAVIGATOR_SHORTCUTS.setMainLine.name ]: this.setMainLine,
+    [ NAVIGATOR_SHORTCUTS.goNextLine.name ]: this.goNextLine,
+    [ NAVIGATOR_SHORTCUTS.goMainLine.name ]: this.goMainLine,
   }
 
   render() {
@@ -152,10 +186,12 @@ class Navigator extends PureComponent {
 
 Navigator.propTypes = {
   lineId: string,
+  mainLineId: string,
   updateFocus: func.isRequired,
   register: func.isRequired,
   location: location.isRequired,
   focused: string,
+  viewedLines: arrayOf( string ),
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   settings: shape( { local: shape( { hotkeys: shape( {} ) } ) } ).isRequired,
@@ -165,7 +201,9 @@ Navigator.defaultProps = {
   shabad: undefined,
   bani: undefined,
   lineId: undefined,
+  mainLineId: undefined,
   focused: undefined,
+  viewedLines: [],
 }
 
 /**
