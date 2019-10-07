@@ -93,14 +93,16 @@ class History {
    * @returns {Array} A list of the history entries.
    */
   getTransitionsOnly() {
-    return this.history.filter( ( { transition } ) => transition )
+    return this.history
+      .filter( ( { transition } ) => transition )
+      .filter( ( { line: { id } } ) => id )
   }
 
   /**
    * Gets the latest transition to a Shabad or Bani.
    */
   getLatestTransition() {
-    return findLast( this.history, ( { transition } ) => transition )
+    return findLast( this.history, ( { transition, line: { id } } ) => transition && id )
   }
 
   /**
@@ -108,7 +110,9 @@ class History {
    * @param {Date} timestamp The timestamp to fetch viewed lines for.
    */
   getViewedLinesAt( timestamp ) {
-    return this.historyMap[ timestamp.toISOString() ].map( ( { line: { id } } ) => id )
+    return this.historyMap[ timestamp.toISOString() ]
+      .map( ( { line: { id } } ) => id )
+      .filter( id => id )
   }
 
   /**
@@ -117,7 +121,7 @@ class History {
   getLatestLines() {
     return Object.entries( this.historyMap ).reduce( ( timestamps, [ timestamp, history ] ) => ( {
       ...timestamps,
-      [ timestamp ]: history[ history.length - 1 ],
+      [ timestamp ]: findLast( history, ( { line: { id } } ) => id ),
     } ), {} )
   }
 

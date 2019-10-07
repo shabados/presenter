@@ -145,7 +145,7 @@ class SessionManager {
 
     logger.info( `Setting Line ID to ${newLineId}` )
 
-    const newViewedLines = [ ...viewedLines, newLineId ]
+    const newViewedLines = newLineId ? [ ...viewedLines, newLineId ] : viewedLines
 
     const { lines = [] } = shabad || bani || {}
     this.session = { ...this.session, lineId: newLineId, viewedLines: newViewedLines }
