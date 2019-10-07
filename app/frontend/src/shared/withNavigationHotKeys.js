@@ -183,8 +183,8 @@ const withNavigationHotKeys = ( {
       }
 
       keymap = {
-        next: [ 'down', 'right', 'tab', 'PageDown' ],
-        previous: [ 'up', 'left', 'shift+tab', 'PageUp' ],
+        next: [ 'down', 'right', 'tab', 'PageDown', 'l' ],
+        previous: [ 'up', 'left', 'shift+tab', 'PageUp', 'j' ],
         enter: [ 'enter', 'return' ],
         first: [ 'home', 'ctrl+up' ],
         last: [ 'end', 'ctrl+down' ],
