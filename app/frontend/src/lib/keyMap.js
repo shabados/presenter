@@ -110,7 +110,7 @@ export const NAVIGATOR_SHORTCUTS = decorateGroup( {
   restoreLine: {
     name: 'Restore Line',
     description: 'Restores the line prior to a cleared screen',
-    seqeunces: [ 'enter' ],
+    sequences: [ 'enter', 'return' ],
   },
 } )( 'Navigator' )
 
