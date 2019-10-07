@@ -1,6 +1,6 @@
 import { createWriteStream } from 'fs'
 import * as CSV from 'csv-string'
-import { omit } from 'lodash'
+import { omit, findLast } from 'lodash'
 
 import { HISTORY_FILE } from './consts'
 
@@ -28,6 +28,7 @@ class History {
   constructor( fields = CSV_FIELDS ) {
     this.writeStream = null
     this.history = []
+    this.historyMap = {}
 
     // Split dot properties up
     this.fields = fields.map( ( [ field, transform ] ) => [ field.split( '.' ), transform ] )
@@ -51,7 +52,7 @@ class History {
    */
   update( data, transition = false ) {
     const { line = {}, bani } = data
-    const { shabad } = line
+    const shabad = omit( line.shabad || data.shabad, [ 'lines' ] )
 
     // Do not add entry if it's the same line as the last
     if ( this.history.length ) {
@@ -60,15 +61,30 @@ class History {
       if ( line.id === prevLine.id ) return
     }
 
+    const timestamp = new Date()
     const entry = {
-      timestamp: new Date(),
+      timestamp,
       transition,
       shabad,
       line: omit( line, [ 'transliterations', 'translations', 'shabad' ] ),
       ...( bani && { bani: omit( bani, [ 'lines' ] ) } ),
     }
 
+
+    // Add to global history
     this.history = [ ...this.history, entry ]
+
+    // Add to history of main transition timestamp
+    const { timestamp: transitionTimestamp } = this.getLatestTransition() || { timestamp }
+    this.historyMap = {
+      ...this.historyMap,
+      [ transitionTimestamp.toISOString() ]: [
+        ...( this.historyMap[ transitionTimestamp.toISOString() ] || [] ),
+        entry,
+      ],
+    }
+
+    // Write to file
     this.append( entry )
   }
 
@@ -77,31 +93,32 @@ class History {
    * @returns {Array} A list of the history entries.
    */
   getTransitionsOnly() {
-    this.getLatestLines()
     return this.history.filter( ( { transition } ) => transition )
+  }
+
+  /**
+   * Gets the latest transition to a Shabad or Bani.
+   */
+  getLatestTransition() {
+    return findLast( this.history, ( { transition } ) => transition )
+  }
+
+  /**
+   * Fetches all the viewed lines for a transition group at a given timestamp.
+   * @param {Date} timestamp The timestamp to fetch viewed lines for.
+   */
+  getViewedLinesAt( timestamp ) {
+    return this.historyMap[ timestamp.toISOString() ].map( ( { line: { id } } ) => id )
   }
 
   /**
    * Gets the latest line of each transition.
    */
   getLatestLines() {
-    const { timestamps } = this.history.reduce( (
-      { latestTimestamp, timestamps },
-      { timestamp, transition, line, shabad, bani },
-    ) => {
-      if ( !( line && line.id ) ) return { timestamps, latestTimestamp }
-
-      // Timestamp of latest transition
-      const transitionTimestamp = transition ? timestamp : latestTimestamp
-
-      const data = { line, shabad, bani }
-      return {
-        timestamps: { ...timestamps, [ transitionTimestamp.toISOString() ]: data },
-        latestTimestamp: transitionTimestamp,
-      }
-    }, { latestTimestamp: null, timestamps: {} } )
-
-    return timestamps
+    return Object.entries( this.historyMap ).reduce( ( timestamps, [ timestamp, history ] ) => ( {
+      ...timestamps,
+      [ timestamp ]: history[ history.length - 1 ],
+    } ), {} )
   }
 
   /**

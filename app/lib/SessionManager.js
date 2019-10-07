@@ -62,7 +62,7 @@ class SessionManager {
     if ( bani ) client.sendJSON( 'banis:current', bani )
     else client.sendJSON( 'shabads:current', shabad )
     client.sendJSON( 'lines:current', lineId )
-    client.sendJSON( 'lines:viewed', viewedLines )
+    client.sendJSON( 'history:viewed-lines', viewedLines )
     client.sendJSON( 'lines:main', mainLineId )
     client.sendJSON( 'status', status )
     client.sendJSON( 'history:transitions', history.getTransitionsOnly() )
@@ -90,7 +90,7 @@ class SessionManager {
    * @param {string} shabadId The ID of the Shabad.
    * @param {string} lineId The optional line in the Shabad.
    */
-  async onShabad( client, { shabadId, shabadOrderId = null, ...rest } ) {
+  async onShabad( client, { shabadId, shabadOrderId = null, restoreFrom, ...rest } ) {
     const { history } = this.session
 
     // Clamp Shabad order IDs that exceed the limit, if specified
@@ -108,7 +108,7 @@ class SessionManager {
       ...this.session,
       shabad,
       bani: null,
-      viewedLines: [],
+      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : [],
       mainLineId: null,
     }
 
@@ -151,7 +151,7 @@ class SessionManager {
     this.session = { ...this.session, lineId: newLineId, viewedLines: newViewedLines }
 
     this.socket.broadcast( 'lines:current', newLineId )
-    this.socket.broadcast( 'lines:viewed', newViewedLines )
+    this.socket.broadcast( 'history:viewed-lines', newViewedLines )
 
     // Set the main line if transition
     if ( transition ) this.onMainLine( client, lineId )
@@ -194,7 +194,7 @@ class SessionManager {
    * @param {WebSocket} client The socket client that sent the Bani.
    * @param {string} baniId The ID of the Bani.
    */
-  async onBani( client, { baniId, lineId = null } ) {
+  async onBani( client, { baniId, lineId = null, restoreFrom } ) {
     const { history } = this.session
     logger.info( `Setting the Bani ID to ${baniId}` )
 
@@ -208,7 +208,7 @@ class SessionManager {
       ...this.session,
       bani,
       shabad: null,
-      viewedLines: [],
+      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : [],
     }
 
     this.socket.broadcast( 'banis:current', bani )

@@ -94,7 +94,14 @@ class Controller extends EventEmitter {
     shabadOrderId = null,
     lineId = null,
     lineOrderId = null,
-  } ) => this.sendJSON( 'shabads:current', { shabadId, shabadOrderId, lineId, lineOrderId } )
+    restoreFrom = null,
+  } ) => this.sendJSON( 'shabads:current', {
+    shabadId,
+    shabadOrderId,
+    lineId,
+    lineOrderId,
+    restoreFrom,
+  } )
 
   previousShabad = ( orderId, setLine = true ) => this.shabad( {
     shabadOrderId: orderId - 1,
@@ -143,11 +150,6 @@ class Controller extends EventEmitter {
   clearHistory = () => this.sendJSON( 'history:clear' )
 
   /**
-   * Clears the current history for the session.
-   */
-  getHistory = timestamp => this.sendJSON( 'history:get', timestamp )
-
-  /**
    * Requests the latest list of banis from the server.
    */
   getBanis = () => this.sendJSON( 'banis:list' )
@@ -156,7 +158,11 @@ class Controller extends EventEmitter {
    * Sets the current Bani ID.
    * @param baniId The ID of the Bani to change to.
    */
-  bani = ( { baniId, lineId = null } ) => this.sendJSON( 'banis:current', { baniId, lineId } )
+  bani = ( {
+    baniId,
+    lineId = null,
+    restoreFrom = null,
+  } ) => this.sendJSON( 'banis:current', { baniId, lineId, restoreFrom } )
 
   /**
    * Reads the settings from local storage, and combines with default settings.

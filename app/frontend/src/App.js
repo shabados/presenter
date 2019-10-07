@@ -55,7 +55,7 @@ class App extends PureComponent {
     controller.on( 'shabads:current', this.onShabad )
     controller.on( 'lines:current', this.onLine )
     controller.on( 'lines:main', this.onMainLine )
-    controller.on( 'lines:viewed', this.onViewedLines )
+    controller.on( 'history:viewed-lines', this.onViewedLines )
     controller.on( 'history:transitions', this.onTransitionHistory )
     controller.on( 'history:latest-lines', this.onLatestLineHistory )
     controller.on( 'banis:list', this.onBanis )
