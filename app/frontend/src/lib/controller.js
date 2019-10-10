@@ -84,6 +84,8 @@ class Controller extends EventEmitter {
    */
   mainLine = lineId => this.sendJSON( 'lines:main', lineId )
 
+  nextJumpLine = lineId => this.sendJSON( 'lines:next', lineId )
+
   /**
    * Convenience method for setting the current shabad.
    * @param shabadId The shabad ID to change the server to.
@@ -113,30 +115,31 @@ class Controller extends EventEmitter {
     lineOrderId: setLine ? 0 : null,
   } )
 
-  autoToggleShabad = ( { viewedLines, mainLineId, lineId, shabad: { lines } } ) => {
-    if ( !mainLineId || !lines ) return
+  autoToggleShabad = ( { nextLineId, mainLineId, lineId, shabad: { lines } } ) => {
+    if ( !mainLineId || !nextLineId || !lines ) return
 
-    // Find last non-main line
-    const lastNonMainLineId = viewedLines.reverse().find( id => id !== mainLineId )
+    // Jump to main line and work out the new next line
+    if ( lineId !== mainLineId ) {
+      this.line( mainLineId )
 
-    // Find where it corresponds to in lines and select the next non-main line
-    const nextLineIndex = Math.min(
-      lines.findIndex( ( { id } ) => id === lastNonMainLineId && id !== mainLineId ) + 1,
-      lines.length - 1,
-    )
+      const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
 
-    // Whether the auto-select should cross the main line
-    const shouldCrossMainLine = lineId === mainLineId && lines[ nextLineIndex ].id === mainLineId
+      // Set new next line to be the next line, bounded by the last line
+      let nextLineIndex = Math.min(
+        currentLineIndex + 1,
+        lines.length - 1,
+      )
 
-    const { id: nextNonMainLineId } = lines[ Math.min(
-      nextLineIndex + shouldCrossMainLine,
-      lines.length - 1,
-    ) ]
+      // Skip the main line if required, bounded by the last line
+      nextLineIndex = Math.min(
+        nextLineIndex + ( lines[ nextLineIndex ].id === mainLineId && 1 ),
+        lines.length - 1,
+      )
 
-    // If the current line is the main line, jump to the next line
-    const nextLineId = mainLineId === lineId ? nextNonMainLineId : mainLineId
+      const { id: newNextLineId } = lines[ nextLineIndex ]
 
-    this.line( nextLineId )
+      this.nextJumpLine( newNextLineId )
+    } else this.line( nextLineId )
   }
 
   /**
