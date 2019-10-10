@@ -137,11 +137,9 @@ class Navigator extends PureComponent {
   }
 
   goNextLine = () => {
-    const { viewedLines, mainLineId, lineId, shabad } = this.props
+    const { nextLineId } = this.props
 
-    if ( lineId === mainLineId ) {
-      controller.autoToggleShabad( { viewedLines, mainLineId, lineId: mainLineId, shabad } )
-    }
+    if ( nextLineId ) controller.line( nextLineId )
   }
 
   handlers = {
@@ -187,6 +185,7 @@ class Navigator extends PureComponent {
 Navigator.propTypes = {
   lineId: string,
   mainLineId: string,
+  nextLineId: string,
   updateFocus: func.isRequired,
   register: func.isRequired,
   location: location.isRequired,
@@ -202,6 +201,7 @@ Navigator.defaultProps = {
   bani: undefined,
   lineId: undefined,
   mainLineId: undefined,
+  nextLineId: undefined,
   focused: undefined,
   viewedLines: [],
 }
