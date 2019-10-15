@@ -8,6 +8,8 @@ import { GlobalHotKeys } from 'react-hotkeys'
 import { scrollIntoCenter } from '../lib/utils'
 import { LINE_HOTKEYS } from '../lib/keyMap'
 
+const isInput = element => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
+
 /**
  * HOC to automatically add navigational key bindings to child elements.
  * @param {boolean} arrowKeys Navigate with arrow keys to the next and previous DOM elements.
@@ -116,9 +118,7 @@ const withNavigationHotKeys = ( {
        * Jumps to the first element, excluding inputs.
        */
       jumpToFirst = () => {
-        const index = [ ...this.nodes.values() ].findIndex( (
-          element => !( element instanceof HTMLElement && element.tagName.toLowerCase() === 'input' )
-        ) )
+        const index = [ ...this.nodes.values() ].findIndex( element => !isInput( element ) )
 
         this.jumpTo( index )
       }
