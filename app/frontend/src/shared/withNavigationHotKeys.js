@@ -10,6 +10,11 @@ import { LINE_HOTKEYS } from '../lib/keyMap'
 
 const isInput = element => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
 
+const preventDefault = fn => event => {
+  event.preventDefault()
+  fn( event )
+}
+
 /**
  * HOC to automatically add navigational key bindings to child elements.
  * @param {boolean} arrowKeys Navigate with arrow keys to the next and previous DOM elements.
@@ -177,8 +182,8 @@ const withNavigationHotKeys = ( {
       arrowHandlers = {
         first: this.jumpToFirst,
         last: () => this.jumpTo( this.nodes.size - 1 ),
-        previous: this.prevItem,
-        next: this.nextItem,
+        previous: preventDefault( this.prevItem ),
+        next: preventDefault( this.nextItem ),
         enter: this.simulateClick,
       }
 
