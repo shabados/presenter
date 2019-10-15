@@ -22,7 +22,7 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
   },
   toggleFullscreenController: {
     name: 'Toggle Fullscreen Controller',
-    sequences: [ 'shift+f' ],
+    sequences: [ 'ctrl+shift+f' ],
   },
   refresh: {
     name: 'Refresh',
