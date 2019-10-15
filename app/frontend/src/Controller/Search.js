@@ -142,6 +142,12 @@ class Search extends Component {
     )
   }
 
+  filterInputKeys = event => {
+    const ignoreKeys = [ 'ArrowUp', 'ArrowDown' ]
+
+    if ( ignoreKeys.includes( event.key ) ) event.preventDefault()
+  }
+
   render() {
     const { register, focused } = this.props
     const { inputValue, results, anchor } = this.state
@@ -150,6 +156,7 @@ class Search extends Component {
       <div className="search">
         <Input
           className="input"
+          onKeyDown={this.filterInputKeys}
           onChange={this.onChange}
           value={`${anchor || ''}${inputValue}`}
           placeholder="Koj"
