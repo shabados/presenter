@@ -72,41 +72,100 @@ class Controller extends EventEmitter {
    * Convenience method for setting the line.
    * @param lineId The line id to change the display to.
    */
-  line = lineId => this.sendJSON( 'line', lineId )
+  line = lineId => this.sendJSON( 'lines:current', { lineId } )
+
+  previousLine = lineId => this.sendJSON( 'lines:current', { lineOrderId: lineId - 1 } )
+
+  nextLine = lineId => this.sendJSON( 'lines:current', { lineOrderId: lineId + 1 } )
 
   /**
    * Convenience method for setting the main line.
    * @param lineId The line id to change the display to.
    */
-  mainLine = lineId => this.sendJSON( 'mainLine', lineId )
+  mainLine = lineId => this.sendJSON( 'lines:main', lineId )
+
+  nextJumpLine = lineId => this.sendJSON( 'lines:next', lineId )
 
   /**
    * Convenience method for setting the current shabad.
    * @param shabadId The shabad ID to change the server to.
    * @param lineId The line id to change the display to.
    */
-  shabad = ( shabadId, lineId = null ) => this.sendJSON( 'shabad', { shabadId, lineId } )
+  shabad = ( {
+    shabadId,
+    shabadOrderId = null,
+    lineId = null,
+    lineOrderId = null,
+    restoreFrom = null,
+  } ) => this.sendJSON( 'shabads:current', {
+    shabadId,
+    shabadOrderId,
+    lineId,
+    lineOrderId,
+    restoreFrom,
+  } )
+
+  previousShabad = ( orderId, setLine = true ) => this.shabad( {
+    shabadOrderId: orderId - 1,
+    lineOrderId: setLine ? 1e20 : null,
+  } )
+
+  nextShabad = ( orderId, setLine = true ) => this.shabad( {
+    shabadOrderId: orderId + 1,
+    lineOrderId: setLine ? 0 : null,
+  } )
+
+  autoToggleShabad = ( { nextLineId, mainLineId, lineId, shabad: { lines } } ) => {
+    if ( !mainLineId || !nextLineId || !lines ) return
+
+    // Jump to main line and work out the new next line
+    if ( lineId !== mainLineId ) {
+      this.line( mainLineId )
+
+      const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+
+      // Set new next line to be the next line, bounded by the last line
+      let nextLineIndex = Math.min(
+        currentLineIndex + 1,
+        lines.length - 1,
+      )
+
+      // Skip the main line if required, bounded by the last line
+      nextLineIndex = Math.min(
+        nextLineIndex + ( lines[ nextLineIndex ].id === mainLineId && 1 ),
+        lines.length - 1,
+      )
+
+      const { id: newNextLineId } = lines[ nextLineIndex ]
+
+      this.nextJumpLine( newNextLineId )
+    } else this.line( nextLineId )
+  }
 
   /**
    * Convenience method for clearing the line.
    */
-  clear = () => this.sendJSON( 'line', null )
+  clear = () => this.sendJSON( 'lines:current', { lineId: null } )
 
   /**
    * Clears the current history for the session.
    */
-  clearHistory = () => this.sendJSON( 'clearHistory' )
+  clearHistory = () => this.sendJSON( 'history:clear' )
 
   /**
    * Requests the latest list of banis from the server.
    */
-  getBanis = () => this.sendJSON( 'banis' )
+  getBanis = () => this.sendJSON( 'banis:list' )
 
   /**
    * Sets the current Bani ID.
    * @param baniId The ID of the Bani to change to.
    */
-  bani = ( baniId, lineId = null ) => this.sendJSON( 'bani', { baniId, lineId } )
+  bani = ( {
+    baniId,
+    lineId = null,
+    restoreFrom = null,
+  } ) => this.sendJSON( 'banis:current', { baniId, lineId, restoreFrom } )
 
   /**
    * Reads the settings from local storage, and combines with default settings.
@@ -133,12 +192,12 @@ class Controller extends EventEmitter {
 
       const { local } = settings
       localStorage.setItem( 'settings', JSON.stringify( local ) )
-      this.emit( 'settings', settings )
+      this.emit( 'settings:all', settings )
     } else {
       settings = { [ host ]: changed }
     }
 
-    this.sendJSON( 'settings', settings )
+    this.sendJSON( 'settings:all', settings )
   }
 }
 

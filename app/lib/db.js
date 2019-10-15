@@ -45,6 +45,20 @@ export const getShabad = shabadId => Shabads
   .then( ( [ shabad ] ) => shabad )
 
 /**
+ * Gets the Shabad of given `shabadId`, along with all the lines.
+ * @param {number|string} shabadId The id of the Shabad to fetch results for.
+ * @async
+ * @returns {Object} The Shabad with the given `shabadId`.
+ */
+export const getShabadByOrderId = orderId => Shabads
+  .query()
+  .where( 'shabads.order_id', orderId )
+  .eager( 'lines' )
+  .withTransliterations()
+  .withTranslations()
+  .then( ( [ shabad ] ) => shabad )
+
+/**
  * Retrieves a list of the available Banis.
  * @async
  * @returns {Array} A list of all banis.
@@ -105,3 +119,13 @@ export const getSources = () => Sources
  * @returns {Array} A list of all languages.
  */
 export const getLanguages = () => Languages.query()
+
+/**
+ * Gets the range of the order IDs of all lines.
+ */
+export const getShabadRange = () => Shabads
+  .query()
+  .min( 'order_id AS min' )
+  .max( 'order_id AS max' )
+  .first()
+  .then( ( { min, max } ) => [ min, max ] )

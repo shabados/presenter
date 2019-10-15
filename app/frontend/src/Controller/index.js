@@ -209,7 +209,7 @@ class Controller extends Component {
   onHover = hovered => this.setState( { hovered } )
 
   render() {
-    const { location, settings } = this.props
+    const { location, settings, shabad, bani } = this.props
     const { hovered } = this.state
 
     const { local: { theme: { simpleGraphics: simple } } } = settings
@@ -223,7 +223,7 @@ class Controller extends Component {
     ]
 
     return (
-      <Switch>
+      <Switch key={( shabad || bani || {} ).id}>
         {routes.map( ( [ route, Component, BarComponent ] ) => (
           <Route
             key={route}

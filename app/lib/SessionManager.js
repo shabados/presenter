@@ -5,11 +5,12 @@
 
 import get from 'get-value'
 import merge from 'deepmerge'
+import { clamp } from 'lodash'
 
 import logger from './logger'
 import settingsManager from './settings'
 import History from './History'
-import { getShabad, getBaniLines } from './db'
+import { getShabad, getBaniLines, getShabadByOrderId, getShabadRange } from './db'
 
 /**
  * Handles synchronisation of all the sessions.
@@ -29,8 +30,9 @@ class SessionManager {
       bani: null,
       lineId: null,
       shabad: null,
-      viewedLines: new Set(),
+      viewedLines: [],
       mainLineId: null,
+      nextLineId: null,
       history: new History(),
       settings: {},
       status: null,
@@ -43,12 +45,13 @@ class SessionManager {
     socket.on( 'disconnection', this.clearCache.bind( this ) )
 
     // Update the state if on receiving data from the client
-    socket.on( 'shabad', this.onShabad.bind( this ) )
-    socket.on( 'line', this.onLine.bind( this ) )
-    socket.on( 'mainLine', this.onMainLine.bind( this ) )
-    socket.on( 'clearHistory', this.onClearHistory.bind( this ) )
-    socket.on( 'bani', this.onBani.bind( this ) )
-    socket.on( 'settings', this.onSettings.bind( this ) )
+    socket.on( 'shabads:current', this.onShabad.bind( this ) )
+    socket.on( 'lines:current', this.onLine.bind( this ) )
+    socket.on( 'lines:main', this.onMainLine.bind( this ) )
+    socket.on( 'lines:next', this.onNextLine.bind( this ) )
+    socket.on( 'history:clear', this.onClearHistory.bind( this ) )
+    socket.on( 'banis:current', this.onBani.bind( this ) )
+    socket.on( 'settings:all', this.onSettings.bind( this ) )
   }
 
   /**
@@ -56,17 +59,27 @@ class SessionManager {
    * @param {WebSocket} client The client to synchronise the state to.
    */
   synchronise( client ) {
-    const { bani, mainLineId, viewedLines, lineId, shabad, history, status } = this.session
+    const {
+      bani,
+      mainLineId,
+      nextLineId,
+      viewedLines,
+      lineId,
+      shabad,
+      history,
+      status,
+    } = this.session
 
-    if ( bani ) client.sendJSON( 'bani', bani )
-    else client.sendJSON( 'shabad', shabad )
-    client.sendJSON( 'line', lineId )
-    client.sendJSON( 'viewedLines', viewedLines )
-    client.sendJSON( 'mainLine', mainLineId )
+    if ( bani ) client.sendJSON( 'banis:current', bani )
+    else client.sendJSON( 'shabads:current', shabad )
+    client.sendJSON( 'lines:current', lineId )
+    client.sendJSON( 'history:viewed-lines', viewedLines )
+    client.sendJSON( 'lines:main', mainLineId )
+    client.sendJSON( 'lines:next', nextLineId )
     client.sendJSON( 'status', status )
     client.sendJSON( 'history:transitions', history.getTransitionsOnly() )
-    client.sendJSON( 'history:latestLines', history.getLatestLines() )
-    client.sendJSON( 'settings', this.getPublicSettings() )
+    client.sendJSON( 'history:latest-lines', history.getLatestLines() )
+    client.sendJSON( 'settings:all', this.getPublicSettings() )
   }
 
   /**
@@ -89,26 +102,35 @@ class SessionManager {
    * @param {string} shabadId The ID of the Shabad.
    * @param {string} lineId The optional line in the Shabad.
    */
-  async onShabad( client, { shabadId, lineId = null } ) {
+  async onShabad( client, { shabadId, shabadOrderId = null, restoreFrom, ...rest } ) {
     const { history } = this.session
-    logger.info( `Setting Shabad ID to ${shabadId}` )
 
-    const shabad = await getShabad( shabadId )
+    // Clamp Shabad order IDs that exceed the limit, if specified
+    const shabadOrderIdRange = await getShabadRange()
+    const clampedShabadOrderId = clamp( shabadOrderId, ...shabadOrderIdRange ) || null
+
+    // Get Shabad by order ID if specified
+    const shabad = shabadOrderId
+      ? await getShabadByOrderId( clampedShabadOrderId )
+      : await getShabad( shabadId )
+
+    logger.info( `Setting Shabad ID to ${shabad.id}` )
+
     this.session = {
       ...this.session,
       shabad,
-      lineId,
       bani: null,
-      viewedLines: new Set(),
+      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : [],
       mainLineId: null,
+      nextLineId: null,
     }
 
-    this.socket.broadcast( 'shabad', shabad )
-    this.onLine( client, lineId, true )
+    this.socket.broadcast( 'shabads:current', shabad )
+    this.onLine( client, rest, true )
 
     // Rebroadcast history
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
-    this.socket.broadcast( 'history:latestLines', history.getLatestLines() )
+    this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
   }
 
   /**
@@ -117,25 +139,49 @@ class SessionManager {
    * @param {string} lineId The ID of the line.
    * @param {boolean} transition Whether or not the line change is also a Shabad change.
    */
-  onLine( client, lineId, transition = false ) {
+  onLine( client, { lineId, lineOrderId }, transition = false ) {
     const { viewedLines, bani, shabad, history } = this.session
-    logger.info( `Setting Line ID to ${lineId}` )
 
-    viewedLines.add( lineId )
+    const content = shabad || bani
+
+    // Clamp line order IDs that exceed the Shabad's range of lines, if specified
+    const lineOrderIdRange = [
+      content.lines[ 0 ],
+      content.lines[ content.lines.length - 1 ],
+    ].map( ( { orderId } ) => orderId )
+    const clampedLineOrderId = clamp( lineOrderId, ...lineOrderIdRange ) || null
+
+    // Get the line id, or find the line id from the order id, or assume none was provided
+    const newLineId = lineId
+      || ( content.lines.find( ( { orderId } ) => orderId === clampedLineOrderId ) || {} ).id
+      || null
+
+    logger.info( `Setting Line ID to ${newLineId}` )
+
+    const newViewedLines = newLineId ? [ ...viewedLines, newLineId ] : viewedLines
 
     const { lines = [] } = shabad || bani || {}
-    this.session = { ...this.session, lineId }
+    this.session = { ...this.session, lineId: newLineId, viewedLines: newViewedLines }
 
-    this.socket.broadcast( 'line', lineId )
-    this.socket.broadcast( 'viewedLines', [ ...viewedLines ] )
+    this.socket.broadcast( 'lines:current', newLineId )
+    this.socket.broadcast( 'history:viewed-lines', newViewedLines )
+
+    // Set the main line and calculate next line if transition
+    if ( transition && shabad ) {
+      this.onMainLine( client, lineId )
+
+      // Next line is either first line, or line after
+      const { id: nextLineId } = lines[ 0 ] === lineId ? lines[ 1 ] : lines[ 0 ]
+      this.onNextLine( client, nextLineId )
+    }
 
     // Update and save history
-    const line = lines.find( ( { id } ) => lineId === id )
-    const isTransition = transition || lineId === null
+    const line = lines.find( ( { id } ) => newLineId === id )
+    const isTransition = transition || newLineId === null
     history.update( { line, bani, shabad }, isTransition )
 
     // Update the latest lines
-    this.socket.broadcast( 'history:latestLines', history.getLatestLines() )
+    this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
   }
 
   /**
@@ -144,10 +190,36 @@ class SessionManager {
    * @param {string} mainLineId The ID of the user defined main line in the Shabad.
    */
   onMainLine( client, mainLineId ) {
-    logger.info( `Setting the main Line ID to ${mainLineId}` )
+    const { shabad, bani } = this.session
 
-    this.socket.broadcast( 'mainLine', mainLineId )
+    const { lines = [] } = shabad || bani || {}
+
+    // Don't bother when there's no lines
+    if ( !lines ) return
+
+    logger.info( 'Setting mainLineId to', mainLineId )
+
     this.session = { ...this.session, mainLineId }
+    this.socket.broadcast( 'lines:main', mainLineId )
+  }
+
+  /**
+   * When the next jump line has been set by a client, send it to all clients.
+   * @param {WebSocket} client The socket client that sent the line id.
+   * @param {string} mainLineId The ID of the next jump line in the Shabad.
+   */
+  onNextLine( client, nextLineId ) {
+    const { shabad, bani } = this.session
+
+    const { lines = [] } = shabad || bani || {}
+
+    // Don't bother when there's no lines
+    if ( !lines ) return
+
+    logger.info( 'Setting nextLineId to', nextLineId )
+
+    this.session = { ...this.session, nextLineId }
+    this.socket.broadcast( 'lines:next', nextLineId )
   }
 
   /**
@@ -159,7 +231,7 @@ class SessionManager {
 
     history.reset()
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
-    this.socket.broadcast( 'history:latestLines', history.getLatestLines() )
+    this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
   }
 
   /**
@@ -167,7 +239,7 @@ class SessionManager {
    * @param {WebSocket} client The socket client that sent the Bani.
    * @param {string} baniId The ID of the Bani.
    */
-  async onBani( client, { baniId, lineId = null } ) {
+  async onBani( client, { baniId, lineId = null, restoreFrom } ) {
     const { history } = this.session
     logger.info( `Setting the Bani ID to ${baniId}` )
 
@@ -181,11 +253,11 @@ class SessionManager {
       ...this.session,
       bani,
       shabad: null,
-      viewedLines: new Set(),
+      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : [],
     }
 
-    this.socket.broadcast( 'bani', bani )
-    this.onLine( client, id, true )
+    this.socket.broadcast( 'banis:current', bani )
+    this.onLine( client, { lineId: id }, true )
 
     // Rebroadcast history
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
@@ -219,7 +291,7 @@ class SessionManager {
     // Rebroadcast all settings, transforming fields appropriately
     this.socket.forEach( client => {
       const { host } = client
-      client.sendJSON( 'settings', {
+      client.sendJSON( 'settings:all', {
         ...publicSettings,
         [ host ]: undefined, // Remove entry for own host
         local: this.session.settings[ host ], // Map host settings to `local` field

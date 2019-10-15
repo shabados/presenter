@@ -129,7 +129,7 @@ class Search extends Component {
     const afterMatch = words.slice( pos + searchedValue.length ).join( splitChar ) + splitChar
 
     // Send the shabad id and line id to the server on click
-    const onClick = () => controller.shabad( shabadId, lineId )
+    const onClick = () => controller.shabad( { shabadId, lineId } )
 
     return (
       <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
@@ -142,6 +142,12 @@ class Search extends Component {
     )
   }
 
+  filterInputKeys = event => {
+    const ignoreKeys = [ 'ArrowUp', 'ArrowDown' ]
+
+    if ( ignoreKeys.includes( event.key ) ) event.preventDefault()
+  }
+
   render() {
     const { register, focused } = this.props
     const { inputValue, results, anchor } = this.state
@@ -150,13 +156,13 @@ class Search extends Component {
       <div className="search">
         <Input
           className="input"
+          onKeyDown={this.filterInputKeys}
           onChange={this.onChange}
           value={`${anchor || ''}${inputValue}`}
           placeholder="Koj"
           disableUnderline
           autoFocus
           spellCheck={false}
-          inputRef={c => register( 'search', c )}
         />
         <List className="results">
           {results
@@ -190,5 +196,7 @@ export default withNavigationHotKeys( {
   keymap: {
     next: [ 'down', 'tab' ],
     previous: [ 'up', 'shift+tab' ],
+    first: null,
+    last: null,
   },
 } )( Search )

@@ -37,8 +37,8 @@ import {
   OPTIONS,
   DEFAULT_OPTIONS,
   OPTION_GROUPS,
-  SHORTCUTS,
 } from '../lib/consts'
+import SHORTCUTS from '../lib/keyMap'
 
 import SettingComponentFactory from './SettingComponents'
 import Sources from './Sources'
