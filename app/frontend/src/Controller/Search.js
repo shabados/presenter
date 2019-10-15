@@ -163,7 +163,6 @@ class Search extends Component {
           disableUnderline
           autoFocus
           spellCheck={false}
-          inputRef={c => register( 'search', c )}
         />
         <List className="results">
           {results
