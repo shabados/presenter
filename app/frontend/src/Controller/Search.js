@@ -196,5 +196,7 @@ export default withNavigationHotKeys( {
   keymap: {
     next: [ 'down', 'tab' ],
     previous: [ 'up', 'shift+tab' ],
+    first: null,
+    last: null,
   },
 } )( Search )
