@@ -180,8 +180,8 @@ const withNavigationHotKeys = ( {
       } ), {} )
 
       arrowHandlers = {
-        first: this.jumpToFirst,
-        last: () => this.jumpTo( this.nodes.size - 1 ),
+        first: preventDefault( this.jumpToFirst ),
+        last: preventDefault( () => this.jumpTo( this.nodes.size - 1 ) ),
         previous: preventDefault( this.prevItem ),
         next: preventDefault( this.nextItem ),
         enter: this.simulateClick,
