@@ -39,9 +39,6 @@ const withNavigationHotKeys = ( {
       // Stores the ref to the parent containing the children
       this.nodes = new Map()
 
-      // Stores a list of hotkeys
-      this.hotkeys = []
-
       // Generate the handlers in advance
       this.handlers = {
         ...( arrowKeys && this.arrowHandlers ),
@@ -160,16 +157,8 @@ const withNavigationHotKeys = ( {
        * Registers the ref under the current list of nodes.
        * @param name The name to identify the ref.
        * @param ref The ref to store.
-       * @param isHotKey Whether or not the ref should be registered as a hotkey.
        */
-      registerRef = ( name, ref, isHotKey = false ) => {
-        this.nodes.set( name, ref )
-
-        // Store as a hotkey, if it is one
-        if ( isHotKey ) {
-          this.hotkeys = [ ...this.hotkeys, name ]
-        }
-      }
+      registerRef = ( name, ref ) => this.nodes.set( name, ref )
 
       /**
        * Generates handlers for each of the nodes, using the keys from LINE HOTKEYS to jump to them.
