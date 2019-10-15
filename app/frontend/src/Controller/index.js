@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { hot } from 'react-hot-loader/root'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { history, location } from 'react-router-prop-types'
 import { string, func, shape, arrayOf, bool } from 'prop-types'
@@ -226,7 +227,7 @@ class Controller extends Component {
   onHover = hovered => this.setState( { hovered } )
 
   render() {
-    const { settings } = this.props
+    const { settings, shabad, bani } = this.props
     const { hovered, lastUrl } = this.state
 
     const { local: { theme: { simpleGraphics: simple } } } = settings
@@ -240,7 +241,7 @@ class Controller extends Component {
     ]
 
     return (
-      <Switch>
+      <Switch key={( shabad || bani || {} ).id}>
         {routes.map( ( [ route, Component, BarComponent ] ) => (
           <Route
             key={route}
@@ -285,4 +286,4 @@ Controller.defaultProps = {
   bani: undefined,
 }
 
-export default Controller
+export default hot( Controller )

@@ -3,7 +3,7 @@ import { arrayOf, shape, string, func, number, instanceOf, objectOf } from 'prop
 
 import { List, ListItem } from '@material-ui/core'
 
-import { LINE_HOTKEYS } from '../lib/consts'
+import { LINE_HOTKEYS } from '../lib/keyMap'
 import controller from '../lib/controller'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
@@ -21,7 +21,7 @@ const Bookmarks = ( { banis, transitionHistory, latestLines, register, focused }
     // Use timestamp to get latest line for that navigation period
     const latestLineId = latestLine ? latestLine.id : null
 
-    controller.bani( id, latestLineId )
+    controller.bani( { baniId: id, lineId: latestLineId, restoreFrom: timestamp } )
   }
 
   return (

@@ -38,6 +38,7 @@ class App extends PureComponent {
       bani: null,
       lineId: null,
       mainLineId: null,
+      nextLineId: null,
       viewedLines: new Set(),
       transitionHistory: [],
       latestLines: {},
@@ -52,16 +53,17 @@ class App extends PureComponent {
     // Register controller event
     controller.on( 'connected', this.onConnected )
     controller.on( 'disconnected', this.onDisconnected )
-    controller.on( 'shabad', this.onShabad )
-    controller.on( 'line', this.onLine )
-    controller.on( 'mainLine', this.onMainLine )
-    controller.on( 'viewedLines', this.onViewedLines )
+    controller.on( 'shabads:current', this.onShabad )
+    controller.on( 'lines:current', this.onLine )
+    controller.on( 'lines:main', this.onMainLine )
+    controller.on( 'lines:next', this.onNextLine )
+    controller.on( 'history:viewed-lines', this.onViewedLines )
     controller.on( 'history:transitions', this.onTransitionHistory )
-    controller.on( 'history:latestLines', this.onLatestLineHistory )
-    controller.on( 'banis', this.onBanis )
-    controller.on( 'bani', this.onBani )
+    controller.on( 'history:latest-lines', this.onLatestLineHistory )
+    controller.on( 'banis:list', this.onBanis )
+    controller.on( 'banis:current', this.onBani )
     controller.on( 'status', this.onStatus )
-    controller.on( 'settings', this.onSettings )
+    controller.on( 'settings:all', this.onSettings )
 
     // Get recommended sources and set as settings, if there are none
     const { settings: { local: { sources } } } = this.state
@@ -77,16 +79,17 @@ class App extends PureComponent {
     // Deregister event listeners from controller
     controller.off( 'connected', this.onConnected )
     controller.off( 'disconnected', this.onDisconnected )
-    controller.off( 'shabad', this.onShabad )
-    controller.off( 'line', this.onLine )
+    controller.off( 'shabads:current', this.onShabad )
+    controller.off( 'lines:current', this.onLine )
     controller.off( 'history:transitions', this.onTransitionHistory )
-    controller.off( 'history:latestLines', this.onLatestLineHistory )
-    controller.off( 'mainLine', this.onMainLine )
-    controller.off( 'viewedLines', this.onViewedLines )
-    controller.off( 'banis', this.onBanis )
-    controller.off( 'bani', this.onBani )
+    controller.off( 'history:latest-lines', this.onLatestLineHistory )
+    controller.off( 'lines:main', this.onMainLine )
+    controller.off( 'lines:next', this.onNextLine )
+    controller.off( 'lines:viewed', this.onViewedLines )
+    controller.off( 'banis:list', this.onBanis )
+    controller.off( 'banis:current', this.onBani )
     controller.off( 'status', this.onStatus )
-    controller.off( 'settings', this.onSettings )
+    controller.off( 'settings:all', this.onSettings )
   }
 
   onConnected = () => this.setState( { connected: true, bani: null, shabad: null } )
@@ -100,6 +103,8 @@ class App extends PureComponent {
   onViewedLines = viewedLines => this.setState( { viewedLines } )
 
   onMainLine = mainLineId => this.setState( { mainLineId } )
+
+  onNextLine = nextLineId => this.setState( { nextLineId } )
 
   onTransitionHistory = history => this.setState( { transitionHistory: history.reverse() } )
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { hot } from 'react-hot-loader/root'
 import { Redirect, Link, Switch, Route } from 'react-router-dom'
 import { shape, string } from 'prop-types'
 import { location } from 'react-router-prop-types'
@@ -36,8 +37,8 @@ import {
   OPTIONS,
   DEFAULT_OPTIONS,
   OPTION_GROUPS,
-  SHORTCUTS,
 } from '../lib/consts'
+import SHORTCUTS from '../lib/keyMap'
 
 import SettingComponentFactory from './SettingComponents'
 import Sources from './Sources'
@@ -236,4 +237,4 @@ Settings.propTypes = {
   location: location.isRequired,
 }
 
-export default Settings
+export default hot( Settings )

@@ -91,7 +91,7 @@ async function main() {
   socket.on( 'search:full-word', search( fullWordSearch ) )
 
   // Register Bani list requests on socket connection
-  socket.on( 'connection', async client => client.sendJSON( 'banis', await getBanis() ) )
+  socket.on( 'connection', async client => client.sendJSON( 'banis:list', await getBanis() ) )
 
   // Start the server
   server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )

@@ -1,5 +1,6 @@
 import React, { Component, lazy, Suspense } from 'react'
 import { shape, string } from 'prop-types'
+import { hot } from 'react-hot-loader/root'
 import { location } from 'react-router-prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { Link, Route } from 'react-router-dom'
@@ -12,13 +13,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-import StatusToast from './StatusToast'
-import ThemeLoader from '../shared/ThemeLoader'
 import controller from '../lib/controller'
 import { getUrlState } from '../lib/utils'
 import {
   CONTROLLER_URL,
-  SHORTCUTS,
   MENU_URL,
   SEARCH_URL,
   HISTORY_URL,
@@ -26,9 +24,14 @@ import {
   BOOKMARKS_URL,
   STATES,
 } from '../lib/consts'
+import SHORTCUTS from '../lib/keyMap'
+
+import ThemeLoader from '../shared/ThemeLoader'
+import Loader from '../shared/Loader'
+
+import StatusToast from './StatusToast'
 
 import './index.css'
-import Loader from '../shared/Loader'
 
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
@@ -84,6 +87,14 @@ class Presenter extends Component {
   }
 
   /**
+   * Toggles presenter fullscreen.
+   */
+  toggleFullscreen = () => ( !document.webkitFullscreenElement
+    ? document.documentElement.webkitRequestFullScreen()
+    : document.webkitExitFullscreen()
+  )
+
+  /**
    * Toggles the given query string parameter.
    * @param query The query string parameter to toggle.
    */
@@ -108,15 +119,17 @@ class Presenter extends Component {
     } ), {} )
 
   hotKeyHandlers = this.preventDefault( {
-    [ SHORTCUTS.toggleController ]: this.toggleController,
-    [ SHORTCUTS.newController ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
-    [ SHORTCUTS.menu ]: () => this.go( MENU_URL ),
-    [ SHORTCUTS.search ]: () => this.go( SEARCH_URL ),
-    [ SHORTCUTS.history ]: () => this.go( HISTORY_URL ),
-    [ SHORTCUTS.bookmarks ]: () => this.go( BOOKMARKS_URL ),
-    [ SHORTCUTS.navigator ]: () => this.go( NAVIGATOR_URL ),
-    [ SHORTCUTS.clearDisplay ]: controller.clear,
-    [ SHORTCUTS.toggleFullscreenController ]: this.fullscreenController,
+    [ SHORTCUTS.toggleController.name ]: this.toggleController,
+    [ SHORTCUTS.newController.name ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
+    [ SHORTCUTS.menu.name ]: () => this.go( MENU_URL ),
+    [ SHORTCUTS.search.name ]: () => this.go( SEARCH_URL ),
+    [ SHORTCUTS.history.name ]: () => this.go( HISTORY_URL ),
+    [ SHORTCUTS.bookmarks.name ]: () => this.go( BOOKMARKS_URL ),
+    [ SHORTCUTS.navigator.name ]: () => this.go( NAVIGATOR_URL ),
+    [ SHORTCUTS.clearDisplay.name ]: controller.clear,
+    [ SHORTCUTS.toggleFullscreenController.name ]: this.fullscreenController,
+    [ SHORTCUTS.toggleFullscreen.name ]: this.toggleFullscreen,
+    [ SHORTCUTS.quit.name ]: window.close,
   } )
 
   render() {
@@ -167,4 +180,4 @@ Presenter.defaultProps = {
   status: null,
 }
 
-export default Presenter
+export default hot( Presenter )

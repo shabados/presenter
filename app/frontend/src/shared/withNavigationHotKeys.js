@@ -6,7 +6,14 @@ import debounce from 'lodash/debounce'
 import { GlobalHotKeys } from 'react-hotkeys'
 
 import { scrollIntoCenter } from '../lib/utils'
-import { LINE_HOTKEYS } from '../lib/consts'
+import { LINE_HOTKEYS } from '../lib/keyMap'
+
+const isInput = element => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
+
+const preventDefault = fn => event => {
+  event.preventDefault()
+  fn( event )
+}
 
 /**
  * HOC to automatically add navigational key bindings to child elements.
@@ -21,6 +28,7 @@ const withNavigationHotKeys = ( {
   lineKeys,
   clickOnFocus,
   keymap,
+  wrapAround = true,
 } ) => WrappedComponent => {
   class WithNavigationHotKeys extends Component {
     constructor( props ) {
@@ -30,9 +38,6 @@ const withNavigationHotKeys = ( {
 
       // Stores the ref to the parent containing the children
       this.nodes = new Map()
-
-      // Stores a list of hotkeys
-      this.hotkeys = []
 
       // Generate the handlers in advance
       this.handlers = {
@@ -115,9 +120,7 @@ const withNavigationHotKeys = ( {
        * Jumps to the first element, excluding inputs.
        */
       jumpToFirst = () => {
-        const index = [ ...this.nodes.values() ].findIndex( (
-          element => !( element instanceof HTMLElement && element.tagName.toLowerCase() === 'input' )
-        ) )
+        const index = [ ...this.nodes.values() ].findIndex( element => !isInput( element ) )
 
         this.jumpTo( index )
       }
@@ -127,6 +130,8 @@ const withNavigationHotKeys = ( {
        */
       prevItem = () => {
         const { focusedIndex: prevIndex } = this.state
+
+        if ( !wrapAround && prevIndex === 0 ) return
 
         // Set the previous focus, with wrap-around
         const focusedIndex = prevIndex > 0 ? prevIndex - 1 : this.nodes.size - 1
@@ -140,6 +145,8 @@ const withNavigationHotKeys = ( {
       nextItem = () => {
         const { focusedIndex: prevIndex } = this.state
 
+        if ( !wrapAround && prevIndex === this.nodes.size - 1 ) return
+
         // Set the next focus, with wrap-around
         const focusedIndex = prevIndex < this.nodes.size - 1 ? prevIndex + 1 : 0
 
@@ -150,16 +157,8 @@ const withNavigationHotKeys = ( {
        * Registers the ref under the current list of nodes.
        * @param name The name to identify the ref.
        * @param ref The ref to store.
-       * @param isHotKey Whether or not the ref should be registered as a hotkey.
        */
-      registerRef = ( name, ref, isHotKey = false ) => {
-        this.nodes.set( name, ref )
-
-        // Store as a hotkey, if it is one
-        if ( isHotKey ) {
-          this.hotkeys = [ ...this.hotkeys, name ]
-        }
-      }
+      registerRef = ( name, ref ) => this.nodes.set( name, ref )
 
       /**
        * Generates handlers for each of the nodes, using the keys from LINE HOTKEYS to jump to them.
@@ -170,19 +169,19 @@ const withNavigationHotKeys = ( {
       } ), {} )
 
       arrowHandlers = {
-        first: this.jumpToFirst,
-        last: () => this.jumpTo( this.nodes.size - 1 ),
-        previous: this.prevItem,
-        next: this.nextItem,
+        first: preventDefault( this.jumpToFirst ),
+        last: preventDefault( () => this.jumpTo( this.nodes.size - 1 ) ),
+        previous: preventDefault( this.prevItem ),
+        next: preventDefault( this.nextItem ),
         enter: this.simulateClick,
       }
 
       keymap = {
-        next: [ 'down', 'right', 'tab', 'PageDown' ],
-        previous: [ 'up', 'left', 'shift+tab', 'PageUp' ],
-        enter: [ 'enter', 'return', 'space' ],
-        first: [ 'home' ],
-        last: [ 'end' ],
+        next: [ 'down', 'right', 'tab', 'PageDown', 'l' ],
+        previous: [ 'up', 'left', 'shift+tab', 'PageUp', 'j' ],
+        enter: [ 'enter', 'return' ],
+        first: [ 'home', 'ctrl+up' ],
+        last: [ 'end', 'ctrl+down' ],
         ...( lineKeys && LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
           ...keymap,
           [ hotkey ]: hotkey,
