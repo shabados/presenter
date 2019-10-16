@@ -73,6 +73,7 @@ jobs:
   build-windows:
     <<: *build
     executor:
+      name: default
       shell: bash.exe
     environment:
       USE_HARD_LINKS: false
