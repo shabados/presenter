@@ -73,7 +73,7 @@ jobs:
   build-windows:
     <<: *build
     executor:
-      name: win
+      name: win/vs2019
       shell: bash.exe
     environment:
       USE_HARD_LINKS: false
