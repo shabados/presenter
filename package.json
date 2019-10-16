@@ -46,7 +46,6 @@
   "build": {
     "appId": "com.shabados.desktop",
     "asar": false,
-    "buildDependenciesFromSource": true,
     "directories": {
       "buildResources": "resources"
     },
