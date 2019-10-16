@@ -39,7 +39,7 @@ publish: &publish
         command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG}
 
 orbs:
-  win: circleci/windows@2.0.0
+  win: circleci/windows@1.0.0
 
 jobs:
   lint:
