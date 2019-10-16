@@ -32,7 +32,7 @@ In development, the backend app runs on port `42425` by default.
 
 ### Packaging with Electron
 
-Windows? You must install [windows-build-tools](!https://www.npmjs.com/package/windows-build-tools), by running `npm install --global --production windows-build-tools` in an administrator Powershell.
+Windows? You must install [windows-build-tools](!https://www.npmjs.com/package/windows-build-tools), by running `npm install --global --production windows-build-tools --vs2015` in an administrator Powershell.
 
 Run `npm run pack` to generate the binaries to test for your platform, and `npm run dist` to build an installer.
 
