@@ -1,3 +1,5 @@
+version: 2.1
+
 # Generic build job
 build: &build
   working_directory: ~/shabad-os
@@ -36,7 +38,9 @@ publish: &publish
         name: Publish application
         command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG}
 
-version: 2
+orbs:
+  win: circleci/windows@1.0.0
+
 jobs:
   lint:
     docker:
@@ -68,8 +72,9 @@ jobs:
 
   build-windows:
     <<: *build
-    docker:
-      - image: electronuserland/builder:wine
+    executor:
+      name: win/vs2019
+      shell: bash.exe
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
@@ -92,14 +97,14 @@ jobs:
   publish-windows:
     <<: *publish
     docker:
-      - image: electronuserland/builder:wine
+      - image: electronuserland/builder
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
 
 workflows:
   version: 2
-  lint-build-all:
+  build-desktop:
     jobs:
       - lint
       - build-windows:
