@@ -75,6 +75,8 @@ jobs:
     executor:
       name: win/vs2019
       shell: bash.exe
+    pre-steps:
+      - run: npm install --global --production windows-build-tools --vs2015
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
