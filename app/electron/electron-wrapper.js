@@ -6,6 +6,8 @@ import logger from '../lib/logger'
 import { PORT, isDev } from '../lib/consts'
 
 const BASE_URL = !isDev ? `http://localhost:${PORT}` : `http://localhost:${3000}`
+//! CONTROLLER_URL should match that in frontend consts
+const CONTROLLER_URL = `${BASE_URL}/controller`
 
 let mainWindow
 
@@ -15,7 +17,7 @@ let mainWindow
  */
 const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
   .then( () => {
-    mainWindow.loadURL( BASE_URL )
+    mainWindow.loadURL( `${BASE_URL}/${CONTROLLER_URL}` )
   } )
   .catch( () => setTimeout( loadPage, 300 ) )
 
