@@ -9,11 +9,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {
-  faCogs,
   faSearch,
   faHistory,
   faBookOpen,
-  faWindowRestore,
   faList,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -28,8 +26,6 @@ const items = [
   [ 'Navigator', faList, 'navigator' ],
   [ 'History', faHistory, 'history' ],
   [ 'Bookmarks', faBookOpen, 'bookmarks' ],
-  [ 'Live Captions Tool', faWindowRestore, 'live-captions' ],
-  [ 'Settings', faCogs, 'settings' ],
 ]
 
 /**
