@@ -191,6 +191,8 @@ BottomBar.propTypes = {
 BottomBar.defaultProps = {
   onHover: () => {},
   renderContent: () => null,
+  shabad: null,
+  bani: null,
 }
 
 /**
