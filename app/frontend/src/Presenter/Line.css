@@ -83,7 +83,7 @@
   content: "\20";
 }
 
-.larivaar.line .word:after {
+.larivaar.line .word:after, .larivaar.line .partition + .partition:before {
   content: "\200B";
 }
 
