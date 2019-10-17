@@ -136,9 +136,10 @@ TopBar.defaultProps = {
  * @param location A `location` object.
  * @param onHover Fired on hover with name.
  */
-const BottomBar = ( { history, renderContent, location, onHover } ) => {
+const BottomBar = ( { history, renderContent, location, onHover, bani, shabad } ) => {
   const go = pathname => () => history.push( { ...location, pathname } )
   const resetHover = () => onHover( null )
+  const { lines = [] } = shabad || bani || {}
 
   return (
     <Toolbar className="bottom bar">
@@ -158,6 +159,7 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
         onMouseLeave={resetHover}
       />
       <div className="middle">{renderContent()}</div>
+      {!!lines.length && (
       <ToolbarButton
         name="Navigator"
         icon={faPlay}
@@ -165,6 +167,7 @@ const BottomBar = ( { history, renderContent, location, onHover } ) => {
         onMouseEnter={() => onHover( 'Navigator' )}
         onMouseLeave={resetHover}
       />
+      )}
       <ToolbarButton
         name="Clear"
         icon={faSquare}
@@ -181,6 +184,8 @@ BottomBar.propTypes = {
   location: location.isRequired,
   onHover: func,
   renderContent: func,
+  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
 }
 
 BottomBar.defaultProps = {
@@ -257,6 +262,7 @@ class Controller extends Component {
                   <Component {...this.props} {...props} />
                 </div>
                 <BottomBar
+                  {...this.props}
                   {...props}
                   onHover={this.onHover}
                   renderContent={() => BarComponent && <BarComponent {...this.props} {...props} />}
