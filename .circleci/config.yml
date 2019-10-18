@@ -96,8 +96,9 @@ jobs:
 
   publish-windows:
     <<: *publish
-    docker:
-      - image: electronuserland/builder
+    executor:
+      name: win/vs2019
+      shell: bash.exe
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
