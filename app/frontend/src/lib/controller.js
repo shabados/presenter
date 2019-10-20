@@ -122,6 +122,8 @@ class Controller extends EventEmitter {
     if ( lineId !== mainLineId ) {
       this.line( mainLineId )
 
+      if ( !lineId ) return
+
       const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
 
       // Set new next line to be the next line, bounded by the last line
