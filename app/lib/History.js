@@ -125,8 +125,11 @@ class History {
    */
   getViewedLinesAt( timestamp ) {
     return this.timestampHistory[ timestamp.toISOString() ]
-      .map( ( { line: { id } } ) => id )
-      .filter( id => id )
+      .filter( ( { line: { id } } ) => id )
+      .reduce( ( viewedLines, { line: { id }, timestamp } ) => ( {
+        ...viewedLines,
+        [ id ]: timestamp,
+      } ), {} )
   }
 
   /**

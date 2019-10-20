@@ -39,7 +39,7 @@ class App extends PureComponent {
       lineId: null,
       mainLineId: null,
       nextLineId: null,
-      viewedLines: new Set(),
+      viewedLines: {},
       transitionHistory: [],
       latestLines: {},
       shabad: null,

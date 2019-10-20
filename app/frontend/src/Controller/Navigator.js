@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { Redirect } from 'react-router-dom'
-import { string, func, shape, arrayOf, bool } from 'prop-types'
+import { string, func, shape, arrayOf, bool, objectOf } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
@@ -117,9 +117,14 @@ class Navigator extends PureComponent {
   restoreLine = () => {
     const { lineId, viewedLines } = this.props
 
-    if ( lineId || !viewedLines.length ) return
+    const ids = Object
+      .entries( viewedLines )
+      .sort( ( [ , t1 ], [ , t2 ] ) => new Date( t1 ) - new Date( t2 ) )
+      .map( ( [ id ] ) => id )
 
-    controller.line( viewedLines[ viewedLines.length - 1 ] )
+    if ( lineId || !ids ) return
+
+    controller.line( ids[ ids.length - 1 ] )
   }
 
   setMainLine = () => {
@@ -190,7 +195,7 @@ Navigator.propTypes = {
   register: func.isRequired,
   location: location.isRequired,
   focused: string,
-  viewedLines: arrayOf( string ),
+  viewedLines: objectOf( string ),
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   settings: shape( { local: shape( { hotkeys: shape( {} ) } ) } ).isRequired,
@@ -203,7 +208,7 @@ Navigator.defaultProps = {
   mainLineId: undefined,
   nextLineId: undefined,
   focused: undefined,
-  viewedLines: [],
+  viewedLines: {},
 }
 
 /**

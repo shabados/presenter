@@ -30,7 +30,7 @@ class SessionManager {
       bani: null,
       lineId: null,
       shabad: null,
-      viewedLines: [],
+      viewedLines: {},
       mainLineId: null,
       nextLineId: null,
       history: new History(),
@@ -120,7 +120,7 @@ class SessionManager {
       ...this.session,
       shabad,
       bani: null,
-      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : [],
+      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : {},
       mainLineId: null,
       nextLineId: null,
     }
@@ -140,7 +140,7 @@ class SessionManager {
    * @param {boolean} transition Whether or not the line change is also a Shabad change.
    */
   onLine( client, { lineId, lineOrderId }, transition = false ) {
-    const { viewedLines, bani, shabad, history } = this.session
+    const { bani, shabad, history } = this.session
 
     const content = shabad || bani
 
@@ -158,13 +158,16 @@ class SessionManager {
 
     logger.info( `Setting Line ID to ${newLineId}` )
 
-    const newViewedLines = newLineId ? [ ...viewedLines, newLineId ] : viewedLines
+    const viewedLines = {
+      ...this.session.viewedLines,
+      ...( newLineId && { [ newLineId ]: new Date() } ),
+    }
 
     const { lines = [] } = shabad || bani || {}
-    this.session = { ...this.session, lineId: newLineId, viewedLines: newViewedLines }
+    this.session = { ...this.session, lineId: newLineId, viewedLines }
 
     this.socket.broadcast( 'lines:current', newLineId )
-    this.socket.broadcast( 'history:viewed-lines', newViewedLines )
+    this.socket.broadcast( 'history:viewed-lines', viewedLines )
 
     // Set the main line and calculate next line if transition
     if ( transition && shabad ) {
@@ -255,7 +258,7 @@ class SessionManager {
       ...this.session,
       bani,
       shabad: null,
-      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : [],
+      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : {},
     }
 
     this.socket.broadcast( 'banis:current', bani )
