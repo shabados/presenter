@@ -178,7 +178,9 @@ class SessionManager {
     // Update and save history
     const line = lines.find( ( { id } ) => newLineId === id )
     const isTransition = transition || newLineId === null
-    history.update( { line, bani, shabad }, isTransition )
+
+    const { mainLineId, nextLineId } = this.session
+    history.update( { line, bani, shabad, mainLineId, nextLineId }, isTransition )
 
     // Update the latest lines
     this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )

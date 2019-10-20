@@ -27,8 +27,9 @@ class History {
    */
   constructor( fields = CSV_FIELDS ) {
     this.writeStream = null
-    this.history = []
-    this.historyMap = {}
+    this.linearHistory = [] // Continuous history
+    this.timestampHistory = {} // History keyed by timestamp of open
+    this.latestHistoryFor = { banis: {}, shabads: {} } // History keyed by shabad/bani ID
 
     // Split dot properties up
     this.fields = fields.map( ( [ field, transform ] ) => [ field.split( '.' ), transform ] )
@@ -51,12 +52,12 @@ class History {
    * @param {boolean} transition Whether this entry was triggered by a new Shabad selection.
    */
   update( data, transition = false ) {
-    const { line = {}, bani } = data
+    const { line = {}, bani, mainLineId, nextLineId } = data
     const shabad = omit( line.shabad || data.shabad, [ 'lines' ] )
 
     // Do not add entry if it's the same line as the last
-    if ( this.history.length ) {
-      const { line: prevLine = {} } = this.history[ this.history.length - 1 ]
+    if ( this.linearHistory.length ) {
+      const { line: prevLine = {} } = this.linearHistory[ this.linearHistory.length - 1 ]
 
       if ( line.id === prevLine.id ) return
     }
@@ -66,22 +67,35 @@ class History {
       timestamp,
       transition,
       shabad,
+      ...( mainLineId && { mainLineId } ),
+      ...( nextLineId && { nextLineId } ),
       line: omit( line, [ 'transliterations', 'translations', 'shabad' ] ),
       ...( bani && { bani: omit( bani, [ 'lines' ] ) } ),
     }
 
 
     // Add to global history
-    this.history = [ ...this.history, entry ]
+    this.linearHistory = [ ...this.linearHistory, entry ]
 
     // Add to history of main transition timestamp
     const { timestamp: transitionTimestamp } = this.getLatestTransition() || { timestamp }
-    this.historyMap = {
-      ...this.historyMap,
+    this.timestampHistory = {
+      ...this.timestampHistory,
       [ transitionTimestamp.toISOString() ]: [
-        ...( this.historyMap[ transitionTimestamp.toISOString() ] || [] ),
+        ...( this.timestampHistory[ transitionTimestamp.toISOString() ] || [] ),
         entry,
       ],
+    }
+
+    // Add to history of id for bani/shabad
+    const { id } = bani || shabad
+    const type = bani ? 'banis' : 'shabads'
+    this.latestHistoryFor = {
+      ...this.latestHistoryFor,
+      [ type ]: {
+        ...this.latestHistoryFor[ type ],
+        ...( line.id && { [ id ]: entry } ),
+      },
     }
 
     // Write to file
@@ -93,7 +107,7 @@ class History {
    * @returns {Array} A list of the history entries.
    */
   getTransitionsOnly() {
-    return this.history
+    return this.linearHistory
       .filter( ( { transition } ) => transition )
       .filter( ( { line: { id } } ) => id )
   }
@@ -102,7 +116,7 @@ class History {
    * Gets the latest transition to a Shabad or Bani.
    */
   getLatestTransition() {
-    return findLast( this.history, ( { transition, line: { id } } ) => transition && id )
+    return findLast( this.linearHistory, ( { transition, line: { id } } ) => transition && id )
   }
 
   /**
@@ -110,7 +124,7 @@ class History {
    * @param {Date} timestamp The timestamp to fetch viewed lines for.
    */
   getViewedLinesAt( timestamp ) {
-    return this.historyMap[ timestamp.toISOString() ]
+    return this.timestampHistory[ timestamp.toISOString() ]
       .map( ( { line: { id } } ) => id )
       .filter( id => id )
   }
@@ -119,10 +133,12 @@ class History {
    * Gets the latest line of each transition.
    */
   getLatestLines() {
-    return Object.entries( this.historyMap ).reduce( ( timestamps, [ timestamp, history ] ) => ( {
-      ...timestamps,
-      [ timestamp ]: findLast( history, ( { line: { id } } ) => id ),
-    } ), {} )
+    return Object
+      .entries( this.timestampHistory )
+      .reduce( ( timestamps, [ timestamp, history ] ) => ( {
+        ...timestamps,
+        [ timestamp ]: findLast( history, ( { line: { id } } ) => id ),
+      } ), {} )
   }
 
   /**
@@ -130,14 +146,14 @@ class History {
    * @returns {Array} A list of all the history.
    */
   get() {
-    return this.history
+    return this.linearHistory
   }
 
   /**
    * Clears all history.
    */
   reset() {
-    this.history = []
+    this.linearHistory = []
   }
 
   /**
