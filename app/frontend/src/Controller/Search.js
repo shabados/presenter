@@ -91,7 +91,11 @@ class Search extends Component {
     // Search if enough letters
     const doSearch = inputValue.length >= MIN_SEARCH_CHARS
 
-    if ( doSearch ) controller.search( inputValue, searchType )
+    const searchValue = searchType === SEARCH_TYPES.firstLetter
+      ? inputValue.slice().replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '_' )
+      : inputValue
+
+    if ( doSearch ) controller.search( searchValue, searchType )
 
     this.setState( { inputValue, anchor, ...( !doSearch && { results: [] } ) } )
 
@@ -119,7 +123,7 @@ class Search extends Component {
     const splitChar = !anchor ? ' ' : ''
 
     // Remember to account for wildcard characters
-    const pos = query.search( searchedValue.replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '.' ) )
+    const pos = query.search( searchedValue.slice().replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '.' ) )
 
     const words = stripPauses( gurmukhi ).split( splitChar )
 
