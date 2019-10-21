@@ -102,7 +102,7 @@ class SessionManager {
    * @param {string} shabadId The ID of the Shabad.
    * @param {string} lineId The optional line in the Shabad.
    */
-  async onShabad( client, { shabadId, shabadOrderId = null, restoreFrom, ...rest } ) {
+  async onShabad( client, { shabadId, shabadOrderId = null, lineId } ) {
     const { history } = this.session
 
     // Clamp Shabad order IDs that exceed the limit, if specified
@@ -120,13 +120,16 @@ class SessionManager {
       ...this.session,
       shabad,
       bani: null,
-      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : {},
+      viewedLines: history.getViewedLinesFor( shabad.id ),
       mainLineId: null,
       nextLineId: null,
     }
 
     this.socket.broadcast( 'shabads:current', shabad )
-    this.onLine( client, rest, true )
+
+    // Use last line navigated to of shabad, if exists
+    const { line } = history.getLatestFor( shabad.id ) || {}
+    this.onLine( client, { lineId: line ? line.id : lineId }, true )
 
     // Rebroadcast history
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
@@ -171,11 +174,14 @@ class SessionManager {
 
     // Set the main line and calculate next line if transition
     if ( transition && shabad ) {
-      this.onMainLine( client, lineId )
+      // Try to use previous history values
+      const { mainLineId, nextLineId: prevNextLineId } = history.getLatestFor( shabad.id ) || {}
+
+      this.onMainLine( client, mainLineId || lineId )
 
       // Next line is either first line, or line after
       const { id: nextLineId } = lines[ 0 ] === lineId ? lines[ 1 ] : lines[ 0 ]
-      this.onNextLine( client, nextLineId )
+      this.onNextLine( client, prevNextLineId || nextLineId )
     }
 
     // Update and save history
@@ -244,7 +250,7 @@ class SessionManager {
    * @param {WebSocket} client The socket client that sent the Bani.
    * @param {string} baniId The ID of the Bani.
    */
-  async onBani( client, { baniId, lineId = null, restoreFrom } ) {
+  async onBani( client, { baniId, lineId = null } ) {
     const { history } = this.session
     logger.info( `Setting the Bani ID to ${baniId}` )
 
@@ -258,7 +264,7 @@ class SessionManager {
       ...this.session,
       bani,
       shabad: null,
-      viewedLines: restoreFrom ? history.getViewedLinesAt( new Date( restoreFrom ) ) : {},
+      viewedLines: history.getViewedLinesFor( bani.id ),
     }
 
     this.socket.broadcast( 'banis:current', bani )

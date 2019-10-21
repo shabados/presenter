@@ -96,13 +96,11 @@ class Controller extends EventEmitter {
     shabadOrderId = null,
     lineId = null,
     lineOrderId = null,
-    restoreFrom = null,
   } ) => this.sendJSON( 'shabads:current', {
     shabadId,
     shabadOrderId,
     lineId,
     lineOrderId,
-    restoreFrom,
   } )
 
   previousShabad = ( orderId, setLine = true ) => this.shabad( {
@@ -163,11 +161,7 @@ class Controller extends EventEmitter {
    * Sets the current Bani ID.
    * @param baniId The ID of the Bani to change to.
    */
-  bani = ( {
-    baniId,
-    lineId = null,
-    restoreFrom = null,
-  } ) => this.sendJSON( 'banis:current', { baniId, lineId, restoreFrom } )
+  bani = ( { baniId, lineId = null } ) => this.sendJSON( 'banis:current', { baniId, lineId } )
 
   /**
    * Reads the settings from local storage, and combines with default settings.

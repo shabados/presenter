@@ -29,7 +29,7 @@ class History {
     this.writeStream = null
     this.linearHistory = [] // Continuous history
     this.timestampHistory = {} // History keyed by timestamp of open
-    this.latestHistoryFor = { banis: {}, shabads: {} } // History keyed by shabad/bani ID
+    this.historyFor = { banis: {}, shabads: {} } // History keyed by shabad/bani ID
 
     // Split dot properties up
     this.fields = fields.map( ( [ field, transform ] ) => [ field.split( '.' ), transform ] )
@@ -90,11 +90,11 @@ class History {
     // Add to history of id for bani/shabad
     const { id } = bani || shabad
     const type = bani ? 'banis' : 'shabads'
-    this.latestHistoryFor = {
-      ...this.latestHistoryFor,
+    this.historyFor = {
+      ...this.historyFor,
       [ type ]: {
-        ...this.latestHistoryFor[ type ],
-        ...( line.id && { [ id ]: entry } ),
+        ...this.historyFor[ type ],
+        ...( line.id && { [ id ]: [ ...( this.historyFor[ type ][ id ] || [] ), entry ] } ),
       },
     }
 
@@ -123,8 +123,10 @@ class History {
    * Fetches all the viewed lines for a transition group at a given timestamp.
    * @param {Date} timestamp The timestamp to fetch viewed lines for.
    */
-  getViewedLinesAt( timestamp ) {
-    return this.timestampHistory[ timestamp.toISOString() ]
+  getViewedLinesFor( id, bani = false ) {
+    const type = bani ? 'banis' : 'shabads'
+
+    return ( this.historyFor[ type ][ id ] || [] )
       .filter( ( { line: { id } } ) => id )
       .reduce( ( viewedLines, { line: { id }, timestamp } ) => ( {
         ...viewedLines,
@@ -142,6 +144,11 @@ class History {
         ...timestamps,
         [ timestamp ]: findLast( history, ( { line: { id } } ) => id ),
       } ), {} )
+  }
+
+  getLatestFor( id, bani = false ) {
+    const latestHistoryFor = this.historyFor[ bani ? 'banis' : 'shabads' ][ id ] || []
+    return latestHistoryFor[ latestHistoryFor.length - 1 ]
   }
 
   /**

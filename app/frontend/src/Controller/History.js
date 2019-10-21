@@ -34,8 +34,8 @@ const History = ( { transitionHistory, latestLines, register, focused } ) => (
       const latestLineId = latestLine ? latestLine.id : lineId
 
       const onClick = () => ( bani
-        ? controller.bani( { baniId: bani.id, lineId: latestLineId, restoreFrom: timestamp } )
-        : controller.shabad( { shabadId, lineId: latestLineId, restoreFrom: timestamp } ) )
+        ? controller.bani( { baniId: bani.id, lineId: latestLineId } )
+        : controller.shabad( { shabadId, lineId: latestLineId } ) )
 
       return (
         <ListItem

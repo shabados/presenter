@@ -21,7 +21,7 @@ const Bookmarks = ( { banis, transitionHistory, latestLines, register, focused }
     // Use timestamp to get latest line for that navigation period
     const latestLineId = latestLine ? latestLine.id : null
 
-    controller.bani( { baniId: id, lineId: latestLineId, restoreFrom: timestamp } )
+    controller.bani( { baniId: id, lineId: latestLineId } )
   }
 
   return (
