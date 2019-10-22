@@ -146,6 +146,7 @@ class SessionManager {
     const { bani, shabad, history } = this.session
 
     const content = shabad || bani
+    if ( !content ) return
 
     // Clamp line order IDs that exceed the Shabad's range of lines, if specified
     const lineOrderIdRange = [
