@@ -269,7 +269,10 @@ class SessionManager {
     }
 
     this.socket.broadcast( 'banis:current', bani )
-    this.onLine( client, { lineId: id }, true )
+
+    // Use last line navigated to of shabad, if exists
+    const { line } = history.getLatestFor( bani.id, true ) || {}
+    this.onLine( client, { lineId: line ? line.id : id }, true )
 
     // Rebroadcast history
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
