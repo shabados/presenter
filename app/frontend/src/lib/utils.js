@@ -7,6 +7,7 @@ import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
 import deepmerge from 'deepmerge'
 import queryString from 'qs'
+import { debounce } from 'lodash'
 
 import { PAUSE_CHARS, STATES } from './consts'
 
@@ -112,3 +113,5 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
     ( { translationSourceId: id } ) => translationId === id
   ) ).translation
 }
+
+export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
