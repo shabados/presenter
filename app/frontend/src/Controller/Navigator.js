@@ -6,8 +6,6 @@ import { string, func, shape, arrayOf, bool, objectOf } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
-import { GlobalHotKeys } from 'react-hotkeys'
-
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 
@@ -17,7 +15,7 @@ import {
   faExchangeAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { LINE_HOTKEYS, NAVIGATOR_SHORTCUTS } from '../lib/keyMap'
+import { LINE_HOTKEYS } from '../lib/keyMap'
 import { CONTROLLER_URL } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
@@ -88,79 +86,9 @@ class Navigator extends PureComponent {
     }
   }
 
-  jumpFirstLine = () => {
-    const { focused, shabad, bani } = this.props
-    const { lines: [ firstLine ] } = shabad || bani
-
-    // Go to the previous shabad if the first line is highlighted (but not for banis)
-    if ( !bani && focused === firstLine.id ) controller.previousShabad( shabad.orderId )
-    else controller.line( firstLine.id )
-  }
-
-  jumpLastLine = () => {
-    const { focused, shabad, bani } = this.props
-    const { lines } = shabad || bani
-    const lastLine = lines[ lines.length - 1 ]
-
-    // Go to the next shabad if the last line is highlighted (but not for banis)
-    if ( !bani && focused === lastLine.id ) controller.nextShabad( shabad.orderId )
-    else controller.line( lastLine.id )
-  }
-
-  autoToggle = () => {
-    const { shabad } = this.props
-
-    if ( shabad ) controller.autoToggleShabad( this.props )
-    // Todo: For banis, just jump to the next section, or do nothing?
-  }
-
-  restoreLine = () => {
-    const { lineId, viewedLines } = this.props
-
-    const ids = Object
-      .entries( viewedLines )
-      .sort( ( [ , t1 ], [ , t2 ] ) => new Date( t1 ) - new Date( t2 ) )
-      .map( ( [ id ] ) => id )
-
-    if ( lineId || !ids ) return
-
-    controller.line( ids[ ids.length - 1 ] )
-  }
-
-  setMainLine = () => {
-    const { lineId } = this.props
-
-    if ( !lineId ) return
-
-    controller.mainLine( lineId )
-  }
-
-  goMainLine = () => {
-    const { mainLineId } = this.props
-
-    if ( mainLineId ) controller.line( mainLineId )
-  }
-
-  goNextLine = () => {
-    const { nextLineId } = this.props
-
-    if ( nextLineId ) controller.line( nextLineId )
-  }
-
-  handlers = {
-    [ NAVIGATOR_SHORTCUTS.firstLine.name ]: this.jumpFirstLine,
-    [ NAVIGATOR_SHORTCUTS.lastLine.name ]: this.jumpLastLine,
-    [ NAVIGATOR_SHORTCUTS.autoToggle.name ]: this.autoToggle,
-    [ NAVIGATOR_SHORTCUTS.restoreLine.name ]: this.restoreLine,
-    [ NAVIGATOR_SHORTCUTS.setMainLine.name ]: this.setMainLine,
-    [ NAVIGATOR_SHORTCUTS.goNextLine.name ]: this.goNextLine,
-    [ NAVIGATOR_SHORTCUTS.goMainLine.name ]: this.goMainLine,
-  }
-
   render() {
-    const { location, shabad, bani, register, focused, settings } = this.props
+    const { location, shabad, bani, register, focused } = this.props
 
-    const { local: { hotkeys } } = settings
     const content = shabad || bani
 
     // If there's no Shabad to show, go back to the controller
@@ -170,19 +98,17 @@ class Navigator extends PureComponent {
 
     const { lines } = content
     return (
-      <GlobalHotKeys handlers={this.handlers} keyMap={hotkeys}>
-        <List className="navigator" onKeyDown={e => e.preventDefault()}>
-          {lines.map( ( line, index ) => (
-            <NavigatorLine
-              key={line.id}
-              {...line}
-              focused={line.id === focused}
-              hotkey={LINE_HOTKEYS[ index ]}
-              register={register}
-            />
-          ) )}
-        </List>
-      </GlobalHotKeys>
+      <List className="navigator" onKeyDown={e => e.preventDefault()}>
+        {lines.map( ( line, index ) => (
+          <NavigatorLine
+            key={line.id}
+            {...line}
+            focused={line.id === focused}
+            hotkey={LINE_HOTKEYS[ index ]}
+            register={register}
+          />
+        ) )}
+      </List>
     )
   }
 }
@@ -198,7 +124,6 @@ Navigator.propTypes = {
   viewedLines: objectOf( string ),
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
-  settings: shape( { local: shape( { hotkeys: shape( {} ) } ) } ).isRequired,
 }
 
 Navigator.defaultProps = {
