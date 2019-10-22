@@ -102,7 +102,7 @@ class SessionManager {
    * @param {string} shabadId The ID of the Shabad.
    * @param {string} lineId The optional line in the Shabad.
    */
-  async onShabad( client, { shabadId, shabadOrderId = null, lineId } ) {
+  async onShabad( client, { shabadId, shabadOrderId = null, ...rest } ) {
     const { history } = this.session
 
     // Clamp Shabad order IDs that exceed the limit, if specified
@@ -129,7 +129,7 @@ class SessionManager {
 
     // Use last line navigated to of shabad, if exists
     const { line } = history.getLatestFor( shabad.id ) || {}
-    this.onLine( client, { lineId: line ? line.id : lineId }, true )
+    this.onLine( client, { ...( line ? { lineId: line.id } : rest ) }, true )
 
     // Rebroadcast history
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
