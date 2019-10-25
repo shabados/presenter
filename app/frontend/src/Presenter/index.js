@@ -3,7 +3,7 @@ import { shape, string } from 'prop-types'
 import { hot } from 'react-hot-loader/root'
 import { location } from 'react-router-prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
-import { Link, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import queryString from 'qs'
 import classNames from 'classnames'
 
@@ -154,9 +154,9 @@ class Presenter extends Component {
             </Suspense>
 
             <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
-              <Link onClick={this.toggleController}>
-                <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
-              </Link>
+              <IconButton className="expand-icon" onClick={this.toggleController}>
+                <FontAwesomeIcon icon={faPlus} />
+              </IconButton>
 
               <Route path={CONTROLLER_URL}>
                 {props => <Controller {...this.props} {...props} />}
