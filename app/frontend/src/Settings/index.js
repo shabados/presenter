@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { hot } from 'react-hot-loader/root'
 import { Redirect, Link, Switch, Route } from 'react-router-dom'
-import { shape, string } from 'prop-types'
+import { shape, string, bool } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
@@ -196,7 +196,7 @@ class Settings extends Component {
 
   render() {
     const { device } = this.state
-    const { location: { pathname }, settings } = this.props
+    const { location: { pathname }, settings, connected } = this.props
 
     const { theme: { simpleGraphics } } = settings.local
     const { theme: { themeName }, hotkeys } = settings[ device ]
@@ -207,7 +207,7 @@ class Settings extends Component {
 
     return (
       <div className={classNames( { simple: simpleGraphics }, 'settings' )}>
-        <ThemeLoader name={themeName} />
+        <ThemeLoader name={themeName} connected={connected} />
         <this.Titlebar title={group} />
         <Hidden smUp><this.MobileMenu /></Hidden>
         <Hidden xsDown implementation="css"><this.DesktopMenu /></Hidden>
@@ -231,6 +231,7 @@ class Settings extends Component {
 }
 
 Settings.propTypes = {
+  connected: bool.isRequired,
   settings: shape( { local: shape( {
     theme: shape( { options: shape( { themeName: string } ) } ),
   } ) } ).isRequired,

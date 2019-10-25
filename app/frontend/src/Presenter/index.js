@@ -135,7 +135,7 @@ class Presenter extends Component {
   } )
 
   render() {
-    const { settings, location: { search, pathname }, status } = this.props
+    const { settings, location: { search, pathname }, status, connected } = this.props
     const { controllerOnly } = getUrlState( search )
 
     const { local: localSettings } = settings
@@ -144,7 +144,7 @@ class Presenter extends Component {
     return (
       <div className="presenter">
         <CssBaseline />
-        <ThemeLoader name={themeName} />
+        <ThemeLoader name={themeName} connected={connected} />
 
         <GlobalHotKeys keyMap={hotkeys} handlers={this.hotkeyHandlers}>
           <NavigatorHotKeys {...this.props} active={!pathname.includes( CONTROLLER_URL )}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { shape, arrayOf, string } from 'prop-types'
+import { shape, arrayOf, string, bool } from 'prop-types'
 
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
@@ -8,7 +8,7 @@ import { getTranslation } from '../lib/utils'
 
 import './index.css'
 
-const Overlay = ( { shabad, bani, lineId, settings } ) => {
+const Overlay = ( { shabad, bani, lineId, settings, connected } ) => {
   const { local: localSettings } = settings || {}
   const { sources } = localSettings || {}
 
@@ -23,7 +23,7 @@ const Overlay = ( { shabad, bani, lineId, settings } ) => {
 
   return (
     <div className="overlay">
-      <ThemeLoader />
+      <ThemeLoader connected={connected} />
       <Line
         simpleGraphics
         gurmukhi={line ? line.gurmukhi : ''}
@@ -46,6 +46,7 @@ Overlay.propTypes = {
     lines: arrayOf( shape( Line.PropTypes ) ),
   } ),
   settings: shape( {} ).isRequired,
+  connected: bool.isRequired,
 }
 
 Overlay.defaultProps = {

@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { bool, string } from 'prop-types'
 
 import { OVERLAY_THEMES_URL } from '../lib/consts'
 
@@ -8,7 +8,7 @@ import { OVERLAY_THEMES_URL } from '../lib/consts'
  * @param name The name of the CSS theme to load from the server.
  * @constructor
  */
-const ThemeLoader = ( { name } ) => name && (
+const ThemeLoader = ( { name, connected } ) => connected && name && (
   <link
     rel="stylesheet"
     href={`${OVERLAY_THEMES_URL}/${name}.css`}
@@ -16,7 +16,8 @@ const ThemeLoader = ( { name } ) => name && (
 )
 
 ThemeLoader.propTypes = {
-  name: PropTypes.string,
+  name: string,
+  connected: bool.isRequired,
 }
 
 ThemeLoader.defaultProps = {
