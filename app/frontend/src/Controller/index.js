@@ -199,7 +199,16 @@ BottomBar.defaultProps = {
  * Controller controls the display and configures settings.
  */
 class Controller extends Component {
-  state = { hovered: null, lastUrl: SEARCH_URL }
+  constructor( props ) {
+    super( props )
+
+    const { location: { search } } = this.props
+
+    this.state = {
+      hovered: null,
+      lastUrl: `${SEARCH_URL}${search}`,
+    }
+  }
 
   unlistenHistory = () => {}
 
