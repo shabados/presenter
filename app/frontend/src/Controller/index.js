@@ -238,8 +238,10 @@ class Controller extends Component {
     const { pathname } = location
 
     const redirects = [ SEARCH_URL, HISTORY_URL, BOOKMARKS_URL ]
+
     // Go to navigator if a different Shabad/Bani has been selected, and we're on a redirect page
-    const isNewSelection = shabad !== prevShabad || bani !== prevBani
+    const isNewSelection = ( shabad && shabad !== prevShabad ) || ( bani && bani !== prevBani )
+
     if ( isNewSelection && redirects.some( route => pathname.includes( route ) ) ) {
       history.push( { ...location, pathname: NAVIGATOR_URL } )
     }

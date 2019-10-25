@@ -16,7 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import { LINE_HOTKEYS } from '../lib/keyMap'
-import { CONTROLLER_URL } from '../lib/consts'
+import { SEARCH_URL } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
 
@@ -94,7 +94,7 @@ class Navigator extends PureComponent {
 
     // If there's no Shabad to show, go back to the controller
     if ( !content ) {
-      return <Redirect to={{ ...location, pathname: CONTROLLER_URL }} />
+      return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
     }
 
     const { lines } = content
