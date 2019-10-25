@@ -3,7 +3,7 @@ import { arrayOf, shape, string, node, bool, objectOf } from 'prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 
 import controller from '../lib/controller'
-import { NAVIGATOR_SHORTCUTS } from '../lib/keyMap'
+import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
 
 /**
  * Hotkeys for controlling the navigator.
@@ -95,6 +95,17 @@ class NavigatorHotKeys extends Component {
     controller.nextLine( orderId )
   }
 
+  goToIndex = index => {
+    const { shabad, bani } = this.props
+    const { lines } = shabad || bani || {}
+
+    if ( !lines ) return
+
+    const { id } = lines[ index ]
+
+    controller.line( id )
+  }
+
   /**
    * Prevents the default action from occurring for each handler.
    * @param events An object containing the event names and corresponding handlers.
@@ -116,14 +127,25 @@ class NavigatorHotKeys extends Component {
       [ NAVIGATOR_SHORTCUTS.setMainLine.name ]: this.setMainLine,
       [ NAVIGATOR_SHORTCUTS.goJumpLine.name ]: this.goJumpLine,
       [ NAVIGATOR_SHORTCUTS.goMainLine.name ]: this.goMainLine,
+      ...LINE_HOTKEYS.reduce( ( handlers, key, i ) => ( {
+        ...handlers,
+        [ key ]: () => this.goToIndex( i ),
+      } ), {} ),
     } )
+
+    numberKeyMap = LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
+      ...keymap,
+      [ hotkey ]: hotkey,
+    } ), {} )
 
     render() {
       const { active, children, settings } = this.props
       const { local: { hotkeys } } = settings || {}
 
+      const keyMap = { ...hotkeys, ...this.numberKeyMap }
+
       return (
-        <GlobalHotKeys keyMap={hotkeys} handlers={active && this.hotKeyHandlers}>
+        <GlobalHotKeys keyMap={keyMap} handlers={active && this.hotKeyHandlers}>
           {children}
         </GlobalHotKeys>
       )
