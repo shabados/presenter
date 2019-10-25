@@ -53,8 +53,12 @@ const Menu = ( { history, location, register, focused } ) => (
 Menu.propTypes = {
   history: history.isRequired,
   location: location.isRequired,
-  focused: string.isRequired,
+  focused: string,
   register: func.isRequired,
+}
+
+Menu.defaultProps = {
+  focused: items[ 0 ][ 0 ],
 }
 
 export default withNavigationHotKeys( {} )( Menu )

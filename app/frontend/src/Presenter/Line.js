@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
-import { string, bool, number } from 'prop-types'
+import { string, bool, number, oneOfType } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 
@@ -101,9 +101,9 @@ const Line = ( {
 Line.propTypes = {
   className: string,
   gurmukhi: string.isRequired,
-  punjabiTranslation: string,
-  englishTranslation: string,
-  transliteration: string,
+  punjabiTranslation: oneOfType( [ string, bool ] ),
+  englishTranslation: oneOfType( [ string, bool ] ),
+  transliteration: oneOfType( [ string, bool ] ),
   spacing: string,
   larivaarGurbani: bool,
   larivaarAssist: bool,

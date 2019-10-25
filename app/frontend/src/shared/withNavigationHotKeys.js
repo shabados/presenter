@@ -210,7 +210,11 @@ const withNavigationHotKeys = ( {
   }
 
   WithNavigationHotKeys.propTypes = {
-    forwardedRef: instanceOf( WithNavigationHotKeys ).isRequired,
+    forwardedRef: instanceOf( WithNavigationHotKeys ),
+  }
+
+  WithNavigationHotKeys.defaultProps = {
+    forwardedRef: null,
   }
 
   const forwardRef = ( props, ref ) => <WithNavigationHotKeys {...props} forwardedRef={ref} />

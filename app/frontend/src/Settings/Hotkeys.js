@@ -39,7 +39,9 @@ const Hotkeys = ( { keys, shortcuts } ) => (
                   <Grid item xs={1}>
                     {description && (
                     <Tooltip title={description}>
-                      <FontAwesomeIcon icon={faQuestionCircle} />
+                      <span>
+                        <FontAwesomeIcon icon={faQuestionCircle} />
+                      </span>
                     </Tooltip>
                     )}
                   </Grid>

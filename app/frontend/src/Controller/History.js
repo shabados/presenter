@@ -1,5 +1,5 @@
 import React from 'react'
-import { func, number, arrayOf, shape, instanceOf, string, objectOf } from 'prop-types'
+import { func, number, arrayOf, shape, instanceOf, string, objectOf, oneOfType } from 'prop-types'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -65,7 +65,7 @@ const History = ( { transitionHistory, latestLines, register, focused } ) => (
 )
 
 const lineHistoryType = shape( {
-  timestamp: instanceOf( Date ),
+  timestamp: oneOfType( [ instanceOf( Date ), string ] ),
   line: shape( {
     id: string,
     shabadId: string,
@@ -76,12 +76,13 @@ const lineHistoryType = shape( {
 
 History.propTypes = {
   register: func.isRequired,
-  focused: number.isRequired,
+  focused: number,
   transitionHistory: arrayOf( lineHistoryType ),
   latestLines: objectOf( lineHistoryType ),
 }
 
 History.defaultProps = {
+  focused: 0,
   transitionHistory: [],
   latestLines: {},
 }

@@ -145,7 +145,7 @@ class NavigatorHotKeys extends Component {
       const keyMap = { ...hotkeys, ...this.numberKeyMap }
 
       return (
-        <GlobalHotKeys keyMap={keyMap} handlers={active && this.hotKeyHandlers}>
+        <GlobalHotKeys keyMap={keyMap} handlers={active ? this.hotKeyHandlers : {}}>
           {children}
         </GlobalHotKeys>
       )
@@ -165,7 +165,7 @@ NavigatorHotKeys.propTypes = {
   bani: shape( {
     lines: arrayOf( shape( { id: string } ) ),
   } ),
-  viewedLines: arrayOf( string ),
+  viewedLines: objectOf( string ),
   settings: shape( { local: shape( { hotkeys: objectOf( arrayOf( string ) ) } ) } ).isRequired,
 }
 

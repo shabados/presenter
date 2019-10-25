@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, shape, string, func, number } from 'prop-types'
+import { arrayOf, shape, string, func, number, oneOfType } from 'prop-types'
 
 import { List, ListItem } from '@material-ui/core'
 
@@ -28,11 +28,15 @@ const Bookmarks = ( { banis, register, focused } ) => (
 
 Bookmarks.propTypes = {
   banis: arrayOf( shape( {
-    id: string,
+    id: oneOfType( [ string, number ] ),
     name: string,
   } ) ).isRequired,
   register: func.isRequired,
-  focused: number.isRequired,
+  focused: number,
+}
+
+Bookmarks.defaultProps = {
+  focused: 0,
 }
 
 export default withNavigationHotKeys( {
