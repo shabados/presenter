@@ -178,10 +178,10 @@ class SessionManager {
       // Try to use previous history values
       const { mainLineId, nextLineId: prevNextLineId } = history.getLatestFor( shabad.id ) || {}
 
-      this.onMainLine( client, mainLineId || lineId )
+      this.onMainLine( client, mainLineId || newLineId )
 
       // Next line is either first line, or line after
-      const { id: nextLineId } = lines[ 0 ] === lineId ? lines[ 1 ] : lines[ 0 ]
+      const { id: nextLineId } = lines[ 0 ] === newLineId ? lines[ 1 ] : lines[ 0 ]
       this.onNextLine( client, prevNextLineId || nextLineId )
     }
 
