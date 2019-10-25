@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { arrayOf, shape, string, node } from 'prop-types'
+import { arrayOf, shape, string, node, bool, objectOf } from 'prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 
 import controller from '../lib/controller'
-import keyMap, { NAVIGATOR_SHORTCUTS } from '../lib/keyMap'
+import { NAVIGATOR_SHORTCUTS } from '../lib/keyMap'
 
 /**
  * Hotkeys for controlling the navigator.
@@ -118,12 +118,12 @@ class NavigatorHotKeys extends Component {
       [ NAVIGATOR_SHORTCUTS.goMainLine.name ]: this.goMainLine,
     } )
 
-
     render() {
-      const { children } = this.props
+      const { active, children, settings } = this.props
+      const { local: { hotkeys } } = settings || {}
 
       return (
-        <GlobalHotKeys keyMap={keyMap} handlers={this.hotKeyHandlers}>
+        <GlobalHotKeys keyMap={hotkeys} handlers={active && this.hotKeyHandlers}>
           {children}
         </GlobalHotKeys>
       )
@@ -132,6 +132,7 @@ class NavigatorHotKeys extends Component {
 
 
 NavigatorHotKeys.propTypes = {
+  active: bool,
   children: node,
   lineId: string,
   nextLineId: string,
@@ -143,9 +144,11 @@ NavigatorHotKeys.propTypes = {
     lines: arrayOf( shape( { id: string } ) ),
   } ),
   viewedLines: arrayOf( string ),
+  settings: shape( { local: shape( { hotkeys: objectOf( arrayOf( string ) ) } ) } ).isRequired,
 }
 
 NavigatorHotKeys.defaultProps = {
+  active: false,
   shabad: null,
   bani: null,
   lineId: null,

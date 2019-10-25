@@ -30,6 +30,7 @@ class App extends PureComponent {
     // Configure react-hotkeys
     configure( {
       ignoreTags: [],
+      ignoreKeymapAndHandlerChangesByDefault: false,
     } )
 
     this.state = {

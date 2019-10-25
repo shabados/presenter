@@ -28,11 +28,11 @@ import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
 
 import ThemeLoader from '../shared/ThemeLoader'
 import Loader from '../shared/Loader'
+import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 
 import StatusToast from './StatusToast'
 
 import './index.css'
-import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
@@ -143,29 +143,27 @@ class Presenter extends Component {
 
     return (
       <div className="presenter">
-        {( !pathname.includes( CONTROLLER_URL ) || pathname.includes( NAVIGATOR_URL ) )
-        && <NavigatorHotKeys {...this.props} />}
-
         <CssBaseline />
         <ThemeLoader name={themeName} />
 
         <GlobalHotKeys keyMap={hotkeys} handlers={this.hotkeyHandlers}>
+          <NavigatorHotKeys {...this.props} active={!pathname.includes( CONTROLLER_URL )}>
 
-          <Suspense fallback={<Loader />}>
-            {!controllerOnly && <Display {...this.props} settings={localSettings} />}
-          </Suspense>
+            <Suspense fallback={<Loader />}>
+              {!controllerOnly && <Display {...this.props} settings={localSettings} />}
+            </Suspense>
 
-          <Suspense fallback={null}>
             <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
-              <Link to={CONTROLLER_URL}>
+              <Link onClick={this.toggleController}>
                 <IconButton className="expand-icon"><FontAwesomeIcon icon={faPlus} /></IconButton>
               </Link>
+
               <Route path={CONTROLLER_URL}>
                 {props => <Controller {...this.props} {...props} />}
               </Route>
             </div>
-          </Suspense>
 
+          </NavigatorHotKeys>
         </GlobalHotKeys>
 
         <StatusToast status={status} />

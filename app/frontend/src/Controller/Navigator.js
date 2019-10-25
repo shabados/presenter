@@ -21,6 +21,7 @@ import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
+import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 
 import ToolbarButton from './ToolbarButton'
 
@@ -136,6 +137,22 @@ Navigator.defaultProps = {
   viewedLines: {},
 }
 
+const NavigatorWithNavigationHotKeys = withNavigationHotKeys( {
+  arrowKeys: true,
+  lineKeys: true,
+  clickOnFocus: true,
+  wrapAround: false,
+} )( Navigator )
+
+// Wrap withNavigationHotKeys first so that it takes precedence
+const NavigatorWithAllHotKeys = props => (
+  <NavigatorHotKeys {...props} active>
+    <NavigatorWithNavigationHotKeys {...props} />
+  </NavigatorHotKeys>
+)
+
+export default NavigatorWithAllHotKeys
+
 /**
  * Used by Menu parent to render content in the bottom bar.
  */
@@ -186,10 +203,3 @@ Bar.defaultProps = {
   shabad: undefined,
   bani: undefined,
 }
-
-export default withNavigationHotKeys( {
-  arrowKeys: true,
-  lineKeys: true,
-  clickOnFocus: true,
-  wrapAround: false,
-} )( Navigator )
