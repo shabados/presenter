@@ -164,20 +164,25 @@ export const Bar = props => {
 
   const { lines } = content
 
-  const currentLine = lines.find( ( { id } ) => id === lineId )
+  const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+  const currentLine = lines[ currentLineIndex ]
 
   const onUpClick = () => {
+    if ( !currentLine ) return
+
     const firstLine = lines[ 0 ]
     // Go to the previous shabad if the first line is highlighted (but not for banis)
     if ( !bani && lineId === firstLine.id ) controller.previousShabad( shabad.orderId )
-    else controller.previousLine( currentLine.orderId )
+    else controller.line( lines[ currentLineIndex - 1 ].id )
   }
 
   const onDownClick = () => {
+    if ( !currentLine ) return
+
     const lastLine = lines[ lines.length - 1 ]
     // Go to the previous shabad if the first line is highlighted (but not for banis)
     if ( !bani && lineId === lastLine.id ) controller.nextShabad( shabad.orderId )
-    else controller.nextLine( currentLine.orderId )
+    else controller.line( lines[ currentLineIndex + 1 ].id )
   }
 
   const onAutoToggle = () => controller.autoToggleShabad( props )

@@ -149,6 +149,7 @@ class SessionManager {
     if ( !content ) return
 
     // Clamp line order IDs that exceed the Shabad's range of lines, if specified
+    //! Invalid order IDs are possible in Banis, since the lines are not always continguous
     const lineOrderIdRange = [
       content.lines[ 0 ],
       content.lines[ content.lines.length - 1 ],

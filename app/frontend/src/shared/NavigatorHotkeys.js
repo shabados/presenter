@@ -9,17 +9,6 @@ import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
  * Hotkeys for controlling the navigator.
  */
 class NavigatorHotKeys extends Component {
-  goPreviousLine = () => {
-    const { shabad, bani, lineId } = this.props
-    const { lines } = shabad || bani || {}
-
-    if ( !lines ) return
-
-    const { orderId } = lines.find( ( { id } ) => id === lineId ) || {}
-
-    controller.previousLine( orderId )
-  }
-
   goFirstLine = () => {
     const { lineId, shabad, bani } = this.props
     const { lines } = shabad || bani || {}
@@ -84,15 +73,32 @@ class NavigatorHotKeys extends Component {
     if ( nextLineId ) controller.line( nextLineId )
   }
 
+  goPreviousLine = () => {
+    const { shabad, bani, lineId } = this.props
+    const { lines } = shabad || bani || {}
+
+    if ( !lines ) return
+
+    const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+    const { id } = lines[ currentLineIndex ] || {}
+
+    if ( id && currentLineIndex > 0 ) {
+      controller.line( lines[ currentLineIndex - 1 ].id )
+    }
+  }
+
   goNextLine = () => {
     const { shabad, bani, lineId } = this.props
     const { lines } = shabad || bani || {}
 
     if ( !lines ) return
 
-    const { orderId } = lines.find( ( { id } ) => id === lineId ) || {}
+    const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+    const { id } = lines[ currentLineIndex ] || {}
 
-    controller.nextLine( orderId )
+    if ( id && currentLineIndex < lines.length - 1 ) {
+      controller.line( lines[ currentLineIndex + 1 ].id )
+    }
   }
 
   goToIndex = index => {

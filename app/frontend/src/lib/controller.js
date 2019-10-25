@@ -74,10 +74,6 @@ class Controller extends EventEmitter {
    */
   line = lineId => this.sendJSON( 'lines:current', { lineId } )
 
-  previousLine = lineId => this.sendJSON( 'lines:current', { lineOrderId: lineId - 1 } )
-
-  nextLine = lineId => this.sendJSON( 'lines:current', { lineOrderId: lineId + 1 } )
-
   /**
    * Convenience method for setting the main line.
    * @param lineId The line id to change the display to.
