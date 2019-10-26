@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { arrayOf, shape, string, node, bool, objectOf } from 'prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 
+import { mapPlatformKeys } from '../lib/utils'
 import controller from '../lib/controller'
 import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
 
@@ -141,14 +142,14 @@ class NavigatorHotKeys extends Component {
 
     numberKeyMap = LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
       ...keymap,
-      [ hotkey ]: hotkey,
+      [ hotkey ]: [ hotkey ],
     } ), {} )
 
     render() {
       const { active, children, settings } = this.props
       const { local: { hotkeys } } = settings || {}
 
-      const keyMap = { ...hotkeys, ...this.numberKeyMap }
+      const keyMap = mapPlatformKeys( { ...hotkeys, ...this.numberKeyMap } )
 
       return (
         <GlobalHotKeys keyMap={keyMap} handlers={active ? this.hotKeyHandlers : {}}>

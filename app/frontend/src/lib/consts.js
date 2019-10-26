@@ -33,6 +33,7 @@ import {
   faDotCircle,
   faBell,
 } from '@fortawesome/free-regular-svg-icons'
+import { detect } from 'detect-browser'
 
 import SHORTCUTS from './keyMap'
 
@@ -43,6 +44,9 @@ import SHORTCUTS from './keyMap'
 
 export const isElectron = navigator.userAgent.indexOf( 'Electron' ) > -1
 export const isDev = process.env.NODE_ENV !== 'production'
+
+export const browser = detect()
+export const isMac = browser.os === 'Mac OS'
 
 /* Backend Info */
 // eslint-disable-next-line no-undef

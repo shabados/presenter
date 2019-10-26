@@ -9,7 +9,7 @@ import deepmerge from 'deepmerge'
 import queryString from 'qs'
 import { debounce } from 'lodash'
 
-import { PAUSE_CHARS, STATES } from './consts'
+import { PAUSE_CHARS, STATES, isMac } from './consts'
 
 /**
  * Merges the source object into the destination, replacing arrays.
@@ -115,3 +115,15 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
 }
 
 export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
+
+/**
+ * Maps ctrl to cmd in keyMap if on Mac.
+ * @param {*} keyMap An object of all the keys and mapped values.
+ */
+export const mapPlatformKeys = keyMap => ( isMac
+  ? Object.entries( keyMap ).reduce( ( keyMap, [ name, sequences ] ) => ( {
+    ...keyMap,
+    [ name ]: sequences ? sequences.map( sequence => sequence.replace( 'ctrl', 'cmd' ) ) : null,
+  } ), {} )
+  : keyMap
+)

@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import controller from '../lib/controller'
-import { getUrlState } from '../lib/utils'
+import { getUrlState, mapPlatformKeys } from '../lib/utils'
 import {
   CONTROLLER_URL,
   MENU_URL,
@@ -146,7 +146,7 @@ class Presenter extends Component {
         <CssBaseline />
         <ThemeLoader name={themeName} connected={connected} />
 
-        <GlobalHotKeys keyMap={hotkeys} handlers={this.hotkeyHandlers}>
+        <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={this.hotkeyHandlers}>
           <NavigatorHotKeys {...this.props} active={!pathname.includes( CONTROLLER_URL )}>
 
             <Suspense fallback={<Loader />}>
