@@ -150,17 +150,17 @@ const BottomBar = ( { history, renderContent, location, onHover, bani, shabad } 
     <Toolbar className="bottom bar">
       <ToolbarButton name="Search" icon={faSearch} onClick={go( SEARCH_URL )} onHover={onHover} />
       <ToolbarButton
-        name="Bookmarks"
-        icon={faStar}
-        onClick={go( BOOKMARKS_URL )}
-        onMouseEnter={() => onHover( 'Bookmarks' )}
-        onMouseLeave={resetHover}
-      />
-      <ToolbarButton
         name="History"
         icon={faHistory}
         onClick={go( HISTORY_URL )}
         onMouseEnter={() => onHover( 'History' )}
+        onMouseLeave={resetHover}
+      />
+      <ToolbarButton
+        name="Bookmarks"
+        icon={faStar}
+        onClick={go( BOOKMARKS_URL )}
+        onMouseEnter={() => onHover( 'Bookmarks' )}
         onMouseLeave={resetHover}
       />
       <div className="middle">{renderContent()}</div>
