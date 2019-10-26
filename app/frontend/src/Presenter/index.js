@@ -22,6 +22,7 @@ import {
   HISTORY_URL,
   NAVIGATOR_URL,
   BOOKMARKS_URL,
+  SETTINGS_URL,
   STATES,
 } from '../lib/consts'
 import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
@@ -124,6 +125,7 @@ class Presenter extends Component {
     [ GLOBAL_SHORTCUTS.toggleController.name ]: this.toggleController,
     [ GLOBAL_SHORTCUTS.newController.name ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
     [ GLOBAL_SHORTCUTS.menu.name ]: () => this.go( MENU_URL ),
+    [ GLOBAL_SHORTCUTS.settings.name ]: () => window.open( SETTINGS_URL ),
     [ GLOBAL_SHORTCUTS.search.name ]: () => this.go( SEARCH_URL ),
     [ GLOBAL_SHORTCUTS.history.name ]: () => this.go( HISTORY_URL ),
     [ GLOBAL_SHORTCUTS.bookmarks.name ]: () => this.go( BOOKMARKS_URL ),
