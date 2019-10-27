@@ -284,7 +284,7 @@ class SessionManager {
    * ! This will not work for any clients that have the hostnames of `local` or `global`.
    * @param {WebSocket} client The socket client that sent the settings update.
    */
-  onSettings( client, { local, global = {}, ...rest } ) {
+  onSettings( client, { local = {}, global = {}, ...rest } ) {
     const { host } = client
 
     // Save global server settings

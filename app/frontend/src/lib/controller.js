@@ -162,14 +162,19 @@ class Controller extends EventEmitter {
   /**
    * Reads the settings from local storage, and combines with default settings.
    */
-  readSettings = () => {
+  readSettings = onlyOverrides => {
     try {
       const localSettings = JSON.parse( localStorage.getItem( 'settings' ) )
-      return merge( DEFAULT_OPTIONS.local, localSettings )
+      return onlyOverrides ? localSettings : merge( DEFAULT_OPTIONS.local, localSettings )
     } catch ( err ) {
       console.warn( 'Settings corrupted. Resetting to default.', err )
       return DEFAULT_OPTIONS.local
     }
+  }
+
+  saveLocalSettings = settings => {
+    const local = merge( this.readSettings( true ), settings )
+    localStorage.setItem( 'settings', JSON.stringify( local ) )
   }
 
   /**
@@ -180,11 +185,10 @@ class Controller extends EventEmitter {
   setSettings = ( changed = {}, host = 'local' ) => {
     let settings = {}
     if ( host === 'local' ) {
-      settings = { local: merge( this.readSettings(), changed ) }
+      this.saveLocalSettings( changed )
 
-      const { local } = settings
-      localStorage.setItem( 'settings', JSON.stringify( local ) )
-      this.emit( 'settings:all', settings )
+      // Transmit all settings
+      this.emit( 'settings:all', { local: this.readSettings( true ) } )
     } else {
       settings = { [ host ]: changed }
     }

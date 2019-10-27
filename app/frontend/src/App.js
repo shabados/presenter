@@ -44,7 +44,7 @@ class App extends PureComponent {
       transitionHistory: [],
       latestLines: {},
       shabad: null,
-      recommendedSources: null,
+      recommendedSources: {},
       status: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
@@ -67,12 +67,12 @@ class App extends PureComponent {
     controller.on( 'settings:all', this.onSettings )
 
     // Get recommended sources and set as settings, if there are none
-    const { settings: { local: { sources } } } = this.state
     fetch( `${BACKEND_URL}/sources` )
       .then( res => res.json() )
       .then( ( { recommended: recommendedSources } ) => {
-        this.setState( { recommendedSources } )
-        controller.setSettings( { sources: merge( recommendedSources, sources ) } )
+        //* Update default options and settings with fetched recommended sources
+        DEFAULT_OPTIONS.local.sources = recommendedSources
+        this.setState( ( { settings } ) => ( { recommendedSources, settings } ) )
       } )
   }
 
@@ -117,10 +117,14 @@ class App extends PureComponent {
 
   onBani = bani => this.setState( { bani, shabad: null } )
 
-  onSettings = ( { global = {}, ...settings } ) => this.setState( state => ( {
+  onSettings = ( { global = {}, local = {}, ...settings } ) => this.setState( state => ( {
     settings: {
       ...state.settings,
-      ...settings,
+      ...Object.entries( settings ).reduce( ( settings, [ host, config ] ) => ( {
+        ...settings,
+        [ host ]: merge( DEFAULT_OPTIONS.local, config ),
+      } ), {} ),
+      local: controller.saveLocalSettings( local ) || controller.readSettings(),
       global: merge( state.settings.global, global ),
     },
   } ) )
