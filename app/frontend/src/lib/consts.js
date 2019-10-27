@@ -147,9 +147,9 @@ export const OPTIONS = {
     icon: faAlignCenter,
     privacy: PRIVACY_TYPES.local,
     values: [
+      { name: 'Space Between', value: 'space-between' },
       { name: 'Space Around', value: 'space-around' },
       { name: 'Space Evenly', value: 'space-evenly' },
-      { name: 'Space Between', value: 'space-between' },
       { name: 'Top', value: 'flex-start' },
       { name: 'Middle', value: 'center' },
       { name: 'Bottom', value: 'flex-end' },
@@ -224,7 +224,7 @@ export const OPTION_GROUPS = {
 export const DEFAULT_OPTIONS = {
   local: {
     layout: {
-      spacing: OPTIONS.spacing.values[ 0 ].value,
+      spacing: OPTIONS.spacing.values[ 2 ].value,
       larivaarGurbani: false,
       larivaarAssist: false,
       splitOnVishraam: true,
