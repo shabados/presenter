@@ -21,6 +21,7 @@
     "@sentry/browser": "^5.6.3",
     "classnames": "^2.2.6",
     "deepmerge": "^4.0.0",
+    "detect-browser": "^4.8.0",
     "event-emitter": "^0.3.5",
     "gurmukhi-utils": "^2.1.0",
     "lodash": "^4.17.15",

@@ -92,7 +92,6 @@
     }
   },
   "dependencies": {
-    "detect-browser": "^4.8.0",
     "electron-builder": "^21.2.0"
   }
 }
