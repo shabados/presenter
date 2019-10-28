@@ -114,6 +114,8 @@ workflows:
           requires:
             - lint
       - publish-windows:
+          pre-steps:
+            - run: npm install --global --production windows-build-tools --vs2015
           requires:
             - build-windows
           filters:
