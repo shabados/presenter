@@ -40,7 +40,7 @@ Using proposed ES+ modules with the `esm` shim module.
 Any changes to the backend when running using `docker-compose`,
 or `npm start` will result in the server restarting.
 
-In development, the backend app runs on port `42425` by default.
+In development, the backend app runs on port `42425` by default and the frontend on port `3000`.
 
 ### Packaging with Electron
 
