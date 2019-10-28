@@ -32,7 +32,7 @@ function createWindow() {
   loadPage()
 
   mainWindow.on( 'ready-to-show', () => {
-    mainWindow.setMenuBarVisibility( isDev ? true : false )
+    mainWindow.setMenuBarVisibility( isDev )
     mainWindow.maximize()
     mainWindow.show()
     mainWindow.focus()
