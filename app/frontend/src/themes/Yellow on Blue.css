@@ -78,6 +78,9 @@
     /* Settings Content */
     --settings-background-color: var(--controller-background-color);
     --settings-text-color: var(--controller-text-color);
+    --settings-setting-off: #fafafa;
+    --settings-setting-on: var(--controller-search-match-color);
+    --settings-setting-shadow: #274dc431;
 
       /*****************/
      /* Miscellaneous */
