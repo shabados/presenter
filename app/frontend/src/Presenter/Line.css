@@ -112,7 +112,7 @@
 
 .line .transliteration {
   font-family: "Noto Sans Regular", sans-serif;
-  font-size: 0.4375em;
+  font-size: 0.592592592625em;
   color: var(--display-transliteration-color);
   transition: 0.2s all ease-in;
 }
