@@ -1,5 +1,17 @@
 # Shabad OS Desktop
 
+<div align="center">
+
+A digital representation of Sikh Bani and other Panthic texts with a public logbook of sangat-sourced corrections.
+
+[![CircleCI](https://img.shields.io/circleci/project/github/ShabadOS/desktop.svg?style=flat)](https://circleci.com/gh/ShabadOS/desktop)
+[![Github All Releases](https://img.shields.io/github/downloads/ShabadOS/desktop/total.svg?style=flat)](https://github.com/ShabadOS/desktop/releases)
+[![license](https://img.shields.io/github/license/ShabadOS/desktop.svg?style=flat)]()
+<br/>
+[![Email](https://img.shields.io/badge/Email-team%40shabados.com-blue.svg)](mailto:team@shabados.com) [![WhatsApp](https://img.shields.io/badge/WhatsApp-%2B1--516--619--6059-brightgreen.svg)](https://wa.me/15166196059) [![Slack](https://img.shields.io/badge/Slack-join%20the%20conversation-B649AB.svg)](https://slack.shabados.com)
+<br/>
+</div>
+
 Contains the standalone frontend and backend applications for ShabadOS, with an Electron wrapper.
 
 ## Development
