@@ -5,6 +5,8 @@
 
     /* Display background */
     --display-background-color: #FFFFFF;
+    --display-highlight-background-color: #FFF59D80;
+    --display-dim-background-color: #0000000f;
     --display-background-image: none;
     --display-background-size: 120%;
 

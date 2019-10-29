@@ -5,6 +5,8 @@
 
     /* Display background */
     --display-background-color: #f0ede9;
+    --display-highlight-background-color: #FFD3009E;
+    --display-dim-background-color: #1a191a21;
     --display-background-image: url('/themes/images/logo-avani.png');
     --display-background-size: 100%;
 

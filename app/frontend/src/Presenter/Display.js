@@ -23,6 +23,8 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
     theme: {
       simpleGraphics: simple,
       backgroundImage: background,
+      highlightCurrentLine: highlight,
+      dimNextAndPrevLines: dim,
     },
   } = settings
 
@@ -51,7 +53,7 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
   return (
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
-      <div className="previous-lines">
+      <div className={classNames( { dim }, 'previous-lines' )}>
         {line && previousLines.map( ( { id, gurmukhi } ) => (
           <Line
             key={id}
@@ -65,7 +67,7 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
       </div>
       {line && (
       <Line
-        className="current-line"
+        className={classNames( { highlight }, 'current-line' )}
         {...layout}
         {...vishraams}
         gurmukhi={line.gurmukhi}
@@ -77,7 +79,7 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
         simpleGraphics={simple}
       />
       )}
-      <div className="next-lines">
+      <div className={classNames( { dim }, 'next-lines' )}>
         {line && nextLines.map( ( { id, gurmukhi } ) => (
           <Line
             key={id}
@@ -105,6 +107,8 @@ Display.propTypes = {
     theme: shape( {
       simpleGraphics: bool,
       backgroundImage: bool,
+      highlightCurrentLine: bool,
+      dimNextAndPrevLines: bool,
     } ),
   } ).isRequired,
   recommendedSources: shape( { nameEnglish: string } ).isRequired,
