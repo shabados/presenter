@@ -78,8 +78,8 @@
     /* Settings Content */
     --settings-background-color: var(--controller-background-color);
     --settings-text-color: var(--controller-text-color);
-    --settings-setting-off: #F6F3EF;
-    --settings-setting-on: var(--controller-search-match-color);
+    --settings-setting-off-color: #F6F3EF;
+    --settings-setting-on-color: var(--controller-search-match-color);
     --settings-setting-shadow: #00558331;
 
       /*****************/

@@ -10,11 +10,11 @@
 }
 
 .select::after {
-  border-bottom: 2px solid var(--settings-setting-on) !important;
+  border-bottom: 2px solid var(--settings-setting-on-color) !important;
 }
 
 .select-menu ul {
-  background-color: var(--settings-setting-off);
+  background-color: var(--settings-setting-off-color);
 }
 
 .select-menu li {
@@ -27,11 +27,11 @@
 
 .checked.toggle > span,
 .slider {
-  color: var(--settings-setting-on) !important;
+  color: var(--settings-setting-on-color) !important;
 }
 
 .checked.toggle > span:last-child {
-  background-color: var(--settings-setting-on);
+  background-color: var(--settings-setting-on-color);
 }
 
 .checked.toggle > :hover {
@@ -58,5 +58,5 @@
 }
 
 .MuiSwitch-switchBase {
-  color: var(--settings-setting-off) !important;
+  color: var(--settings-setting-off-color) !important;
 }
