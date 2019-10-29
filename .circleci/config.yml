@@ -125,9 +125,13 @@ workflows:
               only:
                 - master
       - build-mac:
+          pre-steps:
+            - run: sudo xcode-select -r
           requires:
             - lint
       - publish-mac:
+          pre-steps:
+            - run: sudo xcode-select -r
           requires:
             - build-mac
           filters:

@@ -9,8 +9,6 @@ module.exports = async params => {
   // Only notarize the app on Mac OS
   if ( process.platform !== 'darwin' ) return
 
-  console.log( 'Attempting to notarizing Mac OS app with params:', params )
-
   const appPath = join( params.appOutDir, `${params.packager.appInfo.productFilename}.app` )
 
   if ( !existsSync( appPath ) ) throw new Error( `Cannot find application at: ${appPath}` )
