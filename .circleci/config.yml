@@ -14,6 +14,7 @@ build: &build
     - run:
         name: Build binaries
         command: npm run dist -- -${PLATFORM_FLAG}
+        no_output_timeout: 30m
     - run: mkdir artifacts && cp dist/Shabad* artifacts
     - persist_to_workspace:
         root: ~/shabad-os
@@ -37,6 +38,7 @@ publish: &publish
     - run:
         name: Publish application
         command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG} -p always
+        no_output_timeout: 30m
 
 orbs:
   win: circleci/windows@1.0.0
