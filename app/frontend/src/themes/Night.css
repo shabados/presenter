@@ -5,6 +5,8 @@
 
     /* Display background */
     --display-background-color: #000000; 
+    --display-highlight-background-color: #607D8B82;
+    --display-dim-background-color: #FAFAFA38;
     --display-background-image: url('/themes/images/logo.png');
     --display-background-size: 120%;
 
