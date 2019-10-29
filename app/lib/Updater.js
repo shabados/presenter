@@ -30,7 +30,7 @@ class Updater extends EventEmitter {
 
   initElectronUpdates() {
     // eslint-disable-next-line global-require
-    const autoUpdater = require( 'electron-updater' )
+    const { autoUpdater } = require( 'electron-updater' )
 
     autoUpdater.logger = logger
     autoUpdater.allowDowngrade = true

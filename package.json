@@ -53,6 +53,10 @@
     "extraMetadata": {
       "name": "Shabad OS"
     },
+    "publish": {
+      "provider": "github",
+      "releaseType": "release"
+    },
     "win": {
       "artifactName": "Shabad.OS-Setup-${version}.${ext}",
       "target": [
