@@ -103,3 +103,18 @@ Just as in the **subject**, use the imperative, present tense: "change" not "cha
 The footer should contain any information about **Breaking Changes** and is also the place to reference GitHub issues that this commit Closes.
 
 Breaking Changes should start with the word `BREAKING CHANGE:` with a space or two newlines. The rest of the commit message is then used for this.
+
+## Releases
+
+This project follows [Semantic Versioning](https://semver.org/) for version labelling.
+
+Simply merge `dev` into `master`, ensuring that there is a commit with the appropriate semver bump.
+This will build and publish Shabad OS of that version to GitHub releases.
+
+### Beta Channel
+
+To publish an alpha/beta version, add a pre-release component into the semver string.
+
+An example flow, after `1.1.0` has been released could look like:
+
+`1.1.0` => `1.1.1-alpha.1` => `1.1.1-alpha.2` => `1.1.1-beta.1` => `1.1.1`

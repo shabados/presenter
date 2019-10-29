@@ -36,7 +36,7 @@ publish: &publish
         at: ~/shabad-os
     - run:
         name: Publish application
-        command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG}
+        command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG} -p always
 
 orbs:
   win: circleci/windows@1.0.0
@@ -114,13 +114,14 @@ workflows:
           requires:
             - lint
       - publish-windows:
+          pre-steps:
+            - run: npm install --global --production windows-build-tools --vs2015
           requires:
             - build-windows
           filters:
             branches:
               only:
                 - master
-                - dev
       - build-mac:
           requires:
             - lint
@@ -131,7 +132,6 @@ workflows:
             branches:
               only:
                 - master
-                - dev
       - build-linux:
           requires:
             - lint
@@ -142,4 +142,3 @@ workflows:
             branches:
               only:
                 - master
-                - dev
