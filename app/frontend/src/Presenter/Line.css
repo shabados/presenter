@@ -70,11 +70,6 @@
   content: "\200B\20"
 }
 
-.line .gurmukhi .word,
-.line .transliteration .word {
-  transition: var(--animation-duration) all;
-}
-
 .line .gurmukhi .word:after,
 .line .transliteration .word:after {
   content: "\20";
@@ -110,7 +105,6 @@
 .line .transliteration {
   font-family: "Noto Sans Regular", sans-serif;
   color: var(--display-transliteration-color);
-  transition: 0.2s all ease-in;
 }
 
 /* ------------------------------------
