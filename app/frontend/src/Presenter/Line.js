@@ -18,6 +18,8 @@ import './Line.css'
  * @param {string} englishTranslation The English translation of the line to render.
  * @param {string} transliteration The English transliteration of the line to render.
  * @param {string} spacing The justify content value for spacing between the lines.
+ * @param {boolean} centerText Whether to center text.
+ * @param {boolean} justifyText Whether to justify (edge to edge) wrapped text (2+ lines long).
  * @param {number} fontSize The fontSize for the Gurbani lines.
  * @param {boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
@@ -37,6 +39,8 @@ const Line = ( {
   englishTranslation,
   transliteration,
   spacing,
+  centerText,
+  justifyText,
   fontSize,
   larivaarGurbani: larivaar,
   larivaarAssist,
@@ -58,6 +62,8 @@ const Line = ( {
       vishraams,
       larivaar,
       simple,
+      centerText,
+      justifyText,
     }, 'line' )}
     style={{ justifyContent: spacing, fontSize: `${fontSize}Vh` }}
   >
@@ -105,6 +111,8 @@ Line.propTypes = {
   englishTranslation: oneOfType( [ string, bool ] ),
   transliteration: oneOfType( [ string, bool ] ),
   spacing: string,
+  centerText: bool,
+  justifyText: bool,
   larivaarGurbani: bool,
   larivaarAssist: bool,
   vishraamColors: bool,
@@ -121,6 +129,8 @@ Line.propTypes = {
 const {
   layout: {
     spacing,
+    centerText,
+    justifyText,
     larivaarAssist,
     larivaarGurbani,
     vishraamColors,
@@ -143,6 +153,8 @@ Line.defaultProps = {
   punjabiTranslation: null,
   transliteration: null,
   spacing,
+  centerText,
+  justifyText,
   larivaarGurbani,
   larivaarAssist,
   vishraamColors,

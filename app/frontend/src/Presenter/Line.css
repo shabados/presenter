@@ -8,7 +8,18 @@
   flex-direction: column;
   justify-content: space-around;
   padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding);
+}
+
+.line.centerText {
   text-align: center;
+}
+
+.line.justifyText {
+  text-align: justify;
+}
+
+.line.centerText.justifyText {
+  text-align-last: center;
 }
 
 .line p {
