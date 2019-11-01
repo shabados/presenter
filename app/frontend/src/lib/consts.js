@@ -155,6 +155,8 @@ export const OPTIONS = {
       { name: 'Bottom', value: 'flex-end' },
     ],
   },
+  centerText: { name: 'Center Align', icon: faAlignCenter, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  justifyText: { name: 'Justify Multiple Lines', icon: faAlignJustify, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   larivaarGurbani: { name: 'Larivaar Gurbani', icon: faSignature, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   larivaarAssist: { name: 'Larivaar Assist', icon: faBookReader, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   splitOnVishraam: { name: 'Split Long Gurbani Lines on Vishraams', icon: faGripLines, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -230,6 +232,8 @@ export const DEFAULT_OPTIONS = {
   local: {
     layout: {
       spacing: OPTIONS.spacing.values[ 2 ].value,
+      centerText: true,
+      justifyText: false,
       larivaarGurbani: false,
       larivaarAssist: false,
       splitOnVishraam: true,

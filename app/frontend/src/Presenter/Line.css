@@ -7,8 +7,28 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding);
+}
+
+.line.center-text {
   text-align: center;
+}
+
+.line.justify-text {
+  text-align: justify;
+}
+
+.line.center-text.justify-text {
+  text-align-last: center;
+}
+
+.line.justify-text .gurmukhi {
+  text-align: left;
+  text-align-last: left;
+}
+
+.line.center-text.justify-text .gurmukhi {
+  text-align: center;
+  text-align-last: center;
 }
 
 .line p {
@@ -66,8 +86,12 @@
   display: inline-block;
 }
 
-.partition + .partition:before {
+.partition:after {
   content: "\200B\20"
+}
+
+.partition:last-child:after {
+  content: ""
 }
 
 .line .gurmukhi .word:after,
