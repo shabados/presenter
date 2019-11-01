@@ -29,7 +29,7 @@ class Settings extends EventEmitter {
    * Loads settings, merging them with the defaults.
    */
   loadSettings() {
-    logger.info( 'Loading settings' )
+    logger.info( `Loading settings from ${SETTINGS_FILE}` )
 
     // Load both settings files
     const defaultSettings = readJSONSync( DEFAULT_SETTINGS_FILE )

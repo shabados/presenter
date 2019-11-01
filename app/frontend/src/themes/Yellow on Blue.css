@@ -5,6 +5,8 @@
 
     /* Display background */
     --display-background-color: #0031a2;
+    --display-highlight-background-color: #00206CB3;
+    --display-dim-background-color: #AAB4CD3D;
     --display-background-image: none;
     --display-background-size: 120%;
 
@@ -78,6 +80,9 @@
     /* Settings Content */
     --settings-background-color: var(--controller-background-color);
     --settings-text-color: var(--controller-text-color);
+    --settings-setting-off-color: #fafafa;
+    --settings-setting-on-color: var(--controller-search-match-color);
+    --settings-setting-shadow: #274dc431;
 
       /*****************/
      /* Miscellaneous */

@@ -5,6 +5,8 @@
 
     /* Display background */
     --display-background-color: #FFFFFF;
+    --display-highlight-background-color: #E1BEE73D;
+    --display-dim-background-color: #21212124;
     --display-background-image: url('/themes/images/logo.png');
     --display-background-size: 120%;
 
@@ -78,8 +80,9 @@
     /* Settings Content */
     --settings-background-color: var(--controller-background-color);
     --settings-text-color: var(--controller-text-color);
-    --settings-setting-color: #f50057;
-    --settings-setting-shadow: #f5005631;
+    --settings-setting-off-color: #fafafa;
+    --settings-setting-on-color: var(--controller-search-match-color);
+    --settings-setting-shadow: #0D47A131;
 
       /*****************/
      /* Miscellaneous */

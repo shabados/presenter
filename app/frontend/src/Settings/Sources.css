@@ -1,5 +1,5 @@
 .sources .source {
-  background-color: var(--settings-menu-background-color);
+  background-color: var(--settings-setting-off-color);
 }
 
 .sources .source .gurmukhi {

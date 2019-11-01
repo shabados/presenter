@@ -10,11 +10,11 @@
 }
 
 .select::after {
-  border-bottom: 2px solid var(--settings-setting-color) !important;
+  border-bottom: 2px solid var(--settings-setting-on-color) !important;
 }
 
 .select-menu ul {
-  background-color: var(--settings-background-color);
+  background-color: var(--settings-setting-off-color);
 }
 
 .select-menu li {
@@ -27,11 +27,11 @@
 
 .checked.toggle > span,
 .slider {
-  color: var(--settings-setting-color) !important;
+  color: var(--settings-setting-on-color) !important;
 }
 
 .checked.toggle > span:last-child {
-  background-color: var(--settings-setting-color);
+  background-color: var(--settings-setting-on-color);
 }
 
 .checked.toggle > :hover {
@@ -40,4 +40,24 @@
 
 .slider .MuiSlider-thumb:hover, .slider .MuiSlider-thumb.MuiSlider-active {
   box-shadow: 0px 0px 0px 8px var(--settings-setting-shadow) !important;
+}
+
+.MuiPopover-paper .MuiListItem-root.Mui-selected {
+  background-color: var(--controller-selected-background-color);
+}
+
+.MuiPopover-paper .MuiListItem-button:hover {
+  background-color: var(--controller-hover-background-color);
+}
+
+.MuiPopover-paper .MuiListItem-root.Mui-selected:hover {
+  background-color: var(--controller-selected-hover-background-color);
+}
+
+.MuiInput-root .MuiSelect-select:focus {
+  background-color: transparent;
+}
+
+.MuiSwitch-switchBase {
+  color: var(--settings-setting-off-color) !important;
 }

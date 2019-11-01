@@ -5,8 +5,10 @@
 
     /* Display background */
     --display-background-color: #0C297B;
+    --display-highlight-background-color: #00206CB3;
+    --display-dim-background-color: #AAB4CD3D;
     --display-background-image: url('/themes/images/darbar-sahib.jpg');
-    --display-background-size: auto 100%;
+    --display-background-size: auto 110%;
 
     /* Display line colours */
     --display-line-1-color: #ffffff;
@@ -84,8 +86,9 @@
     /* Settings Content */
     --settings-background-color: var(--controller-background-color);
     --settings-text-color: var(--controller-text-color);
-    --settings-setting-color: #f50057;
-    --settings-setting-shadow: #f5005631;
+    --settings-setting-off-color: #fafafa;
+    --settings-setting-on-color: var(--controller-search-match-color);
+    --settings-setting-shadow: #0D47A131;
 
       /*****************/
      /* Miscellaneous */

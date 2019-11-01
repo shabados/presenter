@@ -5,6 +5,8 @@
 
     /* Display background */
     --display-background-color: #cdc7bb;
+    --display-highlight-background-color: #FFFFFF6B;
+    --display-dim-background-color: #28270e2b;
     --display-background-image: url('/themes/images/philosophiae.png');
     --display-background-size: auto;
 
@@ -78,7 +80,8 @@
     /* Settings Content */
     --settings-background-color: var(--controller-background-color);
     --settings-text-color: var(--controller-text-color);
-    --settings-setting-color: #b88c4a;
+    --settings-setting-off-color: #E9E8E7;
+    --settings-setting-on-color: #b88c4a;
     --settings-setting-shadow: #b88c4a2a;
 
       /*****************/

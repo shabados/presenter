@@ -5,6 +5,8 @@
 
     /* Display background */
     --display-background-color: #f0ede9;
+    --display-highlight-background-color: #FFD3009E;
+    --display-dim-background-color: #1a191a21;
     --display-background-image: url('/themes/images/logo-avani.png');
     --display-background-size: 100%;
 
@@ -44,23 +46,23 @@
     /**************/
 
     /* Controller colors */
-    --controller-background-color: #bdb3b5; /* EFE6E7 at 74% opacity on 2d2026 bg */
-    --controller-text-color: #403338;
-    --controller-text-hover-color: #491D2E;
-    --controller-selected-color: #2D2026;
-    --controller-selected-background-color: #f2eef0;
-    --controller-hover-background-color: #d3cbcd;
-    --controller-selected-hover-background-color: #E3DDDF;
+    --controller-background-color: #e9e4e1; /* e3dbda at 50% opacity on f0ede9 bg */
+    --controller-text-color: #4A4C4E;
+    --controller-text-hover-color: #143649;
+    --controller-selected-color: #2D3134;
+    --controller-selected-background-color: #f0dfce;
+    --controller-hover-background-color: #ded9d3;
+    --controller-selected-hover-background-color: #e3d2c4;
 
     /* Controller search colors */
     --controller-search-background-color: transparent;
-    --controller-search-focused-background-color: #ffffff;
-    --controller-search-match-color: #491D2E;
+    --controller-search-focused-background-color: #F6F5F2;
+    --controller-search-match-color: #005583;
 
     /* Controller top and bottom bar colors */
-    --controller-bar-text-color: #B2B0AE;
-    --controller-bar-text-hover-color: #E6C7CE;
-    --controller-bar-background-color: #2d2026;
+    --controller-bar-text-color: #A8A5A3;
+    --controller-bar-text-hover-color: #E1BCA0;
+    --controller-bar-background-color: #332A29;
 
       /*****************/
      /* Settings      */
@@ -73,18 +75,19 @@
     /* Settings Menu */
     --settings-menu-background-color: var(--controller-bar-background-color);
     --settings-menu-text-color: var(--controller-bar-text-color);
-    --settings-menu-icon-color: #9C747E;
+    --settings-menu-icon-color: #898C90;
 
     /* Settings Content */
     --settings-background-color: var(--controller-background-color);
     --settings-text-color: var(--controller-text-color);
-    --settings-setting-color: rgb(129, 77, 90);
-    --settings-setting-shadow: rgb(129, 77, 90, 0.16);
+    --settings-setting-off-color: #F6F3EF;
+    --settings-setting-on-color: var(--controller-search-match-color);
+    --settings-setting-shadow: #00558331;
 
       /*****************/
      /* Miscellaneous */
     /*****************/
 
     /* Scrollbar colour */
-    --scrollbar-color: rgba(0, 0, 0, 0.5);
+    --scrollbar-color: rgba(141, 126, 116, 0.6);
 }
