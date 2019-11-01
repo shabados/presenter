@@ -27,18 +27,6 @@
   padding: calc(var(--overscan-vertical-padding) / 2) var(--overscan-horizontal-padding);
 }
 
-.display .previous-line, .next-line {
-  padding: 0 var(--overscan-horizontal-padding);
-}
-
-.display .previous-line:first-child {
-  padding-top: var(--overscan-vertical-padding);
-}
-
-.display .next-line:last-child {
-  padding-bottom: var(--overscan-vertical-padding);
-}
-
 /* ------------------------------------
    Current Line Transition duration, curves, and ending opacities
    ------------------------------------ */
