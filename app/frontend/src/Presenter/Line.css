@@ -40,7 +40,6 @@
 
 .line .gurmukhi {
   font-family: "Open Gurbani Akhar Black", sans-serif;
-  font-size: 1em;
   line-height: 1.4;
 }
 
@@ -50,7 +49,6 @@
 
 .line .english {
   font-family: "Noto Sans Medium", sans-serif;
-  font-size: 0.592592592625em;
   line-height: 1.89;
   line-height: 1.4;
   font-weight: 700;
@@ -58,7 +56,6 @@
 
 .line .punjabi {
   font-family: "Open Anmol Uni Bold", sans-serif;
-  font-size: 0.694444444375em;
   line-height: 2.025;
   line-height: 1.75;
   line-height: 1.5;
@@ -71,11 +68,6 @@
 
 .partition + .partition:before {
   content: "\200B\20"
-}
-
-.line .gurmukhi .word,
-.line .transliteration .word {
-  transition: var(--animation-duration) all;
 }
 
 .line .gurmukhi .word:after,
@@ -112,9 +104,7 @@
 
 .line .transliteration {
   font-family: "Noto Sans Regular", sans-serif;
-  font-size: 0.592592592625em;
   color: var(--display-transliteration-color);
-  transition: 0.2s all ease-in;
 }
 
 /* ------------------------------------
