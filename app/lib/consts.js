@@ -39,7 +39,7 @@ export const SETTINGS_FILE = join( DATA_FOLDER, 'settings.json' )
 export const DEFAULT_SETTINGS_FILE = join( APP_FOLDER, 'settings.default.json' )
 
 // Max Search results to return in one go
-export const MAX_RESULTS = 20
+export const MAX_RESULTS = 50
 
 // Backend port
 export const PORT = !isDev ? 1699 : 42425

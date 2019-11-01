@@ -90,7 +90,6 @@ export const STATES = {
 
 // Search
 export const MIN_SEARCH_CHARS = 2
-export const MAX_RESULTS = 50
 
 // Detect vishraams/pauses with characters
 export const PAUSE_CHARS = {

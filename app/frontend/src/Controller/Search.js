@@ -10,7 +10,7 @@ import ListItem from '@material-ui/core/ListItem'
 import { stringify } from 'querystring'
 import { firstLetters, toAscii } from 'gurmukhi-utils'
 
-import { MAX_RESULTS, MIN_SEARCH_CHARS, SEARCH_CHARS, SEARCH_TYPES, SEARCH_ANCHORS } from '../lib/consts'
+import { MIN_SEARCH_CHARS, SEARCH_CHARS, SEARCH_TYPES, SEARCH_ANCHORS } from '../lib/consts'
 import { stripPauses, getUrlState } from '../lib/utils'
 import controller from '../lib/controller'
 
@@ -171,7 +171,6 @@ class Search extends Component {
         <List className="results">
           {results
             ? results
-              .slice( 0, MAX_RESULTS )
               .map( ( props, i ) => this.Result( {
                 ...props,
                 ref: c => register( i, c ),
