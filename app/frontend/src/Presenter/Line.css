@@ -10,15 +10,17 @@
   padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding);
 }
 
-.line.centerText {
+.line.center-text {
   text-align: center;
 }
 
-.line.justifyText {
+.line.justify-text {
   text-align: justify;
 }
 
-.line.centerText.justifyText {
+.line.center-text.justify-text {
+  text-align-last: center;
+}
   text-align-last: center;
 }
 

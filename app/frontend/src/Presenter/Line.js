@@ -18,16 +18,13 @@ import './Line.css'
  * @param {string} englishTranslation The English translation of the line to render.
  * @param {string} transliteration The English transliteration of the line to render.
  * @param {string} spacing The justify content value for spacing between the lines.
-<<<<<<< HEAD
  * @param {boolean} centerText Whether to center text.
  * @param {boolean} justifyText Whether to justify (edge to edge) wrapped text (2+ lines long).
  * @param {number} fontSize The fontSize for the Gurbani lines.
-=======
  * @param {number} fontSize The global font size of presenter lines.
  * @param {number} relativeGurmukhiFontSize The relative font size for the gurmukhi ascii font.
  * @param {number} relativeEnglishFontSize The relative font size for the english font.
  * @param {number} relativePunjabiFontSize The relative font size for the punjabi unicode font.
->>>>>>> dev
  * @param {boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
  * @param {boolean} vishraamColors Enables colors for vishraams.
@@ -72,8 +69,8 @@ const Line = ( {
       vishraams,
       larivaar,
       simple,
-      centerText,
-      justifyText,
+      'center-text': centerText,
+      'justify-text': justifyText,
     }, 'line' )}
     style={{ justifyContent: spacing, fontSize: `${fontSize}Vh` }}
   >
