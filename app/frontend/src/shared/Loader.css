@@ -21,10 +21,10 @@
   width: 0.8em;
   height: 0.8em;
   margin: 0.1em;
-  border: 0.1em solid #db5c87;
+  border: 0.1em solid var(--controller-search-match-color);
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #db5c87 transparent transparent transparent;
+  border-color: var(--controller-search-match-color) transparent transparent transparent;
 }
 
 .loader .lds-ring div:nth-child(1) {
