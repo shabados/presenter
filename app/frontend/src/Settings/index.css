@@ -64,7 +64,9 @@
 }
 
 .settings main .option {
-  margin: 5px;
+  padding-left: 1em;
+  min-height: 3em;
+  justify-content: space-between;
 }
 
 .settings main .icon {
