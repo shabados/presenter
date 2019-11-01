@@ -24,8 +24,8 @@ class Updater extends EventEmitter {
   }
 
   async start() {
-    this.updateLoop( this.checkDatabaseUpdates )
-    if ( electronVersion ) this.updateLoop( Updater.checkApplicationUpdates )
+    this.updateLoop( this.checkDatabaseUpdates.bind( this ) )
+    if ( electronVersion ) this.updateLoop( Updater.checkApplicationUpdates.bind( this ) )
   }
 
   initElectronUpdates() {
@@ -33,7 +33,7 @@ class Updater extends EventEmitter {
     const { autoUpdater } = require( 'electron-updater' )
 
     autoUpdater.logger = logger
-    autoUpdater.allowDowngrade = true
+    autoUpdater.allowPrerelease = settings.get( 'system.betaOptIn' )
 
     // Change beta opt-in on settings change
     settings.on( 'change', ( { system: { betaOptIn = false } } ) => {
@@ -50,7 +50,7 @@ class Updater extends EventEmitter {
    */
   static async checkApplicationUpdates() {
     // eslint-disable-next-line global-require
-    const autoUpdater = require( 'electron-updater' )
+    const { autoUpdater } = require( 'electron-updater' )
 
     logger.info( 'Checking for app updates, beta:', autoUpdater.allowPrerelease )
     const { downloadPromise } = await autoUpdater.checkForUpdates()
@@ -127,7 +127,10 @@ class Updater extends EventEmitter {
     */
   async updateLoop( updateFunction ) {
     await updateFunction().catch( logger.error )
-    setTimeout( () => updateFunction().catch( logger.error ), this.interval )
+    setTimeout(
+      () => updateFunction().then( () => this.updateLoop( updateFunction ) ).catch( logger.error ),
+      this.interval,
+    )
   }
 }
 
