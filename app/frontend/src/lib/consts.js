@@ -233,7 +233,7 @@ export const DEFAULT_OPTIONS = {
     layout: {
       spacing: OPTIONS.spacing.values[ 2 ].value,
       centerText: true,
-      justifyText: true,
+      justifyText: false,
       larivaarGurbani: false,
       larivaarAssist: false,
       splitOnVishraam: true,
