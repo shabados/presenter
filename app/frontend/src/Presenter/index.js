@@ -30,6 +30,7 @@ import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
 import ThemeLoader from '../shared/ThemeLoader'
 import Loader from '../shared/Loader'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
+import { withErrorFallback } from '../shared/ErrorFallback'
 
 import StatusToast from './StatusToast'
 
@@ -190,4 +191,4 @@ Presenter.defaultProps = {
   status: null,
 }
 
-export default hot( Presenter )
+export default hot( withErrorFallback( Presenter ) )

@@ -25,8 +25,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faWindowMaximize, faInfo } from '@fortawesome/free-solid-svg-icons'
 
 import controller from '../lib/controller'
-import ThemeLoader from '../shared/ThemeLoader'
-
 import {
   BACKEND_URL,
   SETTINGS_URL,
@@ -39,6 +37,9 @@ import {
   OPTION_GROUPS,
 } from '../lib/consts'
 import SHORTCUTS from '../lib/keyMap'
+
+import ThemeLoader from '../shared/ThemeLoader'
+import { withErrorFallback } from '../shared/ErrorFallback'
 
 import SettingComponentFactory from './SettingComponents'
 import Sources from './Sources'
@@ -238,4 +239,4 @@ Settings.propTypes = {
   location: location.isRequired,
 }
 
-export default hot( Settings )
+export default hot( withErrorFallback( Settings ) )
