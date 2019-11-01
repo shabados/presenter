@@ -126,8 +126,8 @@ class Updater extends EventEmitter {
     * Checks for udpates at constant interval.
     */
   async updateLoop( updateFunction ) {
-    await updateFunction()
-    setTimeout( () => updateFunction(), this.interval )
+    await updateFunction().catch( logger.error )
+    setTimeout( () => updateFunction().catch( logger.error ), this.interval )
   }
 }
 
