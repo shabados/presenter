@@ -11,42 +11,6 @@
   text-align: center;
 }
 
-.previous-lines {
-  padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding) calc(var(--overscan-vertical-padding) / 2);
-}
-
-.next-lines {
-  padding: calc(var(--overscan-vertical-padding) / 2) var(--overscan-horizontal-padding) var(--overscan-vertical-padding);
-}
-
-.current-line {
-  padding: calc(var(--overscan-vertical-padding) / 2) var(--overscan-horizontal-padding);
-}
-
-.previous-lines:empty {
-  padding: 0;
-}
-
-.previous-lines:empty + .current-line {
-  padding-top: var(--overscan-vertical-padding);
-}
-
-.current-line + .next-lines:empty {
-  padding-bottom: 0;
-}
-
-.highlight, .current-line.highlight + .next-lines:empty {
-  background-color: var(--display-highlight-background-color);
-}
-
-.current-line:not(.highlight) + .next-lines.dim:empty {
-  background-color: transparent;
-}
-
-.dim {
-  background-color: var(--display-dim-background-color);
-}
-
 .line p {
   margin: 0;
 }

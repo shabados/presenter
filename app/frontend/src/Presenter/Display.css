@@ -24,6 +24,7 @@
 
 .display .current-line {
   flex-grow: 1;
+  padding: calc(var(--overscan-vertical-padding) / 2) var(--overscan-horizontal-padding);
 }
 
 .display .previous-line, .next-line {
@@ -173,10 +174,12 @@
 
 .display .previous-lines {
   justify-content: flex-end;
+  padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding) calc(var(--overscan-vertical-padding) / 2);
 }
 
 .display .next-lines {
   justify-content: flex-start;
+  padding: calc(var(--overscan-vertical-padding) / 2) var(--overscan-horizontal-padding) var(--overscan-vertical-padding);
 }
 
 .background.display .background-image {
@@ -190,4 +193,28 @@
 .simple.display,
 .simple.display * {
   transition: none !important;
+}
+
+.next-lines:empty, .previous-lines:empty {
+  padding: 0;
+}
+
+.previous-lines:empty + .current-line {
+  padding-top: var(--overscan-vertical-padding);
+}
+
+.current-line + .next-lines:empty {
+  padding-bottom: 0;
+}
+
+.highlight, .current-line.highlight + .next-lines:empty {
+  background-color: var(--display-highlight-background-color);
+}
+
+.current-line:not(.highlight) + .next-lines.dim:empty {
+  background-color: transparent;
+}
+
+.dim {
+  background-color: var(--display-dim-background-color);
 }
