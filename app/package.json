@@ -1,6 +1,6 @@
 {
   "name": "@shabados/backend",
-  "version": "2.0.0-alpha.13",
+  "version": "2.0.0-alpha.14",
   "description": "Next generation Gurbani presentation software",
   "main": "electron/esm-wrapper.js",
   "scripts": {
