@@ -68,6 +68,7 @@ const Line = ( {
     style={{ justifyContent: spacing, fontSize: `${fontSize}Vh` }}
   >
     <TransitionGroup appear exit={false} component={null}>
+
       <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
         <p
           className="gurmukhi"
@@ -79,26 +80,33 @@ const Line = ( {
                 {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
               </span>
             ) )}
-          
+
         </p>
       </CSSTransition>
+
       {englishTranslation && (
       <CSSTransition key={englishTranslation} classNames="fade" timeout={0}>
         <p
           className="english translation"
           style={{ fontSize: `${relativeEnglishFontSize}em` }}
-        >{englishTranslation}</p>
+        >
+          {englishTranslation}
+        </p>
       </CSSTransition>
       )}
+
       {punjabiTranslation
       && (
       <CSSTransition key={punjabiTranslation} classNames="fade" timeout={0}>
         <p
           className="punjabi translation"
           style={{ fontSize: `${relativePunjabiFontSize}em` }}
-        >{punjabiTranslation}</p>
+        >
+          {punjabiTranslation}
+        </p>
       </CSSTransition>
       )}
+
       {transliteration
       && (
       <CSSTransition key={`${transliteration}`} classNames="fade" timeout={0}>
@@ -113,6 +121,7 @@ const Line = ( {
         </p>
       </CSSTransition>
       )}
+
     </TransitionGroup>
   </div>
 )
@@ -135,6 +144,9 @@ Line.propTypes = {
   splitOnVishraam: bool,
   simpleGraphics: bool,
   fontSize: number,
+  relativeGurmukhiFontSize: number,
+  relativeEnglishFontSize: number,
+  relativePunjabiFontSize: number,
 }
 
 const {
@@ -150,6 +162,9 @@ const {
     vishraamLight,
     splitOnVishraam,
     fontSize,
+    relativeGurmukhiFontSize,
+    relativeEnglishFontSize,
+    relativePunjabiFontSize,
   },
   theme: {
     simpleGraphics,
@@ -173,6 +188,9 @@ Line.defaultProps = {
   splitOnVishraam,
   simpleGraphics,
   fontSize,
+  relativeGurmukhiFontSize,
+  relativeEnglishFontSize,
+  relativePunjabiFontSize,
 }
 
 export default Line
