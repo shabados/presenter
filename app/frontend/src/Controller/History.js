@@ -1,15 +1,19 @@
 import React from 'react'
+import { func, number, arrayOf, shape, instanceOf, string, objectOf, oneOfType } from 'prop-types'
 
-import { List, ListItem, ListItemIcon } from '@material-ui/core'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import {
   faDownload,
   faTrash,
-} from '@fortawesome/fontawesome-free-solid'
+} from '@fortawesome/free-solid-svg-icons'
 
-
-import { LINE_HOTKEYS, HISTORY_DOWNLOAD_URL } from '../lib/consts'
+import { LINE_HOTKEYS } from '../lib/keyMap'
+import { HISTORY_DOWNLOAD_URL } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
 
@@ -17,20 +21,35 @@ import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './History.css'
 
-const History = ( { history, location, shabadHistory, register, focused } ) => (
+const History = ( { transitionHistory, latestLines, register, focused } ) => (
   <List className="history">
-    {shabadHistory.map( ( { timestamp, line: { id: lineId, shabadId, gurmukhi } }, index ) => (
-      <ListItem
-        className={focused === index ? 'focused' : ''}
-        key={timestamp}
-        ref={ref => register( index, ref )}
-        onClick={() => controller.shabad( { lineId, shabadId } )}
-      >
-        <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
-      </ListItem>
-    ) )}
-    <ListItem onClick={() => ( shabadHistory.length ? window.open( HISTORY_DOWNLOAD_URL ) : null )}>
+    {transitionHistory.map( ( {
+      timestamp,
+      line: { id: lineId, shabadId, gurmukhi },
+      bani,
+    }, index ) => {
+      const { line: latestLine } = latestLines[ timestamp ] || {}
+
+      // Use timestamp to get latest line for that navigation period
+      const latestLineId = latestLine ? latestLine.id : lineId
+
+      const onClick = () => ( bani
+        ? controller.bani( { baniId: bani.id, lineId: latestLineId } )
+        : controller.shabad( { shabadId, lineId: latestLineId } ) )
+
+      return (
+        <ListItem
+          className={focused === index ? 'focused' : ''}
+          key={timestamp}
+          ref={ref => register( index, ref )}
+          onClick={onClick}
+        >
+          <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
+          <span className="gurmukhi text">{bani ? bani.nameGurmukhi : stripPauses( gurmukhi )}</span>
+        </ListItem>
+      )
+    } ) }
+    <ListItem onClick={() => transitionHistory.length && window.open( HISTORY_DOWNLOAD_URL )}>
       <ListItemIcon className="meta">
         <FontAwesomeIcon icon={faDownload} />
       </ListItemIcon>
@@ -44,6 +63,29 @@ const History = ( { history, location, shabadHistory, register, focused } ) => (
     </ListItem>
   </List>
 )
+
+const lineHistoryType = shape( {
+  timestamp: oneOfType( [ instanceOf( Date ), string ] ),
+  line: shape( {
+    id: string,
+    shabadId: string,
+    gurmukhi: string,
+  } ),
+  bani: shape( { nameGurmukhi: string } ),
+} )
+
+History.propTypes = {
+  register: func.isRequired,
+  focused: number,
+  transitionHistory: arrayOf( lineHistoryType ),
+  latestLines: objectOf( lineHistoryType ),
+}
+
+History.defaultProps = {
+  focused: 0,
+  transitionHistory: [],
+  latestLines: {},
+}
 
 export default withNavigationHotKeys( {
   arrowKeys: true,

@@ -5,8 +5,9 @@
 
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import EventEmitter from 'event-emitter'
-import merge from 'deepmerge'
+import { toAscii } from 'gurmukhi-utils'
 
+import { merge } from './utils'
 import { WS_URL, DEFAULT_OPTIONS } from './consts'
 
 class Controller extends EventEmitter {
@@ -15,9 +16,9 @@ class Controller extends EventEmitter {
 
     // Setup WebSocket connection to server
     this.socket = new ReconnectingWebSocket( WS_URL )
-    this.socket.addEventListener( 'open', this._onOpen )
-    this.socket.addEventListener( 'close', this._onClose )
-    this.socket.addEventListener( 'message', this._onMessage )
+    this.socket.addEventListener( 'open', this.onOpen )
+    this.socket.addEventListener( 'close', this.onClose )
+    this.socket.addEventListener( 'message', this.onMessage )
   }
 
   /**
@@ -25,13 +26,18 @@ class Controller extends EventEmitter {
    * @param event The event name.
    * @param payload The JSON data to send.
    */
-  sendJSON = ( event, payload ) => this.socket.send( JSON.stringify( { event, payload } ) )
+  sendJSON = ( event, payload ) => {
+    const sendJSON = () => this.socket.send( JSON.stringify( { event, payload } ) )
+
+    if ( this.socket.readyState === 1 ) sendJSON()
+    else this.once( 'connected', sendJSON )
+  }
 
   /**
    * Called when the WebSocket is connected.
    * @private
    */
-  _onOpen = () => {
+  onOpen = () => {
     console.log( 'Connected to server' )
     this.setSettings()
     this.emit( 'connected' )
@@ -41,7 +47,7 @@ class Controller extends EventEmitter {
    * Called when the WebSocket is disconnected.
    * @private
    */
-  _onClose = () => {
+  onClose = () => {
     console.log( 'Disconnected from server' )
     this.emit( 'connected' )
   }
@@ -50,68 +56,125 @@ class Controller extends EventEmitter {
    * Called when the WebSocket receives a message.
    * @param data The data sent by the server.
    */
-  _onMessage = ( { data } ) => {
+  onMessage = ( { data } ) => {
     const { event, payload } = JSON.parse( data )
     this.emit( event, payload )
   }
 
   /**
    * Convenience method for searching.
-   * @param firstLetters The first letters to search with.
+   * @param query The first letters to search with.
+   * @param type The type of search (first-letter/full-word).
    */
-  search = firstLetters => this.sendJSON( 'search', firstLetters )
+  search = ( query, type ) => this.sendJSON( `search:${type}`, toAscii( query ) )
 
   /**
    * Convenience method for setting the line.
    * @param lineId The line id to change the display to.
    */
-  line = lineId => this.sendJSON( 'line', lineId )
+  line = lineId => this.sendJSON( 'lines:current', { lineId } )
 
   /**
    * Convenience method for setting the main line.
    * @param lineId The line id to change the display to.
    */
-  mainLine = lineId => this.sendJSON( 'mainLine', lineId )
+  mainLine = lineId => this.sendJSON( 'lines:main', lineId )
+
+  nextJumpLine = lineId => this.sendJSON( 'lines:next', lineId )
 
   /**
    * Convenience method for setting the current shabad.
    * @param shabadId The shabad ID to change the server to.
    * @param lineId The line id to change the display to.
    */
-  shabad = ( { shabadId, lineId = null } ) => this.sendJSON( 'shabad', { shabadId, lineId } )
+  shabad = ( {
+    shabadId,
+    shabadOrderId = null,
+    lineId = null,
+    lineOrderId = null,
+  } ) => this.sendJSON( 'shabads:current', {
+    shabadId,
+    shabadOrderId,
+    lineId,
+    lineOrderId,
+  } )
+
+  previousShabad = ( orderId, setLine = true ) => this.shabad( {
+    shabadOrderId: orderId - 1,
+    lineOrderId: setLine ? 1e20 : null,
+  } )
+
+  nextShabad = ( orderId, setLine = true ) => this.shabad( {
+    shabadOrderId: orderId + 1,
+    lineOrderId: setLine ? 0 : null,
+  } )
+
+  autoToggleShabad = ( { nextLineId, mainLineId, lineId, shabad: { lines } } ) => {
+    if ( !mainLineId || !nextLineId || !lines ) return
+
+    // Jump to main line and work out the new next line
+    if ( lineId !== mainLineId ) {
+      this.line( mainLineId )
+
+      if ( !lineId ) return
+
+      const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+
+      // Set new next line to be the next line, bounded by the last line
+      let nextLineIndex = Math.min(
+        currentLineIndex + 1,
+        lines.length - 1,
+      )
+
+      // Skip the main line if required, bounded by the last line
+      nextLineIndex = Math.min(
+        nextLineIndex + ( lines[ nextLineIndex ].id === mainLineId && 1 ),
+        lines.length - 1,
+      )
+
+      const { id: newNextLineId } = lines[ nextLineIndex ]
+
+      this.nextJumpLine( newNextLineId )
+    } else this.line( nextLineId )
+  }
 
   /**
    * Convenience method for clearing the line.
    */
-  clear = () => this.sendJSON( 'line', null )
+  clear = () => this.sendJSON( 'lines:current', { lineId: null } )
 
   /**
    * Clears the current history for the session.
    */
-  clearHistory = () => this.sendJSON( 'clearHistory' )
+  clearHistory = () => this.sendJSON( 'history:clear' )
 
   /**
    * Requests the latest list of banis from the server.
    */
-  getBanis = () => this.sendJSON( 'banis' )
+  getBanis = () => this.sendJSON( 'banis:list' )
 
   /**
    * Sets the current Bani ID.
    * @param baniId The ID of the Bani to change to.
    */
-  bani = baniId => this.sendJSON( 'bani', baniId )
+  bani = ( { baniId, lineId = null } ) => this.sendJSON( 'banis:current', { baniId, lineId } )
 
   /**
    * Reads the settings from local storage, and combines with default settings.
    */
-  readSettings = () => {
+  readSettings = onlyOverrides => {
     try {
       const localSettings = JSON.parse( localStorage.getItem( 'settings' ) )
-      return merge( { ...DEFAULT_OPTIONS.local, ...localSettings } )
-    } catch ( e ) {
-      console.warn( 'Settings corrupted. Resetting to default.' )
+      return onlyOverrides ? localSettings : merge( DEFAULT_OPTIONS.local, localSettings )
+    } catch ( err ) {
+      console.warn( 'Settings corrupted. Resetting to default.', err )
       return DEFAULT_OPTIONS.local
     }
+  }
+
+  saveLocalSettings = settings => {
+    const local = merge( this.readSettings( true ), settings )
+    localStorage.setItem( 'settings', JSON.stringify( local ) )
   }
 
   /**
@@ -122,16 +185,15 @@ class Controller extends EventEmitter {
   setSettings = ( changed = {}, host = 'local' ) => {
     let settings = {}
     if ( host === 'local' ) {
-      settings = { local: merge( this.readSettings(), changed ) }
+      this.saveLocalSettings( changed )
 
-      const { local } = settings
-      localStorage.setItem( 'settings', JSON.stringify( local ) )
-      this.emit( 'settings', settings )
+      // Transmit all settings
+      this.emit( 'settings:all', { local: this.readSettings( true ) } )
     } else {
       settings = { [ host ]: changed }
     }
 
-    this.sendJSON( 'settings', settings )
+    this.sendJSON( 'settings:all', settings )
   }
 }
 

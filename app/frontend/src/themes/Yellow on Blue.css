@@ -1,0 +1,88 @@
+:root {
+      /***********/
+     /* Display */
+    /***********/
+
+    /* Display background */
+    --display-background-color: #0031a2;
+    --display-background-image: none;
+    --display-background-size: 120%;
+
+    /* Display line colours */
+    --display-line-1-color: #ffd318;
+    --display-line-2-color: #dedede;
+    --display-line-3-color: var(--display-line-2-color);
+    --display-line-4-color: var(--display-line-2-color);
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: var(--display-line-1-opacity);
+    --display-line-3-opacity: var(--display-line-1-opacity);
+    --display-line-4-opacity: var(--display-line-1-opacity);
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .95;
+    --display-extra-line-2-opacity: .90;
+    --display-extra-line-3-opacity: .85;
+    --display-extra-line-4-opacity: .80;
+    --display-extra-line-5-opacity: .75;
+
+    --display-gurmukhi-larivaar-assist-color: #0f97a9;
+    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
+
+    /* Display line pause/vishraam colours */
+    --display-vishraam-heavy-color: #ff8f62;
+    --display-vishraam-medium-color: #2ed428;
+    --display-vishraam-light-color: #dd62ff;
+
+      /**************/
+     /* Controller */
+    /**************/
+
+    /* Controller colors */
+    --controller-background-color: #EDEDED;
+    --controller-text-color: #404040;
+    --controller-text-hover-color: #1f1f1f;
+    --controller-selected-color: #FFF1BE;
+    --controller-selected-background-color: #f1e1a1;
+    --controller-hover-background-color: #f9f4da;
+    --controller-selected-hover-background-color: #FFEDA9;
+
+    /* Controller search colors */
+    --controller-search-background-color: #dedede;
+    --controller-search-focused-background-color: transparent;
+    --controller-search-match-color: #274dc4;
+
+    /* Controller top and bottom bar colors */
+    --controller-bar-text-color: #5f5f5f;
+    --controller-bar-text-hover-color: #404040;
+    --controller-bar-background-color: #f4f4f4;
+
+      /*****************/
+     /* Settings      */
+    /*****************/
+
+    /* Settings Title */
+    --settings-title-background-color: var(--controller-bar-background-color);
+    --settings-title-text-color: var(--controller-bar-text-color);
+
+    /* Settings Menu */
+    --settings-menu-background-color: var(--controller-bar-background-color);
+    --settings-menu-text-color: var(--controller-bar-text-color);
+    --settings-menu-icon-color: var(--settings-menu-text-color);
+    
+    /* Settings Content */
+    --settings-background-color: var(--controller-background-color);
+    --settings-text-color: var(--controller-text-color);
+
+      /*****************/
+     /* Miscellaneous */
+    /*****************/
+
+    /* Scrollbar colour */
+    --scrollbar-color: #40404080;
+}

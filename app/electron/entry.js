@@ -1,20 +1,60 @@
-/* eslint-disable global-require, no-global-assign */
+/* eslint-disable global-require */
 const { spawn } = require( 'child_process' )
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { app } = require( 'electron' )
 
 const LAUNCH_FLAG = '--start-server'
-
-// Patch require to allow for ES6 imports
-require = require( 'esm' )( module )
 
 const { execPath, argv, env } = process
 env.NODE_ENV = 'production'
 
-// Launches server in a separate process, with flag
-const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ] )
+const { LOG_FILE } = require( '../lib/consts' )
+
+// Add file logging
+const logger = require( '../lib/logger' ).default
+
+/**
+ * Launches a server in a separate process, with flag.
+ */
+const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ], {
+  env: { LOG_FILE },
+  detached: true,
+  stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ],
+} )
+
 // Define loader functions
-const loadServer = () => require( '../server' )
-const loadElectron = () => require( './electron-wrapper' )
+
+/**
+ * Function to load server.
+ */
+const loadServer = () => {
+  // IPC message handler used to indicate termination
+  process.on( 'message', () => {
+    logger.info( 'Gracefully quitting backend' )
+    app.quit()
+  } )
+
+  // Start the server
+  require( '../server' )
+}
+
+/**
+ * Function to load the electron wrapper for frontend.
+ */
+const loadElectron = () => { require( './electron-wrapper' ) }
 
 // Load either Electron shell or backend server depending on flag
 const [ , processFlag ] = argv
-module.exports = processFlag === LAUNCH_FLAG ? loadServer() : spawnServer() && loadElectron()
+
+if ( processFlag === LAUNCH_FLAG ) {
+  loadServer()
+} else {
+  const server = spawnServer()
+  const killServer = () => server.send( 'quit' )
+
+  process.on( 'SIGINT', killServer )
+  process.on( 'uncaughtException', killServer )
+  process.on( 'exit', killServer )
+
+  loadElectron()
+}

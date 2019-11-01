@@ -1,4 +1,16 @@
-# ShabadOS-Core
+# Shabad OS Desktop
+
+<div align="center">
+
+A digital representation of Sikh Bani and other Panthic texts with a public logbook of sangat-sourced corrections.
+
+[![CircleCI](https://img.shields.io/circleci/project/github/ShabadOS/desktop.svg?style=flat)](https://circleci.com/gh/ShabadOS/desktop)
+[![Github All Releases](https://img.shields.io/github/downloads/ShabadOS/desktop/total.svg?style=flat)](https://github.com/ShabadOS/desktop/releases)
+[![license](https://img.shields.io/github/license/ShabadOS/desktop.svg?style=flat)]()
+<br/>
+[![Email](https://img.shields.io/badge/Email-team%40shabados.com-blue.svg)](mailto:team@shabados.com) [![WhatsApp](https://img.shields.io/badge/WhatsApp-%2B1--516--619--6059-brightgreen.svg)](https://wa.me/15166196059) [![Slack](https://img.shields.io/badge/Slack-join%20the%20conversation-B649AB.svg)](https://slack.shabados.com)
+<br/>
+</div>
 
 Contains the standalone frontend and backend applications for ShabadOS, with an Electron wrapper.
 
@@ -6,9 +18,13 @@ Contains the standalone frontend and backend applications for ShabadOS, with an 
 
 The `app` folder contains the Electron wrapper, the backend Node application, and the frontend React application.
 
-To install dependencies, run `npm install`, which will also install the dependencies for the frontend and backend. 
+Requirements:
+* [Node](https://nodejs.org/en/download/)
+* On macOS, you will need Xcode Tools via `xcode-select --install` and the latest npm via `npm install --global npm`.
 
-To spin up the development servers, run `npm run dev`, which will launch a frontend server on `https://localhost:3000`, and a backend server on `https://localhost:42425`.
+To install dependencies, run `npm install`, which will also install the dependencies for the frontend and backend.
+
+To spin up the development servers, run `npm start`, which will launch a frontend server on `https://localhost:3000`, and a backend server on `https://localhost:42425`.
 
 If you'd prefer to use docker-compose, `docker-compose up` will install the dependencies and spin up the backend and frontend.
 
@@ -16,11 +32,13 @@ If you'd prefer to use docker-compose, `docker-compose up` will install the depe
 
 Using `create-react-app`. Websockets for synchronising clients. API for search.
 
+Run `npm run analyze` to produce a treemap of the bundle and see where bloat is coming from. Make sure you've run `npm run build` first.
+
 ### Backend
 
 Using proposed ES+ modules with the `esm` shim module.
 Any changes to the backend when running using `docker-compose`,
-or `npm run dev` will result in the server restarting.
+or `npm start` will result in the server restarting.
 
 In development, the backend app runs on port `42425` by default and the frontend on port `3000`.
 
@@ -38,10 +56,4 @@ The backend will then run on port 42424.
 
 We're happy to accept suggestions and pull requests!
 
-This repository follows the **Airbnb's Javascript Style Guide**, with a few minor modifications. Notably, spaces should be included inside parentheses and brackets (weird, right!). An ESLint file is provided,
-and your code will automatically be checked on-commit for style.
-It is recommended to install an ESLint plugin for your editor (VS Code's `ESLint` plugin works out of the box), so you can receive linter suggestions as you type.
-
-Create one feature per branch, preferably working against an issue. PRs will be squashed and merged when complete.
-
-When writing commit messages, please follow the **[seven rules](https://chris.beams.io/posts/git-commit/#seven-rules)**. 
+Checkout out our [Contributing Guidelines](CONTRIBUTING.md) for more information.

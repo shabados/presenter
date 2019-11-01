@@ -1,0 +1,96 @@
+:root {
+      /***********/
+     /* Display */
+    /***********/
+
+    /* Display background */
+    --display-background-color: #0C297B;
+    --display-background-image: url('/themes/images/darbar-sahib.jpg');
+    --display-background-size: auto 100%;
+
+    /* Display line colours */
+    --display-line-1-color: #ffffff;
+    --display-line-2-color: #fff8cc;
+    --display-line-3-color: #fdf3c7;
+    --display-line-4-color: #f6ecc0;
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: var(--display-line-1-opacity);
+    --display-line-3-opacity: var(--display-line-1-opacity);
+    --display-line-4-opacity: var(--display-line-1-opacity);
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .87;
+    --display-extra-line-2-opacity: .74;
+    --display-extra-line-3-opacity: .61;
+    --display-extra-line-4-opacity: .48;
+    --display-extra-line-5-opacity: .35;
+
+    --display-gurmukhi-larivaar-assist-color: #ff328b;
+    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
+
+    /* Display line pause/vishraam colours */
+    --display-vishraam-heavy-color: #bdd1e2;
+    --display-vishraam-medium-color: #d1b3c8;
+    --display-vishraam-light-color: #e0bcb7;
+
+    /* Display line text-shadow */
+    --display-gurmukhi-shadow: 0px 0px 6em #767c96;
+    --display-translation-shadow: 0px 0px 6em #767c96;
+    --display-punjabi-shadow: 0px 0px 6em #767c96;
+    --display-transliteration-shadow: 0px 0px 6em #767c96;
+
+      /**************/
+     /* Controller */
+    /**************/
+
+    /* Controller colors */
+    --controller-background-color: #EEEEEE;
+    --controller-text-color: #424242;
+    --controller-text-hover-color: #212121;
+    --controller-selected-color: #212121;
+    --controller-selected-background-color: #CFD8DC;
+    --controller-hover-background-color: #E0E0E0;
+    --controller-selected-hover-background-color: #D8DCDE;
+
+    /* Controller search colors */
+    --controller-search-background-color: transparent;
+    --controller-search-focused-background-color: #E0E0E0;
+    --controller-search-match-color: #0D47A1;
+
+    /* Controller top and bottom bar colors */
+    --controller-bar-text-color: #616161;
+    --controller-bar-text-hover-color: #424242;
+    --controller-bar-background-color: #F5F5F5;
+
+      /*****************/
+     /* Settings      */
+    /*****************/
+
+    /* Settings Title */
+    --settings-title-background-color: var(--controller-bar-background-color);
+    --settings-title-text-color: var(--controller-bar-text-color);
+
+    /* Settings Menu */
+    --settings-menu-background-color: var(--controller-bar-background-color);
+    --settings-menu-text-color: var(--controller-bar-text-color);
+    --settings-menu-icon-color: var(--settings-menu-text-color);
+    
+    /* Settings Content */
+    --settings-background-color: var(--controller-background-color);
+    --settings-text-color: var(--controller-text-color);
+    --settings-setting-color: #f50057;
+    --settings-setting-shadow: #f5005631;
+
+      /*****************/
+     /* Miscellaneous */
+    /*****************/
+
+    /* Scrollbar colour */
+    --scrollbar-color: #42424280;
+}

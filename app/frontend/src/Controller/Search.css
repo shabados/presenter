@@ -10,15 +10,15 @@
     flex-shrink: 0;
     width: 100%;
     margin-bottom: 0.2em;
-}
-
-.search input {
+  }
+  
+  .search input {
     padding: 0 0.5em;
     font-size: 1.25em;
-    font-weight: bold;
-    font-family: "Noto Sans Gurmukhi", sans-serif;
+    font-family: 'Open Gurbani Akhar Bold';
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
     background-color: var(--controller-search-background-color);
+    color: var(--controller-text-color);
     transition: 0.2s all;
     height: 100%;
 }
@@ -33,9 +33,4 @@
 
 .search .results .result .matched.words {
     color: var(--controller-search-match-color);
-}
-
-.search .results .result .words::after {
-    white-space: pre-wrap;
-    content: " ";
 }

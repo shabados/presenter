@@ -1,72 +1,130 @@
+/* ------------------------------------
+   Line
+   ------------------------------------ */
+
 .line {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 1vh;
-    text-align: center;
-    overflow: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: var(--overscan-vertical-padding) var(--overscan-horizontal-padding);
+  text-align: center;
 }
 
 .line p {
-    margin: 0;
+  margin: 0;
 }
+
+/*
+    Notes for the future:
+    Aiming for 1.35*(x-height) for line-heights
+    Open Gurbani Akhar line-height by x-height = 1.4
+    Noto Sans Medium at 700 = 1.4
+    Open Anmol Uni bold = 1.5
+    
+    English x-height to Open Gurbani Akhar Black = 4:5 ratio
+    Open Anmol Uni Bold to Open Gurbani Akhar Black = 15:16 ratio
+
+    So for 1.35 line-height of Open Gurbani Akhar Black we have to set it's CSS line-height to 1.4
+
+    gurmukh is 8vh, corresponding english is 4/5*8vh = 6.4vh
+    corresponding english should be 1/1.35=0.740740741, which means 6.4vh is now 4.740740741vh
+
+    gurmukh is 8vh, corresponding punjabi is 15/16*8vh = 7.5vh
+    corresponding english should be 1/1.35=0.740740741, which means 7.6vh is now 5.555555555vh
+
+    The line-heights will be 1.35 times what we already have, 1.89 for english and 2.025 for punjabi
+
+    For whatever reason gurmukhi fonts require a negative bottom margin hack
+*/
 
 .line .gurmukhi {
-    font-family: "Noto Sans Gurmukhi", sans-serif;
-    font-size: 8vh;
-    color: var(--display-gurmukhi-color);
+  font-family: "Open Gurbani Akhar Black", sans-serif;
+  font-size: 1em;
+  line-height: 1.4;
 }
 
-.line .gurmukhi span {
-    margin-right: 2.25vh;
-    display: inline-block;
+.current-line .gurmukhi {
+  margin-bottom: -0.12em;
 }
 
-.line .gurmukhi span:last-child {
-    margin-right: 0;
-}
-
-.line .gurmukhi.larivaar span {
-    margin-right: 0;
-}
-
-.line .gurmukhi .heavy {
-    color: var(--display-vishraam-heavy-color);
-}
-
-.line .gurmukhi .medium {
-    color: var(--display-vishraam-medium-color);
-}
-
-.line .gurmukhi .light {
-    color: var(--display-vishraam-light-color);
-}
-
-.line .translation {
-    font-family: "Noto Sans Medium", sans-serif;
-    font-size: 4vh;
-    transition: opacity 100ms ease-in;
-    opacity: 0.05;
-    color: var(--display-translation-color);
+.line .english {
+  font-family: "Noto Sans Medium", sans-serif;
+  font-size: 0.592592592625em;
+  line-height: 1.89;
+  line-height: 1.4;
+  font-weight: 700;
 }
 
 .line .punjabi {
-    font-family: "Noto Sans Gurmukhi", sans-serif;
-    font-size: 4vh;
-    transition: opacity 150ms ease-in;
-    opacity: 0.1;
-    color: var(--display-punjabi-color);
+  font-family: "Open Anmol Uni Bold", sans-serif;
+  font-size: 0.694444444375em;
+  line-height: 2.025;
+  line-height: 1.75;
+  line-height: 1.5;
+  margin-bottom: -0.15em;
+}
+
+.line .gurmukhi .partition {
+  display: inline-block;
+}
+
+.partition + .partition:before {
+  content: "\200B\20"
+}
+
+.line .gurmukhi .word,
+.line .transliteration .word {
+  transition: var(--animation-duration) all;
+}
+
+.line .gurmukhi .word:after,
+.line .transliteration .word:after {
+  content: "\20";
+}
+
+.larivaar.line .word:after, .larivaar.line .partition + .partition:before {
+  content: "\200B";
+}
+
+.larivaar.assist.line .gurmukhi .word:nth-child(2n) {
+  color: var(--display-gurmukhi-larivaar-assist-color);
+}
+
+.larivaar.assist.line .transliteration .word:nth-child(2n) {
+  color: var(--display-transliteration-larivaar-assist-color);
+}
+
+.heavy.vishraams.line .gurmukhi .word.heavy,
+.heavy.vishraams.line .vishraams.transliteration .word.heavy {
+  color: var(--display-vishraam-heavy-color) !important;
+}
+
+.medium.vishraams.line .gurmukhi .word.medium,
+.medium.vishraams.line .vishraams.transliteration .word.medium {
+  color: var(--display-vishraam-medium-color) !important;
+}
+
+.light.vishraams.line .gurmukhi .word.light,
+.light.vishraams.line .vishraams.transliteration .word.light {
+  color: var(--display-vishraam-light-color) !important;
 }
 
 .line .transliteration {
-    font-family: "Noto Sans Regular", sans-serif;
-    font-size: 4vh;
-    transition: opacity 200ms ease-in;
-    opacity: 0.2;
-    color: var(--display-transliteration-color);
+  font-family: "Noto Sans Regular", sans-serif;
+  font-size: 0.4375em;
+  color: var(--display-transliteration-color);
+  transition: 0.2s all ease-in;
 }
 
-.line .fade-enter-done, .line .fade-appear-done {
-    opacity: 1;
+/* ------------------------------------
+   Simple lines - remove animations
+   ------------------------------------ */
+
+.simple.line * {
+  transition: none;
+}
+
+.simple.line .fade-enter {
+  opacity: 1;
 }

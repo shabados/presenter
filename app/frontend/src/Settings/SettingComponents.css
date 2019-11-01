@@ -1,0 +1,43 @@
+/*! Warning: These styles assume the structure of Material-UI components and so maybe break when upgrading it */
+
+.select {
+  font-size: 0.9em !important;
+  color: var(--settings-text-color) !important;
+}
+
+.select::before {
+  display: none;
+}
+
+.select::after {
+  border-bottom: 2px solid var(--settings-setting-color) !important;
+}
+
+.select-menu ul {
+  background-color: var(--settings-background-color);
+}
+
+.select-menu li {
+  color: var(--settings-text-color);
+}
+
+.select-menu .MuiSelect-icon {
+  color: var(--settings-text-color);
+}
+
+.checked.toggle > span,
+.slider {
+  color: var(--settings-setting-color) !important;
+}
+
+.checked.toggle > span:last-child {
+  background-color: var(--settings-setting-color);
+}
+
+.checked.toggle > :hover {
+  background-color: var(--settings-setting-shadow) !important;
+}
+
+.slider .MuiSlider-thumb:hover, .slider .MuiSlider-thumb.MuiSlider-active {
+  box-shadow: 0px 0px 0px 8px var(--settings-setting-shadow) !important;
+}

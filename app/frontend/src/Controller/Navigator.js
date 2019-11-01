@@ -1,29 +1,76 @@
-import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+/* eslint-disable react/no-multi-comp */
 
-import { List, ListItem } from '@material-ui/core'
+import React, { PureComponent } from 'react'
+import { Redirect } from 'react-router-dom'
+import { string, func, shape, arrayOf, bool, objectOf } from 'prop-types'
+import { location } from 'react-router-prop-types'
+import classNames from 'classnames'
+
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+
 import {
   faChevronUp,
   faChevronDown,
-  // faThumbtack,
   faExchangeAlt,
-} from '@fortawesome/fontawesome-free-solid'
+} from '@fortawesome/free-solid-svg-icons'
 
-import { CONTROLLER_URL, LINE_HOTKEYS } from '../lib/consts'
+import { LINE_HOTKEYS } from '../lib/keyMap'
+import { SEARCH_URL } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
+import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 
 import ToolbarButton from './ToolbarButton'
 
 import './Navigator.css'
 
 /**
+* Line component that attaches click handlers.
+* @param gurmukhi The Gurmukhi for the line to render.
+* @param id The id of the line.
+* @param index The index of the line.
+*/
+const NavigatorLine = ( { id, register, focused, gurmukhi, hotkey } ) => {
+  // Move to the line id on click
+  const onClick = () => controller.line( id )
+
+  // Register the reference to the line with the NavigationHotKey HOC
+  const registerLine = line => register( id, line, true )
+
+  return (
+    <ListItem
+      key={id}
+      className={classNames( { focused } )}
+      onClick={onClick}
+      ref={registerLine}
+      tabIndex={0}
+    >
+      <span className="hotkey meta">{hotkey}</span>
+      <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
+    </ListItem>
+  )
+}
+
+NavigatorLine.propTypes = {
+  register: func.isRequired,
+  gurmukhi: string.isRequired,
+  focused: bool.isRequired,
+  id: string.isRequired,
+  hotkey: string,
+}
+
+NavigatorLine.defaultProps = {
+  hotkey: null,
+}
+
+/**
  * Navigator Component.
  * Displays lines from Shabad and allows navigation.
  */
-class Navigator extends Component {
+class Navigator extends PureComponent {
   componentDidMount() {
     const { updateFocus, lineId } = this.props
 
@@ -40,84 +87,124 @@ class Navigator extends Component {
     }
   }
 
-  /**
-   * Line component that attaches click handlers.
-   * @param gurmukhi The Gurmukhi for the line to render.
-   * @param id The id of the line.
-   * @param index The index of the line.
-   */
-  Line = ( { gurmukhi, id }, index ) => {
-    const { lineId, register } = this.props
-
-    // Check if the line being rendered is the currently displayed line
-    const activeLine = id === lineId
-
-    // Set the class name appropriately for the active line
-    const className = activeLine ? 'focused' : ''
-
-    // Register the reference to the line with the NavigationHotKey HOC
-    const ref = line => register( id, line )
-
-    // Move to the line id on click
-    const onClick = () => controller.line( id )
-
-    return (
-      <ListItem key={id} className={className} onClick={onClick} ref={ref} tabIndex={0}>
-        <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-        <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
-      </ListItem>
-    )
-  }
-
-
   render() {
-    const { location, shabad, bani } = this.props
+    const { location, shabad, bani, register, focused } = this.props
+
     const content = shabad || bani
 
     // If there's no Shabad to show, go back to the controller
     if ( !content ) {
-      return <Redirect to={{ ...location, pathname: CONTROLLER_URL }} />
+      return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
     }
 
     const { lines } = content
     return (
-      <List className="navigator">
-        {lines.map( this.Line )}
+      <List className="navigator" onKeyDown={e => e.preventDefault()}>
+        {lines.map( ( line, index ) => (
+          <NavigatorLine
+            key={line.id}
+            {...line}
+            focused={line.id === focused}
+            hotkey={LINE_HOTKEYS[ index ]}
+            register={register}
+          />
+        ) )}
       </List>
     )
   }
 }
 
+Navigator.propTypes = {
+  lineId: string,
+  mainLineId: string,
+  nextLineId: string,
+  updateFocus: func.isRequired,
+  register: func.isRequired,
+  location: location.isRequired,
+  focused: string,
+  viewedLines: objectOf( string ),
+  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+}
+
+Navigator.defaultProps = {
+  shabad: undefined,
+  bani: undefined,
+  lineId: undefined,
+  mainLineId: undefined,
+  nextLineId: undefined,
+  focused: undefined,
+  viewedLines: {},
+}
+
+const NavigatorWithNavigationHotKeys = withNavigationHotKeys( {
+  arrowKeys: true,
+  lineKeys: true,
+  clickOnFocus: true,
+  wrapAround: false,
+} )( Navigator )
+
+// Wrap withNavigationHotKeys first so that it takes precedence
+const NavigatorWithAllHotKeys = props => (
+  <NavigatorHotKeys {...props} active>
+    <NavigatorWithNavigationHotKeys {...props} />
+  </NavigatorHotKeys>
+)
+
+export default NavigatorWithAllHotKeys
 
 /**
  * Used by Menu parent to render content in the bottom bar.
  */
-export const Bar = ( { mainLineId, lineId, shabad, bani } ) => {
-  console.log( mainLineId )
+export const Bar = props => {
+  const { lineId, shabad, bani } = props
   const content = shabad || bani
 
-  if ( !content ) { return null }
-
-  const autoselectProps = {
-    icon: faExchangeAlt,
-    onClick: () => controller.mainLine( lineId ),
-  }
+  if ( !content ) return null
 
   const { lines } = content
 
+  const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+  const currentLine = lines[ currentLineIndex ]
+
+  const onUpClick = () => {
+    if ( !currentLine ) return
+
+    const firstLine = lines[ 0 ]
+    // Go to the previous shabad if the first line is highlighted (but not for banis)
+    if ( !bani && lineId === firstLine.id ) controller.previousShabad( shabad.orderId )
+    else controller.line( lines[ currentLineIndex - 1 ].id )
+  }
+
+  const onDownClick = () => {
+    if ( !currentLine ) return
+
+    const lastLine = lines[ lines.length - 1 ]
+    // Go to the previous shabad if the first line is highlighted (but not for banis)
+    if ( !bani && lineId === lastLine.id ) controller.nextShabad( shabad.orderId )
+    else controller.line( lines[ currentLineIndex + 1 ].id )
+  }
+
+  const onAutoToggle = () => controller.autoToggleShabad( props )
+
   return (
     <div className="navigator-controls">
-      <ToolbarButton name="Up" icon={faChevronUp} />
+      <ToolbarButton name="Up" icon={faChevronUp} onClick={onUpClick} />
       {lines ? `${lines.findIndex( ( { id } ) => id === lineId ) + 1}/${lines.length}` : null}
-      <ToolbarButton name="Down" icon={faChevronDown} />
-      <ToolbarButton name="Autoselect" className="autoselect" {...autoselectProps} />
+      <ToolbarButton name="Down" icon={faChevronDown} onClick={onDownClick} />
+      {shabad && <ToolbarButton className="autoselect" name="Autoselect" icon={faExchangeAlt} onClick={onAutoToggle} />}
     </div>
   )
 }
 
+Bar.propTypes = {
+  lineId: string,
+  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+}
 
-export default withNavigationHotKeys( {
-  arrowKeys: true,
-  lineKeys: true,
-  clickOnFocus: true,
-} )( Navigator )
+Bar.defaultProps = {
+  lineId: undefined,
+  shabad: undefined,
+  bani: undefined,
+}

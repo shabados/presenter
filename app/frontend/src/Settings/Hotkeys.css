@@ -1,0 +1,24 @@
+.hotkeys .text > * {
+  color: var(--settings-text-color);
+}
+
+.hotkeys code {
+  background-color: var(--settings-text-color);
+  color: var(--settings-background-color);
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.hotkeys .group {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hotkeys .group > .name {
+  text-transform: uppercase;
+}
+
+.hotkeys .group-hotkeys {
+  width: 100%;
+}

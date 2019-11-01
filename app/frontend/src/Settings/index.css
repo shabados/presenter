@@ -1,0 +1,94 @@
+.settings {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  animation: fade-in 800ms;
+}
+
+.simple.settings * {
+  transition: none !important;
+}
+
+.settings .title-bar {
+  background-color: var(--settings-title-background-color);
+  transition: 0.3s all;
+}
+
+.settings .title {
+  color: var(--settings-title-text-color);
+  text-transform: capitalize;
+  transition: 0.3s all;
+  margin-left: 20px;
+}
+  
+.menu > div {
+  height: 100%;
+  background-color: var(--settings-menu-background-color);
+  transition: 0.3s all;
+  }
+
+.menu .icon {
+  color: var(--settings-menu-icon-color);
+  width: 30px;
+  font-size: 20px;
+  transition: 0.3s all;
+}
+
+.category-title {
+  color: var(--settings-menu-text-color) !important;
+  margin: 10px 20px !important;
+  text-transform: uppercase;
+  font-size: 0.875rem !important;
+  transition: 0.3s all;
+  }
+  
+.item .text span {
+  color: var(--settings-menu-text-color);
+  transition: 0.3s all;
+}
+  
+.settings main {
+  display: flex;
+  min-height: fit-content;
+  flex-direction: column;
+  padding: 25px;
+  background-color: var(--settings-background-color);
+  color: var(--settings-text-color);
+  height: 100%;
+  transition: 0.3s all;
+}
+  
+.settings main p, .settings main svg {
+  color: var(--settings-text-color) !important;
+}
+
+.settings main .option {
+  margin: 5px;
+}
+
+.settings main .icon {
+  color: var(--settings-menu-icon-color) !important;
+  height: 25px !important;
+  width: 25px !important;
+  transition: 0.3s all;
+}
+
+@media only screen and (min-width: 600px) {
+  .settings main {
+    margin-left: 200px;
+  }
+
+  .settings .title {
+    margin-left: 240px;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

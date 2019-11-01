@@ -15,10 +15,10 @@ import logger from './logger'
 const DEFAULT_MIDDLEWARE = [ helmet(), compression(), bodyParser.json() ]
 
 /**
- * Sets up Express
- * @param mounts Array of { dir, prefix } of directories to mount.
- * @param middleware Any array of middleware that will be registered
- * @returns {Function} The instance of the http server
+ * Sets up Express.
+ * @param {Array} mounts Array of { dir, prefix } of directories to mount.
+ * @param {Array} middleware Any array of middleware that will be registered.
+ * @returns {Function} The instance of the http server.
  */
 export const setupExpress = ( mounts = [], middleware = [] ) => {
   const allMiddleware = [ ...DEFAULT_MIDDLEWARE, ...middleware ]
@@ -35,9 +35,6 @@ export const setupExpress = ( mounts = [], middleware = [] ) => {
   // Serve any passed in directories
   mounts.forEach( ( { dir, prefix = '/' } ) => app.use( prefix, express.static( dir ) ) )
   logger.info( 'Loaded all directory mounts' )
-
-  // Register heartbeat route
-  app.get( '/heartbeat', ( req, res ) => res.send( 'alive' ) )
 
   return server
 }

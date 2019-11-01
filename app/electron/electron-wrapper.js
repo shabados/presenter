@@ -1,12 +1,13 @@
-// eslint-disable-next-line
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow } from 'electron'
-import logger from 'electron-log'
 import fetch from 'electron-fetch'
 
-const { env } = process
-const PORT = env.NODE_ENV === 'production' ? 42424 : 42425
+import logger from '../lib/logger'
+import { PORT, isDev } from '../lib/consts'
 
-const BASE_URL = `http://localhost:${PORT}`
+const BASE_URL = !isDev ? `http://localhost:${PORT}` : `http://localhost:${3000}`
+//! CONTROLLER_URL should match that in frontend consts
+const CONTROLLER_URL = `${BASE_URL}/controller`
 
 let mainWindow
 
@@ -16,20 +17,26 @@ let mainWindow
  */
 const loadPage = () => fetch( `${BASE_URL}/heartbeat` )
   .then( () => {
-    mainWindow.loadURL( BASE_URL )
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools()
-    mainWindow.maximize()
-    mainWindow.show()
+    mainWindow.loadURL( `${BASE_URL}/${CONTROLLER_URL}` )
   } )
   .catch( () => setTimeout( loadPage, 300 ) )
 
+/**
+ * Creates a browser window.
+ */
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow( { show: false } )
 
   // Load the web page
   loadPage()
+
+  mainWindow.on( 'ready-to-show', () => {
+    mainWindow.setMenuBarVisibility( isDev )
+    mainWindow.maximize()
+    mainWindow.show()
+    mainWindow.focus()
+  } )
 
   mainWindow.on( 'closed', () => {
     // Dereference the window object, usually you would store windows

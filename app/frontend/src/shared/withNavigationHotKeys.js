@@ -1,67 +1,59 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
+import { instanceOf } from 'prop-types'
 
-import { HotKeys } from 'react-hotkeys'
+import { GlobalHotKeys } from 'react-hotkeys'
 
-import { scrollIntoCenter } from '../lib/utils'
-import { LINE_HOTKEYS } from '../lib/consts'
+import { scrollIntoCenter, debounceHotKey, mapPlatformKeys } from '../lib/utils'
+import { LINE_HOTKEYS } from '../lib/keyMap'
+
+const isInput = element => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
+
+const preventDefault = fn => event => {
+  event.preventDefault()
+  fn( event )
+}
 
 /**
  * HOC to automatically add navigational key bindings to child elements.
- * @param arrowKeys Navigate with arrow keys to the next and previous DOM elements.
- * @param lineKeys Enable line jumping via hotkeys.
- * @param clickOnFocus Simulate a click on the item that is newly focused.
+ * @param {boolean} arrowKeys Navigate with arrow keys to the next and previous DOM elements.
+ * @param {boolean} lineKeys Enable line jumping via hotkeys.
+ * @param {boolean} clickOnFocus Simulate a click on the item that is newly focused.
+ * @param {Object} keymap Keymap to combine with existing keymap.
+ * @returns {Component} The decorated component.
  */
-const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =>
-  WrappedComponent => {
-    class WithNavigationHotKeys extends Component {
-      constructor( props ) {
-        super( props )
+const withNavigationHotKeys = ( {
+  arrowKeys = true,
+  lineKeys,
+  clickOnFocus,
+  keymap,
+  wrapAround = true,
+} ) => WrappedComponent => {
+  class WithNavigationHotKeys extends Component {
+    constructor( props ) {
+      super( props )
 
-        this.state = { focusedIndex: 0 }
+      this.state = { focusedIndex: 0 }
 
-        // Stores the ref to the parent containing the children
-        this.nodes = new Map()
+      // Stores the ref to the parent containing the children
+      this.nodes = new Map()
 
-        // Stores any input types, so that their keydown can be overriden
-        this.inputs = []
-
-        // Stores a list of hotkeys
-        this.hotkeys = []
+      // Generate the handlers in advance
+      this.handlers = {
+        ...( arrowKeys && this.arrowHandlers ),
+        ...( lineKeys && this.lineHandlers ),
       }
+    }
 
-      componentDidMount() {
-        this.setNodeSize()
-        this.setFocus()
+    componentDidMount() {
+      this.setNodeSize()
+      this.setFocus()
+    }
 
-        // Add event listeners to inputs
-        this.inputs.forEach( input => input.addEventListener( 'keydown', this.onKeyDown ) )
-      }
-
-      componentDidUpdate() {
-        this.setNodeSize()
-        this.setFocus()
-      }
-
-      componentWillUnmount() {
-        // Remove event listeners from inputs
-        this.inputs.forEach( input => input.removeEventListener( 'keydown', this.onKeyDown ) )
-      }
-
-      /**
-       * Defocuses an input on keydown, when up or down is pressed.
-       * @param event The keydown event.
-       */
-      onKeyDown = event => {
-        const { key } = event
-
-        if ( key === 'ArrowDown' || key === 'ArrowUp' ) {
-          event.preventDefault()
-          this.setNodeSize()
-          if ( key === 'ArrowDown' ) { this.nextItem() } else { this.prevItem() }
-          event.target.blur()
-        }
-      }
+    componentDidUpdate() {
+      this.setNodeSize()
+      this.setFocus()
+    }
 
       /**
        * Sets the length of the nodes to the correct size.
@@ -77,33 +69,37 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
         const { focusedIndex } = this.state
 
         // Find the DOM node for the child to focus, and focus it
+        // eslint-disable-next-line react/no-find-dom-node
         const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
         if ( node ) {
-          node.focus()
           scrollIntoCenter( node )
+          node.focus()
         }
       }
 
       /**
        * Simulates a click on the focused component.
        */
-      simulateClick = () => {
+      simulateClick = debounceHotKey( () => {
         const { focusedIndex } = this.state
 
         // Simulate a click on the focused element if possible
+        // eslint-disable-next-line react/no-find-dom-node
         const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
         if ( node ) {
           node.click()
         }
-      }
+      } )
 
       /**
        * Jump to an item given it's name/identifier.
        * @param name The name of the element.
        * @param click Trigger the click.
        */
-      jumpToName = ( name, click = true ) =>
-        this.jumpTo( [ ...this.nodes.keys() ].findIndex( key => key === name ), click )
+      jumpToName = ( name, click = true ) => this.jumpTo(
+        [ ...this.nodes.keys() ].findIndex( key => key === name ),
+        click,
+      )
 
       /**
        * Jumps to an element.
@@ -120,10 +116,21 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
       }
 
       /**
+       * Jumps to the first element, excluding inputs.
+       */
+      jumpToFirst = () => {
+        const index = [ ...this.nodes.values() ].findIndex( element => !isInput( element ) )
+
+        this.jumpTo( index )
+      }
+
+      /**
        * Focuses the previous item in the list of elements.
        */
       prevItem = () => {
         const { focusedIndex: prevIndex } = this.state
+
+        if ( !wrapAround && prevIndex === 0 ) return
 
         // Set the previous focus, with wrap-around
         const focusedIndex = prevIndex > 0 ? prevIndex - 1 : this.nodes.size - 1
@@ -137,6 +144,8 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
       nextItem = () => {
         const { focusedIndex: prevIndex } = this.state
 
+        if ( !wrapAround && prevIndex === this.nodes.size - 1 ) return
+
         // Set the next focus, with wrap-around
         const focusedIndex = prevIndex < this.nodes.size - 1 ? prevIndex + 1 : 0
 
@@ -147,74 +156,47 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
        * Registers the ref under the current list of nodes.
        * @param name The name to identify the ref.
        * @param ref The ref to store.
-       * @param isInput Whether or not the ref is to an `<input/>`.
-       * @param isHotKey Whether or not the ref should be registered as a hotkey.
        */
-      registerRef = ( name, ref, isInput = false, isHotKey = false ) => {
-        this.nodes.set( name, ref )
-
-        // Store the input, if it is one
-        if ( isInput ) {
-          this.inputs = [ ...this.inputs, ref ]
-        }
-
-        // Store as a hotkey, if it is one
-        if ( isHotKey ) {
-          this.hotkeys = [ ...this.hotkeys, name ]
-        }
-      }
+      registerRef = ( name, ref ) => this.nodes.set( name, ref )
 
       /**
        * Generates handlers for each of the nodes, using the keys from LINE HOTKEYS to jump to them.
        */
-      generateLineHandlers = () => LINE_HOTKEYS
-        .slice( 0, this.hotkeys.length || this.nodes.size )
-        .reduce( ( handlers, key, i ) => ( {
-          ...handlers,
-          [ key ]: () => (
-            this.hotkeys.length
-              ? this.jumpToName( this.hotkeys[ i ] )
-              : this.jumpTo( i )
-          ),
-        } ), {} )
-
-
-      keymap = {
-        next: [ 'down', 'right', 'tab' ],
-        previous: [ 'up', 'left', 'shift+tab' ],
-        enter: [ 'enter', 'return', 'space' ],
-        first: [ 'home' ],
-        last: [ 'end' ],
-      }
+      lineHandlers = LINE_HOTKEYS.reduce( ( handlers, key, i ) => ( {
+        ...handlers,
+        [ key ]: () => this.jumpTo( i ),
+      } ), {} )
 
       arrowHandlers = {
-        first: () => this.jumpTo( 0 ),
-        last: () => this.jumpTo( this.nodes.size - 1 ),
-        previous: this.prevItem,
-        next: this.nextItem,
+        first: preventDefault( this.jumpToFirst ),
+        last: preventDefault( () => this.jumpTo( this.nodes.size - 1 ) ),
+        previous: preventDefault( this.prevItem ),
+        next: preventDefault( this.nextItem ),
         enter: this.simulateClick,
       }
+
+      keymap = mapPlatformKeys( {
+        next: [ 'down', 'right', 'tab', 'PageDown', 'l' ],
+        previous: [ 'up', 'left', 'shift+tab', 'PageUp', 'j' ],
+        enter: [ 'enter', 'return' ],
+        first: [ 'home', 'ctrl+up' ],
+        last: [ 'end', 'ctrl+down' ],
+        ...( lineKeys && LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
+          ...keymap,
+          [ hotkey ]: [ hotkey ],
+        } ), {} ) ),
+        ...keymap,
+      } )
 
       render() {
         const { forwardedRef, ...rest } = this.props
         const { focusedIndex } = this.state
 
-        const handlers = {
-          ...( arrowKeys ? this.arrowHandlers : {} ),
-          ...( lineKeys ? this.generateLineHandlers() : {} ),
-        }
-
         // Get the name of the currently focused element
         const focused = [ ...this.nodes.keys() ][ focusedIndex ]
 
         return (
-          <HotKeys
-            component="document-fragment"
-            focused
-            attach={window}
-            handlers={handlers}
-            keyMap={this.keymap}
-          >
+          <GlobalHotKeys handlers={this.handlers} keyMap={this.keymap}>
             <WrappedComponent
               {...rest}
               ref={forwardedRef}
@@ -222,14 +204,21 @@ const withNavigationHotKeys = ( { arrowKeys = true, lineKeys, clickOnFocus } ) =
               updateFocus={this.jumpToName}
               focused={focused}
             />
-          </HotKeys>
+          </GlobalHotKeys>
         )
       }
-    }
-
-    const forwardRef = ( props, ref ) => <WithNavigationHotKeys {...props} forwardedRef={ref} />
-    return React.forwardRef( forwardRef )
   }
 
+  WithNavigationHotKeys.propTypes = {
+    forwardedRef: instanceOf( WithNavigationHotKeys ),
+  }
+
+  WithNavigationHotKeys.defaultProps = {
+    forwardedRef: null,
+  }
+
+  const forwardRef = ( props, ref ) => <WithNavigationHotKeys {...props} forwardedRef={ref} />
+  return React.forwardRef( forwardRef )
+}
 
 export default withNavigationHotKeys

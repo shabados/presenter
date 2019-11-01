@@ -1,0 +1,95 @@
+:root {
+      /***********/
+     /* Display */
+    /***********/
+
+    /* Display background */
+    --display-background-color: #000000; 
+    --display-background-image: url('/themes/images/logo.png');
+    --display-background-size: 120%;
+
+    /* Display line colours */
+    --display-line-1-color: #ffffff;
+    --display-line-2-color: var(--display-line-1-color);
+    --display-line-3-color: var(--display-line-1-color);
+    --display-line-4-color: var(--display-line-1-color);
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: .95;
+    --display-line-3-opacity: .90;
+    --display-line-4-opacity: .85;
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .95;
+    --display-extra-line-2-opacity: .90;
+    --display-extra-line-3-opacity: .85;
+    --display-extra-line-4-opacity: .80;
+    --display-extra-line-5-opacity: .75;
+
+    --display-gurmukhi-larivaar-assist-color: #FF328B;
+    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
+
+    /* Display line pause/vishraam colours */
+    /* Legacy Golang version was less saturated or more faded than these 3:
+          FFE0B2
+          DCEDC8
+          BBDEFB
+    */
+    --display-vishraam-heavy-color: #ffd88b;
+    --display-vishraam-medium-color: #cbe7aa;
+    --display-vishraam-light-color: #ace6ff;
+
+      /**************/
+     /* Controller */
+    /**************/
+
+    /* Controller colors */
+    --controller-background-color: #303030;
+    --controller-text-color: #bdbdbd;
+    --controller-text-hover-color: #e0e0e0;
+    --controller-selected-color: #e0e0e0;
+    --controller-selected-background-color: #37474f;
+    --controller-hover-background-color: #3b3b3b;
+    --controller-selected-hover-background-color: #394145;
+
+    /* Controller search colors */
+    --controller-search-background-color: #363636;
+    --controller-search-focused-background-color: #424242;
+    --controller-search-match-color: #ffd180;
+
+    /* Controller top and bottom bar colors */
+    --controller-bar-text-color: #bdbdbd;
+    --controller-bar-text-hover-color: #e0e0e0;
+    --controller-bar-background-color: #212121;
+
+      /*****************/
+     /* Settings      */
+    /*****************/
+
+    /* Settings Title */
+    --settings-title-background-color: var(--controller-bar-background-color);
+    --settings-title-text-color: var(--controller-bar-text-color);
+
+    /* Settings Menu */
+    --settings-menu-background-color: var(--controller-bar-background-color);
+    --settings-menu-text-color: var(--controller-bar-text-color);
+    --settings-menu-icon-color: var(--settings-menu-text-color);
+    
+    /* Settings Content */
+    --settings-background-color: var(--controller-background-color);
+    --settings-text-color: var(--controller-text-color);
+    --settings-setting-color: #f50057;
+    --settings-setting-shadow: #f5005631;
+
+      /*****************/
+     /* Miscellaneous */
+    /*****************/
+
+    /* Scrollbar colour */
+    --scrollbar-color: #bdbdbd80;
+}

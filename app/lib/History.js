@@ -1,5 +1,6 @@
 import { createWriteStream } from 'fs'
 import * as CSV from 'csv-string'
+import { omit, findLast } from 'lodash'
 
 import { HISTORY_FILE } from './consts'
 
@@ -19,9 +20,16 @@ const CSV_FIELDS = [
  * Class for reading, writing, and retrieving history.
  */
 class History {
+  /**
+   * Initialises the History class.
+   * Generates the correct fields and opens a write file stream.
+   * @param {Array} fields The fields from a line to write to file.
+   */
   constructor( fields = CSV_FIELDS ) {
     this.writeStream = null
-    this.history = []
+    this.linearHistory = [] // Continuous history
+    this.timestampHistory = {} // History keyed by timestamp of open
+    this.historyFor = { banis: {}, shabads: {} } // History keyed by shabad/bani ID
 
     // Split dot properties up
     this.fields = fields.map( ( [ field, transform ] ) => [ field.split( '.' ), transform ] )
@@ -38,40 +46,131 @@ class History {
     }
   }
 
+  /**
+   * Updates the history with a new line, if it's unique.
+   * @param {Object} data The data to update the history with.
+   * @param {boolean} transition Whether this entry was triggered by a new Shabad selection.
+   */
   update( data, transition = false ) {
-    const { line = {} } = data
+    const { line = {}, bani, mainLineId, nextLineId } = data
+    const shabad = omit( line.shabad || data.shabad, [ 'lines' ] )
 
     // Do not add entry if it's the same line as the last
-    if ( this.history.length ) {
-      const { line: prevLine = {} } = this.history[ this.history.length - 1 ]
+    if ( this.linearHistory.length ) {
+      const { line: prevLine = {} } = this.linearHistory[ this.linearHistory.length - 1 ]
 
-      if ( line.id === prevLine.id ) {
-        return
-      }
+      if ( line.id === prevLine.id ) return
     }
 
+    const timestamp = new Date()
     const entry = {
-      timestamp: new Date(),
-      ...data,
+      timestamp,
       transition,
+      shabad,
+      ...( mainLineId && { mainLineId } ),
+      ...( nextLineId && { nextLineId } ),
+      line: omit( line, [ 'transliterations', 'translations', 'shabad' ] ),
+      ...( bani && { bani: omit( bani, [ 'lines' ] ) } ),
     }
 
-    this.history = [ ...this.history, entry ]
+
+    // Add to global history
+    this.linearHistory = [ ...this.linearHistory, entry ]
+
+    // Add to history of main transition timestamp
+    const { timestamp: transitionTimestamp } = this.getLatestTransition() || { timestamp }
+    this.timestampHistory = {
+      ...this.timestampHistory,
+      [ transitionTimestamp.toISOString() ]: [
+        ...( this.timestampHistory[ transitionTimestamp.toISOString() ] || [] ),
+        entry,
+      ],
+    }
+
+    // Add to history of id for bani/shabad
+    const { id } = bani || shabad
+    const type = bani ? 'banis' : 'shabads'
+    this.historyFor = {
+      ...this.historyFor,
+      [ type ]: {
+        ...this.historyFor[ type ],
+        ...( line.id && { [ id ]: [ ...( this.historyFor[ type ][ id ] || [] ), entry ] } ),
+      },
+    }
+
+    // Write to file
     this.append( entry )
   }
 
+  /**
+   * Gets all history entries which are transitions to new Shabads.
+   * @returns {Array} A list of the history entries.
+   */
   getTransitionsOnly() {
-    return this.history.filter( ( { transition } ) => transition )
+    return this.linearHistory
+      .filter( ( { transition } ) => transition )
+      .filter( ( { line: { id } } ) => id )
   }
 
+  /**
+   * Gets the latest transition to a Shabad or Bani.
+   */
+  getLatestTransition() {
+    return findLast( this.linearHistory, ( { transition, line: { id } } ) => transition && id )
+  }
+
+  /**
+   * Fetches all the viewed lines for a transition group at a given timestamp.
+   * @param {Date} timestamp The timestamp to fetch viewed lines for.
+   */
+  getViewedLinesFor( id, bani = false ) {
+    const type = bani ? 'banis' : 'shabads'
+
+    return ( this.historyFor[ type ][ id ] || [] )
+      .filter( ( { line: { id } } ) => id )
+      .reduce( ( viewedLines, { line: { id }, timestamp } ) => ( {
+        ...viewedLines,
+        [ id ]: timestamp,
+      } ), {} )
+  }
+
+  /**
+   * Gets the latest line of each transition.
+   */
+  getLatestLines() {
+    return Object
+      .entries( this.timestampHistory )
+      .reduce( ( timestamps, [ timestamp, history ] ) => ( {
+        ...timestamps,
+        [ timestamp ]: findLast( history, ( { line: { id } } ) => id ),
+      } ), {} )
+  }
+
+  getLatestFor( id, bani = false ) {
+    const latestHistoryFor = this.historyFor[ bani ? 'banis' : 'shabads' ][ id ] || []
+    return latestHistoryFor[ latestHistoryFor.length - 1 ]
+  }
+
+  /**
+   * Gets all the history.
+   * @returns {Array} A list of all the history.
+   */
   get() {
-    return this.history
+    return this.linearHistory
   }
 
+  /**
+   * Clears all history.
+   */
   reset() {
-    this.history = []
+    this.linearHistory = []
   }
 
+  /**
+   * Filters out the correct fields for each row.
+   * @param {Array} data The data to filter.
+   * @returns {Array} A list of filtered data rows.
+   */
   pluckFields( data ) {
     return this.fields.reduce( ( final, [ field, transform = x => x ] ) => [
       ...final,
@@ -79,6 +178,10 @@ class History {
     ], [] )
   }
 
+  /**
+   * Appends a CSV line to file.
+   * @param {Array} data A list representing the row to append, as is.
+   */
   appendLine( data ) {
     const csv = CSV.stringify( data )
     this.writeStream.write( csv )

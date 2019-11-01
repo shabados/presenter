@@ -1,0 +1,90 @@
+:root {
+      /***********/
+     /* Display */
+    /***********/
+
+    /* Display background */
+    --display-background-color: #f0ede9;
+    --display-background-image: url('/themes/images/logo-avani.png');
+    --display-background-size: 100%;
+
+    /* Display line colours */
+    --display-line-1-color: #1A191A;
+    --display-line-2-color: #302E2C;
+    --display-line-3-color: #413F3E;
+    --display-line-4-color: #51504F;
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: var(--display-line-1-opacity);
+    --display-line-3-opacity: var(--display-line-1-opacity);
+    --display-line-4-opacity: var(--display-line-1-opacity);
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .87;
+    --display-extra-line-2-opacity: .74;
+    --display-extra-line-3-opacity: .61;
+    --display-extra-line-4-opacity: .48;
+    --display-extra-line-5-opacity: .35;
+
+    --display-gurmukhi-larivaar-assist-color: #5D1C34;
+    --display-transliteration-larivaar-assist-color: #855C68;
+
+    /* Display line pause/vishraam colours */
+    --display-vishraam-heavy-color: #AD0028;
+    --display-vishraam-medium-color: #00603C;
+    --display-vishraam-light-color: #005583;
+
+      /**************/
+     /* Controller */
+    /**************/
+
+    /* Controller colors */
+    --controller-background-color: #bdb3b5; /* EFE6E7 at 74% opacity on 2d2026 bg */
+    --controller-text-color: #403338;
+    --controller-text-hover-color: #491D2E;
+    --controller-selected-color: #2D2026;
+    --controller-selected-background-color: #f2eef0;
+    --controller-hover-background-color: #d3cbcd;
+    --controller-selected-hover-background-color: #E3DDDF;
+
+    /* Controller search colors */
+    --controller-search-background-color: transparent;
+    --controller-search-focused-background-color: #ffffff;
+    --controller-search-match-color: #491D2E;
+
+    /* Controller top and bottom bar colors */
+    --controller-bar-text-color: #B2B0AE;
+    --controller-bar-text-hover-color: #E6C7CE;
+    --controller-bar-background-color: #2d2026;
+
+      /*****************/
+     /* Settings      */
+    /*****************/
+
+    /* Settings Title */
+    --settings-title-background-color: var(--controller-bar-background-color);
+    --settings-title-text-color: var(--controller-bar-text-color);
+
+    /* Settings Menu */
+    --settings-menu-background-color: var(--controller-bar-background-color);
+    --settings-menu-text-color: var(--controller-bar-text-color);
+    --settings-menu-icon-color: #9C747E;
+
+    /* Settings Content */
+    --settings-background-color: var(--controller-background-color);
+    --settings-text-color: var(--controller-text-color);
+    --settings-setting-color: rgb(129, 77, 90);
+    --settings-setting-shadow: rgb(129, 77, 90, 0.16);
+
+      /*****************/
+     /* Miscellaneous */
+    /*****************/
+
+    /* Scrollbar colour */
+    --scrollbar-color: rgba(0, 0, 0, 0.5);
+}

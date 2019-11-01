@@ -1,0 +1,23 @@
+.sources .source {
+  background-color: var(--settings-menu-background-color);
+}
+
+.sources .source .gurmukhi {
+  font-family: 'Open Gurbani Akhar Regular';
+  font-size: 1.1em;
+}
+
+.sources .source .source-title .gurmukhi {
+  opacity: 0.8;
+}
+
+.sources .source .source-heading {
+  text-transform: uppercase;
+  display: block;
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+
+.sources .source .source-details {
+  flex-direction: column;
+}

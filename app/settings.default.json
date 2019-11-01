@@ -1,12 +1,13 @@
 {
-  "privacy": {
-    "options": {
-      "analytics": true
-    }
-  },
   "system": {
-    "options": {
-      "launchOnStartup": false
-    }
+    "launchOnStartup": false,
+    "analytics": true,
+    "betaOptIn": false
+  },
+  "notifications": {
+    "connectionEvents": true,
+    "disconnectionEvents": false,
+    "downloadEvents": true,
+    "downloadedEvents": true
   }
 }
