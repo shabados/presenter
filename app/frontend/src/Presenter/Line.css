@@ -21,6 +21,14 @@
 .line.center-text.justify-text {
   text-align-last: center;
 }
+
+.line.justify-text .gurmukhi {
+  text-align: left;
+  text-align-last: left;
+}
+
+.line.center-text.justify-text .gurmukhi {
+  text-align: center;
   text-align-last: center;
 }
 
@@ -79,8 +87,12 @@
   display: inline-block;
 }
 
-.partition + .partition:before {
+.partition:after {
   content: "\200B\20"
+}
+
+.partition:last-child:after {
+  content: ""
 }
 
 .line .gurmukhi .word:after,
