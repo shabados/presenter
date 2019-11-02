@@ -76,7 +76,7 @@ jobs:
     <<: *build
     executor:
       name: win/vs2019
-      shell: bash.exe
+      shell: powershell.exe
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
