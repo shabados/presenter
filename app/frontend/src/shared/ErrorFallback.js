@@ -33,19 +33,19 @@ const ErrorFallback = ( { error, autoReset } ) => {
   return (
     <div className="error-fallback">
       <Typography className="header" variant="h5">
-        Hmm.
-        <br />
-        <Typography variant="overline">
-          Though we broke Shabad OS plenty, it seems we never broke it quite like this.
-        </Typography>
+        Have you tried turning it off and on again?
         <Typography>
-          <br />
+          <span>
+            Though we&apos;ve broken Shabad OS plenty,
+            it seems we&apos;ve never broken it quite like this.
+          </span>
+          <span>
           Usage Analytics (if enabled in System Options), will send us a report.
-          <br />
           A prompt investigation into what, why, and how this happened will ensue.
-          <br />
-          <br />
+          </span>
+          <span>
           If you wish to help, please send an email to team@shabados.com
+          </span>
         </Typography>
       </Typography>
 

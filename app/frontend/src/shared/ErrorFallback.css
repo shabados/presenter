@@ -6,7 +6,6 @@
   border-radius: .5em;
   padding: 2em;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  font-size: 0.95em;
 }
 
 .error-fallback:before {
@@ -24,12 +23,21 @@
 }
 
 .error-fallback .header {
-  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 1.15em;
+  margin-bottom: .75em;
+}
+
+.error-fallback .header span {
+  display: block;
+  margin-top: .33em;
+  font-size: 0.95em;
 }
 
 .error-fallback h6 {
   color: #1A191A;
-  font-size: 1.25em;
+  font-size: 1.15em;
+  margin: 0;
 }
 
 .error-fallback .buttons button {
@@ -37,7 +45,7 @@
 }
 
 .error-fallback .error {
-  max-height: 200px;
+  max-height: 6.5em;
   overflow: auto;
   margin: 20px auto;
   user-select: all;
