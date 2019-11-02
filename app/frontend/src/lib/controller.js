@@ -168,7 +168,7 @@ class Controller extends EventEmitter {
       return onlyOverrides ? localSettings : merge( DEFAULT_OPTIONS.local, localSettings )
     } catch ( err ) {
       console.warn( 'Settings corrupted. Resetting to default.', err )
-      return DEFAULT_OPTIONS.local
+      return onlyOverrides ? {} : DEFAULT_OPTIONS.local
     }
   }
 
@@ -194,6 +194,11 @@ class Controller extends EventEmitter {
     }
 
     this.sendJSON( 'settings:all', settings )
+  }
+
+  resetSettings = () => {
+    localStorage.removeItem( 'settings' )
+    this.setSettings()
   }
 }
 

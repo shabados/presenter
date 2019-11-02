@@ -1,0 +1,57 @@
+.error-fallback {
+  margin: auto auto;
+  width: 600px;
+  color: #51504F;
+  background: #FFFFFF;
+  border-radius: .5em;
+  padding: 2em;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.error-fallback:before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  content: '';
+  background-color: #0000001A;
+  background-image: url('/themes/images/logo.png');
+  background-size: 120%;
+  background-position: center;
+}
+
+.error-fallback .header {
+  font-weight: bold;
+  font-size: 1.15em;
+  margin-bottom: .75em;
+}
+
+.error-fallback .header span {
+  display: block;
+  margin-top: .33em;
+  font-size: 0.95em;
+}
+
+.error-fallback h6 {
+  color: #1A191A;
+  font-size: 1.15em;
+  margin: 0;
+}
+
+.error-fallback .buttons button {
+  margin: 20px;
+}
+
+.error-fallback .error {
+  max-height: 6.5em;
+  overflow: auto;
+  margin: 20px auto;
+  user-select: all;
+  background-color: rgba(255,255,255,.2);
+  padding: 15px;
+  color: #C40233;
+  font-family: 'Consolas', monospace;
+  white-space: pre;
+}
