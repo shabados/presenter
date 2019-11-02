@@ -41,7 +41,7 @@ publish: &publish
         no_output_timeout: 30m
 
 orbs:
-  win: circleci/windows@1.0.0
+  windows: circleci/windows@2.1.0
 
 jobs:
   lint:
@@ -75,8 +75,7 @@ jobs:
   build-windows:
     <<: *build
     executor:
-      name: win/vs2019
-      shell: powershell.exe
+      name: windows/default
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
