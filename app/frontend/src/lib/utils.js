@@ -108,6 +108,9 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
 
   const { id: translationId } = sources[ sourceId ].translationSources[ languageId ]
     || recommendedSources[ sourceId ].translationSources[ languageId ]
+    || {}
+
+  if ( !translationId ) return null
 
   return line.translations.find( (
     ( { translationSourceId: id } ) => translationId === id

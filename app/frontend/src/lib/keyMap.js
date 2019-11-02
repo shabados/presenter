@@ -49,13 +49,9 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
     name: 'Search',
     sequences: [ 'ctrl+/' ],
   },
-  menu: {
-    name: 'Menu',
-    sequences: [ 'ctrl+p' ],
-  },
   settings: {
     name: 'Settings',
-    sequences: [ 'ctrl+,' ],
+    sequences: [ 'ctrl+,', 'ctrl+p' ],
   },
   navigator: {
     name: 'Navigator',

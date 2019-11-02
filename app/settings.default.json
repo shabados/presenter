@@ -2,6 +2,7 @@
   "system": {
     "launchOnStartup": false,
     "analytics": true,
+    "automaticUpdates": true,
     "betaOptIn": false
   },
   "notifications": {

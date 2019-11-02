@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography'
 
 import {
   faCog,
-  faBars,
   faHistory,
   faMap,
   faSearch,
@@ -28,7 +27,6 @@ import {
   BOOKMARKS_URL,
   CONTROLLER_URL,
   HISTORY_URL,
-  MENU_URL,
   NAVIGATOR_URL,
   SEARCH_URL,
   SETTINGS_URL,
@@ -39,7 +37,6 @@ import { getUrlState } from '../lib/utils'
 
 import ToolbarButton from './ToolbarButton'
 import Search from './Search'
-import Menu from './Menu'
 import Navigator, { Bar as NavigatorBar } from './Navigator'
 import History from './History'
 import Bookmarks from './Bookmarks'
@@ -61,13 +58,6 @@ const TopBar = ( { title, history, location, onHover } ) => {
 
   return (
     <Toolbar className="top bar">
-      <ToolbarButton
-        name="Menu"
-        icon={faBars}
-        onClick={() => history.push( { ...location, pathname: MENU_URL } )}
-        onMouseEnter={() => onHover( 'Menu' )}
-        onMouseLeave={resetHover}
-      />
       <ToolbarButton
         name="Settings"
         icon={faCog}
@@ -256,7 +246,6 @@ class Controller extends Component {
     const { local: { theme: { simpleGraphics: simple } } } = settings
 
     const routes = [
-      [ MENU_URL, Menu ],
       [ SEARCH_URL, Search ],
       [ NAVIGATOR_URL, Navigator, NavigatorBar ],
       [ HISTORY_URL, History ],

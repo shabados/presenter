@@ -29,6 +29,7 @@ import {
   faDownload,
   faPowerOff,
   faTextHeight,
+  faSync,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -65,7 +66,6 @@ export const SENTRY_DSN = 'https://51b714c1e7544cba86efb2cad85152ff@sentry.io/13
 // URLs
 export const PRESENTER_URL = ''
 export const CONTROLLER_URL = `${PRESENTER_URL}/controller`
-export const MENU_URL = `${CONTROLLER_URL}/menu`
 export const SEARCH_URL = `${CONTROLLER_URL}/search`
 export const BOOKMARKS_URL = `${CONTROLLER_URL}/bookmarks`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
@@ -185,6 +185,7 @@ export const OPTIONS = {
   autoNextShabad: { name: 'Automatic Next Shabad', icon: faAngleDoubleRight, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   analytics: { name: 'Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  automaticUpdates: { name: 'Automatic Updates', icon: faSync, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   betaOptIn: { name: 'Beta Updates', icon: faFlask, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
   connectionEvents: { name: 'Connections', icon: faPlug, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
@@ -277,6 +278,7 @@ export const DEFAULT_OPTIONS = {
     system: {
       launchOnStartup: false,
       analytics: true,
+      automaticUpdates: true,
       betaOptIn: false,
     },
     notifications: {
