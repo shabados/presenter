@@ -170,9 +170,9 @@ class Settings extends Component {
 
       return (
         <Grid key={option} container className="option" alignItems="center">
-          <Grid item xs={1} sm={1} md={1} lg={1}>{icon && <FontAwesomeIcon className="icon" icon={icon} />}</Grid>
-          <Grid item xs={6} sm={5} md={4} lg={3}><Typography>{name}</Typography></Grid>
-          <Grid item xs={5} sm={6} md={7} lg={8} container justify="center">
+          <Grid item xs={2} sm={1}>{icon && <FontAwesomeIcon className="icon" icon={icon} />}</Grid>
+          <Grid item xs={5} sm={6} md={4} lg={3}><Typography>{name}</Typography></Grid>
+          <Grid item xs={5} sm={5} md={4} lg={3} align="center">
             <Option {...props} option={option} value={value} onChange={setSettings} />
           </Grid>
         </Grid>
