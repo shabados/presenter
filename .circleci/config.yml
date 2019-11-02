@@ -98,8 +98,7 @@ jobs:
   publish-windows:
     <<: *publish
     executor:
-      name: win/vs2019
-      shell: bash.exe
+      name: windows/default
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
