@@ -26,6 +26,7 @@ import {
   faArchive,
   faDownload,
   faPowerOff,
+  faSync,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -181,6 +182,7 @@ export const OPTIONS = {
   autoNextShabad: { name: 'Automatic Next Shabad', icon: faAngleDoubleRight, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   analytics: { name: 'Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  automaticUpdates: { name: 'Automatic Updates', icon: faSync, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   betaOptIn: { name: 'Beta Updates', icon: faFlask, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
   connectionEvents: { name: 'Connections', icon: faPlug, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
@@ -273,6 +275,7 @@ export const DEFAULT_OPTIONS = {
     system: {
       launchOnStartup: false,
       analytics: true,
+      automaticUpdates: true,
       betaOptIn: false,
     },
     notifications: {
