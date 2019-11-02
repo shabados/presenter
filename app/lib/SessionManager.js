@@ -127,9 +127,7 @@ class SessionManager {
 
     this.socket.broadcast( 'shabads:current', shabad )
 
-    // Use last line navigated to of shabad, if exists
-    const { line } = history.getLatestFor( shabad.id ) || {}
-    this.onLine( client, { ...( line ? { lineId: line.id } : rest ) }, true )
+    this.onLine( client, rest, true )
 
     // Rebroadcast history
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
