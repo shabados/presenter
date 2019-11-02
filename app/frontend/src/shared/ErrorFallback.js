@@ -32,10 +32,13 @@ const ErrorFallback = ( { error, autoReset } ) => {
 
   return (
     <div className="error-fallback">
-      <Typography className="header" variant="h5" align="center">
-        Something went wrong, and we&#39;re not sure why.
-        <Typography align="center">
-        If you&#39;ve enabled Analytics, we have received this report and will investigate further.
+      <Typography className="header" variant="h5">
+        Hmm.
+        <Typography>
+        Though we broke Shabad OS plenty, it seems we never broke it quite like this.
+        Usage Analytics (if enabled in System Options), will send us a report.
+        A prompt investigation into what, why, and how this happened will ensue.
+        If you wish to help, please send an email to team@shabados.com
         </Typography>
       </Typography>
 
@@ -47,7 +50,7 @@ const ErrorFallback = ( { error, autoReset } ) => {
 
       {showError && ( <div className="error">{error ? error.toString() : 'Unknown error'}</div> )}
 
-      <Grid className="buttons" container justify="center">
+      <Grid className="buttons" container justify="space-evenly">
         <Button variant="outlined" onClick={onReloadClick}>
           {countdown ? 'Cancel reload' : 'Reload now'}
         </Button>
