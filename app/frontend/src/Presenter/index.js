@@ -17,7 +17,6 @@ import controller from '../lib/controller'
 import { getUrlState, mapPlatformKeys } from '../lib/utils'
 import {
   CONTROLLER_URL,
-  MENU_URL,
   SEARCH_URL,
   HISTORY_URL,
   NAVIGATOR_URL,
@@ -124,7 +123,6 @@ class Presenter extends Component {
   hotkeyHandlers = this.preventDefault( {
     [ GLOBAL_SHORTCUTS.toggleController.name ]: this.toggleController,
     [ GLOBAL_SHORTCUTS.newController.name ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
-    [ GLOBAL_SHORTCUTS.menu.name ]: () => this.go( MENU_URL ),
     [ GLOBAL_SHORTCUTS.settings.name ]: () => window.open( SETTINGS_URL ),
     [ GLOBAL_SHORTCUTS.search.name ]: () => this.go( SEARCH_URL ),
     [ GLOBAL_SHORTCUTS.history.name ]: () => this.go( HISTORY_URL ),

@@ -62,7 +62,6 @@ export const SENTRY_DSN = 'https://51b714c1e7544cba86efb2cad85152ff@sentry.io/13
 // URLs
 export const PRESENTER_URL = ''
 export const CONTROLLER_URL = `${PRESENTER_URL}/controller`
-export const MENU_URL = `${CONTROLLER_URL}/menu`
 export const SEARCH_URL = `${CONTROLLER_URL}/search`
 export const BOOKMARKS_URL = `${CONTROLLER_URL}/bookmarks`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
