@@ -12,15 +12,15 @@ import Typography from '@material-ui/core/Typography'
 
 import {
   faCog,
-  faStar,
   faHistory,
-  faPlay,
+  faMap,
   faSearch,
   faSignOutAlt,
+  faVideoSlash,
   faWindowMinimize,
   faWindowMaximize,
 } from '@fortawesome/free-solid-svg-icons'
-import { faSquare } from '@fortawesome/free-regular-svg-icons'
+import { faStar } from '@fortawesome/free-regular-svg-icons'
 
 import controller from '../lib/controller'
 import {
@@ -157,7 +157,7 @@ const BottomBar = ( { history, renderContent, location, onHover, bani, shabad } 
       {!!lines.length && (
       <ToolbarButton
         name="Navigator"
-        icon={faPlay}
+        icon={faMap}
         onClick={go( NAVIGATOR_URL )}
         onMouseEnter={() => onHover( 'Navigator' )}
         onMouseLeave={resetHover}
@@ -165,7 +165,7 @@ const BottomBar = ( { history, renderContent, location, onHover, bani, shabad } 
       )}
       <ToolbarButton
         name="Clear"
-        icon={faSquare}
+        icon={faVideoSlash}
         onClick={controller.clear}
         onMouseEnter={() => onHover( 'Clear' )}
         onMouseLeave={resetHover}

@@ -203,6 +203,10 @@
   background-color: transparent;
 }
 
-.dim {
-  background-color: var(--display-dim-background-color);
+.next-lines.dim {
+  background-image: linear-gradient( #00000000, var(--display-dim-background-color) 25% );
+}
+
+.previous-lines.dim {
+  background-image: linear-gradient(var(--display-dim-background-color) 75%,  #00000000);
 }
