@@ -46,5 +46,5 @@ exports.default = ( { path, name, cscInfo: { file, password } = {} } ) => {
   if ( !file ) return
 
   importPfx( file, password )
-  signBinary( path, name, file )
+  signBinary( path, name )
 }
