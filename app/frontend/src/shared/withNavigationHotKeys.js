@@ -71,10 +71,7 @@ const withNavigationHotKeys = ( {
         // Find the DOM node for the child to focus, and focus it
         // eslint-disable-next-line react/no-find-dom-node
         const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
-        if ( node ) {
-          scrollIntoCenter( node )
-          node.focus()
-        }
+        if ( node ) scrollIntoCenter( node )
       }
 
       /**
