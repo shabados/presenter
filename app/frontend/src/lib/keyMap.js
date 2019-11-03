@@ -18,7 +18,7 @@ export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfg' )
 export const GLOBAL_SHORTCUTS = decorateGroup( {
   toggleFullscreen: {
     name: 'Toggle Fullscreen',
-    sequences: [ 'f11', 'ctrl+f' ],
+    sequences: [ 'ctrl+f' ],
   },
   toggleFullscreenController: {
     name: 'Toggle Fullscreen Controller',
