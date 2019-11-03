@@ -25,6 +25,7 @@ exports.default = async ( { path, name } ) => {
   const command = [
     [ `"${SIGN_TOOL_PATH}"` ],
     [ 'sign' ],
+    [ '/sm' ],
     [ '/t', `"${TIMESTAMP_SERVER}"` ],
     [ '/f', `"${certPath}"` ],
     [ '/d', `"${name}"` ],
