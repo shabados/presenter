@@ -5,7 +5,7 @@ const { tmpdir } = require( 'os' )
 const {
   WIN_CSC_LINK,
   WIN_CSC_KEY_PASSWORD,
-  SIGN_TOOL_PATH = 'C:\\Program Files (x86)\\Windows Kits\\10\\signtool.exe',
+  SIGN_TOOL_PATH = 'C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x64\\signtool.exe',
   TIMESTAMP_SERVER = 'http://timestamp.digicert.com',
 } = process.env
 
