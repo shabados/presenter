@@ -33,7 +33,11 @@ exports.default = async ( { path, name } ) => {
     [ `"${path}"` ],
   ].map( sub => sub.join( ' ' ) ).join( ' ' )
 
-  execSync( command, { stdio: 'inherit' } )
+  try {
+    execSync( command, { stdio: 'inherit' } )
+  } catch {
+    console.error( `Signing ${path} failed` )
+  }
 
   if ( !isFile ) unlinkSync( certPath )
 }
