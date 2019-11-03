@@ -60,6 +60,7 @@
     },
     "win": {
       "artifactName": "Shabad.OS-Setup-${version}.${ext}",
+      "sign": "./hooks/sign-windows.js",
       "target": [
         {
           "target": "nsis",
