@@ -1,16 +1,17 @@
 .navigator {
-    height: 100%;
-    overflow-y: auto;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .navigator .text {
-    display: block;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-    overflow-x: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .navigator-controls .autoselect {
-    float: right;
+  float: right;
 }
