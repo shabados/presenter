@@ -11,6 +11,7 @@
   bottom: 0;
   height: 273px;
   width: 416px;
+  max-width: 100%;
 }
 
 .presenter .controller-container .expand-icon {
