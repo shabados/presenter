@@ -76,7 +76,7 @@ jobs:
     <<: *build
     executor:
       name: windows/default
-      shell: cmd.exe
+      shell: bash.exe
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
@@ -100,7 +100,7 @@ jobs:
     <<: *publish
     executor:
       name: windows/default
-      shell: cmd.exe
+      shell: bash.exe
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
