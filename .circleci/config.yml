@@ -76,7 +76,7 @@ jobs:
     <<: *build
     executor:
       name: windows/default
-      shell: powershell.exe
+      shell: cmd.exe
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
@@ -100,7 +100,7 @@ jobs:
     <<: *publish
     executor:
       name: windows/default
-      shell: powershell.exe
+      shell: cmd.exe
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
@@ -112,13 +112,11 @@ workflows:
       - lint
       - build-windows:
           pre-steps:
-            - run: Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
             - run: npm install --global --production windows-build-tools --vs2015
           requires:
             - lint
       - publish-windows:
           pre-steps:
-            - run: Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
             - run: npm install --global --production windows-build-tools --vs2015
           requires:
             - build-windows
