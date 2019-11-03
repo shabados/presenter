@@ -38,6 +38,7 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-regular-svg-icons'
 import { detect } from 'detect-browser'
+import detectMobile from 'is-mobile'
 
 import SHORTCUTS from './keyMap'
 
@@ -51,6 +52,7 @@ export const isDev = process.env.NODE_ENV !== 'production'
 
 export const browser = detect()
 export const isMac = browser.os === 'Mac OS'
+export const isMobile = detectMobile()
 
 /* Backend Info */
 // eslint-disable-next-line no-undef

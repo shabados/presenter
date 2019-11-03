@@ -23,6 +23,7 @@ import {
   BOOKMARKS_URL,
   SETTINGS_URL,
   STATES,
+  isMobile,
 } from '../lib/consts'
 import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
 
@@ -39,6 +40,10 @@ const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
 
 class Presenter extends Component {
+  componentDidMount() {
+    if ( isMobile ) this.setFullscreenController()
+  }
+
   /**
    * Sets the query string parameters, retaining any currently present.
    * @param params The query string parameters.
@@ -75,9 +80,21 @@ class Presenter extends Component {
   }
 
   /**
-   * Places the controller in fullscreen.
+   * Always puts the controller in fullscreen.
    */
-  fullscreenController = () => {
+  setFullscreenController = () => {
+    const { history } = this.props
+
+    history.push( {
+      location: CONTROLLER_URL,
+      search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
+    } )
+  }
+
+  /**
+   * Toggles the controller in fullscreen.
+   */
+  toggleFullscreenController = () => {
     const { location: { pathname } } = this.props
 
     // Navigates to the controller first, if not there
@@ -130,7 +147,7 @@ class Presenter extends Component {
     [ GLOBAL_SHORTCUTS.bookmarks.name ]: () => this.go( BOOKMARKS_URL ),
     [ GLOBAL_SHORTCUTS.navigator.name ]: () => this.go( NAVIGATOR_URL ),
     [ GLOBAL_SHORTCUTS.clearDisplay.name ]: controller.clear,
-    [ GLOBAL_SHORTCUTS.toggleFullscreenController.name ]: this.fullscreenController,
+    [ GLOBAL_SHORTCUTS.toggleFullscreenController.name ]: this.toggleFullscreenController,
     [ GLOBAL_SHORTCUTS.toggleFullscreen.name ]: this.toggleFullscreen,
     [ GLOBAL_SHORTCUTS.quit.name ]: window.close,
   } )

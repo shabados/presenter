@@ -24,6 +24,7 @@
     "detect-browser": "^4.8.0",
     "event-emitter": "^0.3.5",
     "gurmukhi-utils": "^2.1.0",
+    "is-mobile": "^2.1.0",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "qs": "^6.9.0",
