@@ -10,7 +10,6 @@ const SITE = 'https://shabados.com'
 const importPfx = ( certPath, password ) => {
   const command = [
     [ 'certutil' ],
-    [ '-user' ],
     [ '-f' ],
     [ '-p', `"${password}"` ],
     [ '-importPfx', 'My', `"${certPath}"`, 'NoRoot' ],
@@ -29,6 +28,7 @@ const signBinary = ( path, name ) => {
     [ 'sign' ],
     [ '/a' ],
     [ '/s', 'My' ],
+    [ '/sm' ],
     [ '/t', `"${TIMESTAMP_SERVER}"` ],
     [ '/d', `"${name}"` ],
     [ '/du', `"${SITE}"` ],
