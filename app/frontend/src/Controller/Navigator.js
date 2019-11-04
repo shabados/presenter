@@ -9,9 +9,12 @@ import classNames from 'classnames'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChevronUp,
   faChevronDown,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
   faExchangeAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -58,8 +61,8 @@ const NavigatorLine = ( {
     >
       <span className={classNames( { main, next }, 'hotkey', 'meta' )}>
         {!( main || next ) && hotkey}
-        {main && '<'}
-        {next && '>'}
+        {main && <FontAwesomeIcon icon={faAngleDoubleLeft} />}
+        {next && <FontAwesomeIcon icon={faAngleDoubleRight} />}
       </span>
       <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
     </ListItem>
