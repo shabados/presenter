@@ -9,8 +9,16 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  height: 273px;
-  width: 416px;
+  font-size: 1.2em;
+  height: 20em;
+  width: 30em;
+  max-width: 100%;
+}
+
+@media only screen and (max-device-width: 960px) {
+  .presenter .controller-container {
+    font-size: 1.275rem
+  }
 }
 
 .presenter .controller-container .expand-icon {
