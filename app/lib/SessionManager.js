@@ -173,7 +173,13 @@ class SessionManager {
     this.socket.broadcast( 'history:viewed-lines', viewedLines )
 
     // Set the main line and calculate next line if transition
-    if ( transition && shabad ) {
+    if ( transition ) {
+      if ( !shabad ) {
+        this.onMainLine( client, null )
+        this.onNextLine( client, null )
+        return
+      }
+
       // Try to use previous history values
       const { mainLineId, nextLineId: prevNextLineId } = history.getLatestFor( shabad.id ) || {}
 
