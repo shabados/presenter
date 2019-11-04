@@ -50,7 +50,11 @@ const withNavigationHotKeys = ( {
       this.setFocus()
     }
 
-    componentDidUpdate() {
+    componentDidUpdate( _, { focusedIndex: prevFocusedIndex } ) {
+      const { focusedIndex } = this.state
+
+      if ( prevFocusedIndex === focusedIndex ) return
+
       this.setNodeSize()
       this.setFocus()
     }
