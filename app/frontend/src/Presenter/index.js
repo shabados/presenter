@@ -106,7 +106,7 @@ class Presenter extends Component {
     const { history } = this.props
 
     history.push( {
-      location: CONTROLLER_URL,
+      pathname: CONTROLLER_URL,
       search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
     } )
   }
