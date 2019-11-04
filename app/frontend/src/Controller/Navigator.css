@@ -15,3 +15,15 @@
 .navigator-controls .autoselect {
   float: right;
 }
+
+.navigator .main.meta, .navigator .next.meta {
+  font-weight: bold;
+}
+
+.navigator .main.meta {
+  color: red !important;
+}
+
+.navigator .next.meta {
+  color: green !important;
+}

@@ -33,7 +33,15 @@ import './Navigator.css'
 * @param id The id of the line.
 * @param index The index of the line.
 */
-const NavigatorLine = ( { id, register, focused, gurmukhi, hotkey } ) => {
+const NavigatorLine = ( {
+  id,
+  register,
+  focused,
+  gurmukhi,
+  hotkey,
+  main,
+  next,
+} ) => {
   // Move to the line id on click
   const onClick = () => controller.line( id )
 
@@ -48,7 +56,11 @@ const NavigatorLine = ( { id, register, focused, gurmukhi, hotkey } ) => {
       ref={registerLine}
       tabIndex={0}
     >
-      <span className="hotkey meta">{hotkey}</span>
+      <span className={classNames( { main, next }, 'hotkey', 'meta' )}>
+        {!( main || next ) && hotkey}
+        {main && '<'}
+        {next && '>'}
+      </span>
       <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
     </ListItem>
   )
@@ -58,6 +70,8 @@ NavigatorLine.propTypes = {
   register: func.isRequired,
   gurmukhi: string.isRequired,
   focused: bool.isRequired,
+  next: bool.isRequired,
+  main: bool.isRequired,
   id: string.isRequired,
   hotkey: string,
 }
@@ -88,7 +102,7 @@ class Navigator extends PureComponent {
   }
 
   render() {
-    const { location, shabad, bani, register, focused } = this.props
+    const { location, shabad, bani, register, focused, mainLineId, nextLineId } = this.props
 
     const content = shabad || bani
 
@@ -105,6 +119,8 @@ class Navigator extends PureComponent {
             key={line.id}
             {...line}
             focused={line.id === focused}
+            main={mainLineId === line.id}
+            next={nextLineId === line.id}
             hotkey={LINE_HOTKEYS[ index ]}
             register={register}
           />
