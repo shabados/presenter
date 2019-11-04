@@ -41,6 +41,18 @@ import './index.css'
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
 
+const DEFAULT_IDLE_EVENTS = [
+  'mousemove',
+  'wheel',
+  'DOMMouseScroll',
+  'mouseWheel',
+  'mousedown',
+  'touchstart',
+  'touchmove',
+  'MSPointerDown',
+  'MSPointerMove',
+]
+
 class Presenter extends Component {
   state = { idle: false }
 
@@ -174,7 +186,12 @@ class Presenter extends Component {
         <CssBaseline />
         <ThemeLoader name={themeName} connected={connected} />
 
-        <IdleTimer onIdle={this.onIdle} onActive={this.onActive} timeout={IDLE_TIMEOUT} />
+        <IdleTimer
+          events={DEFAULT_IDLE_EVENTS}
+          onIdle={this.onIdle}
+          onActive={this.onActive}
+          timeout={IDLE_TIMEOUT}
+        />
 
         <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={this.hotkeyHandlers}>
           <NavigatorHotKeys {...this.props} active={!pathname.includes( CONTROLLER_URL )}>
