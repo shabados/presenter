@@ -54,6 +54,9 @@ export const browser = detect()
 export const isMac = browser.os === 'Mac OS'
 export const isMobile = detectMobile()
 
+// The user is considered idle after 15 seconds
+export const IDLE_TIMEOUT = 1000 * 15
+
 /* Backend Info */
 // eslint-disable-next-line no-undef
 export const BACKEND_HOST = window.location.hostname || 'localhost'

@@ -5,6 +5,10 @@
   animation: fade-in 800ms;
 }
 
+.idle.presenter {
+  cursor: none;
+}
+
 .presenter .controller-container {
   position: absolute;
   right: 0;
@@ -20,6 +24,10 @@
   bottom: 0;
   right: 0;
   height: 48px;
+}
+
+.idle.presenter .controller-container .expand-icon {
+  display: none;
 }
 
 .presenter .controller-container.fullscreen {
