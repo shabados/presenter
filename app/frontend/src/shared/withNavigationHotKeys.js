@@ -179,7 +179,7 @@ const withNavigationHotKeys = ( {
       keymap = mapPlatformKeys( {
         next: [ 'down', 'right', 'tab', 'PageDown', 'l' ],
         previous: [ 'up', 'left', 'shift+tab', 'PageUp', 'j' ],
-        enter: [ 'enter', 'return' ],
+        ...( !clickOnFocus && { enter: [ 'enter', 'return' ] } ),
         first: [ 'home', 'ctrl+up' ],
         last: [ 'end', 'ctrl+down' ],
         ...( lineKeys && LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
