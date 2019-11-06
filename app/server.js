@@ -101,4 +101,10 @@ async function main() {
 }
 
 // Handle any errors by logging and re-throwing
-export default main().catch( error => logger.error( error ) )
+const handleError = error => {
+  logger.error( error )
+}
+
+process.on( 'uncaughtException', handleError )
+
+export default main().catch( handleError )
