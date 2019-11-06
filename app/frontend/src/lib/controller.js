@@ -7,8 +7,9 @@ import ReconnectingWebSocket from 'reconnecting-websocket'
 import EventEmitter from 'event-emitter'
 import { toAscii } from 'gurmukhi-utils'
 
+import { DEFAULT_OPTIONS } from './options'
 import { merge } from './utils'
-import { WS_URL, DEFAULT_OPTIONS } from './consts'
+import { WS_URL } from './consts'
 
 class Controller extends EventEmitter {
   constructor() {

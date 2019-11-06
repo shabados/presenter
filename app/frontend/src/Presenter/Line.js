@@ -5,7 +5,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 
 import { partitionLine, classifyWords } from '../lib/utils'
-import { DEFAULT_OPTIONS } from '../lib/consts'
+import { DEFAULT_OPTIONS } from '../lib/options'
 
 import './Line.css'
 

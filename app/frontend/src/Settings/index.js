@@ -32,10 +32,8 @@ import {
   SETTINGS_SERVER_URL,
   SETTINGS_OVERLAY_URL,
   SETTINGS_ABOUT_URL,
-  OPTIONS,
-  DEFAULT_OPTIONS,
-  OPTION_GROUPS,
 } from '../lib/consts'
+import { OPTIONS, DEFAULT_OPTIONS, OPTION_GROUPS } from '../lib/options'
 import SHORTCUTS from '../lib/keyMap'
 
 import ThemeLoader from '../shared/ThemeLoader'
