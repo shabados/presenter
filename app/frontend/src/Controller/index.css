@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  font-size: 0.95em;
+  font-size: 1.2rem;
 }
 
 .simple.controller * {
