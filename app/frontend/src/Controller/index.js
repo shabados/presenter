@@ -272,7 +272,13 @@ class Controller extends Component {
                   {...this.props}
                   {...props}
                   onHover={this.onHover}
-                  renderContent={() => BarComponent && <BarComponent {...this.props} {...props} />}
+                  renderContent={() => BarComponent && (
+                    <BarComponent
+                      {...this.props}
+                      {...props}
+                      onHover={this.onHover}
+                    />
+                  )}
                 />
               </div>
             )}

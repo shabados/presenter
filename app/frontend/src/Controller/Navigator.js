@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { string, func, shape, arrayOf, bool, objectOf } from 'prop-types'
 import { location } from 'react-router-prop-types'
@@ -176,7 +176,7 @@ export default NavigatorWithAllHotKeys
  * Used by Menu parent to render content in the bottom bar.
  */
 export const Bar = props => {
-  const { lineId, shabad, bani } = props
+  const { lineId, shabad, bani, onHover, mainLineId } = props
   const content = shabad || bani
 
   if ( !content ) return null
@@ -185,6 +185,8 @@ export const Bar = props => {
 
   const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
   const currentLine = lines[ currentLineIndex ]
+
+  const resetHover = () => onHover( null )
 
   const onUpClick = () => {
     if ( !currentLine ) return
@@ -206,24 +208,69 @@ export const Bar = props => {
 
   const onAutoToggle = () => controller.autoToggleShabad( props )
 
+  const [ autoSelectHover, setAutoSelectHover ] = useState( false )
+  const onAutoSelectHover = () => {
+    onHover( 'Autoselect' )
+    setAutoSelectHover( true )
+  }
+
+  const resetAutoSelectHover = () => {
+    resetHover()
+    setAutoSelectHover( false )
+  }
+
+  const autoSelectIcon = () => {
+    if ( autoSelectHover ) {
+      return mainLineId === lineId ? faAngleDoubleRight : faAngleDoubleLeft
+    }
+
+    return faExchangeAlt
+  }
+
+
   return (
     <div className="navigator-controls">
-      <ToolbarButton name="Up" icon={faChevronUp} onClick={onUpClick} />
+      <ToolbarButton
+        name="Up"
+        icon={faChevronUp}
+        onMouseEnter={() => onHover( 'Previous Line' )}
+        onMouseLeave={resetHover}
+        onClick={onUpClick}
+      />
       {lines ? `${lines.findIndex( ( { id } ) => id === lineId ) + 1}/${lines.length}` : null}
-      <ToolbarButton name="Down" icon={faChevronDown} onClick={onDownClick} />
-      {shabad && <ToolbarButton className="autoselect" name="Autoselect" icon={faExchangeAlt} onClick={onAutoToggle} />}
+      <ToolbarButton
+        name="Down"
+        icon={faChevronDown}
+        onMouseEnter={() => onHover( 'Next Line' )}
+        onMouseLeave={resetHover}
+        onClick={onDownClick}
+      />
+      {shabad && (
+      <ToolbarButton
+        className="autoselect"
+        name="Autoselect"
+        onMouseEnter={onAutoSelectHover}
+        onMouseLeave={resetAutoSelectHover}
+        icon={autoSelectIcon()}
+        onClick={onAutoToggle}
+      />
+      )}
     </div>
   )
 }
 
 Bar.propTypes = {
   lineId: string,
+  mainLineId: string,
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  onHover: func,
 }
 
 Bar.defaultProps = {
   lineId: undefined,
+  mainLineId: undefined,
   shabad: undefined,
   bani: undefined,
+  onHover: () => {},
 }
