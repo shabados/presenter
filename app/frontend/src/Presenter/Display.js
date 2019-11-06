@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader/root'
 import { shape, bool, arrayOf, string } from 'prop-types'
 import classNames from 'classnames'
 
-import { getTranslation } from '../lib/utils'
+import { getTranslation, getTransliteration } from '../lib/utils'
 
 import Line from './Line'
 
@@ -51,6 +51,8 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
     languageId,
   } )
 
+  const getTransliterationFor = languageId => getTransliteration( line, languageId )
+
   return (
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
@@ -76,9 +78,10 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
         gurmukhi={line.gurmukhi}
         englishTranslation={display.englishTranslation && getTranslationFor( 1 )}
         punjabiTranslation={display.punjabiTranslation && getTranslationFor( 2 )}
-        transliteration={
-          display.englishTransliteration && line.transliterations[ 0 ].transliteration
-        }
+        spanishTranslation={display.spanishTranslation && getTranslationFor( 3 )}
+        englishTransliteration={display.englishTransliteration && getTransliterationFor( 1 )}
+        hindiTransliteration={display.hindiTransliteration && getTransliterationFor( 4 )}
+        urduTransliteration={display.urduTransliteration && getTransliterationFor( 5 )}
         simpleGraphics={simple}
       />
       )}
