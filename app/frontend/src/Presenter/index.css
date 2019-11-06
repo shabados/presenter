@@ -5,6 +5,10 @@
   animation: fade-in 800ms;
 }
 
+.idle.presenter {
+  cursor: none;
+}
+
 .presenter .controller-container {
   position: absolute;
   right: 0;
@@ -29,12 +33,15 @@
   height: 48px;
 }
 
+.idle.presenter .controller-container .expand-icon {
+  display: none;
+}
+
 .presenter .controller-container.fullscreen {
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  font-size: 3vmin;
 }
 
 @keyframes fade-in {

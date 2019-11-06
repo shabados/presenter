@@ -117,6 +117,15 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
   ) ).translation
 }
 
+/**
+ * Returns the corresponding transliteration for a given line.
+ * @param {Object} line The current line.
+ * @param {number} languageId The identifier of the language.
+ */
+export const getTransliteration = ( line, languageId ) => line.transliterations.find( (
+  ( { languageId: id } ) => languageId === id
+) ).transliteration
+
 export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
 
 /**

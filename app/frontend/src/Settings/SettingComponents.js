@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import { Switch, Select, MenuItem, Slider as MSlider } from '@material-ui/core'
 
-import { OPTION_TYPES } from '../lib/consts'
+import { OPTION_TYPES } from '../lib/options'
 
 import './SettingComponents.css'
 

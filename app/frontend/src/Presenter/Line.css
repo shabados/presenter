@@ -67,7 +67,7 @@
   margin-bottom: -0.12em;
 }
 
-.line .english {
+.line .english, .line .spanish {
   font-family: "Noto Sans Medium", sans-serif;
   line-height: 1.89;
   line-height: 1.4;
@@ -80,6 +80,18 @@
   line-height: 1.75;
   line-height: 1.5;
   margin-bottom: -0.15em;
+}
+
+.line .hindi {
+  font-family: "Noto Sans Devanagari Semi Bold";
+}
+
+.line .urdu {
+  font-family: "Noto Sans Nastaliq Urdu";
+}
+
+.line .english.transliteration {
+  font-family: "Noto Sans Regular", sans-serif;
 }
 
 .line .gurmukhi .partition {
@@ -124,11 +136,6 @@
 .light.vishraams.line .gurmukhi .word.light,
 .light.vishraams.line .vishraams.transliteration .word.light {
   color: var(--display-vishraam-light-color) !important;
-}
-
-.line .transliteration {
-  font-family: "Noto Sans Regular", sans-serif;
-  color: var(--display-transliteration-color);
 }
 
 /* ------------------------------------

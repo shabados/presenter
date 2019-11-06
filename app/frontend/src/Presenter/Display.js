@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader/root'
 import { shape, bool, arrayOf, string } from 'prop-types'
 import classNames from 'classnames'
 
-import { getTranslation } from '../lib/utils'
+import { getTranslation, getTransliteration } from '../lib/utils'
 
 import Line from './Line'
 
@@ -18,6 +18,7 @@ import './Display.css'
 const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
   const {
     layout,
+    display,
     vishraams,
     sources,
     theme: {
@@ -36,7 +37,7 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
   const line = lineIndex > -1 ? lines[ lineIndex ] : null
 
   // Get the next lines
-  const { nextLines: nextLineCount, previousLines: previousLineCount } = layout
+  const { nextLines: nextLineCount, previousLines: previousLineCount } = display
   const previousLines = previousLineCount && lineIndex
     ? lines.slice( Math.max( lineIndex - previousLineCount, 0 ), lineIndex )
     : []
@@ -50,6 +51,8 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
     languageId,
   } )
 
+  const getTransliterationFor = languageId => getTransliteration( line, languageId )
+
   return (
     <div className={classNames( { simple, background }, 'display' )}>
       <div className="background-image" />
@@ -60,6 +63,7 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
             className="previous-line"
             simpleGraphics={simple}
             {...layout}
+            {...display}
             {...vishraams}
             gurmukhi={gurmukhi}
           />
@@ -69,13 +73,15 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
       <Line
         className={classNames( { highlight }, 'current-line' )}
         {...layout}
+        {...display}
         {...vishraams}
         gurmukhi={line.gurmukhi}
-        englishTranslation={layout.englishTranslation && getTranslationFor( 1 )}
-        punjabiTranslation={layout.punjabiTranslation && getTranslationFor( 2 )}
-        transliteration={
-          layout.englishTransliteration && line.transliterations[ 0 ].transliteration
-        }
+        englishTranslation={display.englishTranslation && getTranslationFor( 1 )}
+        punjabiTranslation={display.punjabiTranslation && getTranslationFor( 2 )}
+        spanishTranslation={display.spanishTranslation && getTranslationFor( 3 )}
+        englishTransliteration={display.englishTransliteration && getTransliterationFor( 1 )}
+        hindiTransliteration={display.hindiTransliteration && getTransliterationFor( 4 )}
+        urduTransliteration={display.urduTransliteration && getTransliterationFor( 5 )}
         simpleGraphics={simple}
       />
       )}
@@ -86,6 +92,7 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
             className="next-line"
             simpleGraphics={simple}
             {...layout}
+            {...display}
             {...vishraams}
             gurmukhi={gurmukhi}
           />

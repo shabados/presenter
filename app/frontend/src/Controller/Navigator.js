@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { string, func, shape, arrayOf, bool, objectOf } from 'prop-types'
 import { location } from 'react-router-prop-types'
@@ -9,9 +9,12 @@ import classNames from 'classnames'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChevronUp,
   faChevronDown,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
   faExchangeAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -33,7 +36,15 @@ import './Navigator.css'
 * @param id The id of the line.
 * @param index The index of the line.
 */
-const NavigatorLine = ( { id, register, focused, gurmukhi, hotkey } ) => {
+const NavigatorLine = ( {
+  id,
+  register,
+  focused,
+  gurmukhi,
+  hotkey,
+  main,
+  next,
+} ) => {
   // Move to the line id on click
   const onClick = () => controller.line( id )
 
@@ -48,7 +59,11 @@ const NavigatorLine = ( { id, register, focused, gurmukhi, hotkey } ) => {
       ref={registerLine}
       tabIndex={0}
     >
-      <span className="hotkey meta">{hotkey}</span>
+      <span className={classNames( { main, next }, 'hotkey', 'meta' )}>
+        {!( main || next ) && hotkey}
+        {main && <FontAwesomeIcon icon={faAngleDoubleLeft} />}
+        {next && <FontAwesomeIcon icon={faAngleDoubleRight} />}
+      </span>
       <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
     </ListItem>
   )
@@ -58,6 +73,8 @@ NavigatorLine.propTypes = {
   register: func.isRequired,
   gurmukhi: string.isRequired,
   focused: bool.isRequired,
+  next: bool.isRequired,
+  main: bool.isRequired,
   id: string.isRequired,
   hotkey: string,
 }
@@ -88,7 +105,7 @@ class Navigator extends PureComponent {
   }
 
   render() {
-    const { location, shabad, bani, register, focused } = this.props
+    const { location, shabad, bani, register, focused, mainLineId, nextLineId } = this.props
 
     const content = shabad || bani
 
@@ -105,6 +122,8 @@ class Navigator extends PureComponent {
             key={line.id}
             {...line}
             focused={line.id === focused}
+            main={mainLineId === line.id}
+            next={nextLineId === line.id}
             hotkey={LINE_HOTKEYS[ index ]}
             register={register}
           />
@@ -157,7 +176,9 @@ export default NavigatorWithAllHotKeys
  * Used by Menu parent to render content in the bottom bar.
  */
 export const Bar = props => {
-  const { lineId, shabad, bani } = props
+  const [ autoSelectHover, setAutoSelectHover ] = useState( false )
+
+  const { lineId, shabad, bani, onHover, mainLineId } = props
   const content = shabad || bani
 
   if ( !content ) return null
@@ -166,6 +187,8 @@ export const Bar = props => {
 
   const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
   const currentLine = lines[ currentLineIndex ]
+
+  const resetHover = () => onHover( null )
 
   const onUpClick = () => {
     if ( !currentLine ) return
@@ -187,24 +210,68 @@ export const Bar = props => {
 
   const onAutoToggle = () => controller.autoToggleShabad( props )
 
+  const onAutoSelectHover = () => {
+    onHover( 'Autoselect' )
+    setAutoSelectHover( true )
+  }
+
+  const resetAutoSelectHover = () => {
+    resetHover()
+    setAutoSelectHover( false )
+  }
+
+  const autoSelectIcon = () => {
+    if ( autoSelectHover ) {
+      return mainLineId === lineId ? faAngleDoubleRight : faAngleDoubleLeft
+    }
+
+    return faExchangeAlt
+  }
+
+
   return (
     <div className="navigator-controls">
-      <ToolbarButton name="Up" icon={faChevronUp} onClick={onUpClick} />
+      <ToolbarButton
+        name="Up"
+        icon={faChevronUp}
+        onMouseEnter={() => onHover( 'Previous Line' )}
+        onMouseLeave={resetHover}
+        onClick={onUpClick}
+      />
       {lines ? `${lines.findIndex( ( { id } ) => id === lineId ) + 1}/${lines.length}` : null}
-      <ToolbarButton name="Down" icon={faChevronDown} onClick={onDownClick} />
-      {shabad && <ToolbarButton className="autoselect" name="Autoselect" icon={faExchangeAlt} onClick={onAutoToggle} />}
+      <ToolbarButton
+        name="Down"
+        icon={faChevronDown}
+        onMouseEnter={() => onHover( 'Next Line' )}
+        onMouseLeave={resetHover}
+        onClick={onDownClick}
+      />
+      {shabad && (
+      <ToolbarButton
+        className="autoselect"
+        name="Autoselect"
+        onMouseEnter={onAutoSelectHover}
+        onMouseLeave={resetAutoSelectHover}
+        icon={autoSelectIcon()}
+        onClick={onAutoToggle}
+      />
+      )}
     </div>
   )
 }
 
 Bar.propTypes = {
   lineId: string,
+  mainLineId: string,
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
+  onHover: func,
 }
 
 Bar.defaultProps = {
   lineId: undefined,
+  mainLineId: undefined,
   shabad: undefined,
   bani: undefined,
+  onHover: () => {},
 }

@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader/root'
 import { location } from 'react-router-prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { Route } from 'react-router-dom'
+import IdleTimer from 'react-idle-timer'
 import queryString from 'qs'
 import classNames from 'classnames'
 
@@ -24,6 +25,7 @@ import {
   SETTINGS_URL,
   STATES,
   isMobile,
+  IDLE_TIMEOUT,
 } from '../lib/consts'
 import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
 
@@ -39,10 +41,28 @@ import './index.css'
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
 
+const DEFAULT_IDLE_EVENTS = [
+  'mousemove',
+  'wheel',
+  'DOMMouseScroll',
+  'mouseWheel',
+  'mousedown',
+  'touchstart',
+  'touchmove',
+  'MSPointerDown',
+  'MSPointerMove',
+]
+
 class Presenter extends Component {
+  state = { idle: false }
+
   componentDidMount() {
     if ( isMobile ) this.setFullscreenController()
   }
+
+  onIdle = () => this.setState( { idle: true } )
+
+  onActive = () => this.setState( { idle: false } )
 
   /**
    * Sets the query string parameters, retaining any currently present.
@@ -86,7 +106,7 @@ class Presenter extends Component {
     const { history } = this.props
 
     history.push( {
-      location: CONTROLLER_URL,
+      pathname: CONTROLLER_URL,
       search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
     } )
   }
@@ -153,6 +173,8 @@ class Presenter extends Component {
   } )
 
   render() {
+    const { idle } = this.state
+
     const { settings, location: { search, pathname }, status, connected } = this.props
     const { controllerOnly } = getUrlState( search )
 
@@ -160,9 +182,16 @@ class Presenter extends Component {
     const { theme: { themeName }, hotkeys } = localSettings
 
     return (
-      <div className="presenter">
+      <div className={classNames( { idle }, 'presenter' )}>
         <CssBaseline />
         <ThemeLoader name={themeName} connected={connected} />
+
+        <IdleTimer
+          events={DEFAULT_IDLE_EVENTS}
+          onIdle={this.onIdle}
+          onActive={this.onActive}
+          timeout={IDLE_TIMEOUT}
+        />
 
         <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={this.hotkeyHandlers}>
           <NavigatorHotKeys {...this.props} active={!pathname.includes( CONTROLLER_URL )}>

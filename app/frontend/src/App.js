@@ -3,7 +3,8 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { configure } from 'react-hotkeys'
 import { hot } from 'react-hot-loader/root'
 
-import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, DEFAULT_OPTIONS, PRESENTER_URL, BACKEND_URL } from './lib/consts'
+import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, PRESENTER_URL, BACKEND_URL } from './lib/consts'
+import { DEFAULT_OPTIONS } from './lib/options'
 import { merge } from './lib/utils'
 import controller from './lib/controller'
 

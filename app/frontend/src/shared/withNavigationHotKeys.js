@@ -50,7 +50,11 @@ const withNavigationHotKeys = ( {
       this.setFocus()
     }
 
-    componentDidUpdate() {
+    componentDidUpdate( _, { focusedIndex: prevFocusedIndex } ) {
+      const { focusedIndex } = this.state
+
+      if ( prevFocusedIndex === focusedIndex ) return
+
       this.setNodeSize()
       this.setFocus()
     }
@@ -71,10 +75,7 @@ const withNavigationHotKeys = ( {
         // Find the DOM node for the child to focus, and focus it
         // eslint-disable-next-line react/no-find-dom-node
         const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
-        if ( node ) {
-          scrollIntoCenter( node )
-          node.focus()
-        }
+        if ( node ) scrollIntoCenter( node )
       }
 
       /**
@@ -178,7 +179,7 @@ const withNavigationHotKeys = ( {
       keymap = mapPlatformKeys( {
         next: [ 'down', 'right', 'tab', 'PageDown', 'l' ],
         previous: [ 'up', 'left', 'shift+tab', 'PageUp', 'j' ],
-        enter: [ 'enter', 'return' ],
+        ...( !clickOnFocus && { enter: [ 'enter', 'return' ] } ),
         first: [ 'home', 'ctrl+up' ],
         last: [ 'end', 'ctrl+down' ],
         ...( lineKeys && LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {

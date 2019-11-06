@@ -5,9 +5,11 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 
 import { partitionLine, classifyWords } from '../lib/utils'
-import { DEFAULT_OPTIONS } from '../lib/consts'
+import { DEFAULT_OPTIONS } from '../lib/options'
 
 import './Line.css'
+
+const isString = ( [ , arg ] ) => typeof arg === 'string'
 
 /**
  * Line Component.
@@ -16,7 +18,10 @@ import './Line.css'
  * @param {string} gurmukhi The Gurmukhi of the line to render.
  * @param {string} punjabiTranslation The Punjabi translation of the line to render.
  * @param {string} englishTranslation The English translation of the line to render.
- * @param {string} transliteration The English transliteration of the line to render.
+ * @param {string} spanishTranslation The Spanish translation of the line to render.
+ * @param {string} englishTransliteration The English transliteration of the line to render.
+ * @param {string} hindiTransliteration The Hindi transliteration of the line to render.
+ * @param {string} urduTransliteration The Urdu transliteration of the line to render.
  * @param {string} spacing The justify content value for spacing between the lines.
  * @param {boolean} centerText Whether to center text.
  * @param {boolean} justifyText Whether to justify (edge to edge) wrapped text (2+ lines long).
@@ -41,7 +46,10 @@ const Line = ( {
   gurmukhi,
   punjabiTranslation,
   englishTranslation,
-  transliteration,
+  spanishTranslation,
+  englishTransliteration,
+  hindiTransliteration,
+  urduTransliteration,
   spacing,
   centerText,
   justifyText,
@@ -59,86 +67,87 @@ const Line = ( {
   vishraamHeavy,
   splitOnVishraam: partition,
   simpleGraphics: simple,
-} ) => (
-  <div
-    className={classNames( className, {
-      assist: larivaar && larivaarAssist,
-      light: vishraams && vishraamLight,
-      medium: vishraams && vishraamMedium,
-      heavy: vishraams && vishraamHeavy,
-      vishraams,
-      larivaar,
-      simple,
-      'center-text': centerText,
-      'justify-text': justifyText,
-    }, 'line' )}
-    style={{ justifyContent: spacing, fontSize: `${fontSize}Vh` }}
-  >
-    <TransitionGroup appear exit={false} component={null}>
+} ) => {
+  const translations = [
+    [ 'english', englishTranslation, relativeEnglishFontSize ],
+    [ 'punjabi', punjabiTranslation, relativePunjabiFontSize ],
+    [ 'spanish', spanishTranslation, relativeEnglishFontSize ],
+  ]
 
-      <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
-        <p
-          className="gurmukhi"
-          style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
-        >
-          {partitionLine( gurmukhi, !vishraamCharacters )
-            .map( ( line, lineIndex ) => (
-              <span key={lineIndex} className={classNames( { partition } )}>
-                {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
-              </span>
-            ) )}
+  const transliterations = [
+    [ 'english', englishTransliteration, relativeEnglishFontSize ],
+    [ 'hindi', hindiTransliteration, relativePunjabiFontSize ],
+    [ 'urdu', urduTransliteration, relativePunjabiFontSize ],
+  ]
 
-        </p>
-      </CSSTransition>
+  return (
+    <div
+      className={classNames( className, {
+        assist: larivaar && larivaarAssist,
+        light: vishraams && vishraamLight,
+        medium: vishraams && vishraamMedium,
+        heavy: vishraams && vishraamHeavy,
+        vishraams,
+        larivaar,
+        simple,
+        'center-text': centerText,
+        'justify-text': justifyText,
+      }, 'line' )}
+      style={{ justifyContent: spacing, fontSize: `${fontSize}Vh` }}
+    >
+      <TransitionGroup appear exit={false} component={null}>
 
-      {englishTranslation && (
-      <CSSTransition key={englishTranslation} classNames="fade" timeout={0}>
-        <p
-          className="english translation"
-          style={{ fontSize: `${relativeEnglishFontSize}em` }}
-        >
-          {englishTranslation}
-        </p>
-      </CSSTransition>
-      )}
+        <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
+          <p
+            className="gurmukhi"
+            style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
+          >
+            {partitionLine( gurmukhi, !vishraamCharacters )
+              .map( ( line, lineIndex ) => (
+                <span key={lineIndex} className={classNames( { partition } )}>
+                  {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
+                </span>
+              ) )}
 
-      {punjabiTranslation
-      && (
-      <CSSTransition key={punjabiTranslation} classNames="fade" timeout={0}>
-        <p
-          className="punjabi translation"
-          style={{ fontSize: `${relativePunjabiFontSize}em` }}
-        >
-          {punjabiTranslation}
-        </p>
-      </CSSTransition>
-      )}
+          </p>
+        </CSSTransition>
 
-      {transliteration
-      && (
-      <CSSTransition key={`${transliteration}`} classNames="fade" timeout={0}>
-        <p
-          className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, 'english transliteration' )}
-          style={{ fontSize: `${relativeEnglishFontSize}em` }}
-        >
-          {
-          classifyWords( transliteration, !vishraamCharacters )
-            .map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )
-        }
-        </p>
-      </CSSTransition>
-      )}
 
-    </TransitionGroup>
-  </div>
-)
+        {translations.filter( isString ).map( ( [ name, translation, fontSize ] ) => (
+          <CSSTransition key={translation} classNames="fade" timeout={0}>
+            <p className={classNames( name, 'translation' )} style={{ fontSize: `${fontSize}em` }}>
+              {translation}
+            </p>
+          </CSSTransition>
+        ) )}
+
+        {transliterations.filter( isString ).map( ( [ name, transliteration, fontSize ] ) => (
+          <CSSTransition key={transliteration} classNames="fade" timeout={0}>
+            <p
+              className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, name, 'transliteration' )}
+              style={{ fontSize: `${fontSize}em` }}
+            >
+              {classifyWords( transliteration, !vishraamCharacters ).map(
+                ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
+              )}
+            </p>
+          </CSSTransition>
+        ) )}
+
+      </TransitionGroup>
+    </div>
+  )
+}
 
 Line.propTypes = {
   className: string,
   gurmukhi: string.isRequired,
   punjabiTranslation: oneOfType( [ string, bool ] ),
   englishTranslation: oneOfType( [ string, bool ] ),
-  transliteration: oneOfType( [ string, bool ] ),
+  spanishTranslation: oneOfType( [ string, bool ] ),
+  englishTransliteration: oneOfType( [ string, bool ] ),
+  hindiTransliteration: oneOfType( [ string, bool ] ),
+  urduTransliteration: oneOfType( [ string, bool ] ),
   spacing: string,
   centerText: bool,
   justifyText: bool,
@@ -185,8 +194,11 @@ const {
 Line.defaultProps = {
   className: null,
   englishTranslation: null,
+  spanishTranslation: null,
   punjabiTranslation: null,
-  transliteration: null,
+  englishTransliteration: null,
+  hindiTransliteration: null,
+  urduTransliteration: null,
   spacing,
   centerText,
   justifyText,
