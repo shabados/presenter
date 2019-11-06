@@ -19,7 +19,6 @@ import {
   faLowVision,
   faFill,
   faFillDrip,
-  faAngleDoubleRight,
   faChartPie,
   faDoorOpen,
   faLock,
@@ -30,6 +29,7 @@ import {
   faPowerOff,
   faTextHeight,
   faSync,
+  faList,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -100,7 +100,6 @@ export const OPTIONS = {
   vishraamCharacters: { name: 'Show Symbols', icon: faSubscript, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamColors: { name: 'Gurmukhi Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamTransliterationColors: { name: 'Transliteration Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  autoNextShabad: { name: 'Automatic Next Shabad', icon: faAngleDoubleRight, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   analytics: { name: 'Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   automaticUpdates: { name: 'Automatic Updates', icon: faSync, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
@@ -117,6 +116,10 @@ export const OPTION_GROUPS = {
   layout: {
     name: 'Layout',
     icon: faArrowsAltH,
+  },
+  display: {
+    name: 'Display',
+    icon: faList,
   },
   theme: {
     name: 'Theme',
@@ -158,6 +161,8 @@ export const DEFAULT_OPTIONS = {
       larivaarGurbani: false,
       larivaarAssist: false,
       splitOnVishraam: true,
+    },
+    display: {
       fontSize: 8,
       relativeGurmukhiFontSize: 1,
       relativeEnglishFontSize: 0.6,
@@ -167,7 +172,7 @@ export const DEFAULT_OPTIONS = {
       englishTransliteration: true,
       nextLines: 1,
       previousLines: 0,
-      autoNextShabad: false,
+
     },
     theme: {
       themeName: 'Day',
