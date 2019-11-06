@@ -176,6 +176,8 @@ export default NavigatorWithAllHotKeys
  * Used by Menu parent to render content in the bottom bar.
  */
 export const Bar = props => {
+  const [ autoSelectHover, setAutoSelectHover ] = useState( false )
+
   const { lineId, shabad, bani, onHover, mainLineId } = props
   const content = shabad || bani
 
@@ -208,7 +210,6 @@ export const Bar = props => {
 
   const onAutoToggle = () => controller.autoToggleShabad( props )
 
-  const [ autoSelectHover, setAutoSelectHover ] = useState( false )
   const onAutoSelectHover = () => {
     onHover( 'Autoselect' )
     setAutoSelectHover( true )
