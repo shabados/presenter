@@ -7,8 +7,8 @@
     --display-background-color: #FFFFFF;
     --display-highlight-background-color: #FFF59D80;
     --display-dim-background-color: #0000000f;
-    --display-background-image: none;
-    --display-background-size: 120%;
+    --display-background-image: url('/themes/images/logo-day.png');
+    --display-background-size: 121.5%;
 
     /* Display line colours */
     --display-line-1-color: #004daa;

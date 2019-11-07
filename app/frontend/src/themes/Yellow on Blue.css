@@ -7,8 +7,8 @@
     --display-background-color: #0031a2;
     --display-highlight-background-color: #00206CB3;
     --display-dim-background-color: #AAB4CD3D;
-    --display-background-image: none;
-    --display-background-size: 120%;
+    --display-background-image: url('/themes/images/logo-white-5.png');
+    --display-background-size: 121.5%;
 
     /* Display line colours */
     --display-line-1-color: #ffd318;
