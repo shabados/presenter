@@ -4,10 +4,8 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import * as Sentry from '@sentry/node'
+import * as Sentry from '@sentry/browser'
 
-import logger from './logger'
-import settings from './settings'
 import { SENTRY_DSN, isDev } from './consts'
 
 /**
@@ -19,7 +17,7 @@ class Analytics {
    * Loads Sentry.
    */
   initialise() {
-    if ( isDev || !settings.get( 'system.serverAnalytics' ) ) return
+    if ( isDev ) return
 
     this.initSentry()
   }
@@ -29,14 +27,13 @@ class Analytics {
    * ! Cannot be disabled without a restart.
    */
   initSentry() {
-    logger.info( 'Enabling Sentry error reporting' )
+    console.log( 'Enabling Sentry error reporting' )
     Sentry.init( { dsn: SENTRY_DSN } )
   }
 
-  sendException( error ) {
-    Sentry.withScope( scope => {
-      scope.setExtra( 'settings', settings.get() )
-      Sentry.captureException( error )
+  updateSettings( settings ) {
+    Sentry.configureScope( scope => {
+      scope.setExtra( 'settings', settings )
     } )
   }
 }

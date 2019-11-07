@@ -1,7 +1,7 @@
 {
   "system": {
     "launchOnStartup": false,
-    "analytics": true,
+    "serverAnalytics": true,
     "automaticUpdates": true,
     "betaOptIn": false
   },

@@ -10,6 +10,7 @@ import { toAscii } from 'gurmukhi-utils'
 import { DEFAULT_OPTIONS } from './options'
 import { merge } from './utils'
 import { WS_URL } from './consts'
+import analytics from './analytics'
 
 class Controller extends EventEmitter {
   constructor() {
@@ -175,6 +176,8 @@ class Controller extends EventEmitter {
 
   saveLocalSettings = settings => {
     const local = merge( this.readSettings( true ), settings )
+
+    analytics.updateSettings( local )
     localStorage.setItem( 'settings', JSON.stringify( local ) )
   }
 

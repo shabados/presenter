@@ -103,10 +103,11 @@ export const OPTIONS = {
   vishraamCharacters: { name: 'Show Symbols', icon: faSubscript, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamColors: { name: 'Gurmukhi Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamTransliterationColors: { name: 'Transliteration Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  analytics: { name: 'Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  serverAnalytics: { name: 'Server Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   automaticUpdates: { name: 'Automatic Updates', icon: faSync, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   betaOptIn: { name: 'Beta Updates', icon: faFlask, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  displayAnalytics: { name: 'Display Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
   connectionEvents: { name: 'Connections', icon: faPlug, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   disconnectionEvents: { name: 'Disconnections', icon: faPowerOff, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
@@ -201,6 +202,7 @@ export const DEFAULT_OPTIONS = {
       [ name ]: sequences,
     } ), {} ),
     security: {
+      displayAnalytics: true,
       private: false,
     },
   },
@@ -209,7 +211,7 @@ export const DEFAULT_OPTIONS = {
   global: {
     system: {
       launchOnStartup: false,
-      analytics: true,
+      serverAnalytics: true,
       automaticUpdates: true,
       betaOptIn: false,
     },

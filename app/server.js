@@ -1,7 +1,6 @@
 import { join } from 'path'
 import cors from 'cors'
 
-// eslint-disable-next-line
 import analytics from './lib/analytics'
 import { setupExpress } from './lib/express'
 import api from './lib/api'
@@ -20,10 +19,9 @@ import {
   UPDATE_CHECK_INTERVAL,
   FRONTEND_BUILD_FOLDER,
   FRONTEND_THEMES_FOLDER,
+  isDev,
 } from './lib/consts'
 import { ensureRequiredDirs, notify } from './lib/utils'
-
-const { NODE_ENV } = process.env
 
 
 /**
@@ -63,6 +61,8 @@ const initialiseUpdater = sessionManager => {
 async function main() {
   logger.info( 'Starting...' )
 
+  analytics.initialise()
+
   // Check if the data directories for the app exists, otherwise create it
   ensureRequiredDirs()
 
@@ -97,12 +97,13 @@ async function main() {
   server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )
 
   // Check for updates every 5 minutes, in production only
-  if ( NODE_ENV === 'production' ) initialiseUpdater( sessionManager )
+  if ( !isDev ) initialiseUpdater( sessionManager )
 }
 
-// Handle any errors by logging and re-throwing
+// Handle any errors by logging and sending it to Sentry
 const handleError = error => {
   logger.error( error )
+  analytics.sendException( error )
 }
 
 process.on( 'uncaughtException', handleError )

@@ -4,14 +4,19 @@ import 'react-hot-loader'
 /* App entry point */
 import React from 'react'
 import ReactDOM from 'react-dom'
-import * as Sentry from '@sentry/browser'
 
-import { SENTRY_DSN } from './lib/consts'
+import analytics from './lib/analytics'
+import controller from './lib/controller'
 
 import App from './App'
 
-// Enable Sentry if in production
-if ( process.env === 'production' ) Sentry.init( { dsn: SENTRY_DSN } )
+// Setup analytics
+const { security: { displayAnalytics } = {} } = controller.readSettings()
+
+if ( displayAnalytics ) {
+  analytics.initialise()
+  analytics.updateSettings( controller.readSettings( true ) )
+}
 
 // Render the React app
 ReactDOM.render( <App />, document.getElementById( 'root' ) )
