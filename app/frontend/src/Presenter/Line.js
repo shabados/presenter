@@ -26,11 +26,11 @@ const isString = ( [ , arg ] ) => typeof arg === 'string'
  * @param {boolean} centerText Whether to center text.
  * @param {boolean} justifyText Whether to justify (edge to edge) wrapped text (2+ lines long).
  * @param {number} presenterFontSize The global font size of presenter lines.
- * @param {number} relativeGurmukhiFontSize The relative font size for the gurmukhi ascii font.
- * @param {number} relativeEnglishFontSize The relative font size for the latin script fonts (english/spanish).
- * @param {number} relativePunjabiFontSize The relative font size for the punjabi unicode font.
- * @param {number} relativeHindiFontSize The relative font size for the hindi unicode font.
- * @param {number} relativeUrduFontSize The relative font size for the urdu unicode font.
+ * @param {number} relativeGurmukhiFontSize Relative size for gurmukhi ascii font.
+ * @param {number} relativeEnglishFontSize Relative size for latin scripts (english/spanish).
+ * @param {number} relativePunjabiFontSize Relative size for punjabi unicode font.
+ * @param {number} relativeHindiFontSize Relative font size for hindi unicode font.
+ * @param {number} relativeUrduFontSize Relative font size for urdu unicode font.
  * @param {boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
  * @param {boolean} vishraamColors Enables colors for vishraams.
