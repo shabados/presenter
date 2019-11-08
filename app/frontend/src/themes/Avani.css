@@ -8,18 +8,24 @@
     --display-highlight-background-color: #FFD3009E;
     --display-dim-background-color: #1a191a21;
     --display-background-image: url('/themes/images/logo-avani.png');
-    --display-background-size: 100%;
+    --display-background-size: 121.5%;
 
     /* Display line colours */
     --display-line-1-color: #1A191A;
     --display-line-2-color: #302E2C;
     --display-line-3-color: #413F3E;
     --display-line-4-color: #51504F;
+    --display-line-5-color: #5D5C59;
+    --display-line-6-color: #676565;
+    --display-line-7-color: #737271;
 
     --display-line-1-opacity: 1;
     --display-line-2-opacity: var(--display-line-1-opacity);
     --display-line-3-opacity: var(--display-line-1-opacity);
     --display-line-4-opacity: var(--display-line-1-opacity);
+    --display-line-5-opacity: var(--display-line-1-opacity);
+    --display-line-6-opacity: var(--display-line-1-opacity);
+    --display-line-7-opacity: var(--display-line-1-opacity);
 
     --display-extra-line-1-color: var(--display-line-1-color);
     --display-extra-line-2-color: var(--display-extra-line-1-color);

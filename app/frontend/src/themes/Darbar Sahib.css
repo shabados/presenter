@@ -5,21 +5,28 @@
 
     /* Display background */
     --display-background-color: #0C297B;
-    --display-highlight-background-color: #00206CB3;
-    --display-dim-background-color: #AAB4CD3D;
+    --display-highlight-background-color: #050835d1;
+    --display-dim-background-color: #a78eff4a;
     --display-background-image: url('/themes/images/darbar-sahib.jpg');
     --display-background-size: auto 110%;
 
     /* Display line colours */
-    --display-line-1-color: #ffffff;
-    --display-line-2-color: #fff8cc;
-    --display-line-3-color: #fdf3c7;
-    --display-line-4-color: #f6ecc0;
+    /* 2 and onwards using colorizer from 100, -5, 20 (L - 2.5, A/B + 2.5) */
+    --display-line-1-color: #fffee2;
+    --display-line-2-color: #ffffd8;
+    --display-line-3-color: #fff8cc;
+    --display-line-4-color: #ffefc1;
+    --display-line-5-color: #ffe6b5;
+    --display-line-6-color: #ffdda9;
+    --display-line-7-color: #ffd59e;
 
     --display-line-1-opacity: 1;
     --display-line-2-opacity: var(--display-line-1-opacity);
     --display-line-3-opacity: var(--display-line-1-opacity);
     --display-line-4-opacity: var(--display-line-1-opacity);
+    --display-line-5-opacity: var(--display-line-1-opacity);
+    --display-line-6-opacity: var(--display-line-1-opacity);
+    --display-line-7-opacity: var(--display-line-1-opacity);
 
     --display-extra-line-1-color: var(--display-line-1-color);
     --display-extra-line-2-color: var(--display-extra-line-1-color);

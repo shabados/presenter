@@ -6,20 +6,26 @@
     /* Display background */
     --display-background-color: #0031a2;
     --display-highlight-background-color: #00206CB3;
-    --display-dim-background-color: #AAB4CD3D;
-    --display-background-image: none;
-    --display-background-size: 120%;
+    --display-dim-background-color: #ffce5d40;
+    --display-background-image: url('/themes/images/logo-white-5.png');
+    --display-background-size: 121.5%;
 
     /* Display line colours */
     --display-line-1-color: #ffd318;
     --display-line-2-color: #dedede;
     --display-line-3-color: var(--display-line-2-color);
     --display-line-4-color: var(--display-line-2-color);
+    --display-line-5-color: var(--display-line-2-color);
+    --display-line-6-color: var(--display-line-2-color);
+    --display-line-7-color: var(--display-line-2-color);
 
     --display-line-1-opacity: 1;
     --display-line-2-opacity: var(--display-line-1-opacity);
     --display-line-3-opacity: var(--display-line-1-opacity);
     --display-line-4-opacity: var(--display-line-1-opacity);
+    --display-line-5-opacity: var(--display-line-1-opacity);
+    --display-line-6-opacity: var(--display-line-1-opacity);
+    --display-line-7-opacity: var(--display-line-1-opacity);
 
     --display-extra-line-1-color: var(--display-line-1-color);
     --display-extra-line-2-color: var(--display-extra-line-1-color);

@@ -25,11 +25,12 @@ const isString = ( [ , arg ] ) => typeof arg === 'string'
  * @param {string} spacing The justify content value for spacing between the lines.
  * @param {boolean} centerText Whether to center text.
  * @param {boolean} justifyText Whether to justify (edge to edge) wrapped text (2+ lines long).
- * @param {number} fontSize The fontSize for the Gurbani lines.
- * @param {number} fontSize The global font size of presenter lines.
- * @param {number} relativeGurmukhiFontSize The relative font size for the gurmukhi ascii font.
- * @param {number} relativeEnglishFontSize The relative font size for the english font.
- * @param {number} relativePunjabiFontSize The relative font size for the punjabi unicode font.
+ * @param {number} presenterFontSize The global font size of presenter lines.
+ * @param {number} relativeGurmukhiFontSize Relative size for gurmukhi ascii font.
+ * @param {number} relativeEnglishFontSize Relative size for latin scripts (english/spanish).
+ * @param {number} relativePunjabiFontSize Relative size for punjabi unicode font.
+ * @param {number} relativeHindiFontSize Relative font size for hindi unicode font.
+ * @param {number} relativeUrduFontSize Relative font size for urdu unicode font.
  * @param {boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
  * @param {boolean} vishraamColors Enables colors for vishraams.
@@ -53,10 +54,12 @@ const Line = ( {
   spacing,
   centerText,
   justifyText,
-  fontSize,
+  presenterFontSize,
   relativeGurmukhiFontSize,
   relativeEnglishFontSize,
   relativePunjabiFontSize,
+  relativeHindiFontSize,
+  relativeUrduFontSize,
   larivaarGurbani: larivaar,
   larivaarAssist,
   vishraamColors: vishraams,
@@ -76,8 +79,8 @@ const Line = ( {
 
   const transliterations = [
     [ 'english', englishTransliteration, relativeEnglishFontSize ],
-    [ 'hindi', hindiTransliteration, relativePunjabiFontSize ],
-    [ 'urdu', urduTransliteration, relativePunjabiFontSize ],
+    [ 'hindi', hindiTransliteration, relativeHindiFontSize ],
+    [ 'urdu', urduTransliteration, relativeUrduFontSize ],
   ]
 
   return (
@@ -93,7 +96,7 @@ const Line = ( {
         'center-text': centerText,
         'justify-text': justifyText,
       }, 'line' )}
-      style={{ justifyContent: spacing, fontSize: `${fontSize}Vh` }}
+      style={{ justifyContent: spacing, fontSize: `${presenterFontSize}Vh` }}
     >
       <TransitionGroup appear exit={false} component={null}>
 
@@ -161,10 +164,12 @@ Line.propTypes = {
   vishraamHeavy: bool,
   splitOnVishraam: bool,
   simpleGraphics: bool,
-  fontSize: number,
+  presenterFontSize: number,
   relativeGurmukhiFontSize: number,
   relativeEnglishFontSize: number,
   relativePunjabiFontSize: number,
+  relativeHindiFontSize: number,
+  relativeUrduFontSize: number,
 }
 
 const {
@@ -181,10 +186,12 @@ const {
     vishraamMedium,
     vishraamLight,
     splitOnVishraam,
-    fontSize,
+    presenterFontSize,
     relativeGurmukhiFontSize,
     relativeEnglishFontSize,
     relativePunjabiFontSize,
+    relativeHindiFontSize,
+    relativeUrduFontSize,
   },
   theme: {
     simpleGraphics,
@@ -212,10 +219,12 @@ Line.defaultProps = {
   vishraamLight,
   splitOnVishraam,
   simpleGraphics,
-  fontSize,
+  presenterFontSize,
   relativeGurmukhiFontSize,
   relativeEnglishFontSize,
   relativePunjabiFontSize,
+  relativeHindiFontSize,
+  relativeUrduFontSize,
 }
 
 export default Line

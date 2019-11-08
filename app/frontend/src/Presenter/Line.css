@@ -84,10 +84,15 @@
 
 .line .hindi {
   font-family: "Noto Sans Devanagari Semi Bold";
+  line-height: 1.48;
 }
 
 .line .urdu {
   font-family: "Noto Sans Nastaliq Urdu";
+  /* default line-height is 2.52 */
+  line-height: 2.1;
+  word-spacing: .4em;
+  direction: rtl;
 }
 
 .line .english.transliteration {

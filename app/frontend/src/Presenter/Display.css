@@ -33,7 +33,10 @@
 
 .display .current-line p:nth-of-type(2),
 .display .current-line p:nth-of-type(3),
-.display .current-line p:nth-of-type(4) {
+.display .current-line p:nth-of-type(4),
+.display .current-line p:nth-of-type(5),
+.display .current-line p:nth-of-type(6),
+.display .current-line p:nth-of-type(7) {
     opacity: 0.165195187;
     transition: all var(--animation-sleepy-duration) cubic-bezier(.43,.14,.58,.95),
                 opacity var(--animation-sleepy-duration) cubic-bezier(.43,.02,.85,.61),
@@ -49,6 +52,18 @@
 
 .display .current-line p:nth-of-type(4).fade-enter-done {
     opacity: var(--display-line-4-opacity);
+}
+
+.display .current-line p:nth-of-type(5).fade-enter-done {
+  opacity: var(--display-line-5-opacity);
+}
+
+.display .current-line p:nth-of-type(6).fade-enter-done {
+  opacity: var(--display-line-6-opacity);
+}
+
+.display .current-line p:nth-of-type(7).fade-enter-done {
+  opacity: var(--display-line-7-opacity);
 }
 
 /* ------------------------------------
@@ -121,6 +136,24 @@
     color: var(--display-line-4-color);
     transition-property: opacity;
     transition-delay: calc(2*var(--animation-line-delay));
+}
+
+.display .current-line p:nth-of-type(5) {
+    color: var(--display-line-5-color);
+    transition-property: opacity;
+    transition-delay: calc(3*var(--animation-line-delay));
+}
+
+.display .current-line p:nth-of-type(6) {
+    color: var(--display-line-6-color);
+    transition-property: opacity;
+    transition-delay: calc(4*var(--animation-line-delay));
+}
+
+.display .current-line p:nth-of-type(7) {
+    color: var(--display-line-7-color);
+    transition-property: opacity;
+    transition-delay: calc(5*var(--animation-line-delay));
 }
 
 .display .previous-line:nth-last-child(1) > p, .next-line:nth-child(1) > p {
