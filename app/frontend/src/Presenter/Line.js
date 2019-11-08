@@ -27,8 +27,10 @@ const isString = ( [ , arg ] ) => typeof arg === 'string'
  * @param {boolean} justifyText Whether to justify (edge to edge) wrapped text (2+ lines long).
  * @param {number} presenterFontSize The global font size of presenter lines.
  * @param {number} relativeGurmukhiFontSize The relative font size for the gurmukhi ascii font.
- * @param {number} relativeEnglishFontSize The relative font size for the english font.
+ * @param {number} relativeEnglishFontSize The relative font size for the latin script fonts (english/spanish).
  * @param {number} relativePunjabiFontSize The relative font size for the punjabi unicode font.
+ * @param {number} relativeHindiFontSize The relative font size for the hindi unicode font.
+ * @param {number} relativeUrduFontSize The relative font size for the urdu unicode font.
  * @param {boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
  * @param {boolean} vishraamColors Enables colors for vishraams.
@@ -56,6 +58,8 @@ const Line = ( {
   relativeGurmukhiFontSize,
   relativeEnglishFontSize,
   relativePunjabiFontSize,
+  relativeHindiFontSize,
+  relativeUrduFontSize,
   larivaarGurbani: larivaar,
   larivaarAssist,
   vishraamColors: vishraams,
@@ -75,8 +79,8 @@ const Line = ( {
 
   const transliterations = [
     [ 'english', englishTransliteration, relativeEnglishFontSize ],
-    [ 'hindi', hindiTransliteration, relativePunjabiFontSize ],
-    [ 'urdu', urduTransliteration, relativePunjabiFontSize ],
+    [ 'hindi', hindiTransliteration, relativeHindiFontSize ],
+    [ 'urdu', urduTransliteration, relativeUrduFontSize ],
   ]
 
   return (
@@ -164,6 +168,8 @@ Line.propTypes = {
   relativeGurmukhiFontSize: number,
   relativeEnglishFontSize: number,
   relativePunjabiFontSize: number,
+  relativeHindiFontSize: number,
+  relativeUrduFontSize: number,
 }
 
 const {
@@ -184,6 +190,8 @@ const {
     relativeGurmukhiFontSize,
     relativeEnglishFontSize,
     relativePunjabiFontSize,
+    relativeHindiFontSize,
+    relativeUrduFontSize,
   },
   theme: {
     simpleGraphics,
@@ -215,6 +223,8 @@ Line.defaultProps = {
   relativeGurmukhiFontSize,
   relativeEnglishFontSize,
   relativePunjabiFontSize,
+  relativeHindiFontSize,
+  relativeUrduFontSize,
 }
 
 export default Line
