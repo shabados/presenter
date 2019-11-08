@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  font-size: 1.2rem;
+  font-size: .875rem;
 }
 
 .simple.controller * {
@@ -113,6 +113,7 @@
 
 .controller .content .gurmukhi.text {
   font-family: "Open Gurbani Akhar Bold", sans-serif;
+  font-size: 1.1em;
   height: auto;
   color: var(--controller-text-color);
   transition: 0.3s all;
