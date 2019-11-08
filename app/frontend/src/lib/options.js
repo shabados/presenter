@@ -201,7 +201,7 @@ export const DEFAULT_OPTIONS = {
     } ), {} ),
     security: {
       displayAnalytics: true,
-      private: false,
+      private: true,
     },
   },
   // Special serverside settings
