@@ -25,8 +25,7 @@ const isString = ( [ , arg ] ) => typeof arg === 'string'
  * @param {string} spacing The justify content value for spacing between the lines.
  * @param {boolean} centerText Whether to center text.
  * @param {boolean} justifyText Whether to justify (edge to edge) wrapped text (2+ lines long).
- * @param {number} fontSize The fontSize for the Gurbani lines.
- * @param {number} fontSize The global font size of presenter lines.
+ * @param {number} presenterFontSize The global font size of presenter lines.
  * @param {number} relativeGurmukhiFontSize The relative font size for the gurmukhi ascii font.
  * @param {number} relativeEnglishFontSize The relative font size for the english font.
  * @param {number} relativePunjabiFontSize The relative font size for the punjabi unicode font.
@@ -53,7 +52,7 @@ const Line = ( {
   spacing,
   centerText,
   justifyText,
-  fontSize,
+  presenterFontSize,
   relativeGurmukhiFontSize,
   relativeEnglishFontSize,
   relativePunjabiFontSize,
@@ -93,7 +92,7 @@ const Line = ( {
         'center-text': centerText,
         'justify-text': justifyText,
       }, 'line' )}
-      style={{ justifyContent: spacing, fontSize: `${fontSize}Vh` }}
+      style={{ justifyContent: spacing, fontSize: `${presenterFontSize}Vh` }}
     >
       <TransitionGroup appear exit={false} component={null}>
 
@@ -161,7 +160,7 @@ Line.propTypes = {
   vishraamHeavy: bool,
   splitOnVishraam: bool,
   simpleGraphics: bool,
-  fontSize: number,
+  presenterFontSize: number,
   relativeGurmukhiFontSize: number,
   relativeEnglishFontSize: number,
   relativePunjabiFontSize: number,
@@ -181,7 +180,7 @@ const {
     vishraamMedium,
     vishraamLight,
     splitOnVishraam,
-    fontSize,
+    presenterFontSize,
     relativeGurmukhiFontSize,
     relativeEnglishFontSize,
     relativePunjabiFontSize,
@@ -212,7 +211,7 @@ Line.defaultProps = {
   vishraamLight,
   splitOnVishraam,
   simpleGraphics,
-  fontSize,
+  presenterFontSize,
   relativeGurmukhiFontSize,
   relativeEnglishFontSize,
   relativePunjabiFontSize,

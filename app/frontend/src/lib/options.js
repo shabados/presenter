@@ -61,7 +61,7 @@ export const PRIVACY_TYPES = {
 
 // Option names and possible values
 export const OPTIONS = {
-  fontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, min: 3, max: 13, step: 0.1, privacy: PRIVACY_TYPES.local },
+  presenterFontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, min: 3, max: 13, step: 0.1, privacy: PRIVACY_TYPES.local },
   relativeGurmukhiFontSize: { name: 'Relative Gurmukhi Font Size', icon: faPercentage, type: OPTION_TYPES.slider, min: 0.5, max: 1.5, step: 0.01, privacy: PRIVACY_TYPES.local },
   relativeEnglishFontSize: { name: 'Relative English Font Size', icon: faPercentage, type: OPTION_TYPES.slider, min: 0.5, max: 1.5, step: 0.01, privacy: PRIVACY_TYPES.local },
   relativePunjabiFontSize: { name: 'Relative Punjabi Font Size', icon: faPercentage, type: OPTION_TYPES.slider, min: 0.5, max: 1.5, step: 0.01, privacy: PRIVACY_TYPES.local },
@@ -159,7 +159,7 @@ export const OPTION_GROUPS = {
 export const DEFAULT_OPTIONS = {
   local: {
     layout: {
-      fontSize: 8,
+      presenterFontSize: 8,
       relativeGurmukhiFontSize: 1,
       relativeEnglishFontSize: 0.6,
       relativePunjabiFontSize: 0.7,
