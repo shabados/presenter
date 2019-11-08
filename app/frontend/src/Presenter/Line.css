@@ -88,6 +88,7 @@
 
 .line .urdu {
   font-family: "Noto Sans Nastaliq Urdu";
+  direction: rtl;
 }
 
 .line .english.transliteration {
