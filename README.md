@@ -2,7 +2,7 @@
 
 <div align="center">
 
-A digital representation of Sikh Bani and other Panthic texts with a public logbook of sangat-sourced corrections.
+Next generation Gurbani presentation software for searching, navigating, and presenting shabads.
 
 [![CircleCI](https://img.shields.io/circleci/project/github/ShabadOS/desktop.svg?style=flat)](https://circleci.com/gh/ShabadOS/desktop)
 [![Github All Releases](https://img.shields.io/github/downloads/ShabadOS/desktop/total.svg?style=flat)](https://github.com/ShabadOS/desktop/releases)
