@@ -74,7 +74,8 @@
     "mac": {
       "artifactName": "Shabad.OS-${version}.${ext}",
       "target": [
-        "dmg"
+        "dmg",
+        "zip"
       ],
       "entitlements": "./resources/entitlements.mac.plist",
       "entitlementsInherit": "./resources/entitlements.mac.plist"
