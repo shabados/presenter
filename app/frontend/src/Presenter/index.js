@@ -160,7 +160,7 @@ class Presenter extends Component {
   // Global Hotkey Handlers
   hotkeyHandlers = this.preventDefault( {
     [ GLOBAL_SHORTCUTS.toggleController.name ]: this.toggleController,
-    [ GLOBAL_SHORTCUTS.newController.name ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, '_blank' ),
+    [ GLOBAL_SHORTCUTS.newController.name ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true` ),
     [ GLOBAL_SHORTCUTS.settings.name ]: () => window.open( SETTINGS_URL ),
     [ GLOBAL_SHORTCUTS.search.name ]: () => this.go( SEARCH_URL ),
     [ GLOBAL_SHORTCUTS.history.name ]: () => this.go( HISTORY_URL ),
