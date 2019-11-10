@@ -119,13 +119,13 @@ export const OPTIONS = {
 
 // Possible options groups
 export const OPTION_GROUPS = {
-  layout: {
-    name: 'Layout',
-    icon: faArrowsAltH,
-  },
   display: {
     name: 'Display',
     icon: faList,
+  },
+  layout: {
+    name: 'Layout',
+    icon: faArrowsAltH,
   },
   theme: {
     name: 'Theme',
