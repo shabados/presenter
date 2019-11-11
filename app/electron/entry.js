@@ -18,7 +18,6 @@ const logger = require( '../lib/logger' ).default
  */
 const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ], {
   env: { LOG_FILE },
-  detached: true,
   stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ],
 } )
 
