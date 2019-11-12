@@ -2,20 +2,25 @@
 import { app } from 'electron'
 
 import logger from '../lib/logger'
-
-import { createMainWindow, createNonMainWindows, closeNonMainWindows } from './window'
 import { isDev } from '../lib/consts'
 
+import { createMainWindow, createNonMainWindows, closeNonMainWindows } from './window'
+import { setBeta, initUpdates, checkUpdates } from './updates'
 
-const onReady = () => {
-  logger.info( 'Starting Electron Shell' )
-  createMainWindow()
-}
 
 const onSettingsChange = ( { system } ) => {
   // Toggle multiple displays
   if ( system.multipleDisplays ) createNonMainWindows()
   else closeNonMainWindows()
+
+  // Ensure updater beta settings are in sync
+  setBeta( system.betaOptIn )
+}
+
+const onReady = server => {
+  logger.info( 'Starting Electron Shell' )
+  initUpdates( server )
+  createMainWindow()
 }
 
 // Catch any errors
@@ -45,8 +50,9 @@ if ( isDev ) {
 
 // Handlers for server IPC events
 const handlers = {
-  ready: () => () => ( app.isReady() ? onReady() : app.on( 'ready,', onReady ) ),
+  ready: server => () => ( app.isReady() ? onReady( server ) : app.on( 'ready,', () => onReady( server ) ) ),
   settings: () => onSettingsChange,
+  'update-check': server => () => checkUpdates( server ),
 }
 
 // Register handlers from server IPC

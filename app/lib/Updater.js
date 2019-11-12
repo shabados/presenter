@@ -10,8 +10,9 @@ import { dependencies } from '../package.json'
 import logger from './logger'
 import settings from './settings'
 import { DATABASE_FOLDER, electronVersion } from './consts'
+import { sendToElectron } from './utils.js'
 
-const databasePackage = `@shabados/database@${dependencies[ '@shabados/database' ]}`
+const databasePackage = `@syhabados/database@${dependencies[ '@shabados/database' ]}`
 
 class Updater extends EventEmitter {
   constructor( { tempFolder, interval } ) {
@@ -28,34 +29,29 @@ class Updater extends EventEmitter {
     if ( electronVersion ) this.updateLoop( Updater.checkApplicationUpdates.bind( this ) )
   }
 
+  // Set up application update events via IPC
   initElectronUpdates() {
-    // eslint-disable-next-line global-require
-    const { autoUpdater } = require( 'electron-updater' )
+    const events = {
+      'update-available': info => this.emit( 'application-update', info ),
+      'update-downloaded': info => this.emit( 'application-updated', info ),
+      'update-checked': () => this.emit( 'update-checked' ),
+    }
 
-    autoUpdater.logger = logger
-    autoUpdater.autoInstallOnAppQuit = false
-    autoUpdater.allowPrerelease = settings.get( 'system.betaOptIn' )
-
-    // Change beta opt-in on settings change
-    settings.on( 'change', ( { system: { betaOptIn = false } } ) => {
-      autoUpdater.allowPrerelease = betaOptIn
-    } )
-
-    // Set up application autoupdates
-    autoUpdater.on( 'update-available', info => this.emit( 'application-update', info ) )
-    autoUpdater.on( 'update-downloaded', info => this.emit( 'application-updated', info ) )
+    process.on( 'message', ( { event, payload } ) => events[ event ] && events[ event ]( payload ) )
   }
 
   /**
-   * Executes electron-autoupdater's checker.
+   * Executes electron-autoupdater's checker via IPC to the electron shell.
    */
-  static async checkApplicationUpdates() {
-    // eslint-disable-next-line global-require
-    const { autoUpdater } = require( 'electron-updater' )
+  static checkApplicationUpdates() {
+    return new Promise( resolve => {
+      sendToElectron( 'update-check' )
 
-    logger.info( 'Checking for app updates, beta:', autoUpdater.allowPrerelease )
-    const { downloadPromise } = await autoUpdater.checkForUpdates()
-    return downloadPromise
+      this.once( 'update-checked', () => {
+        logger.info( 'Checked for updates' )
+        resolve()
+      } )
+    } )
   }
 
   /**
