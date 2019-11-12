@@ -10,6 +10,7 @@ import { firstLetterSearch, fullWordSearch, getBanis } from './lib/db'
 import Updater from './lib/Updater'
 import settings from './lib/settings'
 import logger from './lib/logger'
+import { handleError } from './lib/error'
 import {
   PORT,
   CUSTOM_THEMES_FOLDER,
@@ -98,12 +99,6 @@ async function main() {
 
   // Check for updates every 5 minutes, in production only
   if ( !isDev ) initialiseUpdater( sessionManager )
-}
-
-// Handle any errors by logging and sending it to Sentry
-const handleError = error => {
-  logger.error( error )
-  analytics.sendException( error )
 }
 
 process.on( 'uncaughtException', handleError )
