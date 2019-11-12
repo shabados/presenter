@@ -109,7 +109,7 @@ export const OPTIONS = {
   displayAnalytics: { name: 'Display Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
   launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
-  multipleDisplays: { name: 'All Displays On Startup', icon: faDesktop, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  multipleDisplays: { name: 'All Displays', icon: faDesktop, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   serverAnalytics: { name: 'Server Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   automaticUpdates: { name: 'Automatic Updates', icon: faSync, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   betaOptIn: { name: 'Beta Updates', icon: faFlask, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },

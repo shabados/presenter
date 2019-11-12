@@ -100,6 +100,9 @@ async function main() {
     logger.info( `Running express API server on port ${PORT}` )
   } )
 
+  // When settings change, notify Electron
+  settings.on( 'change', settings => sendToElectron( 'settings', settings ) )
+
   // Check for updates every 5 minutes, in production only
   if ( !isDev ) initialiseUpdater( sessionManager )
 }
