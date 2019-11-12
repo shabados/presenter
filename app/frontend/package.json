@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/ShabadOS/desktop/issues"
   },
-  "homepage": "/",
+  "homepage": "./",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-regular-svg-icons": "^5.11.2",
