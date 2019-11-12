@@ -42,7 +42,9 @@ class Updater extends EventEmitter {
 
     // Set up application autoupdates
     autoUpdater.on( 'update-available', info => this.emit( 'application-update', info ) )
-    autoUpdater.on( 'update-downloaded', info => this.emit( 'application-updated', info ) )
+    autoUpdater.on( 'update-downloaded', () => {
+      autoUpdater.quitAndInstall( false, false )
+    } )
   }
 
   /**

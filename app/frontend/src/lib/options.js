@@ -30,6 +30,7 @@ import {
   faTextHeight,
   faSync,
   faList,
+  faDesktop,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -108,6 +109,7 @@ export const OPTIONS = {
   displayAnalytics: { name: 'Display Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
   launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  multipleDisplays: { name: 'All Displays On Startup', icon: faDesktop, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   serverAnalytics: { name: 'Server Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   automaticUpdates: { name: 'Automatic Updates', icon: faSync, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   betaOptIn: { name: 'Beta Updates', icon: faFlask, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
@@ -160,18 +162,6 @@ export const OPTION_GROUPS = {
 // Options with default values
 export const DEFAULT_OPTIONS = {
   local: {
-    layout: {
-      presenterFontSize: 8,
-      relativeGurmukhiFontSize: 1,
-      relativeEnglishFontSize: 0.6,
-      relativePunjabiFontSize: 0.7,
-      relativeHindiFontSize: 0.71,
-      relativeUrduFontSize: 0.5,
-      centerText: true,
-      justifyText: false,
-      splitOnVishraam: true,
-      spacing: OPTIONS.spacing.values[ 2 ].value,
-    },
     display: {
       previousLines: 0,
       nextLines: 1,
@@ -183,6 +173,18 @@ export const DEFAULT_OPTIONS = {
       englishTransliteration: true,
       hindiTransliteration: false,
       urduTransliteration: false,
+    },
+    layout: {
+      presenterFontSize: 8,
+      relativeGurmukhiFontSize: 1,
+      relativeEnglishFontSize: 0.6,
+      relativePunjabiFontSize: 0.7,
+      relativeHindiFontSize: 0.71,
+      relativeUrduFontSize: 0.5,
+      centerText: true,
+      justifyText: false,
+      splitOnVishraam: true,
+      spacing: OPTIONS.spacing.values[ 2 ].value,
     },
     theme: {
       themeName: 'Day',
@@ -214,6 +216,7 @@ export const DEFAULT_OPTIONS = {
   global: {
     system: {
       launchOnStartup: false,
+      multipleDisplays: true,
       serverAnalytics: true,
       automaticUpdates: true,
       betaOptIn: false,
