@@ -80,11 +80,6 @@
       "entitlements": "./resources/entitlements.mac.plist",
       "entitlementsInherit": "./resources/entitlements.mac.plist"
     },
-    "dmg": {
-      "window": {
-        "height": 200
-      }
-    },
     "linux": {
       "artifactName": "Shabad.OS-${version}_${arch}.${ext}",
       "target": [
