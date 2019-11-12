@@ -73,3 +73,13 @@ export const notify = message => notifier.notify( {
   contentImage: `${APP_FOLDER}/lib/logo.png`,
   wait: true,
 } )
+
+/**
+ * Sends an IPC message to the electron instance, if exists.
+ * @param {string} name The name of the event.
+ * @param {*} payload The payload to send.
+ */
+export const sendToElectron = ( event, payload ) => process.send && process.send( {
+  event,
+  payload,
+} )

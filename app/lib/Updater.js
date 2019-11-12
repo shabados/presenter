@@ -33,6 +33,7 @@ class Updater extends EventEmitter {
     const { autoUpdater } = require( 'electron-updater' )
 
     autoUpdater.logger = logger
+    autoUpdater.autoInstallOnAppQuit = false
     autoUpdater.allowPrerelease = settings.get( 'system.betaOptIn' )
 
     // Change beta opt-in on settings change
@@ -42,9 +43,7 @@ class Updater extends EventEmitter {
 
     // Set up application autoupdates
     autoUpdater.on( 'update-available', info => this.emit( 'application-update', info ) )
-    autoUpdater.on( 'update-downloaded', () => {
-      autoUpdater.quitAndInstall( false, false )
-    } )
+    autoUpdater.on( 'update-downloaded', info => this.emit( 'application-updated', info ) )
   }
 
   /**

@@ -22,7 +22,7 @@ import {
   FRONTEND_THEMES_FOLDER,
   isDev,
 } from './lib/consts'
-import { ensureRequiredDirs, notify } from './lib/utils'
+import { ensureRequiredDirs, notify, sendToElectron } from './lib/utils'
 
 
 /**
@@ -95,7 +95,10 @@ async function main() {
   socket.on( 'connection', async client => client.sendJSON( 'banis:list', await getBanis() ) )
 
   // Start the server
-  server.listen( PORT, () => logger.info( `Running express API server on port ${PORT}` ) )
+  server.listen( PORT, () => {
+    sendToElectron( 'ready' )
+    logger.info( `Running express API server on port ${PORT}` )
+  } )
 
   // Check for updates every 5 minutes, in production only
   if ( !isDev ) initialiseUpdater( sessionManager )

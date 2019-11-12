@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow, screen } from 'electron'
-import fetch from 'electron-fetch'
 
 import logger from '../lib/logger'
 import { PORT, isDev } from '../lib/consts'
@@ -14,17 +13,15 @@ let mainWindow
  * Loads the Shabad OS web page, if available.
  * Uses server heartbeat to determine whether server is ready yet.
  */
-const loadPage = window => fetch( `${BASE_URL}/heartbeat` )
-  .then( () => {
-    window.loadURL( BASE_URL )
+const loadPage = window => {
+  window.loadURL( BASE_URL )
 
-    window.on( 'ready-to-show', () => {
-      window.setMenuBarVisibility( isDev )
-      window.maximize()
-      window.show()
-    } )
+  window.on( 'ready-to-show', () => {
+    window.setMenuBarVisibility( isDev )
+    window.maximize()
+    window.show()
   } )
-  .catch( () => setTimeout( () => loadPage( window ), 300 ) )
+}
 
 /**
  * Creates a browser window.
@@ -59,8 +56,6 @@ function createWindows() {
   }
 }
 
-app.on( 'ready', createWindows )
-
 // Catch any errors
 //! Should catch port in use separately, means shabad os is likely already running
 process.on( 'uncaughtException', error => {
@@ -69,3 +64,16 @@ process.on( 'uncaughtException', error => {
 
   process.exit( 1 )
 } )
+
+// Handlers for server IPC events
+const handlers = {
+  ready: () => () => createWindows(),
+}
+
+// Register handlers from server IPC
+module.exports = server => {
+  server.on( 'message', ( { event, payload } ) => {
+    const handler = handlers[ event ] || ( () => () => {} )
+    handler( server )( payload )
+  } )
+}
