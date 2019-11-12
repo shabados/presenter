@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow, screen } from 'electron'
 import { omit } from 'lodash'
 
