@@ -3,6 +3,7 @@ import { app } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 import logger from '../lib/logger'
+import { isWindows } from '../lib/consts'
 
 export const initUpdates = server => {
   autoUpdater.logger = logger
@@ -15,7 +16,7 @@ export const initUpdates = server => {
 
     //* Override app handler to visually show installer
     app.on( 'will-quit', event => {
-      event.preventDefault()
+      if ( isWindows ) event.preventDefault()
       autoUpdater.quitAndInstall( false, false )
     } )
   } )

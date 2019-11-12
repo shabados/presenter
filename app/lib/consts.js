@@ -3,6 +3,7 @@
  * @ignore
  */
 import { join } from 'path'
+import { platform } from 'os'
 import { getAppDataPath } from 'appdata-path'
 
 // Dev environment
@@ -10,6 +11,10 @@ export const isDev = process.env.NODE_ENV !== 'production'
 
 // Electron environment
 export const electronVersion = process.versions.electron
+
+// OS
+export const isWindows = platform() === 'win32'
+export const isMac = platform() === 'darwin'
 
 // Check every 5 minutes
 export const UPDATE_CHECK_INTERVAL = 5000 * 60
