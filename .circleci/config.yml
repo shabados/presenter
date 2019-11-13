@@ -16,11 +16,6 @@ build: &build
         command: npm run dist -- -${PLATFORM_FLAG}
         no_output_timeout: 30m
     - run: mkdir artifacts && cp dist/Shabad* artifacts
-    - persist_to_workspace:
-        root: ~/shabad-os
-        paths:
-          - node_modules
-          - app/frontend/build
     - store_artifacts:
         path: artifacts
         destination: artifacts
@@ -30,12 +25,20 @@ publish: &publish
   working_directory: ~/shabad-os
   steps:
     - checkout
-    - attach_workspace:
-        at: ~/shabad-os
+    - run:
+        name: Install dependencies
+        command: npm install --unsafe-perm
+    - run:
+        name: Build application
+        command: npm run build
     - run:
         name: Publish application
         command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG} -p always
         no_output_timeout: 30m
+    - run: mkdir artifacts && cp dist/Shabad* artifacts
+    - store_artifacts:
+        path: artifacts
+        destination: artifacts
 
 orbs:
   windows: circleci/windows@2.1.0
@@ -54,6 +57,16 @@ jobs:
           name: Run ESLint on Frontend & Backend
           command: npm run lint
   
+  build-frontend:
+    docker:
+      - image: node:10
+    working_directory: ~/shabad-os
+    steps:
+      - checkout
+      - run:
+          name: Build application
+          command: npm run build
+
   build-mac:
     <<: *build
     macos:
@@ -102,46 +115,54 @@ jobs:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
 
+## Workflow
+
+build-workflow: &build-workflow
+  requires:
+    - lint
+  filters:
+    branches:
+      ignore:
+        - master
+
+publish-workflow: &publish-workflow
+  requires:
+    - lint
+  filters:
+    branches:
+      only:
+        - master
+
 workflows:
   version: 2
   build-desktop:
     jobs:
       - lint
+
+      - build-frontend:
+          requires:
+            - lint
+
       - build-windows:
+          <<: *build-workflow
           pre-steps:
             - run: npm install --global --production windows-build-tools --vs2015
-          requires:
-            - lint
-      - publish-windows:
-          pre-steps:
-            - run: npm install --global --production windows-build-tools --vs2015
-          requires:
-            - build-windows
-          filters:
-            branches:
-              only:
-                - master
       - build-mac:
+          <<: *build-workflow
           pre-steps:
             - run: sudo xcode-select -r
-          requires:
-            - lint
-      - publish-mac:
-          pre-steps:
-            - run: sudo xcode-select -r
-          requires:
-            - build-mac
-          filters:
-            branches:
-              only:
-                - master
       - build-linux:
-          requires:
-            - lint
+          <<: *build-workflow
+
+
+      - publish-windows:
+          <<: *publish-workflow
+          pre-steps:
+            - run: npm install --global --production windows-build-tools --vs2015
+      - publish-mac:
+          <<: *publish-workflow
+          pre-steps:
+            - run: sudo xcode-select -r
       - publish-linux:
-          requires:
-            - build-linux
-          filters:
-            branches:
-              only:
-                - master
+          <<: *publish-workflow
+
