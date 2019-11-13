@@ -17,7 +17,7 @@ const logger = require( '../lib/logger' ).default
  * Launches a server in a separate process, with flag.
  */
 const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ], {
-  env: { LOG_FILE },
+  env: { LOG_FILE, ESM_DISABLE_CACHE: 1 },
   stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ],
 } )
 
