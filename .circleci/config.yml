@@ -57,16 +57,6 @@ jobs:
           name: Run ESLint on Frontend & Backend
           command: npm run lint
   
-  build-frontend:
-    docker:
-      - image: node:10
-    working_directory: ~/shabad-os
-    steps:
-      - checkout
-      - run:
-          name: Build application
-          command: npm run build
-
   build-mac:
     <<: *build
     macos:
@@ -138,10 +128,6 @@ workflows:
   build-desktop:
     jobs:
       - lint
-
-      - build-frontend:
-          requires:
-            - lint
 
       - build-windows:
           <<: *build-workflow
