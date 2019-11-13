@@ -43,8 +43,8 @@
     "ws": "^7.1.2"
   },
   "devDependencies": {
+    "electron": "^7.1.1",
     "nodemon": "^1.19.3",
-    "electron": "^8.0.0-beta.2",
     "pino-pretty": "^3.2.1"
   }
 }
