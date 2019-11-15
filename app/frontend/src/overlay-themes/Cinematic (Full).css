@@ -1,0 +1,18 @@
+:root {
+	--base-font-size: 6vh;
+	--text-font-color: white;
+	--background-color: black;
+	
+	--secondary-factor: 0.6;
+	--punjabi-size: calc(var(--base-font-size) * var(--secondary-factor));
+	--english-size: calc(var(--base-font-size) * var(--secondary-factor) * 0.8571428571428571);
+	--urdu-size: calc(var(--base-font-size) * var(--secondary-factor) * 0.7142857142857143); 
+}
+
+.app {width: 100%;}
+.overlay {height: 100%; display: flex; padding: 4vh 4vw; background: var(--background-color);}
+.overlay-line {display: flex; flex: 1 0 100%; flex-direction: column; justify-content: space-evenly; text-align: center; color: var(--text-font-color);}
+.larivaar, .gurmukhi {font-size: var(--base-font-size);}
+.punjabi {font-size: var(--punjabi-size);}
+.english, .spanish {font-size: var(--english-size);}
+.urdu { font-size: var(--english-size); }
