@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { basename, join } from 'path'
-import { hostname, platform, arch, cpus, networkInterfaces } from 'os'
+import { hostname, platform, arch, cpus } from 'os'
 import { readJSON } from 'fs-extra'
 
 import { CUSTOM_THEMES_FOLDER, APP_FOLDER, FRONTEND_THEMES_FOLDER, DATABASE_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER } from './consts'
