@@ -6,12 +6,26 @@
   font-family: "Open Gurbani Akhar Black", sans-serif;
 }
 
-.overlay-line .english {
+.overlay-line .english, .overlay-line .spanish {
   font-family: "Noto Sans Medium", sans-serif;
 }
 
 .overlay-line .punjabi {
   font-family: "Open Anmol Uni Bold", sans-serif;
+}
+
+.overlay-line .hindi {
+  font-family: "Noto Sans Devanagari Semi Bold";
+  line-height: 1.48;
+}
+
+.overlay-line .urdu {
+  font-family: "Noto Sans Nastaliq Urdu";
+  direction: rtl;
+}
+
+.overlay-line .english.transliteration {
+  font-family: "Noto Sans Regular", sans-serif;
 }
 
 .overlay-line .gurmukhi .word:after,
@@ -22,8 +36,4 @@
 .larivaar.overlay-line .word:after,
 .overlay-line .larivaar .word:after {
   content: "\200B";
-}
-
-.overlay-line .transliteration {
-  font-family: "Noto Sans Regular", sans-serif;
 }

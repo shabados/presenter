@@ -4,7 +4,7 @@ import { shape, arrayOf, string, bool } from 'prop-types'
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
 
-import { getTranslation } from '../lib/utils'
+import { getTranslation, getTransliteration } from '../lib/utils'
 
 import './index.css'
 
@@ -21,6 +21,8 @@ const Overlay = ( { shabad, bani, lineId, settings, connected } ) => {
 
   const getTranslationFor = languageId => getTranslation( { shabad, sources, line, languageId } )
 
+  const getTransliterationFor = languageId => getTransliteration( line, languageId )
+
   return (
     <div className="overlay">
       <ThemeLoader connected={connected} />
@@ -30,7 +32,10 @@ const Overlay = ( { shabad, bani, lineId, settings, connected } ) => {
         {...( line && {
           englishTranslation: getTranslationFor( 1 ),
           punjabiTranslation: getTranslationFor( 2 ),
-          transliteration: line.transliterations[ 0 ].transliteration,
+          spanishTranslation: getTranslationFor( 3 ),
+          englishTransliteration: getTransliterationFor( 1 ),
+          hindiTransliteration: getTransliterationFor( 4 ),
+          urduTransliteration: getTransliterationFor( 5 ),
         } )}
       />
     </div>
