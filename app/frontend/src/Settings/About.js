@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { number } from 'prop-types'
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import {
+  List,
+  ListItem,
+  CircularProgress,
+  Grid,
+  Typography,
+} from '@material-ui/core'
 
-import { BACKEND_URL } from '../lib/consts'
+import { BACKEND_URL, BACKEND_PORT } from '../lib/consts'
 
 const aboutFields = [
   [ 'version', 'Shabad OS Version' ],
@@ -31,6 +33,19 @@ const About = ( { connected } ) => {
 
   return (
     <List className="about">
+      <ListItem>
+        <Grid container>
+          <Grid item xs={6}><Typography variant="body2">Server Address</Typography></Grid>
+          <Grid item xs={6}>
+            <Typography>
+              {Object.entries( about.addresses ).map( ( [ name, address ] ) => (
+                <Typography>{`${address}:${BACKEND_PORT} (${name})`}</Typography>
+              ) )}
+            </Typography>
+          </Grid>
+        </Grid>
+      </ListItem>
+
       {aboutFields.map( ( [ key, name ] ) => (
         <ListItem key={key}>
           <Grid container>
