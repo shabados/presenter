@@ -8,6 +8,7 @@
 
 .overlay-line .english, .overlay-line .spanish {
   font-family: "Noto Sans Medium", sans-serif;
+  font-weight: 700;
 }
 
 .overlay-line .punjabi {
@@ -22,10 +23,6 @@
 .overlay-line .urdu {
   font-family: "Noto Sans Nastaliq Urdu";
   direction: rtl;
-}
-
-.overlay-line .english.transliteration {
-  font-family: "Noto Sans Regular", sans-serif;
 }
 
 .overlay-line .gurmukhi .word:after,
