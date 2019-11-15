@@ -8,7 +8,7 @@ import { getTranslation, getTransliteration } from '../lib/utils'
 
 import './index.css'
 
-const Overlay = ( { shabad, bani, lineId, settings, connected } ) => {
+const Overlay = ( { shabad, bani, lineId, recommendedSources, settings, connected } ) => {
   const { local: localSettings } = settings || {}
   const { sources } = localSettings || {}
 
@@ -19,7 +19,13 @@ const Overlay = ( { shabad, bani, lineId, settings, connected } ) => {
   const lineIndex = lines.findIndex( ( { id } ) => lineId === id )
   const line = lineIndex > -1 ? lines[ lineIndex ] : null
 
-  const getTranslationFor = languageId => getTranslation( { shabad, sources, line, languageId } )
+  const getTranslationFor = languageId => getTranslation( {
+    shabad,
+    recommendedSources,
+    sources,
+    line,
+    languageId,
+  } )
 
   const getTransliterationFor = languageId => getTransliteration( line, languageId )
 
@@ -51,6 +57,7 @@ Overlay.propTypes = {
     lines: arrayOf( shape( Line.PropTypes ) ),
   } ),
   settings: shape( {} ).isRequired,
+  recommendedSources: shape( { nameEnglish: string } ).isRequired,
   connected: bool.isRequired,
 }
 
