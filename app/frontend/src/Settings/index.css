@@ -21,14 +21,17 @@
   transition: 0.3s all;
   margin-left: 20px;
 }
-  
-.menu > div {
-  height: 100%;
-  background-color: var(--settings-menu-background-color);
-  transition: 0.3s all;
-  }
 
-.menu .icon {
+.menu .MuiDrawer-paper {
+  background-color: var(--settings-menu-background-color);
+  min-height: 100%;
+}
+
+.open.mobile.menu {
+  width: 200px;
+}
+
+.menu .icon, .menu.icon {
   color: var(--settings-menu-icon-color);
   width: 30px;
   font-size: 20px;
@@ -41,13 +44,13 @@
   text-transform: uppercase;
   font-size: 0.875rem !important;
   transition: 0.3s all;
-  }
-  
+}
+
 .item .text span {
   color: var(--settings-menu-text-color);
   transition: 0.3s all;
 }
-  
+
 .settings main {
   display: flex;
   min-height: fit-content;
@@ -58,8 +61,9 @@
   height: 100%;
   transition: 0.3s all;
 }
-  
-.settings main p, .settings main svg {
+
+.settings main p,
+.settings main svg {
   color: var(--settings-text-color) !important;
 }
 
@@ -89,6 +93,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
