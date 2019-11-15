@@ -193,12 +193,12 @@ class Controller extends EventEmitter {
 
       settings = { local: this.readSettings( true ) }
 
-      // Transmit all settings
-      // this.emit( 'settings:all', settings )
+      this.emit( 'settings:all', settings )
     } else {
       settings = { [ host ]: changed }
     }
 
+    // Transmit all settings
     this.sendJSON( 'settings:all', settings )
   }
 
