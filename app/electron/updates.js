@@ -3,7 +3,6 @@ import { app } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 import logger from '../lib/logger'
-import { isWindows } from '../lib/consts'
 
 let updateChannelSet = false
 let installOnQuit = false
