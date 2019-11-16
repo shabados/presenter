@@ -6,6 +6,7 @@ import logger from '../lib/logger'
 import { isWindows } from '../lib/consts'
 
 let updateChannelSet = false
+let installOnQuit = false
 
 export const initUpdates = server => {
   autoUpdater.logger = logger
@@ -16,11 +17,16 @@ export const initUpdates = server => {
   autoUpdater.on( 'update-downloaded', info => {
     server.send( { event: 'update-downloaded', payload: info } )
 
-    //* Override app handler to visually show installer
-    app.on( 'will-quit', event => {
-      if ( isWindows ) event.preventDefault()
-      autoUpdater.quitAndInstall( false, false )
-    } )
+    // Do not register the will-quit event handler more than once
+    if ( !installOnQuit ) {
+      installOnQuit = true
+
+      //* Override app handler to visually show installer
+      app.on( 'will-quit', event => {
+        if ( isWindows ) event.preventDefault()
+        autoUpdater.quitAndInstall( false, false )
+      } )
+    }
   } )
 }
 
