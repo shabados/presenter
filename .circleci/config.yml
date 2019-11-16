@@ -34,7 +34,7 @@ publish: &publish
     - run: 
         name: Determine if pre-release
         command: |-
-          (cat app/package.json | grep -Eq '"version": ".+\..+\..+-.*"') && EP_PRE_RELEASE=true
+          (cat app/package.json | grep -Eq '"version": ".+\..+\..+-.*"') && EP_PRE_RELEASE=true || true
     - run:
         name: Publish application
         command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG} -p always
