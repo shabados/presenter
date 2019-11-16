@@ -22,10 +22,7 @@ export const initUpdates = server => {
       installOnQuit = true
 
       //* Override app handler to visually show installer
-      app.on( 'will-quit', event => {
-        if ( isWindows ) event.preventDefault()
-        autoUpdater.quitAndInstall( false, false )
-      } )
+      app.on( 'will-quit', () => autoUpdater.quitAndInstall( false, false ) )
     }
   } )
 }
