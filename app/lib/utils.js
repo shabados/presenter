@@ -3,7 +3,7 @@
  * @ignore
  */
 
-import { hostname } from 'os'
+import { hostname, networkInterfaces } from 'os'
 import { reverse } from 'dns'
 import { ensureDirSync, readdir } from 'fs-extra'
 import { promisify } from 'util'
@@ -33,6 +33,19 @@ export const getHost = async hybridIP => {
     return ip
   }
 }
+
+/**
+ * Retrieves all networked interface IPv4 addersses.
+ *! Assumes that networked interfaces always have Ethernet, Wifi, en, eth, wlan.
+ */
+export const getNetworkedAddresses = () => Object.entries( networkInterfaces() )
+  .filter( ( [ name ] ) => name.match( /^(ethernet|wifi|en|eth|wlan)/i ) )
+  .reduce( ( interfaces, [ name, addresses ] ) => {
+    const { address } = addresses.find( ( { family, internal } ) => !internal && family === 'IPv4' ) || {}
+
+    return address ? { ...interfaces, [ name ]: address } : interfaces
+  }, {} )
+
 
 /**
  * Lists all CSS files in the given path.

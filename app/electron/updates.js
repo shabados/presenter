@@ -3,7 +3,9 @@ import { app } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 import logger from '../lib/logger'
-import { isWindows } from '../lib/consts'
+
+let updateChannelSet = false
+let installOnQuit = false
 
 export const initUpdates = server => {
   autoUpdater.logger = logger
@@ -14,15 +16,23 @@ export const initUpdates = server => {
   autoUpdater.on( 'update-downloaded', info => {
     server.send( { event: 'update-downloaded', payload: info } )
 
-    //* Override app handler to visually show installer
-    app.on( 'will-quit', event => {
-      if ( isWindows ) event.preventDefault()
-      autoUpdater.quitAndInstall( false, false )
-    } )
+    // Do not register the will-quit event handler more than once
+    if ( !installOnQuit ) {
+      installOnQuit = true
+
+      //* Override app handler to visually show installer
+      app.on( 'will-quit', () => autoUpdater.quitAndInstall( false, false ) )
+    }
   } )
 }
 
 export const checkUpdates = async server => {
+  // Wait until the channel has been configured
+  if ( !updateChannelSet ) {
+    setTimeout( () => checkUpdates( server ), 1000 )
+    return
+  }
+
   logger.info( 'Checking for app updates, beta:', autoUpdater.allowPrerelease )
 
   await autoUpdater.checkForUpdates().catch( logger.error )
@@ -30,4 +40,7 @@ export const checkUpdates = async server => {
   server.send( { event: 'update-checked' } )
 }
 
-export const setBeta = beta => { autoUpdater.allowPrerelease = beta }
+export const setBeta = beta => {
+  autoUpdater.allowPrerelease = beta
+  updateChannelSet = true
+}

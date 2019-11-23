@@ -1,3 +1,7 @@
+/* eslint-disable
+  jsx-a11y/click-events-have-key-events,
+  jsx-a11y/no-noninteractive-element-interactions
+*/
 import React, { Component } from 'react'
 import { hot } from 'react-hot-loader/root'
 import { Redirect, Link, Switch, Route } from 'react-router-dom'
@@ -11,6 +15,7 @@ import {
   IconButton,
   Typography,
   Drawer,
+  SwipeableDrawer,
   Hidden,
   List,
   ListItem,
@@ -63,7 +68,9 @@ class Settings extends Component {
       } )
   }
 
-  toggleMobileMenu = () => this.setState( ( { mobileOpen } ) => ( { mobileOpen: !mobileOpen } ) )
+  openMobileMenu = () => this.setState( { mobileOpen: true } )
+
+  closeMobileMenu = () => this.setState( { mobileOpen: false } )
 
   MenuItems = () => {
     const { device } = this.state
@@ -72,7 +79,7 @@ class Settings extends Component {
     const group = pathname.split( '/' ).pop()
 
     const Item = ( { name, icon, selected, url = SETTINGS_URL } ) => (
-      <Link to={url} onClick={this.toggleMobileMenu}>
+      <Link to={url} onClick={this.closeMobileMenu}>
         <ListItem disableRipple selected={selected} className="item" key={name} button>
           <ListItemIcon>
             <FontAwesomeIcon className="icon" icon={icon} />
@@ -83,7 +90,7 @@ class Settings extends Component {
     )
 
     return (
-      <List>
+      <List className="content">
         <Select
           className="select-menu device-selector category-title"
           onChange={( { target: { value } } ) => this.setState( { device: value } )}
@@ -134,9 +141,15 @@ class Settings extends Component {
     const { mobileOpen } = this.state
 
     return (
-      <Drawer className="mobile menu" variant="temporary" open={mobileOpen} onClose={this.toggleMobileMenu} ModalProps={{ keepMounted: true }}>
+      <SwipeableDrawer
+        className={classNames( { open: mobileOpen }, 'mobile menu' )}
+        open={mobileOpen}
+        onOpen={this.openMobileMenu}
+        onClose={this.closeMobileMenu}
+        ModalProps={{ keepMounted: true }}
+      >
         <this.MenuItems />
-      </Drawer>
+      </SwipeableDrawer>
     )
   }
 
@@ -184,8 +197,8 @@ class Settings extends Component {
     <AppBar className="title-bar" position="static">
       <Toolbar>
         <Hidden mdUp>
-          <IconButton onClick={this.toggleMobileMenu}>
-            <FontAwesomeIcon icon={faBars} />
+          <IconButton onClick={this.openMobileMenu}>
+            <FontAwesomeIcon className="menu icon" icon={faBars} />
           </IconButton>
         </Hidden>
         <Typography className="title" align="center" variant="h6">{title}</Typography>
@@ -210,7 +223,7 @@ class Settings extends Component {
         <this.Titlebar title={group} />
         <Hidden smUp><this.MobileMenu /></Hidden>
         <Hidden xsDown implementation="css"><this.DesktopMenu /></Hidden>
-        <main>
+        <main onClick={this.closeMobileMenu}>
           <Switch>
             <Redirect exact from={SETTINGS_DEVICE_URL} to={defaultUrl} />
             <Route

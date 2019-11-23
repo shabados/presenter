@@ -4,7 +4,7 @@ import { hostname, platform, arch, cpus } from 'os'
 import { readJSON } from 'fs-extra'
 
 import { CUSTOM_THEMES_FOLDER, APP_FOLDER, FRONTEND_THEMES_FOLDER, DATABASE_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, OVERLAY_THEMES_FOLDER } from './consts'
-import { listCSSFiles } from './utils'
+import { listCSSFiles, getNetworkedAddresses } from './utils'
 import { getSources, getLanguages } from './db'
 
 const api = Router()
@@ -33,6 +33,7 @@ api.get( '/about', ( _, res ) => Promise.all( [
   arch: arch(),
   cpus: `${cpus().length}x ${cpus()[ 0 ].model}`,
   platform: platform(),
+  addresses: getNetworkedAddresses(),
 } ) ) )
 
 // Gurbani Sources, with possible and recommended translations

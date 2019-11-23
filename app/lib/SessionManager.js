@@ -79,7 +79,7 @@ class SessionManager {
     client.sendJSON( 'status', status )
     client.sendJSON( 'history:transitions', history.getTransitionsOnly() )
     client.sendJSON( 'history:latest-lines', history.getLatestLines() )
-    client.sendJSON( 'settings:all', this.getPublicSettings() )
+    client.sendJSON( 'settings:all', this.getClientSettings( client, this.getPublicSettings() ) )
   }
 
   /**
@@ -283,6 +283,17 @@ class SessionManager {
     this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
   }
 
+  getClientSettings( client, publicSettings ) {
+    const { host } = client
+
+    return {
+      ...publicSettings,
+      [ host ]: undefined, // Remove entry for own host
+      local: this.session.settings[ host ], // Map host settings to `local` field
+      global: settingsManager.get(), // Map server settings to `global field
+    }
+  }
+
   /**
    * Sets the settings for a given client.
    * ! This will not work for any clients that have the hostnames of `local` or `global`.
@@ -309,15 +320,7 @@ class SessionManager {
     const publicSettings = this.getPublicSettings()
 
     // Rebroadcast all settings, transforming fields appropriately
-    this.socket.forEach( client => {
-      const { host } = client
-      client.sendJSON( 'settings:all', {
-        ...publicSettings,
-        [ host ]: undefined, // Remove entry for own host
-        local: this.session.settings[ host ], // Map host settings to `local` field
-        global: settingsManager.get(), // Map server settings to `global field
-      } )
-    } )
+    this.socket.forEach( client => client.sendJSON( 'settings:all', this.getClientSettings( client, publicSettings ) ) )
   }
 
   /**
