@@ -117,6 +117,7 @@ export const OPTIONS = {
   disconnectionEvents: { name: 'Disconnections', icon: faPowerOff, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadEvents: { name: 'Update Download', icon: faDownload, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadedEvents: { name: 'Update Download Complete', icon: faServer, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  overlayThemeName: { name: 'Overlay Theme Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.global },
 }
 
 // Possible options groups
@@ -226,6 +227,17 @@ export const DEFAULT_OPTIONS = {
       disconnectionEvents: false,
       downloadEvents: true,
       downloadedEvents: true,
+    },
+    overlay: {
+      overlayThemeName: 'Branded (Full)',
+      larivaarGurbani: false,
+      larivaarAssist: false,
+      englishTranslation: true,
+      spanishTranslation: false,
+      punjabiTranslation: false,
+      englishTransliteration: true,
+      hindiTransliteration: false,
+      urduTransliteration: false,
     },
   },
 }
