@@ -24,7 +24,7 @@ export const APP_FOLDER = join( __dirname, '..' )
 export const FRONTEND_FOLDER = join( APP_FOLDER, 'frontend' )
 export const FRONTEND_SRC_FOLDER = join( FRONTEND_FOLDER, 'src' )
 export const FRONTEND_BUILD_FOLDER = join( FRONTEND_FOLDER, 'build' )
-export const OVERLAY_THEMES_FOLDER = join( FRONTEND_FOLDER, 'overlay-themes' )
+export const FRONTEND_OVERLAY_THEMES_FOLDER = join( FRONTEND_SRC_FOLDER, 'overlay-themes' )
 export const FRONTEND_THEMES_FOLDER = join( FRONTEND_SRC_FOLDER, 'themes' )
 export const DATABASE_FOLDER = join( APP_FOLDER, 'node_modules', '@shabados', 'database' )
 
