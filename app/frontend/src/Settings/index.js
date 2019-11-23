@@ -66,6 +66,14 @@ class Settings extends Component {
         OPTIONS.themeName.values = themes.map( theme => ( { name: theme, value: theme } ) )
         this.setState( {} )
       } )
+
+    // Fetch list of overlay themes from server
+    fetch( `${BACKEND_URL}/overlay/themes` )
+      .then( res => res.json() )
+      .then( themes => {
+        OPTIONS.overlayThemeName.values = themes.map( theme => ( { name: theme, value: theme } ) )
+        this.setState( {} )
+      } )
   }
 
   openMobileMenu = () => this.setState( { mobileOpen: true } )
