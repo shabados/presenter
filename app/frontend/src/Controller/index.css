@@ -12,12 +12,10 @@
 
 .controller button {
   font-size: 1em;
-  margin: 0 0.5em;
-  width: 1.25em;
-  height: 1.25em;
   color: var(--controller-bar-text-color);
   transition: 0.3s all;
-  padding: 0;
+  padding: .5em;
+  margin: .2em;
 }
 
 .controller .name,
