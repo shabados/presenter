@@ -36,3 +36,12 @@
 .search .results .result .matched.words {
   color: var(--controller-search-match-color);
 }
+
+@media only screen and (min-device-width: 320px)
+                   and (max-device-width: 450px),
+       only screen and (min-device-height: 320px)
+                   and (max-device-height: 450px) {
+  .search .input {
+    min-height: 3.2em;
+  }
+}
