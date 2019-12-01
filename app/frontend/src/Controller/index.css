@@ -39,14 +39,14 @@
 
 .controller .bar {
   padding: 0;
-  min-height: 2.25em;
+  min-height: inherit;
   background-color: var(--controller-bar-background-color);
   transition: 0.3s all;
 }
 
 /* All subcomponents */
 .controller .content {
-  height: 100%;
+  flex-grow: 1;
   z-index: 1;
   overflow: hidden;
   background-color: var(--controller-background-color);
