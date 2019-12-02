@@ -10,6 +10,8 @@
   --animation-sleepy-duration: calc(2*var(--animation-line-delay));
   --overscan-vertical-padding: 5vh;
   --overscan-horizontal-padding: 5vw;
+  --mobile-min-breakpoint: var(--mobile-min-breakpoint);
+  --mobile-max-breakpoint: var(--mobile-max-breakpoint);
 }
 
 html,

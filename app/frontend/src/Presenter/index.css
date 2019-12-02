@@ -47,10 +47,10 @@
   }
 }
 
-@media only screen and (min-device-width: 320px)
-                   and (max-device-width: 450px),
-       only screen and (min-device-height: 320px)
-                   and (max-device-height: 450px) {
+@media only screen and (min-device-width: var(--mobile-min-breakpoint))
+                   and (max-device-width: var(--mobile-max-breakpoint)),
+       only screen and (min-device-height: var(--mobile-min-breakpoint))
+                   and (max-device-height: var(--mobile-max-breakpoint)) {
 
   .presenter .controller-container {
     font-size: 1.275rem
