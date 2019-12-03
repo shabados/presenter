@@ -21,7 +21,7 @@ class Analytics {
    * Loads Sentry.
    */
   async initialise() {
-    // if ( isDev || !settings.get( 'system.serverAnalytics' ) ) return
+    if ( isDev || !settings.get( 'system.serverAnalytics' ) ) return
 
     await this.initSentry()
   }
