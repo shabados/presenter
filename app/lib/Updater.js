@@ -12,7 +12,7 @@ import settings from './settings'
 import { DATABASE_FOLDER, electronVersion } from './consts'
 import { sendToElectron } from './utils.js'
 
-const databasePackage = `@syhabados/database@${dependencies[ '@shabados/database' ]}`
+const databasePackage = `@shabados/database@${dependencies[ '@shabados/database' ]}`
 
 class Updater extends EventEmitter {
   constructor( { tempFolder, interval } ) {
