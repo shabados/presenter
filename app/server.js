@@ -24,6 +24,8 @@ import {
 } from './lib/consts'
 import { ensureRequiredDirs, notify, sendToElectron } from './lib/utils'
 
+import { version } from './package.json'
+
 
 /**
  * Sets up updates.
@@ -60,7 +62,7 @@ const initialiseUpdater = sessionManager => {
  * Async entry point for application.
  */
 async function main() {
-  logger.info( 'Starting...' )
+  logger.info( `Starting Shabad OS ${version}` )
 
   analytics.initialise()
 
