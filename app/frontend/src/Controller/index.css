@@ -30,9 +30,11 @@
   transition: 0.3s all;
 }
 
-.controller button:hover,
-.controller .name:hover {
-  color: var(--controller-bar-text-hover-color);
+@media (hover:hover) {
+  .controller button:hover,
+  .controller .name:hover {
+    color: var(--controller-bar-text-hover-color);
+  }
 }
 
 .controller .bar {
@@ -79,15 +81,17 @@
   transition: 0.3s all;
 }
 
-.controller .content li:not(.focused):hover {
-  background-color: var(--controller-hover-background-color);
-  color: var(--controller-text-hover-color);
-  transition: 0.3s all;
-}
-
-.controller .content li.focused:hover {
-  background-color: var(--controller-selected-hover-background-color);
-  transition: 0.3s all;
+@media (hover:hover) {
+  .controller .content li:not(.focused):hover {
+    background-color: var(--controller-hover-background-color);
+    color: var(--controller-text-hover-color);
+    transition: 0.3s all;
+  }
+  
+  .controller .content li.focused:hover {
+    background-color: var(--controller-selected-hover-background-color);
+    transition: 0.3s all;
+  }
 }
 
 .controller .content .meta {
@@ -147,16 +151,6 @@
     padding: .8em;
     min-height: 2.91em; /* font-size is 1.1 .:. 1.6*2/1.1 */
     border-bottom: 1px solid var(--controller-hover-background-color);
-  }
-
-  .controller .content li:not(.focused):hover {
-    /* this should be removed once there is better handling of hover on mobile devices
-        currently will not remove hover state even if focusing same or other lines */
-    background-color: inherit;
-  }
-
-  .controller .content li.focused:hover {
-    background-color: var(--controller-selected-background-color);
   }
 
   .controller .content .meta {
