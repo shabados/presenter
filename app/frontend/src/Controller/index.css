@@ -31,10 +31,12 @@
 }
 
 @media (hover:hover) {
+
   .controller button:hover,
   .controller .name:hover {
     color: var(--controller-bar-text-hover-color);
   }
+
 }
 
 .controller .bar {
@@ -82,6 +84,7 @@
 }
 
 @media (hover:hover) {
+
   .controller .content li:not(.focused):hover {
     background-color: var(--controller-hover-background-color);
     color: var(--controller-text-hover-color);
@@ -92,6 +95,7 @@
     background-color: var(--controller-selected-hover-background-color);
     transition: 0.3s all;
   }
+
 }
 
 .controller .content .meta {
@@ -153,8 +157,4 @@
     border-bottom: 1px solid var(--controller-hover-background-color);
   }
 
-  .controller .content .meta {
-    display: none;
-  }
-  
 }
