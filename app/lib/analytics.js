@@ -6,6 +6,7 @@
 /* eslint-disable class-methods-use-this */
 import * as Sentry from '@sentry/node'
 import { readJSON } from 'fs-extra'
+import { cpus, freemem, totalmem, platform, networkInterfaces } from 'os'
 
 import logger from './logger'
 import settings from './settings'
@@ -20,7 +21,7 @@ class Analytics {
    * Loads Sentry.
    */
   async initialise() {
-    if ( isDev || !settings.get( 'system.serverAnalytics' ) ) return
+    // if ( isDev || !settings.get( 'system.serverAnalytics' ) ) return
 
     await this.initSentry()
   }
@@ -33,7 +34,7 @@ class Analytics {
     logger.info( 'Enabling Sentry error reporting' )
 
     // Set the sentry release
-    const { version } = await readJSON( 'package.', 'utf-8' )
+    const { version } = await readJSON( 'package.json', 'utf-8' )
     const release = `${SENTRY_PROJECT}@${version}`
 
     Sentry.init( { dsn: SENTRY_DSN, release } )
@@ -42,6 +43,14 @@ class Analytics {
   sendException( error ) {
     Sentry.withScope( scope => {
       scope.setExtra( 'settings', settings.get() )
+      scope.setExtra( 'system', {
+        cpus: cpus(),
+        freeMemory: freemem(),
+        totalMemory: totalmem(),
+        platform: platform(),
+        networkInterfaces: networkInterfaces(),
+      } )
+
       Sentry.captureException( error )
     } )
   }
