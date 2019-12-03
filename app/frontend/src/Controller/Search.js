@@ -166,7 +166,12 @@ class Search extends Component {
           placeholder="Koj"
           disableUnderline
           autoFocus
-          spellCheck={false}
+          inputProps={{
+            spellCheck: false,
+            autoCapitalize: 'off',
+            autoCorrect: 'off',
+            autoComplete: 'off',
+          }}
         />
         <List className="results">
           {results
