@@ -51,8 +51,8 @@
 
 /* All subcomponents */
 .controller .content {
-  flex-grow: 1;
   z-index: 1;
+  height: 100%;
   overflow: hidden;
   background-color: var(--controller-background-color);
   transition: 0.3s all;
