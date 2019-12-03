@@ -51,3 +51,4 @@ export const PORT = !isDev ? 1699 : 42425
 
 // Sentry Data Source Name
 export const SENTRY_DSN = 'https://bd6e4bbf9db44f5b8e9cb8f0eeaa950a@sentry.io/1363382'
+export const SENTRY_PROJECT = 'desktop-backend'
