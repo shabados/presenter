@@ -38,10 +38,10 @@ if ( isDev ) {
     onReady()
 
     // Pretend setting updates are sent over
-    setInterval( () => {
+    setInterval( async () => {
       // eslint-disable-next-line global-require
       const settings = require( '../lib/settings' ).default
-      settings.loadSettings()
+      await settings.loadSettings()
 
       onSettingsChange( settings.get() )
     }, 1000 )

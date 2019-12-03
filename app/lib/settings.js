@@ -4,7 +4,7 @@
  */
 
 import { EventEmitter } from 'events'
-import { readJSONSync, writeJSON, writeJSONSync, ensureFileSync } from 'fs-extra'
+import { readJSON, writeJSON, ensureFile } from 'fs-extra'
 import merge from 'deepmerge'
 
 import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts'
@@ -21,24 +21,23 @@ class Settings extends EventEmitter {
   constructor() {
     super()
     this.settings = {}
-
-    logger.info( `Loading settings from ${SETTINGS_FILE}` )
-    this.loadSettings()
   }
 
   /**
    * Loads settings, merging them with the defaults.
    */
-  loadSettings() {
+  async loadSettings() {
+    logger.info( `Loading settings from ${SETTINGS_FILE}` )
+
     // Load both settings files
-    const defaultSettings = readJSONSync( DEFAULT_SETTINGS_FILE )
-    const settings = Settings.checkCreateSettings()
+    const defaultSettings = await readJSON( DEFAULT_SETTINGS_FILE )
+    const settings = await Settings.checkCreateSettings()
 
     // Merge and store them
     this.settings = merge( defaultSettings, settings )
 
     // Save them for good measure
-    this.saveSettings()
+    await this.saveSettings()
   }
 
   /**
@@ -84,14 +83,14 @@ class Settings extends EventEmitter {
    * @static
    * @returns {Object} An object containing the settings.
    */
-  static checkCreateSettings() {
+  static async checkCreateSettings() {
     // If we can't read the JSON file, recreate it
     try {
-      return readJSONSync( SETTINGS_FILE )
+      return readJSON( SETTINGS_FILE )
     } catch ( err ) {
       logger.warn( 'Settings file is corrupt or non-existent. Recreating', SETTINGS_FILE )
-      ensureFileSync( SETTINGS_FILE )
-      writeJSONSync( SETTINGS_FILE, {} )
+      await ensureFile( SETTINGS_FILE )
+      await writeJSON( SETTINGS_FILE, {} )
       return {}
     }
   }

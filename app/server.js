@@ -64,6 +64,9 @@ const initialiseUpdater = sessionManager => {
 async function main() {
   logger.info( `Starting Shabad OS ${version}` )
 
+  // Load backend settings
+  await settings.loadSettings()
+
   analytics.initialise()
 
   // Check if the data directories for the app exists, otherwise create it
