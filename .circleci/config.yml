@@ -109,6 +109,24 @@ jobs:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
 
+  tag-sentry:
+    docker:
+      - image: getsentry/sentry-cli
+    working_directory: ~/work
+    steps:
+      - checkout
+      - run: |
+          # Download JQ
+          apk --no-cache add jq
+
+          # Extract version
+          VERSION=$(cat app/package.json | jq .version)
+          
+          # Tag and finalise commits
+          sentry-cli releases new -p desktop-backend -p desktop-frontend $VERSION
+          sentry-cli releases set-commits --auto $VERSION
+          sentry-cli releases finalize VERSION
+
 ## Workflow
 
 build-workflow: &build-workflow
@@ -156,3 +174,9 @@ workflows:
       - publish-linux:
           <<: *publish-workflow
 
+
+      - tag-sentry:
+          requires:
+            - publish-windows
+            - publish-linux
+            - publish-mac
