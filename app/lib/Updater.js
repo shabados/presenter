@@ -127,7 +127,7 @@ class Updater extends EventEmitter {
 
     const fn = enabled ? updateFunction : () => Promise.resolve()
 
-    await fn().catch( logger.error )
+    await fn().catch( error => logger.error( error ) )
     setTimeout( () => this.updateLoop( updateFunction ), this.interval )
   }
 }
