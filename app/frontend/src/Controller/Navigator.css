@@ -28,5 +28,8 @@
   .navigator .text {
     white-space: inherit;
   }
-  
+
+  .navigator-controls .line-counter {
+    display: none;
+  }
 }
