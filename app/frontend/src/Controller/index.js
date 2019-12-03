@@ -201,7 +201,7 @@ class Controller extends Component {
 
     this.state = {
       hovered: null,
-      lastUrl: `${SEARCH_URL}${search}`,
+      lastUrl: `${NAVIGATOR_URL}${search}`,
     }
   }
 
