@@ -5,7 +5,7 @@
 
 import { hostname, networkInterfaces } from 'os'
 import { reverse } from 'dns'
-import { ensureDir, readdir } from 'fs-extra'
+import { ensureDir, readdir, chmod } from 'fs-extra'
 import { promisify } from 'util'
 import { extname } from 'path'
 import notifier from 'node-notifier'
@@ -72,7 +72,7 @@ export const ensureRequiredDirs = async () => {
     CUSTOM_OVERLAY_THEMES_FOLDER,
     HISTORY_FOLDER,
     TMP_FOLDER,
-  ].map( dir => ensureDir( dir, dirPerms ) ) )
+  ].map( dir => ensureDir( dir, dirPerms ).then( () => chmod( dir, '755' ) ) ) )
 }
 
 /**

@@ -64,13 +64,14 @@ const initialiseUpdater = sessionManager => {
 async function main() {
   logger.info( `Starting Shabad OS ${version}` )
 
+  // Check if the data directories for the app exists, otherwise create it
+  await ensureRequiredDirs()
+
   // Load backend settings
   await settings.loadSettings()
 
+  // Initialise analytics
   analytics.initialise()
-
-  // Check if the data directories for the app exists, otherwise create it
-  await ensureRequiredDirs()
 
   // Setup the express server with WebSockets
   const mounts = [
