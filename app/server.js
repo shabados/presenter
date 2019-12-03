@@ -67,7 +67,7 @@ async function main() {
   analytics.initialise()
 
   // Check if the data directories for the app exists, otherwise create it
-  ensureRequiredDirs()
+  await ensureRequiredDirs()
 
   // Setup the express server with WebSockets
   const mounts = [
@@ -80,7 +80,7 @@ async function main() {
     { prefix: '*', dir: join( FRONTEND_BUILD_FOLDER, 'index.html' ) },
   ]
 
-  const server = await setupExpress( mounts, [ cors(), api ] )
+  const server = setupExpress( mounts, [ cors(), api ] )
 
   // Setup the websocket server
   const socket = new Socket( server )
