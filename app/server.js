@@ -20,7 +20,7 @@ import {
   UPDATE_CHECK_INTERVAL,
   FRONTEND_BUILD_FOLDER,
   FRONTEND_THEMES_FOLDER,
-  OVERLAY_THEMES_FOLDER,
+  FRONTEND_OVERLAY_THEMES_FOLDER,
   isDev,
 } from './lib/consts'
 import { ensureRequiredDirs, notify, sendToElectron } from './lib/utils'
@@ -74,7 +74,7 @@ async function main() {
     { prefix: '/themes', dir: FRONTEND_THEMES_FOLDER },
     { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
     { prefix: '/themes/*', dir: join( FRONTEND_THEMES_FOLDER, 'Day.css' ) },
-    { prefix: '/overlay/themes', dir: OVERLAY_THEMES_FOLDER },
+    { prefix: '/overlay/themes', dir: FRONTEND_OVERLAY_THEMES_FOLDER },
     { prefix: '/overlay/themes/', dir: CUSTOM_OVERLAY_THEMES_FOLDER },
     { prefix: '/history.csv', dir: HISTORY_FILE },
     { prefix: '*', dir: join( FRONTEND_BUILD_FOLDER, 'index.html' ) },
