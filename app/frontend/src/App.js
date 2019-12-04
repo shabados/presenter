@@ -2,8 +2,9 @@ import React, { PureComponent, lazy, Suspense } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { configure } from 'react-hotkeys'
 import { hot } from 'react-hot-loader/root'
+import classNames from 'classnames'
 
-import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, PRESENTER_URL, BACKEND_URL } from './lib/consts'
+import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, PRESENTER_URL, BACKEND_URL, isMobile, isTablet, isDesktop } from './lib/consts'
 import { DEFAULT_OPTIONS } from './lib/options'
 import { merge } from './lib/utils'
 import controller from './lib/controller'
@@ -132,7 +133,7 @@ class App extends PureComponent {
 
   render() {
     return (
-      <div className="app">
+      <div className={classNames( { mobile: isMobile, tablet: isTablet, desktop: isDesktop }, 'app' )}>
         <Suspense fallback={<Loader />}>
           <Router>
             <Switch>

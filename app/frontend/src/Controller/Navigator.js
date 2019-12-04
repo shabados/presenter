@@ -238,7 +238,13 @@ export const Bar = props => {
         onMouseLeave={resetHover}
         onClick={onUpClick}
       />
-      {lines ? `${lines.findIndex( ( { id } ) => id === lineId ) + 1}/${lines.length}` : null}
+
+      <span className="line-counter">
+        {lines
+          ? `${lines.findIndex( ( { id } ) => id === lineId ) + 1}/${lines.length}`
+          : null}
+      </span>
+
       <ToolbarButton
         name="Down"
         icon={faChevronDown}
@@ -246,6 +252,7 @@ export const Bar = props => {
         onMouseLeave={resetHover}
         onClick={onDownClick}
       />
+
       {shabad && (
       <ToolbarButton
         className="autoselect"

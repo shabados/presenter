@@ -36,3 +36,8 @@
 .search .results .result .matched.words {
   color: var(--controller-search-match-color);
 }
+
+.mobile .search .input,
+.tablet .search .input {
+  min-height: 3.2em;
+}

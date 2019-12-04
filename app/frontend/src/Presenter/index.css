@@ -13,16 +13,10 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  font-size: .875rem;
+  font-size: 1rem;
   height: 20em;
   width: 30em;
   max-width: 100%;
-}
-
-@media only screen and (max-device-width: 960px) {
-  .presenter .controller-container {
-    font-size: 1.275rem
-  }
 }
 
 .presenter .controller-container .expand-icon {
@@ -51,4 +45,9 @@
   to {
     opacity: 1;
   }
+}
+
+.mobile .presenter .controller-container,
+.tablet .presenter .controller-container {
+  font-size: 1.275rem;
 }

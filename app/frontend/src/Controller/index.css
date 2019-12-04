@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  font-size: .875rem;
+  font-size: .875em;
 }
 
 .simple.controller * {
@@ -12,18 +12,16 @@
 
 .controller button {
   font-size: 1em;
-  margin: 0 0.5em;
-  width: 1.25em;
-  height: 1.25em;
   color: var(--controller-bar-text-color);
   transition: 0.3s all;
-  padding: 0;
+  padding: .5em;
+  margin: .2em;
 }
 
 .controller .name,
 .controller .middle {
   text-align: center;
-  flex: 1;
+  flex: 1 auto;
   font-family: "Noto Sans Regular", sans-serif;
   font-weight: 600;
   text-transform: capitalize;
@@ -32,22 +30,25 @@
   transition: 0.3s all;
 }
 
-.controller button:hover,
-.controller .name:hover {
+.destkop .controller button:hover,
+.desktop .controller .name:hover {
   color: var(--controller-bar-text-hover-color);
 }
 
 .controller .bar {
   padding: 0;
-  min-height: 2.25em;
+  min-height: inherit;
   background-color: var(--controller-bar-background-color);
   transition: 0.3s all;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  justify-content: center;
 }
 
 /* All subcomponents */
 .controller .content {
-  height: 100%;
   z-index: 1;
+  height: 100%;
   overflow: hidden;
   background-color: var(--controller-background-color);
   transition: 0.3s all;
@@ -79,13 +80,13 @@
   transition: 0.3s all;
 }
 
-.controller .content li:not(.focused):hover {
+.desktop .controller .content li:not(.focused):hover {
   background-color: var(--controller-hover-background-color);
   color: var(--controller-text-hover-color);
   transition: 0.3s all;
 }
-
-.controller .content li.focused:hover {
+  
+.desktop .controller .content li.focused:hover {
   background-color: var(--controller-selected-hover-background-color);
   transition: 0.3s all;
 }
@@ -123,4 +124,16 @@
   background-color: var(--controller-selected-background-color);
   color: var(--controller-selected-color);
   transition: 0.3s all;
+}
+
+.mobile .controller button,
+.tablet .controller button {
+  margin: .5em .2em;
+}
+
+.mobile .controller .content li,
+.tablet .controller .content li {
+  padding: .8em;
+  min-height: 2.91em; /* font-size is 1.1 .:. 1.6*2/1.1 */
+  border-bottom: 1px solid var(--controller-hover-background-color);
 }

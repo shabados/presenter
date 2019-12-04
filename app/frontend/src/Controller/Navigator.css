@@ -19,3 +19,12 @@
 .navigator .main.meta, .navigator .next.meta {
   color: red !important;
 }
+
+.mobile .navigator .text,
+.tablet .navigator .text {
+  white-space: inherit;
+}
+
+.mobile.app .navigator-controls .line-counter {
+  display: none;
+}
