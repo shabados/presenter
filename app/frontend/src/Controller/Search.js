@@ -27,10 +27,18 @@ class Search extends Component {
   constructor( props ) {
     super( props )
 
+    // Generate the regex for capturing anchor chars, optionally
+    this.searchRegex = new RegExp( `^([${Object.keys( SEARCH_ANCHORS ).map( anchor => `\\${anchor}` ).join( '' )}])?(.*)` )
+
+    // Set the initial search query from URL
+    const { location: { search } } = this.props
+    const { query = '' } = getUrlState( search )
+    const { anchor, value: inputValue } = this.getSearchParams( query )
+
     this.state = {
       searchedValue: '',
-      inputValue: '',
-      anchor: null,
+      inputValue,
+      anchor,
       results: [],
     }
 
@@ -38,18 +46,16 @@ class Search extends Component {
     this.timeStart = null
     this.timeEnd = null
 
-    // Generate the regex for capturing anchor chars, optionally
-    this.searchRegex = new RegExp( `^([${Object.keys( SEARCH_ANCHORS ).map( anchor => `\\${anchor}` ).join( '' )}])?(.*)` )
+    this.inputRef = null
   }
 
   componentDidMount() {
     controller.on( 'results', this.onResults )
 
-    // Set the initial search query from URL
-    const { location: { search } } = this.props
-    const { query = '' } = getUrlState( search )
+    const { inputValue, anchor } = this.state
+    if ( inputValue ) this.onChange( { target: { value: `${anchor || ''}${inputValue}` } } )
 
-    this.onChange( { target: { value: query } } )
+    this.highlightSearch()
   }
 
   componentWillUnmount() {
@@ -71,6 +77,22 @@ class Search extends Component {
     updateFocus( 0 )
   }
 
+  getSearchParams = searchQuery => {
+    // Extract anchors and search query
+    const [ , anchor, query ] = searchQuery.match( this.searchRegex )
+
+    const inputValue = toAscii( query )
+
+    // Get search type from anchor char, if any
+    const type = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
+
+    const value = type === SEARCH_TYPES.firstLetter
+      ? inputValue.slice().replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '_' )
+      : inputValue
+
+    return { anchor, value, type }
+  }
+
   /**
    * Run on change of value in the search box.
    * Converts ascii to unicode if need be.
@@ -80,24 +102,14 @@ class Search extends Component {
   onChange = ( { target: { value } } ) => {
     const { location: { search }, history } = this.props
 
-    // Extract anchors and search query
-    const [ , anchor, query ] = value.match( this.searchRegex )
-
-    const inputValue = toAscii( query )
-
-    // Get search type from anchor char, if any
-    const searchType = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
+    const { anchor, type: searchType, value: searchValue } = this.getSearchParams( value )
 
     // Search if enough letters
-    const doSearch = inputValue.length >= MIN_SEARCH_CHARS
-
-    const searchValue = searchType === SEARCH_TYPES.firstLetter
-      ? inputValue.slice().replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '_' )
-      : inputValue
+    const doSearch = searchValue.length >= MIN_SEARCH_CHARS
 
     if ( doSearch ) controller.search( searchValue, searchType )
 
-    this.setState( { inputValue, anchor, ...( !doSearch && { results: [] } ) } )
+    this.setState( { inputValue: searchValue, anchor, ...( !doSearch && { results: [] } ) } )
 
     // Update URL with search
     history.push( { search: `?${stringify( {
@@ -152,6 +164,10 @@ class Search extends Component {
     if ( ignoreKeys.includes( event.key ) ) event.preventDefault()
   }
 
+  refocus = ( { target } ) => target.focus()
+
+  highlightSearch = () => this.inputRef.select()
+
   render() {
     const { register, focused } = this.props
     const { inputValue, results, anchor } = this.state
@@ -160,6 +176,8 @@ class Search extends Component {
       <div className="search">
         <Input
           className="input"
+          inputRef={input => { this.inputRef = input }}
+          onBlur={this.refocus}
           onKeyDown={this.filterInputKeys}
           onChange={this.onChange}
           value={`${anchor || ''}${inputValue}`}

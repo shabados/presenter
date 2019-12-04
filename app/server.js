@@ -24,6 +24,8 @@ import {
 } from './lib/consts'
 import { ensureRequiredDirs, notify, sendToElectron } from './lib/utils'
 
+import { version } from './package.json'
+
 
 /**
  * Sets up updates.
@@ -60,12 +62,16 @@ const initialiseUpdater = sessionManager => {
  * Async entry point for application.
  */
 async function main() {
-  logger.info( 'Starting...' )
-
-  analytics.initialise()
+  logger.info( `Starting Shabad OS ${version}` )
 
   // Check if the data directories for the app exists, otherwise create it
-  ensureRequiredDirs()
+  await ensureRequiredDirs()
+
+  // Load backend settings
+  await settings.loadSettings()
+
+  // Initialise analytics
+  analytics.initialise()
 
   // Setup the express server with WebSockets
   const mounts = [
@@ -78,7 +84,7 @@ async function main() {
     { prefix: '*', dir: join( FRONTEND_BUILD_FOLDER, 'index.html' ) },
   ]
 
-  const server = await setupExpress( mounts, [ cors(), api ] )
+  const server = setupExpress( mounts, [ cors(), api ] )
 
   // Setup the websocket server
   const socket = new Socket( server )

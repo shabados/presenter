@@ -33,6 +33,10 @@ class Socket extends EventEmitter {
    */
   onConnection() {
     this.socketServer.on( 'connection', async ( socket, { client } ) => {
+      // Modify the send to stringify first
+      // eslint-disable-next-line
+      socket.sendJSON = ( event, payload ) => socket.send( JSON.stringify( { event, payload } ) )
+
       // Get hostname or proper IP
       // eslint-disable-next-line
       socket.host = await getHost( client.remoteAddress )
@@ -53,10 +57,6 @@ class Socket extends EventEmitter {
       // eslint-disable-next-line
       socket.on( 'pong', () => socket.isAlive = true )
 
-      // Modify the send to stringify first
-      // eslint-disable-next-line
-      socket.sendJSON = ( event, payload ) => socket.send( JSON.stringify( { event, payload } ) )
-
       // Parse the JSON sent, before emitting it
       socket.on( 'message', data => {
         const { event, payload } = JSON.parse( data )
@@ -75,7 +75,7 @@ class Socket extends EventEmitter {
    * @param {WebSocket[]} excludedClients The clients to exclude from the transmission.
    */
   broadcast( event, payload, excludedClients = [] ) {
-    this.forEach( client => client.sendJSON( event, payload ), excludedClients )
+    this.forEach( client => client.sendJSON && client.sendJSON( event, payload ), excludedClients )
   }
 
   /**
@@ -87,6 +87,8 @@ class Socket extends EventEmitter {
     const { clients } = this.socketServer
 
     clients.forEach( client => {
+      if ( !client.sendJSON ) return
+
       // Only include non-excluded clients and open connections
       if ( !excludedClients.includes( client ) && client.readyState === WebSocket.OPEN ) {
         fn( client )

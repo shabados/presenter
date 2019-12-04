@@ -5,7 +5,7 @@
 
 import { hostname, networkInterfaces } from 'os'
 import { reverse } from 'dns'
-import { ensureDirSync, readdir } from 'fs-extra'
+import { ensureDir, readdir, chmod } from 'fs-extra'
 import { promisify } from 'util'
 import { extname } from 'path'
 import notifier from 'node-notifier'
@@ -60,18 +60,19 @@ export const listCSSFiles = async path => {
 /*
  * Creates required filesystem directories for the app to work.
  */
-export const ensureRequiredDirs = () => {
+export const ensureRequiredDirs = async () => {
   const dirPerms = { mode: 0o2775 }
 
-  ;[
-    DATA_FOLDER,
+  // Create top-level folder first
+  await ensureDir( DATA_FOLDER )
+
+  await Promise.all( [
     LOG_FOLDER,
     CUSTOM_THEMES_FOLDER,
     CUSTOM_OVERLAY_THEMES_FOLDER,
     HISTORY_FOLDER,
     TMP_FOLDER,
-  ]
-    .map( dir => ensureDirSync( dir, dirPerms ) )
+  ].map( dir => ensureDir( dir, dirPerms ).then( () => chmod( dir, '755' ) ) ) )
 }
 
 /**
