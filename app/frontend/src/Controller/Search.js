@@ -152,6 +152,8 @@ class Search extends Component {
     if ( ignoreKeys.includes( event.key ) ) event.preventDefault()
   }
 
+  refocus = ( { target } ) => target.focus()
+
   render() {
     const { register, focused } = this.props
     const { inputValue, results, anchor } = this.state
@@ -160,6 +162,7 @@ class Search extends Component {
       <div className="search">
         <Input
           className="input"
+          onBlur={this.refocus}
           onKeyDown={this.filterInputKeys}
           onChange={this.onChange}
           value={`${anchor || ''}${inputValue}`}
