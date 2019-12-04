@@ -23,28 +23,38 @@ class Settings extends EventEmitter {
     this.settings = {}
   }
 
+  static async readSettings( onlyOverrides ) {
+    try {
+      // Load settings file
+      const settings = await readJSON( SETTINGS_FILE )
+
+      // Return only changes or entire settings data
+      return onlyOverrides ? settings : merge( await readJSON( DEFAULT_SETTINGS_FILE ), settings )
+    } catch ( err ) {
+      logger.warn( 'Settings file is corrupt or non-existent. Recreating', SETTINGS_FILE )
+
+      await ensureFile( SETTINGS_FILE )
+      await writeJSON( SETTINGS_FILE, {} )
+
+      return onlyOverrides ? {} : readJSON( DEFAULT_SETTINGS_FILE )
+    }
+  }
+
   /**
    * Loads settings, merging them with the defaults.
    */
   async loadSettings() {
     logger.info( `Loading settings from ${SETTINGS_FILE}` )
-
-    // Load both settings files
-    const defaultSettings = await readJSON( DEFAULT_SETTINGS_FILE )
-    const settings = await Settings.checkCreateSettings()
-
-    // Merge and store them
-    this.settings = merge( defaultSettings, settings )
-
-    // Save them for good measure
-    await this.saveSettings()
+    this.settings = await Settings.readSettings()
   }
 
   /**
    * Saves the settings back to disk.
    */
-  async saveSettings() {
-    await writeJSON( SETTINGS_FILE, this.settings, { spaces: 2 } )
+  async saveSettings( changed = {} ) {
+    const settings = merge( await Settings.readSettings( true ), changed )
+    await writeJSON( SETTINGS_FILE, settings, { spaces: 2 } )
+
     this.emit( 'change', this.settings )
   }
 
@@ -66,7 +76,7 @@ class Settings extends EventEmitter {
    */
   set( key, value ) {
     this.settings[ key ] = value
-    this.saveSettings()
+    this.saveSettings( { [ key ]: value } )
   }
 
   /**
@@ -75,24 +85,7 @@ class Settings extends EventEmitter {
    */
   merge( settings = {} ) {
     this.settings = merge( this.settings, settings )
-    this.saveSettings()
-  }
-
-  /**
-   * Creates a settings.json file if it doesn't already exist, or is corrupt.
-   * @static
-   * @returns {Object} An object containing the settings.
-   */
-  static async checkCreateSettings() {
-    // If we can't read the JSON file, recreate it
-    try {
-      return readJSON( SETTINGS_FILE )
-    } catch ( err ) {
-      logger.warn( 'Settings file is corrupt or non-existent. Recreating', SETTINGS_FILE )
-      await ensureFile( SETTINGS_FILE )
-      await writeJSON( SETTINGS_FILE, {} )
-      return {}
-    }
+    this.saveSettings( settings )
   }
 }
 
