@@ -37,6 +37,6 @@
   color: var(--controller-search-match-color);
 }
 
-.mobile .search .input {
+:not(.desktop) .search .input {
   min-height: 3.2em;
 }

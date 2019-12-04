@@ -12,6 +12,8 @@ export const isDev = process.env.NODE_ENV !== 'production'
 export const browser = detect()
 export const isMac = browser.os === 'Mac OS'
 export const isMobile = detectMobile()
+export const isTablet = detectMobile( { tablet: true } )
+export const isDesktop = !( isMobile || isTablet )
 
 // The user is considered idle after 3 seconds
 export const IDLE_TIMEOUT = 1000 * 3
