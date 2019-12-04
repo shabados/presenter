@@ -20,10 +20,11 @@
   color: red !important;
 }
 
-:not(.desktop) .navigator .text {
+.mobile .navigator .text,
+.tablet .navigator .text {
   white-space: inherit;
 }
 
-:not(.desktop) .navigator-controls .line-counter {
+.mobile.app .navigator-controls .line-counter {
   display: none;
 }

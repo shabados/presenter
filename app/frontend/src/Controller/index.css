@@ -80,7 +80,7 @@
   transition: 0.3s all;
 }
 
-.desktop  .controller .content li:not(.focused):hover {
+.desktop .controller .content li:not(.focused):hover {
   background-color: var(--controller-hover-background-color);
   color: var(--controller-text-hover-color);
   transition: 0.3s all;
@@ -126,20 +126,13 @@
   transition: 0.3s all;
 }
 
-:not(.desktop) .controller button {
+.mobile .controller button,
+.tablet .controller button {
   margin: .5em .2em;
 }
 
-:not(.desktop) .controller .middle {
-  font-size: .001em;
-  color: var(--controller-bar-background-color);
-}
-
-:not(.desktop) .controller .middle button {
-  font-size: 1000em;
-}
-
-:not(.desktop) .controller .content li {
+.mobile .controller .content li,
+.tablet .controller .content li {
   padding: .8em;
   min-height: 2.91em; /* font-size is 1.1 .:. 1.6*2/1.1 */
   border-bottom: 1px solid var(--controller-hover-background-color);

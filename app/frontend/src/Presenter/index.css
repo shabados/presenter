@@ -47,6 +47,7 @@
   }
 }
 
-:not(.desktop) .presenter .controller-container {
-  font-size: 1.275rem
+.mobile .presenter .controller-container,
+.tablet .presenter .controller-container {
+  font-size: 1.275rem;
 }
