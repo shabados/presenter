@@ -115,17 +115,21 @@ jobs:
     working_directory: ~/work
     steps:
       - checkout
-      - run: |
-          # Download JQ
-          apk --no-cache add jq
-
-          # Extract version
-          VERSION=$(cat app/package.json | jq .version)
-          
-          # Tag and finalise commits
-          sentry-cli releases new -p desktop-backend -p desktop-frontend $VERSION
-          sentry-cli releases set-commits --auto $VERSION
-          sentry-cli releases finalize VERSION
+      - run:
+          name: Download JQ
+          command: apk --no-cache add jq
+      - run:
+          name: Extract version
+          command: VERSION=$(cat app/package.json | jq .version)
+      - run:
+          name: Create Sentry release
+          command: sentry-cli releases new -p desktop-backend -p desktop-frontend $VERSION
+      - run:
+          name: Tag commits against release
+          command: sentry-cli releases set-commits --auto $VERSION
+      - run:
+          name: Finalise Sentry release
+          command: sentry-cli releases finalize $VERSION
 
 ## Workflow
 
