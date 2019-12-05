@@ -39,7 +39,7 @@ export const getHost = async hybridIP => {
  *! Assumes that networked interfaces always have Ethernet, Wifi, en, eth, wlan.
  */
 export const getNetworkedAddresses = () => Object.entries( networkInterfaces() )
-  .filter( ( [ name ] ) => name.match( /^(ethernet|wifi|en|eth|wlan)/i ) )
+  .filter( ( [ name ] ) => name.match( /^(ethernet|wifi|en|eth|wlan|wi-fi|wireless)/i ) )
   .reduce( ( interfaces, [ name, addresses ] ) => {
     const { address } = addresses.find( ( { family, internal } ) => !internal && family === 'IPv4' ) || {}
 
