@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon --ignore frontend/ --ignore electron/ -L --exec npm run start:production",
     "start:production": "node -r esm server",
+    "replay-log": "node -r esm scripts/replay-log",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ."
   },
@@ -43,6 +44,7 @@
     "ws": "^7.1.2"
   },
   "devDependencies": {
+    "commander": "^4.0.1",
     "electron": "^7.1.1",
     "nodemon": "^1.19.3",
     "pino-pretty": "^3.2.1"
