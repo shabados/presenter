@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import program from 'commander'
 import { readFile } from 'fs-extra'
 import WebSocket from 'ws'
