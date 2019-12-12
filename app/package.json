@@ -48,5 +48,9 @@
     "electron": "^7.1.1",
     "nodemon": "^1.19.3",
     "pino-pretty": "^3.2.1"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": "^5.0.2"
   }
 }
