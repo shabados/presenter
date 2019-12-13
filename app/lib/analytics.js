@@ -21,8 +21,6 @@ class Analytics {
    * Loads Sentry.
    */
   async initialise() {
-    if ( isDev || !settings.get( 'system.serverAnalytics' ) ) return
-
     await this.initSentry()
   }
 
@@ -31,6 +29,8 @@ class Analytics {
    * ! Cannot be disabled without a restart.
    */
   async initSentry() {
+    if ( isDev || !settings.get( 'system.serverAnalytics' ) ) return
+
     logger.info( 'Enabling Sentry error reporting' )
 
     // Set the sentry release
