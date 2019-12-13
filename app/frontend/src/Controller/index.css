@@ -6,6 +6,10 @@
   font-size: 1em;
 }
 
+.mobile .controller {
+  font-size: 0.875em;
+}
+
 .simple.controller * {
   transition: none !important;
 }
