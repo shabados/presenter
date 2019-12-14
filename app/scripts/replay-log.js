@@ -62,7 +62,7 @@ const simulateActions = async ( actions, trueTime, port ) => new Promise( ( reso
     }
 
     const { timestamp: nextTimestamp } = nextAction
-    const nextTime = trueTime ? nextTimestamp - timestamp : 500
+    const nextTime = trueTime ? nextTimestamp - timestamp : 50
 
     setTimeout( () => actionLoop( actionIndex + 1 ), nextTime )
   }
