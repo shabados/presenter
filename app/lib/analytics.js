@@ -5,8 +5,9 @@
 
 /* eslint-disable class-methods-use-this */
 import * as Sentry from '@sentry/node'
-import { readJSON } from 'fs-extra'
 import { cpus, freemem, totalmem, platform, networkInterfaces } from 'os'
+
+import { version } from '../package.json'
 
 import logger from './logger'
 import settings from './settings'
@@ -34,7 +35,6 @@ class Analytics {
     logger.info( 'Enabling Sentry error reporting' )
 
     // Set the sentry release
-    const { version } = await readJSON( 'package.json', 'utf-8' )
     const release = `${SENTRY_PROJECT}@${version}`
 
     Sentry.init( { dsn: SENTRY_DSN, release } )
