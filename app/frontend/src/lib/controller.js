@@ -17,7 +17,11 @@ class Controller extends EventEmitter {
     super()
 
     // Setup WebSocket connection to server
-    this.socket = new ReconnectingWebSocket( WS_URL )
+    this.socket = new ReconnectingWebSocket( WS_URL, null, {
+      reconnectionDelayGrowFactor: 1,
+      minReconnectionDelay: 300 + Math.random() * 200,
+      connectionTimeout: 1000,
+    } )
     this.socket.addEventListener( 'open', this.onOpen )
     this.socket.addEventListener( 'close', this.onClose )
     this.socket.addEventListener( 'message', this.onMessage )
