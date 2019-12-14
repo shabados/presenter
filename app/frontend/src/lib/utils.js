@@ -8,6 +8,7 @@ import scrollIntoView from 'scroll-into-view'
 import deepmerge from 'deepmerge'
 import queryString from 'qs'
 import { debounce } from 'lodash'
+import memoize from 'memoizee'
 
 import { PAUSE_CHARS, STATES, isMac } from './consts'
 
@@ -139,3 +140,55 @@ export const mapPlatformKeys = keyMap => ( isMac
   } ), {} )
   : keyMap
 )
+
+const isBaniJumpLine = ( baniId, lines ) => ( { jumpLines }, { lineGroup }, index ) => {
+  // Set the jump if it hasn't been set for the line group already
+  const lineGroupFilter = () => typeof jumpLines[ lineGroup - 1 ] === 'undefined'
+  // Set the jump at each line end
+  const numberFilter = () => ( index > 0 ? lines[ index - 1 ].gurmukhi.match( /\](\d*)]/ ) : true )
+
+  // Filters for different banis
+  const additionalFilters = {
+    // Asa Di Vaar
+    10: lineGroupFilter,
+  }
+
+  const filter = additionalFilters[ baniId ] || numberFilter
+
+  return filter()
+}
+
+/**
+ * Produces a map of the line hotkey that corresponds to the line index.
+ * @param {*} An Object containing a shabad or bani, which contains lines.
+ */
+export const getJumpLines = memoize( ( { shabad, bani } ) => {
+  if ( !( shabad || bani ) ) return {}
+
+  const { lines } = shabad || bani
+
+  // Get a function for determining whether a line is jumpable
+  const isJumpLine = bani ? isBaniJumpLine( bani.id, lines ) : () => true
+
+  // Go over each line, and tag which lines are jumpable
+  const { jumpLines } = lines.reduce( ( { jumpLines, jumpIndex }, line, lineIndex ) => ( {
+    // Retain the current jump index and jump lines
+    jumpIndex,
+    jumpLines,
+
+    // If the current line is jumpable line, add it and move to the next
+    ...( isJumpLine( { jumpLines, jumpIndex }, line, lineIndex ) && {
+      jumpIndex: jumpIndex + 1,
+      jumpLines: { ...jumpLines, [ jumpIndex ]: line.id },
+    } ),
+  } ), { jumpIndex: 0, jumpLines: {} } )
+
+
+  return jumpLines
+}, {
+  primitive: true,
+  normalizer: ( [ { bani, shabad } ] ) => JSON.stringify( {
+    shabadId: ( shabad ? shabad.id : null ),
+    baniId: ( bani ? bani.id : null ),
+  } ),
+} )

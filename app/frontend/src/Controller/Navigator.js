@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom'
 import { string, func, shape, arrayOf, bool, objectOf } from 'prop-types'
 import { location } from 'react-router-prop-types'
 import classNames from 'classnames'
+import { invert } from 'lodash'
+import { GlobalHotKeys } from 'react-hotkeys'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -18,10 +20,10 @@ import {
   faExchangeAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { LINE_HOTKEYS } from '../lib/keyMap'
 import { SEARCH_URL } from '../lib/consts'
-import { stripPauses } from '../lib/utils'
+import { stripPauses, getJumpLines } from '../lib/utils'
 import controller from '../lib/controller'
+import { LINE_HOTKEYS } from '../lib/keyMap'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
@@ -104,33 +106,59 @@ class Navigator extends PureComponent {
     }
   }
 
-  render() {
-    const { location, shabad, bani, register, focused, mainLineId, nextLineId } = this.props
+  goToIndex = index => {
+    const { updateFocus } = this.props
 
-    const content = shabad || bani
+    const jumpLines = getJumpLines( this.props )
 
-    // If there's no Shabad to show, go back to the controller
-    if ( !content ) {
-      return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
-    }
-
-    const { lines } = content
-    return (
-      <List className="navigator" onKeyDown={e => e.preventDefault()}>
-        {lines.map( ( line, index ) => (
-          <NavigatorLine
-            key={line.id}
-            {...line}
-            focused={line.id === focused}
-            main={mainLineId === line.id}
-            next={nextLineId === line.id}
-            hotkey={LINE_HOTKEYS[ index ]}
-            register={register}
-          />
-        ) )}
-      </List>
-    )
+    updateFocus( jumpLines[ index ] )
   }
+
+    // Navigation Hotkey Handlers
+    hotKeyHandlers = ( {
+      ...LINE_HOTKEYS.reduce( ( handlers, key, i ) => ( {
+        ...handlers,
+        [ key ]: () => this.goToIndex( i ),
+      } ), {} ),
+    } )
+
+    numberKeyMap = LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
+      ...keymap,
+      [ hotkey ]: [ hotkey ],
+    } ), {} )
+
+
+    render() {
+      const { location, shabad, bani, register, focused, mainLineId, nextLineId } = this.props
+
+      const content = shabad || bani
+
+      // If there's no Shabad to show, go back to the controller
+      if ( !content ) {
+        return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
+      }
+
+      const jumpLines = invert( getJumpLines( { shabad, bani } ) )
+
+      const { lines } = content
+      return (
+        <GlobalHotKeys keyMap={this.numberKeyMap} handlers={this.hotKeyHandlers}>
+          <List className="navigator" onKeyDown={e => e.preventDefault()}>
+            {lines.map( line => (
+              <NavigatorLine
+                key={line.id}
+                {...line}
+                focused={line.id === focused}
+                main={mainLineId === line.id}
+                next={nextLineId === line.id}
+                hotkey={LINE_HOTKEYS[ jumpLines[ line.id ] ]}
+                register={register}
+              />
+            ) )}
+          </List>
+        </GlobalHotKeys>
+      )
+    }
 }
 
 Navigator.propTypes = {

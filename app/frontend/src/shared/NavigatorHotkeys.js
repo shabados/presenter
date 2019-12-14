@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { arrayOf, shape, string, node, bool, objectOf } from 'prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 
-import { mapPlatformKeys } from '../lib/utils'
+import { mapPlatformKeys, getJumpLines } from '../lib/utils'
 import controller from '../lib/controller'
 import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
 
@@ -108,7 +108,8 @@ class NavigatorHotKeys extends Component {
 
     if ( !lines ) return
 
-    const { id } = lines[ index ]
+    const jumpLines = getJumpLines( { shabad, bani } )
+    const id = jumpLines[ index ]
 
     controller.line( id )
   }
