@@ -26,18 +26,7 @@ const spawnServer = () => spawn( execPath, [ LAUNCH_FLAG ], {
 /**
  * Function to load server.
  */
-const loadServer = () => {
-  // IPC message handler used to indicate termination
-  process.on( 'message', ( { event } ) => {
-    if ( event !== 'quit' ) return
-
-    logger.info( 'Gracefully quitting backend' )
-    app.quit()
-  } )
-
-  // Start the server
-  require( '../server' )
-}
+const loadServer = () => { require( '../server' ) }
 
 /**
  * Function to load the electron wrapper for frontend.
@@ -50,12 +39,32 @@ const [ , processFlag ] = argv
 if ( processFlag === LAUNCH_FLAG ) {
   loadServer()
 } else {
-  const server = spawnServer()
-  const killServer = () => server.send( { event: 'quit' } )
+  // Spawn the server in another process
+  let server
 
-  process.on( 'SIGINT', killServer )
-  process.on( 'uncaughtException', killServer )
-  process.on( 'exit', killServer )
+  // If the server dies, attempt to restart it
+  // eslint-disable-next-line no-unused-vars
+  const onServerExit = ( code, _signal ) => {
+    // Don't restart clean exits
+    if ( code === 0 ) return
+
+    logger.warn( 'Restarting server after receiving exit code', code )
+    server = spawnServer()
+    server.on( 'exit', onServerExit )
+  }
+
+  server = spawnServer()
+  server.on( 'exit', onServerExit )
+
+  // Guarantee the death of the app if the app encounters an exception
+  const ensureQuitApp = () => {
+    logger.info( 'got here first' )
+    app.quit()
+  }
+
+  process.on( 'SIGINT', ensureQuitApp )
+  process.on( 'uncaughtException', ensureQuitApp )
+  process.on( 'exit', ensureQuitApp )
 
   loadElectron( server )
 }

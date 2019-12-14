@@ -113,6 +113,7 @@ async function main() {
   if ( !isDev ) initialiseUpdater( sessionManager )
 }
 
-process.on( 'uncaughtException', handleError )
+process.on( 'uncaughtException', handleError() )
+process.on( 'unhandledRejection', handleError( false ) )
 
-export default main().catch( handleError )
+export default main().catch( handleError() )
