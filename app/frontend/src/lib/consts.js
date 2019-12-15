@@ -86,3 +86,8 @@ export const SEARCH_CHARS = {
 export const SEARCH_ANCHORS = {
   [ SEARCH_CHARS.wordAnywhere ]: SEARCH_TYPES.fullWord,
 }
+
+// Bani IDs
+export const BANIS = {
+  ASA_KI_VAAR: 11,
+}

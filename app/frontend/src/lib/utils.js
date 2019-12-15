@@ -10,7 +10,7 @@ import queryString from 'qs'
 import { debounce } from 'lodash'
 import memoize from 'memoizee'
 
-import { PAUSE_CHARS, STATES, isMac } from './consts'
+import { PAUSE_CHARS, STATES, isMac, BANIS } from './consts'
 
 /**
  * Merges the source object into the destination, replacing arrays.
@@ -141,19 +141,24 @@ export const mapPlatformKeys = keyMap => ( isMac
   : keyMap
 )
 
-const isBaniJumpLine = ( baniId, lines ) => ( { jumpLines }, { lineGroup }, index ) => {
+const isBaniJumpLine = ( baniId, lines ) => (
+  { jumpLines },
+  { id, lineGroup, gurmukhi },
+  index,
+) => {
   // Set the jump if it hasn't been set for the line group already
+  // eslint-disable-next-line no-unused-vars
   const lineGroupFilter = () => typeof jumpLines[ lineGroup - 1 ] === 'undefined'
   // Set the jump at each line end
-  const numberFilter = () => ( index > 0 ? lines[ index - 1 ].gurmukhi.match( /\](\d*)]/ ) : true )
+  const previousNumberFilter = () => ( index > 0 ? lines[ index - 1 ].gurmukhi.match( /](\d*)]$/ ) : true )
 
   // Filters for different banis
   const additionalFilters = {
     // Asa Di Vaar
-    10: lineGroupFilter,
+    [ BANIS.ASA_KI_VAAR ]: () => previousNumberFilter() && !gurmukhi.match( /(pauVI ]|mhlw \d* ]|mÚ \d* ])/ ) && id !== '6WX1',
   }
 
-  const filter = additionalFilters[ baniId ] || numberFilter
+  const filter = additionalFilters[ baniId ] || previousNumberFilter
 
   return filter()
 }
