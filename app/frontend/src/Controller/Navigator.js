@@ -21,7 +21,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import { SEARCH_URL } from '../lib/consts'
-import { stripPauses, getJumpLines } from '../lib/utils'
+import { stripPauses, getJumpLines, getNextJumpLine } from '../lib/utils'
 import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
 
@@ -129,7 +129,7 @@ class Navigator extends PureComponent {
 
 
     render() {
-      const { location, shabad, bani, register, focused, mainLineId, nextLineId } = this.props
+      const { location, shabad, bani, register, focused, mainLineId } = this.props
 
       const content = shabad || bani
 
@@ -139,6 +139,7 @@ class Navigator extends PureComponent {
       }
 
       const jumpLines = invert( getJumpLines( { shabad, bani } ) )
+      const nextLineId = getNextJumpLine( this.props )
 
       const { lines } = content
       return (
@@ -236,7 +237,10 @@ export const Bar = props => {
     else controller.line( lines[ currentLineIndex + 1 ].id )
   }
 
-  const onAutoToggle = () => controller.autoToggleShabad( props )
+  const onAutoToggle = () => {
+    if ( shabad ) controller.autoToggleShabad( props )
+    else if ( bani ) controller.autoToggleBani( props )
+  }
 
   const onAutoSelectHover = () => {
     onHover( 'Autoselect' )
@@ -248,7 +252,7 @@ export const Bar = props => {
     setAutoSelectHover( false )
   }
 
-  const autoSelectIcon = () => {
+  const shabadAutoSelectIcon = () => {
     if ( autoSelectHover ) {
       return mainLineId === lineId ? faAngleDoubleRight : faAngleDoubleLeft
     }
@@ -256,6 +260,9 @@ export const Bar = props => {
     return faExchangeAlt
   }
 
+  const baniAutoSelectIcon = () => ( autoSelectHover ? faAngleDoubleRight : faExchangeAlt )
+
+  const autoSelectIcon = shabad ? shabadAutoSelectIcon : baniAutoSelectIcon
 
   return (
     <div className="navigator-controls">
@@ -281,7 +288,6 @@ export const Bar = props => {
         onClick={onDownClick}
       />
 
-      {shabad && (
       <ToolbarButton
         className="autoselect"
         name="Autoselect"
@@ -290,7 +296,6 @@ export const Bar = props => {
         icon={autoSelectIcon()}
         onClick={onAutoToggle}
       />
-      )}
     </div>
   )
 }

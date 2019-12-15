@@ -8,7 +8,7 @@ import EventEmitter from 'event-emitter'
 import { toAscii } from 'gurmukhi-utils'
 
 import { DEFAULT_OPTIONS } from './options'
-import { merge } from './utils'
+import { merge, getNextJumpLine } from './utils'
 import { WS_URL } from './consts'
 import analytics from './analytics'
 
@@ -142,6 +142,13 @@ class Controller extends EventEmitter {
 
       this.nextJumpLine( newNextLineId )
     } else this.line( nextLineId )
+  }
+
+  autoToggleBani = params => {
+    const nextLineId = getNextJumpLine( params )
+    if ( !nextLineId ) return
+
+    this.line( nextLineId )
   }
 
   /**

@@ -7,7 +7,7 @@ import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
 import deepmerge from 'deepmerge'
 import queryString from 'qs'
-import { debounce } from 'lodash'
+import { find, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
 
 import { PAUSE_CHARS, STATES, isMac, BANIS } from './consts'
@@ -197,3 +197,29 @@ export const getJumpLines = memoize( ( { shabad, bani } ) => {
     baniId: ( bani ? bani.id : null ),
   } ),
 } )
+
+/**
+ * Gets the next jump line id for a shabad or bani.
+ * @param {*} An Object containing a shabad or bani, which contains lines.
+ */
+export const getNextJumpLine = ( { nextLineId, shabad, bani, lineId } ) => {
+  if ( !( shabad || bani ) ) return null
+
+  // Use the backend's next line id for Shabads
+  if ( shabad ) return nextLineId
+
+  const { lines } = bani
+
+  // Get jump lines and current line index
+  const jumpLines = invert( getJumpLines( { bani } ) )
+  const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+
+  // Get next jump line by searching for it from the current line's index
+  const { id: baniNextLineId } = find(
+    lines,
+    ( { id } ) => !!jumpLines[ id ],
+    Math.min( currentLineIndex + 1, lines.length - 1 ),
+  ) || {}
+
+  return baniNextLineId
+}

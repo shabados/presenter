@@ -37,10 +37,10 @@ class NavigatorHotKeys extends Component {
   }
 
   autoToggle = () => {
-    const { shabad } = this.props
+    const { shabad, bani } = this.props
 
-    //* Only for Shabads
     if ( shabad ) controller.autoToggleShabad( this.props )
+    else if ( bani ) controller.autoToggleBani( this.props )
   }
 
   restoreLine = () => {
