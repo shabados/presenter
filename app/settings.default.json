@@ -7,7 +7,7 @@
     "betaOptIn": false
   },
   "notifications": {
-    "connectionEvents": true,
+    "connectionEvents": false,
     "disconnectionEvents": false,
     "downloadEvents": true,
     "downloadedEvents": true

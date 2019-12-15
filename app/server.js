@@ -22,7 +22,7 @@ import {
   FRONTEND_THEMES_FOLDER,
   isDev,
 } from './lib/consts'
-import { ensureRequiredDirs, notify, sendToElectron } from './lib/utils'
+import { ensureRequiredDirs, sendToElectron } from './lib/utils'
 
 import { version } from './package.json'
 
@@ -37,11 +37,11 @@ const initialiseUpdater = sessionManager => {
     interval: UPDATE_CHECK_INTERVAL,
   } )
 
-  // Display notification for 30s, with optional toast
+  // Display notification for 30s, optionally
   const notification = ( message, toast ) => {
-    sessionManager.setStatus( message )
-    if ( toast ) notify( message )
-    setTimeout( () => sessionManager.setStatus(), 1000 * 30 )
+    if ( !toast ) return
+
+    sessionManager.notify( message )
   }
 
   const downloadEvents = () => settings.get( 'notifications.downloadEvents' )

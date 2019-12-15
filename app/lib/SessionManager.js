@@ -39,10 +39,10 @@ class SessionManager {
     }
 
     // Send all the current data on connection from a new client
-    socket.on( 'connection', this.synchronise.bind( this ) )
+    socket.on( 'connection', this.onConnection.bind( this ) )
 
     // Remove data from caches on disconnection
-    socket.on( 'disconnection', this.clearCache.bind( this ) )
+    socket.on( 'disconnection', this.onDisconnection.bind( this ) )
 
     // Update the state if on receiving data from the client
     socket.on( 'shabads:current', this.onShabad.bind( this ) )
@@ -58,7 +58,9 @@ class SessionManager {
    * Synchronises a client with the current state.
    * @param {WebSocket} client The client to synchronise the state to.
    */
-  synchronise( client ) {
+  onConnection( client ) {
+    if ( settingsManager.get( 'notifications.connectionEvents' ) ) this.notify( `${client.host} connected`, 1000 * 3 )
+
     const {
       bani,
       mainLineId,
@@ -86,7 +88,9 @@ class SessionManager {
    * Deletes the settings entries for a given host.
    * @param {string} host The hostname/IP address of the settings to remove.
    */
-  clearCache( { host } ) {
+  onDisconnection( { host } ) {
+    if ( settingsManager.get( 'notifications.disconnectionEvents' ) ) this.notify( `${host} disconnected`, 1000 * 3 )
+
     this.session = {
       ...this.session,
       settings: {
@@ -335,6 +339,16 @@ class SessionManager {
       ...acc,
       [ host ]: get( settings, 'security.options.private' ) ? undefined : settings,
     } ), {} )
+  }
+
+  /**
+   * Sets the status provided by the backend for a certain limit.
+   * @param {string} status The status of the application.
+   * @param {number} duration The length to display the message.
+   */
+  notify( message, duration = 1000 * 30 ) {
+    this.setStatus( message )
+    setTimeout( () => this.setStatus(), duration )
   }
 
   /**

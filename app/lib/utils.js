@@ -8,9 +8,8 @@ import { reverse } from 'dns'
 import { ensureDir, readdir, chmod } from 'fs-extra'
 import { promisify } from 'util'
 import { extname } from 'path'
-import notifier from 'node-notifier'
 
-import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, APP_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER } from './consts'
 
 const asyncReverse = promisify( reverse )
 
@@ -74,19 +73,6 @@ export const ensureRequiredDirs = async () => {
     TMP_FOLDER,
   ].map( dir => ensureDir( dir, dirPerms ).then( () => chmod( dir, '755' ) ) ) )
 }
-
-/**
- * Posts an OS toast notification.
- * @param {string} message The message to send.
- */
-export const notify = message => notifier.notify( {
-  appID: 'com.shabados.desktop',
-  title: 'Shabad OS',
-  message,
-  icon: `${APP_FOLDER}/lib/logo.png`,
-  contentImage: `${APP_FOLDER}/lib/logo.png`,
-  wait: true,
-} )
 
 /**
  * Sends an IPC message to the electron instance, if exists.

@@ -7,9 +7,8 @@ import EventEmitter from 'events'
 
 import WebSocket from 'ws'
 
-import { getHost, notify } from './utils'
+import { getHost } from './utils'
 import logger from './logger'
-import settings from './settings'
 
 /**
  * Wrapper for WebSockets with convenience methods.
@@ -43,10 +42,8 @@ class Socket extends EventEmitter {
 
       // Log the connection and disconnection events
       logger.info( `${socket.host} connected` )
-      if ( settings.get( 'notifications.connectionEvents' ) ) notify( `${socket.host} connected` )
 
       socket.on( 'close', () => {
-        if ( settings.get( 'notifications.disconnectionEvents' ) ) notify( `${socket.host} disconnected` )
         logger.info( `${socket.host} disconnected` )
         this.emit( 'disconnection', socket )
       } )
