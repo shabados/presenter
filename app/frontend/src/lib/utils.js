@@ -7,7 +7,7 @@ import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
 import deepmerge from 'deepmerge'
 import queryString from 'qs'
-import { find, debounce, invert } from 'lodash'
+import { find, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
 
 import { PAUSE_CHARS, STATES, isMac, BANIS } from './consts'
@@ -198,6 +198,50 @@ export const getJumpLines = memoize( ( { shabad, bani } ) => {
   } ),
 } )
 
+
+export const getBaniNextJumpLine = ( { bani, lineId } ) => {
+  const { lines } = bani
+
+  // Get jump lines and current line index
+  const jumpLines = invert( getJumpLines( { bani } ) )
+  const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+  const currentLine = lines[ currentLineIndex ]
+
+  // Get next jump line by searching for it from the current line's index
+  const nextJumpLineFinder = () => find(
+    lines,
+    ( { id } ) => !!jumpLines[ id ],
+    Math.min( currentLineIndex + 1, lines.length - 1 ),
+  ) || {}
+
+  // Gets the next line after the last pauri
+  const lastPauriFinder = () => {
+    const pauriRegex = new RegExp( /pauVI ]/ )
+
+    if ( !currentLine || currentLineIndex === 0 ) return null
+    if ( pauriRegex.test( currentLine.gurmukhi ) ) return null
+
+    const pauriIndex = findLastIndex(
+      lines,
+      ( { gurmukhi } ) => pauriRegex.test( gurmukhi ),
+      currentLineIndex,
+    )
+
+    return lines[ pauriIndex ]
+  }
+
+  // Next line jump finder overrides for specific banis
+  const additionalFinders = {
+    // Find last Pauri, otherwise, find next chakka
+    [ BANIS.ASA_KI_VAAR ]: () => lastPauriFinder() || nextJumpLineFinder(),
+  }
+
+  const findNextJumpLine = additionalFinders[ bani.id ] || nextJumpLineFinder
+
+  const { id: baniNextLineId } = findNextJumpLine()
+  return baniNextLineId
+}
+
 /**
  * Gets the next jump line id for a shabad or bani.
  * @param {*} An Object containing a shabad or bani, which contains lines.
@@ -205,21 +249,5 @@ export const getJumpLines = memoize( ( { shabad, bani } ) => {
 export const getNextJumpLine = ( { nextLineId, shabad, bani, lineId } ) => {
   if ( !( shabad || bani ) ) return null
 
-  // Use the backend's next line id for Shabads
-  if ( shabad ) return nextLineId
-
-  const { lines } = bani
-
-  // Get jump lines and current line index
-  const jumpLines = invert( getJumpLines( { bani } ) )
-  const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
-
-  // Get next jump line by searching for it from the current line's index
-  const { id: baniNextLineId } = find(
-    lines,
-    ( { id } ) => !!jumpLines[ id ],
-    Math.min( currentLineIndex + 1, lines.length - 1 ),
-  ) || {}
-
-  return baniNextLineId
+  return shabad ? nextLineId : getBaniNextJumpLine( { bani, lineId } )
 }
