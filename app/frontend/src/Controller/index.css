@@ -119,6 +119,7 @@
 
 .controller .timestamp.meta {
   margin-left: 0.5em;
+  margin-right: 0.5em;
   font-weight: normal;
   font-size: 0.6em;
   text-transform: uppercase;

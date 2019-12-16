@@ -3,3 +3,11 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+
+.history .text {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  overflow-x: hidden;
+}

@@ -46,6 +46,9 @@ const History = ( { transitionHistory, latestLines, register, focused } ) => (
         >
           <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
           <span className="gurmukhi text">{bani ? bani.nameGurmukhi : stripPauses( gurmukhi )}</span>
+          <span className="timestamp meta">
+            {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit' } )}
+          </span>
         </ListItem>
       )
     } ) }
