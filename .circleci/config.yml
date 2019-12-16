@@ -31,13 +31,11 @@ publish: &publish
     - run:
         name: Build application
         command: npm run build
-    - run: 
-        name: Determine if pre-release
-        command: |-
-          (cat app/package.json | grep -Eq '"version". ".+\..+\..+-.*"') && EP_PRE_RELEASE=true || true
     - run:
         name: Publish application
-        command: GH_TOKEN=$GITHUB_TOKEN EP_PRE_RELEASE=$EP_PRE_RELEASE npm run release -- -${PLATFORM_FLAG} -p always
+        command: |
+          (cat app/package.json | grep -Eq '"version". ".+\..+\..+-.*"') && EP_PRE_RELEASE=true || true
+          GH_TOKEN=$GITHUB_TOKEN EP_PRE_RELEASE=$EP_PRE_RELEASE npm run release -- -${PLATFORM_FLAG} -p always
         no_output_timeout: 30m
     - run: mkdir artifacts && cp dist/Shabad* artifacts
     - store_artifacts:
