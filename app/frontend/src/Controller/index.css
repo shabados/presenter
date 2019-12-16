@@ -100,20 +100,34 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 0.75em;
   height: 0.75em;
-  margin-right: 1em;
   color: var(--controller-text-color);
   transition: 0.3s all;
   opacity: 0.8;
   min-width: unset;
 }
 
-.controller .hotkey {
+.controller .hotkey.meta,
+.controller .icon.meta {
+  margin-right: 1em;
+  width: 0.75em;
   font-weight: normal;
   font-size: 0.75em;
   text-transform: uppercase;
   font-family: "Noto Sans Regular", sans-serif;
+}
+
+.controller .timestamp.meta {
+  margin-left: 0.5em;
+  font-weight: normal;
+  font-size: 0.6em;
+  text-transform: uppercase;
+  font-family: "Noto Sans Regular", sans-serif;
+}
+
+.controller .timestamp .icon {
+  font-size: 0.5rem;
+  margin-left: 0.3em;
 }
 
 .controller .content .gurmukhi.text {

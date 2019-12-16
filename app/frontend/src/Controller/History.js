@@ -50,13 +50,13 @@ const History = ( { transitionHistory, latestLines, register, focused } ) => (
       )
     } ) }
     <ListItem onClick={() => transitionHistory.length && window.open( HISTORY_DOWNLOAD_URL )}>
-      <ListItemIcon className="meta">
+      <ListItemIcon className="meta icon">
         <FontAwesomeIcon icon={faDownload} />
       </ListItemIcon>
       Export
     </ListItem>
     <ListItem onClick={controller.clearHistory}>
-      <ListItemIcon className="meta">
+      <ListItemIcon className="meta icon">
         <FontAwesomeIcon icon={faTrash} />
       </ListItemIcon>
       Clear History

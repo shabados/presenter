@@ -18,6 +18,7 @@ import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
   faExchangeAlt,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { SEARCH_URL } from '../lib/consts'
@@ -46,6 +47,7 @@ const NavigatorLine = ( {
   hotkey,
   main,
   next,
+  timestamp,
 } ) => {
   // Move to the line id on click
   const onClick = () => controller.line( id )
@@ -66,7 +68,15 @@ const NavigatorLine = ( {
         {main && <FontAwesomeIcon icon={faAngleDoubleLeft} />}
         {next && <FontAwesomeIcon icon={faAngleDoubleRight} />}
       </span>
+
       <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
+
+      {timestamp && (
+        <span className="timestamp meta">
+          {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit' } )}
+          <FontAwesomeIcon className="icon" icon={faCheck} />
+        </span>
+      )}
     </ListItem>
   )
 }
@@ -79,10 +89,12 @@ NavigatorLine.propTypes = {
   main: bool.isRequired,
   id: string.isRequired,
   hotkey: string,
+  timestamp: string,
 }
 
 NavigatorLine.defaultProps = {
   hotkey: null,
+  timestamp: null,
 }
 
 /**
@@ -129,7 +141,7 @@ class Navigator extends PureComponent {
 
 
     render() {
-      const { location, shabad, bani, register, focused, mainLineId } = this.props
+      const { location, shabad, bani, register, focused, mainLineId, viewedLines } = this.props
 
       const content = shabad || bani
 
@@ -154,6 +166,7 @@ class Navigator extends PureComponent {
                 next={nextLineId === line.id}
                 hotkey={LINE_HOTKEYS[ jumpLines[ line.id ] ]}
                 register={register}
+                timestamp={viewedLines[ line.id ]}
               />
             ) )}
           </List>
