@@ -1,7 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
 
 import logger from '../lib/logger'
 import { isDev } from '../lib/consts'
@@ -38,6 +36,9 @@ process.on( 'uncaughtException', error => {
 if ( isDev ) {
   app.on( 'ready', () => setTimeout( () => {
     onReady()
+    // eslint-disable-next-line import/no-extraneous-dependencies, global-require
+    const { default: installExtension, REACT_DEVELOPER_TOOLS } = require( 'electron-devtools-installer' )
+
     installExtension( REACT_DEVELOPER_TOOLS )
 
     // Pretend setting updates are sent over

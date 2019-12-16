@@ -57,13 +57,10 @@ if ( processFlag === LAUNCH_FLAG ) {
   server.on( 'exit', onServerExit )
 
   // Guarantee the death of the app if the app encounters an exception
-  const ensureQuitApp = () => {
-    logger.info( 'got here first' )
-    app.quit()
-  }
+  const ensureQuitApp = () => app.quit()
 
   process.on( 'SIGINT', ensureQuitApp )
-  process.on( 'uncaughtException', ensureQuitApp )
+  process.on( 'uncaughtException', err => logger.error( err ) || ensureQuitApp() )
   process.on( 'exit', ensureQuitApp )
 
   loadElectron( server )
