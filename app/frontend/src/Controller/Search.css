@@ -10,21 +10,24 @@
   flex-shrink: 0;
   width: 100%;
   margin-bottom: 0.2em;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  background-color: var(--controller-search-background-color);
+  color: var(--controller-text-color);
+  transition: 0.2s all;
 }
 
 .search input {
   padding: 0 0.5em;
   font-size: 1.25em;
   font-family: 'Open Gurbani Akhar Bold';
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-  background-color: var(--controller-search-background-color);
-  color: var(--controller-text-color);
-  transition: 0.2s all;
   height: 100%;
 }
 
-.search input:focus,
-.search .focused {
+.search .clear {
+  transition: 0.2s all;
+}
+
+.search .input-focused {
   background-color: var(--controller-search-focused-background-color);
 }
 

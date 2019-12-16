@@ -3,9 +3,15 @@ import { func, string, oneOfType, number } from 'prop-types'
 import { history, location } from 'react-router-prop-types'
 import classNames from 'classnames'
 
-import Input from '@material-ui/core/Input'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
+import {
+  Input,
+  InputAdornment,
+  List,
+  ListItem,
+  IconButton,
+} from '@material-ui/core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import { stringify } from 'querystring'
 import { firstLetters, toAscii } from 'gurmukhi-utils'
@@ -40,6 +46,7 @@ class Search extends Component {
       inputValue,
       anchor,
       results: [],
+      inputFocused: false,
     }
 
     this.times = []
@@ -164,26 +171,37 @@ class Search extends Component {
     if ( ignoreKeys.includes( event.key ) ) event.preventDefault()
   }
 
-  refocus = ( { target } ) => target.focus()
+  refocus = ( { target } ) => {
+    this.setState( { inputFocused: false } )
+    target.focus()
+  }
 
   highlightSearch = () => this.inputRef.select()
 
   render() {
     const { register, focused } = this.props
-    const { inputValue, results, anchor } = this.state
+    const { inputValue, results, anchor, inputFocused } = this.state
 
     return (
       <div className="search">
         <Input
-          className="input"
+          className={classNames( 'input', { 'input-focused': inputFocused } )}
           inputRef={input => { this.inputRef = input }}
           onBlur={this.refocus}
           onKeyDown={this.filterInputKeys}
+          onFocus={() => this.setState( { inputFocused: true } )}
           onChange={this.onChange}
           value={`${anchor || ''}${inputValue}`}
           placeholder="Koj"
           disableUnderline
           autoFocus
+          endAdornment={inputValue && (
+            <InputAdornment>
+              <IconButton className="clear" onClick={() => this.onChange( { target: { value: '' } } )}>
+                <FontAwesomeIcon icon={faTimes} />
+              </IconButton>
+            </InputAdornment>
+          )}
           inputProps={{
             spellCheck: false,
             autoCapitalize: 'off',
