@@ -109,7 +109,7 @@ class App extends PureComponent {
 
   onNextLine = nextLineId => this.setState( { nextLineId } )
 
-  onTransitionHistory = history => this.setState( { transitionHistory: history.reverse() } )
+  onTransitionHistory = transitionHistory => this.setState( { transitionHistory } )
 
   onLatestLineHistory = latestLines => this.setState( { latestLines } )
 

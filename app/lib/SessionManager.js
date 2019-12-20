@@ -280,7 +280,7 @@ class SessionManager {
     this.socket.broadcast( 'banis:current', bani )
 
     // Use last line navigated to of shabad, if exists
-    const { line } = history.getLatestFor( bani.id, true ) || {}
+    const { line } = history.getLatestFor( bani.id ) || {}
     this.onLine( client, { lineId: line ? line.id : id }, true )
 
     // Rebroadcast history
