@@ -7,7 +7,7 @@ import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
 import deepmerge from 'deepmerge'
 import queryString from 'qs'
-import { find, findLastIndex, debounce, invert } from 'lodash'
+import { find, findIndex, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
 
 import { PAUSE_CHARS, STATES, isMac, BANIS } from './consts'
@@ -214,31 +214,73 @@ export const getBaniNextJumpLine = ( { bani, lineId } ) => {
     Math.min( currentLineIndex + 1, lines.length - 1 ),
   ) || {}
 
+  // Returns a line from the current line's index, based on a regex
+  const regexFinder = ( regex, forward = true, offset = currentLineIndex ) => {
+    const regexp = new RegExp( regex )
+
+    const findFn = forward ? findIndex : findLastIndex
+
+    return findFn( lines, ( { gurmukhi } ) => regexp.test( gurmukhi ), offset )
+  }
+
   // Gets the next line after the last pauri
-  const lastPauriFinder = () => {
-    const pauriRegex = new RegExp( /pauVI ]/ )
+  const asaDiVaarFinder = () => {
+    if ( !currentLine ) return null
 
-    if ( !currentLine || currentLineIndex === 0 ) return null
-    if ( pauriRegex.test( currentLine.gurmukhi ) ) return null
+    // Regexes for catching the end of a section and pauri
+    const pauriRegex = /pauVI ]/
+    const sectionRegex = /](\d*)]$/
 
-    const pauriIndex = findLastIndex(
-      lines,
-      ( { gurmukhi } ) => pauriRegex.test( gurmukhi ),
-      currentLineIndex,
-    )
+    // Get the start and end indicies of the previous pauri, if any
+    const previousPauriStartIndex = regexFinder( pauriRegex, false ) + 1
+    const previousPauriEndIndex = regexFinder( sectionRegex, true, previousPauriStartIndex )
 
-    return lines[ pauriIndex ]
+    // Get the index of the section after the previous pauri
+    const sectionStartIndex = previousPauriStartIndex
+      ? regexFinder( sectionRegex, false, currentLineIndex - 1 ) + 1
+      : 0
+
+    // A chant begins after a pauri ends
+    const inChant = sectionStartIndex === previousPauriEndIndex + 1 || sectionStartIndex === 0
+    // A pauri begins if the current section is where the pauri begins
+    const inPauri = sectionStartIndex + 1 === previousPauriStartIndex
+
+    // Get the last line in the section
+    const sectionEndIndex = previousPauriEndIndex > -1
+      ? regexFinder( sectionRegex )
+      : lines.length - 1
+
+    // Disable if the current section isn't section after the pauri (the chant) or the pauri section
+    if ( !inPauri && !inChant && previousPauriStartIndex !== 0 ) return null
+
+    // If on the pauri title line, jump to the last line of the pauri
+    if ( currentLineIndex === previousPauriStartIndex - 1 ) return lines[ sectionEndIndex ]
+
+    if ( inPauri ) {
+      // If on the first line in the pauri, jump to the end of the pauri
+      if ( previousPauriStartIndex === currentLineIndex ) return lines[ sectionEndIndex ]
+      // If on any other line in the pauri, jump to the start of the pauri
+      if ( sectionEndIndex >= currentLineIndex ) return lines[ previousPauriStartIndex ]
+    }
+
+    if ( inChant ) {
+      // If on the first line in the chant section, jump to the end of the section
+      if ( sectionStartIndex === currentLineIndex ) return lines[ sectionEndIndex ]
+      // If on any other line in the chant section, jump to the first line in the section
+      if ( sectionEndIndex >= currentLineIndex ) return lines[ sectionStartIndex ]
+    }
+
+    return null
   }
 
   // Next line jump finder overrides for specific banis
   const additionalFinders = {
-    // Find last Pauri, otherwise, find next chakka
-    [ BANIS.ASA_KI_VAAR ]: () => lastPauriFinder() || nextJumpLineFinder(),
+    [ BANIS.ASA_KI_VAAR ]: asaDiVaarFinder,
   }
 
   const findNextJumpLine = additionalFinders[ bani.id ] || nextJumpLineFinder
 
-  const { id: baniNextLineId } = findNextJumpLine()
+  const { id: baniNextLineId } = findNextJumpLine() || {}
   return baniNextLineId
 }
 
