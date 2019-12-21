@@ -4,9 +4,9 @@
  */
 
 import pino from 'pino'
-import { appendFile } from 'fs-extra'
+import { createWriteStream } from 'fs-extra'
 import { PassThrough } from 'stream'
-import { env, stdout } from 'process'
+import { stdout } from 'process'
 
 import { electronVersion, isDev, LOG_FILE } from './consts'
 
@@ -16,14 +16,10 @@ const logger = pino( {
   prettyPrint: isDev && { colorize: true, ignore: 'hostname,pid', translateTime: 'HH:MM:ss.l' },
 }, logThrough )
 
+// Only write to file in electron production builds
+if ( electronVersion && !isDev ) logThrough.pipe( createWriteStream( LOG_FILE, { flags: 'a' } ) )
 
-if ( electronVersion && !isDev ) {
-  logThrough.on( 'data', data => appendFile(
-    env.LOG_FILE || LOG_FILE,
-    data.toString(),
-  ) )
-}
-
-logThrough.pipe( stdout )
+// Pipe all log output to stdout in dev only
+if ( isDev ) logThrough.pipe( stdout )
 
 export default logger
