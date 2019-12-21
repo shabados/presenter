@@ -73,7 +73,7 @@ const NavigatorLine = ( {
 
       {timestamp && (
         <span className="timestamp meta">
-          {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit' } )}
+          {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit', hour12: false } )}
           <FontAwesomeIcon className="icon" icon={faCheck} />
         </span>
       )}
