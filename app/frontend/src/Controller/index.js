@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useEffectOnce } from 'react-use'
+import { useEffectOnce, usePrevious } from 'react-use'
 import { hot } from 'react-hot-loader/root'
 import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom'
 import { string, func } from 'prop-types'
@@ -194,29 +194,35 @@ BottomBar.defaultProps = {
  */
 const Controller = props => {
   const { shabad, bani } = useContext( ContentContext )
+  const { lines } = shabad || bani || {}
+
+  const previousLines = usePrevious( lines )
 
   const [ hovered, setHovered ] = useState( null )
 
   const location = useLocation()
-  const { search, pathname } = location
+  const { search } = location
 
   const history = useHistory()
 
   const [ lastUrl, setLastUrl ] = useState( `${NAVIGATOR_URL}${search}` )
 
   // Save navigation to any subroutes by listening to history
-  useEffect( () => history.listen( ( { pathname, search } ) => {
+  useEffectOnce( () => history.listen( ( { pathname, search } ) => {
     if ( pathname.match( `${CONTROLLER_URL}/.*` ) ) setLastUrl( `${pathname}${search}` )
-  } ), [ history ] )
+  } ) )
 
-  useEffectOnce( () => {
+  useEffect( () => {
+    const { pathname } = location
     const redirects = [ SEARCH_URL, HISTORY_URL, BOOKMARKS_URL ]
 
     // Redirect to navigator tab if on one of the redirectable pages
-    if ( redirects.some( route => pathname.includes( route ) ) ) {
+    const isTransition = lines !== previousLines
+
+    if ( isTransition && redirects.some( route => pathname.includes( route ) ) ) {
       history.push( { ...location, pathname: NAVIGATOR_URL } )
     }
-  } )
+  }, [ history, lines, previousLines, location ] )
 
   const settings = useContext( SettingsContext )
   const { local: { theme: { simpleGraphics: simple } } } = settings
@@ -262,6 +268,7 @@ const Controller = props => {
           )}
         />
       ) )}
+
       <Redirect to={lastUrl} />
     </Switch>
   )

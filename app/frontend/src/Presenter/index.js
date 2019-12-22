@@ -1,4 +1,5 @@
-import React, { lazy, Suspense, useState, useEffect, useContext, useCallback } from 'react'
+import React, { lazy, Suspense, useState, useContext } from 'react'
+import { useMount } from 'react-use'
 import { hot } from 'react-hot-loader/root'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { Route, useHistory, useLocation } from 'react-router-dom'
@@ -89,10 +90,10 @@ const Presenter = () => {
   /**
    * Always puts the controller in fullscreen.
    */
-  const setFullscreenController = useCallback( () => history.push( {
+  const setFullscreenController = () => history.push( {
     pathname: CONTROLLER_URL,
     search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
-  } ), [ history ] )
+  } )
 
   /**
    * Toggles the given query string parameter.
@@ -150,10 +151,9 @@ const Presenter = () => {
     [ GLOBAL_SHORTCUTS.quit.name ]: window.close,
   } )
 
-  useEffect( () => {
+  useMount( () => {
     if ( isMobile ) setFullscreenController()
-  }, [ setFullscreenController ] )
-
+  } )
 
   const { local: localSettings } = useContext( SettingsContext )
   const { theme: { themeName }, hotkeys } = localSettings

@@ -1,9 +1,8 @@
 /* eslint-disable react/no-multi-comp */
 
 import React, { useState, useEffect, useMemo, useContext, useCallback } from 'react'
-import { Redirect } from 'react-router-dom'
-import { string, func, shape, arrayOf, bool, objectOf } from 'prop-types'
-import { location } from 'react-router-prop-types'
+import { Redirect, useLocation } from 'react-router-dom'
+import { string, func, bool } from 'prop-types'
 import classNames from 'classnames'
 import { invert } from 'lodash'
 import { GlobalHotKeys } from 'react-hotkeys'
@@ -103,6 +102,8 @@ NavigatorLine.defaultProps = {
  * Displays lines from Shabad and allows navigation.
  */
 const Navigator = ( { updateFocus, register, focused } ) => {
+  const location = useLocation()
+
   const { viewedLines } = useContext( HistoryContext )
 
   const content = useContext( ContentContext )
@@ -132,9 +133,7 @@ const Navigator = ( { updateFocus, register, focused } ) => {
   } ), {} ), [] )
 
   // If there's no Shabad to show, go back to the controller
-  if ( !shabad && !bani ) {
-    return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
-  }
+  if ( !lines ) return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
 
   const jumpLines = invert( getJumpLines( content ) )
   const nextLineId = getNextJumpLine( content )
@@ -160,25 +159,13 @@ const Navigator = ( { updateFocus, register, focused } ) => {
 }
 
 Navigator.propTypes = {
-  lineId: string,
-  mainLineId: string,
-  nextLineId: string,
   updateFocus: func.isRequired,
   register: func.isRequired,
   focused: string,
-  viewedLines: objectOf( string ),
-  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
-  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
 }
 
 Navigator.defaultProps = {
-  shabad: undefined,
-  bani: undefined,
-  lineId: undefined,
-  mainLineId: undefined,
-  nextLineId: undefined,
   focused: undefined,
-  viewedLines: {},
 }
 
 const NavigatorWithNavigationHotKeys = withNavigationHotKeys( {
@@ -296,17 +283,9 @@ export const Bar = ( { onHover } ) => {
 }
 
 Bar.propTypes = {
-  lineId: string,
-  mainLineId: string,
-  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
-  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
   onHover: func,
 }
 
 Bar.defaultProps = {
-  lineId: undefined,
-  mainLineId: undefined,
-  shabad: undefined,
-  bani: undefined,
   onHover: () => {},
 }
