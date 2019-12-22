@@ -79,7 +79,7 @@ class History {
     this.history.lastEntry = entry
 
     // Store the transition entry, if any
-    if ( transition ) transitions[ timestamp.toISOString() ] = entry
+    if ( transition && line.id ) transitions[ timestamp.toISOString() ] = entry
 
     // Store the latest line for the id
     latestLine[ historyId ] = entry
