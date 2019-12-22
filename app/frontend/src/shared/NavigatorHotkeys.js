@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { node, bool } from 'prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 
-import { mapPlatformKeys, getJumpLines } from '../lib/utils'
+import { mapPlatformKeys, getJumpLines, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
 import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
@@ -62,7 +62,7 @@ const NavigatorHotKeys = ( { active, children } ) => {
   const goPreviousLine = () => {
     if ( !lines ) return
 
-    const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+    const currentLineIndex = findLineIndex( lines, lineId )
     const { id } = lines[ currentLineIndex ] || {}
 
     if ( id && currentLineIndex > 0 ) {
@@ -73,7 +73,7 @@ const NavigatorHotKeys = ( { active, children } ) => {
   const goNextLine = () => {
     if ( !lines ) return
 
-    const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+    const currentLineIndex = findLineIndex( lines, lineId )
     const { id } = lines[ currentLineIndex ] || {}
 
     if ( id && currentLineIndex < lines.length - 1 ) {

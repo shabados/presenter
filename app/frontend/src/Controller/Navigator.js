@@ -22,7 +22,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import { SEARCH_URL } from '../lib/consts'
-import { stripPauses, getJumpLines, getNextJumpLine } from '../lib/utils'
+import { stripPauses, getJumpLines, getNextJumpLine, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext } from '../lib/contexts'
@@ -200,17 +200,16 @@ export default NavigatorWithAllHotKeys
 /**
  * Used by Menu parent to render content in the bottom bar.
  */
-export const Bar = props => {
+export const Bar = ( { onHover } ) => {
   const [ autoSelectHover, setAutoSelectHover ] = useState( false )
 
-  const { lineId, shabad, bani, onHover, mainLineId } = props
-  const content = shabad || bani
+  const content = useContext( ContentContext )
+  const { lineId, shabad, bani, mainLineId } = content
+  const { lines } = shabad || bani || {}
 
-  if ( !content ) return null
+  if ( !lines ) return null
 
-  const { lines } = content
-
-  const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+  const currentLineIndex = findLineIndex( lines, lineId )
   const currentLine = lines[ currentLineIndex ]
 
   const resetHover = () => onHover( null )
@@ -234,8 +233,8 @@ export const Bar = props => {
   }
 
   const onAutoToggle = () => {
-    if ( shabad ) controller.autoToggleShabad( props )
-    else if ( bani ) controller.autoToggleBani( props )
+    if ( shabad ) controller.autoToggleShabad( content )
+    else if ( bani ) controller.autoToggleBani( content )
   }
 
   const onAutoSelectHover = () => {
@@ -272,7 +271,7 @@ export const Bar = props => {
 
       <span className="line-counter">
         {lines
-          ? `${lines.findIndex( ( { id } ) => id === lineId ) + 1}/${lines.length}`
+          ? `${findLineIndex( lines, lineId ) + 1}/${lines.length}`
           : null}
       </span>
 

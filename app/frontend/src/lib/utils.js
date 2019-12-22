@@ -141,6 +141,19 @@ export const mapPlatformKeys = keyMap => ( isMac
   : keyMap
 )
 
+/**
+ * Produces a map of the line hotkey that corresponds to the line index.
+ * @param {*} An Object containing a shabad or bani, which contains lines.
+ */
+export const findLineIndex = memoize(
+  ( lines, lineId ) => lines.findIndex( ( { id } ) => id === lineId ),
+  {
+    primitive: true,
+    max: 5,
+    normalizer: ( [ , lineId ] ) => lineId,
+  },
+)
+
 const isBaniJumpLine = ( baniId, lines ) => (
   { jumpLines },
   { id, lineGroup, gurmukhi },
@@ -192,6 +205,7 @@ export const getJumpLines = memoize( ( { shabad, bani } ) => {
   return jumpLines
 }, {
   primitive: true,
+  max: 1,
   normalizer: ( [ { bani, shabad } ] ) => JSON.stringify( {
     shabadId: ( shabad ? shabad.id : null ),
     baniId: ( bani ? bani.id : null ),
@@ -204,7 +218,7 @@ export const getBaniNextJumpLine = ( { bani, lineId } ) => {
 
   // Get jump lines and current line index
   const jumpLines = invert( getJumpLines( { bani } ) )
-  const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+  const currentLineIndex = findLineIndex(lines, lineId)
   const currentLine = lines[ currentLineIndex ]
 
   // Get next jump line by searching for it from the current line's index

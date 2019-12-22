@@ -8,7 +8,7 @@ import EventEmitter from 'event-emitter'
 import { toAscii } from 'gurmukhi-utils'
 
 import { DEFAULT_OPTIONS } from './options'
-import { merge, getNextJumpLine } from './utils'
+import { merge, getNextJumpLine, findLineIndex } from './utils'
 import { WS_URL } from './consts'
 import analytics from './analytics'
 
@@ -124,7 +124,7 @@ class Controller extends EventEmitter {
 
       if ( !lineId ) return
 
-      const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+      const currentLineIndex = findLineIndex( lines, lineId )
 
       // Set new next line to be the next line, bounded by the last line
       let nextLineIndex = Math.min(

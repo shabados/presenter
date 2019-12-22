@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader/root'
 import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
 
-import { getTranslation, getTransliteration } from '../lib/utils'
+import { getTranslation, getTransliteration, findLineIndex } from '../lib/utils'
 import { ContentContext, RecommendedSourcesContext } from '../lib/contexts'
 
 import Line from './Line'
@@ -35,7 +35,7 @@ const Display = ( { settings } ) => {
   const { lines = [] } = shabad || bani || {}
 
   // Find the correct line in the Shabad
-  const lineIndex = lines.findIndex( ( { id } ) => lineId === id )
+  const lineIndex = findLineIndex( lines, lineId )
   const line = lineIndex > -1 ? lines[ lineIndex ] : null
 
   // Get the next lines
