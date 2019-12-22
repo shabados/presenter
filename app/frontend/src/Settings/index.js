@@ -2,11 +2,10 @@
   jsx-a11y/click-events-have-key-events,
   jsx-a11y/no-noninteractive-element-interactions
 */
-import React, { Component } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { string, bool, shape } from 'prop-types'
 import { hot } from 'react-hot-loader/root'
-import { Redirect, Link, Switch, Route } from 'react-router-dom'
-import { shape, string, bool } from 'prop-types'
-import { location } from 'react-router-prop-types'
+import { Redirect, Link, Switch, Route, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 
 import {
@@ -40,6 +39,7 @@ import {
 } from '../lib/consts'
 import { OPTIONS, DEFAULT_OPTIONS, OPTION_GROUPS } from '../lib/options'
 import SHORTCUTS from '../lib/keyMap'
+import { SettingsContext, StatusContext } from '../lib/contexts'
 
 import ThemeLoader from '../shared/ThemeLoader'
 import { withErrorFallback } from '../shared/ErrorFallback'
@@ -52,34 +52,33 @@ import OverlaySettings from './OverlaySettings'
 
 import './index.css'
 
-class Settings extends Component {
-  state = {
-    mobileOpen: false,
-    device: 'local',
-  }
+const Settings = () => {
+  const { pathname } = useLocation()
 
-  componentDidMount() {
-    // Fetch list of themes from server
+  const [ mobileOpen, setMobileOpen ] = useState( false )
+  const [ device, setDevice ] = useState( 'local' )
+
+  const settings = useContext( SettingsContext )
+
+  // Fetch list of themes from server
+  useEffect( () => {
     fetch( `${BACKEND_URL}/themes` )
       .then( res => res.json() )
       .then( themes => {
         OPTIONS.themeName.values = themes.map( theme => ( { name: theme, value: theme } ) )
-        this.setState( {} )
       } )
-  }
+  }, [] )
 
-  openMobileMenu = () => this.setState( { mobileOpen: true } )
+  const openMobileMenu = () => setMobileOpen( true )
+  const closeMobileMenu = () => setMobileOpen( false )
 
-  closeMobileMenu = () => this.setState( { mobileOpen: false } )
+  const { connected } = useContext( StatusContext )
 
-  MenuItems = () => {
-    const { device } = this.state
-    const { settings, location: { pathname } } = this.props
-
+  const renderMenuItems = () => {
     const group = pathname.split( '/' ).pop()
 
     const Item = ( { name, icon, selected, url = SETTINGS_URL } ) => (
-      <Link to={url} onClick={this.closeMobileMenu}>
+      <Link to={url} onClick={closeMobileMenu}>
         <ListItem disableRipple selected={selected} className="item" key={name} button>
           <ListItemIcon>
             <FontAwesomeIcon className="icon" icon={icon} />
@@ -89,11 +88,22 @@ class Settings extends Component {
       </Link>
     )
 
+    Item.propTypes = {
+      name: string.isRequired,
+      icon: shape( { name: string } ).isRequired,
+      selected: bool,
+      url: string.isRequired,
+    }
+
+    Item.defaultProps = {
+      selected: false,
+    }
+
     return (
       <List className="content">
         <Select
           className="select-menu device-selector category-title"
-          onChange={( { target: { value } } ) => this.setState( { device: value } )}
+          onChange={( { target: { value } } ) => setDevice( value )}
           value={device}
           disableUnderline
         >
@@ -109,6 +119,7 @@ class Settings extends Component {
               </MenuItem>
             ) )}
         </Select>
+
         {Object.keys( settings[ device ] )
           .filter( name => OPTION_GROUPS[ name ] )
           .map( name => (
@@ -119,6 +130,7 @@ class Settings extends Component {
               url={`${SETTINGS_DEVICE_URL}/${name}`}
             />
           ) )}
+
         <Typography className="category-title">Server</Typography>
         {Object.keys( settings.global )
           .filter( name => OPTION_GROUPS[ name ] )
@@ -130,35 +142,36 @@ class Settings extends Component {
               url={`${SETTINGS_SERVER_URL}/${name}`}
             />
           ) )}
+
         <Item name="About" icon={faInfo} url={SETTINGS_ABOUT_URL} selected={group === 'about'} />
+
         <Typography className="category-title">Tools</Typography>
         <Item name="Overlay" icon={faWindowMaximize} url={SETTINGS_OVERLAY_URL} />
       </List>
     )
   }
 
-  MobileMenu = () => {
-    const { mobileOpen } = this.state
+  const renderMenu = () => (
+    <>
+      <Hidden smUp implementation="css">
+        <SwipeableDrawer
+          className={classNames( { open: mobileOpen }, 'mobile menu' )}
+          open={mobileOpen}
+          onOpen={openMobileMenu}
+          onClose={closeMobileMenu}
+          ModalProps={{ keepMounted: true }}
+        >
+          {renderMenuItems()}
+        </SwipeableDrawer>
+      </Hidden>
 
-    return (
-      <SwipeableDrawer
-        className={classNames( { open: mobileOpen }, 'mobile menu' )}
-        open={mobileOpen}
-        onOpen={this.openMobileMenu}
-        onClose={this.closeMobileMenu}
-        ModalProps={{ keepMounted: true }}
-      >
-        <this.MenuItems />
-      </SwipeableDrawer>
-    )
-  }
+      <Hidden xsDown>
+        <Drawer className="desktop menu" variant="permanent" open>{renderMenuItems()}</Drawer>
+      </Hidden>
+    </>
+  )
 
-  DesktopMenu = () => <Drawer className="desktop menu" variant="permanent" open><this.MenuItems /></Drawer>
-
-  DynamicOptions = () => {
-    const { settings, location: { pathname } } = this.props
-    const { device } = this.state
-
+  const renderDynamicOptions = () => {
     const isServer = pathname.split( '/' ).includes( 'server' )
     const selectedDevice = isServer ? 'global' : device
 
@@ -192,12 +205,11 @@ class Settings extends Component {
     } )
   }
 
-
-  Titlebar = ( { title = 'Settings' } ) => (
+  const renderTitlebar = ( { title = 'Settings' } ) => (
     <AppBar className="title-bar" position="static">
       <Toolbar>
         <Hidden mdUp>
-          <IconButton onClick={this.openMobileMenu}>
+          <IconButton onClick={openMobileMenu}>
             <FontAwesomeIcon className="menu icon" icon={faBars} />
           </IconButton>
         </Hidden>
@@ -206,48 +218,42 @@ class Settings extends Component {
     </AppBar>
   )
 
-  render() {
-    const { device } = this.state
-    const { location: { pathname }, settings, connected } = this.props
-
-    const { theme: { simpleGraphics } } = settings.local
-    const { theme: { themeName }, hotkeys } = settings[ device ]
-    const group = pathname.split( '/' ).pop()
-
-    const defaultUrl = `${SETTINGS_DEVICE_URL}/${Object.keys( settings[ device ] )[ 0 ]}`
-    const setSettings = settings => controller.setSettings( settings, device )
-
-    return (
-      <div className={classNames( { simple: simpleGraphics }, 'settings' )}>
-        <ThemeLoader name={themeName} connected={connected} />
-        <this.Titlebar title={group} />
-        <Hidden smUp><this.MobileMenu /></Hidden>
-        <Hidden xsDown implementation="css"><this.DesktopMenu /></Hidden>
-        <main onClick={this.closeMobileMenu}>
-          <Switch>
-            <Redirect exact from={SETTINGS_DEVICE_URL} to={defaultUrl} />
-            <Route
-              path={SETTINGS_ABOUT_URL}
-              render={() => <About connected={Object.keys( settings ).length - 1} />}
-            />
-            <Route path={`${SETTINGS_DEVICE_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
-            <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
-            <Route path={`${SETTINGS_DEVICE_URL}/*`} component={this.DynamicOptions} />
-            <Route path={SETTINGS_OVERLAY_URL} component={OverlaySettings} />
-            <Redirect to={defaultUrl} />
-          </Switch>
-        </main>
-      </div>
-    )
+  renderTitlebar.propTypes = {
+    title: string.isRequired,
   }
-}
 
-Settings.propTypes = {
-  connected: bool.isRequired,
-  settings: shape( { local: shape( {
-    theme: shape( { options: shape( { themeName: string } ) } ),
-  } ) } ).isRequired,
-  location: location.isRequired,
+  const { theme: { simpleGraphics } } = settings.local
+  const { theme: { themeName }, hotkeys } = settings[ device ]
+  const group = pathname.split( '/' ).pop()
+
+  const defaultUrl = `${SETTINGS_DEVICE_URL}/${Object.keys( settings[ device ] )[ 0 ]}`
+  const setSettings = settings => controller.setSettings( settings, device )
+
+  return (
+    <div className={classNames( { simple: simpleGraphics }, 'settings' )}>
+      <ThemeLoader name={themeName} connected={connected} />
+
+      {renderMenu()}
+      {renderTitlebar( { title: group } )}
+
+      <main onClick={closeMobileMenu}>
+        <Switch>
+          <Redirect exact from={SETTINGS_DEVICE_URL} to={defaultUrl} />
+
+          <Route
+            path={SETTINGS_ABOUT_URL}
+            render={() => <About connected={Object.keys( settings ).length - 1} />}
+          />
+          <Route path={`${SETTINGS_DEVICE_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={renderDynamicOptions} />
+          <Route path={SETTINGS_OVERLAY_URL} component={OverlaySettings} />
+
+          <Redirect to={defaultUrl} />
+        </Switch>
+      </main>
+    </div>
+  )
 }
 
 export default hot( withErrorFallback( Settings ) )

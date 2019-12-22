@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 
-import React, { PureComponent, useState } from 'react'
+import React, { useState, useEffect, useMemo, useContext, useCallback } from 'react'
 import { Redirect } from 'react-router-dom'
 import { string, func, shape, arrayOf, bool, objectOf } from 'prop-types'
 import { location } from 'react-router-prop-types'
@@ -25,6 +25,7 @@ import { SEARCH_URL } from '../lib/consts'
 import { stripPauses, getJumpLines, getNextJumpLine } from '../lib/utils'
 import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
+import { ContentContext, HistoryContext } from '../lib/contexts'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
@@ -101,78 +102,61 @@ NavigatorLine.defaultProps = {
  * Navigator Component.
  * Displays lines from Shabad and allows navigation.
  */
-class Navigator extends PureComponent {
-  componentDidMount() {
-    const { updateFocus, lineId } = this.props
+const Navigator = ( { updateFocus, register, focused } ) => {
+  const { viewedLines } = useContext( HistoryContext )
 
-    // Set the focus to the active line
-    updateFocus( lineId, false )
-  }
+  const content = useContext( ContentContext )
+  const { shabad, bani, lineId, mainLineId } = content
 
-  componentDidUpdate( { lineId: prevLineId } ) {
-    const { lineId, updateFocus } = this.props
+  const { lines } = bani || shabad || {}
 
-    // Update the focus to any new lines
-    if ( lineId !== prevLineId ) {
-      updateFocus( lineId, false )
-    }
-  }
+  // Set the focus to the active line when it changes
+  useEffect( () => { updateFocus( lineId, false ) }, [ lineId, updateFocus ] )
 
-  goToIndex = index => {
-    const { updateFocus } = this.props
-
-    const jumpLines = getJumpLines( this.props )
-
+  const goToIndex = useCallback( index => {
+    const jumpLines = getJumpLines( { shabad, bani } )
     updateFocus( jumpLines[ index ] )
+  }, [ updateFocus, shabad, bani ] )
+
+  // Navigation Hotkey Handlers
+  const hotKeyHandlers = useMemo( () => ( {
+    ...LINE_HOTKEYS.reduce( ( handlers, key, i ) => ( {
+      ...handlers,
+      [ key ]: () => goToIndex( i ),
+    } ), {} ),
+  } ), [ goToIndex ] )
+
+  const numberKeyMap = useMemo( () => LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
+    ...keymap,
+    [ hotkey ]: [ hotkey ],
+  } ), {} ), [] )
+
+  // If there's no Shabad to show, go back to the controller
+  if ( !shabad && !bani ) {
+    return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
   }
 
-    // Navigation Hotkey Handlers
-    hotKeyHandlers = ( {
-      ...LINE_HOTKEYS.reduce( ( handlers, key, i ) => ( {
-        ...handlers,
-        [ key ]: () => this.goToIndex( i ),
-      } ), {} ),
-    } )
+  const jumpLines = invert( getJumpLines( content ) )
+  const nextLineId = getNextJumpLine( content )
 
-    numberKeyMap = LINE_HOTKEYS.reduce( ( keymap, hotkey ) => ( {
-      ...keymap,
-      [ hotkey ]: [ hotkey ],
-    } ), {} )
-
-
-    render() {
-      const { location, shabad, bani, register, focused, mainLineId, viewedLines } = this.props
-
-      const content = shabad || bani
-
-      // If there's no Shabad to show, go back to the controller
-      if ( !content ) {
-        return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
-      }
-
-      const jumpLines = invert( getJumpLines( { shabad, bani } ) )
-      const nextLineId = getNextJumpLine( this.props )
-
-      const { lines } = content
-      return (
-        <GlobalHotKeys keyMap={this.numberKeyMap} handlers={this.hotKeyHandlers}>
-          <List className="navigator" onKeyDown={e => e.preventDefault()}>
-            {lines.map( line => (
-              <NavigatorLine
-                key={line.id}
-                {...line}
-                focused={line.id === focused}
-                main={mainLineId === line.id}
-                next={nextLineId === line.id}
-                hotkey={LINE_HOTKEYS[ jumpLines[ line.id ] ]}
-                register={register}
-                timestamp={viewedLines[ line.id ]}
-              />
-            ) )}
-          </List>
-        </GlobalHotKeys>
-      )
-    }
+  return (
+    <GlobalHotKeys keyMap={numberKeyMap} handlers={hotKeyHandlers}>
+      <List className="navigator" onKeyDown={e => e.preventDefault()}>
+        {lines.map( line => (
+          <NavigatorLine
+            key={line.id}
+            {...line}
+            focused={line.id === focused}
+            main={mainLineId === line.id}
+            next={nextLineId === line.id}
+            hotkey={LINE_HOTKEYS[ jumpLines[ line.id ] ]}
+            register={register}
+            timestamp={viewedLines[ line.id ]}
+          />
+        ) ) }
+      </List>
+    </GlobalHotKeys>
+  )
 }
 
 Navigator.propTypes = {
@@ -181,7 +165,6 @@ Navigator.propTypes = {
   nextLineId: string,
   updateFocus: func.isRequired,
   register: func.isRequired,
-  location: location.isRequired,
   focused: string,
   viewedLines: objectOf( string ),
   shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),

@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { useEffectOnce } from 'react-use'
 import { hot } from 'react-hot-loader/root'
-import { Route, Switch, Redirect } from 'react-router-dom'
-import { history, location } from 'react-router-prop-types'
-import { string, func, shape, arrayOf, bool } from 'prop-types'
+import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom'
+import { string, func } from 'prop-types'
 
 import classNames from 'classnames'
 import queryString from 'qs'
@@ -34,6 +34,7 @@ import {
   PRESENTER_URL,
 } from '../lib/consts'
 import { getUrlState } from '../lib/utils'
+import { ContentContext, SettingsContext } from '../lib/contexts'
 
 import ToolbarButton from './ToolbarButton'
 import Search from './Search'
@@ -46,14 +47,15 @@ import './index.css'
 /**
  * Renders the top navigation bar, showing the current path in the URL, and the hover state.
  * @param title The title text in the top bar.
- * @param history A `history` object.
- * @param location A `location` object.
  * @param onHover Fired on hover with name.
  */
-const TopBar = ( { title, history, location, onHover } ) => {
+const TopBar = ( { title, onHover } ) => {
   const resetHover = () => onHover( null )
 
+  const location = useLocation()
   const { search, pathname } = location
+  const history = useHistory()
+
   const state = getUrlState( search )
 
   return (
@@ -113,8 +115,6 @@ const TopBar = ( { title, history, location, onHover } ) => {
 }
 
 TopBar.propTypes = {
-  history: history.isRequired,
-  location: location.isRequired,
   title: string,
   onHover: func,
 }
@@ -131,10 +131,15 @@ TopBar.defaultProps = {
  * @param location A `location` object.
  * @param onHover Fired on hover with name.
  */
-const BottomBar = ( { history, renderContent, location, onHover, bani, shabad } ) => {
+const BottomBar = ( { renderContent, onHover } ) => {
+  const history = useHistory()
+  const location = useLocation()
+
+  const { shabad, bani } = useContext( ContentContext )
+  const { lines = [] } = shabad || bani || {}
+
   const go = pathname => () => history.push( { ...location, pathname } )
   const resetHover = () => onHover( null )
-  const { lines = [] } = shabad || bani || {}
 
   return (
     <Toolbar className="bottom bar">
@@ -175,134 +180,91 @@ const BottomBar = ( { history, renderContent, location, onHover, bani, shabad } 
 }
 
 BottomBar.propTypes = {
-  history: history.isRequired,
-  location: location.isRequired,
   onHover: func,
   renderContent: func,
-  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
-  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
 }
 
 BottomBar.defaultProps = {
   onHover: () => {},
   renderContent: () => null,
-  shabad: null,
-  bani: null,
 }
 
 /**
  * Controller controls the display and configures settings.
  */
-class Controller extends Component {
-  constructor( props ) {
-    super( props )
+const Controller = props => {
+  const { shabad, bani } = useContext( ContentContext )
 
-    const { location: { search } } = this.props
+  const [ hovered, setHovered ] = useState( null )
 
-    this.state = {
-      hovered: null,
-      lastUrl: `${NAVIGATOR_URL}${search}`,
-    }
-  }
+  const location = useLocation()
+  const { search, pathname } = location
 
-  unlistenHistory = () => {}
+  const history = useHistory()
 
-  componentDidMount() {
-    const { history } = this.props
+  const [ lastUrl, setLastUrl ] = useState( `${NAVIGATOR_URL}${search}` )
 
-    this.unlistenHistory = history.listen( ( { pathname, search } ) => {
-      // Save navigation to any subroutes
-      if ( pathname.match( `${CONTROLLER_URL}/.*` ) ) {
-        const lastUrl = `${pathname}${search}`
-        this.setState( { lastUrl } )
-      }
-    } )
-  }
+  // Save navigation to any subroutes by listening to history
+  useEffect( () => history.listen( ( { pathname, search } ) => {
+    if ( pathname.match( `${CONTROLLER_URL}/.*` ) ) setLastUrl( `${pathname}${search}` )
+  } ), [ history ] )
 
-  componentWillUnmount() {
-    this.unlistenHistory()
-  }
-
-  componentDidUpdate( { shabad: prevShabad, bani: prevBani } ) {
-    const { history, shabad, bani, location } = this.props
-    const { pathname } = location
-
+  useEffectOnce( () => {
     const redirects = [ SEARCH_URL, HISTORY_URL, BOOKMARKS_URL ]
 
-    // Go to navigator if a different Shabad/Bani has been selected, and we're on a redirect page
-    const isNewSelection = ( shabad && shabad !== prevShabad ) || ( bani && bani !== prevBani )
-
-    if ( isNewSelection && redirects.some( route => pathname.includes( route ) ) ) {
+    // Redirect to navigator tab if on one of the redirectable pages
+    if ( redirects.some( route => pathname.includes( route ) ) ) {
       history.push( { ...location, pathname: NAVIGATOR_URL } )
     }
-  }
+  } )
 
-  onHover = hovered => this.setState( { hovered } )
+  const settings = useContext( SettingsContext )
+  const { local: { theme: { simpleGraphics: simple } } } = settings
 
-  render() {
-    const { settings, shabad, bani } = this.props
-    const { hovered, lastUrl } = this.state
+  const routes = [
+    [ SEARCH_URL, Search ],
+    [ NAVIGATOR_URL, Navigator, NavigatorBar ],
+    [ HISTORY_URL, History ],
+    [ BOOKMARKS_URL, Bookmarks ],
+  ]
 
-    const { local: { theme: { simpleGraphics: simple } } } = settings
+  return (
+    <Switch key={( shabad || bani || {} ).id}>
+      {routes.map( ( [ route, Component, BarComponent ] ) => (
+        <Route
+          key={route}
+          path={route}
+          render={routerProps => (
+            <div className={classNames( { simple }, 'controller' )}>
+              <TopBar
+                {...routerProps}
+                title={hovered || route.split( '/' ).pop()}
+                onHover={setHovered}
+              />
 
-    const routes = [
-      [ SEARCH_URL, Search ],
-      [ NAVIGATOR_URL, Navigator, NavigatorBar ],
-      [ HISTORY_URL, History ],
-      [ BOOKMARKS_URL, Bookmarks ],
-    ]
-
-    return (
-      <Switch key={( shabad || bani || {} ).id}>
-        {routes.map( ( [ route, Component, BarComponent ] ) => (
-          <Route
-            key={route}
-            path={route}
-            render={props => (
-              <div className={classNames( { simple }, 'controller' )}>
-                <TopBar
-                  {...props}
-                  title={hovered || route.split( '/' ).pop()}
-                  onHover={this.onHover}
-                />
-                <div className="content">
-                  <Component {...this.props} {...props} />
-                </div>
-                <BottomBar
-                  {...this.props}
-                  {...props}
-                  onHover={this.onHover}
-                  renderContent={() => BarComponent && (
-                    <BarComponent
-                      {...this.props}
-                      {...props}
-                      onHover={this.onHover}
-                    />
-                  )}
-                />
+              <div className="content">
+                <Component {...routerProps} />
               </div>
-            )}
-          />
-        ) )}
-        <Redirect to={lastUrl} />
-      </Switch>
-    )
-  }
-}
 
-Controller.propTypes = {
-  history: history.isRequired,
-  location: location.isRequired,
-  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
-  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
-  settings: shape( {
-    local: shape( { theme: shape( { simpleGraphics: bool } ) } ),
-  } ).isRequired,
-}
-
-Controller.defaultProps = {
-  shabad: undefined,
-  bani: undefined,
+              <BottomBar
+                {...props}
+                {...routerProps}
+                onHover={setHovered}
+                renderContent={() => BarComponent && (
+                <BarComponent
+                  {...props}
+                  {...routerProps}
+                  onHover={setHovered}
+                />
+                )}
+              />
+            </div>
+          )}
+        />
+      ) )}
+      <Redirect to={lastUrl} />
+    </Switch>
+  )
 }
 
 export default hot( Controller )

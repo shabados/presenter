@@ -1,14 +1,18 @@
-import React from 'react'
-import { shape, arrayOf, string, bool } from 'prop-types'
+import React, { useContext } from 'react'
 
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
 
 import { getTranslation } from '../lib/utils'
+import { ContentContext, SettingsContext, StatusContext } from '../lib/contexts'
 
 import './index.css'
 
-const Overlay = ( { shabad, bani, lineId, settings, connected } ) => {
+const Overlay = () => {
+  const { shabad, bani, lineId } = useContext( ContentContext )
+  const { settings } = useContext( SettingsContext )
+  const { connected } = useContext( StatusContext )
+
   const { local: localSettings } = settings || {}
   const { sources } = localSettings || {}
 
@@ -35,24 +39,6 @@ const Overlay = ( { shabad, bani, lineId, settings, connected } ) => {
       />
     </div>
   )
-}
-
-Overlay.propTypes = {
-  lineId: string,
-  shabad: shape( {
-    lines: arrayOf( shape( Line.PropTypes ) ),
-  } ),
-  bani: shape( {
-    lines: arrayOf( shape( Line.PropTypes ) ),
-  } ),
-  settings: shape( {} ).isRequired,
-  connected: bool.isRequired,
-}
-
-Overlay.defaultProps = {
-  shabad: null,
-  bani: null,
-  lineId: null,
 }
 
 export default Overlay

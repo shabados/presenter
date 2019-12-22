@@ -2,6 +2,8 @@ import React from 'react'
 import { bool, string } from 'prop-types'
 
 import { THEMES_URL } from '../lib/consts'
+import { withContext, StatusContext } from '../lib/contexts'
+
 import defaultTheme from '../themes/Day.css'
 
 /**
@@ -25,4 +27,4 @@ ThemeLoader.defaultProps = {
   name: 'Day',
 }
 
-export default ThemeLoader
+export default withContext( StatusContext )( ThemeLoader )

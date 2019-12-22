@@ -1,5 +1,5 @@
-import React from 'react'
-import { func, number, shape, instanceOf, string, objectOf, oneOfType } from 'prop-types'
+import React, { useMemo, useContext } from 'react'
+import { func, number } from 'prop-types'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -16,82 +16,75 @@ import { LINE_HOTKEYS } from '../lib/keyMap'
 import { HISTORY_DOWNLOAD_URL } from '../lib/consts'
 import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
+import { HistoryContext } from '../lib/contexts'
 
 import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './History.css'
 
-const History = ( { transitionHistory, latestLines, register, focused } ) => (
-  <List className="history">
-    {Object.entries( transitionHistory )
-      .sort( ( [ t1 ], [ t2 ] ) => new Date( t2 ) - new Date( t1 ) )
-      .map( ( [ , {
-        timestamp,
-        line: { id: lineId, shabadId, gurmukhi },
-        bani,
-        shabad,
-      } ], index ) => {
-        const historyId = bani ? bani.id : shabad.id
-        const { line: latestLine } = latestLines[ historyId ] || {}
+const History = ( { register, focused } ) => {
+  const { transitionHistory, latestLines } = useContext( HistoryContext )
 
-        // Use timestamp to get latest line for that navigation period
-        const latestLineId = latestLine ? latestLine.id : lineId
+  return useMemo( () => (
+    <List className="history">
+      {Object.entries( transitionHistory )
+        .sort( ( [ t1 ], [ t2 ] ) => new Date( t2 ) - new Date( t1 ) )
+        .map( ( [ , {
+          timestamp,
+          line: { id: lineId, shabadId, gurmukhi },
+          bani,
+          shabad,
+        } ], index ) => {
+          const historyId = bani ? bani.id : shabad.id
+          const { line: latestLine } = latestLines[ historyId ] || {}
 
-        const onClick = () => ( bani
-          ? controller.bani( { baniId: bani.id, lineId: latestLineId } )
-          : controller.shabad( { shabadId, lineId: latestLineId } ) )
+          // Use timestamp to get latest line for that navigation period
+          const latestLineId = latestLine ? latestLine.id : lineId
 
-        return (
-          <ListItem
-            className={focused === index ? 'focused' : ''}
-            key={timestamp}
-            ref={ref => register( index, ref )}
-            onClick={onClick}
-          >
-            <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-            <span className="gurmukhi text">{bani ? bani.nameGurmukhi : stripPauses( gurmukhi )}</span>
-            <span className="timestamp meta">
-              {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit', hour12: false } )}
-            </span>
-          </ListItem>
-        )
-      } ) }
-    <ListItem onClick={() => transitionHistory.length && window.open( HISTORY_DOWNLOAD_URL )}>
-      <ListItemIcon className="meta icon">
-        <FontAwesomeIcon icon={faDownload} />
-      </ListItemIcon>
+          const onClick = () => ( bani
+            ? controller.bani( { baniId: bani.id, lineId: latestLineId } )
+            : controller.shabad( { shabadId, lineId: latestLineId } ) )
+
+          return (
+            <ListItem
+              className={focused === index ? 'focused' : ''}
+              key={timestamp}
+              ref={ref => register( index, ref )}
+              onClick={onClick}
+            >
+              <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
+              <span className="gurmukhi text">{bani ? bani.nameGurmukhi : stripPauses( gurmukhi )}</span>
+              <span className="timestamp meta">
+                {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit', hour12: false } )}
+              </span>
+            </ListItem>
+          )
+        } ) }
+
+      <ListItem onClick={() => transitionHistory.length && window.open( HISTORY_DOWNLOAD_URL )}>
+        <ListItemIcon className="meta icon">
+          <FontAwesomeIcon icon={faDownload} />
+        </ListItemIcon>
       Export
-    </ListItem>
-    <ListItem onClick={controller.clearHistory}>
-      <ListItemIcon className="meta icon">
-        <FontAwesomeIcon icon={faTrash} />
-      </ListItemIcon>
-      Clear History
-    </ListItem>
-  </List>
-)
+      </ListItem>
 
-const lineHistoryType = shape( {
-  timestamp: oneOfType( [ instanceOf( Date ), string ] ),
-  line: shape( {
-    id: string,
-    shabadId: string,
-    gurmukhi: string,
-  } ),
-  bani: shape( { nameGurmukhi: string } ),
-} )
+      <ListItem onClick={controller.clearHistory}>
+        <ListItemIcon className="meta icon">
+          <FontAwesomeIcon icon={faTrash} />
+        </ListItemIcon>
+      Clear History
+      </ListItem>
+    </List>
+  ), [ register, focused, transitionHistory, latestLines ] )
+}
 
 History.propTypes = {
   register: func.isRequired,
   focused: number,
-  transitionHistory: objectOf( lineHistoryType ),
-  latestLines: objectOf( lineHistoryType ),
 }
 
 History.defaultProps = {
   focused: 0,
-  transitionHistory: [],
-  latestLines: {},
 }
 
 export default withNavigationHotKeys( {

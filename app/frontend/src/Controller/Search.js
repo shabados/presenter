@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { func, string, oneOfType, number } from 'prop-types'
-import { history, location } from 'react-router-prop-types'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
+import { func, string, oneOfType, number, instanceOf } from 'prop-types'
+import { useLocation, useHistory } from 'react-router-dom'
 import classNames from 'classnames'
 
 import {
@@ -24,106 +24,82 @@ import withNavigationHotKeys from '../shared/withNavigationHotKeys'
 
 import './Search.css'
 
+// Generate the regex for capturing anchor chars, optionally
+const searchRegex = new RegExp( `^([${Object.keys( SEARCH_ANCHORS ).map( anchor => `\\${anchor}` ).join( '' )}])?(.*)` )
+
+const getSearchParams = searchQuery => {
+  // Extract anchors and search query
+  const [ , anchor, query ] = searchQuery.match( searchRegex )
+
+  const inputValue = toAscii( query )
+
+  // Get search type from anchor char, if any
+  const type = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
+
+  const value = type === SEARCH_TYPES.firstLetter
+    ? inputValue.slice().replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '_' )
+    : inputValue
+
+  return { anchor, value, type }
+}
+
 /**
  * Search Component.
  * Converts ASCII to unicode on input.
  * Displays results.
  */
-class Search extends Component {
-  constructor( props ) {
-    super( props )
+const Search = ( { updateFocus, register, focused } ) => {
+  // Set the initial search query from URL
+  const history = useHistory()
+  const { search } = useLocation()
+  const { query = '' } = getUrlState( search )
 
-    // Generate the regex for capturing anchor chars, optionally
-    this.searchRegex = new RegExp( `^([${Object.keys( SEARCH_ANCHORS ).map( anchor => `\\${anchor}` ).join( '' )}])?(.*)` )
+  const [ searchedValue, setSearchedValue ] = useState( '' )
 
-    // Set the initial search query from URL
-    const { location: { search } } = this.props
-    const { query = '' } = getUrlState( search )
-    const { anchor, value: inputValue } = this.getSearchParams( query )
+  const { anchor: initialAnchor, value: initialInputValue } = getSearchParams( query )
+  const inputValue = useRef( initialInputValue )
+  const [ anchor, setAnchor ] = useState( initialAnchor )
 
-    this.state = {
-      searchedValue: '',
-      inputValue,
-      anchor,
-      results: [],
-      inputFocused: false,
-    }
+  const [ results, setResults ] = useState( [] )
 
-    this.times = []
-    this.timeStart = null
-    this.timeEnd = null
+  const [ isInputFocused, setInputFocused ] = useState( false )
 
-    this.inputRef = null
-  }
-
-  componentDidMount() {
-    controller.on( 'results', this.onResults )
-
-    const { inputValue, anchor } = this.state
-    if ( inputValue ) this.onChange( { target: { value: `${anchor || ''}${inputValue}` } } )
-
-    this.highlightSearch()
-  }
-
-  componentWillUnmount() {
-    controller.off( 'results', this.onResults )
-  }
+  const inputRef = useRef( null )
 
   /**
    * Set the received results and update the searched vale.
    * @param {Object[]} results An array of the returned results.
    */
-  onResults = results => {
-    const { updateFocus } = this.props
-
-    this.setState( ( { inputValue: searchedValue } ) => ( {
-      results,
-      searchedValue,
-    } ) )
+  const onResults = useCallback( results => {
+    setSearchedValue( inputValue.current )
+    setResults( results )
 
     updateFocus( 0 )
-  }
-
-  getSearchParams = searchQuery => {
-    // Extract anchors and search query
-    const [ , anchor, query ] = searchQuery.match( this.searchRegex )
-
-    const inputValue = toAscii( query )
-
-    // Get search type from anchor char, if any
-    const type = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
-
-    const value = type === SEARCH_TYPES.firstLetter
-      ? inputValue.slice().replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '_' )
-      : inputValue
-
-    return { anchor, value, type }
-  }
-
+  }, [ updateFocus ] )
   /**
    * Run on change of value in the search box.
    * Converts ascii to unicode if need be.
    * Sends the search through to the controller.
    * @param {string} value The new value of the search box.
    */
-  onChange = ( { target: { value } } ) => {
-    const { location: { search }, history } = this.props
-
-    const { anchor, type: searchType, value: searchValue } = this.getSearchParams( value )
+  const onChange = useCallback( ( { target: { value } } ) => {
+    const { anchor, type: searchType, value: searchValue } = getSearchParams( value )
 
     // Search if enough letters
     const doSearch = searchValue.length >= MIN_SEARCH_CHARS
 
     if ( doSearch ) controller.search( searchValue, searchType )
+    else setResults( [] )
 
-    this.setState( { inputValue: searchValue, anchor, ...( !doSearch && { results: [] } ) } )
+    inputValue.current = searchValue
+    setAnchor( anchor )
 
     // Update URL with search
     history.push( { search: `?${stringify( {
       ...getUrlState( search ),
       query: value,
     } )}` } )
-  }
+  }, [ history, search ] )
 
   /**
    * Renders a single result, highlighting the match.
@@ -132,9 +108,7 @@ class Search extends Component {
    * @param {string} shabadId The id of the shabad.
    * @param {Component} ref The ref to the component.
    */
-  Result = ( { gurmukhi, id: lineId, shabadId, ref, focused } ) => {
-    const { searchedValue, anchor } = this.state
-
+  const Result = ( { gurmukhi, id: lineId, shabadId, ref, focused } ) => {
     // Get first letters in line and find where the match is
     const query = !anchor ? firstLetters( gurmukhi ) : gurmukhi
 
@@ -165,71 +139,82 @@ class Search extends Component {
     )
   }
 
-  filterInputKeys = event => {
+  Result.propTypes = {
+    gurmukhi: string.isRequired,
+    id: string.isRequired,
+    shabadId: string.isRequired,
+    ref: instanceOf( Result ).isRequired,
+  }
+
+  const filterInputKeys = event => {
     const ignoreKeys = [ 'ArrowUp', 'ArrowDown' ]
 
     if ( ignoreKeys.includes( event.key ) ) event.preventDefault()
   }
 
-  refocus = ( { target } ) => {
-    this.setState( { inputFocused: false } )
+  const refocus = ( { target } ) => {
+    setInputFocused( false )
     target.focus()
   }
 
-  highlightSearch = () => this.inputRef.select()
+  const highlightSearch = () => inputRef.current.select()
 
-  render() {
-    const { register, focused } = this.props
-    const { inputValue, results, anchor, inputFocused } = this.state
+  useEffect( () => {
+    controller.on( 'results', onResults )
+    return () => controller.off( 'results', onResults )
+  }, [ onResults ] )
 
-    return (
-      <div className="search">
-        <Input
-          className={classNames( 'input', { 'input-focused': inputFocused } )}
-          inputRef={input => { this.inputRef = input }}
-          onBlur={this.refocus}
-          onKeyDown={this.filterInputKeys}
-          onFocus={() => this.setState( { inputFocused: true } )}
-          onChange={this.onChange}
-          value={`${anchor || ''}${inputValue}`}
-          placeholder="Koj"
-          disableUnderline
-          autoFocus
-          endAdornment={inputValue && (
-            <InputAdornment>
-              <IconButton className="clear" onClick={() => this.onChange( { target: { value: '' } } )}>
-                <FontAwesomeIcon icon={faTimes} />
-              </IconButton>
-            </InputAdornment>
-          )}
-          inputProps={{
-            spellCheck: false,
-            autoCapitalize: 'off',
-            autoCorrect: 'off',
-            autoComplete: 'off',
-          }}
-        />
-        <List className="results">
-          {results
-            ? results
-              .map( ( props, i ) => this.Result( {
-                ...props,
-                ref: c => register( i, c ),
-                focused: focused === i,
-              } ) )
-            : ''}
-        </List>
-      </div>
-    )
-  }
+  useEffect( () => {
+    if ( inputValue.current ) onChange( { target: { value: `${anchor || ''}${inputValue.current}` } } )
+  }, [ onChange, anchor ] )
+
+  useEffect( () => { highlightSearch() }, [] )
+
+  return (
+    <div className="search">
+      <Input
+        className={classNames( 'input', { 'input-focused': isInputFocused } )}
+        inputRef={inputRef}
+        onBlur={refocus}
+        onKeyDown={filterInputKeys}
+        onFocus={() => setInputFocused( true )}
+        onChange={onChange}
+        value={`${anchor || ''}${inputValue.current}`}
+        placeholder="Koj"
+        disableUnderline
+        autoFocus
+        endAdornment={inputValue.current && (
+        <InputAdornment>
+          <IconButton className="clear" onClick={() => onChange( { target: { value: '' } } )}>
+            <FontAwesomeIcon icon={faTimes} />
+          </IconButton>
+        </InputAdornment>
+        )}
+        inputProps={{
+          spellCheck: false,
+          autoCapitalize: 'off',
+          autoCorrect: 'off',
+          autoComplete: 'off',
+        }}
+      />
+      <List className="results">
+        {results
+          ? results
+            .map( ( props, i ) => Result( {
+              ...props,
+              ref: c => register( i, c ),
+              focused: focused === i,
+            } ) )
+          : ''}
+      </List>
+    </div>
+  )
 }
 
 Search.propTypes = {
   focused: oneOfType( [ string, number ] ),
   register: func.isRequired,
   updateFocus: func.isRequired,
-  history: history.isRequired,
-  location: location.isRequired,
 }
 
 Search.defaultProps = {
