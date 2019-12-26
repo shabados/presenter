@@ -14,6 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/ShabadOS/desktop.git"
   },
+  "engines": {
+    "node": ">= 12.0.0"
+  },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0",
   "bugs": {
