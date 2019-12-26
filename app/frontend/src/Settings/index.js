@@ -22,7 +22,6 @@ import {
   ListItemIcon,
   Select,
   MenuItem,
-  Grid,
 } from '@material-ui/core'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -37,23 +36,24 @@ import {
   SETTINGS_OVERLAY_URL,
   SETTINGS_ABOUT_URL,
 } from '../lib/consts'
-import { OPTIONS, DEFAULT_OPTIONS, OPTION_GROUPS } from '../lib/options'
+import { OPTIONS, OPTION_GROUPS } from '../lib/options'
 import SHORTCUTS from '../lib/keyMap'
 import { SettingsContext, StatusContext } from '../lib/contexts'
 
 import ThemeLoader from '../shared/ThemeLoader'
 import { withErrorFallback } from '../shared/ErrorFallback'
 
-import SettingComponentFactory from './SettingComponents'
 import Sources from './Sources'
 import About from './About'
 import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
+import DynamicOptions from './DynamicOptions'
 
 import './index.css'
 
 const Settings = () => {
   const { pathname } = useLocation()
+  const group = pathname.split( '/' ).pop()
 
   const [ mobileOpen, setMobileOpen ] = useState( false )
   const [ device, setDevice ] = useState( 'local' )
@@ -171,41 +171,7 @@ const Settings = () => {
     </>
   )
 
-  const renderDynamicOptions = () => {
-    const isServer = pathname.split( '/' ).includes( 'server' )
-    const selectedDevice = isServer ? 'global' : device
-
-    // Fetch correct option group from URL
-    const group = pathname.split( '/' ).pop()
-
-    const defaultSettings = isServer ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
-
-    const setSettings = ( option, value ) => controller.setSettings( {
-      [ group ]: { [ option ]: value },
-    }, selectedDevice )
-
-    return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
-      const optionGroup = settings[ selectedDevice ][ group ] || {}
-      const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
-      const options = OPTIONS[ option ]
-      const { type, privacy, name, icon, ...props } = options
-
-      // Get correct component
-      const Option = SettingComponentFactory( type )
-
-      return (
-        <Grid key={option} container className="option" alignItems="center">
-          <Grid item xs={2} sm={1}>{icon && <FontAwesomeIcon className="icon" icon={icon} />}</Grid>
-          <Grid item xs={5} sm={6} md={4} lg={3}><Typography>{name}</Typography></Grid>
-          <Grid item xs={5} sm={5} md={4} lg={3} align="center">
-            <Option {...props} option={option} value={value} onChange={setSettings} />
-          </Grid>
-        </Grid>
-      )
-    } )
-  }
-
-  const renderTitlebar = ( { title = 'Settings' } ) => (
+  const renderTitlebar = () => (
     <AppBar className="title-bar" position="static">
       <Toolbar>
         <Hidden mdUp>
@@ -213,18 +179,13 @@ const Settings = () => {
             <FontAwesomeIcon className="menu icon" icon={faBars} />
           </IconButton>
         </Hidden>
-        <Typography className="title" align="center" variant="h6">{title}</Typography>
+        <Typography className="title" align="center" variant="h6">{group}</Typography>
       </Toolbar>
     </AppBar>
   )
 
-  renderTitlebar.propTypes = {
-    title: string.isRequired,
-  }
-
   const { theme: { simpleGraphics } } = settings.local
   const { theme: { themeName }, hotkeys } = settings[ device ]
-  const group = pathname.split( '/' ).pop()
 
   const defaultUrl = `${SETTINGS_DEVICE_URL}/${Object.keys( settings[ device ] )[ 0 ]}`
   const setSettings = settings => controller.setSettings( settings, device )
@@ -246,7 +207,7 @@ const Settings = () => {
           />
           <Route path={`${SETTINGS_DEVICE_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
           <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
-          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={renderDynamicOptions} />
+          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} />} />
           <Route path={SETTINGS_OVERLAY_URL} component={OverlaySettings} />
 
           <Redirect to={defaultUrl} />
