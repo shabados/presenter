@@ -11,15 +11,12 @@ import { SettingsContext } from '../lib/contexts'
 
 import SettingComponentFactory from './SettingComponents'
 
-const DynamicOptions = ( { device } ) => {
+const DynamicOptions = ( { device, group } ) => {
   const settings = useContext( SettingsContext )
   const { pathname } = useLocation()
 
   const isServer = pathname.split( '/' ).includes( 'server' )
   const selectedDevice = isServer ? 'global' : device
-
-  // Fetch correct option group from URL
-  const group = pathname.split( '/' ).pop()
 
   const defaultSettings = isServer ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
@@ -50,6 +47,7 @@ const DynamicOptions = ( { device } ) => {
 
 DynamicOptions.propTypes = {
   device: string.isRequired,
+  group: string.isRequired,
 }
 
 export default DynamicOptions

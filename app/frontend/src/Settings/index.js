@@ -75,8 +75,6 @@ const Settings = () => {
   const { connected } = useContext( StatusContext )
 
   const renderMenuItems = () => {
-    const group = pathname.split( '/' ).pop()
-
     const Item = ( { name, icon, selected, url = SETTINGS_URL } ) => (
       <Link to={url} onClick={closeMobileMenu}>
         <ListItem disableRipple selected={selected} className="item" key={name} button>
@@ -195,7 +193,7 @@ const Settings = () => {
       <ThemeLoader name={themeName} connected={connected} />
 
       {renderMenu()}
-      {renderTitlebar( { title: group } )}
+      {renderTitlebar()}
 
       <main onClick={closeMobileMenu}>
         <Switch>
@@ -207,7 +205,7 @@ const Settings = () => {
           />
           <Route path={`${SETTINGS_DEVICE_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
           <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
-          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} group={group} onChange={setSettings} />} />
           <Route path={SETTINGS_OVERLAY_URL} component={OverlaySettings} />
 
           <Redirect to={defaultUrl} />
