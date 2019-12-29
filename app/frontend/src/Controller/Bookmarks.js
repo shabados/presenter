@@ -7,7 +7,7 @@ import { LINE_HOTKEYS } from '../lib/keyMap'
 import controller from '../lib/controller'
 import { BookmarksContext } from '../lib/contexts'
 
-import withNavigationHotKeys from '../shared/withNavigationHotKeys'
+import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 
 import './Bookmarks.css'
 
@@ -40,7 +40,7 @@ Bookmarks.defaultProps = {
   focused: 0,
 }
 
-export default withNavigationHotKeys( {
+export default withNavigationHotkeys( {
   arrowKeys: true,
   lineKeys: true,
 } )( Bookmarks )

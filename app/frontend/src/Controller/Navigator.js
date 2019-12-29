@@ -26,7 +26,7 @@ import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext } from '../lib/contexts'
 
-import withNavigationHotKeys from '../shared/withNavigationHotKeys'
+import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 
 import ToolbarButton from './ToolbarButton'
@@ -168,17 +168,17 @@ Navigator.defaultProps = {
   focused: undefined,
 }
 
-const NavigatorWithNavigationHotKeys = withNavigationHotKeys( {
+const NavigatorNavigationHotkeys = withNavigationHotkeys( {
   arrowKeys: true,
   lineKeys: true,
   clickOnFocus: true,
   wrapAround: false,
 } )( Navigator )
 
-// Wrap withNavigationHotKeys first so that it takes precedence
+// Wrap NavigationHotkeys first so that it takes precedence
 const NavigatorWithAllHotKeys = props => (
   <NavigatorHotKeys {...props} active>
-    <NavigatorWithNavigationHotKeys {...props} />
+    <NavigatorNavigationHotkeys {...props} />
   </NavigatorHotKeys>
 )
 

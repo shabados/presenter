@@ -18,7 +18,7 @@ import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
 import { HistoryContext } from '../lib/contexts'
 
-import withNavigationHotKeys from '../shared/withNavigationHotKeys'
+import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 
 import './History.css'
 
@@ -87,7 +87,7 @@ History.defaultProps = {
   focused: 0,
 }
 
-export default withNavigationHotKeys( {
+export default withNavigationHotkeys( {
   arrowKeys: true,
   lineKeys: true,
 } )( History )

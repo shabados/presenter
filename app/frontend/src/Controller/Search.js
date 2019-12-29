@@ -20,7 +20,7 @@ import { MIN_SEARCH_CHARS, SEARCH_CHARS, SEARCH_TYPES, SEARCH_ANCHORS } from '..
 import { stripPauses, getUrlState } from '../lib/utils'
 import controller from '../lib/controller'
 
-import withNavigationHotKeys from '../shared/withNavigationHotKeys'
+import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 
 import './Search.css'
 
@@ -221,7 +221,7 @@ Search.defaultProps = {
   focused: undefined,
 }
 
-export default withNavigationHotKeys( {
+export default withNavigationHotkeys( {
   keymap: {
     next: [ 'down', 'tab' ],
     previous: [ 'up', 'shift+tab' ],

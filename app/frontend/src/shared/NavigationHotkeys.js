@@ -22,14 +22,14 @@ const preventDefault = fn => event => {
  * @param {Object} keymap Keymap to combine with existing keymap.
  * @returns {Component} The decorated component.
  */
-const withNavigationHotKeys = ( {
+export const withNavigationHotkeys = ( {
   arrowKeys = true,
   lineKeys,
   clickOnFocus,
   keymap,
   wrapAround = true,
 } ) => WrappedComponent => {
-  class WithNavigationHotKeys extends Component {
+  class NavigationHotkeys extends Component {
     constructor( props ) {
       super( props )
 
@@ -210,16 +210,14 @@ const withNavigationHotKeys = ( {
       }
   }
 
-  WithNavigationHotKeys.propTypes = {
-    forwardedRef: instanceOf( WithNavigationHotKeys ),
+  NavigationHotkeys.propTypes = {
+    forwardedRef: instanceOf( NavigationHotkeys ),
   }
 
-  WithNavigationHotKeys.defaultProps = {
+  NavigationHotkeys.defaultProps = {
     forwardedRef: null,
   }
 
-  const forwardRef = ( props, ref ) => <WithNavigationHotKeys {...props} forwardedRef={ref} />
+  const forwardRef = ( props, ref ) => <NavigationHotkeys {...props} forwardedRef={ref} />
   return React.forwardRef( forwardRef )
 }
-
-export default withNavigationHotKeys
