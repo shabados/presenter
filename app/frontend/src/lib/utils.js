@@ -218,7 +218,7 @@ export const getBaniNextJumpLine = ( { bani, lineId } ) => {
 
   // Get jump lines and current line index
   const jumpLines = invert( getJumpLines( { bani } ) )
-  const currentLineIndex = findLineIndex(lines, lineId)
+  const currentLineIndex = findLineIndex( lines, lineId )
   const currentLine = lines[ currentLineIndex ]
 
   // Get next jump line by searching for it from the current line's index
