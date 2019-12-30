@@ -257,9 +257,7 @@ export const Bar = ( { onHover } ) => {
       />
 
       <span className="line-counter">
-        {lines
-          ? `${findLineIndex( lines, lineId ) + 1}/${lines.length}`
-          : null}
+        {`${findLineIndex( lines, lineId ) + 1}/${lines.length}`}
       </span>
 
       <ToolbarButton
