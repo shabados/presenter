@@ -25,6 +25,7 @@ import {
   STATES,
   isMobile,
   IDLE_TIMEOUT,
+  isDesktop,
 } from '../lib/consts'
 import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
 import { SettingsContext } from '../lib/contexts'
@@ -163,12 +164,14 @@ const Presenter = () => {
       <CssBaseline />
       <ThemeLoader name={themeName} />
 
-      <IdleTimer
-        events={DEFAULT_IDLE_EVENTS}
-        onIdle={onIdle}
-        onActive={onActive}
-        timeout={IDLE_TIMEOUT}
-      />
+      {isDesktop && (
+        <IdleTimer
+          events={DEFAULT_IDLE_EVENTS}
+          onIdle={onIdle}
+          onActive={onActive}
+          timeout={IDLE_TIMEOUT}
+        />
+      )}
 
       <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>
         <NavigatorHotKeys active={!pathname.includes( CONTROLLER_URL )}>
