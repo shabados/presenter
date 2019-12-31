@@ -48,7 +48,7 @@ orbs:
 jobs:
   lint:
     docker:
-      - image: node:10
+      - image: node:12
     working_directory: ~/shabad-os
     steps:
       - checkout
@@ -83,6 +83,45 @@ jobs:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
 
+  print-changelog:
+    docker:
+      - image: node:12
+    working_directory: ~/shabad-os
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install --unsafe-perm
+      - run:
+          name: Print out the current changelog
+          command: npm run changelog
+
+  upload-changelog:
+    docker:
+      - image: node:12
+    working_directory: ~/shabad-os
+    steps:
+      - checkout
+      - run:
+          name: Download the hub command
+          command: |
+            curl -L https://github.com/github/hub/releases/download/v2.13.0/hub-linux-amd64-2.13.0.tgz -o hub.tgz
+            tar -xzf hub.tgz
+            cp hub-linux-amd64-2.13.0/bin/hub hub
+            chmod +x hub
+      - run:
+          name: Install dependencies
+          command: npm install --unsafe-perm
+      - run:
+          name: Upload the current changelog
+          command: |
+            CHANGELOG=$(npm run changelog | tail -n+4)
+            echo "$CHANGELOG"
+
+            TAG=$(git describe --tags --abbrev=0)
+            VERSION=$(echo $TAG | cut -c2-)
+            GITHUB_TOKEN=$GITHUB_TOKEN hub release edit -m $VERSION -m "$CHANGELOG" 
+            
   publish-mac:
     <<: *publish
     macos:
@@ -162,6 +201,11 @@ workflows:
             - run: sudo xcode-select -r
       - build-linux:
           <<: *build-workflow
+      - print-changelog:
+        requires:
+          - publish-windows
+          - publish-linux
+          - publish-mac
 
 
       - publish-windows:
@@ -176,6 +220,11 @@ workflows:
           <<: *publish-workflow
 
 
+      - upload-changelog:
+          requires:
+            - publish-windows
+            - publish-linux
+            - publish-mac
       - tag-sentry:
           requires:
             - publish-windows
