@@ -14,7 +14,7 @@ const knownErrors = {
 }
 
 // Handle any errors by logging and sending it to Sentry
-export const handleError = ( exitIfUnknown = true ) => error => {
+export const handleError = ( exitIfUnknown = true ) => async error => {
   // If error is known, handle it differently
   const knownError = knownErrors[ error.code ]
   if ( knownError ) {
@@ -25,6 +25,9 @@ export const handleError = ( exitIfUnknown = true ) => error => {
   // Log the error, and quit the process
   logger.error( error )
   analytics.sendException( error )
+
+  // Flush any pending data
+  await analytics.flush()
 
   // Quit the server with an error if unknown error
   if ( exitIfUnknown ) process.exit( 1 )

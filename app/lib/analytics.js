@@ -7,6 +7,7 @@
 import * as Sentry from '@sentry/node'
 import { cpus, freemem, totalmem, platform, networkInterfaces } from 'os'
 
+import { promises } from 'dns'
 import { version } from '../package.json'
 
 import logger from './logger'
@@ -37,7 +38,10 @@ class Analytics {
     // Set the sentry release
     const release = `${SENTRY_PROJECT}@${version}`
 
-    Sentry.init( { dsn: SENTRY_DSN, release } )
+    Sentry.init( {
+      dsn: SENTRY_DSN,
+      release,
+    } )
   }
 
   sendException( error ) {
@@ -53,6 +57,12 @@ class Analytics {
 
       Sentry.captureException( error )
     } )
+  }
+
+  flush() {
+    // Give 2 seconds to flush Sentry data
+    const sentryClient = Sentry.getCurrentHub().getClient()
+    return sentryClient ? sentryClient.close( 2000 ) : Promise.resolve()
   }
 }
 
