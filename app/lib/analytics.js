@@ -7,7 +7,6 @@
 import * as Sentry from '@sentry/node'
 import { cpus, freemem, totalmem, platform, networkInterfaces } from 'os'
 
-import { promises } from 'dns'
 import { version } from '../package.json'
 
 import logger from './logger'
