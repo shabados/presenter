@@ -202,10 +202,10 @@ workflows:
       - build-linux:
           <<: *build-workflow
       - print-changelog:
-        requires:
-          - publish-windows
-          - publish-linux
-          - publish-mac
+          requires:
+            - build-windows
+            - build-linux
+            - build-mac
 
 
       - publish-windows:
