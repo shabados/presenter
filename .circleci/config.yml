@@ -120,7 +120,7 @@ jobs:
 
             TAG=$(git describe --tags --abbrev=0)
             VERSION=$(echo $TAG | cut -c2-)
-            GITHUB_TOKEN=$GITHUB_TOKEN hub release edit -m $VERSION -m "$CHANGELOG" 
+            GITHUB_TOKEN=$GITHUB_TOKEN ./hub release edit -m $VERSION -m "$CHANGELOG" 
             
   publish-mac:
     <<: *publish
