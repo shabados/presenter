@@ -12,4 +12,6 @@ else
     RELEASE_COUNT=$(git show-ref --tags | grep $LATEST_TAG | wc -l)
 fi
 
+RELEASE_COUNT=$(($RELEASE_COUNT + 1))
+
 conventional-changelog -p angular -u -r $RELEASE_COUNT
