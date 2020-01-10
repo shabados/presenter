@@ -43,7 +43,7 @@ export const OVERLAY_THEMES_URL = `${BACKEND_URL}/overlay/themes`
 
 export const SETTINGS_URL = '/settings'
 export const SETTINGS_DEVICE_URL = `${SETTINGS_URL}/device`
-export const SETTINGS_SERVER_URL = `${SETTINGS_DEVICE_URL}/server`
+export const SETTINGS_SERVER_URL = `${SETTINGS_URL}/server`
 
 export const SETTINGS_ABOUT_URL = `${SETTINGS_SERVER_URL}/about`
 export const SETTINGS_TOOLS_URL = `${SETTINGS_URL}/tools`
