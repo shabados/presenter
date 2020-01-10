@@ -13,13 +13,6 @@
     "downloadedEvents": true
   },
   "overlay": { 
-    "larivaarGurbani": false,
-    "larivaarAssist": false,
-    "englishTranslation": false,
-    "spanishTranslation": false,
-    "punjabiTranslation": false,
-    "englishTransliteration": false,
-    "hindiTransliteration": false,
-    "urduTransliteration": false
+    "overlayThemeName": "Branded (Top)"
   }
 }

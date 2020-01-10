@@ -229,15 +229,7 @@ export const DEFAULT_OPTIONS = {
       downloadedEvents: true,
     },
     overlay: {
-      overlayThemeName: 'Branded (Full)',
-      larivaarGurbani: false,
-      larivaarAssist: false,
-      englishTranslation: true,
-      spanishTranslation: false,
-      punjabiTranslation: false,
-      englishTransliteration: true,
-      hindiTransliteration: false,
-      urduTransliteration: false,
+      overlayThemeName: 'Branded (Top)',
     },
   },
 }
