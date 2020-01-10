@@ -16,7 +16,7 @@ const Overlay = () => {
 
   const { local: localSettings, global: globalSettings } = settings || {}
   const { sources } = localSettings || {}
-  const { overlay: { overlayThemeName } } = globalSettings || {}
+  const { overlay: { overlayName } } = globalSettings || {}
 
   // Get the lines from the shabad, if they exist
   const { lines = [] } = shabad || bani || {}
@@ -37,7 +37,7 @@ const Overlay = () => {
 
   return (
     <div className="overlay">
-      <ThemeLoader connected={connected} name={overlayThemeName} />
+      <ThemeLoader connected={connected} name={overlayName} />
       <Line
         simpleGraphics
         gurmukhi={line ? line.gurmukhi : ''}

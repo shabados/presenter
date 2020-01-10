@@ -74,7 +74,7 @@ const Settings = () => {
     fetch( `${BACKEND_URL}/overlay/themes` )
       .then( res => res.json() )
       .then( themes => {
-        OPTIONS.overlayThemeName.values = themes.map( theme => ( { name: theme, value: theme } ) )
+        OPTIONS.overlayName.values = themes.map( theme => ( { name: theme, value: theme } ) )
       } )
   }, [] )
 
