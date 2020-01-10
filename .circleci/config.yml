@@ -115,7 +115,7 @@ jobs:
       - run:
           name: Upload the current changelog
           command: |
-            CHANGELOG=$(npm run changelog | tail -n +12)
+            CHANGELOG=$(npm run changelog | tail -n +9)
             echo "$CHANGELOG"
 
             TAG=$(git describe --tags --abbrev=0)
