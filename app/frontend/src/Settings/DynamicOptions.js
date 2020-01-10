@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { string } from 'prop-types'
-import { useLocation } from 'react-router-dom'
 
 import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,19 +12,16 @@ import SettingComponentFactory from './SettingComponents'
 
 const DynamicOptions = ( { device, group } ) => {
   const settings = useContext( SettingsContext )
-  const { pathname } = useLocation()
 
-  const isServer = pathname.split( '/' ).includes( 'server' )
-  const selectedDevice = isServer ? 'global' : device
-
-  const defaultSettings = isServer ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
+  const isGlobal = device === 'global'
+  const defaultSettings = isGlobal ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
   const setSettings = ( option, value ) => controller.setSettings( {
     [ group ]: { [ option ]: value },
-  }, selectedDevice )
+  }, device )
 
   return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
-    const optionGroup = settings[ selectedDevice ][ group ] || {}
+    const optionGroup = settings[ device ][ group ] || {}
     const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
     const options = OPTIONS[ option ]
     const { type, privacy, name, icon, ...props } = options

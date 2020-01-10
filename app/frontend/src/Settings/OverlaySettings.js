@@ -1,11 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class OverlaySettings extends Component {
-  state = {}
+import { Dropdown } from './SettingComponents'
+import DynamicOptions from './DynamicOptions'
 
-  render() {
-    return <p>live caption settings</p>
-  }
+const OverlaySettings = () => {
+  const x = 2
+
+  return (
+    <div className="overlay-settings">
+      <DynamicOptions device="global" group="overlay" />
+    </div>
+  )
 }
 
 export default OverlaySettings

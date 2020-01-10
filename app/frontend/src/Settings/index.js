@@ -208,13 +208,19 @@ const Settings = () => {
         <Switch>
           <Redirect exact from={SETTINGS_DEVICE_URL} to={defaultUrl} />
 
+          {/* Device setting routes */}
+          <Route path={`${SETTINGS_DEVICE_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} group={group} onChange={setSettings} />} />
+
+          {/* Server setting routes */}
           <Route
             path={SETTINGS_ABOUT_URL}
             render={() => <About connected={Object.keys( settings ).length - 1} />}
           />
-          <Route path={`${SETTINGS_DEVICE_URL}/hotkeys`} render={() => <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} />} />
-          <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={settings[ device ].sources} setSettings={setSettings} />} />
-          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} group={group} onChange={setSettings} />} />
+          <Route path={`${SETTINGS_SERVER_URL}/*`} render={() => <DynamicOptions device="global" group={group} onChange={setSettings} />} />
+
+          {/* Tool Routes */}
           <Route path={SETTINGS_OVERLAY_URL} component={OverlaySettings} />
 
           <Redirect to={defaultUrl} />
