@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { app, BrowserWindow, screen } from 'electron'
+import { app, BrowserWindow, screen, Menu } from 'electron'
 import { omit } from 'lodash'
 
 import { PORT, isDev } from '../lib/consts'
@@ -8,6 +8,9 @@ const BASE_URL = !isDev ? `http://localhost:${PORT}` : `http://localhost:${3000}
 
 let displayWindows = {}
 let mainWindow = null
+
+// Hide default menu in prod
+if ( !isDev ) Menu.setApplicationMenu( null )
 
 /**
  * Loads the Shabad OS web page, if available.
