@@ -34,7 +34,7 @@ publish: &publish
     - run:
         name: Publish application
         command: |
-          (cat app/package.json | grep -Eq '"version". "[0-9]+\.[0-9]+\.[0-9]+-.*"') && EP_PRE_RELEASE=true || true
+          if $(cat app/package.json | grep -Eq '"version". "[0-9]+\.[0-9]+\.[0-9]+-.*"'); then EP_PRE_RELEASE=true; else EP_PRE_RELEASE=false; fi;
           GH_TOKEN=$GITHUB_TOKEN EP_PRE_RELEASE=$EP_PRE_RELEASE npm run release -- -${PLATFORM_FLAG} -p always
         no_output_timeout: 30m
     - run: mkdir artifacts && cp dist/Shabad* artifacts
