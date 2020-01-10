@@ -1,27 +1,16 @@
-import React, { Component } from 'react'
-import { shape, arrayOf, string } from 'prop-types'
+import React, { useContext } from 'react'
 import { hot } from 'react-hot-loader/root'
+
+import { ContentContext } from '../lib/contexts'
 
 import './index.css'
 
-class ScreenReader extends Component {
-  render() {
-    const { shabad, bani } = this.props
+const ScreenReader = () => {
+  const { shabad, bani } = useContext( ContentContext )
 
-    if ( !shabad && !bani ) return null
+  const { lines = [] } = shabad || bani || {}
 
-    return shabad.lines.map( ( { gurmukhi, id } ) => <p key={id}>{gurmukhi}</p> )
-  }
-}
-
-ScreenReader.propTypes = {
-  shabad: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
-  bani: shape( { lines: arrayOf( shape( { id: string, gurmukhi: string } ) ) } ),
-}
-
-ScreenReader.defaultProps = {
-  shabad: undefined,
-  bani: undefined,
+  return lines.map( ( { gurmukhi, id } ) => <p key={id}>{gurmukhi}</p> )
 }
 
 export default hot( ScreenReader )

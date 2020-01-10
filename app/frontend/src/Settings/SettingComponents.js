@@ -1,5 +1,5 @@
 import React from 'react'
-import { string, func, any, arrayOf, number } from 'prop-types'
+import { string, func, any, arrayOf, number, bool } from 'prop-types'
 
 import classNames from 'classnames'
 
@@ -40,17 +40,17 @@ const GeneralSettingParam = Component => {
   return HOC
 }
 
-export const Toggle = ( { value, ...props } ) => <Switch className={classNames( 'toggle', { checked: value } )} checked={value} {...props} />
+export const Toggle = ( { value, ...props } ) => <Switch className={classNames( 'toggle', { checked: value } )} defaultChecked={value} {...props} />
 
 Toggle.propTypes = {
-  value: any.isRequired, // eslint-disable-line react/forbid-prop-types
+  value: bool.isRequired,
 }
 
 export const Slider = ( { value, ...props } ) => (
   <MSlider
     className="slider"
     valueLabelDisplay="auto"
-    value={value}
+    defaultValue={value}
     {...props}
   />
 )

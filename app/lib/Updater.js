@@ -12,7 +12,7 @@ import settings from './settings'
 import { DATABASE_FOLDER, electronVersion } from './consts'
 import { sendToElectron } from './utils.js'
 
-const databasePackage = `@syhabados/database@${dependencies[ '@shabados/database' ]}`
+const databasePackage = `@shabados/database@${dependencies[ '@shabados/database' ]}`
 
 class Updater extends EventEmitter {
   constructor( { tempFolder, interval } ) {
@@ -127,7 +127,7 @@ class Updater extends EventEmitter {
 
     const fn = enabled ? updateFunction : () => Promise.resolve()
 
-    await fn().catch( logger.error )
+    await fn().catch( error => logger.error( error ) )
     setTimeout( () => this.updateLoop( updateFunction ), this.interval )
   }
 }

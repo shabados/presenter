@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { hot } from 'react-hot-loader/root'
-import { shape, bool, arrayOf, string } from 'prop-types'
+import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
 
-import { getTranslation, getTransliteration } from '../lib/utils'
+import { getTranslation, getTransliteration, findLineIndex } from '../lib/utils'
+import { ContentContext, RecommendedSourcesContext } from '../lib/contexts'
 
 import Line from './Line'
 
@@ -15,7 +16,7 @@ import './Display.css'
  * @param shabad The Shabad to render.
  * @param lineId The current line in the Shabad.
  */
-const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
+const Display = ( { settings } ) => {
   const {
     layout,
     display,
@@ -30,10 +31,11 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
   } = settings
 
   // Get the lines from the shabad, if they exist
+  const { shabad, bani, lineId } = useContext( ContentContext )
   const { lines = [] } = shabad || bani || {}
 
   // Find the correct line in the Shabad
-  const lineIndex = lines.findIndex( ( { id } ) => lineId === id )
+  const lineIndex = findLineIndex( lines, lineId )
   const line = lineIndex > -1 ? lines[ lineIndex ] : null
 
   // Get the next lines
@@ -43,6 +45,7 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
     : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
+  const recommendedSources = useContext( RecommendedSourcesContext )
   const getTranslationFor = languageId => getTranslation( {
     shabad,
     recommendedSources,
@@ -103,13 +106,6 @@ const Display = ( { shabad, bani, lineId, recommendedSources, settings } ) => {
 }
 
 Display.propTypes = {
-  lineId: string,
-  shabad: shape( {
-    lines: arrayOf( shape( Line.PropTypes ) ),
-  } ),
-  bani: shape( {
-    lines: arrayOf( shape( Line.PropTypes ) ),
-  } ),
   settings: shape( {
     theme: shape( {
       simpleGraphics: bool,
@@ -118,13 +114,6 @@ Display.propTypes = {
       dimNextAndPrevLines: bool,
     } ),
   } ).isRequired,
-  recommendedSources: shape( { nameEnglish: string } ).isRequired,
-}
-
-Display.defaultProps = {
-  shabad: null,
-  bani: null,
-  lineId: null,
 }
 
 export default hot( Display )

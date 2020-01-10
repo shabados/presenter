@@ -23,7 +23,9 @@ import {
   FRONTEND_OVERLAY_THEMES_FOLDER,
   isDev,
 } from './lib/consts'
-import { ensureRequiredDirs, notify, sendToElectron } from './lib/utils'
+import { ensureRequiredDirs, sendToElectron } from './lib/utils'
+
+import { version } from './package.json'
 
 
 /**
@@ -36,11 +38,11 @@ const initialiseUpdater = sessionManager => {
     interval: UPDATE_CHECK_INTERVAL,
   } )
 
-  // Display notification for 30s, with optional toast
+  // Display notification for 30s, optionally
   const notification = ( message, toast ) => {
-    sessionManager.setStatus( message )
-    if ( toast ) notify( message )
-    setTimeout( () => sessionManager.setStatus(), 1000 * 30 )
+    if ( !toast ) return
+
+    sessionManager.notify( message )
   }
 
   const downloadEvents = () => settings.get( 'notifications.downloadEvents' )
@@ -61,12 +63,16 @@ const initialiseUpdater = sessionManager => {
  * Async entry point for application.
  */
 async function main() {
-  logger.info( 'Starting...' )
-
-  analytics.initialise()
+  logger.info( `Starting Shabad OS ${version}` )
 
   // Check if the data directories for the app exists, otherwise create it
-  ensureRequiredDirs()
+  await ensureRequiredDirs()
+
+  // Load backend settings
+  await settings.loadSettings()
+
+  // Initialise analytics
+  analytics.initialise()
 
   // Setup the express server with WebSockets
   const mounts = [
@@ -80,7 +86,7 @@ async function main() {
     { prefix: '*', dir: join( FRONTEND_BUILD_FOLDER, 'index.html' ) },
   ]
 
-  const server = await setupExpress( mounts, [ cors(), api ] )
+  const server = setupExpress( mounts, [ cors(), api ] )
 
   // Setup the websocket server
   const socket = new Socket( server )
@@ -109,6 +115,7 @@ async function main() {
   if ( !isDev ) initialiseUpdater( sessionManager )
 }
 
-process.on( 'uncaughtException', handleError )
+process.on( 'uncaughtException', handleError() )
+process.on( 'unhandledRejection', handleError( false ) )
 
-export default main().catch( handleError )
+export default main().catch( handleError() )

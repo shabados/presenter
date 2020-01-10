@@ -7,9 +7,8 @@ import EventEmitter from 'events'
 
 import WebSocket from 'ws'
 
-import { getHost, notify } from './utils'
+import { getHost } from './utils'
 import logger from './logger'
-import settings from './settings'
 
 /**
  * Wrapper for WebSockets with convenience methods.
@@ -33,16 +32,18 @@ class Socket extends EventEmitter {
    */
   onConnection() {
     this.socketServer.on( 'connection', async ( socket, { client } ) => {
+      // Modify the send to stringify first
+      // eslint-disable-next-line
+      socket.sendJSON = ( event, payload ) => socket.send( JSON.stringify( { event, payload } ) )
+
       // Get hostname or proper IP
       // eslint-disable-next-line
       socket.host = await getHost( client.remoteAddress )
 
       // Log the connection and disconnection events
       logger.info( `${socket.host} connected` )
-      if ( settings.get( 'notifications.connectionEvents' ) ) notify( `${socket.host} connected` )
 
       socket.on( 'close', () => {
-        if ( settings.get( 'notifications.disconnectionEvents' ) ) notify( `${socket.host} disconnected` )
         logger.info( `${socket.host} disconnected` )
         this.emit( 'disconnection', socket )
       } )
@@ -52,10 +53,6 @@ class Socket extends EventEmitter {
       socket.issAlive = true
       // eslint-disable-next-line
       socket.on( 'pong', () => socket.isAlive = true )
-
-      // Modify the send to stringify first
-      // eslint-disable-next-line
-      socket.sendJSON = ( event, payload ) => socket.send( JSON.stringify( { event, payload } ) )
 
       // Parse the JSON sent, before emitting it
       socket.on( 'message', data => {
@@ -75,7 +72,7 @@ class Socket extends EventEmitter {
    * @param {WebSocket[]} excludedClients The clients to exclude from the transmission.
    */
   broadcast( event, payload, excludedClients = [] ) {
-    this.forEach( client => client.sendJSON( event, payload ), excludedClients )
+    this.forEach( client => client.sendJSON && client.sendJSON( event, payload ), excludedClients )
   }
 
   /**
@@ -87,6 +84,8 @@ class Socket extends EventEmitter {
     const { clients } = this.socketServer
 
     clients.forEach( client => {
+      if ( !client.sendJSON ) return
+
       // Only include non-excluded clients and open connections
       if ( !excludedClients.includes( client ) && client.readyState === WebSocket.OPEN ) {
         fn( client )

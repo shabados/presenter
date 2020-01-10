@@ -4,6 +4,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
+import { StatusContext, withContext } from '../lib/contexts'
+
 import './StatusToast.css'
 
 const StatusToast = ( { status } ) => (
@@ -28,4 +30,4 @@ StatusToast.defaultProps = {
   status: null,
 }
 
-export default StatusToast
+export default withContext( StatusContext )( StatusToast )

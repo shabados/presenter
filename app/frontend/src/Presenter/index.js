@@ -1,9 +1,8 @@
-import React, { Component, lazy, Suspense } from 'react'
-import { shape, string } from 'prop-types'
+import React, { lazy, Suspense, useState, useContext } from 'react'
+import { useMount } from 'react-use'
 import { hot } from 'react-hot-loader/root'
-import { location } from 'react-router-prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
-import { Route } from 'react-router-dom'
+import { Route, useHistory, useLocation } from 'react-router-dom'
 import IdleTimer from 'react-idle-timer'
 import queryString from 'qs'
 import classNames from 'classnames'
@@ -26,8 +25,10 @@ import {
   STATES,
   isMobile,
   IDLE_TIMEOUT,
+  isDesktop,
 } from '../lib/consts'
 import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
+import { SettingsContext } from '../lib/contexts'
 
 import ThemeLoader from '../shared/ThemeLoader'
 import Loader from '../shared/Loader'
@@ -53,186 +54,148 @@ const DEFAULT_IDLE_EVENTS = [
   'MSPointerMove',
 ]
 
-class Presenter extends Component {
-  state = { idle: false }
+const Presenter = () => {
+  const history = useHistory()
+  const location = useLocation()
+  const { search, pathname } = location
+  const { controllerOnly } = getUrlState( search )
 
-  componentDidMount() {
-    if ( isMobile ) this.setFullscreenController()
-  }
+  const [ idle, setIdle ] = useState( false )
 
-  onIdle = () => this.setState( { idle: true } )
-
-  onActive = () => this.setState( { idle: false } )
+  const onIdle = () => setIdle( true )
+  const onActive = () => setIdle( false )
 
   /**
    * Sets the query string parameters, retaining any currently present.
    * @param params The query string parameters.
    */
-  setQueryParams = params => {
-    const { history, location } = this.props
-    const { search } = location
-
-    const previousSearch = getUrlState( search )
-    history.push( {
-      ...location,
-      search: queryString.stringify( { ...previousSearch, ...params } ),
-    } )
-  }
+  const setQueryParams = params => history.push( {
+    ...location,
+    search: queryString.stringify( { ...getUrlState( search ), ...params } ),
+  } )
 
   /**
    * More concise form to navigate to URLs, retaining query params.
    * @param pathname The path to navigate to.
    */
-  go = pathname => {
-    const { history, location } = this.props
-
-    history.push( { ...location, pathname } )
-  }
+  const go = pathname => history.push( { ...location, pathname } )
 
   /**
    * Toggles the controller.
    */
-  toggleController = () => {
-    const { location: { pathname } } = this.props
-
+  const toggleController = () => {
     const nextURL = pathname.includes( CONTROLLER_URL ) ? '/' : CONTROLLER_URL
-    this.go( nextURL )
+    go( nextURL )
   }
 
   /**
    * Always puts the controller in fullscreen.
    */
-  setFullscreenController = () => {
-    const { history } = this.props
-
-    history.push( {
-      pathname: CONTROLLER_URL,
-      search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
-    } )
-  }
-
-  /**
-   * Toggles the controller in fullscreen.
-   */
-  toggleFullscreenController = () => {
-    const { location: { pathname } } = this.props
-
-    // Navigates to the controller first, if not there
-    if ( !pathname.includes( CONTROLLER_URL ) ) {
-      this.toggleController()
-    }
-
-    this.toggleQuery( STATES.controllerOnly )
-  }
-
-  /**
-   * Toggles presenter fullscreen.
-   */
-  toggleFullscreen = () => ( !document.webkitFullscreenElement
-    ? document.documentElement.webkitRequestFullScreen()
-    : document.webkitExitFullscreen()
-  )
+  const setFullscreenController = () => history.push( {
+    pathname: CONTROLLER_URL,
+    search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
+  } )
 
   /**
    * Toggles the given query string parameter.
    * @param query The query string parameter to toggle.
    */
-  toggleQuery = query => {
-    const { location: { search } } = this.props
-
+  const toggleQuery = query => {
     const parsed = getUrlState( search )
-    this.setQueryParams( {
+
+    setQueryParams( {
       ...parsed,
       [ query ]: parsed[ query ] ? undefined : true,
     } )
   }
 
   /**
+   * Toggles the controller in fullscreen.
+   */
+  const toggleFullscreenController = () => {
+    // Navigates to the controller first, if not there
+    if ( !pathname.includes( CONTROLLER_URL ) ) toggleController()
+
+    toggleQuery( STATES.controllerOnly )
+  }
+
+  /**
+   * Toggles presenter fullscreen.
+   */
+  const toggleFullscreen = () => ( !document.webkitFullscreenElement
+    ? document.documentElement.webkitRequestFullScreen()
+    : document.webkitExitFullscreen()
+  )
+
+  /**
    * Prevents the default action from occurring for each handler.
    * @param events An object containing the event names and corresponding handlers.
    */
-  preventDefault = events => Object.entries( events )
+  const preventDefault = events => Object.entries( events )
     .reduce( ( events, [ name, handler ] ) => ( {
       ...events,
       [ name ]: event => event.preventDefault() || handler( event ),
     } ), {} )
 
   // Global Hotkey Handlers
-  hotkeyHandlers = this.preventDefault( {
-    [ GLOBAL_SHORTCUTS.toggleController.name ]: this.toggleController,
+  const hotkeyHandlers = preventDefault( {
+    [ GLOBAL_SHORTCUTS.toggleController.name ]: toggleController,
     [ GLOBAL_SHORTCUTS.newController.name ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true` ),
     [ GLOBAL_SHORTCUTS.settings.name ]: () => window.open( SETTINGS_URL ),
-    [ GLOBAL_SHORTCUTS.search.name ]: () => this.go( SEARCH_URL ),
-    [ GLOBAL_SHORTCUTS.history.name ]: () => this.go( HISTORY_URL ),
-    [ GLOBAL_SHORTCUTS.bookmarks.name ]: () => this.go( BOOKMARKS_URL ),
-    [ GLOBAL_SHORTCUTS.navigator.name ]: () => this.go( NAVIGATOR_URL ),
+    [ GLOBAL_SHORTCUTS.search.name ]: () => go( SEARCH_URL ),
+    [ GLOBAL_SHORTCUTS.history.name ]: () => go( HISTORY_URL ),
+    [ GLOBAL_SHORTCUTS.bookmarks.name ]: () => go( BOOKMARKS_URL ),
+    [ GLOBAL_SHORTCUTS.navigator.name ]: () => go( NAVIGATOR_URL ),
     [ GLOBAL_SHORTCUTS.clearDisplay.name ]: controller.clear,
-    [ GLOBAL_SHORTCUTS.toggleFullscreenController.name ]: this.toggleFullscreenController,
-    [ GLOBAL_SHORTCUTS.toggleFullscreen.name ]: this.toggleFullscreen,
+    [ GLOBAL_SHORTCUTS.toggleFullscreenController.name ]: toggleFullscreenController,
+    [ GLOBAL_SHORTCUTS.toggleFullscreen.name ]: toggleFullscreen,
     [ GLOBAL_SHORTCUTS.quit.name ]: window.close,
   } )
 
-  render() {
-    const { idle } = this.state
+  useMount( () => {
+    if ( isMobile ) setFullscreenController()
+  } )
 
-    const { settings, location: { search, pathname }, status, connected } = this.props
-    const { controllerOnly } = getUrlState( search )
+  const { local: localSettings } = useContext( SettingsContext )
+  const { theme: { themeName }, hotkeys } = localSettings
 
-    const { local: localSettings } = settings
-    const { theme: { themeName }, hotkeys } = localSettings
+  return (
+    <div className={classNames( { idle }, 'presenter' )}>
+      <CssBaseline />
+      <ThemeLoader name={themeName} />
 
-    return (
-      <div className={classNames( { idle }, 'presenter' )}>
-        <CssBaseline />
-        <ThemeLoader name={themeName} connected={connected} />
-
+      {isDesktop && (
         <IdleTimer
           events={DEFAULT_IDLE_EVENTS}
-          onIdle={this.onIdle}
-          onActive={this.onActive}
+          onIdle={onIdle}
+          onActive={onActive}
           timeout={IDLE_TIMEOUT}
         />
+      )}
 
-        <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={this.hotkeyHandlers}>
-          <NavigatorHotKeys {...this.props} active={!pathname.includes( CONTROLLER_URL )}>
+      <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>
+        <NavigatorHotKeys active={!pathname.includes( CONTROLLER_URL )}>
 
-            <Suspense fallback={<Loader />}>
-              {!controllerOnly && <Display {...this.props} settings={localSettings} />}
-            </Suspense>
+          <Suspense fallback={<Loader />}>
+            {!controllerOnly && <Display settings={localSettings} />}
+          </Suspense>
 
-            <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
-              <IconButton className="expand-icon" onClick={this.toggleController}>
-                <FontAwesomeIcon icon={faPlus} />
-              </IconButton>
+          <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
+            <IconButton className="expand-icon" onClick={toggleController}>
+              <FontAwesomeIcon icon={faPlus} />
+            </IconButton>
 
-              <Route path={CONTROLLER_URL}>
-                {props => <Controller {...this.props} {...props} />}
-              </Route>
-            </div>
+            <Route path={CONTROLLER_URL}>
+              {() => <Controller />}
+            </Route>
+          </div>
 
-          </NavigatorHotKeys>
-        </GlobalHotKeys>
+        </NavigatorHotKeys>
+      </GlobalHotKeys>
 
-        <StatusToast status={status} />
-      </div>
-    )
-  }
-}
-
-Presenter.propTypes = {
-  ...Display.propTypes,
-  status: string,
-  settings: shape( {
-    theme: shape( {
-      themeName: string,
-    } ),
-  } ).isRequired,
-  location: location.isRequired,
-}
-
-Presenter.defaultProps = {
-  ...Display.defaultProps,
-  status: null,
+      <StatusToast />
+    </div>
+  )
 }
 
 export default hot( withErrorFallback( Presenter ) )

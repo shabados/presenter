@@ -1,17 +1,21 @@
 {
   "name": "@shabados/backend",
-  "version": "2.0.2",
+  "version": "2.2.1",
   "description": "Shabad OS",
   "main": "electron/esm-wrapper.js",
   "scripts": {
     "start": "nodemon --ignore frontend/ --ignore electron/ -L --exec npm run start:production",
     "start:production": "node -r esm server",
+    "replay-log": "node -r esm scripts/replay-log",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ShabadOS/desktop.git"
+  },
+  "engines": {
+    "node": ">= 12.0.0"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0",
@@ -21,7 +25,7 @@
   "homepage": "https://github.com/ShabadOS/desktop#readme",
   "dependencies": {
     "@sentry/node": "^5.6.2",
-    "@shabados/database": "^4.4.0",
+    "@shabados/database": "^4.5.1",
     "appdata-path": "^1.0.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -37,14 +41,19 @@
     "helmet": "^3.21.1",
     "import-fresh": "^3.1.0",
     "lodash": "^4.17.15",
-    "node-notifier": "^6.0.0",
     "pacote": "^9.5.8",
     "pino": "^5.13.4",
     "ws": "^7.1.2"
   },
   "devDependencies": {
+    "commander": "^4.0.1",
     "electron": "^7.1.1",
+    "electron-devtools-installer": "^2.2.4",
     "nodemon": "^1.19.3",
     "pino-pretty": "^3.2.1"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": "^5.0.2"
   }
 }

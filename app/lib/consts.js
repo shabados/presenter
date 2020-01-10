@@ -39,7 +39,7 @@ export const UPDATE_TMP_FOLDER = join( TMP_FOLDER, '@shabados', 'database' )
 
 // Data file locations
 const dateName = ( new Date() ).toISOString().replace( /T/, '_' ).replace( /:/g, '-' )
-export const LOG_FILE = join( LOG_FOLDER, `${dateName}.log` )
+export const { LOG_FILE = join( LOG_FOLDER, `${dateName}.log` ) } = process.env
 export const HISTORY_FILE = join( HISTORY_FOLDER, `${dateName}.csv` )
 export const SETTINGS_FILE = join( DATA_FOLDER, 'settings.json' )
 export const DEFAULT_SETTINGS_FILE = join( APP_FOLDER, 'settings.default.json' )
@@ -52,3 +52,4 @@ export const PORT = !isDev ? 1699 : 42425
 
 // Sentry Data Source Name
 export const SENTRY_DSN = 'https://bd6e4bbf9db44f5b8e9cb8f0eeaa950a@sentry.io/1363382'
+export const SENTRY_PROJECT = 'desktop-backend'

@@ -5,12 +5,11 @@
 
 import { hostname, networkInterfaces } from 'os'
 import { reverse } from 'dns'
-import { ensureDirSync, readdir } from 'fs-extra'
+import { ensureDir, readdir, chmod } from 'fs-extra'
 import { promisify } from 'util'
 import { extname } from 'path'
-import notifier from 'node-notifier'
 
-import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, APP_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER } from './consts'
 
 const asyncReverse = promisify( reverse )
 
@@ -39,7 +38,7 @@ export const getHost = async hybridIP => {
  *! Assumes that networked interfaces always have Ethernet, Wifi, en, eth, wlan.
  */
 export const getNetworkedAddresses = () => Object.entries( networkInterfaces() )
-  .filter( ( [ name ] ) => name.match( /^(ethernet|wifi|en|eth|wlan)/i ) )
+  .filter( ( [ name ] ) => name.match( /^(ethernet|wifi|en|eth|wlan|wi-fi|wireless)/i ) )
   .reduce( ( interfaces, [ name, addresses ] ) => {
     const { address } = addresses.find( ( { family, internal } ) => !internal && family === 'IPv4' ) || {}
 
@@ -60,32 +59,20 @@ export const listCSSFiles = async path => {
 /*
  * Creates required filesystem directories for the app to work.
  */
-export const ensureRequiredDirs = () => {
+export const ensureRequiredDirs = async () => {
   const dirPerms = { mode: 0o2775 }
 
-  ;[
-    DATA_FOLDER,
+  // Create top-level folder first
+  await ensureDir( DATA_FOLDER )
+
+  await Promise.all( [
     LOG_FOLDER,
     CUSTOM_THEMES_FOLDER,
     CUSTOM_OVERLAY_THEMES_FOLDER,
     HISTORY_FOLDER,
     TMP_FOLDER,
-  ]
-    .map( dir => ensureDirSync( dir, dirPerms ) )
+  ].map( dir => ensureDir( dir, dirPerms ).then( () => chmod( dir, '755' ) ) ) )
 }
-
-/**
- * Posts an OS toast notification.
- * @param {string} message The message to send.
- */
-export const notify = message => notifier.notify( {
-  appID: 'com.shabados.desktop',
-  title: 'Shabad OS',
-  message,
-  icon: `${APP_FOLDER}/lib/logo.png`,
-  contentImage: `${APP_FOLDER}/lib/logo.png`,
-  wait: true,
-} )
 
 /**
  * Sends an IPC message to the electron instance, if exists.

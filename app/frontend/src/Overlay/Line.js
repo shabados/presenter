@@ -46,7 +46,7 @@ const Line = ( {
   ]
 
   return (
-    <div className={classNames( className, 'overlay-line' )}>
+    <div className={classNames( className, { empty: gurmukhi }, 'overlay-line' )}>
       <p className="gurmukhi larivaar">{line}</p>
       <p className="gurmukhi">{line}</p>
 

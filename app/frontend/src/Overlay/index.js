@@ -1,14 +1,19 @@
-import React from 'react'
-import { shape, arrayOf, string, bool } from 'prop-types'
+import React, { useContext } from 'react'
 
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
 
-import { getTranslation, getTransliteration } from '../lib/utils'
+import { getTranslation, getTransliteration, findLineIndex } from '../lib/utils'
+import { ContentContext, SettingsContext, StatusContext, RecommendedSourcesContext } from '../lib/contexts'
 
 import './index.css'
 
-const Overlay = ( { shabad, bani, lineId, recommendedSources, settings, connected } ) => {
+const Overlay = () => {
+  const { shabad, bani, lineId } = useContext( ContentContext )
+  const settings = useContext( SettingsContext )
+  const { connected } = useContext( StatusContext )
+  const recommendedSources = useContext( RecommendedSourcesContext )
+
   const { local: localSettings } = settings || {}
   const { sources } = localSettings || {}
 
@@ -16,7 +21,7 @@ const Overlay = ( { shabad, bani, lineId, recommendedSources, settings, connecte
   const { lines = [] } = shabad || bani || {}
 
   // Find the correct line in the Shabad
-  const lineIndex = lines.findIndex( ( { id } ) => lineId === id )
+  const lineIndex = findLineIndex( lines, lineId )
   const line = lineIndex > -1 ? lines[ lineIndex ] : null
 
   const getTranslationFor = languageId => getTranslation( {
@@ -46,25 +51,6 @@ const Overlay = ( { shabad, bani, lineId, recommendedSources, settings, connecte
       />
     </div>
   )
-}
-
-Overlay.propTypes = {
-  lineId: string,
-  shabad: shape( {
-    lines: arrayOf( shape( Line.PropTypes ) ),
-  } ),
-  bani: shape( {
-    lines: arrayOf( shape( Line.PropTypes ) ),
-  } ),
-  settings: shape( {} ).isRequired,
-  recommendedSources: shape( { nameEnglish: string } ).isRequired,
-  connected: bool.isRequired,
-}
-
-Overlay.defaultProps = {
-  shabad: null,
-  bani: null,
-  lineId: null,
 }
 
 export default Overlay

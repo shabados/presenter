@@ -8,7 +8,7 @@ import EventEmitter from 'event-emitter'
 import { toAscii } from 'gurmukhi-utils'
 
 import { DEFAULT_OPTIONS } from './options'
-import { merge } from './utils'
+import { merge, getNextJumpLine, findLineIndex } from './utils'
 import { WS_URL } from './consts'
 import analytics from './analytics'
 
@@ -17,7 +17,11 @@ class Controller extends EventEmitter {
     super()
 
     // Setup WebSocket connection to server
-    this.socket = new ReconnectingWebSocket( WS_URL )
+    this.socket = new ReconnectingWebSocket( WS_URL, null, {
+      reconnectionDelayGrowFactor: 1,
+      minReconnectionDelay: 300 + Math.random() * 200,
+      connectionTimeout: 1000,
+    } )
     this.socket.addEventListener( 'open', this.onOpen )
     this.socket.addEventListener( 'close', this.onClose )
     this.socket.addEventListener( 'message', this.onMessage )
@@ -120,7 +124,7 @@ class Controller extends EventEmitter {
 
       if ( !lineId ) return
 
-      const currentLineIndex = lines.findIndex( ( { id } ) => id === lineId )
+      const currentLineIndex = findLineIndex( lines, lineId )
 
       // Set new next line to be the next line, bounded by the last line
       let nextLineIndex = Math.min(
@@ -138,6 +142,13 @@ class Controller extends EventEmitter {
 
       this.nextJumpLine( newNextLineId )
     } else this.line( nextLineId )
+  }
+
+  autoToggleBani = params => {
+    const nextLineId = getNextJumpLine( params )
+    if ( !nextLineId ) return
+
+    this.line( nextLineId )
   }
 
   /**

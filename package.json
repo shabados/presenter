@@ -4,6 +4,7 @@
   "description": "Electron wrapper around Shabad OS backend and frontend",
   "main": "app/electron/esm-wrapper.js",
   "scripts": {
+    "changelog": "sh get-changelog.sh",
     "lint": "npm-run-all -l -p lint:*",
     "lint:backend": "cd app && npm run lint",
     "lint:frontend": "cd app/frontend && npm run lint",
@@ -33,6 +34,7 @@
   "homepage": "https://github.com/ShabadOS/desktop#readme",
   "devDependencies": {
     "babel-eslint": "^10.0.3",
+    "conventional-changelog-cli": "^2.0.31",
     "electron": "^7.1.1",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",

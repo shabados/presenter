@@ -31,13 +31,11 @@ publish: &publish
     - run:
         name: Build application
         command: npm run build
-    - run: 
-        name: Determine if pre-release
-        command: |-
-          (cat app/package.json | grep -Eq '"version": ".+\..+\..+-.*"') && EP_PRE_RELEASE=true || true
     - run:
         name: Publish application
-        command: GH_TOKEN=$GITHUB_TOKEN npm run release -- -${PLATFORM_FLAG} -p always
+        command: |
+          if $(cat app/package.json | grep -Eq '"version". "[0-9]+\.[0-9]+\.[0-9]+-.*"'); then EP_PRE_RELEASE=true; else EP_PRE_RELEASE=false; fi;
+          GH_TOKEN=$GITHUB_TOKEN EP_PRE_RELEASE=$EP_PRE_RELEASE npm run release -- -${PLATFORM_FLAG} -p always
         no_output_timeout: 30m
     - run: mkdir artifacts && cp dist/Shabad* artifacts
     - store_artifacts:
@@ -50,7 +48,7 @@ orbs:
 jobs:
   lint:
     docker:
-      - image: node:10
+      - image: node:12
     working_directory: ~/shabad-os
     steps:
       - checkout
@@ -85,6 +83,45 @@ jobs:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
 
+  print-changelog:
+    docker:
+      - image: node:12
+    working_directory: ~/shabad-os
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install --unsafe-perm
+      - run:
+          name: Print out the current changelog
+          command: npm run changelog
+
+  upload-changelog:
+    docker:
+      - image: node:12
+    working_directory: ~/shabad-os
+    steps:
+      - checkout
+      - run:
+          name: Download the hub command
+          command: |
+            curl -L https://github.com/github/hub/releases/download/v2.13.0/hub-linux-amd64-2.13.0.tgz -o hub.tgz
+            tar -xzf hub.tgz
+            cp hub-linux-amd64-2.13.0/bin/hub hub
+            chmod +x hub
+      - run:
+          name: Install dependencies
+          command: npm install --unsafe-perm
+      - run:
+          name: Upload the current changelog
+          command: |
+            CHANGELOG=$(npm run changelog | tail -n +12)
+            echo "$CHANGELOG"
+
+            TAG=$(git describe --tags --abbrev=0)
+            VERSION=$(echo $TAG | cut -c2-)
+            GITHUB_TOKEN=$GITHUB_TOKEN ./hub release edit -m $VERSION -m "$CHANGELOG" v$VERSION
+            
   publish-mac:
     <<: *publish
     macos:
@@ -108,6 +145,27 @@ jobs:
     environment:
       USE_HARD_LINKS: false
       PLATFORM_FLAG: "w"
+
+  tag-sentry:
+    docker:
+      - image: getsentry/sentry-cli
+    working_directory: ~/work
+    steps:
+      - checkout
+      - run:
+          name: Download JQ
+          command: apk --no-cache add jq
+      - run:
+          name: Tag Sentry release
+          command: |
+            # Get version
+            VERSION=$(cat app/package.json | jq -r .version)
+            # Create Sentry release
+            sentry-cli releases new -p desktop-backend -p desktop-frontend $VERSION
+            # Tag commits against release
+            sentry-cli releases set-commits --auto $VERSION
+            # Finalise Sentry release
+            sentry-cli releases finalize $VERSION
 
 ## Workflow
 
@@ -143,6 +201,11 @@ workflows:
             - run: sudo xcode-select -r
       - build-linux:
           <<: *build-workflow
+      - print-changelog:
+          requires:
+            - build-windows
+            - build-linux
+            - build-mac
 
 
       - publish-windows:
@@ -156,3 +219,14 @@ workflows:
       - publish-linux:
           <<: *publish-workflow
 
+
+      - upload-changelog:
+          requires:
+            - publish-windows
+            - publish-linux
+            - publish-mac
+      - tag-sentry:
+          requires:
+            - publish-windows
+            - publish-linux
+            - publish-mac

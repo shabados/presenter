@@ -4,7 +4,7 @@
  */
 
 import { EventEmitter } from 'events'
-import { readJSONSync, writeJSON, writeJSONSync, ensureFileSync } from 'fs-extra'
+import { readJSON, writeJSON, ensureFile } from 'fs-extra'
 import merge from 'deepmerge'
 
 import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts'
@@ -21,31 +21,40 @@ class Settings extends EventEmitter {
   constructor() {
     super()
     this.settings = {}
+  }
 
-    logger.info( `Loading settings from ${SETTINGS_FILE}` )
-    this.loadSettings()
+  static async readSettings( onlyOverrides ) {
+    try {
+      // Load settings file
+      const settings = await readJSON( SETTINGS_FILE )
+
+      // Return only changes or entire settings data
+      return onlyOverrides ? settings : merge( await readJSON( DEFAULT_SETTINGS_FILE ), settings )
+    } catch ( err ) {
+      logger.warn( 'Settings file is corrupt or non-existent. Recreating', SETTINGS_FILE )
+
+      await ensureFile( SETTINGS_FILE )
+      await writeJSON( SETTINGS_FILE, {} )
+
+      return onlyOverrides ? {} : readJSON( DEFAULT_SETTINGS_FILE )
+    }
   }
 
   /**
    * Loads settings, merging them with the defaults.
    */
-  loadSettings() {
-    // Load both settings files
-    const defaultSettings = readJSONSync( DEFAULT_SETTINGS_FILE )
-    const settings = Settings.checkCreateSettings()
-
-    // Merge and store them
-    this.settings = merge( defaultSettings, settings )
-
-    // Save them for good measure
-    this.saveSettings()
+  async loadSettings() {
+    logger.info( `Loading settings from ${SETTINGS_FILE}` )
+    this.settings = await Settings.readSettings()
   }
 
   /**
    * Saves the settings back to disk.
    */
-  async saveSettings() {
-    await writeJSON( SETTINGS_FILE, this.settings, { spaces: 2 } )
+  async saveSettings( changed = {} ) {
+    const settings = merge( await Settings.readSettings( true ), changed )
+    await writeJSON( SETTINGS_FILE, settings, { spaces: 2 } )
+
     this.emit( 'change', this.settings )
   }
 
@@ -67,7 +76,7 @@ class Settings extends EventEmitter {
    */
   set( key, value ) {
     this.settings[ key ] = value
-    this.saveSettings()
+    this.saveSettings( { [ key ]: value } )
   }
 
   /**
@@ -76,24 +85,7 @@ class Settings extends EventEmitter {
    */
   merge( settings = {} ) {
     this.settings = merge( this.settings, settings )
-    this.saveSettings()
-  }
-
-  /**
-   * Creates a settings.json file if it doesn't already exist, or is corrupt.
-   * @static
-   * @returns {Object} An object containing the settings.
-   */
-  static checkCreateSettings() {
-    // If we can't read the JSON file, recreate it
-    try {
-      return readJSONSync( SETTINGS_FILE )
-    } catch ( err ) {
-      logger.warn( 'Settings file is corrupt or non-existent. Recreating', SETTINGS_FILE )
-      ensureFileSync( SETTINGS_FILE )
-      writeJSONSync( SETTINGS_FILE, {} )
-      return {}
-    }
+    this.saveSettings( settings )
   }
 }
 

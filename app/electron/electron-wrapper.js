@@ -36,12 +36,16 @@ process.on( 'uncaughtException', error => {
 if ( isDev ) {
   app.on( 'ready', () => setTimeout( () => {
     onReady()
+    // eslint-disable-next-line import/no-extraneous-dependencies, global-require
+    const { default: installExtension, REACT_DEVELOPER_TOOLS } = require( 'electron-devtools-installer' )
+
+    installExtension( REACT_DEVELOPER_TOOLS )
 
     // Pretend setting updates are sent over
-    setInterval( () => {
+    setInterval( async () => {
       // eslint-disable-next-line global-require
       const settings = require( '../lib/settings' ).default
-      settings.loadSettings()
+      await settings.loadSettings()
 
       onSettingsChange( settings.get() )
     }, 1000 )

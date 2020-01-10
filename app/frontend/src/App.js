@@ -2,11 +2,13 @@ import React, { PureComponent, lazy, Suspense } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { configure } from 'react-hotkeys'
 import { hot } from 'react-hot-loader/root'
+import classNames from 'classnames'
 
-import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, PRESENTER_URL, BACKEND_URL } from './lib/consts'
+import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, PRESENTER_URL, BACKEND_URL, isMobile, isTablet, isDesktop } from './lib/consts'
 import { DEFAULT_OPTIONS } from './lib/options'
 import { merge } from './lib/utils'
 import controller from './lib/controller'
+import { ContentContext, StatusContext, SettingsContext, HistoryContext, BookmarksContext, RecommendedSourcesContext } from './lib/contexts'
 
 import Overlay from './Overlay'
 import Loader from './shared/Loader'
@@ -23,7 +25,7 @@ class App extends PureComponent {
     [ ScreenReader, SCREEN_READER_URL ],
     [ Settings, SETTINGS_URL ],
     [ Presenter, PRESENTER_URL ],
-  ].map( ( [ Component, path ] ) => [ props => <Component {...props} {...this.state} />, path ] )
+  ]
 
   constructor( props ) {
     super( props )
@@ -36,17 +38,17 @@ class App extends PureComponent {
 
     this.state = {
       connected: false,
+      status: null,
       banis: [],
       bani: null,
       lineId: null,
       mainLineId: null,
       nextLineId: null,
       viewedLines: {},
-      transitionHistory: [],
+      transitionHistory: {},
       latestLines: {},
       shabad: null,
       recommendedSources: {},
-      status: null,
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
   }
@@ -108,7 +110,7 @@ class App extends PureComponent {
 
   onNextLine = nextLineId => this.setState( { nextLineId } )
 
-  onTransitionHistory = history => this.setState( { transitionHistory: history.reverse() } )
+  onTransitionHistory = transitionHistory => this.setState( { transitionHistory } )
 
   onLatestLineHistory = latestLines => this.setState( { latestLines } )
 
@@ -131,17 +133,47 @@ class App extends PureComponent {
   } ) )
 
   render() {
+    const {
+      connected,
+      status,
+      banis,
+      recommendedSources,
+      bani,
+      shabad,
+      lineId,
+      mainLineId,
+      nextLineId,
+      viewedLines,
+      transitionHistory,
+      latestLines,
+      settings,
+    } = this.state
+
     return (
-      <div className="app">
-        <Suspense fallback={<Loader />}>
-          <Router>
-            <Switch>
-              {this.components.map( ( [ Component, path ] ) => (
-                <Route key={path} path={path} component={Component} />
-              ) )}
-            </Switch>
-          </Router>
-        </Suspense>
+      <div className={classNames( { mobile: isMobile, tablet: isTablet, desktop: isDesktop }, 'app' )}>
+        <StatusContext.Provider value={{ connected, status }}>
+          <SettingsContext.Provider value={settings}>
+            <HistoryContext.Provider value={{ viewedLines, transitionHistory, latestLines }}>
+              <BookmarksContext.Provider value={banis}>
+                <RecommendedSourcesContext.Provider value={recommendedSources}>
+                  <ContentContext.Provider value={{ bani, shabad, lineId, mainLineId, nextLineId }}>
+
+                    <Suspense fallback={<Loader />}>
+                      <Router>
+                        <Switch>
+                          {this.components.map( ( [ Component, path ] ) => (
+                            <Route key={path} path={path} component={Component} />
+                          ) )}
+                        </Switch>
+                      </Router>
+                    </Suspense>
+
+                  </ContentContext.Provider>
+                </RecommendedSourcesContext.Provider>
+              </BookmarksContext.Provider>
+            </HistoryContext.Provider>
+          </SettingsContext.Provider>
+        </StatusContext.Provider>
       </div>
     )
   }

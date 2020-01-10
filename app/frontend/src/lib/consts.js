@@ -12,6 +12,8 @@ export const isDev = process.env.NODE_ENV !== 'production'
 export const browser = detect()
 export const isMac = browser.os === 'Mac OS'
 export const isMobile = detectMobile()
+export const isTablet = detectMobile( { tablet: true } )
+export const isDesktop = !( isMobile || isTablet )
 
 // The user is considered idle after 3 seconds
 export const IDLE_TIMEOUT = 1000 * 3
@@ -25,6 +27,7 @@ export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
 
 /* Sentry Data Source Name */
 export const SENTRY_DSN = 'https://51b714c1e7544cba86efb2cad85152ff@sentry.io/1363390'
+export const SENTRY_PROJECT = 'desktop-frontend'
 
 /* Navigator */
 // URLs
@@ -82,4 +85,9 @@ export const SEARCH_CHARS = {
 // Search modifier anchors
 export const SEARCH_ANCHORS = {
   [ SEARCH_CHARS.wordAnywhere ]: SEARCH_TYPES.fullWord,
+}
+
+// Bani IDs
+export const BANIS = {
+  ASA_KI_VAAR: 11,
 }
