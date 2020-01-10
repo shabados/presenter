@@ -8,7 +8,7 @@ import { OVERLAY_THEMES_URL } from '../lib/consts'
  * @param name The name of the CSS theme to load from the server.
  * @constructor
  */
-const ThemeLoader = ( { name, connected } ) => connected && name && (
+const ThemeLoader = ( { name, connected } ) => connected && (
   <link
     rel="stylesheet"
     href={`${OVERLAY_THEMES_URL}/${name}.css`}
@@ -16,12 +16,8 @@ const ThemeLoader = ( { name, connected } ) => connected && name && (
 )
 
 ThemeLoader.propTypes = {
-  name: string,
+  name: string.isRequired,
   connected: bool.isRequired,
-}
-
-ThemeLoader.defaultProps = {
-  name: 'default',
 }
 
 export default ThemeLoader
