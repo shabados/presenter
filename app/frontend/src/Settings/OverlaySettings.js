@@ -32,7 +32,7 @@ const OverlaySettings = () => {
 
       <DynamicOptions device="global" group="overlay" />
 
-      <Grid container justify="center" xs={12} md={9} lg={7}>
+      <Grid style={{ marginTop: 20 }} container justify="center" xs={12} md={9} lg={7}>
 
         <Grid item>
           <Button disabled={!isElectron} variant="outlined" onClick={controller.openOverlayFolder}>Open Overlay Folder</Button>

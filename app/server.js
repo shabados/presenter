@@ -109,7 +109,7 @@ async function main() {
 
   // Relay any registered Electron actions
   electronActions.forEach(
-    ( [ name, transformer = x => x ] ) => socket.on( `electron:${name}`, ( ...params ) => sendToElectron( transformer( ...params ) ) ),
+    ( [ name, transformer = x => x ] ) => socket.on( `electron:${name}`, ( ...params ) => sendToElectron( name, transformer( ...params ) ) ),
   )
 
   // Start the server
