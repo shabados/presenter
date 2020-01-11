@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 
 import { BACKEND_URL, BACKEND_PORT } from '../lib/consts'
-import { openLink } from '../lib/utils'
+import controller from '../lib/controller'
 
 const aboutFields = [
   [ 'version', 'Shabad OS Version' ],
@@ -40,7 +40,7 @@ const About = ( { connected } ) => {
           <Grid item xs={6}><Typography variant="body2">Server Address</Typography></Grid>
           <Grid item xs={6}>
             {Object.entries( about.addresses ).map( ( [ name, address ] ) => (
-              <Link onClick={() => openLink( `http://${address}:${BACKEND_PORT}` )}>
+              <Link onClick={() => controller.openExternalUrl( `http://${address}:${BACKEND_PORT}` )}>
                 <Typography>{`${address}:${BACKEND_PORT} (${name})`}</Typography>
               </Link>
             ) )}

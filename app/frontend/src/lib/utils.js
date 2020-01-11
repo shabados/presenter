@@ -11,7 +11,6 @@ import { find, findIndex, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
 
 import { PAUSE_CHARS, STATES, isMac, BANIS, isElectron } from './consts'
-import controller from './controller'
 
 /**
  * Merges the source object into the destination, replacing arrays.
@@ -95,10 +94,6 @@ export const getUrlState = search => {
       [ key ]: params[ name ],
     } : acc ), {} )
 }
-
-export const openLink = isElectron
-  ? url => controller.openExternalUrl( url )
-  : url => window.open( url )
 
 /**
  * Returns the corresponding translation for a given line.

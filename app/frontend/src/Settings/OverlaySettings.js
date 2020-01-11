@@ -4,7 +4,6 @@ import { Button, Grid, Typography, Link } from '@material-ui/core'
 
 import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
 import controller from '../lib/controller'
-import { openLink } from '../lib/utils'
 
 import DynamicOptions from './DynamicOptions'
 
@@ -25,7 +24,7 @@ const OverlaySettings = () => {
         <Grid item xs={7}>
           <Typography>
             {Object.entries( addresses ).map( ( [ name, address ] ) => (
-              <Link onClick={() => openLink( `http://${address}:${BACKEND_PORT}/overlay` )}>
+              <Link onClick={() => controller.openExternalUrl( `http://${address}:${BACKEND_PORT}/overlay` )}>
                 <Typography>{`http://${address}:${BACKEND_PORT}/overlay (${name})`}</Typography>
               </Link>
             ) )}
