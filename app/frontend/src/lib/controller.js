@@ -217,6 +217,8 @@ class Controller extends EventEmitter {
 
   openOverlayFolder = () => this.electronAction( 'open-overlay-folder' )
 
+  openExternalUrl = url => this.electronAction( 'open-external-url', url )
+
   resetSettings = () => {
     localStorage.removeItem( 'settings' )
     this.setSettings()

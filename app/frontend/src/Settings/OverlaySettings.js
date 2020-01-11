@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
-import { Button, Grid, Typography } from '@material-ui/core'
+import { Button, Grid, Typography, Link } from '@material-ui/core'
 
 import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
 import controller from '../lib/controller'
+import { openLink } from '../lib/utils'
 
 import DynamicOptions from './DynamicOptions'
 
@@ -19,12 +20,14 @@ const OverlaySettings = () => {
 
   return (
     <div className="overlay-settings">
-      <Grid container>
-        <Grid item xs={6}><Typography variant="body2">Overlay URL</Typography></Grid>
-        <Grid item xs={6}>
+      <Grid container className="option">
+        <Grid item xs={5}><Typography>Overlay URL</Typography></Grid>
+        <Grid item xs={7}>
           <Typography>
             {Object.entries( addresses ).map( ( [ name, address ] ) => (
-              <Typography>{`${address}:${BACKEND_PORT}/overlay (${name})`}</Typography>
+              <Link onClick={() => openLink( `http://${address}:${BACKEND_PORT}/overlay` )}>
+                <Typography>{`http://${address}:${BACKEND_PORT}/overlay (${name})`}</Typography>
+              </Link>
             ) )}
           </Typography>
         </Grid>

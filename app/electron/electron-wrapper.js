@@ -58,6 +58,7 @@ const handlers = {
   settings: () => onSettingsChange,
   'update-check': server => () => checkUpdates( server ),
   'open-overlay-folder': () => () => shell.openItem( CUSTOM_OVERLAY_THEMES_FOLDER ),
+  'open-external-url': () => url => shell.openExternal( url ),
 }
 
 // Register handlers from server IPC

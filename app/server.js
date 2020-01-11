@@ -31,6 +31,7 @@ import { version } from './package.json'
 // Actions to pass through to electron, with optional trasnformers
 const electronActions = [
   [ 'open-overlay-folder' ],
+  [ 'open-external-url' ],
 ]
 
 /**
