@@ -16,7 +16,12 @@ const Overlay = () => {
 
   const { local: localSettings, global: globalSettings } = settings || {}
   const { sources } = localSettings || {}
-  const { overlay: { overlayName } } = globalSettings || {}
+  const { overlay: {
+    overlayName,
+    larivaarGurbani,
+    larivaarAssist,
+    ...overlay
+  } } = globalSettings || {}
 
   // Get the lines from the shabad, if they exist
   const { lines = [] } = shabad || bani || {}
@@ -42,12 +47,14 @@ const Overlay = () => {
         simpleGraphics
         gurmukhi={line ? line.gurmukhi : ''}
         {...( line && {
-          englishTranslation: getTranslationFor( 1 ),
-          punjabiTranslation: getTranslationFor( 2 ),
-          spanishTranslation: getTranslationFor( 3 ),
-          englishTransliteration: getTransliterationFor( 1 ),
-          hindiTransliteration: getTransliterationFor( 4 ),
-          urduTransliteration: getTransliterationFor( 5 ),
+          larivaarGurbani,
+          larivaarAssist,
+          englishTranslation: overlay.englishTranslation && getTranslationFor( 1 ),
+          punjabiTranslation: overlay.punjabiTranslation && getTranslationFor( 2 ),
+          spanishTranslation: overlay.spanishTranslation && getTranslationFor( 3 ),
+          englishTransliteration: overlay.englishTransliteration && getTransliterationFor( 1 ),
+          hindiTransliteration: overlay.hindiTransliteration && getTransliterationFor( 4 ),
+          urduTransliteration: overlay.urduTransliteration && getTransliterationFor( 5 ),
         } )}
       />
     </div>

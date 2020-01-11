@@ -30,7 +30,6 @@
   content: "\20";
 }
 
-.larivaar.overlay-line .word:after,
-.overlay-line .larivaar .word:after {
+.larivaar.overlay-line .word:after {
   content: "\200B";
 }

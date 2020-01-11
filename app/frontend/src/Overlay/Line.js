@@ -1,11 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
-import { string } from 'prop-types'
+import { string, bool, oneOfType } from 'prop-types'
 import classNames from 'classnames'
 
 import { partitionLine, classifyWords } from '../lib/utils'
 
 import './Line.css'
+
+const isNonEmptyString = ( [ , arg ] ) => typeof arg === 'string' && !!arg
 
 /**
  * Overlay Line Component.
@@ -19,6 +21,8 @@ import './Line.css'
 const Line = ( {
   className,
   gurmukhi,
+  larivaarGurbani: larivaar,
+  larivaarAssist,
   punjabiTranslation,
   englishTranslation,
   spanishTranslation,
@@ -46,17 +50,21 @@ const Line = ( {
   ]
 
   return (
-    <div className={classNames( className, { empty: gurmukhi }, 'overlay-line' )}>
-      <p className="gurmukhi larivaar">{line}</p>
+    <div className={classNames( className, {
+      empty: !gurmukhi,
+      larivaar,
+      assist: larivaar && larivaarAssist,
+    }, 'overlay-line' )}
+    >
       <p className="gurmukhi">{line}</p>
 
-      {translations.map( ( [ name, translation ] ) => (
+      {translations.filter( isNonEmptyString ).map( ( [ name, translation ] ) => (
         <p key={`${name}-${translation}`} className={classNames( name, 'translation' )}>
           {translation}
         </p>
       ) )}
 
-      {transliterations.map( ( [ name, transliteration ] ) => (
+      {transliterations.filter( isNonEmptyString ).map( ( [ name, transliteration ] ) => (
         <p key={`${name}-${transliteration}`} className={classNames( name, 'transliteration' )}>
           {classifyWords( transliteration, true ).map(
             ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
@@ -71,22 +79,26 @@ const Line = ( {
 Line.propTypes = {
   className: string,
   gurmukhi: string.isRequired,
-  punjabiTranslation: string,
-  englishTranslation: string,
-  spanishTranslation: string,
-  englishTransliteration: string,
-  hindiTransliteration: string,
-  urduTransliteration: string,
+  punjabiTranslation: oneOfType( [ string, bool ] ),
+  englishTranslation: oneOfType( [ string, bool ] ),
+  spanishTranslation: oneOfType( [ string, bool ] ),
+  englishTransliteration: oneOfType( [ string, bool ] ),
+  hindiTransliteration: oneOfType( [ string, bool ] ),
+  urduTransliteration: oneOfType( [ string, bool ] ),
+  larivaarGurbani: bool,
+  larivaarAssist: bool,
 }
 
 Line.defaultProps = {
   className: null,
-  englishTranslation: '',
-  spanishTranslation: '',
-  punjabiTranslation: '',
-  englishTransliteration: '',
-  hindiTransliteration: '',
-  urduTransliteration: '',
+  larivaarAssist: false,
+  larivaarGurbani: false,
+  englishTranslation: false,
+  spanishTranslation: false,
+  punjabiTranslation: false,
+  englishTransliteration: false,
+  hindiTransliteration: false,
+  urduTransliteration: false,
 }
 
 export default Line
