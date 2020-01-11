@@ -10,7 +10,7 @@ import queryString from 'qs'
 import { find, findIndex, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
 
-import { PAUSE_CHARS, STATES, isMac, BANIS, isElectron } from './consts'
+import { PAUSE_CHARS, STATES, isMac, BANIS } from './consts'
 
 /**
  * Merges the source object into the destination, replacing arrays.
