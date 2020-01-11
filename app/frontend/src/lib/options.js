@@ -230,6 +230,14 @@ export const DEFAULT_OPTIONS = {
     },
     overlay: {
       overlayName: 'Branded (Top)',
+      larivaarGurbani: false,
+      larivaarAssist: false,
+      englishTranslation: true,
+      spanishTranslation: false,
+      punjabiTranslation: false,
+      englishTransliteration: true,
+      hindiTransliteration: false,
+      urduTransliteration: false,
     },
   },
 }

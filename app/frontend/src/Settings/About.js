@@ -7,6 +7,7 @@ import {
   CircularProgress,
   Grid,
   Typography,
+  Link,
 } from '@material-ui/core'
 
 import { BACKEND_URL, BACKEND_PORT } from '../lib/consts'
@@ -37,11 +38,11 @@ const About = ( { connected } ) => {
         <Grid container>
           <Grid item xs={6}><Typography variant="body2">Server Address</Typography></Grid>
           <Grid item xs={6}>
-            <Typography>
-              {Object.entries( about.addresses ).map( ( [ name, address ] ) => (
+            {Object.entries( about.addresses ).map( ( [ name, address ] ) => (
+              <Link href={`${address}:${BACKEND_PORT}`} target="_blank">
                 <Typography>{`${address}:${BACKEND_PORT} (${name})`}</Typography>
-              ) )}
-            </Typography>
+              </Link>
+            ) )}
           </Grid>
         </Grid>
       </ListItem>

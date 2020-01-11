@@ -28,6 +28,11 @@ import { ensureRequiredDirs, sendToElectron } from './lib/utils'
 import { version } from './package.json'
 
 
+// Actions to pass through to electron, with optional trasnformers
+const electronActions = [
+  [ 'open-overlay-folder' ],
+]
+
 /**
  * Sets up updates.
  * @param {SessionManager} sessionManager An instance of sessionManager.
@@ -101,6 +106,11 @@ async function main() {
 
   // Register Bani list requests on socket connection
   socket.on( 'connection', async client => client.sendJSON( 'banis:list', await getBanis() ) )
+
+  // Relay any registered Electron actions
+  electronActions.forEach(
+    ( [ name, transformer = x => x ] ) => socket.on( `electron:${name}`, ( ...params ) => sendToElectron( transformer( ...params ) ) ),
+  )
 
   // Start the server
   server.listen( PORT, () => {

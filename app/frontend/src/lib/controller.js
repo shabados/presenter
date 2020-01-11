@@ -213,6 +213,10 @@ class Controller extends EventEmitter {
     this.sendJSON( 'settings:all', settings )
   }
 
+  electronAction = ( name, params ) => this.sendJSON( `electron:${name}`, params )
+
+  openOverlayFolder = () => this.electronAction( 'open-overlay-folder' )
+
   resetSettings = () => {
     localStorage.removeItem( 'settings' )
     this.setSettings()

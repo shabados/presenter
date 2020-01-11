@@ -13,6 +13,14 @@
     "downloadedEvents": true
   },
   "overlay": { 
-    "overlayName": "Branded (Top)"
+    "overlayName": "Branded (Top)",
+    "larivaarGurbani": false,
+    "larivaarAssist": false,
+    "englishTranslation": true,
+    "spanishTranslation": false,
+    "punjabiTranslation": false,
+    "englishTransliteration": false,
+    "hindiTransliteration": false,
+    "urduTransliteration": false
   }
 }
