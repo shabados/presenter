@@ -30,8 +30,6 @@
 .english, .spanish { font-size: var(--english-size); }
 .urdu { font-size: var(--english-size); }
 
-.larivaar, .punjabi, .transliteration {display: none;}
-
 .overlay-line .gurmukhi .word:empty::after {
 	content: "Shabad OS";
 	font-family: sans-serif;
