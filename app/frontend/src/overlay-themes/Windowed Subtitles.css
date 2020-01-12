@@ -4,7 +4,7 @@
 	/***********/
 
 	/* Layout */
-	--flex-justification: flex-end; /*	"flex-start", "space-between", and "flex-end" */
+	--overlay-flex-justification: flex-end; /*	"flex-start", "space-between", and "flex-end" */
 
 	--overlay-width: inherit;
 	/*	Use less than 100vw in conjunction with height 100vh
@@ -13,13 +13,13 @@
 	--overlay-vertical-padding: 5vh;
 	--overlay-horizontal-padding: 0vh;
 
-	--window-display: inline-block; /* "flex" for full-width, "inline-block" for dynamic width */
-	--window-vertical-padding: 2.5vh;
-	--window-horizontal-padding: var(--window-vertical-padding);
+	--overlay-window-display: inline-block; /* "flex" for full-width, "inline-block" for dynamic width */
+	--overlay-window-vertical-padding: 2.5vh;
+	--overlay-window-horizontal-padding: var(--overlay-window-vertical-padding);
 
-	--text-align: center; /* "center", "start" (natural convention), "left", or "right" */
-	--text-vertical-padding: 0;
-	--text-horizontal-padding: var(--text-vertical-padding);
+	--overlay-text-align: center; /* "center", "start" (natural convention), "left", or "right" */
+	--overlay-text-vertical-padding: 0;
+	--overlay-text-horizontal-padding: var(--overlay-text-vertical-padding);
 
 	/* Background */
 	--overlay-background-color: none;
@@ -27,36 +27,36 @@
 	--overlay-background-position: 50% 50%;
 	--overlay-background-size: cover;
 
-	--window-background-color: rgba(0, 0, 0, .5);
-	--window-background-image: none;
-	--window-background-position: 50% 50%;
-	--window-background-size: cover;
+	--overlay-window-background-color: rgba(0, 0, 0, .5);
+	--overlay-window-background-image: none;
+	--overlay-window-background-position: 50% 50%;
+	--overlay-window-background-size: cover;
 
-	--text-background-color: none;
-	--text-background-image: none;
-	--text-background-position: 50% 50%;
-	--text-background-size: contain;
+	--overlay-text-background-color: none;
+	--overlay-text-background-image: none;
+	--overlay-text-background-position: 50% 50%;
+	--overlay-text-background-size: contain;
 
-	--esc-overlay-background: none;
-	--esc-window-background: none;
-	--esc-text-background: none;
+	--overlay-esc-background: none;
+	--overlay-esc-window-background: none;
+	--overlay-esc-text-background: none;
 	/*	Background definition when the presenter is completely cleared with the escape hotkey,
 			can be set with shorthand for full screen overlays or cinematic full-bar overlays. */
 
 	/* Font */
-	--primary-font-size: 5vh; /* 90+% of gurbani lines fit on a single line 16:9 with 4.8vh */
-	--primary-font-color: #EEDC00; /* Color of gurbani font */
-	--primary-drop-color: 0, 0, 0;
+	--overlay-primary-font-size: 5vh; /* 90+% of gurbani lines fit on a single line 16:9 with 4.8vh */
+	--overlay-primary-font-color: #EEDC00; /* Color of gurbani font */
+	--overlay-primary-drop-color: 0, 0, 0;
 	/*	Must be in "R, G, B" format (e.g. "0, 0, 0" without quotes).
 			Color of drop shadow/glow for gurbani font. */
 
-	--secondary-font-size: calc( var(--primary-font-size) * 0.6 );
+	--overlay-secondary-font-size: calc( var(--overlay-primary-font-size) * 0.6 );
 	/*	Change the decimal factor to size secondary lines according to gurbani's font size */
-	--secondary-font-color: #FFFFFF;
-	--secondary-drop-color: 0, 0, 0; /* Must be in "R, G, B" format (e.g. "0, 0, 0" without quotes) */
+	--overlay-secondary-font-color: #FFFFFF;
+	--overlay-secondary-drop-color: 0, 0, 0; /* Must be in "R, G, B" format (e.g. "0, 0, 0" without quotes) */
 
 	/* Vishraam Colors */
-	--vishraam-heavy-color: inherit; /* Set to "inherit" to hide colors */
-	--vishraam-medium-color: inherit;
-	--vishraam-light-color: inherit;
+	--overlay-vishraam-heavy-color: inherit; /* Set to "inherit" to hide colors */
+	--overlay-vishraam-medium-color: inherit;
+	--overlay-vishraam-light-color: inherit;
 }
