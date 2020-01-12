@@ -51,24 +51,31 @@ const Line = ( {
 
   return (
     <div className={classNames( className, {
-      empty: !gurmukhi,
       larivaar,
       assist: larivaar && larivaarAssist,
     }, 'overlay-line' )}
     >
-      <p className="gurmukhi">{line}</p>
+      <p className="gurmukhi">
+        <span className="text">
+          {line}
+        </span>
+      </p>
 
       {translations.filter( isNonEmptyString ).map( ( [ name, translation ] ) => (
         <p key={`${name}-${translation}`} className={classNames( name, 'translation' )}>
-          {translation}
+          <span className="text">
+            {translation}
+          </span>
         </p>
       ) )}
 
       {transliterations.filter( isNonEmptyString ).map( ( [ name, transliteration ] ) => (
         <p key={`${name}-${transliteration}`} className={classNames( name, 'transliteration' )}>
-          {classifyWords( transliteration, true ).map(
-            ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
-          )}
+          <span className="text">
+            {classifyWords( transliteration, true ).map(
+              ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
+            )}
+          </span>
         </p>
       ) )}
 

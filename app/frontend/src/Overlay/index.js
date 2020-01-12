@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import classNames from 'classnames'
 
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
@@ -41,7 +42,10 @@ const Overlay = () => {
   const getTransliterationFor = languageId => getTransliteration( line, languageId )
 
   return (
-    <div className="overlay">
+    <div className={classNames( {
+      empty: !line,
+    }, 'overlay' )}
+    >
       <ThemeLoader connected={connected} name={overlayName} />
       <Line
         simpleGraphics
