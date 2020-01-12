@@ -1,14 +1,34 @@
+.overlay-line {
+	padding: var(--window-vertical-padding) var(--window-horizontal-padding);
+	display: var(--window-display);
+	flex: 1 0 100%;
+	flex-direction: column;
+	justify-content: var(--flex-justification); /* The CEF used in OBS and vMix cannot handle overflowing content properly with space-evenly or space-around */
+	color: var(--secondary-font-color);
+	text-align: var(--text-align);
+	background-color: var(--window-background-color);
+	background-image: var(--window-background-image);
+	background-size: var(--window-background-size);
+	background-repeat: no-repeat;
+	background-position: var(--window-background-position);
+}
+
 .overlay-line p {
   margin: 0;
 }
 
 .overlay-line .gurmukhi {
   font-family: "Open Gurbani Akhar Black", sans-serif;
+  color: var(--primary-font-color);
+	font-size: var(--primary-font-size);
+	text-shadow: 2px 2px 2px rgba(var(--primary-drop-color), 1.00);
 }
 
 .overlay-line .english, .overlay-line .spanish {
   font-family: "Noto Sans Medium", sans-serif;
   font-weight: 700;
+  font-size: var(--secondary-font-size);
+	text-shadow:  2px 2px 2px rgba(var(--secondary-drop-color), 1.00);
 }
 
 .overlay-line .punjabi {
@@ -20,9 +40,16 @@
   line-height: 1.48;
 }
 
+.overlay-line .punjabi, .overlay-line .hindi {
+	font-size: calc( var(--secondary-font-size) * 1.15 );
+	text-shadow:  2px 2px 2px rgba(var(--secondary-drop-color), 1.00);
+}
+
 .overlay-line .urdu {
   font-family: "Noto Sans Nastaliq Urdu";
   direction: rtl;
+  font-size: calc( var(--secondary-font-size) * 0.85 );
+	text-shadow:  2px 2px 2px rgba(var(--secondary-drop-color), 1.00);
 }
 
 .overlay-line .gurmukhi .word:after,
@@ -32,4 +59,48 @@
 
 .larivaar.overlay-line .word:after {
   content: "\200B";
+}
+
+.text { 
+	display: inline-block;
+	padding-left: var(--text-horizontal-padding);
+	padding-right: var(--text-horizontal-padding);
+	background-color: var(--text-background-color);
+	background-image: var(--text-background-image);
+	background-size: var(--text-background-size);
+	background-repeat: no-repeat;
+	background-position: var(--text-background-position);
+  background-attachment: fixed;
+}
+
+.overlay-line > *:first-child > .text {
+	padding-top: var(--text-vertical-padding);
+}
+
+.overlay-line > *:last-child > .text {
+	padding-bottom: var(--text-vertical-padding);
+}
+
+.overlay.empty {
+	background: var(--esc-overlay-background);
+}
+
+.overlay.empty .overlay-line {
+	background: var(--esc-window-background);
+}
+
+overlay.empty .text {
+	background: var(--esc-text-background);
+}
+
+.heavy {
+	color: var(--vishraam-heavy-color) !important;
+}
+
+.medium {
+	color: var(--vishraam-medium-color) !important;
+}
+
+.light {
+	color: var(--vishraam-light-color) !important;
 }
