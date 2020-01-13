@@ -4,7 +4,7 @@ import { app } from 'electron'
 import logger from '../lib/logger'
 import { isDev } from '../lib/consts'
 
-import { createMainWindow, createNonMainWindows, closeNonMainWindows } from './window'
+import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow } from './window'
 import { setBeta, initUpdates, checkUpdates } from './updates'
 
 
@@ -57,6 +57,7 @@ const handlers = {
   ready: server => () => ( app.isReady() ? onReady( server ) : app.on( 'ready,', () => onReady( server ) ) ),
   settings: () => onSettingsChange,
   'update-check': server => () => checkUpdates( server ),
+  'open-window': () => ( { url, ...params } ) => url && createWindow( url, params ),
 }
 
 // Register handlers from server IPC

@@ -31,6 +31,7 @@ import { version } from './package.json'
 // Action handlers
 const actions = [
   [ 'open-overlay-folder', () => open( CUSTOM_OVERLAY_THEMES_FOLDER ) ],
+  [ 'open-window', payload => sendToElectron( 'open-window', payload ) ],
 ]
 
 // Search types and handlers
@@ -112,7 +113,7 @@ async function main() {
 
   // Register all action handlers on the socket instance
   actions.forEach(
-    ( [ name, transformer = x => x ] ) => socket.on( `action:${name}`, ( ...params ) => sendToElectron( name, transformer( ...params ) ) ),
+    ( [ name, handler ] ) => socket.on( `action:${name}`, payload => sendToElectron( name, handler( payload ) ) ),
   )
 
   // Register Bani list requests on socket connection
