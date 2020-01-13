@@ -9,7 +9,7 @@ import { toAscii } from 'gurmukhi-utils'
 
 import { DEFAULT_OPTIONS } from './options'
 import { merge, getNextJumpLine, findLineIndex } from './utils'
-import { WS_URL, isElectron } from './consts'
+import { WS_URL } from './consts'
 import analytics from './analytics'
 
 class Controller extends EventEmitter {
