@@ -215,8 +215,6 @@ class Controller extends EventEmitter {
 
   electronAction = ( name, params ) => this.sendJSON( `electron:${name}`, params )
 
-  openOverlayFolder = () => this.electronAction( 'open-overlay-folder' )
-
   openExternalUrl = isElectron
     ? url => this.electronAction( 'open-external-url', url )
     : url => window.open( url )
