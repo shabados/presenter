@@ -4,6 +4,8 @@ import { configure } from 'react-hotkeys'
 import { hot } from 'react-hot-loader/root'
 import classNames from 'classnames'
 
+import { SnackbarProvider } from 'notistack'
+
 import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, PRESENTER_URL, BACKEND_URL, isMobile, isTablet, isDesktop } from './lib/consts'
 import { DEFAULT_OPTIONS } from './lib/options'
 import { merge } from './lib/utils'
@@ -157,17 +159,19 @@ class App extends PureComponent {
               <BookmarksContext.Provider value={banis}>
                 <RecommendedSourcesContext.Provider value={recommendedSources}>
                   <ContentContext.Provider value={{ bani, shabad, lineId, mainLineId, nextLineId }}>
+                    <SnackbarProvider>
 
-                    <Suspense fallback={<Loader />}>
-                      <Router>
-                        <Switch>
-                          {this.components.map( ( [ Component, path ] ) => (
-                            <Route key={path} path={path} component={Component} />
-                          ) )}
-                        </Switch>
-                      </Router>
-                    </Suspense>
+                      <Suspense fallback={<Loader />}>
+                        <Router>
+                          <Switch>
+                            {this.components.map( ( [ Component, path ] ) => (
+                              <Route key={path} path={path} component={Component} />
+                            ) )}
+                          </Switch>
+                        </Router>
+                      </Suspense>
 
+                    </SnackbarProvider>
                   </ContentContext.Provider>
                 </RecommendedSourcesContext.Provider>
               </BookmarksContext.Provider>
