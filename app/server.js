@@ -1,5 +1,6 @@
 import { join } from 'path'
 import cors from 'cors'
+import open from 'open'
 
 import analytics from './lib/analytics'
 import { setupExpress } from './lib/express'
@@ -27,10 +28,15 @@ import { ensureRequiredDirs, sendToElectron } from './lib/utils'
 
 import { version } from './package.json'
 
+// Action handlers
+const actions = [
+  [ 'open-overlay-folder', () => open( CUSTOM_OVERLAY_THEMES_FOLDER ) ],
+]
 
-// Actions to pass through to electron, with optional trasnformers
-const electronActions = [
-  [ 'open-overlay-folder' ],
+// Search types and handlers
+const searches = [
+  [ 'first-letter', firstLetterSearch ],
+  [ 'full-word', fullWordSearch ],
 ]
 
 /**
@@ -100,17 +106,18 @@ async function main() {
   const sessionManager = new SessionManager( socket )
 
   // Register searches on the socket instance
-  const search = searchFn => async ( client, query ) => client.sendJSON( 'results', await searchFn( query ) )
-  socket.on( 'search:first-letter', search( firstLetterSearch ) )
-  socket.on( 'search:full-word', search( fullWordSearch ) )
+  searches.forEach(
+    ( [ name, searchFn ] ) => socket.on( `search:${name}`, async ( client, query ) => client.sendJSON( 'results', await searchFn( query ) ) ),
+  )
+
+  // Register all action handlers on the socket instance
+  actions.forEach(
+    ( [ name, transformer = x => x ] ) => socket.on( `action:${name}`, ( ...params ) => sendToElectron( name, transformer( ...params ) ) ),
+  )
 
   // Register Bani list requests on socket connection
   socket.on( 'connection', async client => client.sendJSON( 'banis:list', await getBanis() ) )
 
-  // Relay any registered Electron actions
-  electronActions.forEach(
-    ( [ name, transformer = x => x ] ) => socket.on( `electron:${name}`, ( ...params ) => sendToElectron( name, transformer( ...params ) ) ),
-  )
 
   // Start the server
   server.listen( PORT, () => {
