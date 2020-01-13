@@ -113,7 +113,7 @@ async function main() {
 
   // Register all action handlers on the socket instance
   actions.forEach(
-    ( [ name, handler ] ) => socket.on( `action:${name}`, payload => handler( payload ) ),
+    ( [ name, handler ] ) => socket.on( `action:${name}`, ( _, payload ) => handler( payload ) ),
   )
 
   // Register Bani list requests on socket connection

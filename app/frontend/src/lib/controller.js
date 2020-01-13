@@ -216,7 +216,7 @@ class Controller extends EventEmitter {
   action = ( name, params ) => this.sendJSON( `action:${name}`, params )
 
   openWindow = isElectron && !isDev
-    ? ( url, params ) => this.action( 'open-window', { url, ...params } )
+    ? ( url, params ) => this.action( 'open-window', { url: `${window.location.origin}${url}`, ...params } )
     : url => window.open( url )
 
   resetSettings = () => {
