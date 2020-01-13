@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { app, shell } from 'electron'
+import { app } from 'electron'
 
 import logger from '../lib/logger'
-import { isDev, CUSTOM_OVERLAY_THEMES_FOLDER } from '../lib/consts'
+import { isDev } from '../lib/consts'
 
 import { createMainWindow, createNonMainWindows, closeNonMainWindows } from './window'
 import { setBeta, initUpdates, checkUpdates } from './updates'
@@ -57,7 +57,6 @@ const handlers = {
   ready: server => () => ( app.isReady() ? onReady( server ) : app.on( 'ready,', () => onReady( server ) ) ),
   settings: () => onSettingsChange,
   'update-check': server => () => checkUpdates( server ),
-  'open-overlay-folder': () => () => shell.openItem( CUSTOM_OVERLAY_THEMES_FOLDER ),
 }
 
 // Register handlers from server IPC

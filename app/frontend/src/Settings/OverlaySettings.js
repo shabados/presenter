@@ -37,7 +37,7 @@ const OverlaySettings = () => {
       <Grid style={{ marginTop: 20 }} container justify="center" xs={12} md={9} lg={7}>
 
         <Grid item>
-          <Button disabled={!isElectron} variant="outlined" onClick={controller.openOverlayFolder}>Open Overlay Folder</Button>
+          <Button disabled={!isElectron} variant="outlined" onClick={() => controller.action( 'open-overlay-folder' )}>Open Overlay Folder</Button>
         </Grid>
 
       </Grid>

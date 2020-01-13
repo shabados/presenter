@@ -213,11 +213,7 @@ class Controller extends EventEmitter {
     this.sendJSON( 'settings:all', settings )
   }
 
-  electronAction = ( name, params ) => this.sendJSON( `electron:${name}`, params )
-
-  openExternalUrl = isElectron
-    ? url => this.electronAction( 'open-external-url', url )
-    : url => window.open( url )
+  action = ( name, params ) => this.sendJSON( `action:${name}`, params )
 
   resetSettings = () => {
     localStorage.removeItem( 'settings' )
