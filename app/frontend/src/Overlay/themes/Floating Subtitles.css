@@ -45,14 +45,14 @@
 
 	/* Font */
 	--overlay-primary-font-size: 4.8vh; /* 90+% of gurbani lines fit on a single line 16:9 with 4.8vh */
-	--overlay-primary-font-color: #ffffff; /* Color of gurbani font */
+	--overlay-primary-font-color: #EEDC00; /* Color of gurbani font */
 	--overlay-primary-drop-color: 0, 0, 0;
 	/*	Must be in "R, G, B" format (e.g. "0, 0, 0" without quotes).
 			Color of drop shadow/glow for gurbani font. */
 
 	--overlay-secondary-font-size: calc( var(--overlay-primary-font-size) * 0.6 );
 	/*	Change the decimal factor to size secondary lines according to gurbani's font size */
-	--overlay-secondary-font-color: var(--overlay-primary-font-color);
+	--overlay-secondary-font-color: #FFFFFF;
 	--overlay-secondary-drop-color: 0, 0, 0; /* Must be in "R, G, B" format (e.g. "0, 0, 0" without quotes) */
 
 	/* Vishraam Colors */
