@@ -4,28 +4,28 @@
     /***********/
 
     /* Display background */
-    --display-background-color: #0031a2;
-    --display-highlight-background-color: #00206CB3;
-    --display-dim-background-color: #ffce5d40;
-    --display-background-image: url('/themes/images/logo-white-5.png');
+    --display-background-color: #FFFFFF;
+    --display-highlight-background-color: #E1BEE73D;
+    --display-dim-background-color: #21212124;
+    --display-background-image: url('/presenter/themes/images/logo-pastel.png');
     --display-background-size: 121.5%;
 
     /* Display line colours */
-    --display-line-1-color: #ffd318;
-    --display-line-2-color: #dedede;
-    --display-line-3-color: var(--display-line-2-color);
-    --display-line-4-color: var(--display-line-2-color);
-    --display-line-5-color: var(--display-line-2-color);
-    --display-line-6-color: var(--display-line-2-color);
-    --display-line-7-color: var(--display-line-2-color);
+    --display-line-1-color: #000000;
+    --display-line-2-color: var(--display-line-1-color);
+    --display-line-3-color: var(--display-line-1-color);
+    --display-line-4-color: var(--display-line-1-color);
+    --display-line-5-color: var(--display-line-1-color);
+    --display-line-6-color: var(--display-line-1-color);
+    --display-line-7-color: var(--display-line-1-color);
 
     --display-line-1-opacity: 1;
-    --display-line-2-opacity: var(--display-line-1-opacity);
-    --display-line-3-opacity: var(--display-line-1-opacity);
-    --display-line-4-opacity: var(--display-line-1-opacity);
-    --display-line-5-opacity: var(--display-line-1-opacity);
-    --display-line-6-opacity: var(--display-line-1-opacity);
-    --display-line-7-opacity: var(--display-line-1-opacity);
+    --display-line-2-opacity: .95;
+    --display-line-3-opacity: .90;
+    --display-line-4-opacity: .85;
+    --display-line-5-opacity: .80;
+    --display-line-6-opacity: .75;
+    --display-line-7-opacity: .70;
 
     --display-extra-line-1-color: var(--display-line-1-color);
     --display-extra-line-2-color: var(--display-extra-line-1-color);
@@ -39,36 +39,36 @@
     --display-extra-line-4-opacity: .80;
     --display-extra-line-5-opacity: .75;
 
-    --display-gurmukhi-larivaar-assist-color: #0f97a9;
+    --display-gurmukhi-larivaar-assist-color: red;
     --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #ff8f62;
-    --display-vishraam-medium-color: #2ed428;
-    --display-vishraam-light-color: #dd62ff;
+    --display-vishraam-heavy-color: #FF8F00;
+    --display-vishraam-medium-color: #33691E;
+    --display-vishraam-light-color: #0D47A1;
 
       /**************/
      /* Controller */
     /**************/
 
     /* Controller colors */
-    --controller-background-color: #EDEDED;
-    --controller-text-color: #404040;
-    --controller-text-hover-color: #1f1f1f;
-    --controller-selected-color: #FFF1BE;
-    --controller-selected-background-color: #f1e1a1;
-    --controller-hover-background-color: #f9f4da;
-    --controller-selected-hover-background-color: #FFEDA9;
+    --controller-background-color: #EEEEEE;
+    --controller-text-color: #424242;
+    --controller-text-hover-color: #212121;
+    --controller-selected-color: var(--controller-text-hover-color);
+    --controller-selected-background-color: #CFD8DC;
+    --controller-hover-background-color: #E0E0E0;
+    --controller-selected-hover-background-color: #D8DCDE;
 
     /* Controller search colors */
-    --controller-search-background-color: #dedede;
-    --controller-search-focused-background-color: transparent;
-    --controller-search-match-color: #274dc4;
+    --controller-search-background-color: transparent;
+    --controller-search-focused-background-color: #E0E0E0;
+    --controller-search-match-color: #0D47A1;
 
     /* Controller top and bottom bar colors */
-    --controller-bar-text-color: #5f5f5f;
-    --controller-bar-text-hover-color: #404040;
-    --controller-bar-background-color: #f4f4f4;
+    --controller-bar-text-color: #616161;
+    --controller-bar-text-hover-color: var(--controller-text-color);
+    --controller-bar-background-color: #F5F5F5;
 
       /*****************/
      /* Settings      */
@@ -88,12 +88,12 @@
     --settings-text-color: var(--controller-text-color);
     --settings-setting-off-color: #fafafa;
     --settings-setting-on-color: var(--controller-search-match-color);
-    --settings-setting-shadow: #274dc431;
+    --settings-setting-shadow: #0D47A131;
 
       /*****************/
      /* Miscellaneous */
     /*****************/
 
     /* Scrollbar colour */
-    --scrollbar-color: #40404080;
+    --scrollbar-color: rgba(0, 0, 0, 0.5);
 }

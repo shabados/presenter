@@ -62,7 +62,7 @@ const Settings = () => {
 
   // Fetch list of themes from server
   useEffect( () => {
-    fetch( `${BACKEND_URL}/themes` )
+    fetch( `${BACKEND_URL}/presenter/themes` )
       .then( res => res.json() )
       .then( themes => {
         OPTIONS.themeName.values = themes.map( theme => ( { name: theme, value: theme } ) )

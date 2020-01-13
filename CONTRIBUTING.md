@@ -79,7 +79,6 @@ The following is the list of supported scopes:
 - **frontend/overlay**
 - **frontend/presenter**
 - **frontend/settings**
-- **frontend/themes**
 
 There are currently a few exceptions to the "use package name" rule:
 

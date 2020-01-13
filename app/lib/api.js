@@ -13,7 +13,7 @@ const api = Router()
 api.get( '/heartbeat', ( _, res ) => res.send( 'alive' ) )
 
 // Serve any themes
-api.get( '/themes', ( _, res ) => Promise.all( (
+api.get( '/presenter/themes', ( _, res ) => Promise.all( (
   [ FRONTEND_THEMES_FOLDER, CUSTOM_THEMES_FOLDER ].map( listCSSFiles )
 ) ).then( ( [ themes, customThemes ] ) => res.json( [ ...themes, ...customThemes ].map( x => basename( x, '.css' ) ) ) ) )
 
