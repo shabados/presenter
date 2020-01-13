@@ -140,8 +140,8 @@ const Presenter = () => {
   // Global Hotkey Handlers
   const hotkeyHandlers = preventDefault( {
     [ GLOBAL_SHORTCUTS.toggleController.name ]: toggleController,
-    [ GLOBAL_SHORTCUTS.newController.name ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true` ),
-    [ GLOBAL_SHORTCUTS.settings.name ]: () => window.open( SETTINGS_URL ),
+    [ GLOBAL_SHORTCUTS.newController.name ]: () => controller.openWindow( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, { alwaysOnTop: true } ),
+    [ GLOBAL_SHORTCUTS.settings.name ]: () => controller.openWindow( SETTINGS_URL ),
     [ GLOBAL_SHORTCUTS.search.name ]: () => go( SEARCH_URL ),
     [ GLOBAL_SHORTCUTS.history.name ]: () => go( HISTORY_URL ),
     [ GLOBAL_SHORTCUTS.bookmarks.name ]: () => go( BOOKMARKS_URL ),
