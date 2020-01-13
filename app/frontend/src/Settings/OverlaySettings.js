@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-import { Button, Grid, Typography, Link } from '@material-ui/core'
+import { Button, Grid, Typography } from '@material-ui/core'
 
 import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
 import controller from '../lib/controller'
+
+import CopyButton from '../shared/CopyButton'
 
 import DynamicOptions from './DynamicOptions'
 
@@ -24,9 +26,7 @@ const OverlaySettings = () => {
         <Grid item xs={7}>
           <Typography>
             {Object.entries( addresses ).map( ( [ name, address ] ) => (
-              <Link onClick={() => controller.openExternalUrl( `http://${address}:${BACKEND_PORT}/overlay` )}>
-                <Typography>{`http://${address}:${BACKEND_PORT}/overlay (${name})`}</Typography>
-              </Link>
+              <CopyButton copyText={`http://${address}:${BACKEND_PORT}/overlay`}>{`${address}:${BACKEND_PORT}/overlay (${name})`}</CopyButton>
             ) )}
           </Typography>
         </Grid>

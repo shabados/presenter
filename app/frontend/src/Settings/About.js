@@ -7,11 +7,11 @@ import {
   CircularProgress,
   Grid,
   Typography,
-  Link,
 } from '@material-ui/core'
 
 import { BACKEND_URL, BACKEND_PORT } from '../lib/consts'
-import controller from '../lib/controller'
+
+import CopyButton from '../shared/CopyButton'
 
 const aboutFields = [
   [ 'version', 'Shabad OS Version' ],
@@ -40,9 +40,7 @@ const About = ( { connected } ) => {
           <Grid item xs={6}><Typography variant="body2">Server Address</Typography></Grid>
           <Grid item xs={6}>
             {Object.entries( about.addresses ).map( ( [ name, address ] ) => (
-              <Link onClick={() => controller.openExternalUrl( `http://${address}:${BACKEND_PORT}` )}>
-                <Typography>{`${address}:${BACKEND_PORT} (${name})`}</Typography>
-              </Link>
+              <CopyButton copyText={`http://${address}:${BACKEND_PORT}`}>{`${address}:${BACKEND_PORT} (${name})`}</CopyButton>
             ) )}
           </Grid>
         </Grid>
