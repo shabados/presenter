@@ -57,8 +57,16 @@
   content: "\20";
 }
 
-.larivaar.overlay-line .word:after {
+.overlay-line.larivaar .word:after {
   content: "\200B";
+}
+
+.overlay-line.larivaar.assist .gurmukhi .text span:nth-child(odd) .word:nth-child(even), .overlay-line.larivaar.assist .gurmukhi .text span:nth-child(even) .word:nth-child(odd) {
+  color: var(--overlay-primary-larivaar-assist-color);
+}
+
+.overlay-line.larivaar.assist .transliteration .text span:nth-child(even) {
+  color: var(--overlay-secondary-larivaar-assist-color);
 }
 
 .text { 

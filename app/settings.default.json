@@ -13,7 +13,7 @@
     "downloadedEvents": true
   },
   "overlay": { 
-    "overlayName": "Branded (Top)",
+    "overlayName": "Floating Top Captions",
     "larivaarGurbani": false,
     "larivaarAssist": false,
     "englishTranslation": true,
