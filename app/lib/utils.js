@@ -5,11 +5,11 @@
 
 import { hostname, networkInterfaces } from 'os'
 import { reverse } from 'dns'
-import { ensureDir, readdir, chmod } from 'fs-extra'
+import { ensureDir, readdir, chmod, copy } from 'fs-extra'
 import { promisify } from 'util'
-import { extname } from 'path'
+import { extname, join } from 'path'
 
-import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts'
 
 const asyncReverse = promisify( reverse )
 
@@ -73,6 +73,14 @@ export const ensureRequiredDirs = async () => {
     TMP_FOLDER,
   ].map( dir => ensureDir( dir, dirPerms ).then( () => chmod( dir, '755' ) ) ) )
 }
+
+export const copyExampleThemes = () => [
+  [ FRONTEND_OVERLAY_THEMES_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER ],
+  [ FRONTEND_THEMES_FOLDER, CUSTOM_THEMES_FOLDER ],
+].forEach( ( [ src, dest ] ) => copy(
+  join( src, 'Example.template' ),
+  join( dest, 'Example.css' ),
+) )
 
 /**
  * Sends an IPC message to the electron instance, if exists.

@@ -24,7 +24,7 @@ import {
   FRONTEND_OVERLAY_THEMES_FOLDER,
   isDev,
 } from './lib/consts'
-import { ensureRequiredDirs, sendToElectron } from './lib/utils'
+import { ensureRequiredDirs, copyExampleThemes, sendToElectron } from './lib/utils'
 
 import { version } from './package.json'
 
@@ -131,6 +131,9 @@ async function main() {
 
   // Check for updates every 5 minutes, in production only
   if ( !isDev ) initialiseUpdater( sessionManager )
+
+  // Copy example themes for user
+  copyExampleThemes()
 }
 
 process.on( 'uncaughtException', handleError() )
