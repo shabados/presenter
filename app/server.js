@@ -31,6 +31,7 @@ import { version } from './package.json'
 // Action handlers
 const actions = [
   [ 'open-overlay-folder', () => open( CUSTOM_OVERLAY_THEMES_FOLDER ) ],
+  [ 'open-external-url', url => open( url ) ],
   [ 'open-window', payload => sendToElectron( 'open-window', payload ) ],
 ]
 

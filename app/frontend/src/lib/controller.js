@@ -219,6 +219,10 @@ class Controller extends EventEmitter {
     ? ( url, params ) => this.action( 'open-window', { url: `${window.location.origin}${url}`, ...params } )
     : url => window.open( url )
 
+  openExternalUrl = isElectron && !isDev
+    ? url => this.action( 'open-external-url', url )
+    : url => window.open( url )
+
   resetSettings = () => {
     localStorage.removeItem( 'settings' )
     this.setSettings()

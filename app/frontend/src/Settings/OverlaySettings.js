@@ -6,8 +6,11 @@ import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
 import controller from '../lib/controller'
 
 import CopyButton from '../shared/CopyButton'
+import TutorialButton from '../shared/TutorialButton'
 
 import DynamicOptions from './DynamicOptions'
+
+import './OverlaySettings.css'
 
 const OverlaySettings = () => {
   const [ addresses, setAddresses ] = useState( [] )
@@ -31,6 +34,10 @@ const OverlaySettings = () => {
           </Typography>
         </Grid>
       </Grid>
+
+      <TutorialButton className="tutorial-button" href="https://tutorials.shabados.com/tutorials/1.0.0/overlay/overlay-basics.html">
+        View Livestream tutorials
+      </TutorialButton>
 
       <DynamicOptions device="global" group="overlay" />
 

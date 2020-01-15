@@ -1,0 +1,9 @@
+.overlay-settings {
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-settings .tutorial-button {
+  width: 300px;
+  margin: 20px auto;
+}
