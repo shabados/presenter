@@ -219,7 +219,7 @@ class Controller extends EventEmitter {
     ? ( url, params ) => this.action( 'open-window', { url: `${window.location.origin}${url}`, ...params } )
     : url => window.open( url )
 
-  openExternalUrl = isElectron && !isDev
+  openExternalUrl = isElectron
     ? url => this.action( 'open-external-url', url )
     : url => window.open( url )
 
