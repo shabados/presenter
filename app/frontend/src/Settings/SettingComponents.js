@@ -3,7 +3,13 @@ import { string, func, any, arrayOf, number, bool } from 'prop-types'
 
 import classNames from 'classnames'
 
-import { Switch, Select, MenuItem, Slider as MSlider } from '@material-ui/core'
+import {
+  Switch,
+  Select,
+  MenuItem,
+  Slider as MaterialSlider,
+  Button as MaterialButton,
+} from '@material-ui/core'
 
 import { OPTION_TYPES } from '../lib/options'
 
@@ -47,7 +53,7 @@ Toggle.propTypes = {
 }
 
 export const Slider = ( { value, ...props } ) => (
-  <MSlider
+  <MaterialSlider
     className="slider"
     valueLabelDisplay="auto"
     defaultValue={value}
@@ -75,6 +81,22 @@ Dropdown.propTypes = {
 
 Dropdown.defaultProps = {
   onChange: () => {},
+}
+
+export const Button = ( { className, ...props } ) => (
+  <MaterialButton
+    variant="contained"
+    className={classNames( className, 'button' )}
+    {...props}
+  />
+)
+
+Button.propTypes = {
+  className: string,
+}
+
+Button.defaultProps = {
+  className: null,
 }
 
 const typeComponents = {

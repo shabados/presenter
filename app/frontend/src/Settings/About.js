@@ -11,7 +11,7 @@ import {
 
 import { BACKEND_URL, BACKEND_PORT } from '../lib/consts'
 
-import CopyButton from '../shared/CopyButton'
+import CopyButton from './CopyButton'
 
 const aboutFields = [
   [ 'version', 'Shabad OS Version' ],

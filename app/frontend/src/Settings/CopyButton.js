@@ -5,6 +5,8 @@ import copy from 'copy-to-clipboard'
 import { Button, Tooltip } from '@material-ui/core'
 import { useSnackbar } from 'notistack'
 
+import './CopyButton.css'
+
 const CopyButton = ( { copyText, onClick: originalOnClick, ...props } ) => {
   const { enqueueSnackbar } = useSnackbar()
 
@@ -17,11 +19,7 @@ const CopyButton = ( { copyText, onClick: originalOnClick, ...props } ) => {
 
   return (
     <Tooltip title="Click to copy">
-      <Button
-        style={{ padding: '0 5px', textTransform: 'initial', textAlign: 'initial' }}
-        {...props}
-        onClick={onClick}
-      />
+      <Button className="copy-button" {...props} onClick={onClick} />
     </Tooltip>
   )
 }
