@@ -3,7 +3,7 @@ import { basename, join } from 'path'
 import { hostname, platform, arch, cpus } from 'os'
 import { readJSON } from 'fs-extra'
 
-import { CUSTOM_THEMES_FOLDER, APP_FOLDER, FRONTEND_THEMES_FOLDER, DATABASE_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, APP_FOLDER, FRONTEND_THEMES_FOLDER, DATABASE_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts'
 import { listCSSFiles, getNetworkedAddresses } from './utils'
 import { getSources, getLanguages } from './db'
 
@@ -13,14 +13,14 @@ const api = Router()
 api.get( '/heartbeat', ( _, res ) => res.send( 'alive' ) )
 
 // Serve any themes
-api.get( '/themes', ( _, res ) => Promise.all( (
+api.get( '/presenter/themes', ( _, res ) => Promise.all( (
   [ FRONTEND_THEMES_FOLDER, CUSTOM_THEMES_FOLDER ].map( listCSSFiles )
 ) ).then( ( [ themes, customThemes ] ) => res.json( [ ...themes, ...customThemes ].map( x => basename( x, '.css' ) ) ) ) )
 
 // Serve any overlay themes
 api.get( '/overlay/themes', ( _, res ) => Promise.all( (
-  [ CUSTOM_OVERLAY_THEMES_FOLDER ].map( listCSSFiles )
-) ).then( ( [ themes ] ) => res.json( themes.map( x => basename( x, '.css' ) ) ) ) )
+  [ FRONTEND_OVERLAY_THEMES_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER ].map( listCSSFiles )
+) ).then( ( [ themes, customThemes ] ) => res.json( [ ...themes, ...customThemes ].map( x => basename( x, '.css' ) ) ) ) )
 
 // Version information
 api.get( '/about', ( _, res ) => Promise.all( [

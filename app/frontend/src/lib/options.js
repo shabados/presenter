@@ -117,6 +117,7 @@ export const OPTIONS = {
   disconnectionEvents: { name: 'Disconnections', icon: faPowerOff, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadEvents: { name: 'Update Download', icon: faDownload, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadedEvents: { name: 'Update Download Complete', icon: faServer, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.global },
 }
 
 // Possible options groups
@@ -215,7 +216,8 @@ export const DEFAULT_OPTIONS = {
   // ! Must be in sync with settings.default.json
   global: {
     system: {
-      launchOnStartup: false,
+      //! Currently not implemented
+      // launchOnStartup: false,
       multipleDisplays: true,
       serverAnalytics: true,
       automaticUpdates: true,
@@ -226,6 +228,17 @@ export const DEFAULT_OPTIONS = {
       disconnectionEvents: false,
       downloadEvents: true,
       downloadedEvents: true,
+    },
+    overlay: {
+      overlayName: 'Floating Top Captions',
+      larivaarGurbani: false,
+      larivaarAssist: false,
+      englishTranslation: true,
+      spanishTranslation: false,
+      punjabiTranslation: false,
+      englishTransliteration: false,
+      hindiTransliteration: false,
+      urduTransliteration: false,
     },
   },
 }

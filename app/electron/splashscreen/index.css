@@ -1,0 +1,75 @@
+@font-face {
+  font-family: "Noto Sans ExtraLight";
+  font-style: normal;
+  font-weight: normal;
+  src: url("./NotoSans-ExtraLight.ttf") format("truetype");
+}
+
+body {
+  user-select: none;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  color: #f0ede9;
+  background-color: #2d2026;
+  background-size: 50%;
+  background-position: 50% 50%;
+  font-family: "Noto Sans ExtraLight", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.logo {
+  font-size: 2em;
+  font-weight: 100;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5em;
+  animation: fade-in 2.5s;
+}
+
+div.logo > span {
+  font-weight: 100;
+  color: white;
+  padding-left: 0.5em;
+}
+
+div.message {
+  font-size: 12px;
+  position: absolute;
+  bottom: 25px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  opacity: .75;
+}
+
+div.message:after {
+  position: absolute;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  animation: ellipsis steps(4,end) 2500ms infinite 1.25s;
+  content: "\0000a0\002E\0000a0\002E\0000a0\002E";
+  width: 0px;
+  padding-left: .25em;
+}
+
+@keyframes ellipsis {
+  100% {
+    width: 2.5em;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 33%, 0);
+    transform: translate3d(0, 33%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}

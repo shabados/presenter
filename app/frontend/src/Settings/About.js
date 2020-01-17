@@ -11,6 +11,8 @@ import {
 
 import { BACKEND_URL, BACKEND_PORT } from '../lib/consts'
 
+import CopyButton from './CopyButton'
+
 const aboutFields = [
   [ 'version', 'Shabad OS Version' ],
   [ 'databaseVersion', 'Shabad OS Database Version' ],
@@ -37,11 +39,9 @@ const About = ( { connected } ) => {
         <Grid container>
           <Grid item xs={6}><Typography variant="body2">Server Address</Typography></Grid>
           <Grid item xs={6}>
-            <Typography>
-              {Object.entries( about.addresses ).map( ( [ name, address ] ) => (
-                <Typography>{`${address}:${BACKEND_PORT} (${name})`}</Typography>
-              ) )}
-            </Typography>
+            {Object.entries( about.addresses ).map( ( [ name, address ] ) => (
+              <CopyButton copyText={`http://${address}:${BACKEND_PORT}`}>{`${address}:${BACKEND_PORT} (${name})`}</CopyButton>
+            ) )}
           </Grid>
         </Grid>
       </ListItem>

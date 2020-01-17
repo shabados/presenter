@@ -1,0 +1,5 @@
+.copy-button {
+  text-transform: initial !important;
+  text-align: initial;
+  color: var(--settings-text-color) !important;
+}

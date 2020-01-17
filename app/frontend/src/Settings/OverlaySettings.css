@@ -1,0 +1,12 @@
+.overlay-settings {
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-settings .tutorial-button {
+  margin: 15px 0;
+}
+
+.overlay-settings .folder-button {
+  margin-top: 15px;
+}

@@ -11,5 +11,16 @@
     "disconnectionEvents": false,
     "downloadEvents": true,
     "downloadedEvents": true
+  },
+  "overlay": { 
+    "overlayName": "Floating Top Captions",
+    "larivaarGurbani": false,
+    "larivaarAssist": false,
+    "englishTranslation": true,
+    "spanishTranslation": false,
+    "punjabiTranslation": false,
+    "englishTransliteration": false,
+    "hindiTransliteration": false,
+    "urduTransliteration": false
   }
 }

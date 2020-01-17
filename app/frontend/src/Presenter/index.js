@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useContext } from 'react'
+import React, { lazy, Suspense, useState, useContext, useRef } from 'react'
 import { useMount } from 'react-use'
 import { hot } from 'react-hot-loader/root'
 import { GlobalHotKeys } from 'react-hotkeys'
@@ -64,6 +64,8 @@ const Presenter = () => {
 
   const onIdle = () => setIdle( true )
   const onActive = () => setIdle( false )
+
+  const isControllerOpen = pathname.includes( CONTROLLER_URL )
 
   /**
    * Sets the query string parameters, retaining any currently present.
@@ -140,8 +142,8 @@ const Presenter = () => {
   // Global Hotkey Handlers
   const hotkeyHandlers = preventDefault( {
     [ GLOBAL_SHORTCUTS.toggleController.name ]: toggleController,
-    [ GLOBAL_SHORTCUTS.newController.name ]: () => window.open( `${CONTROLLER_URL}?${STATES.controllerOnly}=true` ),
-    [ GLOBAL_SHORTCUTS.settings.name ]: () => window.open( SETTINGS_URL ),
+    [ GLOBAL_SHORTCUTS.newController.name ]: () => controller.openWindow( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, { alwaysOnTop: true } ),
+    [ GLOBAL_SHORTCUTS.settings.name ]: () => controller.openWindow( SETTINGS_URL ),
     [ GLOBAL_SHORTCUTS.search.name ]: () => go( SEARCH_URL ),
     [ GLOBAL_SHORTCUTS.history.name ]: () => go( HISTORY_URL ),
     [ GLOBAL_SHORTCUTS.bookmarks.name ]: () => go( BOOKMARKS_URL ),
@@ -159,8 +161,11 @@ const Presenter = () => {
   const { local: localSettings } = useContext( SettingsContext )
   const { theme: { themeName }, hotkeys } = localSettings
 
+  // Required for mouse shortcuts
+  const presenterRef = useRef( null )
+
   return (
-    <div className={classNames( { idle }, 'presenter' )}>
+    <div ref={presenterRef} className={classNames( { idle }, 'presenter' )}>
       <CssBaseline />
       <ThemeLoader name={themeName} />
 
@@ -174,7 +179,7 @@ const Presenter = () => {
       )}
 
       <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>
-        <NavigatorHotKeys active={!pathname.includes( CONTROLLER_URL )}>
+        <NavigatorHotKeys active={!isControllerOpen} mouseTargetRef={presenterRef}>
 
           <Suspense fallback={<Loader />}>
             {!controllerOnly && <Display settings={localSettings} />}

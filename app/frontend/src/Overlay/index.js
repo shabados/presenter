@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
+import classNames from 'classnames'
 
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
 
-import { getTranslation, findLineIndex } from '../lib/utils'
+import { getTranslation, getTransliteration, findLineIndex } from '../lib/utils'
 import { ContentContext, SettingsContext, StatusContext, RecommendedSourcesContext } from '../lib/contexts'
 
 import './index.css'
@@ -14,8 +15,14 @@ const Overlay = () => {
   const { connected } = useContext( StatusContext )
   const recommendedSources = useContext( RecommendedSourcesContext )
 
-  const { local: localSettings } = settings || {}
+  const { local: localSettings, global: globalSettings } = settings || {}
   const { sources } = localSettings || {}
+  const { overlay: {
+    overlayName,
+    larivaarGurbani,
+    larivaarAssist,
+    ...overlay
+  } } = globalSettings || {}
 
   // Get the lines from the shabad, if they exist
   const { lines = [] } = shabad || bani || {}
@@ -26,22 +33,32 @@ const Overlay = () => {
 
   const getTranslationFor = languageId => getTranslation( {
     shabad,
+    recommendedSources,
     sources,
     line,
     languageId,
-    recommendedSources,
   } )
 
+  const getTransliterationFor = languageId => getTransliteration( line, languageId )
+
   return (
-    <div className="overlay">
-      <ThemeLoader connected={connected} />
+    <div className={classNames( {
+      empty: !line,
+    }, 'overlay' )}
+    >
+      <ThemeLoader connected={connected} name={overlayName} />
       <Line
         simpleGraphics
         gurmukhi={line ? line.gurmukhi : ''}
         {...( line && {
-          englishTranslation: getTranslationFor( 1 ),
-          punjabiTranslation: getTranslationFor( 2 ),
-          transliteration: line.transliterations[ 0 ].transliteration,
+          larivaarGurbani,
+          larivaarAssist,
+          englishTranslation: overlay.englishTranslation && getTranslationFor( 1 ),
+          punjabiTranslation: overlay.punjabiTranslation && getTranslationFor( 2 ),
+          spanishTranslation: overlay.spanishTranslation && getTranslationFor( 3 ),
+          englishTransliteration: overlay.englishTransliteration && getTransliterationFor( 1 ),
+          hindiTransliteration: overlay.hindiTransliteration && getTransliterationFor( 4 ),
+          urduTransliteration: overlay.urduTransliteration && getTransliterationFor( 5 ),
         } )}
       />
     </div>

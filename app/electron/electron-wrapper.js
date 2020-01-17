@@ -4,9 +4,17 @@ import { app } from 'electron'
 import logger from '../lib/logger'
 import { isDev } from '../lib/consts'
 
-import { createMainWindow, createNonMainWindows, closeNonMainWindows } from './window'
+import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow } from './window'
 import { setBeta, initUpdates, checkUpdates } from './updates'
 
+let splashScreen
+
+app.on( 'ready', () => {
+  logger.info( 'Starting Electron Shell' )
+
+  logger.info( 'Loading splashscreen' )
+  splashScreen = createSplashScreen()
+} )
 
 const onSettingsChange = ( { system } ) => {
   // Toggle multiple displays
@@ -17,10 +25,15 @@ const onSettingsChange = ( { system } ) => {
   setBeta( system.betaOptIn )
 }
 
-const onReady = server => {
-  logger.info( 'Starting Electron Shell' )
+const onServerReady = server => {
+  // Set up the update loop
   initUpdates( server )
+
+  // Create the main window
   createMainWindow()
+
+  // Close splashscreen when the main window has been shown
+  getMainWindow().on( 'show', () => splashScreen.close() )
 }
 
 // Catch any errors
@@ -35,7 +48,7 @@ process.on( 'uncaughtException', error => {
 //! Random 5 second timeout before trying to connect to server
 if ( isDev ) {
   app.on( 'ready', () => setTimeout( () => {
-    onReady()
+    onServerReady()
     // eslint-disable-next-line import/no-extraneous-dependencies, global-require
     const { default: installExtension, REACT_DEVELOPER_TOOLS } = require( 'electron-devtools-installer' )
 
@@ -54,9 +67,10 @@ if ( isDev ) {
 
 // Handlers for server IPC events
 const handlers = {
-  ready: server => () => ( app.isReady() ? onReady( server ) : app.on( 'ready,', () => onReady( server ) ) ),
+  ready: server => () => ( app.isReady() ? onServerReady( server ) : app.on( 'ready,', () => onServerReady( server ) ) ),
   settings: () => onSettingsChange,
   'update-check': server => () => checkUpdates( server ),
+  'open-window': () => ( { url, ...params } ) => url && createWindow( url, params ),
 }
 
 // Register handlers from server IPC

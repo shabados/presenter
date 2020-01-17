@@ -1,5 +1,6 @@
 import { join } from 'path'
 import cors from 'cors'
+import open from 'open'
 
 import analytics from './lib/analytics'
 import { setupExpress } from './lib/express'
@@ -20,12 +21,25 @@ import {
   UPDATE_CHECK_INTERVAL,
   FRONTEND_BUILD_FOLDER,
   FRONTEND_THEMES_FOLDER,
+  FRONTEND_OVERLAY_THEMES_FOLDER,
   isDev,
 } from './lib/consts'
-import { ensureRequiredDirs, sendToElectron } from './lib/utils'
+import { ensureRequiredDirs, copyExampleThemes, sendToElectron } from './lib/utils'
 
 import { version } from './package.json'
 
+// Action handlers
+const actions = [
+  [ 'open-overlay-folder', () => open( CUSTOM_OVERLAY_THEMES_FOLDER ) ],
+  [ 'open-external-url', url => open( url ) ],
+  [ 'open-window', payload => sendToElectron( 'open-window', payload ) ],
+]
+
+// Search types and handlers
+const searches = [
+  [ 'first-letter', firstLetterSearch ],
+  [ 'full-word', fullWordSearch ],
+]
 
 /**
  * Sets up updates.
@@ -76,9 +90,10 @@ async function main() {
   // Setup the express server with WebSockets
   const mounts = [
     { prefix: '/', dir: FRONTEND_BUILD_FOLDER },
-    { prefix: '/themes', dir: FRONTEND_THEMES_FOLDER },
-    { prefix: '/themes', dir: CUSTOM_THEMES_FOLDER },
-    { prefix: '/themes/*', dir: join( FRONTEND_THEMES_FOLDER, 'Day.css' ) },
+    { prefix: '/presenter/themes', dir: FRONTEND_THEMES_FOLDER },
+    { prefix: '/presenter/themes', dir: CUSTOM_THEMES_FOLDER },
+    { prefix: '/presenter/themes/*', dir: join( FRONTEND_THEMES_FOLDER, 'Day.css' ) },
+    { prefix: '/overlay/themes', dir: FRONTEND_OVERLAY_THEMES_FOLDER },
     { prefix: '/overlay/themes/', dir: CUSTOM_OVERLAY_THEMES_FOLDER },
     { prefix: '/history.csv', dir: HISTORY_FILE },
     { prefix: '*', dir: join( FRONTEND_BUILD_FOLDER, 'index.html' ) },
@@ -93,12 +108,18 @@ async function main() {
   const sessionManager = new SessionManager( socket )
 
   // Register searches on the socket instance
-  const search = searchFn => async ( client, query ) => client.sendJSON( 'results', await searchFn( query ) )
-  socket.on( 'search:first-letter', search( firstLetterSearch ) )
-  socket.on( 'search:full-word', search( fullWordSearch ) )
+  searches.forEach(
+    ( [ name, searchFn ] ) => socket.on( `search:${name}`, async ( client, query ) => client.sendJSON( 'results', await searchFn( query ) ) ),
+  )
+
+  // Register all action handlers on the socket instance
+  actions.forEach(
+    ( [ name, handler ] ) => socket.on( `action:${name}`, ( _, payload ) => handler( payload ) ),
+  )
 
   // Register Bani list requests on socket connection
   socket.on( 'connection', async client => client.sendJSON( 'banis:list', await getBanis() ) )
+
 
   // Start the server
   server.listen( PORT, () => {
@@ -111,6 +132,9 @@ async function main() {
 
   // Check for updates every 5 minutes, in production only
   if ( !isDev ) initialiseUpdater( sessionManager )
+
+  // Copy example themes for user
+  copyExampleThemes()
 }
 
 process.on( 'uncaughtException', handleError() )

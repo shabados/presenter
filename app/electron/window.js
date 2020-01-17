@@ -12,24 +12,19 @@ let mainWindow = null
 // Hide default menu in prod
 if ( !isDev ) Menu.setApplicationMenu( null )
 
-/**
- * Loads the Shabad OS web page, if available.
- */
-const loadPage = window => {
-  window.loadURL( BASE_URL )
-
-  window.on( 'ready-to-show', () => {
-    window.maximize()
-    window.show()
-  } )
-}
+const fullScreenOnShow = window => window.maximize()
 
 // Creates any browser window
-export const createWindow = ( windowParams, load = loadPage ) => {
+export const createWindow = ( url, windowParams, onBeforeShow = () => {} ) => {
   const window = new BrowserWindow( { show: false, ...windowParams } )
   window.setMenuBarVisibility( isDev )
 
-  load( window )
+  window.loadURL( url )
+
+  window.on( 'ready-to-show', () => {
+    onBeforeShow( window )
+    window.show()
+  } )
 
   return window
 }
@@ -45,7 +40,7 @@ export const getOtherDisplays = ( excludeMain = true ) => {
 
 // Creates and stores the "main" window, shown on the primary desktop
 export const createMainWindow = () => {
-  mainWindow = createWindow()
+  mainWindow = createWindow( BASE_URL, {}, fullScreenOnShow )
   mainWindow.on( 'closed', () => app.quit() )
   mainWindow.on( 'ready-to-show', () => mainWindow.focus() )
   displayWindows = { ...displayWindows, [ mainWindow.id ]: mainWindow }
@@ -55,7 +50,7 @@ export const createMainWindow = () => {
 export const createNonMainWindows = () => Object.values( displayWindows ).length === 1
 && getOtherDisplays()
   .forEach( ( { bounds: { x, y } } ) => {
-    const window = createWindow( { x, y } )
+    const window = createWindow( BASE_URL, { x, y }, fullScreenOnShow )
 
     window.on( 'close', () => {
       displayWindows = omit( displayWindows, window.id )
@@ -73,3 +68,9 @@ export const closeNonMainWindows = () => Object
 export const getMainWindow = () => mainWindow
 
 export const getDisplayWindows = () => displayWindows
+
+export const createSplashScreen = () => createWindow( `file://${__dirname}/splashscreen/index.html`, {
+  width: 480,
+  height: 270,
+  frame: false,
+} )

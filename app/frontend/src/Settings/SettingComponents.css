@@ -61,3 +61,13 @@
 .MuiSwitch-switchBase {
   color: var(--settings-setting-off-color) !important;
 }
+
+.button {
+  color: var(--settings-text-color) !important;
+  background-color: var(--settings-setting-off-color) !important;
+}
+
+.button:hover {
+  color: var(--settings-background-color) !important;
+  background-color: var(--settings-setting-on-color) !important;
+}

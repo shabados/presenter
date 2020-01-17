@@ -1,0 +1,100 @@
+:root {
+      /***********/
+     /* Display */
+    /***********/
+
+    /* Display background */
+    --display-background-color: #FFFFFF;
+    --display-highlight-background-color: #FFF59D80;
+    --display-dim-background-color: #21212124;
+    --display-background-image: url('/presenter/themes/images/logo-pastel.png');
+    --display-background-size: 121.5%;
+
+    /* Display line colours */
+    --display-line-1-color: #004daa;
+    --display-line-2-color: #555555;
+    --display-line-3-color: var(--display-line-2-color);
+    --display-line-4-color: var(--display-line-2-color);
+    --display-line-5-color: var(--display-line-2-color);
+    --display-line-6-color: var(--display-line-2-color);
+    --display-line-7-color: var(--display-line-2-color);
+
+    --display-line-1-opacity: 1;
+    --display-line-2-opacity: var(--display-line-1-opacity);
+    --display-line-3-opacity: var(--display-line-1-opacity);
+    --display-line-4-opacity: var(--display-line-1-opacity);
+    --display-line-5-opacity: var(--display-line-1-opacity);
+    --display-line-6-opacity: var(--display-line-1-opacity);
+    --display-line-7-opacity: var(--display-line-1-opacity);
+
+    --display-extra-line-1-color: var(--display-line-1-color);
+    --display-extra-line-2-color: var(--display-extra-line-1-color);
+    --display-extra-line-3-color: var(--display-extra-line-1-color);
+    --display-extra-line-4-color: var(--display-extra-line-1-color);
+    --display-extra-line-5-color: var(--display-extra-line-1-color);
+
+    --display-extra-line-1-opacity: .95;
+    --display-extra-line-2-opacity: .90;
+    --display-extra-line-3-opacity: .85;
+    --display-extra-line-4-opacity: .80;
+    --display-extra-line-5-opacity: .75;
+
+    --display-gurmukhi-larivaar-assist-color: #006bc9;
+    --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
+
+    /* Display line pause/vishraam colours */
+    --display-vishraam-heavy-color: #db5f00;
+    --display-vishraam-medium-color: #005d42;
+    --display-vishraam-light-color: #870865;
+
+      /**************/
+     /* Controller */
+    /**************/
+
+    /* Controller colors */
+
+    --controller-background-color: #EEEEEE;
+    --controller-text-color: #424242;
+    --controller-text-hover-color: #212121;
+    --controller-selected-color: #212121;
+    --controller-selected-background-color: #cdd8e5;
+    --controller-hover-background-color: #E0E0E0;
+    --controller-selected-hover-background-color: #D7DCE3;
+
+    /* Controller search colors */
+    --controller-search-background-color: transparent;
+    --controller-search-focused-background-color: #E0E0E0;
+    --controller-search-match-color: #1568c8;
+
+    /* Controller top and bottom bar colors */
+    --controller-bar-text-color: #616161;
+    --controller-bar-text-hover-color: #424242;
+    --controller-bar-background-color: #F5F5F5;
+
+      /*****************/
+     /* Settings      */
+    /*****************/
+
+    /* Settings Title */
+    --settings-title-background-color: var(--controller-bar-background-color);
+    --settings-title-text-color: var(--controller-bar-text-color);
+
+    /* Settings Menu */
+    --settings-menu-background-color: var(--controller-bar-background-color);
+    --settings-menu-text-color: var(--controller-bar-text-color);
+    --settings-menu-icon-color: var(--settings-menu-text-color);
+    
+    /* Settings Content */
+    --settings-background-color: var(--controller-background-color);
+    --settings-text-color: var(--controller-text-color);
+    --settings-setting-off-color: #fafafa;
+    --settings-setting-on-color: var(--controller-search-match-color);
+    --settings-setting-shadow: #0D47A131;
+    
+      /*****************/
+     /* Miscellaneous */
+    /*****************/
+    
+    /* Scrollbar colour */
+    --scrollbar-color: #42424280;
+}

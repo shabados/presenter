@@ -1,0 +1,19 @@
+.app {
+  justify-content: var(--overlay-flex-justification);
+}
+
+.overlay {
+	padding: var(--overlay-vertical-padding) var(--overlay-horizontal-padding);
+	display: var(--overlay-window-display);
+	height: var(--overlay-height);
+	width: var(--overlay-width);
+	flex-direction: column;
+	justify-content: flex-start;
+	overflow: hidden;
+	background-color: var(--overlay-background-color);
+	background-image: var(--overlay-background-image);
+	background-size: var(--overlay-background-size);
+	background-repeat: no-repeat;
+  background-position: var(--overlay-background-position);
+  text-align: center; /* centers overlay-line when in "windowed" mode */
+}

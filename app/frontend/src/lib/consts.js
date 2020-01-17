@@ -38,12 +38,12 @@ export const BOOKMARKS_URL = `${CONTROLLER_URL}/bookmarks`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
-export const THEMES_URL = `${BACKEND_URL}/themes`
+export const THEMES_URL = `${BACKEND_URL}/presenter/themes`
 export const OVERLAY_THEMES_URL = `${BACKEND_URL}/overlay/themes`
 
 export const SETTINGS_URL = '/settings'
 export const SETTINGS_DEVICE_URL = `${SETTINGS_URL}/device`
-export const SETTINGS_SERVER_URL = `${SETTINGS_DEVICE_URL}/server`
+export const SETTINGS_SERVER_URL = `${SETTINGS_URL}/server`
 
 export const SETTINGS_ABOUT_URL = `${SETTINGS_SERVER_URL}/about`
 export const SETTINGS_TOOLS_URL = `${SETTINGS_URL}/tools`

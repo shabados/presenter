@@ -17,7 +17,7 @@
   width: 100%;
   content: '';
   background-color: #0000001A;
-  background-image: url('/themes/images/logo.png');
+  background-image: url('../Presenter/themes/images/logo-grayscale.png');
   background-size: 120%;
   background-position: center;
 }

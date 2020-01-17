@@ -63,7 +63,7 @@ const TopBar = ( { title, onHover } ) => {
       <ToolbarButton
         name="Settings"
         icon={faCog}
-        onClick={() => window.open( SETTINGS_URL )}
+        onClick={() => controller.openWindow( SETTINGS_URL )}
         onMouseEnter={() => onHover( 'Settings' )}
         onMouseLeave={resetHover}
       />
@@ -104,7 +104,7 @@ const TopBar = ( { title, onHover } ) => {
         onClick={() => {
           const popOutQuery = queryString.stringify( { ...state, [ STATES.controllerOnly ]: true } )
 
-          window.open( `${pathname}?${popOutQuery}`, '_blank' )
+          controller.openWindow( `${pathname}?${popOutQuery}`, { alwaysOnTop: true } )
           history.push( PRESENTER_URL )
         }}
         onMouseEnter={() => onHover( 'Pop Out Controller' )}

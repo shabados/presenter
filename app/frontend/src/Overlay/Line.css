@@ -1,17 +1,55 @@
+.overlay-line {
+  padding: var(--overlay-window-vertical-padding) var(--overlay-window-horizontal-padding);
+  display: var(--overlay-window-display);
+  flex: 1 0 100%;
+  flex-direction: column;
+  justify-content: var(--overlay-flex-justification); /* The CEF used in OBS and vMix cannot handle overflowing content properly with space-evenly or space-around */
+  color: var(--overlay-secondary-font-color);
+  text-align: var(--overlay-text-align);
+  background-color: var(--overlay-window-background-color);
+  background-image: var(--overlay-window-background-image);
+  background-size: var(--overlay-window-background-size);
+  background-repeat: no-repeat;
+  background-position: var(--overlay-window-background-position);
+}
+
 .overlay-line p {
   margin: 0;
 }
 
 .overlay-line .gurmukhi {
   font-family: "Open Gurbani Akhar Black", sans-serif;
+  color: var(--overlay-primary-font-color);
+  font-size: var(--overlay-primary-font-size);
+  text-shadow: 2px 2px 2px rgba(var(--overlay-primary-drop-color), 1.00);
 }
 
-.overlay-line .english {
+.overlay-line .english, .overlay-line .spanish {
   font-family: "Noto Sans Medium", sans-serif;
+  font-weight: 700;
+  font-size: var(--overlay-secondary-font-size);
+  text-shadow:  2px 2px 2px rgba(var(--overlay-secondary-drop-color), 1.00);
 }
 
 .overlay-line .punjabi {
   font-family: "Open Anmol Uni Bold", sans-serif;
+}
+
+.overlay-line .hindi {
+  font-family: "Noto Sans Devanagari Semi Bold";
+  line-height: 1.48;
+}
+
+.overlay-line .punjabi, .overlay-line .hindi {
+  font-size: calc( var(--overlay-secondary-font-size) * 1.15 );
+  text-shadow:  2px 2px 2px rgba(var(--overlay-secondary-drop-color), 1.00);
+}
+
+.overlay-line .urdu {
+  font-family: "Noto Sans Nastaliq Urdu";
+  direction: rtl;
+  font-size: calc( var(--overlay-secondary-font-size) * 0.85 );
+  text-shadow:  2px 2px 2px rgba(var(--overlay-secondary-drop-color), 1.00);
 }
 
 .overlay-line .gurmukhi .word:after,
@@ -19,11 +57,58 @@
   content: "\20";
 }
 
-.larivaar.overlay-line .word:after,
-.overlay-line .larivaar .word:after {
+.overlay-line.larivaar .word:after {
   content: "\200B";
 }
 
-.overlay-line .transliteration {
-  font-family: "Noto Sans Regular", sans-serif;
+.overlay-line.larivaar.assist .gurmukhi .text span:nth-child(odd) .word:nth-child(even), .overlay-line.larivaar.assist .gurmukhi .text span:nth-child(even) .word:nth-child(odd) {
+  color: var(--overlay-primary-larivaar-assist-color);
+}
+
+.overlay-line.larivaar.assist .transliteration .text span:nth-child(even) {
+  color: var(--overlay-secondary-larivaar-assist-color);
+}
+
+.text { 
+  display: inline-block;
+  padding-left: var(--overlay-text-horizontal-padding);
+  padding-right: var(--overlay-text-horizontal-padding);
+  background-color: var(--overlay-text-background-color);
+  background-image: var(--overlay-text-background-image);
+  background-size: var(--overlay-text-background-size);
+  background-repeat: no-repeat;
+  background-position: var(--overlay-text-background-position);
+  background-attachment: fixed;
+}
+
+.overlay-line > *:first-child > .text {
+  padding-top: var(--overlay-text-vertical-padding);
+}
+
+.overlay-line > *:last-child > .text {
+  padding-bottom: var(--overlay-text-vertical-padding);
+}
+
+.overlay.empty {
+  background: var(--overlay-esc-background);
+}
+
+.overlay.empty .overlay-line {
+  background: var(--overlay-esc-window-background);
+}
+
+overlay.empty .text {
+  background: var(--overlay-esc-text-background);
+}
+
+.heavy {
+  color: var(--overlay-vishraam-heavy-color) !important;
+}
+
+.medium {
+  color: var(--overlay-vishraam-medium-color) !important;
+}
+
+.light {
+  color: var(--overlay-vishraam-light-color) !important;
 }

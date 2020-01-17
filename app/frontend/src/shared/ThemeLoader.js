@@ -4,7 +4,7 @@ import { bool, string } from 'prop-types'
 import { THEMES_URL } from '../lib/consts'
 import { withContext, StatusContext } from '../lib/contexts'
 
-import defaultTheme from '../themes/Day.css'
+import defaultTheme from '../Presenter/themes/Day.css'
 
 /**
  * Component to load a theme using a `<link>` tag.

@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
-import { node, bool } from 'prop-types'
+import React, { useContext, useEffect, useCallback } from 'react'
+import { node, bool, shape, instanceOf } from 'prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
+import { noop } from 'lodash'
 
 import { mapPlatformKeys, getJumpLines, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
@@ -10,7 +11,7 @@ import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts
 /**
  * Hotkeys for controlling the navigator.
  */
-const NavigatorHotKeys = ( { active, children } ) => {
+const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
   const { viewedLines } = useContext( HistoryContext )
 
   const content = useContext( ContentContext )
@@ -37,10 +38,10 @@ const NavigatorHotKeys = ( { active, children } ) => {
     else controller.line( lastLine.id )
   }
 
-  const autoToggle = () => {
+  const autoToggle = useCallback( () => {
     if ( shabad ) controller.autoToggleShabad( content )
     else if ( bani ) controller.autoToggleBani( content )
-  }
+  }, [ shabad, bani, content ] )
 
   const restoreLine = () => {
     const ids = Object
@@ -59,7 +60,7 @@ const NavigatorHotKeys = ( { active, children } ) => {
 
   const goJumpLine = () => nextLineId && controller.line( nextLineId )
 
-  const goPreviousLine = () => {
+  const goPreviousLine = useCallback( () => {
     if ( !lines ) return
 
     const currentLineIndex = findLineIndex( lines, lineId )
@@ -68,9 +69,9 @@ const NavigatorHotKeys = ( { active, children } ) => {
     if ( id && currentLineIndex > 0 ) {
       controller.line( lines[ currentLineIndex - 1 ].id )
     }
-  }
+  }, [ lines, lineId ] )
 
-  const goNextLine = () => {
+  const goNextLine = useCallback( () => {
     if ( !lines ) return
 
     const currentLineIndex = findLineIndex( lines, lineId )
@@ -79,7 +80,7 @@ const NavigatorHotKeys = ( { active, children } ) => {
     if ( id && currentLineIndex < lines.length - 1 ) {
       controller.line( lines[ currentLineIndex + 1 ].id )
     }
-  }
+  }, [ lines, lineId ] )
 
   const goToIndex = index => {
     if ( !lines ) return
@@ -127,6 +128,28 @@ const NavigatorHotKeys = ( { active, children } ) => {
 
   const keyMap = mapPlatformKeys( { ...hotkeys, ...numberKeyMap } )
 
+  // Register mouse shortcuts
+  useEffect( () => {
+    const { current: mouseTarget } = mouseTargetRef
+
+    if ( !active || !mouseTarget ) return () => {}
+
+    const events = [
+      [ 'click', goNextLine ],
+      [ 'contextmenu', event => event.preventDefault() ],
+      [ 'auxclick', ( { button } ) => ( ( {
+        2: goPreviousLine,
+        1: autoToggle,
+      } )[ button ] || noop )() ],
+    ]
+
+    events.forEach( ( [ event, handler ] ) => mouseTarget.addEventListener( event, handler ) )
+
+    return () => events.forEach(
+      ( [ event, handler ] ) => mouseTarget.removeEventListener( event, handler ),
+    )
+  }, [ mouseTargetRef, active, goNextLine, goPreviousLine, autoToggle ] )
+
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={active ? hotKeyHandlers : {}}>
       {children}
@@ -138,11 +161,13 @@ const NavigatorHotKeys = ( { active, children } ) => {
 NavigatorHotKeys.propTypes = {
   active: bool,
   children: node,
+  mouseTargetRef: shape( { current: instanceOf( Element ) } ),
 }
 
 NavigatorHotKeys.defaultProps = {
   active: false,
   children: null,
+  mouseTargetRef: { current: null },
 }
 
 export default NavigatorHotKeys

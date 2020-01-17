@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { string } from 'prop-types'
-import { useLocation } from 'react-router-dom'
+import { string, shape, node } from 'prop-types'
 
 import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,21 +10,53 @@ import { SettingsContext } from '../lib/contexts'
 
 import SettingComponentFactory from './SettingComponents'
 
+export const slotSizes = {
+  icon: { xs: 2, sm: 1 },
+  name: { xs: 5, sm: 5, md: 4, lg: 4 },
+  option: { xs: 5, sm: 5, md: 4, lg: 3 },
+  single: { xs: 12, sm: 11, md: 9, lg: 8 },
+}
+
+export const OptionGrid = ( { children, ...props } ) => (
+  <Grid {...props} className="option" container>
+    {children}
+  </Grid>
+)
+OptionGrid.propTypes = { children: node.isRequired }
+
+export const IconSlot = ( { icon } ) => (
+  <Grid item {...slotSizes.icon} center="center">
+    <FontAwesomeIcon className="icon" icon={icon} />
+  </Grid>
+)
+IconSlot.propTypes = { icon: shape( {} ).isRequired }
+
+export const NameSlot = ( { children } ) => (
+  <Grid item {...slotSizes.name}>
+    <Typography>{children}</Typography>
+  </Grid>
+)
+NameSlot.propTypes = { children: string.isRequired }
+
+export const OptionSlot = ( { children } ) => (
+  <Grid align="center" item {...slotSizes.option}>
+    {children}
+  </Grid>
+)
+OptionSlot.propTypes = { children: node.isRequired }
+
 const DynamicOptions = ( { device, group } ) => {
   const settings = useContext( SettingsContext )
-  const { pathname } = useLocation()
 
-  const isServer = pathname.split( '/' ).includes( 'server' )
-  const selectedDevice = isServer ? 'global' : device
-
-  const defaultSettings = isServer ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
+  const isGlobal = device === 'global'
+  const defaultSettings = isGlobal ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
   const setSettings = ( option, value ) => controller.setSettings( {
     [ group ]: { [ option ]: value },
-  }, selectedDevice )
+  }, device )
 
   return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
-    const optionGroup = settings[ selectedDevice ][ group ] || {}
+    const optionGroup = settings[ device ][ group ] || {}
     const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
     const options = OPTIONS[ option ]
     const { type, privacy, name, icon, ...props } = options
@@ -34,13 +65,13 @@ const DynamicOptions = ( { device, group } ) => {
     const Option = SettingComponentFactory( type )
 
     return (
-      <Grid key={option} container className="option" alignItems="center">
-        <Grid item xs={2} sm={1}>{icon && <FontAwesomeIcon className="icon" icon={icon} />}</Grid>
-        <Grid item xs={5} sm={6} md={4} lg={3}><Typography>{name}</Typography></Grid>
-        <Grid item xs={5} sm={5} md={4} lg={3} align="center">
+      <OptionGrid key={option}>
+        <IconSlot icon={icon} />
+        <NameSlot>{name}</NameSlot>
+        <OptionSlot alignItems="center">
           <Option {...props} option={option} value={value} onChange={setSettings} />
-        </Grid>
-      </Grid>
+        </OptionSlot>
+      </OptionGrid>
     )
   } )
 }

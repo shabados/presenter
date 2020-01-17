@@ -1,0 +1,64 @@
+:root {
+		/***********/
+	/* Overlay */
+	/***********/
+
+	/* Layout */
+	--overlay-flex-justification: flex-end; /*	"flex-start", "space-between", and "flex-end" */
+
+	--overlay-width: inherit;
+	/*	Use less than 100vw in conjunction with height 100vh
+			to dock the captions to the left side of the screen */
+	--overlay-height: inherit; /* Use inherit for automatic height, use 100vh for "full screen" */
+	--overlay-vertical-padding: 5vh;
+	--overlay-horizontal-padding: 0vh;
+
+	--overlay-window-display: inline-block; /* "flex" for full-width, "inline-block" for dynamic width */
+	--overlay-window-vertical-padding: 2.5vh;
+	--overlay-window-horizontal-padding: var(--overlay-window-vertical-padding);
+
+	--overlay-text-align: center; /* "center", "start" (natural convention), "left", or "right" */
+	--overlay-text-vertical-padding: 0;
+	--overlay-text-horizontal-padding: var(--overlay-text-vertical-padding);
+
+	/* Background */
+	--overlay-background-color: none;
+	--overlay-background-image: none;
+	--overlay-background-position: 50% 50%;
+	--overlay-background-size: cover;
+
+	--overlay-window-background-color: rgba(0, 0, 0, .5);
+	--overlay-window-background-image: none;
+	--overlay-window-background-position: 50% 50%;
+	--overlay-window-background-size: cover;
+
+	--overlay-text-background-color: none;
+	--overlay-text-background-image: none;
+	--overlay-text-background-position: 50% 50%;
+	--overlay-text-background-size: contain;
+
+	--overlay-esc-background: none;
+	--overlay-esc-window-background: none;
+	--overlay-esc-text-background: none;
+	/*	Background definition when the presenter is completely cleared with the escape hotkey,
+			can be set with shorthand for full screen overlays or cinematic full-bar overlays. */
+
+	/* Font */
+	--overlay-primary-font-size: 4.8vh; /* 90+% of gurbani lines fit on a single line 16:9 with 4.8vh */
+	--overlay-primary-font-color: #ffd22b; /* Color of gurbani font */
+	--overlay-primary-larivaar-assist-color: #ffde26;
+	--overlay-primary-drop-color: 0, 0, 0;
+	/*	Must be in "R, G, B" format (e.g. "0, 0, 0" without quotes).
+			Color of drop shadow/glow for gurbani font. */
+
+	--overlay-secondary-font-size: calc( var(--overlay-primary-font-size) * 0.6 );
+	/*	Change the decimal factor to size secondary lines according to gurbani's font size */
+	--overlay-secondary-font-color: #FFFFFF;
+	--overlay-secondary-larivaar-assist-color: #eaffff;
+	--overlay-secondary-drop-color: 0, 0, 0; /* Must be in "R, G, B" format (e.g. "0, 0, 0" without quotes) */
+
+	/* Vishraam Colors */
+	--overlay-vishraam-heavy-color: inherit; /* Set to "inherit" to hide colors */
+	--overlay-vishraam-medium-color: inherit;
+	--overlay-vishraam-light-color: inherit;
+}

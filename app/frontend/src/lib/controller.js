@@ -9,7 +9,7 @@ import { toAscii } from 'gurmukhi-utils'
 
 import { DEFAULT_OPTIONS } from './options'
 import { merge, getNextJumpLine, findLineIndex } from './utils'
-import { WS_URL } from './consts'
+import { WS_URL, isElectron, isDev } from './consts'
 import analytics from './analytics'
 
 class Controller extends EventEmitter {
@@ -212,6 +212,16 @@ class Controller extends EventEmitter {
     // Transmit all settings
     this.sendJSON( 'settings:all', settings )
   }
+
+  action = ( name, params ) => this.sendJSON( `action:${name}`, params )
+
+  openWindow = isElectron && !isDev
+    ? ( url, params ) => this.action( 'open-window', { url: `${window.location.origin}${url}`, ...params } )
+    : url => window.open( url )
+
+  openExternalUrl = isElectron
+    ? url => this.action( 'open-external-url', url )
+    : url => window.open( url )
 
   resetSettings = () => {
     localStorage.removeItem( 'settings' )

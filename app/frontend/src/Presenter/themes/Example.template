@@ -4,29 +4,28 @@
     /***********/
 
     /* Display background */
-    --display-background-color: #0C297B;
-    --display-highlight-background-color: #050835d1;
-    --display-dim-background-color: #a78eff4a;
-    --display-background-image: url('/themes/images/darbar-sahib.jpg');
-    --display-background-size: auto 110%;
+    --display-background-color: #FFFFFF;
+    --display-highlight-background-color: #E1BEE73D;
+    --display-dim-background-color: #21212124;
+    --display-background-image: url('/presenter/themes/images/logo-pastel.png');
+    --display-background-size: 121.5%;
 
     /* Display line colours */
-    /* 2 and onwards using colorizer from 100, -5, 20 (L - 2.5, A/B + 2.5) */
-    --display-line-1-color: #fffee2;
-    --display-line-2-color: #ffffd8;
-    --display-line-3-color: #fff8cc;
-    --display-line-4-color: #ffefc1;
-    --display-line-5-color: #ffe6b5;
-    --display-line-6-color: #ffdda9;
-    --display-line-7-color: #ffd59e;
+    --display-line-1-color: #000000;
+    --display-line-2-color: var(--display-line-1-color);
+    --display-line-3-color: var(--display-line-1-color);
+    --display-line-4-color: var(--display-line-1-color);
+    --display-line-5-color: var(--display-line-1-color);
+    --display-line-6-color: var(--display-line-1-color);
+    --display-line-7-color: var(--display-line-1-color);
 
     --display-line-1-opacity: 1;
-    --display-line-2-opacity: var(--display-line-1-opacity);
-    --display-line-3-opacity: var(--display-line-1-opacity);
-    --display-line-4-opacity: var(--display-line-1-opacity);
-    --display-line-5-opacity: var(--display-line-1-opacity);
-    --display-line-6-opacity: var(--display-line-1-opacity);
-    --display-line-7-opacity: var(--display-line-1-opacity);
+    --display-line-2-opacity: .95;
+    --display-line-3-opacity: .90;
+    --display-line-4-opacity: .85;
+    --display-line-5-opacity: .80;
+    --display-line-6-opacity: .75;
+    --display-line-7-opacity: .70;
 
     --display-extra-line-1-color: var(--display-line-1-color);
     --display-extra-line-2-color: var(--display-extra-line-1-color);
@@ -34,25 +33,19 @@
     --display-extra-line-4-color: var(--display-extra-line-1-color);
     --display-extra-line-5-color: var(--display-extra-line-1-color);
 
-    --display-extra-line-1-opacity: .87;
-    --display-extra-line-2-opacity: .74;
-    --display-extra-line-3-opacity: .61;
-    --display-extra-line-4-opacity: .48;
-    --display-extra-line-5-opacity: .35;
+    --display-extra-line-1-opacity: .95;
+    --display-extra-line-2-opacity: .90;
+    --display-extra-line-3-opacity: .85;
+    --display-extra-line-4-opacity: .80;
+    --display-extra-line-5-opacity: .75;
 
-    --display-gurmukhi-larivaar-assist-color: #ff328b;
+    --display-gurmukhi-larivaar-assist-color: red;
     --display-transliteration-larivaar-assist-color: var(--display-gurmukhi-larivaar-assist-color);
 
     /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #bdd1e2;
-    --display-vishraam-medium-color: #d1b3c8;
-    --display-vishraam-light-color: #e0bcb7;
-
-    /* Display line text-shadow */
-    --display-gurmukhi-shadow: 0px 0px 6em #767c96;
-    --display-translation-shadow: 0px 0px 6em #767c96;
-    --display-punjabi-shadow: 0px 0px 6em #767c96;
-    --display-transliteration-shadow: 0px 0px 6em #767c96;
+    --display-vishraam-heavy-color: #FF8F00;
+    --display-vishraam-medium-color: #33691E;
+    --display-vishraam-light-color: #0D47A1;
 
       /**************/
      /* Controller */
@@ -62,7 +55,7 @@
     --controller-background-color: #EEEEEE;
     --controller-text-color: #424242;
     --controller-text-hover-color: #212121;
-    --controller-selected-color: #212121;
+    --controller-selected-color: var(--controller-text-hover-color);
     --controller-selected-background-color: #CFD8DC;
     --controller-hover-background-color: #E0E0E0;
     --controller-selected-hover-background-color: #D8DCDE;
@@ -74,7 +67,7 @@
 
     /* Controller top and bottom bar colors */
     --controller-bar-text-color: #616161;
-    --controller-bar-text-hover-color: #424242;
+    --controller-bar-text-hover-color: var(--controller-text-color);
     --controller-bar-background-color: #F5F5F5;
 
       /*****************/
@@ -102,5 +95,5 @@
     /*****************/
 
     /* Scrollbar colour */
-    --scrollbar-color: #42424280;
+    --scrollbar-color: rgba(0, 0, 0, 0.5);
 }
