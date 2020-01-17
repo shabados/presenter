@@ -216,7 +216,8 @@ export const DEFAULT_OPTIONS = {
   // ! Must be in sync with settings.default.json
   global: {
     system: {
-      launchOnStartup: false,
+      //! Currently not implemented
+      // launchOnStartup: false,
       multipleDisplays: true,
       serverAnalytics: true,
       automaticUpdates: true,
