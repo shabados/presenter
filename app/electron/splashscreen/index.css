@@ -22,10 +22,11 @@ body {
 
 div.logo {
   font-size: 2em;
+  font-weight: 100;
   display: flex;
   align-items: center;
   padding-bottom: 0.5em;
-  animation: fade-in 5s;
+  animation: fade-in 2.5s;
 }
 
 div.logo > span {
@@ -35,10 +36,12 @@ div.logo > span {
 }
 
 div.message {
-  font-size: 15px;
+  font-size: 12px;
   position: absolute;
   bottom: 25px;
   font-weight: bold;
+  letter-spacing: 1px;
+  opacity: .75;
 }
 
 div.message:after {
@@ -46,22 +49,27 @@ div.message:after {
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
-  animation: ellipsis steps(4,end) 900ms infinite;
-  content: "\2026";
+  animation: ellipsis steps(4,end) 2500ms infinite 1.25s;
+  content: "\0000a0\002E\0000a0\002E\0000a0\002E";
   width: 0px;
+  padding-left: .25em;
 }
 
 @keyframes ellipsis {
   100% {
-    width: 1em;
+    width: 2.5em;
   }
 }
 @keyframes fade-in {
   from {
     opacity: 0;
+    -webkit-transform: translate3d(0, 33%, 0);
+    transform: translate3d(0, 33%, 0);
   }
 
   to {
     opacity: 1;
+    -webkit-transform: none;
+    transform: none;
   }
 }
