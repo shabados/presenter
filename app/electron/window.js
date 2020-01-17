@@ -68,3 +68,9 @@ export const closeNonMainWindows = () => Object
 export const getMainWindow = () => mainWindow
 
 export const getDisplayWindows = () => displayWindows
+
+export const createSplashScreen = () => createWindow( `file://${__dirname}/splashscreen/index.html`, {
+  width: 480,
+  height: 270,
+  frame: false,
+} )

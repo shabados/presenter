@@ -1,0 +1,67 @@
+@font-face {
+  font-family: 'Segoe UI Light';
+  font-style: normal;
+  font-weight: thin;
+  src: url('Segoe UI Light.ttf') format('truetype');
+}
+
+body {
+  user-select: none;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  color: #f0ede9;
+  background-color: #2d2026;
+  background-size: 50%;
+  background-position: 50% 50%;
+  font-family: "Segoe UI Light";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.logo {
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5em;
+  animation: fade-in 5s;
+}
+
+div.logo > span {
+  font-weight: 100;
+  color: white;
+  padding-left: 0.5em;
+}
+
+div.message {
+  font-size: 15px;
+  position: absolute;
+  bottom: 25px;
+  font-weight: bold;
+}
+
+div.message:after {
+  position: absolute;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  animation: ellipsis steps(4,end) 900ms infinite;
+  content: "\2026";
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  100% {
+    width: 1em;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
