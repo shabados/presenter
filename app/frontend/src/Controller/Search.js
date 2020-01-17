@@ -116,7 +116,7 @@ const Search = ( { updateFocus, register, focused } ) => {
     const splitChar = !anchor ? ' ' : ''
 
     // Remember to account for wildcard characters
-    const pos = query.search( searchedValue.slice().replace( new RegExp( SEARCH_CHARS.wildcard, 'g' ), '.' ) )
+    const pos = query.search( searchedValue.slice().replace( new RegExp( '_', 'g' ), '.' ) )
 
     const words = stripPauses( gurmukhi ).split( splitChar )
 
