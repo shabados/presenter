@@ -1,8 +1,8 @@
 @font-face {
-  font-family: 'Segoe UI Light';
+  font-family: "Noto Sans ExtraLight";
   font-style: normal;
-  font-weight: thin;
-  src: url('Segoe UI Light.ttf') format('truetype');
+  font-weight: normal;
+  src: url("./NotoSans-ExtraLight.ttf") format("truetype");
 }
 
 body {
@@ -14,7 +14,7 @@ body {
   background-color: #2d2026;
   background-size: 50%;
   background-position: 50% 50%;
-  font-family: "Segoe UI Light";
+  font-family: "Noto Sans ExtraLight", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
