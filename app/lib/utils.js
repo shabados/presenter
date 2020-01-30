@@ -74,13 +74,13 @@ export const ensureRequiredDirs = async () => {
   ].map( dir => ensureDir( dir, dirPerms ).then( () => chmod( dir, '755' ) ) ) )
 }
 
-export const copyExampleThemes = () => [
+export const copyExampleThemes = () => Promise.all( [
   [ FRONTEND_OVERLAY_THEMES_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER ],
   [ FRONTEND_THEMES_FOLDER, CUSTOM_THEMES_FOLDER ],
-].forEach( ( [ src, dest ] ) => copy(
+].map( ( [ src, dest ] ) => copy(
   join( src, 'Example.template' ),
   join( dest, 'Example.css' ),
-) )
+) ) )
 
 /**
  * Sends an IPC message to the electron instance, if exists.
