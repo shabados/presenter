@@ -1,6 +1,6 @@
 {
   "name": "@shabados/backend",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Shabad OS",
   "main": "electron/esm-wrapper.js",
   "scripts": {
