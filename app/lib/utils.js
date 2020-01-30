@@ -56,12 +56,12 @@ export const listCSSFiles = async path => {
   return files.filter( file => extname( file ) === '.css' )
 }
 
+export const ensureRequiredDir = dir => ensureDir( dir, { mode: 0o2775 } ).then( () => chmod( dir, '755' ) )
+
 /*
  * Creates required filesystem directories for the app to work.
  */
 export const ensureRequiredDirs = async () => {
-  const dirPerms = { mode: 0o2775 }
-
   // Create top-level folder first
   await ensureDir( DATA_FOLDER )
 
@@ -71,7 +71,7 @@ export const ensureRequiredDirs = async () => {
     CUSTOM_OVERLAY_THEMES_FOLDER,
     HISTORY_FOLDER,
     TMP_FOLDER,
-  ].map( dir => ensureDir( dir, dirPerms ).then( () => chmod( dir, '755' ) ) ) )
+  ].map( ensureRequiredDir ) )
 }
 
 export const copyExampleThemes = () => Promise.all( [
