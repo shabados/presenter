@@ -91,3 +91,12 @@ export const SEARCH_ANCHORS = {
 export const BANIS = {
   ASA_KI_VAAR: 11,
 }
+
+// Language IDs
+export const LANGUAGES = {
+  english: 1,
+  punjabi: 2,
+  spanish: 3,
+  hindi: 4,
+  urdu: 5,
+}

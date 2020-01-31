@@ -6,6 +6,7 @@ import ThemeLoader from './ThemeLoader'
 
 import { getTranslation, getTransliteration, findLineIndex } from '../lib/utils'
 import { ContentContext, SettingsContext, StatusContext, RecommendedSourcesContext } from '../lib/contexts'
+import { LANGUAGES } from '../lib/consts'
 
 import './index.css'
 
@@ -53,12 +54,18 @@ const Overlay = () => {
         {...( line && {
           larivaarGurbani,
           larivaarAssist,
-          englishTranslation: overlay.englishTranslation && getTranslationFor( 1 ),
-          punjabiTranslation: overlay.punjabiTranslation && getTranslationFor( 2 ),
-          spanishTranslation: overlay.spanishTranslation && getTranslationFor( 3 ),
-          englishTransliteration: overlay.englishTransliteration && getTransliterationFor( 1 ),
-          hindiTransliteration: overlay.hindiTransliteration && getTransliterationFor( 4 ),
-          urduTransliteration: overlay.urduTransliteration && getTransliterationFor( 5 ),
+          englishTranslation: overlay.englishTranslation && getTranslationFor( LANGUAGES.english ),
+          punjabiTranslation: overlay.punjabiTranslation && getTranslationFor( LANGUAGES.punjabi ),
+          spanishTranslation: overlay.spanishTranslation && getTranslationFor( LANGUAGES.spanish ),
+          englishTransliteration: (
+            overlay.englishTransliteration && getTransliterationFor( LANGUAGES.english )
+          ),
+          hindiTransliteration: (
+            overlay.hindiTransliteration && getTransliterationFor( LANGUAGES.hindi )
+          ),
+          urduTransliteration: (
+            overlay.urduTransliteration && getTransliterationFor( LANGUAGES.urdu )
+          ),
         } )}
       />
     </div>
