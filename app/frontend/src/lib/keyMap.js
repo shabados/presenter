@@ -55,7 +55,7 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
   },
   navigator: {
     name: 'Navigator',
-    sequences: [ 'ctrl+c', 'ctrl+enter' ],
+    sequences: [ 'ctrl+enter' ],
   },
   history: {
     name: 'History',
