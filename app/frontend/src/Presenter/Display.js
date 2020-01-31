@@ -9,6 +9,7 @@ import { useSnackbar } from 'notistack'
 import { getTranslation, getTransliteration, findLineIndex, mapPlatformKeys } from '../lib/utils'
 import { ContentContext, RecommendedSourcesContext, WritersContext } from '../lib/contexts'
 import hotkeys, { GLOBAL_SHORTCUTS } from '../lib/keyMap'
+import { LANGUAGES } from '../lib/consts'
 
 import Line from './Line'
 
@@ -64,7 +65,6 @@ const Display = ( { settings } ) => {
 
   const getTransliterationFor = languageId => getTransliteration( line, languageId )
 
-
   // Copy lines to clipboard
   const { enqueueSnackbar } = useSnackbar()
   const copyToClipboard = text => () => {
@@ -85,9 +85,14 @@ const Display = ( { settings } ) => {
 
     copyToClipboard( `${writerName} - ${sourceName} - ${pageName} ${sourcePage}` )()
   }
+
   const copyGurmukhi = copyToClipboard( line && line.gurmukhi )
-  const copyEnglishTransliteration = copyToClipboard( line && getTransliterationFor( 1 ) )
-  const copyEnglishTranslation = copyToClipboard( line && getTranslationFor( 1 ) )
+
+  const copyEnglishTransliteration = copyToClipboard(
+    line && getTransliterationFor( LANGUAGES.english ),
+  )
+
+  const copyEnglishTranslation = copyToClipboard( line && getTranslationFor( LANGUAGES.english ) )
 
   const hotkeyHandlers = {
     [ GLOBAL_SHORTCUTS.copyGurmukhi.name ]: copyGurmukhi,
@@ -121,12 +126,18 @@ const Display = ( { settings } ) => {
           {...display}
           {...vishraams}
           gurmukhi={line.gurmukhi}
-          englishTranslation={display.englishTranslation && getTranslationFor( 1 )}
-          punjabiTranslation={display.punjabiTranslation && getTranslationFor( 2 )}
-          spanishTranslation={display.spanishTranslation && getTranslationFor( 3 )}
-          englishTransliteration={display.englishTransliteration && getTransliterationFor( 1 )}
-          hindiTransliteration={display.hindiTransliteration && getTransliterationFor( 4 )}
-          urduTransliteration={display.urduTransliteration && getTransliterationFor( 5 )}
+          englishTranslation={display.englishTranslation && getTranslationFor( LANGUAGES.english )}
+          punjabiTranslation={display.punjabiTranslation && getTranslationFor( LANGUAGES.punjabi )}
+          spanishTranslation={display.spanishTranslation && getTranslationFor( LANGUAGES.spanish )}
+          englishTransliteration={(
+            display.englishTransliteration && getTransliterationFor( LANGUAGES.english )
+          )}
+          hindiTransliteration={(
+            display.hindiTransliteration && getTransliterationFor( LANGUAGES.hindi )
+          )}
+          urduTransliteration={(
+            display.urduTransliteration && getTransliterationFor( LANGUAGES.urdu )
+          )}
           simpleGraphics={simple}
         />
         )}
