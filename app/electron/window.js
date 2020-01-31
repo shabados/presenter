@@ -16,7 +16,11 @@ const fullScreenOnShow = window => window.maximize()
 
 // Creates any browser window
 export const createWindow = ( url, windowParams, onBeforeShow = () => {} ) => {
-  const window = new BrowserWindow( { show: false, ...windowParams } )
+  const window = new BrowserWindow( {
+    show: false,
+    webPreferences: { nodeIntegration: true },
+    ...windowParams,
+  } )
   window.setMenuBarVisibility( isDev )
 
   window.loadURL( url )
