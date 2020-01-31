@@ -15,6 +15,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import controller from '../lib/controller'
 import { getUrlState, mapPlatformKeys } from '../lib/utils'
+import { toggleFullscreen } from '../lib/electron-utils'
 import {
   CONTROLLER_URL,
   SEARCH_URL,
@@ -120,14 +121,6 @@ const Presenter = () => {
 
     toggleQuery( STATES.controllerOnly )
   }
-
-  /**
-   * Toggles presenter fullscreen.
-   */
-  const toggleFullscreen = () => ( !document.webkitFullscreenElement
-    ? document.documentElement.webkitRequestFullScreen()
-    : document.webkitExitFullscreen()
-  )
 
   /**
    * Prevents the default action from occurring for each handler.
