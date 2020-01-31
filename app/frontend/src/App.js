@@ -10,7 +10,15 @@ import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, PRESENTER_URL, BACKEND_UR
 import { DEFAULT_OPTIONS } from './lib/options'
 import { merge } from './lib/utils'
 import controller from './lib/controller'
-import { ContentContext, StatusContext, SettingsContext, HistoryContext, BookmarksContext, RecommendedSourcesContext } from './lib/contexts'
+import {
+  ContentContext,
+  StatusContext,
+  SettingsContext,
+  HistoryContext,
+  BookmarksContext,
+  RecommendedSourcesContext,
+  WritersContext,
+} from './lib/contexts'
 
 import Overlay from './Overlay'
 import Loader from './shared/Loader'
@@ -51,6 +59,7 @@ class App extends PureComponent {
       latestLines: {},
       shabad: null,
       recommendedSources: {},
+      writers: {},
       settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
     }
   }
@@ -79,6 +88,11 @@ class App extends PureComponent {
         DEFAULT_OPTIONS.local.sources = recommendedSources
         this.setState( ( { settings } ) => ( { recommendedSources, settings } ) )
       } )
+
+    // Get writers
+    fetch( `${BACKEND_URL}/writers` )
+      .then( res => res.json() )
+      .then( ( { writers } ) => this.setState( { writers } ) )
   }
 
   componentWillUnmount() {
@@ -140,6 +154,7 @@ class App extends PureComponent {
       status,
       banis,
       recommendedSources,
+      writers,
       bani,
       shabad,
       lineId,
@@ -151,34 +166,36 @@ class App extends PureComponent {
       settings,
     } = this.state
 
-    return (
+    // Generate a context wrapper function
+    const withContexts = [
+      [ StatusContext.Provider, { connected, status } ],
+      [ SettingsContext.Provider, settings ],
+      [ HistoryContext.Provider, { viewedLines, transitionHistory, latestLines } ],
+      [ BookmarksContext.Provider, banis ],
+      [ WritersContext.Provider, writers ],
+      [ RecommendedSourcesContext.Provider, recommendedSources ],
+      [ ContentContext.Provider, { bani, shabad, lineId, mainLineId, nextLineId } ],
+      [ SnackbarProvider ],
+    ].reduce( ( withContexts, [ Provider, value ] ) => children => withContexts(
+      <Provider value={value}>
+        {children}
+      </Provider>,
+    ), context => context )
+
+    return withContexts(
       <div className={classNames( { mobile: isMobile, tablet: isTablet, desktop: isDesktop }, 'app' )}>
-        <StatusContext.Provider value={{ connected, status }}>
-          <SettingsContext.Provider value={settings}>
-            <HistoryContext.Provider value={{ viewedLines, transitionHistory, latestLines }}>
-              <BookmarksContext.Provider value={banis}>
-                <RecommendedSourcesContext.Provider value={recommendedSources}>
-                  <ContentContext.Provider value={{ bani, shabad, lineId, mainLineId, nextLineId }}>
-                    <SnackbarProvider>
 
-                      <Suspense fallback={<Loader />}>
-                        <Router>
-                          <Switch>
-                            {this.components.map( ( [ Component, path ] ) => (
-                              <Route key={path} path={path} component={Component} />
-                            ) )}
-                          </Switch>
-                        </Router>
-                      </Suspense>
+        <Suspense fallback={<Loader />}>
+          <Router>
+            <Switch>
+              {this.components.map( ( [ Component, path ] ) => (
+                <Route key={path} path={path} component={Component} />
+              ) )}
+            </Switch>
+          </Router>
+        </Suspense>
 
-                    </SnackbarProvider>
-                  </ContentContext.Provider>
-                </RecommendedSourcesContext.Provider>
-              </BookmarksContext.Provider>
-            </HistoryContext.Provider>
-          </SettingsContext.Provider>
-        </StatusContext.Provider>
-      </div>
+      </div>,
     )
   }
 }
