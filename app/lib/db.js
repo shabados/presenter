@@ -3,8 +3,8 @@
  * @ignore
  */
 
-import { groupBy, last } from 'lodash'
-import { Lines, Shabads, Banis, Sources, Languages } from '@shabados/database'
+import { groupBy, last, keyBy } from 'lodash'
+import { Lines, Shabads, Banis, Sources, Languages, Writers } from '@shabados/database'
 
 import { MAX_RESULTS } from './consts'
 
@@ -119,6 +119,8 @@ export const getSources = () => Sources
  * @returns {Array} A list of all languages.
  */
 export const getLanguages = () => Languages.query()
+
+export const getWriters = async () => keyBy( await Writers.query(), 'id' )
 
 /**
  * Gets the range of the order IDs of all lines.

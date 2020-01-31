@@ -5,7 +5,7 @@ import { readJSON } from 'fs-extra'
 
 import { CUSTOM_THEMES_FOLDER, APP_FOLDER, FRONTEND_THEMES_FOLDER, DATABASE_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts'
 import { listCSSFiles, getNetworkedAddresses } from './utils'
-import { getSources, getLanguages } from './db'
+import { getSources, getLanguages, getWriters } from './db'
 
 const api = Router()
 
@@ -41,5 +41,8 @@ api.get( '/sources', ( _, res ) => getSources().then( sources => res.json( sourc
 
 // Gurbani Sources, with possible translations
 api.get( '/languages', ( _, res ) => getLanguages().then( languages => res.json( { languages } ) ) )
+
+// Writers/authors
+api.get( '/writers', ( _, res ) => getWriters().then( writers => res.json( { writers } ) ) )
 
 export default api
