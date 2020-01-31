@@ -73,6 +73,22 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
     name: 'Quit',
     sequences: [ 'ctrl+q' ],
   },
+  copyGurmukhi: {
+    name: 'Copy Gurmukhi',
+    sequences: [ 'ctrl+g' ],
+  },
+  copyEnglishTransliteration: {
+    name: 'Copy Transliteration',
+    sequences: [ 'ctrl+t' ],
+  },
+  copyEnglishTranslation: {
+    name: 'Copy English Translation',
+    sequences: [ 'ctrl+e' ],
+  },
+  copyAuthor: {
+    name: 'Copy Author',
+    sequences: [ 'ctrl+a' ],
+  },
 } )( 'Global' )
 
 // Navigator-specific hotkeys
