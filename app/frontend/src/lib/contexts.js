@@ -22,6 +22,8 @@ export const HistoryContext = createContext( {
 
 export const RecommendedSourcesContext = createContext( {} )
 
+export const WritersContext = createContext( {} )
+
 export const BookmarksContext = createContext( [] )
 
 export const StatusContext = createContext( { connected: false, status: null } )
