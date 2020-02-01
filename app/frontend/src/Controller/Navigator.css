@@ -6,10 +6,7 @@
 
 .navigator .text {
   display: block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   width: 100%;
-  overflow-x: hidden;
 }
 
 .navigator-controls .autoselect {
@@ -18,11 +15,6 @@
 
 .navigator .main.meta, .navigator .next.meta {
   color: red !important;
-}
-
-.mobile .navigator .text,
-.tablet .navigator .text {
-  white-space: inherit;
 }
 
 .mobile.app .navigator-controls .line-counter {

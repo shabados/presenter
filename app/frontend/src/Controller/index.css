@@ -76,6 +76,7 @@
   min-height: 2em;
   transition: 0.2s all;
   cursor: pointer;
+  border-bottom: 1px solid var(--controller-hover-background-color);
 }
 
 .controller .content .focused {
@@ -154,5 +155,4 @@
 .tablet .controller .content li {
   padding: .8em;
   min-height: 2.91em; /* font-size is 1.1 .:. 1.6*2/1.1 */
-  border-bottom: 1px solid var(--controller-hover-background-color);
 }
