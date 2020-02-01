@@ -120,8 +120,8 @@
   content: "\200B";
 }
 
-.larivaar.assist.line .gurmukhi .word:nth-child(2n) {
-  color: var(--display-gurmukhi-larivaar-assist-color);
+.line.larivaar.assist .gurmukhi .partition:nth-child(odd) .word:nth-child(even), .line.larivaar.assist .gurmukhi .partition:nth-child(even) .word:nth-child(odd) {
+  color: var(--display-transliteration-larivaar-assist-color);
 }
 
 .larivaar.assist.line .transliteration .word:nth-child(2n) {
