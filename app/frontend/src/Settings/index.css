@@ -63,7 +63,7 @@
 }
 
 .settings .MuiListSubheader-root,
-.MuiPaper-root,
+.settings .MuiPaper-root,
 .settings main p,
 .settings main svg {
   color: var(--settings-text-color) !important;
