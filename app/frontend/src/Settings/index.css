@@ -62,7 +62,7 @@
   transition: 0.3s all;
 }
 
-.MuiListSubheader-root,
+.settings .MuiListSubheader-root,
 .MuiPaper-root,
 .settings main p,
 .settings main svg {
