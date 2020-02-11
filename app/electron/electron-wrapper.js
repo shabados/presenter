@@ -33,7 +33,7 @@ const onServerReady = server => {
   createMainWindow()
 
   // Close splashscreen when the main window has been shown
-  getMainWindow().on( 'show', () => splashScreen.close() )
+  getMainWindow().once( 'show', () => splashScreen.close() )
 }
 
 // Catch any errors
