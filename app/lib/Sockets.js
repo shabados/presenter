@@ -76,14 +76,21 @@ class Socket extends EventEmitter {
   }
 
   /**
+   * Gets all the active clients.
+   */
+  getClients() {
+    const { clients } = this.socketServer
+
+    return Array.from( clients )
+  }
+
+  /**
   * Iterates over each actively connected client.
   * @param {Function} fn The function to execute, provided with the client as a parameter.
   * @param {WebSocket[]} excludedClients Any excluded clients.
   */
   forEach( fn, excludedClients = [] ) {
-    const { clients } = this.socketServer
-
-    clients.forEach( client => {
+    this.getClients().forEach( client => {
       if ( !client.sendJSON ) return
 
       // Only include non-excluded clients and open connections
@@ -97,9 +104,7 @@ class Socket extends EventEmitter {
    * Terminates any broken connections, by checking if they responded to the heartbeat.
    */
   closeBrokenConnections() {
-    const { clients } = this.socketServer
-
-    clients.forEach( socket => {
+    this.getClients().forEach( socket => {
       // Terminate any dead sockets
       if ( !socket.isAlive ) {
         socket.terminate()
