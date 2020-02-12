@@ -1,5 +1,7 @@
 import { useContext } from 'react'
 import { invert } from 'lodash'
+import copy from 'copy-to-clipboard'
+import { useSnackbar } from 'notistack'
 
 import { getTranslation, getTransliteration, findLineIndex } from './utils'
 import { ContentContext, RecommendedSourcesContext, SettingsContext } from './contexts'
@@ -52,4 +54,17 @@ export const useTransliterations = languageIds => {
     ...translations,
     [ languagesById[ languageId ] ]: line && getTransliteration( line, languageId ),
   } ), {} )
+}
+
+export const useCopyToClipboard = () => {
+  const truncate = input => ( input.length > 30 ? `${input.substring( 0, 30 )}...` : input )
+
+  const { enqueueSnackbar } = useSnackbar()
+
+  return text => {
+    if ( !text ) return
+
+    copy( text )
+    enqueueSnackbar( `Copied "${truncate( text )}" to clipboard`, { autoHideDuration: 1000, preventDuplicate: true } )
+  }
 }
