@@ -48,6 +48,8 @@ OptionSlot.propTypes = { children: node.isRequired }
 const DynamicOptions = ( { device, group } ) => {
   const settings = useContext( SettingsContext )
 
+  const selectedDeviceSettings = settings[ device ] || settings.local
+
   const isGlobal = device === 'global'
   const defaultSettings = isGlobal ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
@@ -56,7 +58,7 @@ const DynamicOptions = ( { device, group } ) => {
   }, device )
 
   return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
-    const optionGroup = settings[ device ][ group ] || {}
+    const optionGroup = selectedDeviceSettings[ group ] || {}
     const { privacy: groupPrivacy } = OPTION_GROUPS[ group ] || {}
     const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
     const options = OPTIONS[ option ]
