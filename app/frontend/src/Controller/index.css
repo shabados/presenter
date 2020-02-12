@@ -125,6 +125,7 @@
   font-size: 0.6em;
   text-transform: uppercase;
   font-family: "Noto Sans Regular", sans-serif;
+  width: 3.5em;
 }
 
 .controller .timestamp .icon {

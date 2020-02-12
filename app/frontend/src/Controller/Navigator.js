@@ -71,12 +71,14 @@ const NavigatorLine = ( {
 
       <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
 
-      {timestamp && (
-        <span className="timestamp meta">
-          {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit', hour12: false } )}
-          <FontAwesomeIcon className="icon" icon={faCheck} />
-        </span>
-      )}
+      <span className="timestamp meta">
+        {timestamp && (
+          <>
+            {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit', hour12: false } )}
+            <FontAwesomeIcon className="icon" icon={faCheck} />
+          </>
+        )}
+      </span>
     </ListItem>
   )
 }
