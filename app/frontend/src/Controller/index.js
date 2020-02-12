@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { useEffectOnce, usePrevious } from 'react-use'
 import { hot } from 'react-hot-loader/root'
 import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom'
 import { string, func } from 'prop-types'
+import { throttle } from 'lodash'
 
 import classNames from 'classnames'
 import queryString from 'qs'
@@ -35,6 +36,7 @@ import {
 } from '../lib/consts'
 import { getUrlState } from '../lib/utils'
 import { ContentContext, SettingsContext } from '../lib/contexts'
+import { useCurrentLines } from '../lib/hooks'
 
 import ToolbarButton from './ToolbarButton'
 import Search from './Search'
@@ -43,7 +45,6 @@ import History from './History'
 import Bookmarks from './Bookmarks'
 
 import './index.css'
-import { useCurrentLines } from '../lib/hooks'
 
 /**
  * Renders the top navigation bar, showing the current path in the URL, and the hover state.
@@ -217,7 +218,7 @@ const Controller = props => {
     const redirects = [ SEARCH_URL, HISTORY_URL, BOOKMARKS_URL ]
 
     // Redirect to navigator tab if on one of the redirectable pages
-    const isTransition = lines !== previousLines
+    const isTransition = lines && lines !== previousLines
 
     if ( isTransition && redirects.some( route => pathname.includes( route ) ) ) {
       history.push( { ...location, pathname: NAVIGATOR_URL } )
