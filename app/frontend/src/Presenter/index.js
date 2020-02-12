@@ -39,6 +39,7 @@ import { withErrorFallback } from '../shared/ErrorFallback'
 import StatusToast from './StatusToast'
 
 import './index.css'
+import CopyHotkeys from '../shared/CopyHotkeys'
 
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
@@ -173,21 +174,24 @@ const Presenter = () => {
 
       <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>
         <NavigatorHotKeys active={!isControllerOpen} mouseTargetRef={presenterRef}>
+          <CopyHotkeys>
 
-          <Suspense fallback={<Loader />}>
-            {!controllerOnly && <Display settings={localSettings} />}
-          </Suspense>
 
-          <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
-            <IconButton className="expand-icon" onClick={toggleController}>
-              <FontAwesomeIcon icon={faPlus} />
-            </IconButton>
+            <Suspense fallback={<Loader />}>
+              {!controllerOnly && <Display settings={localSettings} />}
+            </Suspense>
 
-            <Route path={CONTROLLER_URL}>
-              {() => <Controller />}
-            </Route>
-          </div>
+            <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
+              <IconButton className="expand-icon" onClick={toggleController}>
+                <FontAwesomeIcon icon={faPlus} />
+              </IconButton>
 
+              <Route path={CONTROLLER_URL}>
+                {() => <Controller />}
+              </Route>
+            </div>
+
+          </CopyHotkeys>
         </NavigatorHotKeys>
       </GlobalHotKeys>
 
