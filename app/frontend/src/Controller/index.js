@@ -43,6 +43,7 @@ import History from './History'
 import Bookmarks from './Bookmarks'
 
 import './index.css'
+import { useCurrentLines } from '../lib/hooks'
 
 /**
  * Renders the top navigation bar, showing the current path in the URL, and the hover state.
@@ -135,8 +136,7 @@ const BottomBar = ( { renderContent, onHover } ) => {
   const history = useHistory()
   const location = useLocation()
 
-  const { shabad, bani } = useContext( ContentContext )
-  const { lines = [] } = shabad || bani || {}
+  const lines = useCurrentLines()
 
   const go = pathname => () => history.push( { ...location, pathname } )
   const resetHover = () => onHover( null )
@@ -194,7 +194,7 @@ BottomBar.defaultProps = {
  */
 const Controller = props => {
   const { shabad, bani } = useContext( ContentContext )
-  const { lines } = shabad || bani || {}
+  const lines = useCurrentLines()
 
   const previousLines = usePrevious( lines )
 
