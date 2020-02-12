@@ -5,12 +5,23 @@
 
 import get from 'get-value'
 import merge from 'deepmerge'
-import { clamp } from 'lodash'
+import { clamp, pickBy, omit } from 'lodash'
 
 import logger from './logger'
 import settingsManager from './settings'
 import History from './History'
 import { getShabad, getBaniLines, getShabadByOrderId, getShabadRange } from './db'
+
+/**
+ * Returns settings for the devices which do not have the private value set.
+ * @param {Object} allSettings All settings of every device.
+ */
+const getPublicSettings = allSettings => Object
+  .entries( allSettings )
+  .reduce( ( acc, [ host, settings ] ) => ( {
+    ...acc,
+    [ host ]: get( settings, 'security.private' ) ? undefined : settings,
+  } ), {} )
 
 /**
  * Handles synchronisation of all the sessions.
@@ -70,6 +81,7 @@ class SessionManager {
       shabad,
       history,
       status,
+      settings,
     } = this.session
 
     if ( bani ) client.sendJSON( 'banis:current', bani )
@@ -81,7 +93,7 @@ class SessionManager {
     client.sendJSON( 'status', status )
     client.sendJSON( 'history:transitions', history.getTransitionsOnly() )
     client.sendJSON( 'history:latest-lines', history.getLatestLines() )
-    client.sendJSON( 'settings:all', this.getClientSettings( client, this.getPublicSettings() ) )
+    client.sendJSON( 'settings:all', this.getClientSettings( client, getPublicSettings( settings ) ) )
   }
 
   /**
@@ -91,13 +103,14 @@ class SessionManager {
   onDisconnection( { host } ) {
     if ( settingsManager.get( 'notifications.disconnectionEvents' ) ) this.notify( `${host} disconnected`, 1000 * 3 )
 
-    this.session = {
-      ...this.session,
-      settings: {
-        ...this.session.settings,
-        [ host ]: undefined,
-      },
+    // Remove the settings of the client only if there are no other connections
+    if ( !this.socket.getClients().some( client => client.host === host ) ) {
+      this.session = { ...this.session, settings: omit( this.session.settings, host ) }
     }
+
+    // Rebroadcast settings on disconnection
+    const { settings } = this.session
+    this.socket.forEach( client => client.sendJSON( 'settings:all', this.getClientSettings( client, getPublicSettings( settings ) ) ) )
   }
 
   /**
@@ -309,36 +322,25 @@ class SessionManager {
     // Save global server settings
     settingsManager.merge( global )
 
-    // Save new settings, mapping the local field back to the correct host
     const { settings } = this.session
-    this.session = {
-      ...this.session,
-      settings: merge.all( [
-        settings,
-        rest,
-        { [ host ]: local },
-      ], { arrayMerge: ( _, source ) => source } ),
-    }
+
+    // Save new settings, mapping the local field back to the correct host
+    const newSettings = merge.all( [
+      settings,
+      // Only accept setting changes for public devices
+      pickBy( {
+        ...getPublicSettings( rest ),
+        [ host ]: local,
+      }, settings => !!settings ),
+    ], { arrayMerge: ( _, source ) => source } )
+
+    this.session = { ...this.session, settings: newSettings }
 
     // Strip out private settings
-    const publicSettings = this.getPublicSettings()
+    const publicSettings = getPublicSettings( newSettings )
 
     // Rebroadcast all settings, transforming fields appropriately
     this.socket.forEach( client => client.sendJSON( 'settings:all', this.getClientSettings( client, publicSettings ) ) )
-  }
-
-  /**
-   * Retrieves only the public settings from the server.
-   * Checks whether the [host].security.options.private value is set, else assume public.
-   * @returns {Object} An object of client settings, where the private value is `false`.
-   */
-  getPublicSettings() {
-    const { settings } = this.session
-
-    return Object.entries( settings ).reduce( ( acc, [ host, settings ] ) => ( {
-      ...acc,
-      [ host ]: get( settings, 'security.options.private' ) ? undefined : settings,
-    } ), {} )
   }
 
   /**

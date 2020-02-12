@@ -22,9 +22,10 @@ class Controller extends EventEmitter {
       minReconnectionDelay: 300 + Math.random() * 200,
       connectionTimeout: 1000,
     } )
-    this.socket.addEventListener( 'open', this.onOpen )
     this.socket.addEventListener( 'close', this.onClose )
     this.socket.addEventListener( 'message', this.onMessage )
+    this.socket.addEventListener( 'open', this.onOpen )
+    this.on( 'ready', this.onReady )
   }
 
   /**
@@ -45,8 +46,16 @@ class Controller extends EventEmitter {
    */
   onOpen = () => {
     console.log( 'Connected to server' )
-    this.setSettings()
     this.emit( 'connected' )
+  }
+
+
+  /**
+   * Called when the WebSocket is ready.
+   * @private
+   */
+  onReady = () => {
+    this.setSettings()
   }
 
   /**
@@ -209,6 +218,7 @@ class Controller extends EventEmitter {
       settings = { [ host ]: changed }
     }
 
+    console.log( settings )
     // Transmit all settings
     this.sendJSON( 'settings:all', settings )
   }

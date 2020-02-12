@@ -36,7 +36,7 @@ export const getHost = async hybridIP => {
   if ( ip === '127.0.0.1' || ip === '1' ) return hostname()
 
   try {
-    const [ hostname ] = await timeoutPromise( 1000, asyncReverse( hybridIP ) )
+    const [ hostname ] = await timeoutPromise( 200, asyncReverse( hybridIP ) )
     return hostname || ip
   } catch ( err ) {
     return ip

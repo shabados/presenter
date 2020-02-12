@@ -138,11 +138,13 @@ class App extends PureComponent {
 
   onSettings = ( { global = {}, local = {}, ...settings } ) => this.setState( state => ( {
     settings: {
-      ...state.settings,
-      ...Object.entries( settings ).reduce( ( settings, [ host, config ] ) => ( {
-        ...settings,
-        [ host ]: merge( DEFAULT_OPTIONS.local, config ),
-      } ), {} ),
+      ...Object
+        .entries( settings )
+        .filter( ( [ , config ] ) => config )
+        .reduce( ( deviceSettings, [ host, config ] ) => ( {
+          ...deviceSettings,
+          [ host ]: merge( DEFAULT_OPTIONS.local, config ),
+        } ), {} ),
       local: controller.saveLocalSettings( local ) || controller.readSettings(),
       global: merge( state.settings.global, global ),
     },

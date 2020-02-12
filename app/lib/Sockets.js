@@ -61,6 +61,8 @@ class Socket extends EventEmitter {
       } )
 
       // Emit the connection event
+      // Send custom ready event
+      socket.sendJSON( 'ready' )
       this.emit( 'connection', socket )
     } )
   }
