@@ -46,7 +46,7 @@ const GeneralSettingParam = Component => {
   return HOC
 }
 
-export const Toggle = ( { value, ...props } ) => <Switch className={classNames( 'toggle', { checked: value } )} defaultChecked={value} {...props} />
+export const Toggle = ( { value, ...props } ) => <Switch className={classNames( 'toggle', { checked: value } )} checked={value} {...props} />
 
 Toggle.propTypes = {
   value: bool.isRequired,
@@ -56,7 +56,7 @@ export const Slider = ( { value, ...props } ) => (
   <MaterialSlider
     className="slider"
     valueLabelDisplay="auto"
-    defaultValue={value}
+    value={value}
     {...props}
   />
 )
