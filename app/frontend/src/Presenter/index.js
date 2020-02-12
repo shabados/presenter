@@ -35,11 +35,11 @@ import ThemeLoader from '../shared/ThemeLoader'
 import Loader from '../shared/Loader'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 import { withErrorFallback } from '../shared/ErrorFallback'
+import CopyHotkeys from '../shared/CopyHotkeys'
 
 import StatusToast from './StatusToast'
 
 import './index.css'
-import CopyHotkeys from '../shared/CopyHotkeys'
 
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
