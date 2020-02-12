@@ -13,6 +13,16 @@ import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLD
 
 const asyncReverse = promisify( reverse )
 
+const timeoutPromise = ( ms, promise ) => Promise.race( [
+  new Promise( ( _, reject ) => {
+    const timeout = setTimeout( () => {
+      clearTimeout( timeout )
+      reject()
+    }, ms )
+  } ),
+  promise,
+] )
+
 /**
  * Returns the hostname for the IP, if found, else the IP.
  * @param {string} hybridIP The IP address to resolve the hostname for.
@@ -26,7 +36,7 @@ export const getHost = async hybridIP => {
   if ( ip === '127.0.0.1' || ip === '1' ) return hostname()
 
   try {
-    const [ hostname ] = await asyncReverse( hybridIP )
+    const [ hostname ] = await timeoutPromise( 1000, asyncReverse( hybridIP ) )
     return hostname || ip
   } catch ( err ) {
     return ip
