@@ -218,7 +218,6 @@ class Controller extends EventEmitter {
       settings = { [ host ]: changed }
     }
 
-    console.log( settings )
     // Transmit all settings
     this.sendJSON( 'settings:all', settings )
   }
