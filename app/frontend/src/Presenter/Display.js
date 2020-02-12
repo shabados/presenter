@@ -8,7 +8,7 @@ import { useSnackbar } from 'notistack'
 
 import { getTranslation, getTransliteration, findLineIndex, mapPlatformKeys } from '../lib/utils'
 import { ContentContext, RecommendedSourcesContext, WritersContext } from '../lib/contexts'
-import hotkeys, { GLOBAL_SHORTCUTS } from '../lib/keyMap'
+import { COPY_SHORTCUTS } from '../lib/keyMap'
 import { LANGUAGES } from '../lib/consts'
 
 import Line from './Line'
@@ -35,6 +35,7 @@ const Display = ( { settings } ) => {
       highlightCurrentLine: highlight,
       dimNextAndPrevLines: dim,
     },
+    hotkeys,
   } = settings
 
   // Get the lines from the shabad, if they exist
@@ -74,8 +75,8 @@ const Display = ( { settings } ) => {
     enqueueSnackbar( `Copied "${truncate( text )}" to clipboard`, { autoHideDuration: 1000, preventDuplicate: true } )
   }
 
-  const copyAuthor = () => {
-    if ( !line ) return
+  const getAuthor = () => {
+    if ( !line ) return ''
 
     const { sourceId, writerId } = shabad || line.shabad
     const { sourcePage } = line
@@ -83,29 +84,30 @@ const Display = ( { settings } ) => {
     const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
     const { nameEnglish: writerName } = writers[ writerId ]
 
-    copyToClipboard( `${writerName} - ${sourceName} - ${pageName} ${sourcePage}` )()
+    return `${writerName} - ${sourceName} - ${pageName} ${sourcePage}`
   }
 
-  const copyGurmukhi = copyToClipboard( line && line.gurmukhi )
-
-  const copyEnglishTransliteration = copyToClipboard(
-    line && getTransliterationFor( LANGUAGES.english ),
-  )
-
-  const copyEnglishTranslation = copyToClipboard( line && getTranslationFor( LANGUAGES.english ) )
-
-  const hotkeyHandlers = {
-    [ GLOBAL_SHORTCUTS.copyGurmukhi.name ]: copyGurmukhi,
-    [ GLOBAL_SHORTCUTS.copyEnglishTransliteration.name ]: copyEnglishTransliteration,
-    [ GLOBAL_SHORTCUTS.copyEnglishTranslation.name ]: copyEnglishTranslation,
-    [ GLOBAL_SHORTCUTS.copyAuthor.name ]: copyAuthor,
-  }
+  // Generate hotkeys for copying to clipboard
+  const hotkeyHandlers = !!line && [
+    [ COPY_SHORTCUTS.copyGurmukhi.name, line.gurmukhi ],
+    [ COPY_SHORTCUTS.copyEnglishTranslation.name, getTranslationFor( LANGUAGES.english ) ],
+    [ COPY_SHORTCUTS.copyPunjabiTranslation.name, getTranslationFor( LANGUAGES.punjabi ) ],
+    [ COPY_SHORTCUTS.copySpanishTranslation.name, getTranslationFor( LANGUAGES.spanish ) ],
+    [ COPY_SHORTCUTS.copyEnglishTransliteration.name, getTransliterationFor( LANGUAGES.english ) ],
+    [ COPY_SHORTCUTS.copyHindiTransliteration.name, getTransliterationFor( LANGUAGES.hindi ) ],
+    [ COPY_SHORTCUTS.copyUrduTransliteration.name, getTransliterationFor( LANGUAGES.urdu ) ],
+    [ COPY_SHORTCUTS.copyAuthor.name, getAuthor() ],
+  ].reduce( ( hotkeys, [ name, content ] ) => ( {
+    ...hotkeys,
+    [ name ]: copyToClipboard( content ),
+  } ), {} )
 
   return (
     <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>
 
       <div className={classNames( { simple, background }, 'display' )}>
         <div className="background-image" />
+
         <div className={classNames( { dim }, 'previous-lines' )}>
           {line && previousLines.map( ( { id, gurmukhi } ) => (
             <Line
@@ -119,28 +121,36 @@ const Display = ( { settings } ) => {
             />
           ) )}
         </div>
+
         {line && (
-        <Line
-          className={classNames( { highlight }, 'current-line' )}
-          {...layout}
-          {...display}
-          {...vishraams}
-          gurmukhi={line.gurmukhi}
-          englishTranslation={display.englishTranslation && getTranslationFor( LANGUAGES.english )}
-          punjabiTranslation={display.punjabiTranslation && getTranslationFor( LANGUAGES.punjabi )}
-          spanishTranslation={display.spanishTranslation && getTranslationFor( LANGUAGES.spanish )}
-          englishTransliteration={(
+          <Line
+            className={classNames( { highlight }, 'current-line' )}
+            {...layout}
+            {...display}
+            {...vishraams}
+            gurmukhi={line.gurmukhi}
+            englishTranslation={
+              display.englishTranslation && getTranslationFor( LANGUAGES.english )
+            }
+            punjabiTranslation={
+              display.punjabiTranslation && getTranslationFor( LANGUAGES.punjabi )
+            }
+            spanishTranslation={
+              display.spanishTranslation && getTranslationFor( LANGUAGES.spanish )
+            }
+            englishTransliteration={
             display.englishTransliteration && getTransliterationFor( LANGUAGES.english )
-          )}
-          hindiTransliteration={(
+            }
+            hindiTransliteration={
             display.hindiTransliteration && getTransliterationFor( LANGUAGES.hindi )
-          )}
-          urduTransliteration={(
+            }
+            urduTransliteration={
             display.urduTransliteration && getTransliterationFor( LANGUAGES.urdu )
-          )}
-          simpleGraphics={simple}
-        />
+            }
+            simpleGraphics={simple}
+          />
         )}
+
         <div className={classNames( { dim }, 'next-lines' )}>
           {line && nextLines.map( ( { id, gurmukhi } ) => (
             <Line
@@ -154,6 +164,7 @@ const Display = ( { settings } ) => {
             />
           ) )}
         </div>
+
       </div>
 
     </GlobalHotKeys>
