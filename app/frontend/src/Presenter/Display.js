@@ -1,14 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { hot } from 'react-hot-loader/root'
 import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
-import { GlobalHotKeys } from 'react-hotkeys'
 
-import { mapPlatformKeys } from '../lib/utils'
-import { ContentContext, RecommendedSourcesContext, WritersContext } from '../lib/contexts'
-import { COPY_SHORTCUTS } from '../lib/keyMap'
 import { LANGUAGES } from '../lib/consts'
-import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines, useCopyToClipboard } from '../lib/hooks'
+import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines } from '../lib/hooks'
 
 import Line from './Line'
 
@@ -31,7 +27,6 @@ const Display = ( { settings } ) => {
       highlightCurrentLine: highlight,
       dimNextAndPrevLines: dim,
     },
-    hotkeys,
   } = settings
 
 
@@ -39,30 +34,12 @@ const Display = ( { settings } ) => {
   const lines = useCurrentLines()
   const [ line, lineIndex ] = useCurrentLine()
 
-  const writers = useContext( WritersContext )
-
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display
   const previousLines = previousLineCount && lineIndex
     ? lines.slice( Math.max( lineIndex - previousLineCount, 0 ), lineIndex )
     : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
-
-  // Get Shabad and sources for getting the author
-  const { shabad } = useContext( ContentContext )
-  const recommendedSources = useContext( RecommendedSourcesContext )
-
-  const getAuthor = () => {
-    if ( !line ) return ''
-
-    const { sourceId, writerId } = shabad || line.shabad
-    const { sourcePage } = line
-
-    const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
-    const { nameEnglish: writerName } = writers[ writerId ]
-
-    return `${writerName} - ${sourceName} - ${pageName} ${sourcePage}`
-  }
 
   const translations = useTranslations( line && [
     display.englishTranslation && LANGUAGES.english,
@@ -76,77 +53,56 @@ const Display = ( { settings } ) => {
     display.urduTransliteration && LANGUAGES.urdu,
   ] )
 
-  const copyToClipboard = useCopyToClipboard()
-
-  // Generate hotkeys for copying to clipboard
-  const hotkeyHandlers = !!line && [
-    [ COPY_SHORTCUTS.copyGurmukhi.name, line.gurmukhi ],
-    [ COPY_SHORTCUTS.copyEnglishTranslation.name, translations.english ],
-    [ COPY_SHORTCUTS.copyPunjabiTranslation.name, translations.punjabi ],
-    [ COPY_SHORTCUTS.copySpanishTranslation.name, translations.spanish ],
-    [ COPY_SHORTCUTS.copyEnglishTransliteration.name, transliterations.english ],
-    [ COPY_SHORTCUTS.copyHindiTransliteration.name, transliterations.hindi ],
-    [ COPY_SHORTCUTS.copyUrduTransliteration.name, transliterations.urdu ],
-    [ COPY_SHORTCUTS.copyAuthor.name, getAuthor() ],
-  ].reduce( ( hotkeys, [ name, content ] ) => ( {
-    ...hotkeys,
-    [ name ]: () => copyToClipboard( content ),
-  } ), {} )
-
   return (
-    <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>
+    <div className={classNames( { simple, background }, 'display' )}>
+      <div className="background-image" />
 
-      <div className={classNames( { simple, background }, 'display' )}>
-        <div className="background-image" />
-
-        <div className={classNames( { dim }, 'previous-lines' )}>
-          {line && previousLines.map( ( { id, gurmukhi } ) => (
-            <Line
-              key={id}
-              className="previous-line"
-              simpleGraphics={simple}
-              {...layout}
-              {...display}
-              {...vishraams}
-              gurmukhi={gurmukhi}
-            />
-          ) )}
-        </div>
-
-        {line && (
+      <div className={classNames( { dim }, 'previous-lines' )}>
+        {line && previousLines.map( ( { id, gurmukhi } ) => (
           <Line
-            className={classNames( { highlight }, 'current-line' )}
+            key={id}
+            className="previous-line"
+            simpleGraphics={simple}
             {...layout}
             {...display}
             {...vishraams}
-            gurmukhi={line.gurmukhi}
-            englishTranslation={translations.english}
-            punjabiTranslation={translations.punjabi}
-            spanishTranslation={translations.spanish}
-            englishTransliteration={transliterations.english}
-            hindiTransliteration={transliterations.hindi}
-            urduTransliteration={transliterations.urdu}
-            simpleGraphics={simple}
+            gurmukhi={gurmukhi}
           />
-        )}
-
-        <div className={classNames( { dim }, 'next-lines' )}>
-          {line && nextLines.map( ( { id, gurmukhi } ) => (
-            <Line
-              key={id}
-              className="next-line"
-              simpleGraphics={simple}
-              {...layout}
-              {...display}
-              {...vishraams}
-              gurmukhi={gurmukhi}
-            />
-          ) )}
-        </div>
-
+        ) )}
       </div>
 
-    </GlobalHotKeys>
+      {line && (
+      <Line
+        className={classNames( { highlight }, 'current-line' )}
+        {...layout}
+        {...display}
+        {...vishraams}
+        gurmukhi={line.gurmukhi}
+        englishTranslation={translations.english}
+        punjabiTranslation={translations.punjabi}
+        spanishTranslation={translations.spanish}
+        englishTransliteration={transliterations.english}
+        hindiTransliteration={transliterations.hindi}
+        urduTransliteration={transliterations.urdu}
+        simpleGraphics={simple}
+      />
+      )}
+
+      <div className={classNames( { dim }, 'next-lines' )}>
+        {line && nextLines.map( ( { id, gurmukhi } ) => (
+          <Line
+            key={id}
+            className="next-line"
+            simpleGraphics={simple}
+            {...layout}
+            {...display}
+            {...vishraams}
+            gurmukhi={gurmukhi}
+          />
+        ) )}
+      </div>
+
+    </div>
   )
 }
 
