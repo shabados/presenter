@@ -134,7 +134,7 @@ const Navigator = ( { updateFocus, register, focused } ) => {
   } ), {} ), [] )
 
   // If there's no Shabad to show, go back to the controller
-  if ( !lines ) return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
+  if ( !lines.length ) return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
 
   const jumpLines = invert( getJumpLines( content ) )
   const nextLineId = getNextJumpLine( content )

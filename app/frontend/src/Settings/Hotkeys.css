@@ -2,12 +2,25 @@
   color: var(--settings-text-color);
 }
 
-.hotkeys code {
+.hotkeys .key {
   background-color: var(--settings-text-color);
   color: var(--settings-background-color);
   padding: 5px;
   border-radius: 5px;
   font-weight: bold;
+  font-size: 12px;
+  margin: 4px 0;
+}
+
+.hotkeys .editable.keys .key:hover:after {
+  position: absolute;
+  content: 'Remove';
+  color: var(--settings-text-color);
+}
+
+.hotkeys .key.Mui-disabled {
+  color: var(--settings-background-color);
+  opacity: 0.7;
 }
 
 .hotkeys .group {
