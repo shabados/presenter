@@ -57,7 +57,7 @@ const DynamicOptions = ( { device, group } ) => {
 
   return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
     const optionGroup = settings[ device ][ group ] || {}
-    const { privacy: groupPrivacy } = OPTION_GROUPS[ group ]
+    const { privacy: groupPrivacy } = OPTION_GROUPS[ group ] || {}
     const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
     const options = OPTIONS[ option ]
     const { type, privacy, name, icon, ...props } = options
