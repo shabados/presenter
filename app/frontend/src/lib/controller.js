@@ -219,7 +219,7 @@ class Controller extends EventEmitter {
     }
 
     // Transmit all settings
-    this.sendJSON( 'settings:all', settings )
+    // this.sendJSON( 'settings:all', settings )
   }
 
   action = ( name, params ) => this.sendJSON( `action:${name}`, params )
@@ -232,9 +232,15 @@ class Controller extends EventEmitter {
     ? url => this.action( 'open-external-url', url )
     : url => window.open( url )
 
+  //! this gets overriden by server onsettings :()
   resetSettings = () => {
     localStorage.removeItem( 'settings' )
     this.setSettings()
+  }
+
+  //! same problem
+  resetSettingGroup = group => {
+    this.setSettings( { [ group ]: undefined } )
   }
 }
 

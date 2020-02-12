@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useEffectOnce, usePrevious } from 'react-use'
 import { hot } from 'react-hot-loader/root'
 import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom'
 import { string, func } from 'prop-types'
-import { throttle } from 'lodash'
 
 import classNames from 'classnames'
 import queryString from 'qs'
@@ -218,7 +217,7 @@ const Controller = props => {
     const redirects = [ SEARCH_URL, HISTORY_URL, BOOKMARKS_URL ]
 
     // Redirect to navigator tab if on one of the redirectable pages
-    const isTransition = lines && lines !== previousLines
+    const isTransition = lines.length && lines !== previousLines
 
     if ( isTransition && redirects.some( route => pathname.includes( route ) ) ) {
       history.push( { ...location, pathname: NAVIGATOR_URL } )

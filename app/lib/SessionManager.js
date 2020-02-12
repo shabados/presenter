@@ -328,10 +328,8 @@ class SessionManager {
     const newSettings = merge.all( [
       settings,
       // Only accept setting changes for public devices
-      pickBy( {
-        ...getPublicSettings( rest ),
-        [ host ]: local,
-      }, settings => !!settings ),
+      ...getPublicSettings( rest ),
+      { [ host ]: local },
     ], { arrayMerge: ( _, source ) => source } )
 
     this.session = { ...this.session, settings: newSettings }
