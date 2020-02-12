@@ -3,20 +3,16 @@ import { hot } from 'react-hot-loader/root'
 import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
 import { GlobalHotKeys } from 'react-hotkeys'
-import copy from 'copy-to-clipboard'
-import { useSnackbar } from 'notistack'
 
 import { mapPlatformKeys } from '../lib/utils'
 import { ContentContext, RecommendedSourcesContext, WritersContext } from '../lib/contexts'
 import { COPY_SHORTCUTS } from '../lib/keyMap'
 import { LANGUAGES } from '../lib/consts'
-import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines } from '../lib/hooks'
+import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines, useCopyToClipboard } from '../lib/hooks'
 
 import Line from './Line'
 
 import './Display.css'
-
-const truncate = input => ( input.length > 30 ? `${input.substring( 0, 30 )}...` : input )
 
 /**
  * Display Component.
@@ -52,16 +48,6 @@ const Display = ( { settings } ) => {
     : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
-
-  // Copy lines to clipboard
-  const { enqueueSnackbar } = useSnackbar()
-  const copyToClipboard = text => () => {
-    if ( !text ) return
-
-    copy( text )
-    enqueueSnackbar( `Copied "${truncate( text )}" to clipboard`, { autoHideDuration: 1000, preventDuplicate: true } )
-  }
-
   // Get Shabad and sources for getting the author
   const { shabad } = useContext( ContentContext )
   const recommendedSources = useContext( RecommendedSourcesContext )
@@ -90,6 +76,8 @@ const Display = ( { settings } ) => {
     display.urduTransliteration && LANGUAGES.urdu,
   ] )
 
+  const copyToClipboard = useCopyToClipboard()
+
   // Generate hotkeys for copying to clipboard
   const hotkeyHandlers = !!line && [
     [ COPY_SHORTCUTS.copyGurmukhi.name, line.gurmukhi ],
@@ -102,7 +90,7 @@ const Display = ( { settings } ) => {
     [ COPY_SHORTCUTS.copyAuthor.name, getAuthor() ],
   ].reduce( ( hotkeys, [ name, content ] ) => ( {
     ...hotkeys,
-    [ name ]: copyToClipboard( content ),
+    [ name ]: () => copyToClipboard( content ),
   } ), {} )
 
   return (

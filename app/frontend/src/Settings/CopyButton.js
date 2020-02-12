@@ -1,20 +1,18 @@
 import React from 'react'
 import { string, func } from 'prop-types'
 
-import copy from 'copy-to-clipboard'
 import { Button, Tooltip } from '@material-ui/core'
-import { useSnackbar } from 'notistack'
+
+import { useCopyToClipboard } from '../lib/hooks'
 
 import './CopyButton.css'
 
 const CopyButton = ( { copyText, onClick: originalOnClick, ...props } ) => {
-  const { enqueueSnackbar } = useSnackbar()
+  const copyToClipboard = useCopyToClipboard()
 
   const onClick = () => {
     originalOnClick()
-
-    copy( copyText )
-    enqueueSnackbar( `Copied ${copyText} to clipboard`, { autoHideDuration: 1000, preventDuplicate: true } )
+    copyToClipboard( copyText )
   }
 
   return (
