@@ -4,7 +4,7 @@ import { string, shape, node } from 'prop-types'
 import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { OPTIONS, DEFAULT_OPTIONS } from '../lib/options'
+import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, OPTION_GROUPS } from '../lib/options'
 import controller from '../lib/controller'
 import { SettingsContext } from '../lib/contexts'
 
@@ -57,9 +57,14 @@ const DynamicOptions = ( { device, group } ) => {
 
   return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
     const optionGroup = settings[ device ][ group ] || {}
+    const { privacy: groupPrivacy } = OPTION_GROUPS[ group ]
     const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
     const options = OPTIONS[ option ]
     const { type, privacy, name, icon, ...props } = options
+
+    // Determine if the component should be disabled
+    const isDisabled = device !== 'local'
+      && ( privacy === PRIVACY_TYPES.private || groupPrivacy === PRIVACY_TYPES.private )
 
     // Get correct component
     const Option = SettingComponentFactory( type )
@@ -69,7 +74,13 @@ const DynamicOptions = ( { device, group } ) => {
         <IconSlot icon={icon} />
         <NameSlot>{name}</NameSlot>
         <OptionSlot alignItems="center">
-          <Option {...props} option={option} value={value} onChange={setSettings} />
+          <Option
+            {...props}
+            option={option}
+            value={value}
+            onChange={setSettings}
+            disabled={isDisabled}
+          />
         </OptionSlot>
       </OptionGrid>
     )

@@ -149,6 +149,7 @@ export const OPTION_GROUPS = {
   security: {
     name: 'Security',
     icon: faShieldAlt,
+    privacy: PRIVACY_TYPES.private,
   },
   notifications: {
     name: 'Notifications',
