@@ -66,7 +66,7 @@ const Settings = () => {
 
   useEffect( () => {
     if ( !devices.includes( device ) ) setDevice( 'local' )
-  }, [ devices ] )
+  }, [ device, devices ] )
 
   // Fetch list of themes from server
   useEffect( () => {
