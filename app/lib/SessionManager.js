@@ -5,7 +5,7 @@
 
 import get from 'get-value'
 import merge from 'deepmerge'
-import { clamp, pickBy, omit } from 'lodash'
+import { clamp, omit, unset } from 'lodash'
 
 import logger from './logger'
 import settingsManager from './settings'
@@ -20,7 +20,7 @@ const getPublicSettings = allSettings => Object
   .entries( allSettings )
   .reduce( ( acc, [ host, settings ] ) => ( {
     ...acc,
-    [ host ]: get( settings, 'security.private' ) ? undefined : settings,
+    ...( !get( settings, 'security.private' ) && { [ host ]: settings } ),
   } ), {} )
 
 /**
@@ -325,12 +325,12 @@ class SessionManager {
     const { settings } = this.session
 
     // Save new settings, mapping the local field back to the correct host
-    const newSettings = merge.all( [
-      settings,
+    const newSettings = {
+      ...settings,
       // Only accept setting changes for public devices
       ...getPublicSettings( rest ),
-      { [ host ]: local },
-    ], { arrayMerge: ( _, source ) => source } )
+      [ host ]: local,
+    }
 
     this.session = { ...this.session, settings: newSettings }
 
