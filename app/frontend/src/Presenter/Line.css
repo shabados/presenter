@@ -144,6 +144,10 @@
   color: var(--display-vishraam-light-color) !important;
 }
 
+.next-line, .previous-line {
+  min-height: min-content;
+}
+
 /* ------------------------------------
    Simple lines - remove animations
    ------------------------------------ */
