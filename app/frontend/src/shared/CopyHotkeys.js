@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { node } from 'prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
+import { toUnicode } from 'gurmukhi-utils'
 
 import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
 import { mapPlatformKeys } from '../lib/utils'
@@ -47,7 +48,8 @@ const CopyHotkeys = ( { children } ) => {
 
   // Generate hotkeys for copying to clipboard
   const hotkeyHandlers = !!line && [
-    [ COPY_SHORTCUTS.copyGurmukhi.name, line.gurmukhi ],
+    [ COPY_SHORTCUTS.copyGurmukhiAscii.name, line.gurmukhi ],
+    [ COPY_SHORTCUTS.copyGurmukhiUnicode.name, toUnicode( line.gurmukhi ) ],
     [ COPY_SHORTCUTS.copyEnglishTranslation.name, translations.english ],
     [ COPY_SHORTCUTS.copyPunjabiTranslation.name, translations.punjabi ],
     [ COPY_SHORTCUTS.copySpanishTranslation.name, translations.spanish ],

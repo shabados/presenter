@@ -76,8 +76,12 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
 } )( 'Global' )
 
 export const COPY_SHORTCUTS = decorateGroup( {
-  copyGurmukhi: {
-    name: 'Copy Gurmukhi',
+  copyGurmukhiAscii: {
+    name: 'Copy Gurmukhi (ASCII)',
+    sequences: [ 'ctrl+c shift+g' ],
+  },
+  copyGurmukhiUnicode: {
+    name: 'Copy Gurmukhi (Unicode)',
     sequences: [ 'ctrl+c g' ],
   },
   copyEnglishTransliteration: {
