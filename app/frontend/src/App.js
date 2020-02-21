@@ -78,7 +78,7 @@ class App extends PureComponent {
     controller.on( 'banis:list', this.onBanis )
     controller.on( 'banis:current', this.onBani )
     controller.on( 'status', this.onStatus )
-    controller.on( 'settings:all', this.onSettings )
+    controller.on( 'settings', this.onSettings )
 
     // Get recommended sources and set as settings, if there are none
     fetch( `${BACKEND_URL}/sources` )
@@ -109,7 +109,7 @@ class App extends PureComponent {
     controller.off( 'banis:list', this.onBanis )
     controller.off( 'banis:current', this.onBani )
     controller.off( 'status', this.onStatus )
-    controller.off( 'settings:all', this.onSettings )
+    controller.off( 'settings', this.onSettings )
   }
 
   onConnected = () => this.setState( { connected: true, bani: null, shabad: null } )
@@ -145,7 +145,7 @@ class App extends PureComponent {
           ...deviceSettings,
           [ host ]: merge( DEFAULT_OPTIONS.local, config ),
         } ), {} ),
-      local: controller.saveLocalSettings( local ) || controller.readSettings(),
+      local: controller.saveLocalSettings( local, false ) || controller.readSettings(),
       global: merge( state.settings.global, global ),
     },
   } ) )
