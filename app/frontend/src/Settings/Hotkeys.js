@@ -10,7 +10,7 @@ import { Button, Tooltip, ListSubheader, ListItemText, ListItem, List, Grid } fr
 
 import controller from '../lib/controller'
 
-import { OptionGrid, slotSizes } from './DynamicOptions'
+import { ResetButton } from './DynamicOptions'
 
 import './Hotkeys.css'
 
@@ -69,11 +69,7 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
           </ListItem>
         ) )}
 
-      <OptionGrid container align="center">
-        <Grid item {...slotSizes.single}>
-          <Button disabled={!editable} variant="contained" onClick={() => controller.resetSettingGroup( 'hotkeys' )}>Reset to defaults</Button>
-        </Grid>
-      </OptionGrid>
+      <ResetButton group="hotkeys" disabled={!editable} />
 
     </List>
   )
