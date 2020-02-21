@@ -105,7 +105,7 @@ export const COPY_SHORTCUTS = decorateGroup( {
     sequences: [ 'ctrl+c s' ],
   },
   copyAuthor: {
-    name: 'Copy Author',
+    name: 'Copy Citation',
     sequences: [ 'ctrl+c a' ],
   },
 } )( 'Copying' )
