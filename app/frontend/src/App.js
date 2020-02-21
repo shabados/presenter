@@ -48,6 +48,7 @@ class App extends PureComponent {
 
     this.state = {
       connected: false,
+      connectedAt: null,
       status: null,
       banis: [],
       bani: null,
@@ -112,7 +113,12 @@ class App extends PureComponent {
     controller.off( 'settings', this.onSettings )
   }
 
-  onConnected = () => this.setState( { connected: true, bani: null, shabad: null } )
+  onConnected = () => this.setState( {
+    connectedAt: new Date(),
+    connected: true,
+    bani: null,
+    shabad: null,
+  } )
 
   onDisconnected = () => this.setState( { connected: false } )
 
@@ -153,6 +159,7 @@ class App extends PureComponent {
   render() {
     const {
       connected,
+      connectedAt,
       status,
       banis,
       recommendedSources,
@@ -170,7 +177,7 @@ class App extends PureComponent {
 
     // Generate a context wrapper function
     const withContexts = [
-      [ StatusContext.Provider, { connected, status } ],
+      [ StatusContext.Provider, { connected, connectedAt, status } ],
       [ SettingsContext.Provider, settings ],
       [ HistoryContext.Provider, { viewedLines, transitionHistory, latestLines } ],
       [ BookmarksContext.Provider, banis ],

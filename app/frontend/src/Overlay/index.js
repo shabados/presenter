@@ -36,12 +36,12 @@ const Overlay = () => {
     overlay.urduTransliteration && LANGUAGES.urdu,
   ] )
 
-  return (
+  return connected && (
     <div className={classNames( {
       empty: !line,
     }, 'overlay' )}
     >
-      <ThemeLoader connected={connected} name={overlayName} />
+      <ThemeLoader name={overlayName} />
       <Line
         simpleGraphics
         gurmukhi={line ? line.gurmukhi : ''}

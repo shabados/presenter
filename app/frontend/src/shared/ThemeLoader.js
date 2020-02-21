@@ -1,5 +1,5 @@
 import React from 'react'
-import { bool, string } from 'prop-types'
+import { string, instanceOf } from 'prop-types'
 
 import { THEMES_URL } from '../lib/consts'
 import { withContext, StatusContext } from '../lib/contexts'
@@ -11,8 +11,9 @@ import defaultTheme from '../Presenter/themes/Day.css'
  * @param name The name of the CSS theme to load from the server.
  * @constructor
  */
-const ThemeLoader = ( { name, connected } ) => connected && (
+const ThemeLoader = ( { name, connectedAt } ) => (
   <link
+    key={`${name}-${connectedAt}`}
     rel="stylesheet"
     href={name ? `${THEMES_URL}/${name}.css` : defaultTheme}
   />
@@ -20,7 +21,7 @@ const ThemeLoader = ( { name, connected } ) => connected && (
 
 ThemeLoader.propTypes = {
   name: string,
-  connected: bool.isRequired,
+  connectedAt: instanceOf( Date ).isRequired,
 }
 
 ThemeLoader.defaultProps = {

@@ -38,7 +38,7 @@ import {
 } from '../lib/consts'
 import { OPTIONS, OPTION_GROUPS } from '../lib/options'
 import SHORTCUTS from '../lib/keyMap'
-import { SettingsContext, StatusContext } from '../lib/contexts'
+import { SettingsContext } from '../lib/contexts'
 
 import ThemeLoader from '../shared/ThemeLoader'
 import { withErrorFallback } from '../shared/ErrorFallback'
@@ -88,8 +88,6 @@ const Settings = () => {
 
   const openMobileMenu = () => setMobileOpen( true )
   const closeMobileMenu = () => setMobileOpen( false )
-
-  const { connected } = useContext( StatusContext )
 
   const renderMenuItems = () => {
     const Item = ( { name, icon, selected, url = SETTINGS_URL } ) => (
@@ -207,7 +205,7 @@ const Settings = () => {
 
   return (
     <div className={classNames( { simple: simpleGraphics }, 'settings' )}>
-      <ThemeLoader name={themeName} connected={connected} />
+      <ThemeLoader name={themeName} />
 
       {renderMenu()}
       {renderTitlebar()}

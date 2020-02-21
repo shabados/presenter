@@ -26,4 +26,4 @@ export const WritersContext = createContext( {} )
 
 export const BookmarksContext = createContext( [] )
 
-export const StatusContext = createContext( { connected: false, status: null } )
+export const StatusContext = createContext( { connected: false, connectedAt: null, status: null } )
