@@ -8,15 +8,9 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
 import { Button, Tooltip, ListSubheader, ListItemText, ListItem, List, Grid } from '@material-ui/core'
 
-import controller from '../lib/controller'
-
 import { ResetButton } from './DynamicOptions'
 
 import './Hotkeys.css'
-
-const setHotkeys = ( option, value ) => controller.setSettings( {
-  // [  ]: { [ option ]: value },
-}, 'local' )
 
 /**
  * Renders all hotkeys with descriptions.
@@ -55,7 +49,7 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
                     <Grid className={classNames( { editable }, 'keys' )} item xs={6}>
                       <Grid container wrap>
                         {keys[ name ].map( key => (
-                          <Grid key={key} item xs={4}>
+                          <Grid key={key} item xs={5}>
                             <Button disabled={!editable} className="key">{key}</Button>
                           </Grid>
                         ) )}
