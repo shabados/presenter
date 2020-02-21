@@ -49,7 +49,7 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
                     <Grid className={classNames( { editable }, 'keys' )} item xs={6}>
                       <Grid container wrap>
                         {keys[ name ].map( key => (
-                          <Grid key={key} item xs={5}>
+                          <Grid key={key} item xs={12} sm={6}>
                             <Button disabled={!editable} className="key">{key}</Button>
                           </Grid>
                         ) )}
