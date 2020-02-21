@@ -7,6 +7,10 @@
   font-size: 1.1em;
 }
 
+.sources .source-list {
+  margin-bottom: 20px;
+}
+
 .sources .source .source-title .gurmukhi {
   opacity: 0.8;
 }

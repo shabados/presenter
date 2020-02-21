@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { string, shape, node } from 'prop-types'
+import { string, shape, node, bool } from 'prop-types'
 
-import { Typography, Grid } from '@material-ui/core'
+import { Typography, Grid, Button } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, OPTION_GROUPS } from '../lib/options'
@@ -45,6 +45,24 @@ export const OptionSlot = ( { children } ) => (
 )
 OptionSlot.propTypes = { children: node.isRequired }
 
+export const ResetButton = ( { group, disabled } ) => (
+  <OptionGrid container align="center">
+    <Grid item {...slotSizes.single}>
+      <Button disabled={disabled} variant="contained" onClick={() => controller.resetSettingGroup( group )}>Reset to defaults</Button>
+    </Grid>
+  </OptionGrid>
+)
+
+ResetButton.propTypes = {
+  group: string.isRequired,
+  disabled: bool,
+}
+
+ResetButton.defaultProps = {
+  disabled: false,
+}
+
+
 const DynamicOptions = ( { device, group } ) => {
   const settings = useContext( SettingsContext )
 
@@ -57,36 +75,47 @@ const DynamicOptions = ( { device, group } ) => {
     [ group ]: { [ option ]: value },
   }, device )
 
-  return Object.entries( defaultSettings[ group ] || {} ).map( ( [ option, defaultValue ] ) => {
-    const optionGroup = selectedDeviceSettings[ group ] || {}
-    const { privacy: groupPrivacy } = OPTION_GROUPS[ group ] || {}
-    const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
-    const options = OPTIONS[ option ]
-    const { type, privacy, name, icon, ...props } = options
+  const { privacy: groupPrivacy } = OPTION_GROUPS[ group ] || {}
+  const isGroupDisabled = device !== 'local' && groupPrivacy === PRIVACY_TYPES.private
 
-    // Determine if the component should be disabled
-    const isDisabled = device !== 'local'
-      && ( privacy === PRIVACY_TYPES.private || groupPrivacy === PRIVACY_TYPES.private )
+  const renderOptions = () => Object
+    .entries( defaultSettings[ group ] || {} )
+    .map( ( [ option, defaultValue ] ) => {
+      const optionGroup = selectedDeviceSettings[ group ] || {}
+      const value = typeof optionGroup[ option ] === 'undefined' ? defaultValue : optionGroup[ option ]
+      const options = OPTIONS[ option ]
+      const { type, privacy, name, icon, ...props } = options
 
-    // Get correct component
-    const Option = SettingComponentFactory( type )
+      // Determine if the component should be disabled
+      const isDisabled = ( device !== 'local' && privacy === PRIVACY_TYPES.private ) || isGroupDisabled
 
-    return (
-      <OptionGrid key={option}>
-        <IconSlot icon={icon} />
-        <NameSlot>{name}</NameSlot>
-        <OptionSlot alignItems="center">
-          <Option
-            {...props}
-            option={option}
-            value={value}
-            onChange={setSettings}
-            disabled={isDisabled}
-          />
-        </OptionSlot>
-      </OptionGrid>
-    )
-  } )
+      // Get correct component
+      const Option = SettingComponentFactory( type )
+
+      return (
+        <OptionGrid key={option}>
+          <IconSlot icon={icon} />
+          <NameSlot>{name}</NameSlot>
+          <OptionSlot alignItems="center">
+            <Option
+              {...props}
+              option={option}
+              value={value}
+              onChange={setSettings}
+              disabled={isDisabled}
+            />
+          </OptionSlot>
+        </OptionGrid>
+      )
+    } )
+
+  return (
+    <>
+      {renderOptions()}
+
+      <ResetButton disabled={isGroupDisabled} group={group} />
+    </>
+  )
 }
 
 DynamicOptions.propTypes = {
