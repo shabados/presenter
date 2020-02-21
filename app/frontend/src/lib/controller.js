@@ -71,7 +71,7 @@ class Controller extends EventEmitter {
    */
   onClose = () => {
     console.log( 'Disconnected from server' )
-    this.emit( 'connected' )
+    this.emit( 'disconnected' )
   }
 
   /**
