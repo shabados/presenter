@@ -32,7 +32,6 @@ class Controller extends EventEmitter {
     this.socket.addEventListener( 'open', this.onOpen )
 
     this.on( 'ready', this.onReady )
-    this.on( 'settings:all', this.onSettings )
   }
 
   /**
@@ -62,7 +61,20 @@ class Controller extends EventEmitter {
    * @private
    */
   onReady = () => {
-    this.once( 'settings', () => this.setSettings() )
+    this.once( 'settings:all', ( { local = {}, ...rest } ) => {
+      // Transmit our local settings if the server does not have a copy
+      const doSyncSettings = !Object.keys( local ).length
+
+      if ( doSyncSettings ) this.setSettings()
+
+      // Hook normal settings event handler
+      this.on( 'settings:all', this.onSettings )
+
+      this.emit( 'settings:all', {
+        local: doSyncSettings ? this.settings.local : local,
+        ...rest,
+      } )
+    } )
   }
 
   /**
@@ -70,6 +82,7 @@ class Controller extends EventEmitter {
    * @private
    */
   onClose = () => {
+    this.off( 'settings:all', this.onSettings )
     console.log( 'Disconnected from server' )
     this.emit( 'disconnected' )
   }
