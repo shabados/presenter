@@ -62,7 +62,7 @@ const ErrorFallback = ( { error, autoReset } ) => {
           {countdown ? 'Cancel reload' : 'Reload now'}
         </Button>
 
-        <Button variant="outlined" onClick={controller.resetSettings}>Reset Settings</Button>
+        <Button variant="outlined" onClick={() => controller.resetSettings()}>Reset Settings</Button>
 
         <Button variant="outlined" onClick={() => setErrorVisible( !showError )}>
           {showError ? 'Hide Error' : 'Show Error'}
