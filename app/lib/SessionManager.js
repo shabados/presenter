@@ -4,8 +4,7 @@
  */
 
 import get from 'get-value'
-import merge from 'deepmerge'
-import { clamp, omit, unset } from 'lodash'
+import { clamp, omit } from 'lodash'
 
 import logger from './logger'
 import settingsManager from './settings'
