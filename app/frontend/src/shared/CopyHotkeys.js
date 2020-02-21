@@ -47,19 +47,19 @@ const CopyHotkeys = ( { children } ) => {
   const copyToClipboard = useCopyToClipboard()
 
   // Generate hotkeys for copying to clipboard
-  const hotkeyHandlers = !!line && [
-    [ COPY_SHORTCUTS.copyGurmukhiAscii.name, line.gurmukhi ],
-    [ COPY_SHORTCUTS.copyGurmukhiUnicode.name, toUnicode( line.gurmukhi ) ],
-    [ COPY_SHORTCUTS.copyEnglishTranslation.name, translations.english ],
-    [ COPY_SHORTCUTS.copyPunjabiTranslation.name, translations.punjabi ],
-    [ COPY_SHORTCUTS.copySpanishTranslation.name, translations.spanish ],
-    [ COPY_SHORTCUTS.copyEnglishTransliteration.name, transliterations.english ],
-    [ COPY_SHORTCUTS.copyHindiTransliteration.name, transliterations.hindi ],
-    [ COPY_SHORTCUTS.copyUrduTransliteration.name, transliterations.urdu ],
-    [ COPY_SHORTCUTS.copyAuthor.name, getAuthor() ],
-  ].reduce( ( hotkeys, [ name, content ] ) => ( {
+  const hotkeyHandlers = [
+    [ COPY_SHORTCUTS.copyGurmukhiAscii.name, () => line.gurmukhi, 'gurmukhi' ],
+    [ COPY_SHORTCUTS.copyGurmukhiUnicode.name, () => toUnicode( line.gurmukhi ), 'gurmukhi' ],
+    [ COPY_SHORTCUTS.copyEnglishTranslation.name, () => translations.english, 'english translation' ],
+    [ COPY_SHORTCUTS.copyPunjabiTranslation.name, () => translations.punjabi, 'punjabi translation' ],
+    [ COPY_SHORTCUTS.copySpanishTranslation.name, () => translations.spanish, 'spanish translation' ],
+    [ COPY_SHORTCUTS.copyEnglishTransliteration.name, () => transliterations.english, 'english transliteration' ],
+    [ COPY_SHORTCUTS.copyHindiTransliteration.name, () => transliterations.hindi, 'hindi transliteration' ],
+    [ COPY_SHORTCUTS.copyUrduTransliteration.name, () => transliterations.urdu, 'urdu transliteration' ],
+    [ COPY_SHORTCUTS.copyAuthor.name, () => getAuthor(), 'citation' ],
+  ].reduce( ( hotkeys, [ name, getContent, fieldName ] ) => ( {
     ...hotkeys,
-    [ name ]: () => copyToClipboard( content ),
+    [ name ]: () => copyToClipboard( line && getContent(), `No ${fieldName} available to copy` ),
   } ), {} )
   return (
     <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>

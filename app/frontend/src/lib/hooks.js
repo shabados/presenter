@@ -61,10 +61,12 @@ export const useCopyToClipboard = () => {
 
   const { enqueueSnackbar } = useSnackbar()
 
-  return text => {
-    if ( !text ) return
+  return ( text, fallback = 'No text to copy' ) => {
+    if ( text ) copy( text )
 
-    copy( text )
-    enqueueSnackbar( `Copied "${truncate( text )}" to clipboard`, { autoHideDuration: 1000, preventDuplicate: true } )
+    enqueueSnackbar(
+      text ? `Copied "${truncate( text )}" to clipboard` : fallback,
+      { autoHideDuration: 1000, preventDuplicate: true },
+    )
   }
 }
