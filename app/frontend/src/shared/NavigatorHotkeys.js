@@ -72,7 +72,9 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     }
   }, [ lines, lineId ] )
 
-  const goNextLine = useCallback( () => {
+  const goNextLine = useCallback((e) => {
+    // exclude anything other than the main window
+    if( e.target.parentNode.className !== 'desktop app' && e.target.parentNode.className !== 'presenter' ) return 
     if ( !lines ) return
 
     const currentLineIndex = findLineIndex( lines, lineId )
