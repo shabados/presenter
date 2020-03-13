@@ -4,7 +4,7 @@ import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
 
 import { LANGUAGES } from '../lib/consts'
-import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines } from '../lib/hooks'
+import { useTranslations, useTransliterations, useCurrentLine, useLines } from '../lib/hooks'
 
 import Line from './Line'
 
@@ -31,7 +31,7 @@ const Display = ( { settings } ) => {
 
 
   // Find the correct line in the Shabad
-  const lines = useCurrentLines()
+  const lines = useLines()
   const [ line, lineIndex ] = useCurrentLine()
 
   // Get the next lines

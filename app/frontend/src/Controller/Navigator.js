@@ -25,7 +25,7 @@ import { stripPauses, getJumpLines, getNextJumpLine, findLineIndex } from '../li
 import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext } from '../lib/contexts'
-import { useCurrentLines } from '../lib/hooks'
+import { useLines } from '../lib/hooks'
 
 import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
@@ -112,7 +112,7 @@ const Navigator = ( { updateFocus, register, focused } ) => {
   const content = useContext( ContentContext )
   const { shabad, bani, lineId, mainLineId } = content
 
-  const lines = useCurrentLines()
+  const lines = useLines()
 
   // Set the focus to the active line when it changes
   useEffect( () => { updateFocus( lineId, false ) }, [ lineId, updateFocus ] )

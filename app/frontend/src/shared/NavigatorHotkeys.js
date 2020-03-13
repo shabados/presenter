@@ -7,7 +7,7 @@ import { mapPlatformKeys, getJumpLines, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
 import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
-import { useCurrentLines } from '../lib/hooks'
+import { useLines } from '../lib/hooks'
 
 /**
  * Hotkeys for controlling the navigator.
@@ -17,7 +17,7 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
 
   const content = useContext( ContentContext )
   const { lineId, mainLineId, nextLineId, shabad, bani } = content
-  const lines = useCurrentLines()
+  const lines = useLines()
 
   const goFirstLine = () => {
     if ( !lines ) return

@@ -35,7 +35,7 @@ import {
 } from '../lib/consts'
 import { getUrlState } from '../lib/utils'
 import { ContentContext, SettingsContext } from '../lib/contexts'
-import { useCurrentLines } from '../lib/hooks'
+import { useLines } from '../lib/hooks'
 
 import ToolbarButton from './ToolbarButton'
 import Search from './Search'
@@ -136,7 +136,7 @@ const BottomBar = ( { renderContent, onHover } ) => {
   const history = useHistory()
   const location = useLocation()
 
-  const lines = useCurrentLines()
+  const lines = useLines()
 
   const go = pathname => () => history.push( { ...location, pathname } )
   const resetHover = () => onHover( null )
@@ -194,7 +194,7 @@ BottomBar.defaultProps = {
  */
 const Controller = props => {
   const { shabad, bani } = useContext( ContentContext )
-  const lines = useCurrentLines()
+  const lines = useLines()
 
   const previousLines = usePrevious( lines )
 

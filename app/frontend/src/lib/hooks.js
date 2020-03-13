@@ -9,7 +9,7 @@ import { LANGUAGES } from './consts'
 
 const languagesById = invert( LANGUAGES )
 
-export const useCurrentLines = () => {
+export const useLines = () => {
   const { shabad, bani } = useContext( ContentContext )
 
   const { lines = [] } = shabad || bani || {}
