@@ -6,7 +6,7 @@ import ThemeLoader from './ThemeLoader'
 
 import { SettingsContext, StatusContext } from '../lib/contexts'
 import { LANGUAGES } from '../lib/consts'
-import { useTranslations, useTransliterations, useCurrentLine } from '../lib/hooks'
+import { useTranslations, useTransliterations, useLine, useCurrentLineIn } from '../lib/hooks'
 
 import './index.css'
 
@@ -22,19 +22,19 @@ const Overlay = () => {
     ...overlay
   } } = globalSettings || {}
 
-  const [ line ] = useCurrentLine()
+  const [ line ] = useCurrentLineIn( useLine )
 
-  const translations = useTranslations( line && [
+  const translations = useCurrentLineIn( useTranslations( line && [
     overlay.englishTranslation && LANGUAGES.english,
     overlay.punjabiTranslation && LANGUAGES.punjabi,
     overlay.spanishTranslation && LANGUAGES.spanish,
-  ] )
+  ] ) )
 
-  const transliterations = useTransliterations( line && [
+  const transliterations = useCurrentLineIn( useTransliterations( line && [
     overlay.englishTransliteration && LANGUAGES.english,
     overlay.hindiTransliteration && LANGUAGES.hindi,
     overlay.urduTransliteration && LANGUAGES.urdu,
-  ] )
+  ] ) )
 
   return connected && (
     <div className={classNames( {

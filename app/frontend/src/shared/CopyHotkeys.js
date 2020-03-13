@@ -6,12 +6,12 @@ import { toUnicode } from 'gurmukhi-utils'
 import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
 import { mapPlatformKeys } from '../lib/utils'
 import { COPY_SHORTCUTS } from '../lib/keyMap'
-import { useCopyToClipboard, useCurrentLine, useTranslations, useTransliterations } from '../lib/hooks'
+import { useCopyToClipboard, useCurrentLineIn, useLine, useTranslations, useTransliterations } from '../lib/hooks'
 import { LANGUAGES } from '../lib/consts'
 
 const CopyHotkeys = ( { children } ) => {
   const { local: { hotkeys } } = useContext( SettingsContext )
-  const [ line ] = useCurrentLine()
+  const [ line ] = useCurrentLineIn( useLine )
 
   // Get Shabad, writer, sources for getting the author
   const { shabad } = useContext( ContentContext )
@@ -19,18 +19,18 @@ const CopyHotkeys = ( { children } ) => {
   const recommendedSources = useContext( RecommendedSourcesContext )
 
   // Get all translations
-  const translations = useTranslations( line && [
+  const translations = useCurrentLineIn( useTranslations( line && [
     LANGUAGES.english,
     LANGUAGES.punjabi,
     LANGUAGES.spanish,
-  ] )
+  ] ) )
 
   // Get all transliterations
-  const transliterations = useTransliterations( line && [
+  const transliterations = useCurrentLineIn( useTransliterations( line && [
     LANGUAGES.english,
     LANGUAGES.hindi,
     LANGUAGES.urdu,
-  ] )
+  ] ) )
 
   const getAuthor = () => {
     if ( !line ) return ''

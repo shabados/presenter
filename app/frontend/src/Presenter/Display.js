@@ -4,7 +4,7 @@ import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
 
 import { LANGUAGES } from '../lib/consts'
-import { useTranslations, useTransliterations, useCurrentLine, useLines } from '../lib/hooks'
+import { useTranslations, useTransliterations, useCurrentLineIn, useLines, useLine } from '../lib/hooks'
 
 import Line from './Line'
 
@@ -32,7 +32,7 @@ const Display = ( { settings } ) => {
 
   // Find the correct line in the Shabad
   const lines = useLines()
-  const [ line, lineIndex ] = useCurrentLine()
+  const [ line, lineIndex ] = useCurrentLineIn( useLine )
 
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display
@@ -41,17 +41,17 @@ const Display = ( { settings } ) => {
     : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
-  const translations = useTranslations( line && [
+  const translations = useCurrentLineIn( useTranslations( line && [
     display.englishTranslation && LANGUAGES.english,
     display.punjabiTranslation && LANGUAGES.punjabi,
     display.spanishTranslation && LANGUAGES.spanish,
-  ] )
+  ] ) )
 
-  const transliterations = useTransliterations( line && [
+  const transliterations = useCurrentLineIn( useTransliterations( line && [
     display.englishTransliteration && LANGUAGES.english,
     display.hindiTransliteration && LANGUAGES.hindi,
     display.urduTransliteration && LANGUAGES.urdu,
-  ] )
+  ] ) )
 
   return (
     <div className={classNames( { simple, background }, 'display' )}>

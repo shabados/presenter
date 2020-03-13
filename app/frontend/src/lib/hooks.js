@@ -17,8 +17,8 @@ export const useLines = () => {
   return lines
 }
 
-export const useCurrentLine = () => {
-  const { lineId, shabad, bani } = useContext( ContentContext )
+export const useLine = lineId => {
+  const { shabad, bani } = useContext( ContentContext )
   const { lines = [] } = shabad || bani || {}
 
   // Find the correct line in the Shabad
@@ -28,9 +28,15 @@ export const useCurrentLine = () => {
   return [ line, lineIndex ]
 }
 
-export const useTranslations = languageIds => {
+export const useCurrentLineIn = hookFn => {
+  const { lineId } = useContext( ContentContext )
+
+  return hookFn( lineId )
+}
+
+export const useTranslations = languageIds => lineId => {
   const { shabad } = useContext( ContentContext )
-  const [ line ] = useCurrentLine()
+  const [ line ] = useLine( lineId )
 
   const recommendedSources = useContext( RecommendedSourcesContext )
   const { local: { sources } = {} } = useContext( SettingsContext )
@@ -47,8 +53,8 @@ export const useTranslations = languageIds => {
   } ), {} )
 }
 
-export const useTransliterations = languageIds => {
-  const [ line ] = useCurrentLine()
+export const useTransliterations = languageIds => lineId => {
+  const [ line ] = useLine( lineId )
 
   return ( languageIds || [] ).filter( x => x ).reduce( ( translations, languageId ) => ( {
     ...translations,
