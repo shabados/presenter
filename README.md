@@ -1,6 +1,6 @@
 # Shabad OS Desktop
 
-<div align="center">
+
 
 Next generation Gurbani presentation software for searching, navigating, and presenting shabads.
 
@@ -10,7 +10,7 @@ Next generation Gurbani presentation software for searching, navigating, and pre
 <br/>
 [![Email](https://img.shields.io/badge/Email-team%40shabados.com-blue.svg)](mailto:team@shabados.com) [![WhatsApp](https://img.shields.io/badge/WhatsApp-%2B1--516--619--6059-brightgreen.svg)](https://wa.me/15166196059) [![Slack](https://img.shields.io/badge/Slack-join%20the%20conversation-B649AB.svg)](https://slack.shabados.com)
 <br/>
-</div>
+
 
 Contains the standalone frontend and backend applications for ShabadOS, with an Electron wrapper.
 
@@ -44,7 +44,7 @@ In development, the backend app runs on port `42425` by default and the frontend
 
 ### Packaging with Electron
 
-Windows? You must install [windows-build-tools](!https://www.npmjs.com/package/windows-build-tools), by running `npm install --global --production windows-build-tools --vs2015` in an administrator Powershell.
+Windows? You must install [windows-build-tools](https://www.npmjs.com/package/windows-build-tools), by running `npm install --global --production windows-build-tools --vs2015` in an administrator Powershell.
 
 Run `npm run pack` to generate the binaries to test for your platform, and `npm run dist` to build an installer.
 
