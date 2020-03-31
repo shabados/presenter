@@ -199,9 +199,9 @@ export const DEFAULT_OPTIONS = {
       vishraamHeavy: true,
       vishraamMedium: true,
       vishraamLight: true,
-      vishraamCharacters: false,
       vishraamColors: true,
       vishraamTransliterationColors: true,
+      vishraamCharacters: false,
     },
     sources: {},
     hotkeys: Object.values( SHORTCUTS ).reduce( ( hotkeys, { name, sequences } ) => ( {
