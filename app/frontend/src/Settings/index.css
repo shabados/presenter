@@ -69,6 +69,11 @@
   color: var(--settings-text-color) !important;
 }
 
+.settings .MuiList-padding {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .settings main .option {
   padding: 0 1em;
   min-height: 3em;
