@@ -87,7 +87,7 @@ export const OPTIONS = {
   },
   previousLines: { name: 'Previous Lines', icon: faAlignJustify, type: OPTION_TYPES.slider, max: 5, step: 1, privacy: PRIVACY_TYPES.local },
   nextLines: { name: 'Next Lines', icon: faAlignJustify, type: OPTION_TYPES.slider, max: 5, step: 1, privacy: PRIVACY_TYPES.local },
-  larivaarGurbani: { name: 'Larivaar Gurbani', icon: faTextWidth, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  larivaarGurbani: { name: 'Larivaar', icon: faTextWidth, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   larivaarAssist: { name: 'Larivaar Assist', icon: faMarker, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   englishTranslation: { name: 'English Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   spanishTranslation: { name: 'Spanish Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
