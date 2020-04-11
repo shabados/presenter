@@ -33,6 +33,7 @@ import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 import ToolbarButton from './ToolbarButton'
 
 import './Navigator.css'
+import ShabadInfo from './ShabadInfo'
 
 /**
 * Line component that attaches click handlers.
@@ -259,8 +260,8 @@ export const Bar = ( { onHover } ) => {
         onClick={onUpClick}
       />
 
-      <span className="line-counter">
-        {`${findLineIndex( lines, lineId ) + 1}/${lines.length}`}
+      <span className="info-button">
+        <ShabadInfo />
       </span>
 
       <ToolbarButton
