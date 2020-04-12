@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import { makeStyles, Typography, Popover, IconButton, Button } from '@material-ui/core'
+import { Typography, Popover, IconButton, Button } from '@material-ui/core'
 
 import { ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
 import { useCurrentLine } from '../lib/hooks'
+import controller from '../lib/controller'
 
 import './ShabadInfo.css'
 
@@ -30,21 +31,21 @@ export default function ShabadInfo() {
   const open = Boolean( anchorEl )
   const id = open ? 'simple-popover' : undefined
   const [ line ] = useCurrentLine()
-
   // Get Shabad, writer, sources for getting the author
   const { shabad, bani } = useContext( ContentContext )
   const writers = useContext( WritersContext )
   const recommendedSources = useContext( RecommendedSourcesContext )
   const getInfo = () => {
     if ( !line ) return ''
-    const { nameEnglish: sectionName } = shabad.section || bani
+    const { nameEnglish: sectionName } = bani || shabad.section
     const { sourceId, writerId } = shabad || line.shabad
-    const { sourcePage } = line
+    const { id: lineId, sourcePage } = line
     const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
     const { nameEnglish: writerName } = writers[ writerId ]
-    return [ writerName, sourceName, pageName, sourcePage, sectionName ]
+    const dbViewerUrl = `https://database.shabados.com/line/${lineId}`
+    return [ writerName, sourceName, pageName, sourcePage, sectionName, dbViewerUrl ]
   }
-  const [ writerName, sourceName, pageName, sourcePage, sectionName ] = getInfo()
+  const [ writerName, sourceName, pageName, sourcePage, sectionName, dbViewerUrl ] = getInfo()
   return (
     <span>
       <IconButton
@@ -79,7 +80,14 @@ export default function ShabadInfo() {
           <br />
           {writerName}
           <br />
-          <Button className="db-viewer-button" size="small">Open in DB Viwer</Button>
+          <Button
+            className="db-viewer-button"
+            size="small"
+            onClick={() => controller.openExternalUrl( dbViewerUrl )}
+          >
+              Open in DB Viewer
+
+          </Button>
           <Button className="copy-shabad-button" size="small">Copy Shabad</Button>
         </Typography>
 
