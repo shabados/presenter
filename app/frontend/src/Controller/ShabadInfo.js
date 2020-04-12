@@ -36,22 +36,19 @@ export default function ShabadInfo() {
   const id = open ? 'simple-popover' : undefined
   const [ line ] = useCurrentLine()
   // Get Shabad, writer, sources for getting the author
-  const { shabad } = useContext( ContentContext )
+  const { shabad, bani } = useContext( ContentContext )
   const writers = useContext( WritersContext )
   const recommendedSources = useContext( RecommendedSourcesContext )
   const getInfo = () => {
     if ( !line ) return ''
-
+    const { nameEnglish: sectionName } = shabad.section || bani
     const { sourceId, writerId } = shabad || line.shabad
     const { sourcePage } = line
-
     const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
     const { nameEnglish: writerName } = writers[ writerId ]
-
-    return [ writerName, sourceName, pageName, sourcePage ]
+    return [ writerName, sourceName, pageName, sourcePage, sectionName ]
   }
-  const [ writerName, sourceName, pageName, sourcePage ] = getInfo()
-
+  const [ writerName, sourceName, pageName, sourcePage, sectionName ] = getInfo()
   return (
     <span>
       <IconButton
@@ -76,8 +73,9 @@ export default function ShabadInfo() {
       >
 
         <Typography className={classes.typography}>
-            Raag:
-
+            Section:
+          {' '}
+          {sectionName}
           <br />
             Author:
           {' '}
