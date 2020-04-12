@@ -1,21 +1,16 @@
 import React, { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import { makeStyles, Typography, Popover, IconButton } from '@material-ui/core'
+import { makeStyles, Typography, Popover, IconButton, Button } from '@material-ui/core'
 
 import { ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
 import { useCurrentLine } from '../lib/hooks'
 
+import './ShabadInfo.css'
+
 let isOpen = false
 
-const useStyles = makeStyles( theme => ( {
-  typography: {
-    padding: theme.spacing( 1.5 ),
-  },
-} ) )
-
 export default function ShabadInfo() {
-  const classes = useStyles()
   const [ anchorEl, setAnchorEl ] = React.useState( null )
 
   const handleClick = event => {
@@ -35,6 +30,7 @@ export default function ShabadInfo() {
   const open = Boolean( anchorEl )
   const id = open ? 'simple-popover' : undefined
   const [ line ] = useCurrentLine()
+
   // Get Shabad, writer, sources for getting the author
   const { shabad, bani } = useContext( ContentContext )
   const writers = useContext( WritersContext )
@@ -72,30 +68,19 @@ export default function ShabadInfo() {
         }}
       >
 
-        <Typography className={classes.typography}>
-            Section:
-          {' '}
-          {sectionName}
-          <br />
-            Author:
-          {' '}
-          {writerName}
-          <br />
+        <Typography className="popover-box-text">
+          {sourceName}
+          {' , '}
           {pageName}
-          :
           {' '}
           {sourcePage}
-
           <br />
-            Source:
-          {' '}
-          {sourceName}
-
+          {sectionName}
           <br />
-          Copy Shabad
-
+          {writerName}
           <br />
-          Open in DB Viewer to report correction
+          <Button className="db-viewer-button" size="small">Open in DB Viwer</Button>
+          <Button className="copy-shabad-button" size="small">Copy Shabad</Button>
         </Typography>
 
       </Popover>
