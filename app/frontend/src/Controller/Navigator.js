@@ -31,9 +31,10 @@ import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 
 import ToolbarButton from './ToolbarButton'
+import ShabadInfo from './ShabadInfo'
 
 import './Navigator.css'
-import ShabadInfo from './ShabadInfo'
+
 
 /**
 * Line component that attaches click handlers.
@@ -260,9 +261,7 @@ export const Bar = ( { onHover } ) => {
         onClick={onUpClick}
       />
 
-      <span className="info-button">
-        <ShabadInfo />
-      </span>
+      <ShabadInfo />
 
       <ToolbarButton
         name="Down"
