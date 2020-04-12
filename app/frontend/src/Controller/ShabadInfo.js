@@ -1,15 +1,56 @@
 import React, { useContext } from 'react'
+import { string, func } from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import { Typography, Popover, IconButton, Button } from '@material-ui/core'
+import { Typography, Popover, IconButton, Button, Tooltip } from '@material-ui/core'
+import { toUnicode } from 'gurmukhi-utils'
 
 import { ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
-import { useCurrentLine } from '../lib/hooks'
+import { useCurrentLine, useCopyToClipboard } from '../lib/hooks'
 import controller from '../lib/controller'
+import { stripPauses } from '../lib/utils'
 
 import './ShabadInfo.css'
 
 let isOpen = false
+const CopyShabadButton = ( { copyText, onClick: originalOnClick, ...props } ) => {
+  const copyToClipboard = useCopyToClipboard()
+  const onClick = () => {
+    originalOnClick()
+    copyToClipboard( copyText )
+  }
+
+  return (
+    <Tooltip title="Click to copy current shabad">
+      <Button className="copy-shabad-button" size="small" {...props} onClick={onClick}>
+        Copy Shabad
+      </Button>
+    </Tooltip>
+  )
+}
+
+CopyShabadButton.propTypes = {
+  copyText: string,
+  onClick: func,
+}
+
+CopyShabadButton.defaultProps = {
+  copyText: null,
+  onClick: () => {},
+}
+
+/**
+ * Loops through all the lines.
+ * @param {Array} shabadLines Array with lines of shabad.
+ * @returns Unicode gurmukhi without vishraams.
+ */
+const copyShabadText = shabadLines => {
+  let shabadText = ''
+  for ( let i = 0; i < shabadLines.length; i += 1 ) {
+    shabadText += shabadLines[ i ].gurmukhi
+  }
+  return stripPauses( toUnicode( shabadText ) )
+}
 
 export default function ShabadInfo() {
   const [ anchorEl, setAnchorEl ] = React.useState( null )
@@ -68,7 +109,6 @@ export default function ShabadInfo() {
           horizontal: 'center',
         }}
       >
-
         <Typography className="popover-box-text">
           {sourceName}
           {' , '}
@@ -86,11 +126,9 @@ export default function ShabadInfo() {
             onClick={() => controller.openExternalUrl( dbViewerUrl )}
           >
               Open in DB Viewer
-
           </Button>
-          <Button className="copy-shabad-button" size="small">Copy Shabad</Button>
+          { shabad && ( <CopyShabadButton copyText={copyShabadText( shabad.lines )} /> ) }
         </Typography>
-
       </Popover>
     </span>
   )
