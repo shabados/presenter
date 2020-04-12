@@ -39,7 +39,7 @@ export const fullWordSearch = words => Lines
 export const getShabad = shabadId => Shabads
   .query()
   .where( 'shabads.id', shabadId )
-  .eager( 'lines' )
+  .eager( '[lines, section]' )
   .withTransliterations()
   .withTranslations()
   .then( ( [ shabad ] ) => shabad )
