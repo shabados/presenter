@@ -265,7 +265,7 @@ export const Bar = ( { onHover } ) => {
         onClick={onUpClick}
       />
 
-      <ShabadInfo />
+      {lineId && <ShabadInfo />}
 
       <ToolbarButton
         name="Down"
