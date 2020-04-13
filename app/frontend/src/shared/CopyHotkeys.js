@@ -4,7 +4,7 @@ import { GlobalHotKeys } from 'react-hotkeys'
 import { toUnicode } from 'gurmukhi-utils'
 
 import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
-import { mapPlatformKeys } from '../lib/utils'
+import { mapPlatformKeys, stripPauses } from '../lib/utils'
 import { COPY_SHORTCUTS } from '../lib/keyMap'
 import { useCopyToClipboard, useCurrentLine, useTranslations, useTransliterations } from '../lib/hooks'
 import { LANGUAGES } from '../lib/consts'
@@ -48,14 +48,14 @@ const CopyHotkeys = ( { children } ) => {
 
   // Generate hotkeys for copying to clipboard
   const hotkeyHandlers = [
-    [ COPY_SHORTCUTS.copyGurmukhiAscii.name, () => line.gurmukhi, 'gurmukhi' ],
-    [ COPY_SHORTCUTS.copyGurmukhiUnicode.name, () => toUnicode( line.gurmukhi ), 'gurmukhi' ],
+    [ COPY_SHORTCUTS.copyGurmukhiAscii.name, () => stripPauses( line.gurmukhi ), 'gurmukhi' ],
+    [ COPY_SHORTCUTS.copyGurmukhiUnicode.name, () => stripPauses( toUnicode( line.gurmukhi ) ), 'gurmukhi' ],
     [ COPY_SHORTCUTS.copyEnglishTranslation.name, () => translations.english, 'english translation' ],
     [ COPY_SHORTCUTS.copyPunjabiTranslation.name, () => translations.punjabi, 'punjabi translation' ],
     [ COPY_SHORTCUTS.copySpanishTranslation.name, () => translations.spanish, 'spanish translation' ],
-    [ COPY_SHORTCUTS.copyEnglishTransliteration.name, () => transliterations.english, 'english transliteration' ],
-    [ COPY_SHORTCUTS.copyHindiTransliteration.name, () => transliterations.hindi, 'hindi transliteration' ],
-    [ COPY_SHORTCUTS.copyUrduTransliteration.name, () => transliterations.urdu, 'urdu transliteration' ],
+    [ COPY_SHORTCUTS.copyEnglishTransliteration.name, () => stripPauses( transliterations.english ), 'english transliteration' ],
+    [ COPY_SHORTCUTS.copyHindiTransliteration.name, () => stripPauses( transliterations.hindi ), 'hindi transliteration' ],
+    [ COPY_SHORTCUTS.copyUrduTransliteration.name, () => stripPauses( transliterations.urdu ), 'urdu transliteration' ],
     [ COPY_SHORTCUTS.copyAuthor.name, () => getAuthor(), 'citation' ],
   ].reduce( ( hotkeys, [ name, getContent, fieldName ] ) => ( {
     ...hotkeys,
