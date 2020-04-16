@@ -1,6 +1,3 @@
-////
-"Shabad OS for Desktop" AsciiDoc Readme
-////
 :repo: desktop
 :idprefix:
 :hide-uri-scheme:
@@ -35,17 +32,13 @@ ifdef::env-github[]
 :warning-caption: :no_entry:
 endif::[]
 
-[.text-center]
---
-image::{logo}[128,128]
+image::{logo}[128,128,link="{website}"]
 
-[float]
-# Desktop
+# Shabad OS for Desktop
 
 Software for searching, navigating, and presenting the Shabad OS database.
 
 image:{cci-img}[title=CircleCI, link="{cci-url}"] image:{download-img}[title=Github All Releases, link="{download-url}"] image:{license-img}[title=license, link="{license-url}"]
---
 
 ---
 toc::[id="toc"]
@@ -53,9 +46,9 @@ toc::[id="toc"]
 
 ## Introduction
 
-Shabad OS for Desktop is a GPL-licensed open source project with it's ongoing development, project management, and marketing made possible entirely by the support and dedication of unpaid volunteers.
+Shabad OS for Desktop is a GPL-licensed open source project with ongoing development, project management, and marketing made possible entirely by the support and dedication of unpaid volunteers.
 
-This app can be used to display bani & gurbani in the home or at the gurdwara. It's server model allows multiple devices to act as a display or a controller. The same model enables live captions to be in sync with the projector / presentation device.
+This app can be used to display bani & gurbani in the home or at the gurdwara. A server model allows multiple devices to act as a display or a controller. The same model enables live captions to be in sync with the projector / presentation device.
 
 Helpful features were added over years of production-ready use.
 
