@@ -55,6 +55,8 @@ Our development iteration all begins with issue tracking. Proper processing of i
 * Status - Begins with: On Hold, In Research, or Confirmed. Changes to: In Progress/Needing Help and Pending Review. Finishes with: Complete. Used to track progress of an issue.
 * Type - Can be one of the following: Discussion, Documentation, Duplicate, Feature/Enhancement, Fix, or Question. Used to help prioritize issues that are features or fixes (with fixes often getting higher priority).
 
+NOTE: Issues with a difficulty over 10 points should always be re-examined to see if they can be broken down into smaller tasks
+
 ### Issue Tracking
 
 To track issues, we must label them with minimum _type_, _status_, and _impact_.
@@ -88,9 +90,25 @@ Maintainers and Admins of Shabad OS are responsible for handling pull requests t
 Our builds run on https://circleci.com/[Circle CI] and are https://github.com/ShabadOS/{repo}/blob/dev/.circleci/config.yml[scripted with YAML definition files]. We have two kinds of builds:
 
 - https://circleci.com/gh/ShabadOS/{repo}[Continuous] - triggered on each PR / commit to dev branch by a project member.
-- https://github.com/ShabadOS/{repo}/releases[Release] - built on merging to master branch, versioning based on commit history (can include alpha and beta)
+- https://github.com/ShabadOS/{repo}/releases[Stable Release] - built on merging to master branch, versioning based on commit history (cannot include alpha or beta)
 
-When merging into `master`, ensure that there is a commit with the appropriate SemVer bump. This will build and publish Shabad OS of that version to GitHub releases.
+When merging into `dev`, CI will read the commit history and choose an appropriate SemVer bump before building. When merging into `master`, CI will also remove any pre-release components (e.g. `-alpha.1` or `-beta.6`) and publish Shabad OS to GitHub releases.
+
+.How CI chooses SemVer bump
+[cols=2*] 
+|===
+|"BREAKING CHANGE" is on it's own line
+|Major bump (e.g. 2.5.6 => 3.0.0)
+
+|Commit message begins with "feat"
+|Minor bump (e.g. 2.5.6 => 2.6.0)
+
+|Commit message begins with  "fix" or "perf"
+|Patch bump (e.g. 2.5.6 => 2.5.7)
+
+|None of the above criteria
+|No bump (e.g. 2.5.6 => 2.5.6)
+|===
 
 To publish an alpha/beta version, add a pre-release component into the SemVer string. An example of version history, after `1.1.0` had been released could be:
 
