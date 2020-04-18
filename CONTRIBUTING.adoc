@@ -128,6 +128,23 @@ IMPORTANT: To avoid multiple pull requests resolving the same issue, let others 
 
 The `master` branch is used for stable releases. The `dev` branch is to be used as the main branch for development. Developers should create feature branches from this main branch (`dev`) and work on them. Feature branches should be short-lived and should relate to a single issue from the repo.
 
+[IMPORTANT]
+====
+Fork your feature branch from `ShabadOS/desktop/dev`.Keep your feature branches separate from each other. Update your feature branches with upstream `dev` using rebase
+
+[source,subs="attributes"]
+----
+git remote add upstream https://github.com/ShabadOS/{repo}.git
+
+git fetch upstream
+
+# Make sure that you are on your feature branch:
+git checkout your-feature-branch 
+
+git rebase upstream/dev
+----
+====
+
 Even if you have push rights on the ShabadOS/desktop repository, you should create a personal fork and create feature branches. This keeps the main repository clean and your personal workflow out of sight.
 
 Branches should be named after the issue they are resolving in the format of `<issue_number>-<hyphenated_description>`. E.g. `128-fix-readme-typos`. If there is no issue related to the work being done, then create an issue for tracking purposes.
