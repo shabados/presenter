@@ -17,7 +17,7 @@ endif::[]
 
 # Shabad OS Project Management
 
-Thank you for your interest in project management. This document is primarily intended for two audiences: (1) developers seeking to understand the planning of this project, and (2) future maintainers seeking to help initiate, execute, and control the work of this project. The second group includes the following roles: triage, maintain, and admin.
+Thank you for your interest in project management. This document is primarily intended for two audiences: (1) developers seeking to understand the planning of this project, and (2) future maintainers seeking to help initiate, execute, and control the work of this project. The second group includes triage and administrative roles.
 
 ## Roadmap
 
@@ -81,11 +81,11 @@ WARNING: The assignee of the issue should the one estimating difficulty. This ma
 
 Issues that are duplicates of others can be linked and closed. Issues requiring more info from the user without a reply for 14 days or bugs that can't be reproduced can be closed. From time to time it is good to go through and see if there are any particularly old issues still around and whether they need to be re-assessed or closed (e.g. change the date to 6 months before today in this https://github.com/ShabadOS/{repo}/issues?page=2&q=is%3Aopen+is%3Aissue+updated%3A%3C2020-01-01[search query]).
 
-## Maintain / Admin
+## Maintain
 
-Maintainers and Admins of Shabad OS are responsible for handling pull requests to the code base, building master and releases of the Desktop app, updating the release notes for any possible SemVer changes, and being generally knowledgeable about the security of the Shabad OS repo in terms of source code, build pipeline, and code/server related topics.
+Maintainers, Admins, and Owners of Shabad OS are responsible for handling pull requests to the code base, building master and releases of the Desktop app, updating the release notes for any possible SemVer changes, and being generally knowledgeable about the security of the Shabad OS repo in terms of source code, build pipeline, and code/server related topics.
 
-### PR Merging / Building `master` / Release Process
+### Release Process
 
 Our builds run on https://circleci.com/[Circle CI] and are https://github.com/ShabadOS/{repo}/blob/dev/.circleci/config.yml[scripted with YAML definition files]. We have two kinds of builds:
 
