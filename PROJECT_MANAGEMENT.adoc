@@ -89,10 +89,17 @@ Maintainers and Admins of Shabad OS are responsible for handling pull requests t
 
 Our builds run on https://circleci.com/[Circle CI] and are https://github.com/ShabadOS/{repo}/blob/dev/.circleci/config.yml[scripted with YAML definition files]. We have two kinds of builds:
 
-- https://circleci.com/gh/ShabadOS/{repo}[Continuous] - triggered on each PR / commit to dev branch by a project member.
-- https://github.com/ShabadOS/{repo}/releases[Stable Release] - built on merging to master branch, versioning based on commit history (cannot include alpha or beta)
+- https://circleci.com/gh/ShabadOS/{repo}[Prerelease] - triggered on each PR / commit to dev branch by a project member.
+- https://github.com/ShabadOS/{repo}/releases[Stable Release] - built on merging to master branch, versioning based on commit history
 
-When merging into `dev`, CI will read the commit history and choose an appropriate SemVer bump before building. When merging into `master`, CI will also remove any pre-release components (e.g. `-alpha.1` or `-beta.6`) and publish Shabad OS to GitHub releases.
+When merging into `dev`, CI will:
+* Read commit history after latest `master`
+* Choose either a SemVer or prerelease bump (e.g. `2.5.0-prerelease.1` => `2.6.0-prerelease.1` or `2.5.0-prerelease.2`)
+* Build and publish to GitHub releases
+
+When merging into `master`, CI will:
+* Remove any prerelease components (e.g. `2.5.0-prerelease.1` => `2.5.0`)
+* Build and publish to GitHub releases
 
 .How CI chooses SemVer bump
 [cols=2*] 
@@ -110,7 +117,7 @@ When merging into `dev`, CI will read the commit history and choose an appropria
 |No bump (e.g. 2.5.6 => 2.5.6)
 |===
 
-To publish an alpha/beta version, add a pre-release component into the SemVer string. An example of version history, after `1.1.0` had been released could be:
+To publish an alpha/beta version, add a prerelease component into the SemVer string. An example of version history, after `1.1.0` had been released could be:
 
 `1.1.0` => `1.1.1-alpha.1` => `1.1.1-alpha.2` => `1.1.1-beta.1` => `1.1.1`
 
@@ -118,13 +125,15 @@ To publish an alpha/beta version, add a pre-release component into the SemVer st
 
 Maintainers and Admins are responsible to show what changes were made, and when they were made, for releases. It is important to include breaking changes (incompatible API changes) or habit-reforming behaviors (UX) for both contributors and end-users.
 
-Release notes should be added as asciidoc files per version string in the corresponding folder (e.g. `{repo}/release-notes/3.0.0-alpha.asciidoc`). Linked images should be placed in a similarly named folder under the images folder (e.g. `{repo}/release-notes/images/3.0.0-alpha/`).
+Future release notes should be added as asciidoc files in the corresponding folder (e.g. `{repo}/release-notes/latest.adoc`). Linked images should be placed in a similarly named folder under the images folder (e.g. `{repo}/release-notes/images/latest/`).
 
-Release notes begin with a friendly title (e.g. "January 2020 (SemVer 3.0.0-alpha)") and include key highlights with a short description. Since we use asciidoc, a table of contents will be generated automatically from the headers. It is unnecessary to include every header in the key highlights section.
+NOTE: When merging into `master`, CI will automatically rename `latest.adoc` to SemVer format (e.g. `3.0.0.adoc`). The `master` branch will not have a `latest.adoc` file.
 
-NOTE: While working on future release notes, keep them titled "In Progress (SemVer _n_._n_._n_-abc)", if there is no version number to use, simply title it "Unreleased". There may be corresponding image folders for either scenario.
+Begin your release notes with a section for key highlights and their short descriptions. Since we use asciidoc, a table of contents will automatically be generated from the headers. It is unnecessary to include every header in the key highlights section.
 
-NOTE: The title includes "SemVer" to make it clear we follow https://semver.org/[Semantic Versioning] for version labelling.
+NOTE: While working on prerelease notes in `dev` branch, keep editing the `latest.adoc` file. Do not create new files for each prerelease.
+
+NOTE: It is necessary to explain in each release note that we are following https://semver.org/[Semantic Versioning] for version labelling.
 
 2^nd^ level headers should be friendly link:CONTRIBUTING.adoc#Scope[scope names]. 3^rd^ level headers can be the notes for what was added, changed, deprecated, fixed, removed, or secured.
 
