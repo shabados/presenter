@@ -89,8 +89,8 @@ Maintainers and Admins of Shabad OS are responsible for handling pull requests t
 
 Our builds run on https://circleci.com/[Circle CI] and are https://github.com/ShabadOS/{repo}/blob/dev/.circleci/config.yml[scripted with YAML definition files]. We have two kinds of builds:
 
-- https://circleci.com/gh/ShabadOS/{repo}[Prerelease] - triggered on each PR / commit to dev branch by a project member.
-- https://github.com/ShabadOS/{repo}/releases[Stable Release] - built on merging to master branch, versioning based on commit history
+- https://github.com/ShabadOS/{repo}/releases[Prerelease] - triggered on each PR / commit to dev branch by a project member.
+- https://github.com/ShabadOS/{repo}/releases/latest[Stable Release] - built on merging to master branch, versioning based on commit history
 
 When merging into `dev`, CI will:
 
