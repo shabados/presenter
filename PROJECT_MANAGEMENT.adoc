@@ -93,11 +93,13 @@ Our builds run on https://circleci.com/[Circle CI] and are https://github.com/Sh
 - https://github.com/ShabadOS/{repo}/releases[Stable Release] - built on merging to master branch, versioning based on commit history
 
 When merging into `dev`, CI will:
+
 * Read commit history after latest `master`
 * Choose either a SemVer or prerelease bump (e.g. `2.5.0-prerelease.1` => `2.6.0-prerelease.1` or `2.5.0-prerelease.2`)
 * Build and publish to GitHub releases
 
 When merging into `master`, CI will:
+
 * Remove any prerelease components (e.g. `2.5.0-prerelease.1` => `2.5.0`)
 * Build and publish to GitHub releases
 
