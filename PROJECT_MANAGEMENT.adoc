@@ -119,10 +119,6 @@ When merging into `master`, CI will:
 |No bump (e.g. 2.5.6 => 2.5.6)
 |===
 
-To publish an alpha/beta version, add a prerelease component into the SemVer string. An example of version history, after `1.1.0` had been released could be:
-
-`1.1.0` => `1.1.1-alpha.1` => `1.1.1-alpha.2` => `1.1.1-beta.1` => `1.1.1`
-
 ### Updating release notes
 
 Maintainers and Admins are responsible to show what changes were made, and when they were made, for releases. It is important to include breaking changes (incompatible API changes) or habit-reforming behaviors (UX) for both contributors and end-users.
