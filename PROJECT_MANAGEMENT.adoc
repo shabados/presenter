@@ -1,0 +1,144 @@
+:repo: desktop
+:idprefix:
+:hide-uri-scheme:
+:numbered:
+:max-width: 900px
+:icons: font
+:toc: preamble
+:toclevels: 4
+ifdef::env-github,env-browser[:outfilesuffix: .asciidoc]
+ifdef::env-github[]
+:note-caption: :information_source:
+:tip-caption: :bulb:
+:important-caption: :fire:
+:caution-caption: :warning:
+:warning-caption: :no_entry:
+endif::[]
+
+# Shabad OS Project Management
+
+Thank you for your interest in project management. This document is primarily intended for two audiences: (1) developers seeking to understand the planning of this project, and (2) future maintainers seeking to help initiate, execute, and control the work of this project. The second group includes triage and administrative roles.
+
+## Roadmap
+
+Our roadmap consists of high-level objectives which are done on an organization level, not the project/repo level. These goals are established for the long-term (6-12 months). The roadmap is developed based on the previous roadmap and topics we've heard from the community (see how to provide link:README.adoc#Feedback[feedback]).
+
+These high-level objectives are decided by the https://github.com/orgs/ShabadOS/people[project owners] and steer our development iterations.
+
+## Development iteration
+
+Many of our volunteers already have professional and student commitments. Some participate in the Shabad OS project as a labor of love or as a part of their https://en.wikipedia.org/wiki/Selfless_service[_sewa_] or selfless service to benefit other human beings or society. It is, therefore, difficult to constrain our community's efforts within professional scheduling deadlines.
+
+We follow a hybridized model which focuses on prioritizing issues that need to be completed on a weekly iteration.
+
+.Issues
+. Issue is assigned an impact level depending on how many users it affects
+. Issue completion is estimated on a point scale (1 point = 1 hour)
+. Issue is prioritized to a waiting queue or planned _sprint_
+
+.Sprints
+. Sprint is a list of issues that require resolution most immediately
+. Sprint is resolvable in one work week (assuming all expectations of volunteer work is met)
+. Sprint is prioritized to resolve any bugs introduced from any previous sprints
+. Sprint is comprised of varying difficulty issues which include issues that are good for newcomers
+
+This model affords our project flexibility around changing volunteer availability. Our sprints do not have any deadlines, but should be re-assessed once a week for a new sprint.
+
+Considering partial sprint completion, come re-assessment, we plan ahead at least one extra sprint. Considering wildly varying volunteer availability, it behooves us to plan three extra sprints.
+
+## Triage
+
+Our development iteration all begins with issue tracking. Proper processing of issues and ranking of issues in terms of importance and priority is essential for planning. All of our project repos have the following labels for issues:
+
+* Difficulty - Ranging from 0 to over 100 points. Used to estimate how long an issue's resolution would take.
+* Impact - Ranging from 0 to 100%. Used to estimate how many users this issue or it's resolution affects.
+* Status - Begins with: On Hold, In Research, or Confirmed. Changes to: In Progress/Needing Help and Pending Review. Finishes with: Complete. Used to track progress of an issue.
+* Type - Can be one of the following: Discussion, Documentation, Duplicate, Feature/Enhancement, Fix, or Question. Used to help prioritize issues that are features or fixes (with fixes often getting higher priority).
+
+NOTE: Issues with a difficulty over 10 points should always be re-examined to see if they can be broken down into smaller tasks
+
+### Issue Tracking
+
+To track issues, we must label them with minimum _type_, _status_, and _impact_.
+
+.Issues missing critical labels
+* https://github.com/ShabadOS/{repo}/issues?q=is%3Aopen+is%3Aissue+no%3Alabel[Issues with no labels]
+* https://github.com/ShabadOS/{repo}/issues?q=is%3Aopen+is%3Aissue+-label%3A%22Type%3A+Discussion%22+-label%3A%22Type%3A+Documentation%22+-label%3A%22Type%3A+Duplicate%22+-label%3A%22Type%3A+Feature%2FEnhancement%22+-label%3A%22Type%3A+Fix%22+-label%3A%22Type%3A+Question%22+[Issues without type]
+* https://github.com/ShabadOS/{repo}/issues?q=is%3Aopen+is%3Aissue+-label%3A%22Status%3A+Confirmed%22+-label%3A%22Status%3A+Complete%22+-label%3A%22Status%3A+In+Progress%22+-label%3A%22Status%3A+In+Research%22+-label%3A%22Status%3A+Needing+Help%22+-label%3A%22Status%3A+On+Hold%22+-label%3A%22Status%3A+Pending+Review%22+[Issues without status]
+* https://github.com/ShabadOS/{repo}/issues?q=is%3Aopen+is%3Aissue+-label%3A%22Impact%3A+1+Low%22+-label%3A%22Impact%3A+2+Medium%22+-label%3A%22Impact%3A+3+High%22+-label%3A%22Impact%3A+4+Critical%22+[Issues without impact]
+
+If an issue has a "type: feature/fix", "status: confirmed", and any "impact" label, then the time it takes to resolve can be estimated in points/hours.
+
+WARNING: The assignee of the issue should the one estimating difficulty. This may or may not be the person who is triaging the issue.
+
+.Issues ready to be estimated
+* https://github.com/ShabadOS/{repo}/issues?q=is%3Aopen+is%3Aissue+label%3A%22Status%3A+Confirmed%22+-label%3A%22Type%3A+Discussion%22+-label%3A%22Type%3A+Documentation%22+-label%3A%22Type%3A+Duplicate%22+-label%3A%22Type%3A+Question%22+label%3A%22Impact%3A+4+Critical%22+-label%3A%22Difficulty%3A+0%22+-label%3A%22Difficulty%3A+1%22+-label%3A%22Difficulty%3A+5%22+-label%3A%22Difficulty%3A+21%22+-label%3A%22Difficulty%3A+109%22+[Critical impact issues] (This should be empty)
+* https://github.com/ShabadOS/{repo}/issues?q=is%3Aopen+is%3Aissue+label%3A%22Status%3A+Confirmed%22+-label%3A%22Type%3A+Discussion%22+-label%3A%22Type%3A+Documentation%22+-label%3A%22Type%3A+Duplicate%22+-label%3A%22Type%3A+Question%22+label%3A%22Impact%3A+3+High%22+-label%3A%22Difficulty%3A+0%22+-label%3A%22Difficulty%3A+1%22+-label%3A%22Difficulty%3A+5%22+-label%3A%22Difficulty%3A+21%22+-label%3A%22Difficulty%3A+109%22+[High impact issues] (This should be empty)
+* https://github.com/ShabadOS/{repo}/issues?q=is%3Aopen+is%3Aissue+label%3A%22Status%3A+Confirmed%22+-label%3A%22Type%3A+Discussion%22+-label%3A%22Type%3A+Documentation%22+-label%3A%22Type%3A+Duplicate%22+-label%3A%22Type%3A+Question%22+label%3A%22Impact%3A+2+Medium%22+-label%3A%22Difficulty%3A+0%22+-label%3A%22Difficulty%3A+1%22+-label%3A%22Difficulty%3A+5%22+-label%3A%22Difficulty%3A+21%22+-label%3A%22Difficulty%3A+109%22+[Medium impact issues]
+* https://github.com/ShabadOS/{repo}/issues?q=is%3Aopen+is%3Aissue+label%3A%22Status%3A+Confirmed%22+-label%3A%22Type%3A+Discussion%22+-label%3A%22Type%3A+Documentation%22+-label%3A%22Type%3A+Duplicate%22+-label%3A%22Type%3A+Question%22+label%3A%22Impact%3A+1+Low%22+-label%3A%22Difficulty%3A+0%22+-label%3A%22Difficulty%3A+1%22+-label%3A%22Difficulty%3A+5%22+-label%3A%22Difficulty%3A+21%22+-label%3A%22Difficulty%3A+109%22+[Low impact issues]
+
+### Closing of issues
+
+Issues that are duplicates of others can be linked and closed. Issues requiring more info from the user without a reply for 14 days or bugs that can't be reproduced can be closed. From time to time it is good to go through and see if there are any particularly old issues still around and whether they need to be re-assessed or closed (e.g. change the date to 6 months before today in this https://github.com/ShabadOS/{repo}/issues?page=2&q=is%3Aopen+is%3Aissue+updated%3A%3C2020-01-01[search query]).
+
+## Maintain
+
+Maintainers, Admins, and Owners of Shabad OS are responsible for handling pull requests to the code base, building master and releases of the Desktop app, updating the release notes for any possible SemVer changes, and being generally knowledgeable about the security of the Shabad OS repo in terms of source code, build pipeline, and code/server related topics.
+
+### Release Process
+
+Our builds run on https://circleci.com/[Circle CI] and are https://github.com/ShabadOS/{repo}/blob/dev/.circleci/config.yml[scripted with YAML definition files]. We have two kinds of builds:
+
+- https://github.com/ShabadOS/{repo}/releases[Prerelease] - triggered on each PR / commit to dev branch by a project member.
+- https://github.com/ShabadOS/{repo}/releases/latest[Stable Release] - built on merging to master branch, versioning based on commit history
+
+When merging into `dev`, CI will:
+
+* Read commit history after latest `master`
+* Choose either a SemVer or prerelease bump (e.g. `2.5.0-prerelease.1` => `2.6.0-prerelease.1` or `2.5.0-prerelease.2`)
+* Build and publish to GitHub releases
+
+When merging into `master`, CI will:
+
+* Remove any prerelease components (e.g. `2.5.0-prerelease.1` => `2.5.0`)
+* Build and publish to GitHub releases
+
+.How CI chooses SemVer bump
+[cols=2*] 
+|===
+|"BREAKING CHANGE" is on it's own line
+|Major bump (e.g. 2.5.6 => 3.0.0)
+
+|Commit message begins with "feat"
+|Minor bump (e.g. 2.5.6 => 2.6.0)
+
+|Commit message begins with  "fix" or "perf"
+|Patch bump (e.g. 2.5.6 => 2.5.7)
+
+|None of the above criteria
+|No bump (e.g. 2.5.6 => 2.5.6)
+|===
+
+### Updating release notes
+
+Maintainers and Admins are responsible to show what changes were made, and when they were made, for releases. It is important to include breaking changes (incompatible API changes) or habit-reforming behaviors (UX) for both contributors and end-users.
+
+Future release notes should be added as asciidoc files in the corresponding folder (e.g. `{repo}/release-notes/latest.adoc`). Linked images should be placed in a similarly named folder under the images folder (e.g. `{repo}/release-notes/images/latest/`).
+
+NOTE: When merging into `master`, CI will automatically rename `latest.adoc` to SemVer format (e.g. `3.0.0.adoc`). The `master` branch will not have a `latest.adoc` file.
+
+Begin your release notes with a section for key highlights and their short descriptions. Since we use asciidoc, a table of contents will automatically be generated from the headers. It is unnecessary to include every header in the key highlights section.
+
+NOTE: While working on prerelease notes in `dev` branch, keep editing the `latest.adoc` file. Do not create new files for each prerelease.
+
+NOTE: It is necessary to explain in each release note that we are following https://semver.org/[Semantic Versioning] for version labelling.
+
+2^nd^ level headers should be friendly link:CONTRIBUTING.adoc#Scope[scope names]. 3^rd^ level headers can be the notes for what was added, changed, deprecated, fixed, removed, or secured.
+
+End the release notes with the following 2^nd^ level headers: (1) Preview, (2) Notable Changes, and (3) Thank You:
+
+. It is helpful to prepare users with experimental features that may have been introduced and a short-duration peek towards our next releases.
+. It is important to include a dedicated way for users to see changes that a user needs to prepare for (adapting to a different UX) or avoid upgrading to (breaking changes). Does not have to include all key highlights from the beginning of the release notes.
+. It is humbling to thank our community for their participation. This should include not only those contributing pull requests but also those helping to triage issues for tracking purposes or any other project management related work. Use GitHub handles when possible.
+
+IMPORTANT: The maintainer/admin writing the release notes must not be excluded from the thank you section as it could be used by other team members for tracking purposes or future maintainers/admins.
