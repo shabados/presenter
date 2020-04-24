@@ -39,7 +39,7 @@ const ShabadInfo = () => {
   const barIcon = isPopoverOpen ? faTimesCircle : faInfoCircle
 
   const onCopyClick = () => {
-    const gurmukhi = lines.reduce( ( text, { gurmukhi } ) => `${text}${gurmukhi}`, '' )
+    const gurmukhi = lines.reduce( ( text, { gurmukhi } ) => `${text}${gurmukhi} `, '' )
 
     copyToClipboard( stripPauses( toUnicode( gurmukhi ) ) )
   }
