@@ -67,9 +67,9 @@ const ShabadInfo = () => {
         <Typography className="popover-box-text">
 
           <span className="source-name">{sourceName}</span>
-           ,
+          <span>, </span>
           <span className="page-name">{pageName}</span>
-
+          <span> </span>
           <span className="source-page">{sourcePage}</span>
           <br />
           <span className="section-name">{sectionName}</span>
