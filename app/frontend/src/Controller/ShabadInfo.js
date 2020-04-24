@@ -39,7 +39,7 @@ const ShabadInfo = () => {
   const barIcon = isPopoverOpen ? faTimesCircle : faInfoCircle
 
   const onCopyClick = () => {
-    const gurmukhi = lines.reduce( ( text, { gurmukhi } ) => `${text}${gurmukhi}`, '' )
+    const gurmukhi = lines.map( ( { gurmukhi } ) => gurmukhi ).join( ' ' )
 
     copyToClipboard( stripPauses( toUnicode( gurmukhi ) ) )
   }
@@ -67,9 +67,9 @@ const ShabadInfo = () => {
         <Typography className="popover-box-text">
 
           <span className="source-name">{sourceName}</span>
-           ,
+          <span>, </span>
           <span className="page-name">{pageName}</span>
-
+          <span> </span>
           <span className="source-page">{sourcePage}</span>
           <br />
           <span className="section-name">{sectionName}</span>
