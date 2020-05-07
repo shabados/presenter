@@ -37,14 +37,6 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
     name: 'Toggle Controller',
     sequences: [ 'ctrl+h', 'ctrl+shift+h' ],
   },
-  historyBack: {
-    name: 'History Back',
-    sequences: [ 'ctrl+left', 'alt+left' ],
-  },
-  historyForward: {
-    name: 'History Forward',
-    sequences: [ 'ctrl+right', 'alt+right' ],
-  },
   search: {
     name: 'Search',
     sequences: [ 'ctrl+/' ],
