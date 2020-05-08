@@ -35,7 +35,7 @@ export const checkUpdates = async server => {
 
   logger.info( 'Checking for app updates, beta:', autoUpdater.allowPrerelease )
 
-  await autoUpdater.checkForUpdates().catch( logger.error )
+  await autoUpdater.checkForUpdates().catch( error => logger.error( 'Failed to check for update:', error ) )
 
   server.send( { event: 'update-checked' } )
 }
