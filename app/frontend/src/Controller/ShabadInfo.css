@@ -4,6 +4,11 @@
     color: var(--controller-text-color);
     background-color: var(--controller-background-color);
 }
+
+.popver-buttons {
+    margin-top: 10px;
+}
+
 .db-viewer-button{
     padding-right: 10px;
 }
