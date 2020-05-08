@@ -85,14 +85,14 @@ const ShabadInfo = () => {
                 size="small"
                 onClick={() => controller.openExternalUrl( getDbViewerUrl( lineId ) )}
               >
-              Open in DB Viewer
+              Open Online
               </Button>
             </Tooltip>
 
             {shabad && (
             <Tooltip title="Click to copy this shabad">
               <Button className="copy-shabad-button" size="small" onClick={onCopyClick}>
-                  Copy Shabad
+                  Copy
               </Button>
             </Tooltip>
             )}
