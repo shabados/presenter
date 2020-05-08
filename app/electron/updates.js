@@ -44,3 +44,14 @@ export const setBeta = beta => {
   autoUpdater.allowPrerelease = beta
   updateChannelSet = true
 }
+
+//! Errors to supress according to https://github.com/electron-userland/electron-builder/issues/2398#issuecomment-413117520
+export const UPDATER_ERRORS = [
+  'net::ERR_INTERNET_DISCONNECTED',
+  'net::ERR_PROXY_CONNECTION_FAILED',
+  'net::ERR_CONNECTION_RESET',
+  'net::ERR_CONNECTION_CLOSE',
+  'net::ERR_NAME_NOT_RESOLVED',
+  'net::ERR_CONNECTION_TIMED_OUT',
+  'net::ERR_HTTP_RESPONSE_CODE_FAILURE',
+]
