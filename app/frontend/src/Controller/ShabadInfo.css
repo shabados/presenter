@@ -11,23 +11,17 @@
     justify-content: space-evenly;
 }
 
-.db-viewer-button{
-    padding-right: 10px;
-    color: var(--settings-text-color) !important;
-    background-color: var(--settings-setting-off-color) !important;
+.copy-shabad.Mui-disabled{
+    background-color: #6e6b6b44;
 }
 
-.db-viewer-button:hover {
+.button {
+    color: var(--settings-text-color) !important;
+    background-color: var(--settings-setting-off-color);
+}
+
+.button:hover {
     color: var(--settings-background-color) !important;
     background-color: var(--settings-setting-on-color) !important;
 }
 
-.copy-shabad-button{
-    color: var(--settings-text-color) !important;
-    background-color: var(--settings-setting-off-color) !important;
-}
-
-.copy-shabad-button:hover{
-    color: var(--settings-background-color) !important;
-    background-color: var(--settings-setting-on-color) !important;
-}

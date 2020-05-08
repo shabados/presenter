@@ -81,7 +81,7 @@ const ShabadInfo = () => {
 
             <Tooltip title="Report a mistake">
               <Button
-                className="db-viewer-button"
+                className="db-viewer button"
                 size="small"
                 onClick={() => controller.openExternalUrl( getDbViewerUrl( lineId ) )}
               >
@@ -89,13 +89,11 @@ const ShabadInfo = () => {
               </Button>
             </Tooltip>
 
-            {shabad && (
             <Tooltip title="Click to copy this shabad">
-              <Button className="copy-shabad-button" size="small" onClick={onCopyClick}>
+              <Button className="copy-shabad button" size="small" disabled={!shabad} onClick={onCopyClick}>
                   Copy
               </Button>
             </Tooltip>
-            )}
 
           </div>
 
