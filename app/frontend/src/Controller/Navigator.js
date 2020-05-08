@@ -212,9 +212,7 @@ export const Bar = ( { onHover } ) => {
     const firstLine = lines[ 0 ]
     // Go to the previous shabad if the first line is highlighted (but not for banis)
     if ( !bani && lineId === firstLine.id ) controller.previousShabad( shabad.orderId )
-    else return
-
-    controller.line( lines[ currentLineIndex - 1 ].id )
+    else controller.line( lines[ currentLineIndex - 1 ].id )
   }
 
   const onDownClick = () => {
@@ -223,9 +221,7 @@ export const Bar = ( { onHover } ) => {
     const lastLine = lines[ lines.length - 1 ]
     // Go to the previous shabad if the first line is highlighted (but not for banis)
     if ( !bani && lineId === lastLine.id ) controller.nextShabad( shabad.orderId )
-    else return
-
-    controller.line( lines[ currentLineIndex + 1 ].id )
+    else controller.line( lines[ currentLineIndex + 1 ].id )
   }
 
   const onAutoToggle = () => {
