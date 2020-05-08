@@ -64,7 +64,7 @@ const CopyHotkeys = ( { children } ) => {
     [ COPY_SHORTCUTS.copyEnglishTransliteration.name, () => stripVishraams( transliterations.english ), 'english transliteration' ],
     [ COPY_SHORTCUTS.copyHindiTransliteration.name, () => stripVishraams( transliterations.hindi ), 'hindi transliteration' ],
     [ COPY_SHORTCUTS.copyUrduTransliteration.name, () => stripVishraams( transliterations.urdu ), 'urdu transliteration' ],
-    [ COPY_SHORTCUTS.copyAuthor.name, () => getAuthor(), 'citation' ],
+    [ COPY_SHORTCUTS.copyCitation.name, () => getAuthor(), 'citation' ],
   ].reduce( ( hotkeys, [ name, getContent, fieldName ] ) => ( {
     ...hotkeys,
     [ name ]: () => copyToClipboard( line && getContent(), `No ${fieldName} available to copy` ),

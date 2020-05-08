@@ -19,14 +19,12 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
   toggleFullscreen: {
     name: 'Toggle Fullscreen',
     sequences: [ 'ctrl+f' ],
+    required: true,
   },
   toggleFullscreenController: {
     name: 'Toggle Fullscreen Controller',
     sequences: [ 'ctrl+shift+f' ],
-  },
-  refresh: {
-    name: 'Refresh',
-    sequences: [ 'ctrl+r' ],
+    required: true,
   },
   newController: {
     name: 'New Controller',
@@ -36,57 +34,65 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
   toggleController: {
     name: 'Toggle Controller',
     sequences: [ 'ctrl+h', 'ctrl+shift+h' ],
+    required: true,
   },
   search: {
     name: 'Search',
     sequences: [ 'ctrl+/' ],
+    required: true,
   },
   settings: {
     name: 'Settings',
     sequences: [ 'ctrl+,', 'ctrl+p' ],
+    required: true,
   },
   navigator: {
     name: 'Navigator',
-    sequences: [ 'ctrl+enter' ],
+    sequences: [ 'ctrl+g' ],
+    required: true,
   },
   history: {
     name: 'History',
     sequences: [ 'ctrl+y' ],
+    required: true,
   },
   bookmarks: {
     name: 'Bookmarks',
     sequences: [ 'ctrl+b' ],
+    required: true,
   },
   clearDisplay: {
     name: 'Clear Display',
     sequences: [ 'esc', 'ctrl+shift+b' ],
+    required: true,
   },
   quit: {
     name: 'Quit',
     sequences: [ 'ctrl+q' ],
+    required: true,
   },
 } )( 'Global' )
 
 export const COPY_SHORTCUTS = decorateGroup( {
-  copyGurmukhiAscii: {
-    name: 'Copy Gurmukhi (ASCII)',
-    sequences: [ 'ctrl+c shift+g' ],
+  copyAllLinesUnicode: {
+    name: 'Copy All Lines (Unicode)',
+    sequences: [ 'ctrl+c a' ],
+  },
+  copyAllLinesAscii: {
+    name: 'Copy All Lines (ASCII)',
+    sequences: [ 'ctrl+c shift+a' ],
+  },
+  copyCitation: {
+    name: 'Copy Citation',
+    sequences: [ 'ctrl+c c' ],
   },
   copyGurmukhiUnicode: {
     name: 'Copy Gurmukhi (Unicode)',
     sequences: [ 'ctrl+c g' ],
   },
-  copyEnglishTransliteration: {
-    name: 'Copy English Transliteration',
-    sequences: [ 'ctrl+c t' ],
-  },
-  copyHindiTransliteration: {
-    name: 'Copy Hindi Transliteration',
-    sequences: [ 'ctrl+c h' ],
-  },
-  copyUrduTransliteration: {
-    name: 'Copy Urdu Transliteration',
-    sequences: [ 'ctrl+c u' ],
+  copyGurmukhiAscii: {
+    name: 'Copy Gurmukhi (ASCII)',
+    sequences: [ 'ctrl+c shift+g' ],
   },
   copyEnglishTranslation: {
     name: 'Copy English Translation',
@@ -100,9 +106,17 @@ export const COPY_SHORTCUTS = decorateGroup( {
     name: 'Copy Spanish Translation',
     sequences: [ 'ctrl+c s' ],
   },
-  copyAuthor: {
-    name: 'Copy Citation',
-    sequences: [ 'ctrl+c a' ],
+  copyEnglishTransliteration: {
+    name: 'Copy English Transliteration',
+    sequences: [ 'ctrl+c shift+e' ],
+  },
+  copyHindiTransliteration: {
+    name: 'Copy Hindi Transliteration',
+    sequences: [ 'ctrl+c shift+h' ],
+  },
+  copyUrduTransliteration: {
+    name: 'Copy Urdu Transliteration',
+    sequences: [ 'ctrl+c shift+u' ],
   },
 } )( 'Copying' )
 
