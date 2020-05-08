@@ -10,6 +10,8 @@ import { SettingsContext } from '../lib/contexts'
 
 import SettingComponentFactory from './SettingComponents'
 
+import './DynamicOptions.css'
+
 export const slotSizes = {
   icon: { xs: 2, sm: 1 },
   name: { xs: 5, sm: 5, md: 4, lg: 4 },
@@ -48,7 +50,7 @@ OptionSlot.propTypes = { children: node.isRequired }
 export const ResetButton = ( { group, disabled } ) => (
   <OptionGrid container align="center">
     <Grid item {...slotSizes.single}>
-      <Button disabled={disabled} variant="contained" onClick={() => controller.resetSettingGroup( group )}>Reset to defaults</Button>
+      <Button className="reset-to-defaults-button" disabled={disabled} variant="contained" onClick={() => controller.resetSettingGroup( group )}>Reset to defaults</Button>
     </Grid>
   </OptionGrid>
 )
