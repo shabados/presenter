@@ -13,10 +13,24 @@
   text-transform: capitalize;
 }
 
-.hotkeys .editable.keys .key:hover:after {
+.hotkeys .key:hover {
+  background-color: var(--settings-text-color);
+}
+
+.hotkeys .new.key {
+  color: var(--settings-text-color);
+  background-color: var(--settings-background-color);
+}
+
+.hotkeys .editable.keys .removable.key:hover {
+  background-color: rgba(200, 0, 0, 0.8);
+  color: transparent;
+}
+
+.hotkeys .editable.keys .removable.key:hover:after {
   position: absolute;
   content: 'Remove';
-  color: var(--settings-text-color);
+  color: white;
 }
 
 .hotkeys .key.Mui-disabled {

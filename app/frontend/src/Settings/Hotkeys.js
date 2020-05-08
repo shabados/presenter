@@ -26,9 +26,11 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
         .entries( groupBy( shortcuts, ( { group } ) => group ) )
         .map( ( [ groupName, hotkeys ] ) => (
           <ListItem key={groupName} className="group">
+
             <ListSubheader className="name" disableSticky>{groupName}</ListSubheader>
+
             <List className="group-hotkeys">
-              {Object.values( hotkeys ).map( ( { name, description } ) => (
+              {hotkeys.map( ( { name, description, required } ) => (
                 <ListItem key={name} className="hotkey">
                   <Grid container className="name" alignItems="center">
 
@@ -50,16 +52,26 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
                       <Grid container wrap>
                         {keys[ name ].map( key => (
                           <Grid key={key} item xs={12} sm={6}>
-                            <Button disabled className="key">{key}</Button>
+                            <Button
+                              className={classNames( 'key', { removable: !required } )}
+                              disabled={required}
+                            >
+                              {key}
+                            </Button>
                           </Grid>
                         ) )}
+
+                        <Button variant="outlined" className="new key">Add</Button>
+
                       </Grid>
+
                     </Grid>
 
                   </Grid>
                 </ListItem>
               ) )}
             </List>
+
           </ListItem>
         ) )}
 
