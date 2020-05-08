@@ -5,7 +5,7 @@ import logger from '../lib/logger'
 import { isDev } from '../lib/consts'
 
 import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow } from './window'
-import { setBeta, initUpdates, checkUpdates } from './updates'
+import { setBeta, initUpdates, checkUpdates, UPDATER_ERRORS } from './updates'
 
 let splashScreen
 
@@ -35,15 +35,6 @@ const onServerReady = server => {
   // Close splashscreen when the main window has been shown
   getMainWindow().once( 'show', () => splashScreen.close() )
 }
-
-// Catch any errors
-//! Should catch port in use separately, means shabad os is likely already running
-process.on( 'uncaughtException', error => {
-  // Log it
-  logger.error( error )
-
-  process.exit( 1 )
-} )
 
 //! Random 5 second timeout before trying to connect to server
 if ( isDev ) {
@@ -80,3 +71,11 @@ module.exports = server => {
     handler( server )( payload )
   } )
 }
+
+process.on( 'uncaughtException', error => {
+  logger.error( error )
+
+  if ( UPDATER_ERRORS.includes( error.message ) ) return
+
+  process.exit( 1 )
+} )
