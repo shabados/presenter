@@ -12,8 +12,7 @@ body {
   height: 100vh;
   color: #f0ede9;
   background-color: #2d2026;
-  background-size: 50%;
-  background-position: 50% 50%;
+  background: radial-gradient(75vw 100vh at 50% 115%, #ba1e62, #2d2026 100%);
   font-family: "Noto Sans ExtraLight", sans-serif;
   display: flex;
   align-items: center;
