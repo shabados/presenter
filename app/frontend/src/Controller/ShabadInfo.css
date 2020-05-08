@@ -11,4 +11,21 @@
 
 .db-viewer-button{
     padding-right: 10px;
+    color: var(--settings-text-color) !important;
+    background-color: var(--settings-setting-off-color) !important;
+}
+
+.db-viewer-button:hover {
+    color: var(--settings-background-color) !important;
+    background-color: var(--settings-setting-on-color) !important;
+}
+
+.copy-shabad-button{
+    color: var(--settings-text-color) !important;
+    background-color: var(--settings-setting-off-color) !important;
+}
+
+.copy-shabad-button:hover{
+    color: var(--settings-background-color) !important;
+    background-color: var(--settings-setting-on-color) !important;
 }
