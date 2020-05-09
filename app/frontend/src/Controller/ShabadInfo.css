@@ -6,22 +6,21 @@
 }
 
 .popver-buttons {
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-evenly;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
-.copy-shabad.Mui-disabled{
-    background-color: #6e6b6b44;
+.popver-buttons .copy-shabad.Mui-disabled {
+  background-color: #6e6b6b44;
 }
 
-.button {
-    color: var(--settings-text-color) !important;
-    background-color: var(--settings-setting-off-color);
+.popver-buttons .button {
+  color: var(--settings-text-color) !important;
+  background-color: var(--settings-setting-off-color);
 }
 
-.button:hover {
-    color: var(--settings-background-color) !important;
-    background-color: var(--settings-setting-on-color) !important;
+.popver-buttons .button:hover {
+  color: var(--settings-background-color) !important;
+  background-color: var(--settings-setting-on-color) !important;
 }
-
