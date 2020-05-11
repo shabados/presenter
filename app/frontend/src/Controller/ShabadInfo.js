@@ -77,23 +77,25 @@ const ShabadInfo = () => {
           <span className="writer-name">{writerName}</span>
           <br />
 
-          <Tooltip title="Report a mistake">
-            <Button
-              className="db-viewer-button"
-              size="small"
-              onClick={() => controller.openExternalUrl( getDbViewerUrl( lineId ) )}
-            >
-              Open in DB Viewer
-            </Button>
-          </Tooltip>
+          <div className="popver-buttons">
 
-          {shabad && (
-            <Tooltip title="Click to copy this shabad">
-              <Button className="copy-shabad-button" size="small" onClick={onCopyClick}>
-                  Copy Shabad
+            <Tooltip title="Report a mistake">
+              <Button
+                className="db-viewer button"
+                size="small"
+                onClick={() => controller.openExternalUrl( getDbViewerUrl( lineId ) )}
+              >
+              Open Online
               </Button>
             </Tooltip>
-          )}
+
+            <Tooltip title="Click to copy this shabad">
+              <Button className="copy-shabad button" size="small" disabled={!shabad} onClick={onCopyClick}>
+                  Copy
+              </Button>
+            </Tooltip>
+
+          </div>
 
         </Typography>
       </Popover>
