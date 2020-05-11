@@ -1,9 +1,0 @@
-.reset-to-defaults-button{
-  color: var(--settings-text-color) !important;
-  background-color: var(--settings-setting-off-color) !important;
-}
-
-.reset-to-defaults-button:hover {
-  color: var(--settings-background-color) !important;
-  background-color: var(--settings-setting-on-color) !important;
-}
