@@ -16,6 +16,9 @@ import { MAX_RESULTS } from './consts'
  */
 export const firstLetterSearch = letters => Lines
   .query()
+  .eager( 'shabad.section' )
+  .withTranslations()
+  .withTransliterations()
   .limit( MAX_RESULTS )
   .firstLetters( letters )
 
@@ -27,6 +30,9 @@ export const firstLetterSearch = letters => Lines
  */
 export const fullWordSearch = words => Lines
   .query()
+  .eager( 'shabad.section' )
+  .withTranslations()
+  .withTransliterations()
   .limit( MAX_RESULTS )
   .fullWord( words )
 
