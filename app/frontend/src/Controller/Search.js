@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
+import React, { useRef, useState, useEffect, useCallback, useContext } from 'react'
 import { func, string, oneOfType, number, instanceOf } from 'prop-types'
 import { useLocation, useHistory } from 'react-router-dom'
 import classNames from 'classnames'
@@ -18,6 +18,7 @@ import { firstLetters, toAscii } from 'gurmukhi-utils'
 
 import { MIN_SEARCH_CHARS, SEARCH_CHARS, SEARCH_TYPES, SEARCH_ANCHORS } from '../lib/consts'
 import { stripPauses, getUrlState } from '../lib/utils'
+import { WritersContext, RecommendedSourcesContext } from '../lib/contexts'
 import controller from '../lib/controller'
 
 import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
@@ -108,7 +109,7 @@ const Search = ( { updateFocus, register, focused } ) => {
    * @param {string} shabadId The id of the shabad.
    * @param {Component} ref The ref to the component.
    */
-  const Result = ( { gurmukhi, id: lineId, shabadId, ref, focused } ) => {
+  const Result = ( { gurmukhi, id: lineId, shabadId, ref, focused, sourceId, shabad, sourcePage, translations } ) => {
     // Get first letters in line and find where the match is
     const query = !anchor ? firstLetters( gurmukhi ) : gurmukhi
 
@@ -128,13 +129,38 @@ const Search = ( { updateFocus, register, focused } ) => {
     // Send the shabad id and line id to the server on click
     const onClick = () => controller.shabad( { shabadId, lineId } )
 
+    const writers = useContext( WritersContext )
+    const recommendedSources = useContext( RecommendedSourcesContext )
+
+    const { translation: englishTranslation } = translations[0]
+    const { pageNameEnglish: pageName } = recommendedSources[ sourceId ]
+    const { nameEnglish: writerName } = writers[ shabad.writerId ]
+    // WIP: refacor and clean
+    // console.log(pageName)
+    // console.log(writerName)
+    // console.log(shabad)
+    // console.log(englishTranslation)
     return (
       <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
-        <span className="gurmukhi text result">
-          {beforeMatch ? <span className="words">{beforeMatch}</span> : null}
-          {match ? <span className="matched words">{match}</span> : null}
-          {afterMatch ? <span className="words">{afterMatch}</span> : null}
-        </span>
+        <div className="result">
+          <span className="result-header">
+            <span className="section">{shabad.section.nameEnglish}</span>
+            <span className="page">
+              {pageName}
+              {' '}
+              {sourcePage}
+            </span>
+            <span className="author">{writerName}</span>
+          </span>
+          <span className="gurmukhi text">
+            {beforeMatch ? <span className="words">{beforeMatch}</span> : null}
+            {match ? <span className="matched words">{match}</span> : null}
+            {afterMatch ? <span className="words">{afterMatch}</span> : null}
+          </span>
+          <span className="result-footer">
+            <span className="english-translation">{englishTranslation}</span>
+          </span>
+        </div>
       </ListItem>
     )
   }
@@ -198,6 +224,7 @@ const Search = ( { updateFocus, register, focused } ) => {
         }}
       />
       <List className="results">
+        {/* {console.log(results)} */}
         {results
           ? results
             .map( ( props, i ) => Result( {
