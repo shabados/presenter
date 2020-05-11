@@ -38,9 +38,40 @@
 
 .search .results .result .matched.words {
   color: var(--controller-search-match-color);
+  font-weight: bold;
 }
 
 .mobile .search .input,
 .tablet .search .input {
   min-height: 3.2em;
+}
+
+.search .result {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.search .result .result-header {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.8em;
+  margin-bottom: 0.2em;
+  color: rgba(121, 118, 118, 0.863);
+}
+
+.search .result .result-header .page {
+  margin-left: 30px;
+}
+
+.search .result .result-header .author {
+  margin-left: 30px;
+}
+
+.search .result .result-footer {
+  font-size: 0.8em;
+  color: rgba(121, 118, 118, 0.863);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
