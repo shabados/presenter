@@ -56,26 +56,19 @@
   overflow: hidden;
 }
 
-.search .result .result-header {
+.search .result .secondary {
+  font-size: 0.8em;
+  opacity: .85;
+}
+
+.search .result .citation {
   display: flex;
   flex-direction: row;
   font-size: 0.8em;
-  margin-bottom: 0.2em;
-  color: rgba(121, 118, 118, 0.863);
+  opacity: 0.55;
+  font-style: italic;
 }
 
-.search .result .result-header .page {
-  margin-left: 30px;
-}
-
-.search .result .result-header .author {
-  margin-left: 30px;
-}
-
-.search .result .result-footer {
-  font-size: 0.8em;
-  color: rgba(121, 118, 118, 0.863);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.search .result .citation > span + span {
+  padding-left: .25em;
 }
