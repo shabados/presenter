@@ -143,23 +143,24 @@ const Search = ( { updateFocus, register, focused } ) => {
     return (
       <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
         <div className="result">
-          <span className="result-header">
-            <span className="section">{shabad.section.nameEnglish}</span>
-            <span className="page">
-              {pageName}
-              {' '}
-              {sourcePage}
-            </span>
-            <span className="author">{writerName}</span>
-          </span>
           <span className="gurmukhi text">
             {beforeMatch ? <span className="words">{beforeMatch}</span> : null}
             {match ? <span className="matched words">{match}</span> : null}
             {afterMatch ? <span className="words">{afterMatch}</span> : null}
           </span>
-          <span className="result-footer">
+          <span className="secondary text">
             <span className="english-translation">{englishTranslation}</span>
           </span>
+          <span className="citation">
+            <span className="author">({writerName}.</span>
+            <span className="section">"{shabad.section.nameEnglish}",</span>
+            <span className="page">
+              {pageName}
+              {' '}
+              {sourcePage})
+            </span>
+          </span>
+          
         </div>
       </ListItem>
     )
