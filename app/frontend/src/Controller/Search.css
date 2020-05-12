@@ -36,9 +36,13 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.search .results .result .words {
+  font-family: 'Open Gurbani Akhar Regular';
+}
+
 .search .results .result .matched.words {
+  font-family: 'Open Gurbani Akhar Bold';
   color: var(--controller-search-match-color);
-  font-weight: bold;
 }
 
 .mobile .search .input,
