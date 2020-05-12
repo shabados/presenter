@@ -65,6 +65,18 @@
   opacity: .85;
 }
 
+.search .result .secondary .translit.hindi {
+  font-family: "Noto Sans Devanagari Semi Bold";
+}
+
+.search .result .secondary .translit.urdu {
+  font-family: "Noto Sans Nastaliq Urdu";
+}
+
+.search .result .secondary .translit.matched {
+  color: var(--controller-search-match-color);
+}
+
 .search .result .citation {
   opacity: 0.55;
   font-style: italic;
