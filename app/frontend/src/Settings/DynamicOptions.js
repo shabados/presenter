@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { string, shape, node, bool } from 'prop-types'
+import { func, string, shape, node, bool } from 'prop-types'
 
 import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,6 +10,9 @@ import { SettingsContext } from '../lib/contexts'
 
 import SettingComponentFactory, { Button } from './SettingComponents'
 
+const FLAT_OPTION_GROUPS = Object
+  .values( OPTION_GROUPS )
+  .reduce( ( groups, section ) => ( { ...groups, ...section } ), {} )
 
 export const slotSizes = {
   icon: { xs: 2, sm: 1 },
@@ -64,7 +67,7 @@ ResetButton.defaultProps = {
 }
 
 
-const DynamicOptions = ( { device, group } ) => {
+const DynamicOptions = ( { device, group, onChange } ) => {
   const settings = useContext( SettingsContext )
 
   const selectedDeviceSettings = settings[ device ] || settings.local
@@ -72,11 +75,9 @@ const DynamicOptions = ( { device, group } ) => {
   const isGlobal = device === 'global'
   const defaultSettings = isGlobal ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
-  const setSettings = ( option, value ) => controller.setSettings( {
-    [ group ]: { [ option ]: value },
-  }, device )
+  const setSettings = ( option, value ) => onChange( { [ group ]: { [ option ]: value } } )
 
-  const { privacy: groupPrivacy } = OPTION_GROUPS[ group ] || {}
+  const { privacy: groupPrivacy } = FLAT_OPTION_GROUPS[ group ] || {}
   const isGroupDisabled = device !== 'local' && groupPrivacy === PRIVACY_TYPES.private
 
   const renderOptions = () => Object
@@ -122,6 +123,7 @@ const DynamicOptions = ( { device, group } ) => {
 DynamicOptions.propTypes = {
   device: string.isRequired,
   group: string.isRequired,
+  onChange: func.isRequired,
 }
 
 export default DynamicOptions

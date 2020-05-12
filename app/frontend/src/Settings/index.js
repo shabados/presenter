@@ -112,6 +112,12 @@ const Settings = () => {
       selected: false,
     }
 
+    const menuItems = [
+      [ null, OPTION_GROUPS.none, selectedDeviceSettings, SETTINGS_DEVICE_URL ],
+      [ 'Activities', OPTION_GROUPS.activities, selectedDeviceSettings, SETTINGS_DEVICE_URL ],
+      [ 'Server', OPTION_GROUPS.server, settings.global, SETTINGS_SERVER_URL ],
+    ]
+
     return (
       <List className="content">
         <Select
@@ -133,28 +139,25 @@ const Settings = () => {
             ) )}
         </Select>
 
-        {Object.keys( selectedDeviceSettings )
-          .filter( name => OPTION_GROUPS[ name ] )
-          .map( name => (
-            <Item
-              key={name}
-              selected={name === group}
-              {...OPTION_GROUPS[ name ]}
-              url={`${SETTINGS_DEVICE_URL}/${name}`}
-            />
-          ) )}
+        {menuItems.map( ( [ sectionName, settingsGroup, settings, url ] ) => (
+          <>
 
-        <Typography className="category-title">Server</Typography>
-        {Object.keys( settings.global )
-          .filter( name => OPTION_GROUPS[ name ] )
-          .map( name => (
-            <Item
-              key={name}
-              selected={name === group}
-              {...OPTION_GROUPS[ name ]}
-              url={`${SETTINGS_SERVER_URL}/${name}`}
-            />
-          ) )}
+            {sectionName && <Typography key={sectionName} className="category-title">{sectionName}</Typography>}
+
+            {Object.keys( settings )
+              .filter( name => settingsGroup[ name ] )
+              .map( name => (
+                <Item
+                  key={name}
+                  selected={name === group}
+                  {...settingsGroup[ name ]}
+                  url={`${url}/${name}`}
+                />
+              ) ) }
+
+          </>
+        ) ) }
+
 
         <Item name="About" icon={faInfo} url={SETTINGS_ABOUT_URL} selected={group === 'about'} />
 
