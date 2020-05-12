@@ -133,7 +133,7 @@ const Search = ( { updateFocus, register, focused } ) => {
     const recommendedSources = useContext( RecommendedSourcesContext )
 
     const { translation: englishTranslation } = translations[0]
-    const { pageNameEnglish: pageName } = recommendedSources[ sourceId ]
+    const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
     const { nameEnglish: writerName } = writers[ shabad.writerId ]
     // WIP: refacor and clean
     // console.log(pageName)
@@ -154,6 +154,7 @@ const Search = ( { updateFocus, register, focused } ) => {
           <span className="citation">
             <span className="author">({writerName}.</span>
             <span className="section">"{shabad.section.nameEnglish}",</span>
+            <span className="section">{sourceName},</span>
             <span className="page">
               {pageName}
               {' '}
