@@ -108,8 +108,34 @@ const Search = ( { updateFocus, register, focused } ) => {
    * @param {string} lineId The id of the line.
    * @param {string} shabadId The id of the shabad.
    * @param {Component} ref The ref to the component.
+   * @param {int} sourceId The id of source.
+   * @param {Object} shabad The object containng section information and other metadata.
+   * @param {int} sourcePage The page number of shabad in source.
+   * @param {string} translations The translations of shabad line to display.
+   * @param {string} transliterations The transliterations of shabad line to display.
    */
-  const Result = ( { gurmukhi, id: lineId, shabadId, ref, focused, sourceId, shabad, sourcePage, translations } ) => {
+  const Result = ( {
+    gurmukhi,
+    id: lineId,
+    shabadId,
+    ref,
+    focused,
+    sourceId,
+    shabad,
+    sourcePage,
+    translations,
+    transliterations,
+  } ) => {
+    const writers = useContext( WritersContext )
+    const recommendedSources = useContext( RecommendedSourcesContext )
+
+    const { section, writerId } = shabad
+    const { nameEnglish: raag } = section
+    const { translation: translate } = translations[ 0 ]
+    const { transliteration: translit } = transliterations[ 2 ]
+    const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
+    const { nameEnglish: writerName } = writers[ writerId ]
+
     // Get first letters in line and find where the match is
     const query = !anchor ? firstLetters( gurmukhi ) : gurmukhi
 
@@ -120,26 +146,23 @@ const Search = ( { updateFocus, register, focused } ) => {
     const pos = query.search( searchedValue.slice().replace( new RegExp( '_', 'g' ), '.' ) )
 
     const words = stripPauses( gurmukhi ).split( splitChar )
+    const highlightTranslit = stripPauses( translit ).split( splitChar )
 
     // Separate the line into words before the match, the match, and after the match
     const beforeMatch = words.slice( 0, pos ).join( splitChar ) + splitChar
     const match = words.slice( pos, pos + searchedValue.length ).join( splitChar ) + splitChar
     const afterMatch = words.slice( pos + searchedValue.length ).join( splitChar ) + splitChar
 
+    // Separate the line into words before the match, the match, and after the match
+    const translitBeforeMatch = highlightTranslit.slice( 0, pos ).join( splitChar ) + splitChar
+    const translitMatch = highlightTranslit.slice( pos, pos + searchedValue.length ).join( splitChar ) + splitChar
+    const translitAfterMatch = highlightTranslit.slice( pos + searchedValue.length ).join( splitChar ) + splitChar
+
     // Send the shabad id and line id to the server on click
     const onClick = () => controller.shabad( { shabadId, lineId } )
 
-    const writers = useContext( WritersContext )
-    const recommendedSources = useContext( RecommendedSourcesContext )
+    const lang = 'urdu'
 
-    const { translation: englishTranslation } = translations[0]
-    const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
-    const { nameEnglish: writerName } = writers[ shabad.writerId ]
-    // WIP: refacor and clean
-    // console.log(pageName)
-    // console.log(writerName)
-    // console.log(shabad)
-    // console.log(englishTranslation)
     return (
       <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
         <div className="result">
@@ -149,19 +172,35 @@ const Search = ( { updateFocus, register, focused } ) => {
             {afterMatch ? <span className="words">{afterMatch}</span> : null}
           </span>
           <span className="secondary text">
-            <span className="english-translation">{englishTranslation}</span>
+            <span className="english-translation">{translate}</span>
+            <br />
+            {translitBeforeMatch ? <span className={classNames( lang, 'translit' )}>{translitBeforeMatch}</span> : null}
+            {translitMatch ? <span className={classNames( lang, 'translit matched' )}>{translitMatch}</span> : null}
+            {translitAfterMatch ? <span className={classNames( lang, 'translit' )}>{translitAfterMatch}</span> : null}
           </span>
           <span className="citation">
-            <span className="author">({writerName}.</span>
-            <span className="section">"{shabad.section.nameEnglish}",</span>
-            <span className="section">{sourceName},</span>
+            <span className="author">
+              (
+              {writerName}
+              .
+            </span>
+            <span className="section">
+              &quot;
+              {raag}
+              &quot;,
+            </span>
+            <span className="section">
+              {sourceName}
+              ,
+            </span>
             <span className="page">
               {pageName}
               {' '}
-              {sourcePage})
+              {sourcePage}
+              )
             </span>
           </span>
-          
+
         </div>
       </ListItem>
     )
@@ -172,6 +211,11 @@ const Search = ( { updateFocus, register, focused } ) => {
     id: string.isRequired,
     shabadId: string.isRequired,
     ref: instanceOf( Result ).isRequired,
+    sourceId: number.isRequired,
+    shabad: Object.isRequired,
+    sourcePage: number.isRequired,
+    translations: string.isRequired,
+    transliterations: string.isRequired,
   }
 
   const filterInputKeys = event => {
