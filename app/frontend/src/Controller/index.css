@@ -72,7 +72,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: left;
-  padding: 0.15em 0.15em 0.15em 0.75em;
+  padding: .6em;
   min-height: 2em;
   transition: 0.2s all;
   cursor: pointer;
