@@ -56,15 +56,15 @@
   overflow: hidden;
 }
 
-.search .result .secondary {
+.search .result .secondary, .search .result .citation {
   font-size: 0.8em;
+}
+
+.search .result .secondary {
   opacity: .85;
 }
 
 .search .result .citation {
-  display: flex;
-  flex-direction: row;
-  font-size: 0.8em;
   opacity: 0.55;
   font-style: italic;
 }
