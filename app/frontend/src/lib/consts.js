@@ -100,3 +100,12 @@ export const LANGUAGES = {
   hindi: 4,
   urdu: 5,
 }
+
+export const LANGUAGE_NAMES = {
+  [ LANGUAGES.english ]: 'english',
+  [ LANGUAGES.punjabi ]: 'punjabi',
+  [ LANGUAGES.spanish ]: 'spanish',
+  [ LANGUAGES.hindi ]: 'hindi',
+  [ LANGUAGES.urdu ]: 'urdu',
+}
+
