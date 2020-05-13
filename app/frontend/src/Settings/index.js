@@ -27,7 +27,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faWindowMaximize, faInfo } from '@fortawesome/free-solid-svg-icons'
 
-import controller from '../lib/controller'
 import {
   BACKEND_URL,
   SETTINGS_URL,
@@ -204,7 +203,6 @@ const Settings = () => {
   const { theme: { themeName } = {}, hotkeys } = selectedDeviceSettings
 
   const defaultUrl = `${SETTINGS_DEVICE_URL}/${Object.keys( selectedDeviceSettings )[ 0 ]}`
-  const setSettings = settings => controller.setSettings( settings, device )
 
   return (
     <div className={classNames( { simple: simpleGraphics }, 'settings' )}>
@@ -222,15 +220,15 @@ const Settings = () => {
             path={`${SETTINGS_DEVICE_URL}/hotkeys`}
             render={() => ( <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} device={device} /> )}
           />
-          <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={selectedDeviceSettings.sources} setSettings={setSettings} />} />
-          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} group={group} onChange={setSettings} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={selectedDeviceSettings.sources} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} group={group} />} />
 
           {/* Server setting routes */}
           <Route
             path={SETTINGS_ABOUT_URL}
             render={() => <About connected={Object.keys( settings ).length - 1} />}
           />
-          <Route path={`${SETTINGS_SERVER_URL}/*`} render={() => <DynamicOptions device="global" group={group} onChange={setSettings} />} />
+          <Route path={`${SETTINGS_SERVER_URL}/*`} render={() => <DynamicOptions device="global" group={group} />} />
 
           {/* Tool Routes */}
           <Route path={SETTINGS_OVERLAY_URL} component={OverlaySettings} />
