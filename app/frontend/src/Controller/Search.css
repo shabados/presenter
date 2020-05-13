@@ -65,11 +65,19 @@
   opacity: .85;
 }
 
-.search .result .secondary .translit.hindi {
+.search .result .secondary .english , .english.translation, .spanish.translation {
+  font-family: "Noto Sans Medium", sans-serif;
+}
+
+.search .result .secondary .translit.punjabi, .punjabi.translation {
+  font-family: "Open Anmol Uni Bold", sans-serif;
+}
+
+.search .result .secondary .hindi {
   font-family: "Noto Sans Devanagari Semi Bold";
 }
 
-.search .result .secondary .translit.urdu {
+.search .result .secondary .urdu {
   font-family: "Noto Sans Nastaliq Urdu";
 }
 
