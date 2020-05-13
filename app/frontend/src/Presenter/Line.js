@@ -6,6 +6,7 @@ import classNames from 'classnames'
 
 import { partitionLine, classifyWords } from '../lib/utils'
 import { DEFAULT_OPTIONS } from '../lib/options'
+import { LANGUAGES, LANGUAGE_NAMES } from '../lib/consts'
 
 import './Line.css'
 
@@ -72,15 +73,15 @@ const Line = ( {
   simpleGraphics: simple,
 } ) => {
   const translations = [
-    [ 'english', englishTranslation, relativeEnglishFontSize ],
-    [ 'punjabi', punjabiTranslation, relativePunjabiFontSize ],
-    [ 'spanish', spanishTranslation, relativeEnglishFontSize ],
+    [ LANGUAGE_NAMES[ LANGUAGES.english ], englishTranslation, relativeEnglishFontSize ],
+    [ LANGUAGE_NAMES[ LANGUAGES.punjabi ], punjabiTranslation, relativePunjabiFontSize ],
+    [ LANGUAGE_NAMES[ LANGUAGES.spanish ], spanishTranslation, relativeEnglishFontSize ],
   ]
 
   const transliterations = [
-    [ 'english', englishTransliteration, relativeEnglishFontSize ],
-    [ 'hindi', hindiTransliteration, relativeHindiFontSize ],
-    [ 'urdu', urduTransliteration, relativeUrduFontSize ],
+    [ LANGUAGE_NAMES[ LANGUAGES.english ], englishTransliteration, relativeEnglishFontSize ],
+    [ LANGUAGE_NAMES[ LANGUAGES.hindi ], hindiTransliteration, relativeHindiFontSize ],
+    [ LANGUAGE_NAMES[ LANGUAGES.urdu ], urduTransliteration, relativeUrduFontSize ],
   ]
 
   return (
