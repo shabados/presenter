@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { func, string, shape, node, bool } from 'prop-types'
+import { string, shape, node, bool } from 'prop-types'
 
 import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -67,7 +67,7 @@ ResetButton.defaultProps = {
 }
 
 
-const DynamicOptions = ( { device, group, onChange } ) => {
+const DynamicOptions = ( { device, group } ) => {
   const settings = useContext( SettingsContext )
 
   const selectedDeviceSettings = settings[ device ] || settings.local
@@ -75,7 +75,10 @@ const DynamicOptions = ( { device, group, onChange } ) => {
   const isGlobal = device === 'global'
   const defaultSettings = isGlobal ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
-  const setSettings = ( option, value ) => onChange( { [ group ]: { [ option ]: value } } )
+  const setSettings = ( option, value ) => controller.setSettings(
+    { [ group ]: { [ option ]: value } },
+    device,
+  )
 
   const { privacy: groupPrivacy } = FLAT_OPTION_GROUPS[ group ] || {}
   const isGroupDisabled = device !== 'local' && groupPrivacy === PRIVACY_TYPES.private
@@ -123,7 +126,6 @@ const DynamicOptions = ( { device, group, onChange } ) => {
 DynamicOptions.propTypes = {
   device: string.isRequired,
   group: string.isRequired,
-  onChange: func.isRequired,
 }
 
 export default DynamicOptions
