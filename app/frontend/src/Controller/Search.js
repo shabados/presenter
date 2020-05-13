@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback, useContext } from 'react'
-import { func, string, oneOfType, number, instanceOf } from 'prop-types'
+import { func, string, oneOfType, number, instanceOf, shape } from 'prop-types'
 import { useLocation, useHistory } from 'react-router-dom'
 import classNames from 'classnames'
 
@@ -16,9 +16,21 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { stringify } from 'querystring'
 import { firstLetters, toAscii } from 'gurmukhi-utils'
 
-import { MIN_SEARCH_CHARS, SEARCH_CHARS, SEARCH_TYPES, SEARCH_ANCHORS } from '../lib/consts'
-import { stripPauses, getUrlState } from '../lib/utils'
-import { WritersContext, RecommendedSourcesContext } from '../lib/contexts'
+import {
+  SEARCH_TYPES,
+  SEARCH_CHARS,
+  LANGUAGE_NAMES,
+  SEARCH_ANCHORS,
+  MIN_SEARCH_CHARS,
+  SOURCE_ABBREVIATIONS,
+} from '../lib/consts'
+import {
+  getUrlState,
+  stripPauses,
+  getTranslation,
+  getTransliteration,
+} from '../lib/utils'
+import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../lib/contexts'
 import controller from '../lib/controller'
 
 import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
@@ -42,6 +54,26 @@ const getSearchParams = searchQuery => {
     : inputValue
 
   return { anchor, value, type }
+}
+
+// Separate the line into words before the match, the match, and after the match
+const highlightMatches = gurmukhi => ( value, input, mode ) => {
+  if ( !value ) return [ '', '', '' ]
+
+  const [ query, splitChar ] = {
+    [ SEARCH_TYPES.fullWordSearch ]: () => [ gurmukhi, '' ],
+    [ SEARCH_TYPES.firstLetter ]: () => [ firstLetters( gurmukhi ), ' ' ],
+  }[ mode ]()
+
+  // Remember to account for wildcard characters
+  const pos = query.search( input.slice().replace( new RegExp( '_', 'g' ), '.' ) )
+  const words = stripPauses( value ).split( splitChar )
+
+  const beforeMatch = words.slice( 0, pos ).join( splitChar ) + splitChar
+  const match = words.slice( pos, pos + input.length ).join( splitChar ) + splitChar
+  const afterMatch = words.slice( pos + input.length ).join( splitChar ) + splitChar
+
+  return [ beforeMatch, match, afterMatch ]
 }
 
 /**
@@ -102,6 +134,13 @@ const Search = ( { updateFocus, register, focused } ) => {
     } )}` } )
   }, [ history, search ] )
 
+  const writers = useContext( WritersContext )
+  const recommendedSources = useContext( RecommendedSourcesContext )
+  const { local: {
+    sources,
+    search: { showResultMetadata, resultTransliterationLanguage, resultTranslationLanguage },
+  } = {} } = useContext( SettingsContext )
+
   /**
    * Renders a single result, highlighting the match.
    * @param {string} gurmukhi The shabad line to display.
@@ -126,42 +165,37 @@ const Search = ( { updateFocus, register, focused } ) => {
     translations,
     transliterations,
   } ) => {
-    const writers = useContext( WritersContext )
-    const recommendedSources = useContext( RecommendedSourcesContext )
-
     const { section, writerId } = shabad
     const { nameEnglish: raag } = section
-    const { translation: translate } = translations[ 0 ]
-    const { transliteration: translit } = transliterations[ 2 ]
-    const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
+    const { pageNameEnglish: pageName } = recommendedSources[ sourceId ]
     const { nameEnglish: writerName } = writers[ writerId ]
 
-    // Get first letters in line and find where the match is
-    const query = !anchor ? firstLetters( gurmukhi ) : gurmukhi
+    const transliteration = resultTransliterationLanguage && getTransliteration(
+      { transliterations },
+      resultTransliterationLanguage,
+    )
+    const translation = resultTranslationLanguage && getTranslation( {
+      line: { translations },
+      shabad,
+      recommendedSources,
+      sources,
+      languageId: resultTranslationLanguage,
+    } )
 
-    // Split on each word if using first letter because letters correspond to whole words
-    const splitChar = !anchor ? ' ' : ''
-
-    // Remember to account for wildcard characters
-    const pos = query.search( searchedValue.slice().replace( new RegExp( '_', 'g' ), '.' ) )
-
-    const words = stripPauses( gurmukhi ).split( splitChar )
-    const highlightTranslit = stripPauses( translit ).split( splitChar )
-
-    // Separate the line into words before the match, the match, and after the match
-    const beforeMatch = words.slice( 0, pos ).join( splitChar ) + splitChar
-    const match = words.slice( pos, pos + searchedValue.length ).join( splitChar ) + splitChar
-    const afterMatch = words.slice( pos + searchedValue.length ).join( splitChar ) + splitChar
+    // Grab the search mode or assume it's first letter
+    const mode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
 
     // Separate the line into words before the match, the match, and after the match
-    const translitBeforeMatch = highlightTranslit.slice( 0, pos ).join( splitChar ) + splitChar
-    const translitMatch = highlightTranslit.slice( pos, pos + searchedValue.length ).join( splitChar ) + splitChar
-    const translitAfterMatch = highlightTranslit.slice( pos + searchedValue.length ).join( splitChar ) + splitChar
+    const getMatches = highlightMatches( gurmukhi )
+    const [ beforeMatch, match, afterMatch ] = getMatches( gurmukhi, searchedValue, mode )
+    const [ translitBeforeMatch, translitMatch, translitAfterMatch ] = getMatches(
+      transliteration,
+      searchedValue,
+      mode,
+    )
 
     // Send the shabad id and line id to the server on click
     const onClick = () => controller.shabad( { shabadId, lineId } )
-
-    const lang = 'urdu'
 
     return (
       <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
@@ -171,35 +205,42 @@ const Search = ( { updateFocus, register, focused } ) => {
             {match ? <span className="matched words">{match}</span> : null}
             {afterMatch ? <span className="words">{afterMatch}</span> : null}
           </span>
+
           <span className="secondary text">
-            <span className="english-translation">{translate}</span>
-            <br />
-            {translitBeforeMatch ? <span className={classNames( lang, 'translit' )}>{translitBeforeMatch}</span> : null}
-            {translitMatch ? <span className={classNames( lang, 'translit matched' )}>{translitMatch}</span> : null}
-            {translitAfterMatch ? <span className={classNames( lang, 'translit' )}>{translitAfterMatch}</span> : null}
+
+            {translation && (
+              <div className={classNames( LANGUAGE_NAMES[ resultTranslationLanguage ], 'translation' )}>
+                {translation}
+              </div>
+            )}
+
+            {transliteration && (
+              <div className={classNames( LANGUAGE_NAMES[ resultTransliterationLanguage ], 'transliteration' )}>
+                {translitBeforeMatch ? <span className="translit">{translitBeforeMatch}</span> : null}
+                {translitMatch ? <span className="translit matched">{translitMatch}</span> : null}
+                {translitAfterMatch ? <span className="translit">{translitAfterMatch}</span> : null}
+              </div>
+            )}
+
           </span>
+
+          {showResultMetadata
+          && (
           <span className="citation">
             <span className="author">
-              (
-              {writerName}
-              .
+              {`(${writerName},`}
             </span>
             <span className="section">
-              &quot;
-              {raag}
-              &quot;,
+              {`"${raag}",`}
             </span>
             <span className="section">
-              {sourceName}
-              ,
+              {`${SOURCE_ABBREVIATIONS[ sourceId ]},`}
             </span>
             <span className="page">
-              {pageName}
-              {' '}
-              {sourcePage}
-              )
+              {`${pageName} ${sourcePage})`}
             </span>
           </span>
+          )}
 
         </div>
       </ListItem>
@@ -212,7 +253,7 @@ const Search = ( { updateFocus, register, focused } ) => {
     shabadId: string.isRequired,
     ref: instanceOf( Result ).isRequired,
     sourceId: number.isRequired,
-    shabad: Object.isRequired,
+    shabad: shape( { } ).isRequired,
     sourcePage: number.isRequired,
     translations: string.isRequired,
     transliterations: string.isRequired,
@@ -270,7 +311,6 @@ const Search = ( { updateFocus, register, focused } ) => {
         }}
       />
       <List className="results">
-        {/* {console.log(results)} */}
         {results
           ? results
             .map( ( props, i ) => Result( {
