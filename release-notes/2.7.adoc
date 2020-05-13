@@ -39,7 +39,10 @@ toc::[id="toc"]
 
 ### Custom Fields for Search Results
 
+It is now possible to show translations and transliterations for search results as well as a citation of where the matching line comes from.
 
+.Example of search result customization
+image::./assets/{semver}/search-results-extra-fields.png[width=640]
 
 // ## Preview
 
@@ -58,5 +61,4 @@ toc::[id="toc"]
 * https://github.com/saihaj[Saihajpreet Singh (@saihaj)]
 
 .Contributions to `{repo}`
-* https://github.com/Harjot1Singh[Harjot Singh (@Harjot1Singh)]
 * https://github.com/saihaj[Saihajpreet Singh (@saihaj)]
