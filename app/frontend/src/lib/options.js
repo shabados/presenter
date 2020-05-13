@@ -41,6 +41,7 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-regular-svg-icons'
 
+import { LANGUAGES } from './consts'
 import SHORTCUTS from './keyMap'
 
 /**
@@ -119,27 +120,27 @@ export const OPTIONS = {
   disconnectionEvents: { name: 'Disconnections', icon: faPowerOff, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadEvents: { name: 'Update Download', icon: faDownload, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadedEvents: { name: 'Update Download Complete', icon: faServer, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
-  searchResultMetadata: { name: 'Metadata', icon: faTags, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  searchResultTranslation: {
+  showResultMetadata: { name: 'Show Metadata', icon: faTags, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  resultTranslationLanguage: {
     name: 'Translation',
     icon: faClosedCaptioning,
     type: OPTION_TYPES.dropdown,
     privacy: PRIVACY_TYPES.local,
     values: [
-      { name: 'English', value: 'englishTranslation' },
-      { name: 'Spanish', value: 'spanishTranslation' },
-      { name: 'Punjabi', value: 'punjabiTranslation' },
+      { name: 'English', value: LANGUAGES.english },
+      { name: 'Spanish', value: LANGUAGES.spanish },
+      { name: 'Punjabi', value: LANGUAGES.punjabi },
     ],
   },
-  searchResultTransliteration: {
+  resultTransliterationLanguage: {
     name: 'Transliteration',
     icon: farClosedCaptioning,
     type: OPTION_TYPES.dropdown,
     privacy: PRIVACY_TYPES.local,
     values: [
-      { name: 'English', value: 'englishTransliteration' },
-      { name: 'Hindi', value: 'hindiTransliteration' },
-      { name: 'Urdu', value: 'urduTransliteration' },
+      { name: 'English', value: LANGUAGES.english },
+      { name: 'Hindi', value: LANGUAGES.hindi },
+      { name: 'Urdu', value: LANGUAGES.urdu },
     ],
   },
   overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.global },
@@ -251,8 +252,8 @@ export const DEFAULT_OPTIONS = {
     },
     search: {
       searchResultMetadata: true,
-      searchResultTranslation: OPTIONS.searchResultTranslation.values[ 0 ].value,
-      searchResultTransliteration: OPTIONS.searchResultTransliteration.values[ 0 ].value,
+      resultTranslationLanguage: OPTIONS.resultTranslationLanguage.values[ 0 ].value,
+      resultTransliterationLanguage: OPTIONS.resultTransliterationLanguage.values[ 0 ].value,
     },
   },
   // Special serverside settings
