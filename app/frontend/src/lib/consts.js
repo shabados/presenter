@@ -109,3 +109,18 @@ export const LANGUAGE_NAMES = {
   [ LANGUAGES.urdu ]: 'urdu',
 }
 
+//! Until ShabadOS/database#1767 is resolved
+export const SOURCE_ABBREVIATIONS = {
+  1: 'SGGS Ji',
+  2: 'Sri Dasam Granth Ji',
+  3: 'Vaaran',
+  4: 'Kabit Svaiye',
+  5: 'Ghazals',
+  6: 'Zindaginaama',
+  7: 'Ganjnaama',
+  8: 'Jot Bigaas',
+  9: 'Ardaas',
+  10: 'Rehitname',
+  11: 'Sri Sarabloh Granth Ji',
+  12: 'Uggardanti',
+}
