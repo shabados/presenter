@@ -1,0 +1,82 @@
+:repo: desktop
+:repo-title: Shabad OS for Desktop
+:release: May 2020
+:semver: 2.6
+:idprefix:
+:hide-uri-scheme:
+:numbered:
+:max-width: 900px
+:icons: font
+:toc: macro
+:toclevels: 1
+ifdef::env-github,env-browser[:outfilesuffix: .asciidoc]
+ifdef::env-github[]
+:note-caption: :information_source:
+:tip-caption: :bulb:
+:important-caption: :fire:
+:caution-caption: :warning:
+:warning-caption: :no_entry:
+endif::[]
+
+[discrete]
+# https://github.com/ShabadOS/{repo}/blob/master/release-notes/{semver}.adoc[{release} (SemVer {semver})]
+
+____
+
+.*Update 2.6.1*
+* Fixed a bug with the up/down gui buttons in navigator causing a crash or not working
+____
+
+Welcome to the {release} release of {repo-title}. There are a number of updates we hope you will like, some of the key highlights include:
+
+* <<Replace Line of Line with Info Button>> - Provides information about the current line in the shabad, options to open the line in the online database viewer (mostly for accuracy reviewers), and a copy shabad button.
+* <<New presentation overlays>> - Added two presentation overlays for use during stay-at-home covid19 live streams without webcam/video. See "cinematic presentation" and "floating presentation" overlays.
+* <<Wrapped Lines>> - Every panel/activity (search, history, bookmarks, navigator) will no longer truncate text. (i.e. prevents gurbani from being hidden by ellipsis).
+
+toc::[id="toc"]
+
+## Notes
+
+* Logo was updated to remove the circular white background
+* Vishraam symbols are no longer included in copy
+
+## Controller
+
+### Replace Line of Line with Info Button
+
+The "_Line of Line_" text between the up and down GUI buttons for navigator has been replaced with an info button that provides information for the currently selected line, a way to review the line in the online db viewer, and a method to copy the entire shabad.
+
+.New shabad info button in navigator
+image::./assets/{semver}/navigator-pop-up.png[width=640]
+
+### Wrapped Lines
+
+Previously matched search queries could be hidden by truncated gurbani text. This release makes all text wrappable to the next line(s) so that information is not hidden away.
+
+## Settings
+
+### New presentation overlays
+
+Two new overlays have been added for easy live streaming without a webcam/video feed. Subscribe to the https://www.youtube.com/channel/UCi8UjVV2Lz8H8J2Cka6iVsA/[Shabad OS YouTube channel] for guides.
+
+.Find two new overlays in the dropdown
+image::./assets/{semver}/new-overlays-in-dropdown.png[width=640]
+
+.Example of Cinematic Presentation overlay
+image::./assets/{semver}/cinematic-presentation-in-browser.png[width=640]
+
+## Next Release
+
+The next release should hopefully include a link to our new overlay generator and a few bug fixes to the search activity.
+
+## Thank You
+
+#blessed :pray: to the following volunteers for participating in making {repo-title} even better:
+
+.Contributions to Issue Tracking:
+* https://github.com/bhajneet[Bhajneet S.K. (@bhajneet)]
+* https://github.com/saihaj[Saihajpreet Singh (@saihaj)]
+
+.Contributions to `{repo}`
+* https://github.com/Harjot1Singh[Harjot Singh (@Harjot1Singh)]
+* https://github.com/saihaj[Saihajpreet Singh (@saihaj)]
