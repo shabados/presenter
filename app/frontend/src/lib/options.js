@@ -127,7 +127,7 @@ export const OPTIONS = {
     type: OPTION_TYPES.dropdown,
     privacy: PRIVACY_TYPES.local,
     values: [
-      { name: 'Off', value: false },
+      { name: 'None', value: false },
       { name: 'English', value: LANGUAGES.english },
       { name: 'Spanish', value: LANGUAGES.spanish },
       { name: 'Punjabi', value: LANGUAGES.punjabi },
@@ -139,7 +139,7 @@ export const OPTIONS = {
     type: OPTION_TYPES.dropdown,
     privacy: PRIVACY_TYPES.local,
     values: [
-      { name: 'Off', value: false },
+      { name: 'None', value: false },
       { name: 'English', value: LANGUAGES.english },
       { name: 'Hindi', value: LANGUAGES.hindi },
       { name: 'Urdu', value: LANGUAGES.urdu },
