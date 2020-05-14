@@ -61,7 +61,7 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
   if ( !value ) return [ '', '', '' ]
 
   const [ query, splitChar ] = {
-    [ SEARCH_TYPES.fullWordSearch ]: () => [ gurmukhi, '' ],
+    [ SEARCH_TYPES.fullWord ]: () => [ gurmukhi, '' ],
     [ SEARCH_TYPES.firstLetter ]: () => [ firstLetters( gurmukhi ), ' ' ],
   }[ mode ]()
 
