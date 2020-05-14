@@ -138,7 +138,7 @@ const Search = ( { updateFocus, register, focused } ) => {
   const recommendedSources = useContext( RecommendedSourcesContext )
   const { local: {
     sources,
-    search: { showResultCaptions, resultTransliterationLanguage, resultTranslationLanguage },
+    search: { showResultCitations, resultTransliterationLanguage, resultTranslationLanguage },
   } = {} } = useContext( SettingsContext )
 
   /**
@@ -224,7 +224,7 @@ const Search = ( { updateFocus, register, focused } ) => {
 
           </span>
 
-          {showResultCaptions
+          {showResultCitations
           && (
           <span className="citation">
             <span className="author">
