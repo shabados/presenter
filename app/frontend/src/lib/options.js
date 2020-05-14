@@ -120,7 +120,7 @@ export const OPTIONS = {
   disconnectionEvents: { name: 'Disconnections', icon: faPowerOff, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadEvents: { name: 'Update Download', icon: faDownload, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadedEvents: { name: 'Update Download Complete', icon: faServer, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
-  showResultCaptions: { name: 'Show Captions', icon: faTags, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  showResultCitations: { name: 'Show Citations', icon: faTags, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   resultTranslationLanguage: {
     name: 'Translation',
     icon: faClosedCaptioning,
@@ -255,7 +255,7 @@ export const DEFAULT_OPTIONS = {
     search: {
       resultTranslationLanguage: OPTIONS.resultTranslationLanguage.values[ 0 ].value,
       resultTransliterationLanguage: OPTIONS.resultTransliterationLanguage.values[ 0 ].value,
-      showResultCaptions: false,
+      showResultCitations: false,
     },
   },
   // Special serverside settings
