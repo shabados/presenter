@@ -1,0 +1,64 @@
+:repo: desktop
+:repo-title: Shabad OS for Desktop
+:release: May 2020
+:semver: 2.7
+:idprefix:
+:hide-uri-scheme:
+:numbered:
+:max-width: 900px
+:icons: font
+:toc: macro
+:toclevels: 1
+ifdef::env-github,env-browser[:outfilesuffix: .asciidoc]
+ifdef::env-github[]
+:note-caption: :information_source:
+:tip-caption: :bulb:
+:important-caption: :fire:
+:caution-caption: :warning:
+:warning-caption: :no_entry:
+endif::[]
+
+[discrete]
+# https://github.com/ShabadOS/{repo}/blob/master/release-notes/{semver}.adoc[{release} (SemVer {semver})]
+
+Welcome to the {release} release of {repo-title}. There are a number of updates we hope you will like, some of the key highlights include:
+
+* <<Custom Fields for Search Results>> - 
+
+toc::[id="toc"]
+
+## General
+
+.*Bug Fixes*
+* Up/Down GUI buttons in navigator weren't working
+
+.*UI*
+* Added disbaled "Copy" button for bookmarks
+
+## Controller
+
+### Custom Fields for Search Results
+
+It is now possible to show translations and transliterations for search results as well as a citation of where the matching line comes from.
+
+.Example of search result customization
+image::./assets/{semver}/search-results-extra-fields.png[width=640]
+
+// ## Preview
+
+// Preview for next release / prerelease.
+
+// ## Notable Changes
+
+// Any UI/UX changes. Any Breaking changes.
+
+## Thank You
+
+#blessed :pray: to the following volunteers for participating in making {repo-title} even better:
+
+.Contributions to Issue Tracking:
+* https://github.com/bhajneet[Bhajneet S.K. (@bhajneet)]
+* https://github.com/saihaj[Saihajpreet Singh (@saihaj)]
+
+.Contributions to `{repo}`
+* https://github.com/saihaj[Saihajpreet Singh (@saihaj)]

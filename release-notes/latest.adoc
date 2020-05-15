@@ -1,0 +1,48 @@
+:repo: desktop
+:repo-title: Shabad OS for Desktop
+:release: Latest
+:semver: NaN
+:idprefix:
+:hide-uri-scheme:
+:numbered:
+:max-width: 900px
+:icons: font
+:toc: macro
+:toclevels: 1
+ifdef::env-github,env-browser[:outfilesuffix: .asciidoc]
+ifdef::env-github[]
+:note-caption: :information_source:
+:tip-caption: :bulb:
+:important-caption: :fire:
+:caution-caption: :warning:
+:warning-caption: :no_entry:
+endif::[]
+
+[discrete]
+# https://github.com/ShabadOS/{repo}/blob/master/release-notes/{semver}.adoc[{release} (SemVer {semver})]
+
+Welcome to the {release} release of {repo-title}. There are a number of updates we hope you will like, some of the key highlights include:
+
+* TK
+
+toc::[id="toc"]
+
+# TK
+
+## Preview
+
+Preview for next release / prerelease.
+
+## Notable Changes
+
+Any UI/UX changes. Any Breaking changes.
+
+## Thank You
+
+#blessed :pray: to the following volunteers for participating in making {repo-title} even better:
+
+.Contributions to Issue Tracking:
+* https://github.com/bhajneet[Bhajneet S.K. (@bhajneet)]
+
+.Contributions to `{repo}`
+* TK
