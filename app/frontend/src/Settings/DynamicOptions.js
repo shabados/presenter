@@ -4,7 +4,7 @@ import { string, shape, node, bool } from 'prop-types'
 import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, OPTION_GROUPS, FLAT_OPTION_GROUPS } from '../lib/options'
+import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, FLAT_OPTION_GROUPS } from '../lib/options'
 import controller from '../lib/controller'
 import { SettingsContext } from '../lib/contexts'
 
