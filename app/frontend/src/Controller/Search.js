@@ -242,9 +242,9 @@ const Search = ( { updateFocus, register, focused } ) => {
           {showCitation && (
             <span className="citation">
               (
+              {`${getWriterName()}. `}
               {[
-                getWriterName(),
-                getSection(),
+                `"${getSection()}"`,
                 SOURCE_ABBREVIATIONS[ sourceId ],
                 `${getPageName()} ${sourcePage}`,
               ].reduce( ( prev, curr ) => [ prev, ', ', curr ] )}
