@@ -4,15 +4,11 @@ import { string, shape, node, bool } from 'prop-types'
 import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, OPTION_GROUPS } from '../lib/options'
+import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, OPTION_GROUPS, FLAT_OPTION_GROUPS } from '../lib/options'
 import controller from '../lib/controller'
 import { SettingsContext } from '../lib/contexts'
 
 import SettingComponentFactory, { Button } from './SettingComponents'
-
-const FLAT_OPTION_GROUPS = Object
-  .values( OPTION_GROUPS )
-  .reduce( ( groups, section ) => ( { ...groups, ...section } ), {} )
 
 export const slotSizes = {
   icon: { xs: 2, sm: 1 },
