@@ -85,6 +85,14 @@
   color: var(--controller-search-match-color);
 }
 
+.search .result .secondary .translation {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 .search .result .citation {
   opacity: 0.55;
   font-style: italic;
