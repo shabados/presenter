@@ -201,6 +201,10 @@ export const OPTION_GROUPS = {
   },
 }
 
+export const FLAT_OPTION_GROUPS = Object
+  .values( OPTION_GROUPS )
+  .reduce( ( groups, section ) => ( { ...groups, ...section } ), {} )
+
 // Options with default values
 export const DEFAULT_OPTIONS = {
   local: {

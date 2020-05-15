@@ -35,7 +35,7 @@ import {
   SETTINGS_OVERLAY_URL,
   SETTINGS_ABOUT_URL,
 } from '../lib/consts'
-import { OPTIONS, OPTION_GROUPS } from '../lib/options'
+import { OPTIONS, OPTION_GROUPS, FLAT_OPTION_GROUPS } from '../lib/options'
 import SHORTCUTS from '../lib/keyMap'
 import { SettingsContext } from '../lib/contexts'
 
@@ -53,6 +53,7 @@ import './index.css'
 const Settings = () => {
   const { pathname } = useLocation()
   const group = pathname.split( '/' ).pop()
+  const { name } = FLAT_OPTION_GROUPS[ group ] || { name: group }
 
   const [ mobileOpen, setMobileOpen ] = useState( false )
   const [ device, setDevice ] = useState( 'local' )
@@ -194,7 +195,7 @@ const Settings = () => {
             <FontAwesomeIcon className="menu icon" icon={faBars} />
           </IconButton>
         </Hidden>
-        <Typography className="title" align="center" variant="h6">{group}</Typography>
+        <Typography className="title" align="center" variant="h6">{name}</Typography>
       </Toolbar>
     </AppBar>
   )
