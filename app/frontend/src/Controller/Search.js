@@ -82,6 +82,11 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
  * Displays results.
  */
 const Search = ( { updateFocus, register, focused } ) => {
+  const { local: {
+    sources,
+    search: { showResultCitations, resultTransliterationLanguage, resultTranslationLanguage },
+  } = {} } = useContext( SettingsContext )
+
   // Set the initial search query from URL
   const history = useHistory()
   const { search } = useLocation()
@@ -121,8 +126,13 @@ const Search = ( { updateFocus, register, focused } ) => {
     // Search if enough letters
     const doSearch = searchValue.length >= MIN_SEARCH_CHARS
 
-    if ( doSearch ) controller.search( searchValue, searchType )
-    else setResults( [] )
+    if ( doSearch ) {
+      controller.search( searchValue, searchType, {
+        translations: !!resultTranslationLanguage,
+        transliterations: !!resultTransliterationLanguage,
+        citations: !!showResultCitations,
+      } )
+    } else setResults( [] )
 
     inputValue.current = searchValue
     setAnchor( anchor )
@@ -132,14 +142,16 @@ const Search = ( { updateFocus, register, focused } ) => {
       ...getUrlState( search ),
       query: value,
     } )}` } )
-  }, [ history, search ] )
+  }, [
+    history,
+    search,
+    resultTranslationLanguage,
+    resultTransliterationLanguage,
+    showResultCitations,
+  ] )
 
   const writers = useContext( WritersContext )
   const recommendedSources = useContext( RecommendedSourcesContext )
-  const { local: {
-    sources,
-    search: { showResultCitations, resultTransliterationLanguage, resultTranslationLanguage },
-  } = {} } = useContext( SettingsContext )
 
   /**
    * Renders a single result, highlighting the match.
@@ -165,18 +177,14 @@ const Search = ( { updateFocus, register, focused } ) => {
     translations,
     transliterations,
   } ) => {
-    const { section, writerId } = shabad
-    const { nameEnglish: raag } = section
-    const { pageNameEnglish: pageName } = recommendedSources[ sourceId ]
-    const { nameEnglish: writerName } = writers[ writerId ]
-
-    const transliteration = resultTransliterationLanguage && getTransliteration(
+    const transliteration = resultTransliterationLanguage && transliterations && getTransliteration(
       { transliterations },
       resultTransliterationLanguage,
     )
-    const translation = resultTranslationLanguage && getTranslation( {
+
+    const translation = resultTranslationLanguage && translations && getTranslation( {
       line: { translations },
-      shabad,
+      shabad: { sourceId },
       recommendedSources,
       sources,
       languageId: resultTranslationLanguage,
@@ -196,6 +204,13 @@ const Search = ( { updateFocus, register, focused } ) => {
 
     // Send the shabad id and line id to the server on click
     const onClick = () => controller.shabad( { shabadId, lineId } )
+
+    // Helper render functions for citation
+    const showCitation = showResultCitations && shabad && shabad.section
+    const getEnglish = ( { nameEnglish } ) => nameEnglish
+    const getWriterName = () => getEnglish( writers[ shabad.writerId ] )
+    const getSection = () => getEnglish( shabad.section )
+    const getPageName = () => recommendedSources[ shabad.sourceId ].pageNameEnglish
 
     return (
       <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
@@ -224,22 +239,17 @@ const Search = ( { updateFocus, register, focused } ) => {
 
           </span>
 
-          {showResultCitations
-          && (
-          <span className="citation">
-            <span className="author">
-              {`(${writerName},`}
+          {showCitation && (
+            <span className="citation">
+              (
+              {[
+                getWriterName(),
+                getSection(),
+                SOURCE_ABBREVIATIONS[ sourceId ],
+                `${getPageName()} ${sourcePage}`,
+              ].reduce( ( prev, curr ) => [ prev, ', ', curr ] )}
+              )
             </span>
-            <span className="section">
-              {`"${raag}",`}
-            </span>
-            <span className="section">
-              {`${SOURCE_ABBREVIATIONS[ sourceId ]},`}
-            </span>
-            <span className="page">
-              {`${pageName} ${sourcePage})`}
-            </span>
-          </span>
           )}
 
         </div>
@@ -279,7 +289,13 @@ const Search = ( { updateFocus, register, focused } ) => {
 
   useEffect( () => {
     if ( inputValue.current ) onChange( { target: { value: `${anchor || ''}${inputValue.current}` } } )
-  }, [ onChange, anchor ] )
+  }, [
+    onChange,
+    anchor,
+    resultTransliterationLanguage,
+    resultTranslationLanguage,
+    showResultCitations,
+  ] )
 
   useEffect( () => { highlightSearch() }, [] )
 
