@@ -36,11 +36,68 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.search .results .result .words {
+  font-family: 'Open Gurbani Akhar Regular';
+}
+
 .search .results .result .matched.words {
+  font-family: 'Open Gurbani Akhar Bold';
   color: var(--controller-search-match-color);
 }
 
 .mobile .search .input,
 .tablet .search .input {
   min-height: 3.2em;
+}
+
+.search .result {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+}
+
+.search .result .secondary, .search .result .citation {
+  font-size: 0.8em;
+}
+
+.search .result .secondary {
+  opacity: .85;
+}
+
+.search .result .secondary .english , .english.translation, .spanish.translation {
+  font-family: "Noto Sans Medium", sans-serif;
+}
+
+.search .result .secondary .translit.punjabi, .punjabi.translation {
+  font-family: "Open Anmol Uni Bold", sans-serif;
+}
+
+.search .result .secondary .hindi {
+  font-family: "Noto Sans Devanagari Semi Bold";
+}
+
+.search .result .secondary .urdu {
+  font-family: "Noto Sans Nastaliq Urdu";
+}
+
+.search .result .secondary .translit.matched {
+  color: var(--controller-search-match-color);
+}
+
+.search .result .secondary .translation {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.search .result .citation {
+  opacity: 0.55;
+  font-style: italic;
+}
+
+.search .result .citation > span + span {
+  padding-left: .25em;
 }

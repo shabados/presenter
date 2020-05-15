@@ -109,7 +109,7 @@ async function main() {
 
   // Register searches on the socket instance
   searches.forEach(
-    ( [ name, searchFn ] ) => socket.on( `search:${name}`, async ( client, query ) => client.sendJSON( 'results', await searchFn( query ) ) ),
+    ( [ name, searchFn ] ) => socket.on( `search:${name}`, async ( client, { query, ...options } ) => client.sendJSON( 'results', await searchFn( query, options ) ) ),
   )
 
   // Register all action handlers on the socket instance

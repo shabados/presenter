@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
 import { string, shape, node, bool } from 'prop-types'
 
-import { Typography, Grid, Button } from '@material-ui/core'
+import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, OPTION_GROUPS } from '../lib/options'
+import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, FLAT_OPTION_GROUPS } from '../lib/options'
 import controller from '../lib/controller'
 import { SettingsContext } from '../lib/contexts'
 
-import SettingComponentFactory from './SettingComponents'
+import SettingComponentFactory, { Button } from './SettingComponents'
 
 export const slotSizes = {
   icon: { xs: 2, sm: 1 },
@@ -48,7 +48,7 @@ OptionSlot.propTypes = { children: node.isRequired }
 export const ResetButton = ( { group, disabled } ) => (
   <OptionGrid container align="center">
     <Grid item {...slotSizes.single}>
-      <Button disabled={disabled} variant="contained" onClick={() => controller.resetSettingGroup( group )}>Reset to defaults</Button>
+      <Button className="reset-button" disabled={disabled} variant="contained" onClick={() => controller.resetSettingGroup( group )}>Reset to defaults</Button>
     </Grid>
   </OptionGrid>
 )
@@ -71,11 +71,12 @@ const DynamicOptions = ( { device, group } ) => {
   const isGlobal = device === 'global'
   const defaultSettings = isGlobal ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
-  const setSettings = ( option, value ) => controller.setSettings( {
-    [ group ]: { [ option ]: value },
-  }, device )
+  const setSettings = ( option, value ) => controller.setSettings(
+    { [ group ]: { [ option ]: value } },
+    device,
+  )
 
-  const { privacy: groupPrivacy } = OPTION_GROUPS[ group ] || {}
+  const { privacy: groupPrivacy } = FLAT_OPTION_GROUPS[ group ] || {}
   const isGroupDisabled = device !== 'local' && groupPrivacy === PRIVACY_TYPES.private
 
   const renderOptions = () => Object

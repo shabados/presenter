@@ -31,6 +31,8 @@ import {
   faSync,
   faList,
   faDesktop,
+  faTags,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -39,6 +41,7 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-regular-svg-icons'
 
+import { LANGUAGES } from './consts'
 import SHORTCUTS from './keyMap'
 
 /**
@@ -117,49 +120,90 @@ export const OPTIONS = {
   disconnectionEvents: { name: 'Disconnections', icon: faPowerOff, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadEvents: { name: 'Update Download', icon: faDownload, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   downloadedEvents: { name: 'Update Download Complete', icon: faServer, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  showResultCitations: { name: 'Show Citations', icon: faTags, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  resultTranslationLanguage: {
+    name: 'Translation',
+    icon: faClosedCaptioning,
+    type: OPTION_TYPES.dropdown,
+    privacy: PRIVACY_TYPES.local,
+    values: [
+      { name: 'None', value: false },
+      { name: 'English', value: LANGUAGES.english },
+      { name: 'Spanish', value: LANGUAGES.spanish },
+      { name: 'Punjabi', value: LANGUAGES.punjabi },
+    ],
+  },
+  resultTransliterationLanguage: {
+    name: 'Transliteration',
+    icon: farClosedCaptioning,
+    type: OPTION_TYPES.dropdown,
+    privacy: PRIVACY_TYPES.local,
+    values: [
+      { name: 'None', value: false },
+      { name: 'English', value: LANGUAGES.english },
+      { name: 'Hindi', value: LANGUAGES.hindi },
+      { name: 'Urdu', value: LANGUAGES.urdu },
+    ],
+  },
   overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.global },
 }
 
 // Possible options groups
 export const OPTION_GROUPS = {
-  display: {
-    name: 'Display',
-    icon: faList,
+  //* Linked to local -> settings default options
+  none: {
+    display: {
+      name: 'Display',
+      icon: faList,
+    },
+    layout: {
+      name: 'Layout',
+      icon: faArrowsAltH,
+    },
+    theme: {
+      name: 'Theme',
+      icon: faPaintBrush,
+    },
+    vishraams: {
+      name: 'Vishraams',
+      icon: faEllipsisH,
+    },
+    sources: {
+      name: 'Sources',
+      icon: faBook,
+    },
+    hotkeys: {
+      name: 'Hotkeys',
+      icon: faKeyboard,
+    },
+    security: {
+      name: 'Security',
+      icon: faShieldAlt,
+      privacy: PRIVACY_TYPES.private,
+    },
   },
-  layout: {
-    name: 'Layout',
-    icon: faArrowsAltH,
+  activities: {
+    search: {
+      name: 'Search',
+      icon: faSearch,
+    },
   },
-  theme: {
-    name: 'Theme',
-    icon: faPaintBrush,
-  },
-  vishraams: {
-    name: 'Vishraams',
-    icon: faEllipsisH,
-  },
-  sources: {
-    name: 'Sources',
-    icon: faBook,
-  },
-  hotkeys: {
-    name: 'Hotkeys',
-    icon: faKeyboard,
-  },
-  security: {
-    name: 'Security',
-    icon: faShieldAlt,
-    privacy: PRIVACY_TYPES.private,
-  },
-  notifications: {
-    name: 'Notifications',
-    icon: faBell,
-  },
-  system: {
-    name: 'System Options',
-    icon: faWrench,
+  //* Linked to global -> settings default options
+  server: {
+    notifications: {
+      name: 'Notifications',
+      icon: faBell,
+    },
+    system: {
+      name: 'System Options',
+      icon: faWrench,
+    },
   },
 }
+
+export const FLAT_OPTION_GROUPS = Object
+  .values( OPTION_GROUPS )
+  .reduce( ( groups, section ) => ( { ...groups, ...section } ), {} )
 
 // Options with default values
 export const DEFAULT_OPTIONS = {
@@ -211,6 +255,11 @@ export const DEFAULT_OPTIONS = {
     security: {
       displayAnalytics: true,
       private: false,
+    },
+    search: {
+      resultTranslationLanguage: OPTIONS.resultTranslationLanguage.values[ 0 ].value,
+      resultTransliterationLanguage: OPTIONS.resultTransliterationLanguage.values[ 0 ].value,
+      showResultCitations: false,
     },
   },
   // Special serverside settings

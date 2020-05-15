@@ -9,15 +9,27 @@ import { Lines, Shabads, Banis, Sources, Languages, Writers } from '@shabados/da
 import { MAX_RESULTS } from './consts'
 
 /**
+ * Decorates a query function with the ability to accept modifier options.
+ * @param {*} queryFn A query function that returns a knex instance.
+ */
+const withSearchOptions = queryFn => ( query, options = {} ) => [
+  [ options.transliterations, model => model.withTransliterations() ],
+  [ options.translations, model => model.eager( 'shabad' ).withTranslations() ],
+  [ options.citations, model => model.eager( 'shabad.section' ) ],
+].reduce(
+  ( model, [ option, modifier ] ) => ( option ? modifier( model ) : model ),
+  queryFn( query ).limit( MAX_RESULTS ),
+)
+
+/**
  * Queries the database for all lines with the first letters of each word.
  * @param {string} letters The letters to search for.
  * @async
  * @returns {Array} A list of lines with the provided first letters of each word.
  */
-export const firstLetterSearch = letters => Lines
-  .query()
-  .limit( MAX_RESULTS )
-  .firstLetters( letters )
+export const firstLetterSearch = withSearchOptions(
+  letters => Lines.query().firstLetters( letters ),
+)
 
 /**
  * Queries the database for all lines, containing the full word.
@@ -25,10 +37,9 @@ export const firstLetterSearch = letters => Lines
  * @async
  * @returns {Array} A list of lines containing the full word.
  */
-export const fullWordSearch = words => Lines
-  .query()
-  .limit( MAX_RESULTS )
-  .fullWord( words )
+export const fullWordSearch = withSearchOptions(
+  words => Lines.query().fullWord( words ),
+)
 
 /**
  * Gets the Shabad of given `shabadId`, along with all the lines.

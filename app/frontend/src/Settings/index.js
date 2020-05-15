@@ -27,7 +27,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faWindowMaximize, faInfo } from '@fortawesome/free-solid-svg-icons'
 
-import controller from '../lib/controller'
 import {
   BACKEND_URL,
   SETTINGS_URL,
@@ -36,7 +35,7 @@ import {
   SETTINGS_OVERLAY_URL,
   SETTINGS_ABOUT_URL,
 } from '../lib/consts'
-import { OPTIONS, OPTION_GROUPS } from '../lib/options'
+import { OPTIONS, OPTION_GROUPS, FLAT_OPTION_GROUPS } from '../lib/options'
 import SHORTCUTS from '../lib/keyMap'
 import { SettingsContext } from '../lib/contexts'
 
@@ -54,6 +53,7 @@ import './index.css'
 const Settings = () => {
   const { pathname } = useLocation()
   const group = pathname.split( '/' ).pop()
+  const { name } = FLAT_OPTION_GROUPS[ group ] || { name: group }
 
   const [ mobileOpen, setMobileOpen ] = useState( false )
   const [ device, setDevice ] = useState( 'local' )
@@ -112,6 +112,12 @@ const Settings = () => {
       selected: false,
     }
 
+    const menuItems = [
+      [ null, OPTION_GROUPS.none, selectedDeviceSettings, SETTINGS_DEVICE_URL ],
+      [ 'Activities', OPTION_GROUPS.activities, selectedDeviceSettings, SETTINGS_DEVICE_URL ],
+      [ 'Server', OPTION_GROUPS.server, settings.global, SETTINGS_SERVER_URL ],
+    ]
+
     return (
       <List className="content">
         <Select
@@ -133,28 +139,25 @@ const Settings = () => {
             ) )}
         </Select>
 
-        {Object.keys( selectedDeviceSettings )
-          .filter( name => OPTION_GROUPS[ name ] )
-          .map( name => (
-            <Item
-              key={name}
-              selected={name === group}
-              {...OPTION_GROUPS[ name ]}
-              url={`${SETTINGS_DEVICE_URL}/${name}`}
-            />
-          ) )}
+        {menuItems.map( ( [ sectionName, settingsGroup, settings, url ] ) => (
+          <>
 
-        <Typography className="category-title">Server</Typography>
-        {Object.keys( settings.global )
-          .filter( name => OPTION_GROUPS[ name ] )
-          .map( name => (
-            <Item
-              key={name}
-              selected={name === group}
-              {...OPTION_GROUPS[ name ]}
-              url={`${SETTINGS_SERVER_URL}/${name}`}
-            />
-          ) )}
+            {sectionName && <Typography key={sectionName} className="category-title">{sectionName}</Typography>}
+
+            {Object.keys( settings )
+              .filter( name => settingsGroup[ name ] )
+              .map( name => (
+                <Item
+                  key={name}
+                  selected={name === group}
+                  {...settingsGroup[ name ]}
+                  url={`${url}/${name}`}
+                />
+              ) ) }
+
+          </>
+        ) ) }
+
 
         <Item name="About" icon={faInfo} url={SETTINGS_ABOUT_URL} selected={group === 'about'} />
 
@@ -192,7 +195,7 @@ const Settings = () => {
             <FontAwesomeIcon className="menu icon" icon={faBars} />
           </IconButton>
         </Hidden>
-        <Typography className="title" align="center" variant="h6">{group}</Typography>
+        <Typography className="title" align="center" variant="h6">{name}</Typography>
       </Toolbar>
     </AppBar>
   )
@@ -201,7 +204,6 @@ const Settings = () => {
   const { theme: { themeName } = {}, hotkeys } = selectedDeviceSettings
 
   const defaultUrl = `${SETTINGS_DEVICE_URL}/${Object.keys( selectedDeviceSettings )[ 0 ]}`
-  const setSettings = settings => controller.setSettings( settings, device )
 
   return (
     <div className={classNames( { simple: simpleGraphics }, 'settings' )}>
@@ -219,15 +221,15 @@ const Settings = () => {
             path={`${SETTINGS_DEVICE_URL}/hotkeys`}
             render={() => ( <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} device={device} /> )}
           />
-          <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={selectedDeviceSettings.sources} setSettings={setSettings} />} />
-          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} group={group} onChange={setSettings} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={selectedDeviceSettings.sources} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} group={group} />} />
 
           {/* Server setting routes */}
           <Route
             path={SETTINGS_ABOUT_URL}
             render={() => <About connected={Object.keys( settings ).length - 1} />}
           />
-          <Route path={`${SETTINGS_SERVER_URL}/*`} render={() => <DynamicOptions device="global" group={group} onChange={setSettings} />} />
+          <Route path={`${SETTINGS_SERVER_URL}/*`} render={() => <DynamicOptions device="global" group={group} />} />
 
           {/* Tool Routes */}
           <Route path={SETTINGS_OVERLAY_URL} component={OverlaySettings} />

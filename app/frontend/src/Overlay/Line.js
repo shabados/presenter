@@ -3,6 +3,7 @@ import React from 'react'
 import { string, bool, oneOfType } from 'prop-types'
 import classNames from 'classnames'
 
+import { LANGUAGES, LANGUAGE_NAMES } from '../lib/consts'
 import { partitionLine, classifyWords } from '../lib/utils'
 
 import './Line.css'
@@ -38,15 +39,15 @@ const Line = ( {
     ) )
 
   const translations = [
-    [ 'english', englishTranslation ],
-    [ 'punjabi', punjabiTranslation ],
-    [ 'spanish', spanishTranslation ],
+    [ LANGUAGE_NAMES[ LANGUAGES.english ], englishTranslation ],
+    [ LANGUAGE_NAMES[ LANGUAGES.punjabi ], punjabiTranslation ],
+    [ LANGUAGE_NAMES[ LANGUAGES.spanish ], spanishTranslation ],
   ]
 
   const transliterations = [
-    [ 'english', englishTransliteration ],
-    [ 'hindi', hindiTransliteration ],
-    [ 'urdu', urduTransliteration ],
+    [ LANGUAGE_NAMES[ LANGUAGES.english ], englishTransliteration ],
+    [ LANGUAGE_NAMES[ LANGUAGES.hindi ], hindiTransliteration ],
+    [ LANGUAGE_NAMES[ LANGUAGES.urdu ], urduTransliteration ],
   ]
 
   return (
