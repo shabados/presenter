@@ -184,7 +184,7 @@ export const OPTION_GROUPS = {
   },
   activities: {
     search: {
-      name: 'Search Results',
+      name: 'Search',
       icon: faSearch,
     },
   },
