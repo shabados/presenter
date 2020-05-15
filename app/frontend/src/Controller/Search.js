@@ -244,7 +244,7 @@ const Search = ( { updateFocus, register, focused } ) => {
               (
               {[
                 getWriterName(),
-                getSection(),
+                `"${getSection()}"`,
                 SOURCE_ABBREVIATIONS[ sourceId ],
                 `${getPageName()} ${sourcePage}`,
               ].reduce( ( prev, curr ) => [ prev, ', ', curr ] )}
