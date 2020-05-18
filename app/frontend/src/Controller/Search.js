@@ -56,7 +56,31 @@ const getSearchParams = searchQuery => {
   return { anchor, value, type }
 }
 
-// Separate the line into words before the match, the match, and after the match
+const getWordStartPosition = ( query, foundPos ) => {
+  let wordStartPos = foundPos
+  while ( wordStartPos > 0 && query[ wordStartPos ] !== ' ' ) {
+    wordStartPos -= 1
+  }
+  return wordStartPos
+}
+
+const getWordEndPosition = ( query, foundPos ) => {
+  let wordEndPos = foundPos
+  while ( query && wordEndPos < query.length && query[ wordEndPos ] !== ' ' ) {
+    wordEndPos += 1
+  }
+  return wordEndPos
+}
+
+/**
+ * Separates the line into words before the first match, the first match, and after the match.
+ * TODO: Extend this logic to find every match, rather than simply the first one.
+ * @param value, the full line.
+ * @param input, the string inputted by the user.
+ * @param mode, the type of search being performed, either first word or full word.
+ * @return an array of [ beforeMatch, match, afterMatch ],
+ *   with `match` being the highlighted section.`
+ */
 const highlightMatches = gurmukhi => ( value, input, mode ) => {
   if ( !value ) return [ '', '', '' ]
 
@@ -65,13 +89,27 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
     [ SEARCH_TYPES.firstLetter ]: () => [ firstLetters( gurmukhi ), ' ' ],
   }[ mode ]()
 
-  // Remember to account for wildcard characters
-  const pos = query.search( input.slice().replace( new RegExp( '_', 'g' ), '.' ) )
-  const words = stripPauses( value ).split( splitChar )
+  //  Account for wildcard characters
+  const sanitizedInput = input.slice().replace( new RegExp( '_', 'g' ), '.' )
 
-  const beforeMatch = words.slice( 0, pos ).join( splitChar ) + splitChar
-  const match = words.slice( pos, pos + input.length ).join( splitChar ) + splitChar
-  const afterMatch = words.slice( pos + input.length ).join( splitChar ) + splitChar
+  const foundPos = query.search( sanitizedInput )
+  const words = stripPauses( value ).split( splitChar )
+  let highlightWordStartPos = foundPos
+  let highlightWordEndPos = highlightWordStartPos + input.length
+  if ( mode === SEARCH_TYPES.fullWord ) {
+    // For full word search, we need to make sure all words
+    // touched by the search term are highlighted
+    highlightWordStartPos = getWordStartPosition( words, foundPos )
+    highlightWordEndPos = getWordEndPosition( words, foundPos + input.length )
+  }
+
+
+  const beforeMatch = words.slice( 0, highlightWordStartPos ).join( splitChar ) + splitChar
+  const match = words.slice(
+    highlightWordStartPos,
+    highlightWordEndPos,
+  ).join( splitChar ) + splitChar
+  const afterMatch = words.slice( highlightWordEndPos ).join( splitChar ) + splitChar
 
   return [ beforeMatch, match, afterMatch ]
 }
