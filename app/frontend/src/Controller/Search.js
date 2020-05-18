@@ -233,7 +233,12 @@ const Search = ( { updateFocus, register, focused } ) => {
 
     // Separate the line into words before the match, the match, and after the match
     const getMatches = highlightMatches( gurmukhi )
-    const [ beforeMatch, match, afterMatch ] = getMatches( gurmukhi, searchedValue, mode )
+    const [ beforeMatch, match, afterMatch ] = getMatches(
+      gurmukhi,
+      // trim to get rid of extra spaces
+      searchedValue.trim(),
+      mode,
+    )
     const [ translitBeforeMatch, translitMatch, translitAfterMatch ] = getMatches(
       transliteration,
       searchedValue,
