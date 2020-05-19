@@ -56,20 +56,36 @@ const getSearchParams = searchQuery => {
   return { anchor, value, type }
 }
 
-const getWordStartPosition = ( query, foundPos ) => {
-  let wordStartPos = foundPos
-  while ( wordStartPos > 0 && query[ wordStartPos ] !== ' ' ) {
-    wordStartPos -= 1
-  }
-  return wordStartPos
+const highlightFullWordMatches = ( line, query ) => {
+  const foundPosition = line.search( query )
+  const wordEndPosition = line.indexOf( ' ', foundPosition + query.length )
+  const wordStartPosition = line.lastIndexOf( ' ', foundPosition )
+
+  // If the match occurs in the first word, no space will be detected, and wordStartPosition
+  // will be -1. In this case, we want to start at the beginning of the line.
+  const matchStartPosition = wordStartPosition === -1 ? 0 : wordStartPosition
+  // If the match finishes in the last word, no space will be deteced, and wordEndPosition
+  // will be -1. In this case, we want to end at the last position in the line.
+  const matchEndPosition = wordEndPosition === -1 ? foundPosition + query.length : wordEndPosition
+  return [
+    line.substring( 0, matchStartPosition ),
+    line.substring( matchStartPosition, matchEndPosition ),
+    line.substring( matchEndPosition ),
+  ]
 }
 
-const getWordEndPosition = ( query, foundPos ) => {
-  let wordEndPos = foundPos
-  while ( query && wordEndPos < query.length && query[ wordEndPos ] !== ' ' ) {
-    wordEndPos += 1
-  }
-  return wordEndPos
+const highlightFirstLetterMatches = ( line, query ) => {
+  const letters = firstLetters( line )
+  const words = stripPauses( line ).split( ' ' )
+
+  const startPosition = letters.search( query )
+  const endPosition = startPosition + query.length
+
+  return [
+    `${words.slice( 0, startPosition ).join( ' ' )} `,
+    `${words.slice( startPosition, endPosition ).join( ' ' )} `,
+    `${words.slice( endPosition ).join( ' ' )} `,
+  ]
 }
 
 /**
@@ -87,39 +103,9 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
   //  Account for wildcard characters
   const sanitizedInput = input.replace( new RegExp( '_', 'g' ), '.' )
 
-  return mode === SEARCH_TYPES.fullWord ? highlightFullWordMatches( value, sanitizedInput ) : highlightFirstLetterMatches( value, sanitizedInput );
-}
-
-const highlightFullWordMatches = ( line, query ) => {
-  const foundPosition = line.search( query )
-  const wordStartPosition = line.substring( 0, foundPosition ).lastIndexOf( ' ' )
-  const wordEndPosition = foundPosition + query.length + line.substring( foundPosition + query.length).indexOf( ' ' )
-
-  // If the match occurs in the first word, no space will be detected, and wordStartPosition will be -1
-  // In this case, we want to start at the beginning of the line.
-  const matchStartPosition = wordStartPosition === -1 ? 0 : wordStartPosition
-  // If the match finishes in the last word, no space will be deteced, and wordEndPosition will be -1
-  // In this case, we want to end at the last position in the line.
-  const matchEndPosition = wordEndPosition === -1 ? foundPosition + query.length : wordEndPosition;
-  return [
-    line.substring( 0, matchStartPosition ),
-    line.substring( matchStartPosition, matchEndPosition ),
-    line.substring( matchEndPosition ),
-  ]
-}
-
-const highlightFirstLetterMatches = ( line, query) => {
-  const letters = firstLetters( line )
-  const words = stripPauses( line ).split( ' ' )
-
-  const startPosition = letters.search( query )
-  const endPosition = startPosition + query.length
-
-  return [
-    words.slice( 0, startPosition ).join( ' ' ) + ' ',
-    words.slice( startPosition, endPosition ).join( ' ' ) + ' ',
-    words.slice( endPosition ).join( ' ' ) + ' ',
-  ]
+  return mode === SEARCH_TYPES.fullWord
+    ? highlightFullWordMatches( gurmukhi, sanitizedInput )
+    : highlightFirstLetterMatches( value, sanitizedInput )
 }
 
 /**
@@ -240,7 +226,7 @@ const Search = ( { updateFocus, register, focused } ) => {
     const mode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
 
     // Separate the line into words before the match, the match, and after the match
-    const getMatches = highlightMatches( gurmukhi ) 
+    const getMatches = highlightMatches( gurmukhi )
 
     const [ beforeMatch, match, afterMatch ] = getMatches(
       gurmukhi,
