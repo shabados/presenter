@@ -75,43 +75,51 @@ const getWordEndPosition = ( query, foundPos ) => {
 /**
  * Separates the line into words before the first match, the first match, and after the match.
  * TODO: Extend this logic to find every match, rather than simply the first one.
- * @param value, the full line.
- * @param input, the string inputted by the user.
- * @param mode, the type of search being performed, either first word or full word.
+ * @param value the full line.
+ * @param input the string inputted by the user.
+ * @param mode the type of search being performed, either first word or full word.
  * @return an array of [ beforeMatch, match, afterMatch ],
  *   with `match` being the highlighted section.`
  */
 const highlightMatches = gurmukhi => ( value, input, mode ) => {
   if ( !value ) return [ '', '', '' ]
 
-  const [ query, splitChar ] = {
-    [ SEARCH_TYPES.fullWord ]: () => [ gurmukhi, '' ],
-    [ SEARCH_TYPES.firstLetter ]: () => [ firstLetters( gurmukhi ), ' ' ],
-  }[ mode ]()
-
   //  Account for wildcard characters
-  const sanitizedInput = input.slice().replace( new RegExp( '_', 'g' ), '.' )
+  const sanitizedInput = input.replace( new RegExp( '_', 'g' ), '.' )
 
-  const foundPos = query.search( sanitizedInput )
-  const words = stripPauses( value ).split( splitChar )
-  let highlightWordStartPos = foundPos
-  let highlightWordEndPos = highlightWordStartPos + input.length
-  if ( mode === SEARCH_TYPES.fullWord ) {
-    // For full word search, we need to make sure all words
-    // touched by the search term are highlighted
-    highlightWordStartPos = getWordStartPosition( words, foundPos )
-    highlightWordEndPos = getWordEndPosition( words, foundPos + input.length )
-  }
+  return mode === SEARCH_TYPES.fullWord ? highlightFullWordMatches( value, sanitizedInput ) : highlightFirstLetterMatches( value, sanitizedInput );
+}
 
+const highlightFullWordMatches = ( line, query ) => {
+  const foundPosition = line.search( query )
+  const wordStartPosition = line.substring( 0, foundPosition ).lastIndexOf( ' ' )
+  const wordEndPosition = foundPosition + query.length + line.substring( foundPosition + query.length).indexOf( ' ' )
 
-  const beforeMatch = words.slice( 0, highlightWordStartPos ).join( splitChar ) + splitChar
-  const match = words.slice(
-    highlightWordStartPos,
-    highlightWordEndPos,
-  ).join( splitChar ) + splitChar
-  const afterMatch = words.slice( highlightWordEndPos ).join( splitChar ) + splitChar
+  // If the match occurs in the first word, no space will be detected, and wordStartPosition will be -1
+  // In this case, we want to start at the beginning of the line.
+  const matchStartPosition = wordStartPosition === -1 ? 0 : wordStartPosition
+  // If the match finishes in the last word, no space will be deteced, and wordEndPosition will be -1
+  // In this case, we want to end at the last position in the line.
+  const matchEndPosition = wordEndPosition === -1 ? foundPosition + query.length : wordEndPosition;
+  return [
+    line.substring( 0, matchStartPosition ),
+    line.substring( matchStartPosition, matchEndPosition ),
+    line.substring( matchEndPosition ),
+  ]
+}
 
-  return [ beforeMatch, match, afterMatch ]
+const highlightFirstLetterMatches = ( line, query) => {
+  const letters = firstLetters( line )
+  const words = stripPauses( line ).split( ' ' )
+
+  const startPosition = letters.search( query )
+  const endPosition = startPosition + query.length
+
+  return [
+    words.slice( 0, startPosition ).join( ' ' ) + ' ',
+    words.slice( startPosition, endPosition ).join( ' ' ) + ' ',
+    words.slice( endPosition ).join( ' ' ) + ' ',
+  ]
 }
 
 /**
@@ -232,11 +240,11 @@ const Search = ( { updateFocus, register, focused } ) => {
     const mode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
 
     // Separate the line into words before the match, the match, and after the match
-    const getMatches = highlightMatches( gurmukhi )
+    const getMatches = highlightMatches( gurmukhi ) 
+
     const [ beforeMatch, match, afterMatch ] = getMatches(
       gurmukhi,
-      // trim to get rid of extra spaces
-      searchedValue.trim(),
+      searchedValue,
       mode,
     )
     const [ translitBeforeMatch, translitMatch, translitAfterMatch ] = getMatches(
