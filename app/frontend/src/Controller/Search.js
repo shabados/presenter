@@ -58,15 +58,13 @@ const getSearchParams = searchQuery => {
 
 const highlightFullWordMatches = ( line, query ) => {
   const foundPosition = line.search( query )
-  const wordEndPosition = line.indexOf( ' ', foundPosition + query.length )
-  const wordStartPosition = line.lastIndexOf( ' ', foundPosition )
+  const matchStartPosition = line.lastIndexOf( ' ', foundPosition )
 
-  // If the match occurs in the first word, no space will be detected, and wordStartPosition
-  // will be -1. In this case, we want to start at the beginning of the line.
-  const matchStartPosition = wordStartPosition === -1 ? 0 : wordStartPosition
+  const wordEndPosition = line.indexOf( ' ', foundPosition + query.length )
   // If the match finishes in the last word, no space will be deteced, and wordEndPosition
   // will be -1. In this case, we want to end at the last position in the line.
-  const matchEndPosition = wordEndPosition === -1 ? foundPosition + query.length : wordEndPosition
+  const matchEndPosition = wordEndPosition === -1 ? line.length - 1 : wordEndPosition
+
   return [
     line.substring( 0, matchStartPosition ),
     line.substring( matchStartPosition, matchEndPosition ),
