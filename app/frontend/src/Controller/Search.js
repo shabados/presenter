@@ -56,24 +56,53 @@ const getSearchParams = searchQuery => {
   return { anchor, value, type }
 }
 
-// Separate the line into words before the match, the match, and after the match
+const highlightFullWordMatches = ( line, query ) => {
+  const foundPosition = line.search( query )
+  const matchStartPosition = line.lastIndexOf( ' ', foundPosition )
+
+  const wordEndPosition = line.indexOf( ' ', foundPosition + query.length )
+  // If the match finishes in the last word, no space will be deteced, and wordEndPosition
+  // will be -1. In this case, we want to end at the last position in the line.
+  const matchEndPosition = wordEndPosition === -1 ? line.length - 1 : wordEndPosition
+
+  return [
+    line.substring( 0, matchStartPosition ),
+    line.substring( matchStartPosition, matchEndPosition ),
+    line.substring( matchEndPosition ),
+  ]
+}
+
+const highlightFirstLetterMatches = ( line, query ) => {
+  const letters = firstLetters( line )
+  const words = stripPauses( line ).split( ' ' )
+
+  const startPosition = letters.search( query )
+  const endPosition = startPosition + query.length
+
+  return [
+    `${words.slice( 0, startPosition ).join( ' ' )} `,
+    `${words.slice( startPosition, endPosition ).join( ' ' )} `,
+    `${words.slice( endPosition ).join( ' ' )} `,
+  ]
+}
+
+/**
+ * Separates the line into words before the first match, the first match, and after the match.
+ * @param value the full line.
+ * @param input the string inputted by the user.
+ * @param mode the type of search being performed, either first word or full word.
+ * @return an array of [ beforeMatch, match, afterMatch ],
+ *   with `match` being the highlighted section.`
+ */
 const highlightMatches = gurmukhi => ( value, input, mode ) => {
   if ( !value ) return [ '', '', '' ]
 
-  const [ query, splitChar ] = {
-    [ SEARCH_TYPES.fullWord ]: () => [ gurmukhi, '' ],
-    [ SEARCH_TYPES.firstLetter ]: () => [ firstLetters( gurmukhi ), ' ' ],
-  }[ mode ]()
+  //  Account for wildcard characters
+  const sanitizedInput = input.replace( new RegExp( '_', 'g' ), '.' )
 
-  // Remember to account for wildcard characters
-  const pos = query.search( input.slice().replace( new RegExp( '_', 'g' ), '.' ) )
-  const words = stripPauses( value ).split( splitChar )
-
-  const beforeMatch = words.slice( 0, pos ).join( splitChar ) + splitChar
-  const match = words.slice( pos, pos + input.length ).join( splitChar ) + splitChar
-  const afterMatch = words.slice( pos + input.length ).join( splitChar ) + splitChar
-
-  return [ beforeMatch, match, afterMatch ]
+  return mode === SEARCH_TYPES.fullWord
+    ? highlightFullWordMatches( gurmukhi, sanitizedInput )
+    : highlightFirstLetterMatches( value, sanitizedInput )
 }
 
 /**
@@ -195,7 +224,12 @@ const Search = ( { updateFocus, register, focused } ) => {
 
     // Separate the line into words before the match, the match, and after the match
     const getMatches = highlightMatches( gurmukhi )
-    const [ beforeMatch, match, afterMatch ] = getMatches( gurmukhi, searchedValue, mode )
+
+    const [ beforeMatch, match, afterMatch ] = getMatches(
+      gurmukhi,
+      searchedValue,
+      mode,
+    )
     const [ translitBeforeMatch, translitMatch, translitAfterMatch ] = getMatches(
       transliteration,
       searchedValue,
