@@ -88,7 +88,6 @@ const highlightFirstLetterMatches = ( line, query ) => {
 
 /**
  * Separates the line into words before the first match, the first match, and after the match.
- * TODO: Extend this logic to find every match, rather than simply the first one.
  * @param value the full line.
  * @param input the string inputted by the user.
  * @param mode the type of search being performed, either first word or full word.
