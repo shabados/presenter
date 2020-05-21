@@ -262,6 +262,7 @@ export const Bar = ( { onHover } ) => {
     <div className="navigator-controls">
       <ToolbarButton
         name="Up"
+        className="arrow"
         icon={faChevronUp}
         onMouseEnter={() => onHover( 'Previous Line' )}
         onMouseLeave={resetHover}
@@ -272,6 +273,7 @@ export const Bar = ( { onHover } ) => {
 
       <ToolbarButton
         name="Down"
+        className="arrow"
         icon={faChevronDown}
         onMouseEnter={() => onHover( 'Next Line' )}
         onMouseLeave={resetHover}
