@@ -44,7 +44,9 @@ const getSearchParams = searchQuery => {
   // Extract anchors and search query
   const [ , anchor, query ] = searchQuery.match( searchRegex )
 
-  const inputValue = toAscii( query )
+  let hasMoreThanAscii = [...query].some(char => char.charCodeAt(0) > 127);
+
+  const inputValue = hasMoreThanAscii ? toAscii( query ) : query
 
   // Get search type from anchor char, if any
   const type = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
