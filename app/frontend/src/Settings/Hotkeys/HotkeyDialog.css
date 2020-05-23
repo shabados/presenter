@@ -1,0 +1,13 @@
+.hotkey-dialog div[role="dialog"] {
+  background: var(--settings-menu-background-color);
+  color: var(--settings-menu-text-color);
+}
+
+.hotkey-dialog .hotkey {
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.hotkey-dialog .delete-button {
+  color: red;
+}
