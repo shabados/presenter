@@ -196,7 +196,7 @@ class SessionManager {
       this.onMainLine( client, mainLineId || newLineId )
 
       // Next line is either first line, or line after
-      const { id: nextLineId } = lines[ 0 ] === newLineId ? lines[ 1 ] : lines[ 0 ]
+      const { id: nextLineId } = lines[ 0 ].id === newLineId ? lines[ 1 ] : lines[ 0 ]
       this.onNextLine( client, prevNextLineId || nextLineId )
     }
 
