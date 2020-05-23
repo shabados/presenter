@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
-import { Button, Tooltip, ListSubheader, ListItemText, ListItem, List, Grid } from '@material-ui/core'
+import { Button, Tooltip, ListSubheader, ListItemText, ListItem, List, Grid, Typography } from '@material-ui/core'
 
 import { ResetButton } from './DynamicOptions'
 
@@ -27,15 +27,15 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
         .map( ( [ groupName, hotkeys ] ) => (
           <ListItem key={groupName} className="group">
 
-            <ListSubheader className="name" disableSticky>{groupName}</ListSubheader>
+            <Typography className="name" variant="subtitle2">{groupName}</Typography>
 
-            <List className="group-hotkeys">
+            <div className="group-hotkeys">
               {hotkeys.map( ( { name, description, required } ) => (
-                <ListItem key={name} className="hotkey">
+                <div key={name} className="hotkey">
                   <Grid container className="name" alignItems="center">
 
                     <Grid item xs={4}>
-                      <ListItemText className="text">{name}</ListItemText>
+                      <Typography className="text">{name}</Typography>
                     </Grid>
 
                     <Grid item xs={1}>
@@ -49,28 +49,24 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
                     </Grid>
 
                     <Grid className={classNames( { editable }, 'keys' )} item xs={6}>
-                      <Grid container wrap>
-                        {keys[ name ].map( key => (
-                          <Grid key={key} item xs={12} sm={6}>
-                            <Button
-                              className={classNames( 'key', { removable: !required } )}
-                              disabled={required}
-                            >
-                              {key}
-                            </Button>
-                          </Grid>
-                        ) )}
+                      {keys[ name ].map( key => (
+                        <Button
+                          key={key}
+                          className={classNames( 'key', { removable: !required } )}
+                          disabled={required}
+                        >
+                          {key}
+                        </Button>
+                      ) )}
 
-                        <Button variant="outlined" className="new key">Add</Button>
-
-                      </Grid>
+                      <Button variant="outlined" className="new key">Add</Button>
 
                     </Grid>
 
                   </Grid>
-                </ListItem>
+                </div>
               ) )}
-            </List>
+            </div>
 
           </ListItem>
         ) )}

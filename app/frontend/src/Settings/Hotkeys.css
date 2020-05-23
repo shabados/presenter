@@ -2,6 +2,10 @@
   color: var(--settings-text-color);
 }
 
+.hotkeys .hotkey  {
+  margin: 10px 0;
+}
+
 .hotkeys .key {
   background-color: var(--settings-text-color);
   color: var(--settings-background-color);
@@ -11,6 +15,7 @@
   font-size: 12px;
   margin: 4px 0;
   text-transform: capitalize;
+  margin: 5px;
 }
 
 .hotkeys .key:hover {
