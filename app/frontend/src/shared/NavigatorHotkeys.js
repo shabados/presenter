@@ -72,9 +72,17 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     }
   }, [ lines, lineId ] )
 
-  const goNextLine = useCallback((e) => {
-    // exclude anything other than the main window
-    if( e.target.parentNode.className !== 'desktop app' && e.target.parentNode.className !== 'presenter' ) return 
+  const goNextLine = useCallback( e => {
+    const { current: mouseTarget } = mouseTargetRef
+
+    const targetClass = e.target.className
+    const parentClass = e.target.parentNode.className
+
+    /* Near the bottom of the screen the targetClass
+    becomes 'controller-container` instead of presenter.
+    In this case, we check the targetClass or its parent node's class
+    (which if the target is controller container, will be presenter) */
+    if ( mouseTarget.className !== targetClass && mouseTarget.className !== parentClass ) return
     if ( !lines ) return
 
     const currentLineIndex = findLineIndex( lines, lineId )
