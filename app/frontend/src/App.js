@@ -29,6 +29,8 @@ const ScreenReader = lazy( () => import( './ScreenReader' ) )
 const Presenter = lazy( () => import( './Presenter' ) )
 const Settings = lazy( () => import( './Settings' ) )
 
+const loadSettings = () => merge( { local: controller.readSettings() }, DEFAULT_OPTIONS )
+
 class App extends PureComponent {
   components = [
     [ Overlay, OVERLAY_URL ],
@@ -61,7 +63,7 @@ class App extends PureComponent {
       shabad: null,
       recommendedSources: {},
       writers: {},
-      settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
+      settings: loadSettings(),
     }
   }
 
@@ -87,7 +89,8 @@ class App extends PureComponent {
       .then( ( { recommended: recommendedSources } ) => {
         //* Update default options and settings with fetched recommended sources
         DEFAULT_OPTIONS.local.sources = recommendedSources
-        this.setState( ( { settings } ) => ( { recommendedSources, settings } ) )
+        //! Re-load settings since we've modified DEFAULT_OPTIONS directly
+        this.setState( { recommendedSources, settings: loadSettings() } )
       } )
 
     // Get writers
