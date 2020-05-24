@@ -72,17 +72,16 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     }
   }, [ lines, lineId ] )
 
-  const goNextLine = useCallback( e => {
+  const goNextLine = useCallback( event => {
     const { current: mouseTarget } = mouseTargetRef
 
-    const targetClass = e.target.className
-    const parentClass = e.target.parentNode.className
+    const targetClass = event.target.className
+    const parentClass = event.target.parentNode.className
     /* Near the bottom of the screen the targetClass
     becomes 'controller-container` instead of presenter.
     In this case, we check the targetClass or its parent node's class
     (which if the target is controller container, will be presenter) */
-    if ( mouseTarget.className !== targetClass
-      && mouseTarget.className !== parentClass ) return
+    if ( ![ targetClass, parentClass ].includes( mouseTarget.className ) ) return
     if ( !lines ) return
 
     const currentLineIndex = findLineIndex( lines, lineId )
