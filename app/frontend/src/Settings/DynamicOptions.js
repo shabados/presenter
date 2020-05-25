@@ -3,6 +3,7 @@ import { string, shape, node, bool } from 'prop-types'
 
 import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { debounce } from 'lodash'
 
 import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, FLAT_OPTION_GROUPS } from '../lib/options'
 import controller from '../lib/controller'
@@ -102,7 +103,7 @@ const DynamicOptions = ( { device, group } ) => {
               {...props}
               option={option}
               value={value}
-              onChange={setSettings}
+              onChange={debounce( setSettings, 100, { leading: true } )}
               disabled={isDisabled}
             />
           </OptionSlot>
