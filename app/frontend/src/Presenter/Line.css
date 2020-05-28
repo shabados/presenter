@@ -130,17 +130,17 @@
 }
 
 .heavy.vishraams.line .gurmukhi .word.heavy,
-.heavy.vishraams.line .vishraams.transliteration .word.heavy {
+.heavy.vishraams.line .transliteration .word.heavy {
   color: var(--display-vishraam-heavy-color) !important;
 }
 
 .medium.vishraams.line .gurmukhi .word.medium,
-.medium.vishraams.line .vishraams.transliteration .word.medium {
+.medium.vishraams.line .transliteration .word.medium {
   color: var(--display-vishraam-medium-color) !important;
 }
 
 .light.vishraams.line .gurmukhi .word.light,
-.light.vishraams.line .vishraams.transliteration .word.light {
+.light.vishraams.line .transliteration .word.light {
   color: var(--display-vishraam-light-color) !important;
 }
 
