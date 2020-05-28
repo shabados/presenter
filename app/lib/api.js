@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { basename, join } from 'path'
-import { hostname, platform, arch, cpus } from 'os'
+import { hostname, platform, release, arch, cpus } from 'os'
 import { readJSON } from 'fs-extra'
 
 import { CUSTOM_THEMES_FOLDER, APP_FOLDER, FRONTEND_THEMES_FOLDER, DATABASE_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts'
@@ -33,6 +33,7 @@ api.get( '/about', ( _, res ) => Promise.all( [
   arch: arch(),
   cpus: `${cpus().length}x ${cpus()[ 0 ].model}`,
   platform: platform(),
+  release: release(),
   addresses: getNetworkedAddresses(),
 } ) ) )
 

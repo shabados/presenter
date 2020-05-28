@@ -18,6 +18,7 @@ const aboutFields = [
   [ 'databaseVersion', 'Shabad OS Database Version' ],
   [ 'hostname', 'Shabad OS Host' ],
   [ 'platform', 'Platform' ],
+  [ 'release', 'Release' ],
   [ 'arch', 'Architecture' ],
   [ 'cpus', 'CPU(s)' ],
 ]
