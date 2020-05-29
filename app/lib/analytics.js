@@ -5,7 +5,7 @@
 
 /* eslint-disable class-methods-use-this */
 import * as Sentry from '@sentry/node'
-import { cpus, freemem, totalmem, platform, networkInterfaces } from 'os'
+import { cpus, freemem, totalmem, platform, release, networkInterfaces } from 'os'
 
 import { version } from '../package.json'
 
@@ -51,6 +51,7 @@ class Analytics {
         freeMemory: freemem(),
         totalMemory: totalmem(),
         platform: platform(),
+        release: release(),
         networkInterfaces: networkInterfaces(),
       } )
 
