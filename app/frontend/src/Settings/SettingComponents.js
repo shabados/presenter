@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { string, func, any, arrayOf, number, bool } from 'prop-types'
 
 import classNames from 'classnames'
@@ -99,10 +99,36 @@ Button.defaultProps = {
   className: null,
 }
 
+export const UrlDropdown = ( { url, ...props } ) => {
+  const [ isOpen, setOpen ] = useState( false )
+  const [ values, setValues ] = useState( [] )
+
+  useEffect( () => {
+    fetch( url )
+      .then( res => res.json() )
+      .then( values => values.map( value => ( { name: value, value } ) ) )
+      .then( setValues )
+  }, [ setValues, isOpen, url ] )
+
+  return (
+    <Dropdown
+      {...props}
+      values={values}
+      onOpen={() => setOpen( true )}
+      onClose={() => setOpen( false )}
+    />
+  )
+}
+
+UrlDropdown.propTypes = {
+  url: string.isRequired,
+}
+
 const typeComponents = {
   [ OPTION_TYPES.dropdown ]: GeneralSettingEvent( Dropdown ),
   [ OPTION_TYPES.toggle ]: GeneralSettingParam( Toggle ),
   [ OPTION_TYPES.slider ]: GeneralSettingParam( Slider ),
+  [ OPTION_TYPES.urlDropdown ]: GeneralSettingParam( UrlDropdown ),
 }
 
 export default type => typeComponents[ type ]
