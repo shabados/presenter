@@ -77,15 +77,6 @@ const Settings = () => {
       } )
   }, [] )
 
-  // Fetch list of overlay themes from server
-  useEffect( () => {
-    fetch( `${BACKEND_URL}/overlay/themes` )
-      .then( res => res.json() )
-      .then( themes => {
-        OPTIONS.overlayName.values = themes.map( theme => ( { name: theme, value: theme } ) )
-      } )
-  }, [] )
-
   const openMobileMenu = () => setMobileOpen( true )
   const closeMobileMenu = () => setMobileOpen( false )
 

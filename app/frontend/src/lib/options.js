@@ -41,7 +41,7 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-regular-svg-icons'
 
-import { LANGUAGES } from './consts'
+import { LANGUAGES, BACKEND_URL } from './consts'
 import SHORTCUTS from './keyMap'
 
 /**
@@ -55,6 +55,7 @@ export const OPTION_TYPES = {
   toggle: Symbol( 'Toggle' ),
   slider: Symbol( 'Slider' ),
   colorPicker: Symbol( 'Color Picker' ),
+  urlDropdown: Symbol( 'URL Dropdown' ),
 }
 
 export const PRIVACY_TYPES = {
@@ -144,7 +145,7 @@ export const OPTIONS = {
       { name: 'Urdu', value: LANGUAGES.urdu },
     ],
   },
-  overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.global },
+  overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.urlDropdown, values: [], url: `${BACKEND_URL}/overlay/themes`, privacy: PRIVACY_TYPES.global },
 }
 
 // Possible options groups
