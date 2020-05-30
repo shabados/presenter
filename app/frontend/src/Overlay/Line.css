@@ -18,7 +18,8 @@
 }
 
 .overlay-line .gurmukhi {
-  font-family: "Open Gurbani Akhar Black", sans-serif;
+  font-family: 'Open Gurbani Akhar';
+  font-weight: 900;
   color: var(--overlay-primary-font-color);
   font-size: var(--overlay-primary-font-size);
   text-shadow: 2px 2px 2px rgba(var(--overlay-primary-drop-color), 1.00);
