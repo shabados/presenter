@@ -87,7 +87,7 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     if ( id && currentLineIndex < lines.length - 1 ) {
       controller.line( lines[ currentLineIndex + 1 ].id )
     }
-  }, [ lines, lineId ] )
+  }, [ lines, lineId, mouseTargetRef ] )
 
   const goToIndex = index => {
     if ( !lines ) return
