@@ -69,7 +69,8 @@
 }
 
 .search .result .secondary .english , .english.translation, .spanish.translation {
-  font-family: "Noto Sans Medium", sans-serif;
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 500;
 }
 
 .search .result .secondary .translit.punjabi, .punjabi.translation {
@@ -77,11 +78,13 @@
 }
 
 .search .result .secondary .hindi {
-  font-family: "Noto Sans Devanagari Semi Bold";
+  font-family: "Noto Sans Devanagari";
+  font-weight: 600;
 }
 
 .search .result .secondary .urdu {
   font-family: "Noto Sans Nastaliq Urdu";
+  font-weight: 400;
 }
 
 .search .result .secondary .translit.matched {

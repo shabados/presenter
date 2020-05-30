@@ -20,5 +20,6 @@
 
 .presenter .status.toast span {
   margin-left: 2vh;
-  font-family: 'Noto Sans Medium', Helvetica;
+  font-family: 'Noto Sans', Helvetica;
+  font-weight: 500;
 }

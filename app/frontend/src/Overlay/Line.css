@@ -26,7 +26,7 @@
 }
 
 .overlay-line .english, .overlay-line .spanish {
-  font-family: "Noto Sans Medium", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-weight: 700;
   font-size: var(--overlay-secondary-font-size);
   text-shadow:  2px 2px 2px rgba(var(--overlay-secondary-drop-color), 1.00);
@@ -37,7 +37,8 @@
 }
 
 .overlay-line .hindi {
-  font-family: "Noto Sans Devanagari Semi Bold";
+  font-family: "Noto Sans Devanagari";
+  font-weight: 600;
   line-height: 1.48;
 }
 
