@@ -19,7 +19,8 @@
 .search input {
   padding: 0 0.5em;
   font-size: 1.25em;
-  font-family: 'Open Gurbani Akhar Bold';
+  font-family: 'Open Gurbani Akhar';
+  font-weight: bold;
   height: 100%;
 }
 
@@ -37,11 +38,13 @@
 }
 
 .search .results .result .words {
-  font-family: 'Open Gurbani Akhar Regular';
+  font-family: 'Open Gurbani Akhar';
+  font-weight: normal;
 }
 
 .search .results .result .matched.words {
-  font-family: 'Open Gurbani Akhar Bold';
+  font-family: 'Open Gurbani Akhar';
+  font-weight: bold;
   color: var(--controller-search-match-color);
 }
 

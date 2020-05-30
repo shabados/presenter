@@ -59,7 +59,8 @@
 */
 
 .line .gurmukhi {
-  font-family: "Open Gurbani Akhar Black", sans-serif;
+  font-family: 'Open Gurbani Akhar';
+  font-weight: 900;
   line-height: 1.4;
 }
 
