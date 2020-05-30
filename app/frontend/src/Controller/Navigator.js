@@ -178,6 +178,10 @@ const NavigatorNavigationHotkeys = withNavigationHotkeys( {
   lineKeys: true,
   clickOnFocus: true,
   wrapAround: false,
+  keymap: {
+    first: null,
+    last: null,
+  },
 } )( Navigator )
 
 // Wrap NavigationHotkeys first so that it takes precedence
