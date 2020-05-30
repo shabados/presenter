@@ -128,7 +128,7 @@ const typeComponents = {
   [ OPTION_TYPES.dropdown ]: GeneralSettingEvent( Dropdown ),
   [ OPTION_TYPES.toggle ]: GeneralSettingParam( Toggle ),
   [ OPTION_TYPES.slider ]: GeneralSettingParam( Slider ),
-  [ OPTION_TYPES.urlDropdown ]: GeneralSettingParam( UrlDropdown ),
+  [ OPTION_TYPES.urlDropdown ]: GeneralSettingEvent( UrlDropdown ),
 }
 
 export default type => typeComponents[ type ]
