@@ -69,7 +69,7 @@
 }
 
 .line .english, .line .spanish {
-  font-family: "Noto Sans Medium", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   line-height: 1.89;
   line-height: 1.4;
   font-weight: 700;
@@ -84,7 +84,8 @@
 }
 
 .line .hindi {
-  font-family: "Noto Sans Devanagari Semi Bold";
+  font-family: "Noto Sans Devanagari";
+  font-weight: 600;
   line-height: 1.48;
 }
 
@@ -97,7 +98,7 @@
 }
 
 .line .english.transliteration {
-  font-family: "Noto Sans Regular", sans-serif;
+  font-family: "Noto Sans", sans-serif;
 }
 
 .line .gurmukhi .partition {
