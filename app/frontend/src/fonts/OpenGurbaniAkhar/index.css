@@ -1,20 +1,20 @@
 @font-face {
-    font-family: "Open Gurbani Akhar Black";
+    font-family: "Open Gurbani Akhar";
     font-style: normal;
-    font-weight: normal;
-    src: url("./Black/OpenGurbaniAkhar-Black.otf") format("opentype");
+    font-weight: 400;
+    src: url("./OpenGurbaniAkhar-Regular.otf") format("opentype");
 }
 
 @font-face {
-    font-family: "Open Gurbani Akhar Regular";
+    font-family: "Open Gurbani Akhar";
     font-style: normal;
-    font-weight: normal;
-    src: url("./Regular/OpenGurbaniAkhar-Regular.otf") format("opentype");
+    font-weight: 700;
+    src: url("./OpenGurbaniAkhar-Bold.otf") format("opentype");
 }
 
 @font-face {
-    font-family: "Open Gurbani Akhar Bold";
+    font-family: "Open Gurbani Akhar";
     font-style: normal;
-    font-weight: normal;
-    src: url("./Bold/OpenGurbaniAkhar-Bold.otf") format("opentype");
+    font-weight: 900;
+    src: url("./OpenGurbaniAkhar-Black.otf") format("opentype");
 }
