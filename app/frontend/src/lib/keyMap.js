@@ -116,50 +116,47 @@ export const COPY_SHORTCUTS = decorateGroup( {
 
 // Navigator-specific hotkeys
 export const NAVIGATOR_SHORTCUTS = decorateGroup( {
-  nextLine: {
-    name: 'Go Next Line',
-    description: 'Advances to the next line.',
-    sequences: [ 'down', 'right', 'tab', 'PageDown', 'l' ],
-  },
-  previousLine: {
-    name: 'Go Previous Line',
-    description: 'Goes to the previous line.',
-    sequences: [ 'up', 'left', 'shift+tab', 'PageUp', 'j' ],
-  },
-  firstLine: {
-    name: 'Jump First Line',
-    description: 'Jumps to first line. If on first line, jumps to last line of previous shabad.',
-    sequences: [ 'ctrl+up', 'home' ],
-  },
-  lastLine: {
-    name: 'Jump Last Line',
-    description: 'Jumps to last line. If on last line, jumps to last line of previous shabad.',
-    sequences: [ 'ctrl+down', 'end' ],
-  },
-  autoToggle: {
-    name: 'Auto Jump',
-    description: 'Jumps to main line, or to the next available line.',
-    sequences: [ 'space', 'b' ],
-  },
-  setMainLine: {
-    name: 'Set Main Line',
-    description: 'Sets the main line.',
-    sequences: [ 'ctrl+space' ],
-  },
-  goJumpLine: {
-    name: 'Jump Next Non-Main Line',
-    description: 'Jumps to the next line if on the main line.',
-    sequences: [ 'shift+.' ],
-  },
-  goMainLine: {
-    name: 'Jump Main Line',
-    description: 'Jumps to the main line.',
-    sequences: [ 'shift+,' ],
-  },
   restoreLine: {
     name: 'Activate Line',
     description: 'Activates the line prior to a cleared screen',
     sequences: [ 'enter', 'return' ],
+  },
+  nextLine: {
+    name: 'Next Line',
+    sequences: [ 'down', 'right', 'tab', 'PageDown', 'l' ],
+  },
+  previousLine: {
+    name: 'Previous Line',
+    sequences: [ 'up', 'left', 'shift+tab', 'PageUp', 'j' ],
+  },
+  firstLine: {
+    name: 'First Line',
+    description: 'Go to first line. If on first line, then go to last line of previous entry.',
+    sequences: [ 'ctrl+up', 'home' ],
+  },
+  lastLine: {
+    name: 'Last Line',
+    description: 'Go to last line. If on last line, then go to first line of next entry.',
+    sequences: [ 'ctrl+down', 'end' ],
+  },
+  autoToggle: {
+    name: 'Autoselect Line',
+    description: 'Go to main line or next jump line.',
+    sequences: [ 'space', 'b' ],
+  },
+  setMainLine: {
+    name: 'Reset Main Line',
+    sequences: [ 'ctrl+space' ],
+  },
+  goMainLine: {
+    description: 'Go to main line without changing position of next jump line.',
+    name: 'Skip to Main Line',
+    sequences: [ 'shift+,' ],
+  },
+  goJumpLine: {
+    name: 'Skip to Jump Line',
+    description: 'Go to the non-main, jump line.',
+    sequences: [ 'shift+.' ],
   },
 } )( 'Navigator' )
 
