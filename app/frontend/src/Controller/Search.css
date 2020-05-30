@@ -68,12 +68,12 @@
   opacity: .85;
 }
 
-.search .result .secondary .english , .english.translation, .spanish.translation {
+.search .result .secondary .english {
   font-family: "Noto Sans", sans-serif;
   font-weight: 500;
 }
 
-.search .result .secondary .translit.punjabi, .punjabi.translation {
+.search .result .secondary .punjabi {
   font-family: "Open Anmol Uni Bold", sans-serif;
 }
 
@@ -89,6 +89,7 @@
 
 .search .result .secondary .translit.matched {
   color: var(--controller-search-match-color);
+  font-weight: bolder;
 }
 
 .search .result .secondary .translation {
