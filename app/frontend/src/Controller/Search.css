@@ -19,8 +19,8 @@
 .search input {
   padding: 0 0.5em;
   font-size: 1.25em;
-  font-family: 'Open Gurbani Akhar';
-  font-weight: bold;
+  font-family: 'Open Gurbani Akhar', 'Open Anmol Uni';
+  font-weight: 700;
   height: 100%;
 }
 
