@@ -60,9 +60,12 @@ export const useCopyToClipboard = () => {
   const truncate = input => ( input.length > 30 ? `${input.substring( 0, 30 )}...` : input )
 
   const { enqueueSnackbar } = useSnackbar()
-
   return ( text, fallback = 'No text to copy' ) => {
-    if ( text ) copy( text )
+    if ( text ) {
+      // Double copying due to bug: https://github.com/sudodoki/copy-to-clipboard/issues/90
+      copy( text )
+      copy( text )
+    }
 
     enqueueSnackbar(
       text ? `Copied "${truncate( text )}" to clipboard` : fallback,
