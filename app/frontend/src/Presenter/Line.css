@@ -76,7 +76,8 @@
 }
 
 .line .punjabi {
-  font-family: "Open Anmol Uni Bold", sans-serif;
+  font-family: "Open Anmol Uni", sans-serif;
+  font-weight: 900;
   line-height: 2.025;
   line-height: 1.75;
   line-height: 1.5;
