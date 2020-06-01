@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import { stringify } from 'querystring'
-import { firstLetters, toAscii } from 'gurmukhi-utils'
+import { firstLetters } from 'gurmukhi-utils'
 
 import {
   SEARCH_TYPES,
@@ -44,7 +44,7 @@ const getSearchParams = searchQuery => {
   // Extract anchors and search query
   const [ , anchor, query ] = searchQuery.match( searchRegex )
 
-  const inputValue = toAscii( query )
+  const inputValue = query
 
   // Get search type from anchor char, if any
   const type = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
@@ -88,11 +88,11 @@ const highlightFirstLetterMatches = ( line, query ) => {
 
 /**
  * Separates the line into words before the first match, the first match, and after the match.
- * @param value the full line.
- * @param input the string inputted by the user.
- * @param mode the type of search being performed, either first word or full word.
- * @return an array of [ beforeMatch, match, afterMatch ],
- *   with `match` being the highlighted section.`
+ * @param value The full line.
+ * @param input The string inputted by the user.
+ * @param mode The type of search being performed, either first word or full word.
+ * @return An array of [ beforeMatch, match, afterMatch ],
+ *   with `match` being the highlighted section.`.
  */
 const highlightMatches = gurmukhi => ( value, input, mode ) => {
   if ( !value ) return [ '', '', '' ]
