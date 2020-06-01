@@ -33,7 +33,8 @@
 }
 
 .overlay-line .punjabi {
-  font-family: "Open Anmol Uni Bold", sans-serif;
+  font-family: "Open Anmol Uni", sans-serif;
+  font-weight: 900;
 }
 
 .overlay-line .hindi {
