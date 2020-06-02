@@ -243,7 +243,6 @@ const Search = ( { updateFocus, register, focused } ) => {
     const showCitation = showResultCitations && shabad && shabad.section
     const getEnglish = ( { nameEnglish } ) => nameEnglish
     const getWriterName = () => getEnglish( writers[ shabad.writerId ] )
-    const getSection = () => getEnglish( shabad.section )
     const getPageName = () => recommendedSources[ shabad.sourceId ].pageNameEnglish
 
     return (
@@ -275,14 +274,11 @@ const Search = ( { updateFocus, register, focused } ) => {
 
           {showCitation && (
             <span className="citation">
-              (
-              {`${getWriterName()}. `}
               {[
-                `"${getSection()}"`,
+                getWriterName(),
                 SOURCE_ABBREVIATIONS[ sourceId ],
                 `${getPageName()} ${sourcePage}`,
-              ].reduce( ( prev, curr ) => [ prev, ', ', curr ] )}
-              )
+              ].reduce( ( prev, curr ) => [ prev, ' - ', curr ] )}
             </span>
           )}
 
