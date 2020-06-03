@@ -9,6 +9,7 @@ import deepmerge from 'deepmerge'
 import queryString from 'qs'
 import { find, findIndex, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
+import { stripEndings } from 'gurmukhi-utils'
 
 import { PAUSE_CHARS, STATES, isMac, BANIS } from './consts'
 
@@ -101,8 +102,9 @@ export const getUrlState = search => {
  * @param {Object} line The current line.
  * @param {Object} sources Any sources.
  * @param {number} languageId The identifier of the language.
+ * @param {boolean} lineEnding To strip the line endings.
  */
-export const getTranslation = ( { shabad, line, sources, recommendedSources, languageId } ) => {
+export const getTranslation = ( { shabad, line, sources, recommendedSources, languageId, lineEnding } ) => {
   const { sourceId } = shabad || line.shabad
 
   if ( !( sources && sources[ sourceId ] ) ) return null
@@ -113,19 +115,26 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
 
   if ( !translationId ) return null
 
-  return line.translations.find( (
+  const { translation } = line.translations.find( (
     ( { translationSourceId: id } ) => translationId === id
-  ) ).translation
+  ) )
+
+  return ( lineEnding && stripEndings( translation ) ) || translation
 }
 
 /**
  * Returns the corresponding transliteration for a given line.
  * @param {Object} line The current line.
  * @param {number} languageId The identifier of the language.
+ * @param {boolean} lineEnding To strip the line endings.
  */
-export const getTransliteration = ( line, languageId ) => line.transliterations.find( (
-  ( { languageId: id } ) => languageId === id
-) ).transliteration
+export const getTransliteration = ( line, languageId, lineEnding ) => {
+  const translit = line.transliterations.find( (
+    ( { languageId: id } ) => languageId === id
+  ) ).transliteration
+
+  return ( lineEnding && stripEndings( translit ) ) || translit
+}
 
 export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
 
