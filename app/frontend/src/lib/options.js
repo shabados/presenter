@@ -33,6 +33,7 @@ import {
   faDesktop,
   faTags,
   faSearch,
+  faRemoveFormat,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -99,6 +100,7 @@ export const OPTIONS = {
   englishTransliteration: { name: 'English Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   hindiTransliteration: { name: 'Hindi Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   urduTransliteration: { name: 'Urdu Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  lineEnding: { name: 'Line Ending', icon: faRemoveFormat, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   themeName: { name: 'Theme Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
   simpleGraphics: { name: 'Remove Visual Effects', icon: faLowVision, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   backgroundImage: { name: 'Background Image', icon: faImage, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -219,6 +221,7 @@ export const DEFAULT_OPTIONS = {
       englishTransliteration: true,
       hindiTransliteration: false,
       urduTransliteration: false,
+      lineEnding: true,
     },
     layout: {
       presenterFontSize: 8,
@@ -259,6 +262,7 @@ export const DEFAULT_OPTIONS = {
       resultTranslationLanguage: OPTIONS.resultTranslationLanguage.values[ 0 ].value,
       resultTransliterationLanguage: OPTIONS.resultTransliterationLanguage.values[ 0 ].value,
       showResultCitations: false,
+      lineEnding: true,
     },
   },
   // Special serverside settings
@@ -288,6 +292,7 @@ export const DEFAULT_OPTIONS = {
       englishTransliteration: false,
       hindiTransliteration: false,
       urduTransliteration: false,
+      lineEnding: true,
     },
   },
 }
