@@ -7,7 +7,7 @@ import { mapPlatformKeys, getJumpLines, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
 import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
-import { useCurrentLines } from '../lib/hooks'
+import { useCurrentLines, useWindowFocus } from '../lib/hooks'
 
 /**
  * Hotkeys for controlling the navigator.
@@ -135,11 +135,13 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
 
   const keyMap = mapPlatformKeys( { ...hotkeys, ...numberKeyMap } )
 
+  const windowFocused = useWindowFocus()
+
   // Register mouse shortcuts
   useEffect( () => {
     const { current: mouseTarget } = mouseTargetRef
 
-    if ( !active || !mouseTarget ) return () => {}
+    if ( !active || !mouseTarget || !windowFocused ) return noop
 
     const events = [
       [ 'click', goNextLine ],
@@ -155,7 +157,7 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     return () => events.forEach(
       ( [ event, handler ] ) => mouseTarget.removeEventListener( event, handler ),
     )
-  }, [ mouseTargetRef, active, goNextLine, goPreviousLine, autoToggle ] )
+  }, [ mouseTargetRef, active, goNextLine, goPreviousLine, autoToggle, windowFocused ] )
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={active ? hotKeyHandlers : {}}>

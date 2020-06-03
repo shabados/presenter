@@ -1,11 +1,11 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { invert } from 'lodash'
 import copy from 'copy-to-clipboard'
 import { useSnackbar } from 'notistack'
 
 import { getTranslation, getTransliteration, findLineIndex } from './utils'
 import { ContentContext, RecommendedSourcesContext, SettingsContext } from './contexts'
-import { LANGUAGES } from './consts'
+import { isMac, LANGUAGES } from './consts'
 
 const languagesById = invert( LANGUAGES )
 
@@ -72,4 +72,26 @@ export const useCopyToClipboard = () => {
       { autoHideDuration: 1000, preventDuplicate: true },
     )
   }
+}
+
+export const useWindowFocus = () => {
+  const [ focused, setFocused ] = useState( document.hasFocus() )
+
+  // Keep track of whether the window is focused
+  useEffect( () => {
+    // Use click to determine focus on non-Mac platforms
+    const focusEvent = isMac ? 'focus' : 'click'
+    const onBlur = () => setFocused( false )
+    const onFocus = () => setFocused( true )
+
+    window.addEventListener( 'blur', onBlur )
+    window.addEventListener( focusEvent, onFocus )
+
+    return () => {
+      window.removeEventListener( 'blur', onBlur )
+      window.removeEventListener( focusEvent, onFocus )
+    }
+  }, [ setFocused ] )
+
+  return focused
 }
