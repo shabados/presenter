@@ -29,6 +29,7 @@ const Display = ( { settings } ) => {
     },
   } = settings
 
+  const { lineEnding } = display
 
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
@@ -45,13 +46,13 @@ const Display = ( { settings } ) => {
     display.englishTranslation && LANGUAGES.english,
     display.punjabiTranslation && LANGUAGES.punjabi,
     display.spanishTranslation && LANGUAGES.spanish,
-  ] )
+  ], lineEnding )
 
   const transliterations = useTransliterations( line && [
     display.englishTransliteration && LANGUAGES.english,
     display.hindiTransliteration && LANGUAGES.hindi,
     display.urduTransliteration && LANGUAGES.urdu,
-  ] )
+  ], lineEnding )
 
   return (
     <div className={classNames( { simple, background }, 'display' )}>

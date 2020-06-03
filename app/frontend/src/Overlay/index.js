@@ -23,18 +23,19 @@ const Overlay = () => {
   } } = globalSettings || {}
 
   const [ line ] = useCurrentLine()
+  const { lineEnding } = overlay
 
   const translations = useTranslations( line && [
     overlay.englishTranslation && LANGUAGES.english,
     overlay.punjabiTranslation && LANGUAGES.punjabi,
     overlay.spanishTranslation && LANGUAGES.spanish,
-  ] )
+  ], lineEnding )
 
   const transliterations = useTransliterations( line && [
     overlay.englishTransliteration && LANGUAGES.english,
     overlay.hindiTransliteration && LANGUAGES.hindi,
     overlay.urduTransliteration && LANGUAGES.urdu,
-  ] )
+  ], lineEnding )
 
   return connected && (
     <div className={classNames( {

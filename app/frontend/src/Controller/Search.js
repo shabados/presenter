@@ -113,7 +113,7 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
 const Search = ( { updateFocus, register, focused } ) => {
   const { local: {
     sources,
-    search: { showResultCitations, resultTransliterationLanguage, resultTranslationLanguage },
+    search: { showResultCitations, resultTransliterationLanguage, resultTranslationLanguage, lineEnding },
   } = {} } = useContext( SettingsContext )
 
   // Set the initial search query from URL
@@ -209,6 +209,7 @@ const Search = ( { updateFocus, register, focused } ) => {
     const transliteration = resultTransliterationLanguage && transliterations && getTransliteration(
       { transliterations },
       resultTransliterationLanguage,
+      lineEnding,
     )
 
     const translation = resultTranslationLanguage && translations && getTranslation( {
@@ -217,6 +218,7 @@ const Search = ( { updateFocus, register, focused } ) => {
       recommendedSources,
       sources,
       languageId: resultTranslationLanguage,
+      lineEnding,
     } )
 
     // Grab the search mode or assume it's first letter
