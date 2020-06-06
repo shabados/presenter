@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import { stringify } from 'querystring'
-import { firstLetters, stripVishraams, toUnicode, toAscii } from 'gurmukhi-utils'
+import { firstLetters, stripVishraams, stripAccents, toUnicode, toAscii } from 'gurmukhi-utils'
 
 import {
   SEARCH_TYPES,
@@ -73,12 +73,13 @@ const highlightFullWordMatches = ( line, query ) => {
 }
 
 const highlightFirstLetterMatches = ( line, query ) => {
-  const unicodeLine = toUnicode( line )
+  const unicodeLine = stripAccents( stripVishraams( toUnicode( line ) ) )
+  const unicodeQuery = stripAccents( toUnicode( query ) )
 
-  const letters = firstLetters( stripVishraams( unicodeLine ) )
-  const words = stripVishraams( unicodeLine ).split( ' ' )
+  const letters = firstLetters( unicodeLine )
+  const words = unicodeLine.split( ' ' )
 
-  const startPosition = letters.search( toUnicode( query ) )
+  const startPosition = letters.search( unicodeQuery )
   const endPosition = startPosition + query.length
 
   return [
