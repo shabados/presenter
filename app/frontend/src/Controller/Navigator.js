@@ -6,6 +6,7 @@ import { string, func, bool } from 'prop-types'
 import classNames from 'classnames'
 import { invert } from 'lodash'
 import { GlobalHotKeys } from 'react-hotkeys'
+import { stripVishraams } from 'gurmukhi-utils'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -21,7 +22,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import { SEARCH_URL } from '../lib/consts'
-import { stripPauses, getJumpLines, getNextJumpLine, findLineIndex } from '../lib/utils'
+import { getJumpLines, getNextJumpLine, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext } from '../lib/contexts'
@@ -72,7 +73,7 @@ const NavigatorLine = ( {
         {next && <FontAwesomeIcon icon={faAngleDoubleRight} />}
       </span>
 
-      <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
+      <span className="gurmukhi text">{stripVishraams( gurmukhi )}</span>
 
       <span className="timestamp meta">
         {timestamp && (

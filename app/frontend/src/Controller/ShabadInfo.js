@@ -2,12 +2,11 @@ import React, { useContext, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { Typography, Popover, IconButton, Button, Tooltip } from '@material-ui/core'
-import { toUnicode } from 'gurmukhi-utils'
+import { toUnicode, stripVishraams } from 'gurmukhi-utils'
 
 import { ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
 import { useCurrentLine, useCurrentLines, useCopyToClipboard } from '../lib/hooks'
 import controller from '../lib/controller'
-import { stripPauses } from '../lib/utils'
 
 import './ShabadInfo.css'
 
@@ -41,7 +40,7 @@ const ShabadInfo = () => {
   const onCopyClick = () => {
     const gurmukhi = lines.map( ( { gurmukhi } ) => gurmukhi ).join( ' ' )
 
-    copyToClipboard( stripPauses( toUnicode( gurmukhi ) ) )
+    copyToClipboard( stripVishraams( toUnicode( gurmukhi ) ) )
   }
 
   const { sourceId, writerId, section } = shabad || line.shabad

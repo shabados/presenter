@@ -9,9 +9,11 @@ import deepmerge from 'deepmerge'
 import queryString from 'qs'
 import { find, findIndex, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
-import { stripEndings } from 'gurmukhi-utils'
+import { stripVishraams, stripEndings } from 'gurmukhi-utils'
 
-import { PAUSE_CHARS, STATES, isMac, BANIS, LINE_TYPES } from './consts'
+import vishraams from 'gurmukhi-utils/lib/vishraams.json'
+
+import { STATES, isMac, BANIS, LINE_TYPES } from './consts'
 
 /**
  * Merges the source object into the destination, replacing arrays.
@@ -40,20 +42,14 @@ export const customiseLine = ( line, { lineEnding, typeId } ) => [
   ), line )
 
 /**
- * Removes the pause characters from the string.
- * @param line The line to remove the pause characters from.
- */
-export const stripPauses = line => line.replace( new RegExp( `[${Object.values( PAUSE_CHARS )}]`, 'g' ), '' )
-
-/**
  * Classifies the pause for a single word, returning an object of the word and type.
  * @param word The word to classify.
  * @param strip Whether or not to strip the vishraam character.
  */
 export const classifyWord = ( word, strip = true ) => ( {
-  word: strip ? stripPauses( word ) : word,
+  word: strip ? stripVishraams( word ) : word,
   type: Object
-    .entries( { ...PAUSE_CHARS } )
+    .entries( vishraams )
     .reduce( ( type, [ pauseType, pauseChar ] ) => (
       // Check if last char in word is the current pause char, and return that type if so
       word.slice( -1 ) === pauseChar ? pauseType : type ), null ),

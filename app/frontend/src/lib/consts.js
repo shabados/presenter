@@ -62,13 +62,6 @@ export const STATES = {
 // Search
 export const MIN_SEARCH_CHARS = 2
 
-// Detect vishraams/pauses with characters
-export const PAUSE_CHARS = {
-  heavy: ';',
-  medium: ',',
-  light: '.',
-}
-
 // Search type names
 export const SEARCH_TYPES = {
   fullWord: 'full-word',
