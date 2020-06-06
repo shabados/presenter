@@ -57,10 +57,12 @@ const getSearchParams = searchQuery => {
 }
 
 const highlightFullWordMatches = ( line, query ) => {
-  const foundPosition = line.search( query )
+  const sanitisedQuery = query.trim()
+
+  const foundPosition = line.search( sanitisedQuery )
   const matchStartPosition = line.lastIndexOf( ' ', foundPosition )
 
-  const wordEndPosition = line.indexOf( ' ', foundPosition + query.length )
+  const wordEndPosition = line.indexOf( ' ', foundPosition + sanitisedQuery.length )
   // If the match finishes in the last word, no space will be deteced, and wordEndPosition
   // will be -1. In this case, we want to end at the last position in the line.
   const matchEndPosition = wordEndPosition === -1 ? line.length - 1 : wordEndPosition
