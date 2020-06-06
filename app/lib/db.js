@@ -5,6 +5,7 @@
 
 import { groupBy, last, keyBy } from 'lodash'
 import { Lines, Shabads, Banis, Sources, Languages, Writers } from '@shabados/database'
+import { stripAccents } from 'gurmukhi-utils'
 
 import { MAX_RESULTS } from './consts'
 
@@ -28,7 +29,7 @@ const withSearchOptions = queryFn => ( query, options = {} ) => [
  * @returns {Array} A list of lines with the provided first letters of each word.
  */
 export const firstLetterSearch = withSearchOptions(
-  letters => Lines.query().firstLetters( letters ),
+  letters => Lines.query().firstLetters( stripAccents( letters ) ),
 )
 
 /**
