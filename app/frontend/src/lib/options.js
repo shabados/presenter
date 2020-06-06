@@ -114,7 +114,7 @@ export const OPTIONS = {
   private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
   launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   multipleDisplays: { name: 'All Displays', icon: faDesktop, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
-  fullscreen: { name: 'Launch In Fullscreen', icon: faExpandArrowsAlt, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  fullscreenOnLaunch: { name: 'Launch In Fullscreen', icon: faExpandArrowsAlt, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   serverAnalytics: { name: 'Server Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   automaticUpdates: { name: 'Automatic Updates', icon: faSync, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   betaOptIn: { name: 'Beta Updates', icon: faFlask, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
@@ -271,7 +271,7 @@ export const DEFAULT_OPTIONS = {
       //! Currently not implemented
       // launchOnStartup: false,
       multipleDisplays: true,
-      fullscreen: true,
+      fullscreenOnLaunch: true,
       serverAnalytics: true,
       automaticUpdates: true,
       betaOptIn: false,
