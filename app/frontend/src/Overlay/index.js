@@ -7,7 +7,7 @@ import ThemeLoader from './ThemeLoader'
 import { SettingsContext, StatusContext } from '../lib/contexts'
 import { LANGUAGES } from '../lib/consts'
 import { useTranslations, useTransliterations, useCurrentLine } from '../lib/hooks'
-import { customiseLines } from '../lib/utils'
+import { customiseLine, mapValues } from '../lib/utils'
 
 import './index.css'
 
@@ -26,21 +26,23 @@ const Overlay = () => {
   const [ line ] = useCurrentLine()
   const { lineEnding } = overlay
 
-  const translations = customiseLines(
+  const translations = mapValues(
     useTranslations( line && [
       overlay.englishTranslation && LANGUAGES.english,
       overlay.punjabiTranslation && LANGUAGES.punjabi,
       overlay.spanishTranslation && LANGUAGES.spanish,
     ] ),
+    customiseLine,
     { lineEnding },
   )
 
-  const transliterations = customiseLines(
+  const transliterations = mapValues(
     useTransliterations( line && [
       overlay.englishTransliteration && LANGUAGES.english,
       overlay.hindiTransliteration && LANGUAGES.hindi,
       overlay.urduTransliteration && LANGUAGES.urdu,
     ] ),
+    customiseLine,
     { lineEnding },
   )
 

@@ -7,7 +7,7 @@ import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
 import deepmerge from 'deepmerge'
 import queryString from 'qs'
-import { find, findIndex, findLastIndex, debounce, invert, mapValues } from 'lodash'
+import { find, findIndex, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
 import { stripEndings } from 'gurmukhi-utils'
 
@@ -25,19 +25,35 @@ export const merge = ( source, destination ) => deepmerge(
 )
 
 /**
- *
- * @param {Object} lines The lines to modify.
- * @param {Object} settings Different boolean values for transformations.
- * @returns {Object} With different transformations applied.
+ * Modified version of lodash mapValues.
+ * This will allow you to pass in props for to iteratee.
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Object} args Arguments that need to be passed to iteratee.
+ * @returns {Object} Returns the new mapped object.
  */
-export const customiseLines = ( lines, settings ) => {
-  let modifiedLines = lines
-  const { lineEnding } = settings
+export const mapValues = ( object, iteratee, args ) => {
+  // eslint-disable-next-line no-param-reassign
+  object = Object( object )
+  const result = {}
 
-  if ( lineEnding ) modifiedLines = mapValues( lines, stripEndings )
-
-  return modifiedLines
+  Object.keys( object ).forEach( key => {
+    result[ key ] = iteratee( object[ key ], args, key, object )
+  } )
+  return result
 }
+
+/**
+ *
+ * @param {string} line The line to modify.
+ * @param {Object} settings Different boolean values for transformations.
+ * @returns {string} With different transformations applied.
+ */
+export const customiseLine = ( line, { lineEnding } ) => [
+  [ lineEnding, stripEndings ],
+]
+  .filter( ( [ predicate ] ) => predicate )
+  .reduce( ( line, [ , fn ] ) => fn( line ), line )
 
 /**
  * Removes the pause characters from the string.

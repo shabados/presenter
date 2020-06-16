@@ -5,8 +5,7 @@ import classNames from 'classnames'
 
 import { LANGUAGES } from '../lib/consts'
 import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines } from '../lib/hooks'
-import { customiseLines } from '../lib/utils'
-
+import { customiseLine, mapValues } from '../lib/utils'
 import Line from './Line'
 
 import './Display.css'
@@ -43,21 +42,23 @@ const Display = ( { settings } ) => {
     : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
-  const translations = customiseLines(
+  const translations = mapValues(
     useTranslations( line && [
       display.englishTranslation && LANGUAGES.english,
       display.punjabiTranslation && LANGUAGES.punjabi,
       display.spanishTranslation && LANGUAGES.spanish,
     ] ),
+    customiseLine,
     { lineEnding },
   )
 
-  const transliterations = customiseLines(
+  const transliterations = mapValues(
     useTransliterations( line && [
       display.englishTransliteration && LANGUAGES.english,
       display.hindiTransliteration && LANGUAGES.hindi,
       display.urduTransliteration && LANGUAGES.urdu,
     ] ),
+    customiseLine,
     { lineEnding },
   )
 
