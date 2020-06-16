@@ -28,7 +28,7 @@ export const useCurrentLine = () => {
   return [ line, lineIndex ]
 }
 
-export const useTranslations = ( languageIds, lineEnding ) => {
+export const useTranslations = languageIds => {
   const { shabad } = useContext( ContentContext )
   const [ line ] = useCurrentLine()
 
@@ -43,17 +43,16 @@ export const useTranslations = ( languageIds, lineEnding ) => {
       sources,
       recommendedSources,
       languageId,
-      lineEnding,
     } ),
   } ), {} )
 }
 
-export const useTransliterations = ( languageIds, lineEnding ) => {
+export const useTransliterations = languageIds => {
   const [ line ] = useCurrentLine()
 
   return ( languageIds || [] ).filter( x => x ).reduce( ( translations, languageId ) => ( {
     ...translations,
-    [ languagesById[ languageId ] ]: line && getTransliteration( line, languageId, lineEnding ),
+    [ languagesById[ languageId ] ]: line && getTransliteration( line, languageId ),
   } ), {} )
 }
 

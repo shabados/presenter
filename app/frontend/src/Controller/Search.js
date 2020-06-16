@@ -29,6 +29,7 @@ import {
   stripPauses,
   getTranslation,
   getTransliteration,
+  customiseLines,
 } from '../lib/utils'
 import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../lib/contexts'
 import controller from '../lib/controller'
@@ -206,21 +207,24 @@ const Search = ( { updateFocus, register, focused } ) => {
     translations,
     transliterations,
   } ) => {
-    const transliteration = resultTransliterationLanguage && transliterations && getTransliteration(
-      { transliterations },
-      resultTransliterationLanguage,
-      lineEnding,
+    const { transliteration } = resultTransliterationLanguage && transliterations && customiseLines(
+      { transliteration: getTransliteration(
+        { transliterations },
+        resultTransliterationLanguage,
+      ) },
+      { lineEnding },
     )
 
-    const translation = resultTranslationLanguage && translations && getTranslation( {
-      line: { translations },
-      shabad: { sourceId },
-      recommendedSources,
-      sources,
-      languageId: resultTranslationLanguage,
-      lineEnding,
-    } )
-
+    const { translation } = resultTranslationLanguage && translations && customiseLines(
+      { translation: getTranslation( {
+        line: { translations },
+        shabad: { sourceId },
+        recommendedSources,
+        sources,
+        languageId: resultTranslationLanguage,
+      } ) },
+      { lineEnding },
+    )
     // Grab the search mode or assume it's first letter
     const mode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
 

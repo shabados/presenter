@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 import { LANGUAGES } from '../lib/consts'
 import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines } from '../lib/hooks'
+import { customiseLines } from '../lib/utils'
 
 import Line from './Line'
 
@@ -42,17 +43,23 @@ const Display = ( { settings } ) => {
     : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
-  const translations = useTranslations( line && [
-    display.englishTranslation && LANGUAGES.english,
-    display.punjabiTranslation && LANGUAGES.punjabi,
-    display.spanishTranslation && LANGUAGES.spanish,
-  ], lineEnding )
+  const translations = customiseLines(
+    useTranslations( line && [
+      display.englishTranslation && LANGUAGES.english,
+      display.punjabiTranslation && LANGUAGES.punjabi,
+      display.spanishTranslation && LANGUAGES.spanish,
+    ] ),
+    { lineEnding },
+  )
 
-  const transliterations = useTransliterations( line && [
-    display.englishTransliteration && LANGUAGES.english,
-    display.hindiTransliteration && LANGUAGES.hindi,
-    display.urduTransliteration && LANGUAGES.urdu,
-  ], lineEnding )
+  const transliterations = customiseLines(
+    useTransliterations( line && [
+      display.englishTransliteration && LANGUAGES.english,
+      display.hindiTransliteration && LANGUAGES.hindi,
+      display.urduTransliteration && LANGUAGES.urdu,
+    ] ),
+    { lineEnding },
+  )
 
   return (
     <div className={classNames( { simple, background }, 'display' )}>
