@@ -138,10 +138,10 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
  * @param {Object} line The current line.
  * @param {number} languageId The identifier of the language.
  */
-export const getTransliteration = ( line, languageId ) => {
-  const translit = line.transliterations.find( (
+export const getTransliteration = ( { transliterations }, languageId ) => {
+  const { transliteration: translit } = transliterations.find( (
     ( { languageId: id } ) => languageId === id
-  ) ).transliteration
+  ) )
 
   return translit
 }
