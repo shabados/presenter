@@ -25,25 +25,6 @@ export const merge = ( source, destination ) => deepmerge(
 )
 
 /**
- * Modified version of lodash mapValues.
- * This will allow you to pass in props for to iteratee.
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {Object} args Arguments that need to be passed to iteratee.
- * @returns {Object} Returns the new mapped object.
- */
-export const mapValues = ( object, iteratee, args ) => {
-  // eslint-disable-next-line no-param-reassign
-  object = Object( object )
-  const result = {}
-
-  Object.keys( object ).forEach( key => {
-    result[ key ] = iteratee( object[ key ], args, key, object )
-  } )
-  return result
-}
-
-/**
  *
  * @param {string} line The line to modify.
  * @param {Object} settings Different boolean values for transformations.

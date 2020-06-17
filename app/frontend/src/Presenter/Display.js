@@ -2,10 +2,11 @@ import React from 'react'
 import { hot } from 'react-hot-loader/root'
 import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
+import { mapValues } from 'lodash'
 
 import { LANGUAGES } from '../lib/consts'
 import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines } from '../lib/hooks'
-import { customiseLine, mapValues } from '../lib/utils'
+import { customiseLine } from '../lib/utils'
 import Line from './Line'
 
 import './Display.css'
@@ -48,8 +49,7 @@ const Display = ( { settings } ) => {
       display.punjabiTranslation && LANGUAGES.punjabi,
       display.spanishTranslation && LANGUAGES.spanish,
     ] ),
-    customiseLine,
-    { lineEnding },
+    line => customiseLine( line, { lineEnding } ),
   )
 
   const transliterations = mapValues(
@@ -58,8 +58,7 @@ const Display = ( { settings } ) => {
       display.hindiTransliteration && LANGUAGES.hindi,
       display.urduTransliteration && LANGUAGES.urdu,
     ] ),
-    customiseLine,
-    { lineEnding },
+    line => customiseLine( line, { lineEnding } ),
   )
 
   return (
