@@ -100,7 +100,7 @@ export const OPTIONS = {
   englishTransliteration: { name: 'English Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   hindiTransliteration: { name: 'Hindi Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   urduTransliteration: { name: 'Urdu Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  lineEnding: { name: 'Line Ending', icon: faRemoveFormat, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  lineEnding: { name: 'Hide Line Ending', icon: faRemoveFormat, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   themeName: { name: 'Theme Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
   simpleGraphics: { name: 'Remove Visual Effects', icon: faLowVision, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   backgroundImage: { name: 'Background Image', icon: faImage, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
