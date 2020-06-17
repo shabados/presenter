@@ -124,3 +124,11 @@ export const SOURCE_ABBREVIATIONS = {
   11: 'Sri Sarabloh Granth Ji',
   12: 'Uggardanti',
 }
+
+// Line type IDs
+export const LINE_TYPE = {
+  manglaCharan: 1,
+  sirlekh: 2,
+  rahao: 3,
+  pankti: 4,
+}

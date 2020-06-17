@@ -35,6 +35,7 @@ const Display = ( { settings } ) => {
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
   const [ line, lineIndex ] = useCurrentLine()
+  const { typeId } = line || ''
 
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display
@@ -49,7 +50,7 @@ const Display = ( { settings } ) => {
       display.punjabiTranslation && LANGUAGES.punjabi,
       display.spanishTranslation && LANGUAGES.spanish,
     ] ),
-    line => customiseLine( line, { lineEnding } ),
+    line => customiseLine( line, { lineEnding, typeId } ),
   )
 
   const transliterations = mapValues(
@@ -58,7 +59,7 @@ const Display = ( { settings } ) => {
       display.hindiTransliteration && LANGUAGES.hindi,
       display.urduTransliteration && LANGUAGES.urdu,
     ] ),
-    line => customiseLine( line, { lineEnding } ),
+    line => customiseLine( line, { lineEnding, typeId } ),
   )
 
   return (

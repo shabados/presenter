@@ -186,6 +186,7 @@ const Search = ( { updateFocus, register, focused } ) => {
   /**
    * Renders a single result, highlighting the match.
    * @param {string} gurmukhi The shabad line to display.
+   * @param {int} typeId The type id of line.
    * @param {string} lineId The id of the line.
    * @param {string} shabadId The id of the shabad.
    * @param {Component} ref The ref to the component.
@@ -197,6 +198,7 @@ const Search = ( { updateFocus, register, focused } ) => {
    */
   const Result = ( {
     gurmukhi,
+    typeId,
     id: lineId,
     shabadId,
     ref,
@@ -212,7 +214,7 @@ const Search = ( { updateFocus, register, focused } ) => {
         { transliterations },
         resultTransliterationLanguage,
       ),
-      { lineEnding },
+      { lineEnding, typeId },
     )
 
     const translation = resultTranslationLanguage && translations && customiseLine(
@@ -223,7 +225,7 @@ const Search = ( { updateFocus, register, focused } ) => {
         sources,
         languageId: resultTranslationLanguage,
       } ),
-      { lineEnding },
+      { lineEnding, typeId },
     )
 
     // Grab the search mode or assume it's first letter
@@ -297,6 +299,7 @@ const Search = ( { updateFocus, register, focused } ) => {
   Result.propTypes = {
     gurmukhi: string.isRequired,
     id: string.isRequired,
+    typeId: string.isRequired,
     shabadId: string.isRequired,
     ref: instanceOf( Result ).isRequired,
     sourceId: number.isRequired,

@@ -25,6 +25,7 @@ const Overlay = () => {
   } } = globalSettings || {}
 
   const [ line ] = useCurrentLine()
+  const { typeId } = line || ''
   const { lineEnding } = overlay
 
   const translations = mapValues(
@@ -33,7 +34,7 @@ const Overlay = () => {
       overlay.punjabiTranslation && LANGUAGES.punjabi,
       overlay.spanishTranslation && LANGUAGES.spanish,
     ] ),
-    line => customiseLine( line, { lineEnding } ),
+    line => customiseLine( line, { lineEnding, typeId } ),
   )
 
   const transliterations = mapValues(
@@ -42,7 +43,7 @@ const Overlay = () => {
       overlay.hindiTransliteration && LANGUAGES.hindi,
       overlay.urduTransliteration && LANGUAGES.urdu,
     ] ),
-    line => customiseLine( line, { lineEnding } ),
+    line => customiseLine( line, { lineEnding, typeId } ),
   )
 
   return connected && (
