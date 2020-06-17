@@ -34,7 +34,7 @@ export const customiseLine = ( line, { lineEnding } ) => [
   [ lineEnding, stripEndings ],
 ]
   .filter( ( [ predicate ] ) => predicate )
-  .reduce( ( line, [ , fn ] ) => fn( line ), line )
+  .reduce( ( line, [ , fn ] ) => fn( line || '' ), line )
 
 /**
  * Removes the pause characters from the string.
