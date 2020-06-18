@@ -31,10 +31,10 @@ export const merge = ( source, destination ) => deepmerge(
  * @returns {string} With different transformations applied.
  */
 export const customiseLine = ( line, { lineEnding, typeId } ) => [
-  [ lineEnding, stripEndings, typeId ],
+  [ lineEnding, stripEndings ],
 ]
   .filter( ( [ predicate ] ) => predicate )
-  .reduce( ( line, [ , fn, typeId ] ) => (
+  .reduce( ( line, [ , fn ] ) => (
     // Skip stripEndings for Sirlekh
     typeId === LINE_TYPES.sirlekh ? line : fn( line || '' )
   ), line )
