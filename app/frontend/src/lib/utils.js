@@ -11,7 +11,7 @@ import { find, findIndex, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
 import { stripEndings } from 'gurmukhi-utils'
 
-import { PAUSE_CHARS, STATES, isMac, BANIS, LINE_TYPE } from './consts'
+import { PAUSE_CHARS, STATES, isMac, BANIS, LINE_TYPES } from './consts'
 
 /**
  * Merges the source object into the destination, replacing arrays.
@@ -36,7 +36,7 @@ export const customiseLine = ( line, { lineEnding, typeId } ) => [
   .filter( ( [ predicate ] ) => predicate )
   .reduce( ( line, [ , fn, typeId ] ) => (
     // Skip stripEndings for Sirlekh
-    typeId === LINE_TYPE.sirlekh ? line : fn( line || '' )
+    typeId === LINE_TYPES.sirlekh ? line : fn( line || '' )
   ), line )
 
 /**

@@ -126,7 +126,7 @@ export const SOURCE_ABBREVIATIONS = {
 }
 
 // Line type IDs
-export const LINE_TYPE = {
+export const LINE_TYPES = {
   manglaCharan: 1,
   sirlekh: 2,
   rahao: 3,
