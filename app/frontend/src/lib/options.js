@@ -271,7 +271,7 @@ export const DEFAULT_OPTIONS = {
       //! Currently not implemented
       // launchOnStartup: false,
       multipleDisplays: true,
-      fullscreenOnLaunch: true,
+      fullscreenOnLaunch: false,
       serverAnalytics: true,
       automaticUpdates: true,
       betaOptIn: false,
