@@ -29,6 +29,7 @@ import {
   stripPauses,
   getTranslation,
   getTransliteration,
+  customiseLine,
 } from '../lib/utils'
 import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../lib/contexts'
 import controller from '../lib/controller'
@@ -113,7 +114,7 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
 const Search = ( { updateFocus, register, focused } ) => {
   const { local: {
     sources,
-    search: { showResultCitations, resultTransliterationLanguage, resultTranslationLanguage },
+    search: { showResultCitations, resultTransliterationLanguage, resultTranslationLanguage, lineEnding },
   } = {} } = useContext( SettingsContext )
 
   // Set the initial search query from URL
@@ -185,6 +186,7 @@ const Search = ( { updateFocus, register, focused } ) => {
   /**
    * Renders a single result, highlighting the match.
    * @param {string} gurmukhi The shabad line to display.
+   * @param {int} typeId The type id of line.
    * @param {string} lineId The id of the line.
    * @param {string} shabadId The id of the shabad.
    * @param {Component} ref The ref to the component.
@@ -196,6 +198,7 @@ const Search = ( { updateFocus, register, focused } ) => {
    */
   const Result = ( {
     gurmukhi,
+    typeId,
     id: lineId,
     shabadId,
     ref,
@@ -206,18 +209,24 @@ const Search = ( { updateFocus, register, focused } ) => {
     translations,
     transliterations,
   } ) => {
-    const transliteration = resultTransliterationLanguage && transliterations && getTransliteration(
-      { transliterations },
-      resultTransliterationLanguage,
+    const transliteration = resultTransliterationLanguage && transliterations && customiseLine(
+      getTransliteration(
+        { transliterations },
+        resultTransliterationLanguage,
+      ),
+      { lineEnding, typeId },
     )
 
-    const translation = resultTranslationLanguage && translations && getTranslation( {
-      line: { translations },
-      shabad: { sourceId },
-      recommendedSources,
-      sources,
-      languageId: resultTranslationLanguage,
-    } )
+    const translation = resultTranslationLanguage && translations && customiseLine(
+      getTranslation( {
+        line: { translations },
+        shabad: { sourceId },
+        recommendedSources,
+        sources,
+        languageId: resultTranslationLanguage,
+      } ),
+      { lineEnding, typeId },
+    )
 
     // Grab the search mode or assume it's first letter
     const mode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
@@ -290,6 +299,7 @@ const Search = ( { updateFocus, register, focused } ) => {
   Result.propTypes = {
     gurmukhi: string.isRequired,
     id: string.isRequired,
+    typeId: string.isRequired,
     shabadId: string.isRequired,
     ref: instanceOf( Result ).isRequired,
     sourceId: number.isRequired,

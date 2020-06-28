@@ -9,8 +9,9 @@ import deepmerge from 'deepmerge'
 import queryString from 'qs'
 import { find, findIndex, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
+import { stripEndings } from 'gurmukhi-utils'
 
-import { PAUSE_CHARS, STATES, isMac, BANIS } from './consts'
+import { PAUSE_CHARS, STATES, isMac, BANIS, LINE_TYPES } from './consts'
 
 /**
  * Merges the source object into the destination, replacing arrays.
@@ -22,6 +23,21 @@ export const merge = ( source, destination ) => deepmerge(
   destination,
   { arrayMerge: ( _, source ) => source },
 )
+
+/**
+ *
+ * @param {string} line The line to modify.
+ * @param {Object} settings Different boolean values for transformations.
+ * @returns {string} With different transformations applied.
+ */
+export const customiseLine = ( line, { lineEnding, typeId } ) => [
+  [ lineEnding, stripEndings ],
+]
+  .filter( ( [ predicate ] ) => predicate )
+  .reduce( ( line, [ , fn ] ) => (
+    // Skip stripEndings for Sirlekh
+    typeId === LINE_TYPES.sirlekh ? line : fn( line || '' )
+  ), line )
 
 /**
  * Removes the pause characters from the string.
@@ -113,9 +129,11 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
 
   if ( !translationId ) return null
 
-  return line.translations.find( (
+  const { translation } = line.translations.find( (
     ( { translationSourceId: id } ) => translationId === id
-  ) ).translation
+  ) )
+
+  return translation
 }
 
 /**
@@ -123,9 +141,13 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
  * @param {Object} line The current line.
  * @param {number} languageId The identifier of the language.
  */
-export const getTransliteration = ( line, languageId ) => line.transliterations.find( (
-  ( { languageId: id } ) => languageId === id
-) ).transliteration
+export const getTransliteration = ( { transliterations }, languageId ) => {
+  const { transliteration: translit } = transliterations.find( (
+    ( { languageId: id } ) => languageId === id
+  ) )
+
+  return translit
+}
 
 export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
 
