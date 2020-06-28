@@ -20,7 +20,7 @@ const onSettingsChange = ( { system } ) => {
   // Fullscreen any display windows on start, if set
   const windows = getDisplayWindows()
   Object.values( windows ).forEach( window => window.once( 'ready-to-show', () => {
-    window.setFullScreen( system.fullscreenOnLaunch )
+    window.setSimpleFullScreen( system.fullscreenOnLaunch )
   } ) )
 
   // Toggle multiple displays
