@@ -38,7 +38,7 @@ const OverlaySettings = () => {
               the same information is used to generate the overlay.
               Choose what to display and how to display it with the options below.
               You can choose from a variety of pre-configured overlays or
-              create your own using theme tool.
+              create your own using the theme tool.
           </Typography>
         </Grid>
       </OptionGrid>
