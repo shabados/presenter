@@ -25,7 +25,7 @@ const Overlay = () => {
   } } = globalSettings || {}
 
   const [ line ] = useCurrentLine()
-  const { typeId } = line || ''
+  const { typeId } = line || {}
   const { lineEnding } = overlay
 
   const translations = mapValues(

@@ -35,7 +35,7 @@ const Display = ( { settings } ) => {
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
   const [ line, lineIndex ] = useCurrentLine()
-  const { typeId } = line || ''
+  const { typeId } = line || {}
 
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display
