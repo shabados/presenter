@@ -114,7 +114,12 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
 const Search = ( { updateFocus, register, focused } ) => {
   const { local: {
     sources,
-    search: { showResultCitations, resultTransliterationLanguage, resultTranslationLanguage, lineEnding },
+    search: {
+      showResultCitations,
+      resultTransliterationLanguage,
+      resultTranslationLanguage,
+      lineEnding,
+    },
   } = {} } = useContext( SettingsContext )
 
   // Set the initial search query from URL
