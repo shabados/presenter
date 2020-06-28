@@ -8,7 +8,7 @@ import defaultTheme from '../Presenter/themes/Day.css'
 
 /**
  * Component to load a theme using a `<link>` tag.
- * @param name The name of the CSS theme to load from the server.
+ * @param {string} name The name of the CSS theme to load from the server.
  * @constructor
  */
 const ThemeLoader = ( { name, connectedAt } ) => (
