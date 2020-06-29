@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Grid, Typography } from '@material-ui/core'
 import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 
-import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
+import { BACKEND_URL, OVERLAY_PORT, isElectron } from '../lib/consts'
 import controller from '../lib/controller'
 
 import CopyButton from './CopyButton'
@@ -55,7 +55,7 @@ const OverlaySettings = () => {
         <Grid item {...slotSizes.name}><Typography>Overlay URL</Typography></Grid>
         <Grid item {...slotSizes.option} align="center">
           {Object.entries( addresses ).map( ( [ name, address ] ) => (
-            <CopyButton style={{ textAlign: 'center' }} copyText={`http://${address}:${BACKEND_PORT}/overlay`}>{`${address}:${BACKEND_PORT}/overlay (${name})`}</CopyButton>
+            <CopyButton style={{ textAlign: 'center' }} copyText={`http://${address}:${OVERLAY_PORT}/overlay`}>{`${address}:${OVERLAY_PORT}/overlay (${name})`}</CopyButton>
           ) )}
         </Grid>
       </OptionGrid>

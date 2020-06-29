@@ -5,7 +5,6 @@
 
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import EventEmitter from 'event-emitter'
-import { toAscii } from 'gurmukhi-utils'
 
 import { DEFAULT_OPTIONS } from './options'
 import { merge, getNextJumpLine, findLineIndex } from './utils'
@@ -107,7 +106,7 @@ class Controller extends EventEmitter {
    * @param type The type of search (first-letter/full-word).
    * @param options Additional options to pass.
    */
-  search = ( query, type, options = {} ) => this.sendJSON( `search:${type}`, { ...options, query: toAscii( query ) } )
+  search = ( query, type, options = {} ) => this.sendJSON( `search:${type}`, { ...options, query } )
 
   /**
    * Convenience method for setting the line.

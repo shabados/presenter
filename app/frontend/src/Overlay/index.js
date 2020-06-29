@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import classNames from 'classnames'
+import { mapValues } from 'lodash'
 
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
@@ -7,6 +8,7 @@ import ThemeLoader from './ThemeLoader'
 import { SettingsContext, StatusContext } from '../lib/contexts'
 import { LANGUAGES } from '../lib/consts'
 import { useTranslations, useTransliterations, useCurrentLine } from '../lib/hooks'
+import { customiseLine } from '../lib/utils'
 
 import './index.css'
 
@@ -23,18 +25,26 @@ const Overlay = () => {
   } } = globalSettings || {}
 
   const [ line ] = useCurrentLine()
+  const { typeId } = line || {}
+  const { lineEnding } = overlay
 
-  const translations = useTranslations( line && [
-    overlay.englishTranslation && LANGUAGES.english,
-    overlay.punjabiTranslation && LANGUAGES.punjabi,
-    overlay.spanishTranslation && LANGUAGES.spanish,
-  ] )
+  const translations = mapValues(
+    useTranslations( line && [
+      overlay.englishTranslation && LANGUAGES.english,
+      overlay.punjabiTranslation && LANGUAGES.punjabi,
+      overlay.spanishTranslation && LANGUAGES.spanish,
+    ] ),
+    line => customiseLine( line, { lineEnding, typeId } ),
+  )
 
-  const transliterations = useTransliterations( line && [
-    overlay.englishTransliteration && LANGUAGES.english,
-    overlay.hindiTransliteration && LANGUAGES.hindi,
-    overlay.urduTransliteration && LANGUAGES.urdu,
-  ] )
+  const transliterations = mapValues(
+    useTransliterations( line && [
+      overlay.englishTransliteration && LANGUAGES.english,
+      overlay.hindiTransliteration && LANGUAGES.hindi,
+      overlay.urduTransliteration && LANGUAGES.urdu,
+    ] ),
+    line => customiseLine( line, { lineEnding, typeId } ),
+  )
 
   return connected && (
     <div className={classNames( {

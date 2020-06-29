@@ -77,15 +77,6 @@ const Settings = () => {
       } )
   }, [] )
 
-  // Fetch list of overlay themes from server
-  useEffect( () => {
-    fetch( `${BACKEND_URL}/overlay/themes` )
-      .then( res => res.json() )
-      .then( themes => {
-        OPTIONS.overlayName.values = themes.map( theme => ( { name: theme, value: theme } ) )
-      } )
-  }, [] )
-
   const openMobileMenu = () => setMobileOpen( true )
   const closeMobileMenu = () => setMobileOpen( false )
 
@@ -221,7 +212,7 @@ const Settings = () => {
             path={`${SETTINGS_DEVICE_URL}/hotkeys`}
             render={() => ( <Hotkeys shortcuts={SHORTCUTS} keys={hotkeys} device={device} /> )}
           />
-          <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={selectedDeviceSettings.sources} />} />
+          <Route path={`${SETTINGS_DEVICE_URL}/sources`} render={() => <Sources sources={selectedDeviceSettings.sources} device={device} />} />
           <Route path={`${SETTINGS_DEVICE_URL}/*`} render={() => <DynamicOptions device={device} group={group} />} />
 
           {/* Server setting routes */}

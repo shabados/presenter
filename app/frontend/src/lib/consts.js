@@ -24,6 +24,7 @@ export const BACKEND_HOST = window.location.hostname || 'localhost'
 export const BACKEND_PORT = !isDev ? 1699 : 42425
 export const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
 export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
+export const OVERLAY_PORT = !isDev ? 1699 : 3000
 
 /* Sentry Data Source Name */
 export const SENTRY_DSN = 'https://51b714c1e7544cba86efb2cad85152ff@sentry.io/1363390'
@@ -123,4 +124,12 @@ export const SOURCE_ABBREVIATIONS = {
   10: 'Rehitname',
   11: 'Sri Sarabloh Granth Ji',
   12: 'Uggardanti',
+}
+
+// Line type IDs
+export const LINE_TYPES = {
+  manglaCharan: 1,
+  sirlekh: 2,
+  rahao: 3,
+  pankti: 4,
 }

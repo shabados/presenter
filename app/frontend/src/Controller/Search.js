@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import { stringify } from 'querystring'
-import { firstLetters, toAscii } from 'gurmukhi-utils'
+import { firstLetters } from 'gurmukhi-utils'
 
 import {
   SEARCH_TYPES,
@@ -29,6 +29,7 @@ import {
   stripPauses,
   getTranslation,
   getTransliteration,
+  customiseLine,
 } from '../lib/utils'
 import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../lib/contexts'
 import controller from '../lib/controller'
@@ -44,7 +45,7 @@ const getSearchParams = searchQuery => {
   // Extract anchors and search query
   const [ , anchor, query ] = searchQuery.match( searchRegex )
 
-  const inputValue = toAscii( query )
+  const inputValue = query
 
   // Get search type from anchor char, if any
   const type = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
@@ -88,11 +89,11 @@ const highlightFirstLetterMatches = ( line, query ) => {
 
 /**
  * Separates the line into words before the first match, the first match, and after the match.
- * @param value the full line.
- * @param input the string inputted by the user.
- * @param mode the type of search being performed, either first word or full word.
- * @return an array of [ beforeMatch, match, afterMatch ],
- *   with `match` being the highlighted section.`
+ * @param value The full line.
+ * @param input The string inputted by the user.
+ * @param mode The type of search being performed, either first word or full word.
+ * @return An array of [ beforeMatch, match, afterMatch ],
+ *   with `match` being the highlighted section.`.
  */
 const highlightMatches = gurmukhi => ( value, input, mode ) => {
   if ( !value ) return [ '', '', '' ]
@@ -113,7 +114,12 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
 const Search = ( { updateFocus, register, focused } ) => {
   const { local: {
     sources,
-    search: { showResultCitations, resultTransliterationLanguage, resultTranslationLanguage },
+    search: {
+      showResultCitations,
+      resultTransliterationLanguage,
+      resultTranslationLanguage,
+      lineEnding,
+    },
   } = {} } = useContext( SettingsContext )
 
   // Set the initial search query from URL
@@ -185,6 +191,7 @@ const Search = ( { updateFocus, register, focused } ) => {
   /**
    * Renders a single result, highlighting the match.
    * @param {string} gurmukhi The shabad line to display.
+   * @param {int} typeId The type id of line.
    * @param {string} lineId The id of the line.
    * @param {string} shabadId The id of the shabad.
    * @param {Component} ref The ref to the component.
@@ -196,6 +203,7 @@ const Search = ( { updateFocus, register, focused } ) => {
    */
   const Result = ( {
     gurmukhi,
+    typeId,
     id: lineId,
     shabadId,
     ref,
@@ -206,18 +214,24 @@ const Search = ( { updateFocus, register, focused } ) => {
     translations,
     transliterations,
   } ) => {
-    const transliteration = resultTransliterationLanguage && transliterations && getTransliteration(
-      { transliterations },
-      resultTransliterationLanguage,
+    const transliteration = resultTransliterationLanguage && transliterations && customiseLine(
+      getTransliteration(
+        { transliterations },
+        resultTransliterationLanguage,
+      ),
+      { lineEnding, typeId },
     )
 
-    const translation = resultTranslationLanguage && translations && getTranslation( {
-      line: { translations },
-      shabad: { sourceId },
-      recommendedSources,
-      sources,
-      languageId: resultTranslationLanguage,
-    } )
+    const translation = resultTranslationLanguage && translations && customiseLine(
+      getTranslation( {
+        line: { translations },
+        shabad: { sourceId },
+        recommendedSources,
+        sources,
+        languageId: resultTranslationLanguage,
+      } ),
+      { lineEnding, typeId },
+    )
 
     // Grab the search mode or assume it's first letter
     const mode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
@@ -243,7 +257,6 @@ const Search = ( { updateFocus, register, focused } ) => {
     const showCitation = showResultCitations && shabad && shabad.section
     const getEnglish = ( { nameEnglish } ) => nameEnglish
     const getWriterName = () => getEnglish( writers[ shabad.writerId ] )
-    const getSection = () => getEnglish( shabad.section )
     const getPageName = () => recommendedSources[ shabad.sourceId ].pageNameEnglish
 
     return (
@@ -275,14 +288,11 @@ const Search = ( { updateFocus, register, focused } ) => {
 
           {showCitation && (
             <span className="citation">
-              (
-              {`${getWriterName()}. `}
               {[
-                `"${getSection()}"`,
+                getWriterName(),
                 SOURCE_ABBREVIATIONS[ sourceId ],
                 `${getPageName()} ${sourcePage}`,
-              ].reduce( ( prev, curr ) => [ prev, ', ', curr ] )}
-              )
+              ].reduce( ( prev, curr ) => [ prev, ' - ', curr ] )}
             </span>
           )}
 
@@ -294,6 +304,7 @@ const Search = ( { updateFocus, register, focused } ) => {
   Result.propTypes = {
     gurmukhi: string.isRequired,
     id: string.isRequired,
+    typeId: string.isRequired,
     shabadId: string.isRequired,
     ref: instanceOf( Result ).isRequired,
     sourceId: number.isRequired,
