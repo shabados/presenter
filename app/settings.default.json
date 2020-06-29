@@ -2,6 +2,7 @@
   "system": {
     "launchOnStartup": false,
     "multipleDisplays": true,
+    "fullscreenOnLaunch": false,
     "serverAnalytics": true,
     "automaticUpdates": true,
     "betaOptIn": false

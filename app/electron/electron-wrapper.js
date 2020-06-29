@@ -3,9 +3,9 @@ import { app } from 'electron'
 
 import logger from '../lib/logger'
 import { isDev } from '../lib/consts'
-
-import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow } from './window'
+import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window'
 import { setBeta, initUpdates, checkUpdates, UPDATER_ERRORS } from './updates'
+
 
 let splashScreen
 
@@ -17,6 +17,12 @@ app.on( 'ready', () => {
 } )
 
 const onSettingsChange = ( { system } ) => {
+  // Fullscreen any display windows on start, if set
+  const windows = getDisplayWindows()
+  Object.values( windows ).forEach( window => window.once( 'ready-to-show', () => {
+    window.setSimpleFullScreen( system.fullscreenOnLaunch )
+  } ) )
+
   // Toggle multiple displays
   if ( system.multipleDisplays ) createNonMainWindows()
   else closeNonMainWindows()
@@ -31,7 +37,6 @@ const onServerReady = server => {
 
   // Create the main window
   createMainWindow()
-
   // Close splashscreen when the main window has been shown
   getMainWindow().once( 'show', () => splashScreen.close() )
 }
