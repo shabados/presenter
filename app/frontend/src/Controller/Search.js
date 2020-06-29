@@ -75,20 +75,19 @@ const highlightFullWordMatches = ( line, query ) => {
 }
 
 const highlightFirstLetterMatches = ( line, query ) => {
-  const unicodeLine = stripAccents( stripVishraams( toUnicode( line ) ) )
-  const unicodeQuery = stripAccents( toUnicode( query ) )
+  const baseLine = stripVishraams( line )
 
-  const letters = firstLetters( unicodeLine )
-  const words = unicodeLine.split( ' ' )
+  const letters = toAscii( firstLetters( stripAccents( toUnicode( baseLine ) ) ) )
+  const words = baseLine.split( ' ' )
 
-  const startPosition = letters.search( unicodeQuery )
+  const startPosition = letters.search( stripAccents( query ) )
   const endPosition = startPosition + query.length
 
   return [
     `${words.slice( 0, startPosition ).join( ' ' )} `,
     `${words.slice( startPosition, endPosition ).join( ' ' )} `,
     `${words.slice( endPosition ).join( ' ' )} `,
-  ].map( toAscii )
+  ]
 }
 
 /**
