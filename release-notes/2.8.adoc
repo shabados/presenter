@@ -24,7 +24,6 @@ endif::[]
 Welcome to the {release} release of {repo-title}. There are a number of updates we hope you will like, some of the key highlights include:
 
 * <<Customizable hotkeys>>
-* <<Hide line endings>>
 * <<Launch in fullscreen>>
 * <<Theme Tool>>
 
@@ -32,7 +31,7 @@ toc::[id="toc"]
 
 ## General
 
-* Use Gurbani Akhar v2.5.2 font and fix other font related issues
+* Update to Gurbani Akhar v2.5.2 font and fix other font related issues
 * Update to Gurmukhi Utils v3.1.0
 
 .*Bug Fixes*
@@ -85,7 +84,7 @@ image::./assets/{semver}/customizable-hotkeys.gif[width=640]
 
 ### Hide line endings
 
-It is possible to hide page numbers and line numbers from translations and transliteration from search, presenter and overlays.
+It is possible to hide page numbers and line numbers from translations and transliteration for search, presenter and overlays.
 
 .Line ending option in presenter
 image::./assets/{semver}/line-endings.png[width=640]
