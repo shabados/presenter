@@ -1,0 +1,130 @@
+:repo: desktop
+:repo-title: Shabad OS for Desktop
+:release: July 2020
+:semver: 2.8
+:idprefix:
+:hide-uri-scheme:
+:numbered:
+:max-width: 900px
+:icons: font
+:toc: macro
+:toclevels: 1
+ifdef::env-github,env-browser[:outfilesuffix: .asciidoc]
+ifdef::env-github[]
+:note-caption: :information_source:
+:tip-caption: :bulb:
+:important-caption: :fire:
+:caution-caption: :warning:
+:warning-caption: :no_entry:
+endif::[]
+
+[discrete]
+# https://github.com/ShabadOS/{repo}/blob/master/release-notes/{semver}.adoc[{release} (SemVer {semver})]
+
+Welcome to the {release} release of {repo-title}. There are a number of updates we hope you will like, some of the key highlights include:
+
+* <<Customizable hotkeys>>
+* <<Hide line endings>>
+* <<Launch in fullscreen>>
+* <<Theme Tool>>
+
+toc::[id="toc"]
+
+## General
+
+* Use Gurbani Akhar v2.5.2 font and fix other font related issues
+* Update to Gurmukhi Utils v3.1.0
+
+.*Bug Fixes*
+* Incorrect highlighting of full word search results
+* Clicking plus was toggling next line
+* Ctrl-Up/Down hotkeys weren't going to next/previous shabad on first/last line
+* Unicode input in mobile keyboard was breaking auto suggest
+* Default citation format
+* Fields not showing up properly for overlay
+* Change sources
+* Full word search highlighted next word
+
+
+.*UI*
+* Hide GUI arrow buttons from controller in mobile browser
+* Set second line as "jump to" if first line is set as "main line"
+
+## Presenter
+
+### Advance on click if focused
+
+Avoids unnecessarily going to next line if you are trying to focus on the main presenter window.
+
+## Search
+
+### Unify accent insertion and match accented first letter inputs
+
+Resolves issue of inserting and deleting accents and improves full word search highlights
+
+.Improved search results and highlighting
+image::./assets/{semver}/search-result-highlight.png[width=640]
+
+
+
+## Settings
+
+### Combine Vishraam color toggles
+
+Combine transliterations and gurmukhi color toggles into "Show Colors" toggle
+
+.Show colors for Vishraams
+image::./assets/{semver}/vishraam-toggles.png[width=640]
+
+### Customizable hotkeys
+
+Adds support to create custom shortcuts.
+
+.Choose custom hotkeys in hotkeys menu
+image::./assets/{semver}/customizable-hotkeys.gif[width=640]
+
+### Hide line endings
+
+It is possible to hide page numbers and line numbers from translations and transliteration from search, presenter and overlays.
+
+.Line ending option in presenter
+image::./assets/{semver}/line-endings.png[width=640]
+
+
+### Launch in fullscreen
+
+Now you can choose to start presenter window in fullscreen mode.
+
+.Launch in fullscreen mode
+image::./assets/{semver}/fullscreen.gif[width=640]
+
+### Refresh Overlay dropdown
+No need to restart Shabad OS if you added a new overlay theme. Once you drag and drop your custom theme in overlay folder and just head to overlay settings and select your new theme.
+
+
+.Drag and drop and see your new theme in overlay themes dropdown
+image::./assets/{semver}/overlay-theme.gif[width=640]
+
+### Theme Tool
+
+It is now possible to create overlay themes using the theme tool. Its GUI interface makes it easy for average user to design custom overlay themes in just few clicks. Try it out at https://themes.shabados.com[themes.shabados.com]
+
+
+## Next Release
+Update to new version of Shabad OS Database.
+
+## Thank You
+
+#blessed :pray: to the following volunteers for participating in making {repo-title} even better:
+
+.Contributions to Issue Tracking:
+* https://github.com/bhajneet[Bhajneet S.K. (@bhajneet)]
+* https://github.com/Harjot1Singh[Harjot Singh (@Harjot1Singh)]
+* https://github.com/saihaj[Saihajpreet Singh (@saihaj)]
+
+.Contributions to `{repo}`
+* https://github.com/AkalUstat[Akal-Ustat Singh(@AkalUstat)]
+* https://github.com/bhajneet[Bhajneet S.K. (@bhajneet)]
+* https://github.com/Harjot1Singh[Harjot Singh (@Harjot1Singh)]
+* https://github.com/Jujhaar[Jujhaar Singh (@Jujhaar)]
+* https://github.com/saihaj[Saihajpreet Singh (@saihaj)]
