@@ -45,16 +45,17 @@ const OverlaySettings = () => {
 
       <OptionGrid container align="center">
         <Grid item {...slotSizes.single}>
-
-          <Grid container justify="space-around">
-            <TutorialButton className="tutorial-button" href="https://tutorials.shabados.com/tutorials/1.0.0/overlay/overlay.html">
+          <TutorialButton className="tutorial-button" href="https://tutorials.shabados.com/tutorials/1.0.0/overlay/overlay.html">
             Learn More
-            </TutorialButton>
-            <TutorialButton className="theme-tool" href="https://themes.shabados.com">
-            Theme Tool
-            </TutorialButton>
-          </Grid>
+          </TutorialButton>
+        </Grid>
+      </OptionGrid>
 
+      <OptionGrid container align="center">
+        <Grid item {...slotSizes.single}>
+          <TutorialButton className="theme-tool" href="https://themes.shabados.com">
+            Theme Tool
+          </TutorialButton>
         </Grid>
       </OptionGrid>
 
