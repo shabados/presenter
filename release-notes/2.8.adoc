@@ -23,9 +23,10 @@ endif::[]
 
 Welcome to the {release} release of {repo-title}. There are a number of updates we hope you will like, some of the key highlights include:
 
-* <<Custom hotkeys>> - Choose combination of hotkeys that works for you
-* <<Launch in fullscreen>> - Allows you to start in fullscreen by default
-* <<Theme Tool>> - Makes it easier than ever before to create branded overlay themes
+* <<Custom hotkeys>>
+* <<Launch in fullscreen>> for automated deployments
+* <<Theme Tool>> button in `Settings > Overlay` will direct users to a website for creating custom overlays
+* <<Working full words search mode>>
 
 toc::[id="toc"]
 
@@ -35,79 +36,58 @@ toc::[id="toc"]
 * Updates to Gurmukhi Utils v3.1.0
 
 .*Bug Fixes*
-* Incorrect highlighting of full word search results
-* Clicking plus was toggling next line
-* Ctrl-Up/Down hotkeys weren't going to next/previous shabad on first/last line
-* Unicode input in mobile keyboard was breaking auto suggest
+* Showing the controller by mouse clicking the plus sign will no longer toggle the next line
+* Ctrl+{Up, Down} hotkeys will change the navigator shabad when used on the first and last lines.
 * Change default citation format
 * Fields not showing up properly for overlays
-* Unable to change sources
+* Choose different sources `Settings > Sources`
 * Full word search was highlighting next word
 
-
 .*UI*
-* Hide GUI arrow buttons from controller in mobile browsers
+* Hide GUI arrow buttons from controller in mobile browsers to show info button
 * Set second line as "jump to" if first line is set as "main line"
-
-## Presenter
-
-### Advance on click if focused
-
-Trying to focus main presenter window but it goes to next line. Quite annoying. Right? But not anymore :tada:! Clicking the presenter window will only change line if the presenter window is focused.
+* Combine "transliterations" and "gurmukhi color" toggles into "Show Colors" toggle in `Settings > Vishraams`
 
 ## Search
 
-### Unify accent insertion and match accented first letter inputs
+### Working full words search mode
 
 Resolves issue of inserting and deleting accents and improves full word search highlights
 
 .Improved search results and highlighting
 image::./assets/{semver}/search-result-highlight.png[width=640]
 
+### Mobile browser search
+It is now possible to use auto-suggest on mobile keyboards.
 
 ## Settings
 
-### Combine Vishraam color toggles
-
-Combine transliterations and gurmukhi color toggles into "Show Colors" toggle
-
-.Show colors for Vishraams
-image::./assets/{semver}/vishraam-toggles.png[width=640]
-
 ### Custom hotkeys
 
-We all love :heart: when we can do what we want. Now you can modify the default keybindings and choose to configure them to meet your needs.
+Now you can modify the default keybindings and choose to configure them to meet your needs.
 
 .Choose custom hotkeys in hotkeys menu
 image::./assets/{semver}/customizable-hotkeys.gif[width=640]
 
 ### Hide line endings
 
-Now you can choose to hide page numbers and line numbers from translations and transliteration in search, presenter and overlays.
-
-.Line ending option in presenter
-image::./assets/{semver}/line-endings.png[width=640]
-
+It is possible to hide page numbers and line numbers from translations and transliteration in search, presenter and overlays.
 
 ### Launch in fullscreen
 
-Now you can choose to start Shabad OS in fullscreen mode.
+It is possible to start Shabad OS in fullscreen mode for automated deployments.
 
 .Launch in fullscreen mode
 image::./assets/{semver}/fullscreen.gif[width=640]
 
 ### Refresh Overlay dropdown
-No need to restart Shabad OS if you added a new overlay theme. Drag and drop your custom theme in overlay folder and see your new theme in the "Overlay Name" dropdown.
+Clicking the dropdown for overlays will show new themes as they are added to the file system.
 
-
-.Drag and drop and see your new theme in overlay themes dropdown
 image::./assets/{semver}/overlay-theme.gif[width=640]
 
 ## Theme Tool
 
-https://www.instagram.com/p/CB_joVSF8UG/?igshid=ykqb4bt86fnf[Announcing] our brand new theme tool that makes it easier for users to design custom overlay themes in just few clicks. Design the ultimate theme that works with your brand.
-
-Try it out at https://themes.shabados.com[themes.shabados.com]
+It is now easy and possible for most users to design custom overlay themes in just few clicks using our new theme tool.
 
 .Theme Tool
 image::./assets/{semver}/theme-tool.png[width=640]
