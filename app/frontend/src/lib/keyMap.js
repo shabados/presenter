@@ -1,5 +1,7 @@
 /* Default keymap for hotkeys */
 
+import { truncateSync } from 'fs-extra'
+
 /**
  * Adds a group to a given keymap.
  * @param {*} keymap The keymap to decorate.
@@ -71,6 +73,11 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
     sequences: [ 'ctrl+q' ],
     required: true,
   },
+  quit: {
+    name: 'Quit',
+    sequences: [ 'ctrl+q' ],
+    required: true,
+  },
 } )( 'Global' )
 
 export const COPY_SHORTCUTS = decorateGroup( {
@@ -130,10 +137,12 @@ export const NAVIGATOR_SHORTCUTS = decorateGroup( {
   nextLine: {
     name: 'Next Line',
     sequences: [ 'down', 'right', 'tab', 'PageDown', 'l' ],
+    required: true,
   },
   previousLine: {
     name: 'Previous Line',
     sequences: [ 'up', 'left', 'shift+tab', 'PageUp', 'j' ],
+    required: true,
   },
   firstLine: {
     name: 'First Line',
@@ -149,6 +158,7 @@ export const NAVIGATOR_SHORTCUTS = decorateGroup( {
     name: 'Autoselect Line',
     description: 'Go to main line or next jump line.',
     sequences: [ 'space', 'b' ],
+    required: true,
   },
   setMainLine: {
     name: 'Reset Main Line',
