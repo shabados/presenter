@@ -177,7 +177,7 @@ const Presenter = () => {
           <CopyHotkeys>
 
             <Suspense fallback={<Loader />}>
-              {!controllerOnly && <Display settings={localSettings} />}
+              {!( isControllerOpen && controllerOnly ) && <Display settings={localSettings} />}
             </Suspense>
 
             <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
