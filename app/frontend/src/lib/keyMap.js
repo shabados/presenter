@@ -1,7 +1,5 @@
 /* Default keymap for hotkeys */
 
-import { truncateSync } from 'fs-extra'
-
 /**
  * Adds a group to a given keymap.
  * @param {*} keymap The keymap to decorate.
@@ -66,11 +64,6 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
   clearDisplay: {
     name: 'Clear Display',
     sequences: [ 'esc', 'ctrl+shift+b' ],
-    required: true,
-  },
-  quit: {
-    name: 'Quit',
-    sequences: [ 'ctrl+q' ],
     required: true,
   },
   quit: {
