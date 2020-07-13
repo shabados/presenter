@@ -30,6 +30,7 @@ import {
 } from '../lib/consts'
 import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
 import { SettingsContext } from '../lib/contexts'
+import { useCurrentLines } from '../lib/hooks'
 
 import ThemeLoader from '../shared/ThemeLoader'
 import Loader from '../shared/Loader'
@@ -66,6 +67,8 @@ const Presenter = () => {
 
   const onIdle = () => setIdle( true )
   const onActive = () => setIdle( false )
+
+  const lines = useCurrentLines()
 
   const isControllerOpen = pathname.includes( CONTROLLER_URL )
 
@@ -141,7 +144,7 @@ const Presenter = () => {
     [ GLOBAL_SHORTCUTS.search.name ]: () => go( SEARCH_URL ),
     [ GLOBAL_SHORTCUTS.history.name ]: () => go( HISTORY_URL ),
     [ GLOBAL_SHORTCUTS.bookmarks.name ]: () => go( BOOKMARKS_URL ),
-    [ GLOBAL_SHORTCUTS.navigator.name ]: () => go( NAVIGATOR_URL ),
+    [ GLOBAL_SHORTCUTS.navigator.name ]: () => lines.length && go( NAVIGATOR_URL ),
     [ GLOBAL_SHORTCUTS.clearDisplay.name ]: controller.clear,
     [ GLOBAL_SHORTCUTS.toggleFullscreenController.name ]: toggleFullscreenController,
     [ GLOBAL_SHORTCUTS.toggleFullscreen.name ]: toggleFullscreen,
