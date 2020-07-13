@@ -4,8 +4,18 @@ import { recordKeyCombination } from 'react-hotkeys'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
 
 import { isMac } from '../../lib/consts'
+import { mapPlatformKeys } from '../../lib/utils'
 
 import './HotkeyDialog.css'
+
+const RESTRICTED_STROKES = Object.values( mapPlatformKeys( [
+  'ctrl+a',
+  'ctrl+-',
+  'ctrl+=',
+  'ctrl+0',
+  'ctrl+r',
+  'ctrl+shift+plus',
+] ) )
 
 const MODIFIER_MAP = {
   Control: 'ctrl',
@@ -34,10 +44,16 @@ const SINGLE_MODIFIERS = [ MODIFIER_MAP.Control, MODIFIER_MAP.Alt ]
 
 const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
   const [ hotkey, setHotkey ] = useState( [] )
-  const resetHotkey = useCallback( () => setHotkey( [] ), [ setHotkey ] )
+  const [ error, setError ] = useState()
+  const resetHotkey = useCallback( () => {
+    setHotkey( [] )
+    setError( null )
+  }, [ setHotkey, setError ] )
+
+  const hotkeyStr = hotkey.join( ' ' )
 
   useEffect( () => {
-    setHotkey( [] )
+    resetHotkey()
   }, [ open, resetHotkey ] )
 
   const recordHotkey = useCallback( ( { keys } ) => {
@@ -45,11 +61,19 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
       .keys( keys )
       // Map any modifiers to readable names
       .map( key => MODIFIER_MAP[ key ] || key )
+      // Make all lowercase
+      .map( key => key.toLowerCase() )
       // Sort by modifiers first
       .sort( ( keyA, keyB ) => (
         ( MODIFIER_ORDER[ keyA ] || keyA.charCodeAt( 0 ) )
-      - ( MODIFIER_ORDER[ keyB ] || keyB.charCodeAt( 0 ) )
+        - ( MODIFIER_ORDER[ keyB ] || keyB.charCodeAt( 0 ) )
       ) ) ) )
+
+    const recordedStr = recorded.join( '+' )
+    const hotkeySequence = [ hotkeyStr, recordedStr ].join( ' ' ).trim()
+
+    // Check for invalid keystrokes
+    const invalidKeystroke = RESTRICTED_STROKES.find( keys => hotkeySequence.includes( keys ) )
 
     // Check if there are only modifiers
     const modifersOnly = recorded.every( key => [
@@ -63,16 +87,24 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
       && !recorded.some( key => SINGLE_MODIFIERS.includes( key ) )
     )
 
-    if ( modifersOnly || shiftWithoutModifier ) return
+    // Check for any duplicated mappings
+    const duplicate = assigned[ hotkeySequence ]
+
+    const [ , errorMessage, continueRecording ] = [
+      [ invalidKeystroke, `${invalidKeystroke} is a system-wide hotkey that cannot be reserved` ],
+      [ shiftWithoutModifier, 'Shift must be combined with another modifier' ],
+      [ modifersOnly, `You must combine another key with ${recorded[ 0 ]}` ],
+      [ duplicate, `Already mapped to ${duplicate}`, true ],
+    ].find( ( [ condition ] ) => condition ) || [ null, null, true ]
 
     //! recordKeyCombinations does not unmount and remount properly if done in same tick
-    setImmediate( () => setHotkey( [ ...hotkey, recorded.join( '+' ) ] ) )
-  }, [ setHotkey, hotkey ] )
+    setImmediate( () => {
+      setError( errorMessage )
+      if ( continueRecording ) setHotkey( [ ...hotkey, recordedStr ] )
+    } )
+  }, [ setHotkey, setError, hotkey, hotkeyStr, assigned ] )
 
-  useEffect( () => recordKeyCombination( recordHotkey ), [ recordHotkey, hotkey ] )
-
-  const hotkeyStr = hotkey.join( ' ' )
-  const duplicateOf = assigned[ hotkeyStr ]
+  useEffect( () => recordKeyCombination( recordHotkey ), [ recordHotkey, error, hotkey ] )
 
   return (
     <Dialog className="hotkey-dialog" open={open} onClose={() => onRecorded()}>
@@ -89,14 +121,14 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
 
         <Typography className="hotkey" variant="subtitle2">{hotkey.length ? hotkeyStr : 'Recording...'}</Typography>
 
-        {duplicateOf && <Typography align="center" color="error">{`Already mapped to ${duplicateOf}`}</Typography>}
+        {error && <Typography align="center" color="error">{error}</Typography>}
 
       </DialogContent>
 
       <DialogActions>
         <Button onClick={() => onRecorded()} color="inherit">Cancel</Button>
         <Button onClick={resetHotkey} color="inherit">Reset</Button>
-        <Button disabled={!hotkey.length || !!duplicateOf} onClick={() => onRecorded( hotkeyStr )} color="inherit">Save</Button>
+        <Button disabled={!hotkey.length || !!error} onClick={() => onRecorded( hotkeyStr )} color="inherit">Save</Button>
       </DialogActions>
 
     </Dialog>
