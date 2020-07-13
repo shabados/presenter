@@ -146,6 +146,8 @@ export const getTransliteration = ( { transliterations }, languageId ) => {
 
 export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
 
+export const mapPlatformKey = key => ( isMac ? key.replace( 'ctrl', 'cmd' ) : key )
+
 /**
  * Maps ctrl to cmd in keyMap if on Mac.
  * @param {*} keyMap An object of all the keys and mapped values.
@@ -153,7 +155,7 @@ export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
 export const mapPlatformKeys = keyMap => ( isMac
   ? Object.entries( keyMap ).reduce( ( keyMap, [ name, sequences ] ) => ( {
     ...keyMap,
-    [ name ]: sequences ? sequences.map( sequence => sequence.replace( 'ctrl', 'cmd' ) ) : null,
+    [ name ]: sequences ? sequences.map( mapPlatformKey ) : null,
   } ), {} )
   : keyMap
 )

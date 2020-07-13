@@ -4,21 +4,22 @@ import { recordKeyCombination } from 'react-hotkeys'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
 
 import { isMac } from '../../lib/consts'
-import { mapPlatformKeys } from '../../lib/utils'
+import { mapPlatformKey } from '../../lib/utils'
 
 import './HotkeyDialog.css'
 
-const RESTRICTED_STROKES = Object.values( mapPlatformKeys( [
+const RESTRICTED_STROKES = [
   'ctrl+a',
   'ctrl+-',
   'ctrl+=',
   'ctrl+0',
   'ctrl+r',
   'ctrl+shift+plus',
-] ) )
+].map( mapPlatformKey )
 
 const MODIFIER_MAP = {
   Control: 'ctrl',
+  Command: 'cmd',
   Alt: 'alt',
   AltGraph: 'alt',
   Shift: 'shift',
@@ -40,7 +41,7 @@ const MODIFIER_ORDER = Object.values( MODIFIER_MAP ).reduce( ( acc, name, index 
 const PAIRED_MODIFIERS = [ MODIFIER_MAP.Shift ]
 
 // Can be used without other modifiers
-const SINGLE_MODIFIERS = [ MODIFIER_MAP.Control, MODIFIER_MAP.Alt ]
+const SINGLE_MODIFIERS = [ MODIFIER_MAP.Control, MODIFIER_MAP.Command, MODIFIER_MAP.Alt ]
 
 const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
   const [ hotkey, setHotkey ] = useState( [] )
