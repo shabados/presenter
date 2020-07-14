@@ -126,6 +126,7 @@ export const NAVIGATOR_SHORTCUTS = decorateGroup( {
     name: 'Activate Line',
     description: 'Activates the line prior to a cleared screen',
     sequences: [ 'enter', 'return' ],
+    required: true,
   },
   nextLine: {
     name: 'Next Line',
