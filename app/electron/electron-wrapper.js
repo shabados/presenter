@@ -5,6 +5,7 @@ import logger from '../lib/logger'
 import { isDev } from '../lib/consts'
 import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window'
 import { setBeta, initUpdates, checkUpdates, UPDATER_ERRORS } from './updates'
+import { version } from '../package.json'
 
 
 let splashScreen
@@ -14,6 +15,9 @@ app.on( 'ready', () => {
 
   logger.info( 'Loading splashscreen' )
   splashScreen = createSplashScreen()
+  splashScreen.customProps = {
+    version,
+  }
 } )
 
 const onSettingsChange = ( { system } ) => {
