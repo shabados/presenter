@@ -2,16 +2,18 @@ import React, { useContext } from 'react'
 import { node } from 'prop-types'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { toUnicode, stripVishraams } from 'gurmukhi-utils'
+import { mapValues } from 'lodash'
 
 import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
-import { mapPlatformKeys } from '../lib/utils'
+import { mapPlatformKeys, customiseLine } from '../lib/utils'
 import { COPY_SHORTCUTS } from '../lib/keyMap'
 import { useCopyToClipboard, useCurrentLine, useTranslations, useTransliterations } from '../lib/hooks'
 import { LANGUAGES } from '../lib/consts'
 
 const CopyHotkeys = ( { children } ) => {
-  const { local: { hotkeys } } = useContext( SettingsContext )
+  const { local: { hotkeys, display: { lineEnding } } } = useContext( SettingsContext )
   const [ line ] = useCurrentLine()
+  const { typeId } = line || {}
 
   // Get Shabad, writer, sources for getting the author
   const { shabad } = useContext( ContentContext )
@@ -19,18 +21,24 @@ const CopyHotkeys = ( { children } ) => {
   const recommendedSources = useContext( RecommendedSourcesContext )
 
   // Get all translations
-  const translations = useTranslations( line && [
-    LANGUAGES.english,
-    LANGUAGES.punjabi,
-    LANGUAGES.spanish,
-  ] )
+  const translations = mapValues(
+    useTranslations( line && [
+      LANGUAGES.english,
+      LANGUAGES.punjabi,
+      LANGUAGES.spanish,
+    ] ),
+    line => customiseLine( line, { lineEnding, typeId } ),
+  )
 
   // Get all transliterations
-  const transliterations = useTransliterations( line && [
-    LANGUAGES.english,
-    LANGUAGES.hindi,
-    LANGUAGES.urdu,
-  ] )
+  const transliterations = mapValues(
+    useTransliterations( line && [
+      LANGUAGES.english,
+      LANGUAGES.hindi,
+      LANGUAGES.urdu,
+    ] ),
+    line => customiseLine( line, { lineEnding, typeId } ),
+  )
 
   const getAuthor = () => {
     if ( !line ) return ''
