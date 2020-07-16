@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "github.vscode-pull-request-github",
+      "vivaxy.vscode-conventional-commits",
+    ]
+  }
