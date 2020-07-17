@@ -5,15 +5,10 @@ import { useLocation, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { stringify } from 'querystring'
-import {
-  Input,
-  InputAdornment,
-  List,
-  IconButton,
-} from '@material-ui/core'
+import { Input, InputAdornment, IconButton } from '@material-ui/core'
 
 import { getUrlState } from '../../lib/utils'
-import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../../lib/contexts'
+import { SettingsContext } from '../../lib/contexts'
 import controller from '../../lib/controller'
 import { withNavigationHotkeys } from '../../shared/NavigationHotkeys'
 import {
@@ -52,17 +47,12 @@ const getSearchParams = searchQuery => {
  */
 const Search = ( { updateFocus, register, focused } ) => {
   const { local: {
-    sources,
     search: {
       showResultCitations,
       resultTransliterationLanguage,
       resultTranslationLanguage,
-      lineEnding,
     },
   } = {} } = useContext( SettingsContext )
-
-  const writers = useContext( WritersContext )
-  const recommendedSources = useContext( RecommendedSourcesContext )
 
   // Set the initial search query from URL
   const history = useHistory()
@@ -184,25 +174,13 @@ const Search = ( { updateFocus, register, focused } ) => {
           autoComplete: 'off',
         }}
       />
-      <List className="results">
-        {results
-          ? results
-            .map( ( props, i ) => Result( {
-              ...props,
-              searchedValue,
-              anchor,
-              sources,
-              writers,
-              recommendedSources,
-              resultTransliterationLanguage,
-              resultTranslationLanguage,
-              showResultCitations,
-              lineEnding,
-              ref: c => register( i, c ),
-              focused: focused === i,
-            } ) )
-          : ''}
-      </List>
+      <Result
+        results={results}
+        searchedValue={searchedValue}
+        anchor={anchor}
+        register={register}
+        focused={focused}
+      />
     </div>
   )
 }

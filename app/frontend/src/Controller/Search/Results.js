@@ -1,21 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classNames from 'classnames'
-import { ListItem } from '@material-ui/core'
-import { string, oneOfType, number, instanceOf, shape, bool } from 'prop-types'
+import { ListItem, List } from '@material-ui/core'
+import { string, oneOfType, number, instanceOf, shape, bool, arrayOf, func } from 'prop-types'
 import { firstLetters, stripVishraams, stripAccents, toUnicode, toAscii } from 'gurmukhi-utils'
 
+
 import controller from '../../lib/controller'
-import {
-  SEARCH_TYPES,
-  LANGUAGE_NAMES,
-  SEARCH_ANCHORS,
-  SOURCE_ABBREVIATIONS,
-} from '../../lib/consts'
-import {
-  getTranslation,
-  getTransliteration,
-  customiseLine,
-} from '../../lib/utils'
+import { getTranslation, getTransliteration, customiseLine } from '../../lib/utils'
+import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../../lib/contexts'
+import { SEARCH_TYPES, LANGUAGE_NAMES, SEARCH_ANCHORS, SOURCE_ABBREVIATIONS } from '../../lib/consts'
 
 const highlightFullWordMatches = ( line, query ) => {
   const sanitisedQuery = query.trim()
@@ -93,7 +86,7 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
    * @param {bool} showResultCitations To show citations or not (SettingsContext).
    * @param {bool} lineEnding To strip line endings or not (SettingsContext).
    */
-const Result = ( {
+const ResultList = ( {
   gurmukhi,
   typeId,
   id: lineId,
@@ -203,7 +196,58 @@ const Result = ( {
   )
 }
 
+const Result = ( { results, searchedValue, anchor, register, focused } ) => {
+  const { local: {
+    sources,
+    search: {
+      showResultCitations,
+      resultTransliterationLanguage,
+      resultTranslationLanguage,
+      lineEnding,
+    },
+  } = {} } = useContext( SettingsContext )
+
+  const writers = useContext( WritersContext )
+  const recommendedSources = useContext( RecommendedSourcesContext )
+
+  return (
+    <List className="results">
+      {results
+        ? results.map( ( props, i ) => ResultList( {
+          ...props,
+          searchedValue,
+          anchor,
+          sources,
+          writers,
+          recommendedSources,
+          resultTransliterationLanguage,
+          resultTranslationLanguage,
+          showResultCitations,
+          lineEnding,
+          ref: c => register( i, c ),
+          focused: focused === i,
+        } ) )
+        : ''}
+    </List>
+  )
+}
+
 Result.propTypes = {
+  results: arrayOf( shape( {} ) ),
+  searchedValue: string,
+  anchor: string,
+  register: func.isRequired,
+  focused: oneOfType( [ string, number ] ),
+}
+
+Result.defaultProps = {
+  results: [],
+  searchedValue: '',
+  anchor: '',
+  focused: undefined,
+}
+
+ResultList.propTypes = {
   gurmukhi: string.isRequired,
   id: string.isRequired,
   typeId: string.isRequired,
@@ -226,7 +270,7 @@ Result.propTypes = {
   lineEnding: bool.isRequired,
 }
 
-Result.defaultProps = {
+ResultList.defaultProps = {
   focused: undefined,
 }
 
