@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
 import classNames from 'classnames'
 import { ListItem, List } from '@material-ui/core'
-import { string, oneOfType, number, instanceOf, shape, bool, arrayOf, func } from 'prop-types'
+import { string, oneOfType, number, instanceOf, shape, arrayOf, func } from 'prop-types'
 import { firstLetters, stripVishraams, stripAccents, toUnicode, toAscii } from 'gurmukhi-utils'
-
 
 import controller from '../../lib/controller'
 import { getTranslation, getTransliteration, customiseLine } from '../../lib/utils'
@@ -63,139 +62,6 @@ const highlightMatches = gurmukhi => ( value, input, mode ) => {
     : highlightFirstLetterMatches( value, sanitizedInput )
 }
 
-/**
-   * Renders a single result, highlighting the match.
-   * @param {string} gurmukhi The shabad line to display.
-   * @param {int} typeId The type id of line.
-   * @param {string} lineId The id of the line.
-   * @param {string} shabadId The id of the shabad.
-   * @param {Component} ref The ref to the component.
-   * @param {string|int} focused
-   * @param {int} sourceId The id of source.
-   * @param {Object} shabad The object containng section information and other metadata.
-   * @param {int} sourcePage The page number of shabad in source.
-   * @param {string} translations The translations of shabad line to display.
-   * @param {string} transliterations The transliterations of shabad line to display.
-   * @param {string} searchedValue The input to search.
-   * @param {string} anchor Anchor for search mode.
-   * @param {Object} writers From the SettingsContext.
-   * @param {Object} sources From the ContentContext.
-   * @param {Object} recommendedSources From the RecommendedSourcesContext.
-   * @param {int|bool} resultTransliterationLanguage Language code for translits (SettingsContext).
-   * @param {int|bool} resultTranslationLanguage Language code for translations (SettingsContext).
-   * @param {bool} showResultCitations To show citations or not (SettingsContext).
-   * @param {bool} lineEnding To strip line endings or not (SettingsContext).
-   */
-const ResultList = ( {
-  gurmukhi,
-  typeId,
-  id: lineId,
-  shabadId,
-  ref,
-  focused,
-  sourceId,
-  shabad,
-  sourcePage,
-  translations,
-  transliterations,
-  searchedValue,
-  anchor,
-  writers,
-  sources,
-  recommendedSources,
-  resultTransliterationLanguage,
-  resultTranslationLanguage,
-  showResultCitations,
-  lineEnding,
-} ) => {
-  const transliteration = resultTransliterationLanguage && transliterations && customiseLine(
-    getTransliteration(
-      { transliterations },
-      resultTransliterationLanguage,
-    ),
-    { lineEnding, typeId },
-  )
-
-  const translation = resultTranslationLanguage && translations && customiseLine(
-    getTranslation( {
-      line: { translations },
-      shabad: { sourceId },
-      recommendedSources,
-      sources,
-      languageId: resultTranslationLanguage,
-    } ),
-    { lineEnding, typeId },
-  )
-
-  // Grab the search mode or assume it's first letter
-  const mode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
-
-  // Separate the line into words before the match, the match, and after the match
-  const getMatches = highlightMatches( gurmukhi )
-
-  const [ beforeMatch, match, afterMatch ] = getMatches(
-    gurmukhi,
-    searchedValue,
-    mode,
-  )
-  const [ translitBeforeMatch, translitMatch, translitAfterMatch ] = getMatches(
-    transliteration,
-    searchedValue,
-    mode,
-  )
-
-  // Send the shabad id and line id to the server on click
-  const onClick = () => controller.shabad( { shabadId, lineId } )
-
-  // Helper render functions for citation
-  const showCitation = showResultCitations && shabad && shabad.section
-  const getEnglish = ( { nameEnglish } ) => nameEnglish
-  const getWriterName = () => getEnglish( writers[ shabad.writerId ] )
-  const getPageName = () => recommendedSources[ shabad.sourceId ].pageNameEnglish
-
-  return (
-    <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
-      <div className="result">
-
-        <span className="gurmukhi text">
-          {beforeMatch ? <span className="words">{beforeMatch}</span> : null}
-          {match ? <span className="matched words">{match}</span> : null}
-          {afterMatch ? <span className="words">{afterMatch}</span> : null}
-        </span>
-
-        <span className="secondary text">
-
-          {translation && (
-          <div className={classNames( LANGUAGE_NAMES[ resultTranslationLanguage ], 'translation' )}>
-            {translation}
-          </div>
-          )}
-
-          {transliteration && (
-          <div className={classNames( LANGUAGE_NAMES[ resultTransliterationLanguage ], 'transliteration' )}>
-            {translitBeforeMatch ? <span className="translit">{translitBeforeMatch}</span> : null}
-            {translitMatch ? <span className="translit matched">{translitMatch}</span> : null}
-            {translitAfterMatch ? <span className="translit">{translitAfterMatch}</span> : null}
-          </div>
-          )}
-
-        </span>
-
-        {showCitation && (
-        <span className="citation">
-          {[
-            getWriterName(),
-            SOURCE_ABBREVIATIONS[ sourceId ],
-            `${getPageName()} ${sourcePage}`,
-          ].reduce( ( prev, curr ) => [ prev, ' - ', curr ] )}
-        </span>
-        )}
-
-      </div>
-    </ListItem>
-  )
-}
-
 const Result = ( { results, searchedValue, anchor, register, focused } ) => {
   const { local: {
     sources,
@@ -210,20 +76,137 @@ const Result = ( { results, searchedValue, anchor, register, focused } ) => {
   const writers = useContext( WritersContext )
   const recommendedSources = useContext( RecommendedSourcesContext )
 
+  /**
+   * Renders a single result, highlighting the match.
+   * @param {string} gurmukhi The shabad line to display.
+   * @param {int} typeId The type id of line.
+   * @param {string} lineId The id of the line.
+   * @param {string} shabadId The id of the shabad.
+   * @param {Component} ref The ref to the component.
+   * @param {int} sourceId The id of source.
+   * @param {Object} shabad The object containng section information and other metadata.
+   * @param {int} sourcePage The page number of shabad in source.
+   * @param {string} translations The translations of shabad line to display.
+   * @param {string} transliterations The transliterations of shabad line to display.
+   */
+  const ResultList = ( {
+    gurmukhi,
+    typeId,
+    id: lineId,
+    shabadId,
+    ref,
+    sourceId,
+    shabad,
+    sourcePage,
+    translations,
+    transliterations,
+  } ) => {
+    const transliteration = resultTransliterationLanguage && transliterations && customiseLine(
+      getTransliteration(
+        { transliterations },
+        resultTransliterationLanguage,
+      ),
+      { lineEnding, typeId },
+    )
+
+    const translation = resultTranslationLanguage && translations && customiseLine(
+      getTranslation( {
+        line: { translations },
+        shabad: { sourceId },
+        recommendedSources,
+        sources,
+        languageId: resultTranslationLanguage,
+      } ),
+      { lineEnding, typeId },
+    )
+
+    // Grab the search mode or assume it's first letter
+    const mode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
+
+    // Separate the line into words before the match, the match, and after the match
+    const getMatches = highlightMatches( gurmukhi )
+
+    const [ beforeMatch, match, afterMatch ] = getMatches(
+      gurmukhi,
+      searchedValue,
+      mode,
+    )
+    const [ translitBeforeMatch, translitMatch, translitAfterMatch ] = getMatches(
+      transliteration,
+      searchedValue,
+      mode,
+    )
+
+    // Send the shabad id and line id to the server on click
+    const onClick = () => controller.shabad( { shabadId, lineId } )
+
+    // Helper render functions for citation
+    const showCitation = showResultCitations && shabad && shabad.section
+    const getEnglish = ( { nameEnglish } ) => nameEnglish
+    const getWriterName = () => getEnglish( writers[ shabad.writerId ] )
+    const getPageName = () => recommendedSources[ shabad.sourceId ].pageNameEnglish
+
+    return (
+      <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
+        <div className="result">
+
+          <span className="gurmukhi text">
+            {beforeMatch ? <span className="words">{beforeMatch}</span> : null}
+            {match ? <span className="matched words">{match}</span> : null}
+            {afterMatch ? <span className="words">{afterMatch}</span> : null}
+          </span>
+
+          <span className="secondary text">
+
+            {translation && (
+            <div className={classNames( LANGUAGE_NAMES[ resultTranslationLanguage ], 'translation' )}>
+              {translation}
+            </div>
+            )}
+
+            {transliteration && (
+            <div className={classNames( LANGUAGE_NAMES[ resultTransliterationLanguage ], 'transliteration' )}>
+              {translitBeforeMatch ? <span className="translit">{translitBeforeMatch}</span> : null}
+              {translitMatch ? <span className="translit matched">{translitMatch}</span> : null}
+              {translitAfterMatch ? <span className="translit">{translitAfterMatch}</span> : null}
+            </div>
+            )}
+
+          </span>
+
+          {showCitation && (
+          <span className="citation">
+            {[
+              getWriterName(),
+              SOURCE_ABBREVIATIONS[ sourceId ],
+              `${getPageName()} ${sourcePage}`,
+            ].reduce( ( prev, curr ) => [ prev, ' - ', curr ] )}
+          </span>
+          )}
+
+        </div>
+      </ListItem>
+    )
+  }
+
+  ResultList.propTypes = {
+    gurmukhi: string.isRequired,
+    id: string.isRequired,
+    typeId: string.isRequired,
+    shabadId: string.isRequired,
+    ref: instanceOf( Result ).isRequired,
+    sourceId: number.isRequired,
+    shabad: shape( { } ).isRequired,
+    sourcePage: number.isRequired,
+    translations: string.isRequired,
+    transliterations: string.isRequired,
+  }
+
   return (
     <List className="results">
       {results
         ? results.map( ( props, i ) => ResultList( {
           ...props,
-          searchedValue,
-          anchor,
-          sources,
-          writers,
-          recommendedSources,
-          resultTransliterationLanguage,
-          resultTranslationLanguage,
-          showResultCitations,
-          lineEnding,
           ref: c => register( i, c ),
           focused: focused === i,
         } ) )
@@ -242,35 +225,8 @@ Result.propTypes = {
 
 Result.defaultProps = {
   results: [],
-  searchedValue: '',
-  anchor: '',
-  focused: undefined,
-}
-
-ResultList.propTypes = {
-  gurmukhi: string.isRequired,
-  id: string.isRequired,
-  typeId: string.isRequired,
-  shabadId: string.isRequired,
-  ref: instanceOf( Result ).isRequired,
-  sourceId: number.isRequired,
-  shabad: shape( { } ).isRequired,
-  sourcePage: number.isRequired,
-  translations: string.isRequired,
-  transliterations: string.isRequired,
-  focused: oneOfType( [ string, number ] ),
-  searchedValue: string.isRequired,
-  anchor: string.isRequired,
-  writers: shape( {} ).isRequired,
-  sources: shape( {} ).isRequired,
-  recommendedSources: shape( {} ).isRequired,
-  resultTransliterationLanguage: oneOfType( [ bool, number ] ).isRequired,
-  resultTranslationLanguage: oneOfType( [ bool, number ] ).isRequired,
-  showResultCitations: bool.isRequired,
-  lineEnding: bool.isRequired,
-}
-
-ResultList.defaultProps = {
+  searchedValue: undefined,
+  anchor: undefined,
   focused: undefined,
 }
 
