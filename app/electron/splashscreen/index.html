@@ -19,8 +19,8 @@
     </div>
     <script>
       const electron = require('electron');
-      const currentWindow = electron.remote.getCurrentWindow();
-      document.getElementById('start-message').innerHTML = `Starting v${currentWindow.customProps.version}`
+      const { customProps: { version } } = electron.remote.getCurrentWindow();
+      document.getElementById('start-message').innerHTML = `Starting v${version}`
     </script>
 </body>
 
