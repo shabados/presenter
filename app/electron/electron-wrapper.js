@@ -15,7 +15,7 @@ app.on( 'ready', () => {
 
   logger.info( 'Loading splashscreen' )
   splashScreen = createSplashScreen()
-  splashScreen.customProps = {
+  splashScreen.globals = {
     version,
   }
 } )
