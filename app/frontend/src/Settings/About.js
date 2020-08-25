@@ -9,9 +9,11 @@ import {
   Typography,
 } from '@material-ui/core'
 
-import { BACKEND_URL, BACKEND_PORT } from '../lib/consts'
+import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
+import controller from '../lib/controller'
 
 import CopyButton from './CopyButton'
+import { Button } from './SettingComponents'
 
 const aboutFields = [
   [ 'version', 'Shabad OS Version' ],
@@ -62,6 +64,13 @@ const About = ( { connected } ) => {
           <Grid item xs={6}><Typography>{connected}</Typography></Grid>
         </Grid>
       </ListItem>
+
+      <ListItem>
+        <Grid container justify="center">
+          <Button className="folder-button" disabled={!isElectron} variant="contained" onClick={() => controller.action( 'open-logs-folder' )}>Open Logs Folder</Button>
+        </Grid>
+      </ListItem>
+
     </List>
   )
 }
