@@ -22,7 +22,6 @@ const OverlaySettings = () => {
       .then( ( { addresses } ) => setAddresses( addresses ) )
   }, [] )
 
-
   return (
     <div className="overlay-settings">
 
@@ -34,11 +33,11 @@ const OverlaySettings = () => {
           </Typography>
           <br />
           <Typography>
-              When a line is activated in the controller and seen on the presenter,
-              the same information is used to generate the overlay.
-              Choose what to display and how to display it with the options below.
-              You can choose from a variety of pre-configured overlays or
-              create your own using the theme tool.
+            When a line is activated in the controller and seen on the presenter,
+            the same information is used to generate the overlay.
+            Choose what to display and how to display it with the options below.
+            You can choose from a variety of pre-configured overlays or
+            create your own using the theme tool.
           </Typography>
         </Grid>
       </OptionGrid>

@@ -122,7 +122,6 @@ async function main() {
   // Register Bani list requests on socket connection
   socket.on( 'connection', async client => client.sendJSON( 'banis:list', await getBanis() ) )
 
-
   // Start the server
   server.listen( PORT, () => {
     sendToElectron( 'ready' )

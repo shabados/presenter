@@ -79,7 +79,6 @@ export const partitionLine = ( line, strip = true ) => classifyWords( line, stri
     return type === 'heavy' ? [ ...nextWords, [] ] : nextWords
   }, [ [] ] )
 
-
 /**
  * Scrolls an element into the center, given a ref.
  * @param ref The reference to the element to scroll.
@@ -219,7 +218,6 @@ export const getJumpLines = memoize( ( { shabad, bani } ) => {
     } ),
   } ), { jumpIndex: 0, jumpLines: {} } )
 
-
   return jumpLines
 }, {
   primitive: true,
@@ -229,7 +227,6 @@ export const getJumpLines = memoize( ( { shabad, bani } ) => {
     baniId: ( bani ? bani.id : null ),
   } ),
 } )
-
 
 export const getBaniNextJumpLine = ( { bani, lineId } ) => {
   const { lines } = bani

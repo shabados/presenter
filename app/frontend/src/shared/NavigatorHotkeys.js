@@ -166,7 +166,6 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
   )
 }
 
-
 NavigatorHotKeys.propTypes = {
   active: bool,
   children: node,

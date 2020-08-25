@@ -36,7 +36,6 @@ import ShabadInfo from './ShabadInfo'
 
 import './Navigator.css'
 
-
 /**
 * Line component that attaches click handlers.
 * @param gurmukhi The Gurmukhi for the line to render.
