@@ -176,7 +176,6 @@ const Presenter = () => {
         <NavigatorHotKeys active={!isControllerOpen} mouseTargetRef={presenterRef}>
           <CopyHotkeys>
 
-
             <Suspense fallback={<Loader />}>
               {!controllerOnly && <Display settings={localSettings} />}
             </Suspense>
