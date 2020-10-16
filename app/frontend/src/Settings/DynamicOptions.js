@@ -62,7 +62,6 @@ ResetButton.defaultProps = {
   disabled: false,
 }
 
-
 const DynamicOptions = ( { device, group } ) => {
   const settings = useContext( SettingsContext )
 

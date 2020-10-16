@@ -54,7 +54,6 @@ class Controller extends EventEmitter {
     this.emit( 'connected' )
   }
 
-
   /**
    * Called when the WebSocket is ready.
    * @private

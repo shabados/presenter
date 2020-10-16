@@ -149,7 +149,6 @@ const Settings = () => {
           </>
         ) ) }
 
-
         <Item name="About" icon={faInfo} url={SETTINGS_ABOUT_URL} selected={group === 'about'} />
 
         <Typography className="category-title">Tools</Typography>

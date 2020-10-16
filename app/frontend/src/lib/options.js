@@ -50,7 +50,6 @@ import SHORTCUTS from './keyMap'
  * Options for settings.
  */
 
-
 // Unique symbols for each option type
 export const OPTION_TYPES = {
   dropdown: Symbol( 'Dropdown' ),

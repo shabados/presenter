@@ -40,7 +40,6 @@ const readLog = async logFile => ( await readFile( logFile, 'utf8' ) )
   .filter( line => line.length )
   .map( line => JSON.parse( line ) )
 
-
 const simulateActions = async ( actions, trueTime, port ) => new Promise( ( resolve, reject ) => {
   // Connect to the backend
   const socket = new WebSocket( `ws://localhost:${port}` )

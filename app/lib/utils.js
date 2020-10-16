@@ -55,7 +55,6 @@ export const getNetworkedAddresses = () => Object.entries( networkInterfaces() )
     return address ? { ...interfaces, [ name ]: address } : interfaces
   }, {} )
 
-
 /**
  * Lists all CSS files in the given path.
  * @param {string} path The path to list all CSS files in.
