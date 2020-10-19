@@ -8,4 +8,6 @@ export const toggleFullscreen = isElectron
     const window = electron().getCurrentWindow()
     window.setFullScreen( !window.isFullScreen() )
   }
-  : () => document.documentElement.requestFullscreen( document.fullscreenElement )
+  : () => ( document.fullscreenElement
+    ? document.exitFullscreen()
+    : document.documentElement.requestFullscreen( document.fullscreenElement ) )
