@@ -1,14 +1,15 @@
 import React, { useContext } from 'react'
 import { node } from 'prop-types'
-import { GlobalHotKeys } from 'react-hotkeys'
 import { toUnicode, stripVishraams } from 'gurmukhi-utils'
 import { mapValues } from 'lodash'
 
 import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
-import { mapPlatformKeys, customiseLine } from '../lib/utils'
+import { customiseLine } from '../lib/utils'
 import { COPY_SHORTCUTS } from '../lib/keyMap'
 import { useCopyToClipboard, useCurrentLine, useTranslations, useTransliterations, useCurrentLines } from '../lib/hooks'
 import { LANGUAGES } from '../lib/consts'
+
+import GlobalHotKeys from './GlobalHotKeys'
 
 const CopyHotkeys = ( { children } ) => {
   const { local: { hotkeys, display: { lineEnding } } } = useContext( SettingsContext )
@@ -75,7 +76,7 @@ const CopyHotkeys = ( { children } ) => {
     [ name ]: () => copyToClipboard( line && getContent(), `No ${fieldName} available to copy` ),
   } ), {} )
   return (
-    <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>
+    <GlobalHotKeys keyMap={hotkeys} handlers={hotkeyHandlers}>
       {children}
     </GlobalHotKeys>
   )

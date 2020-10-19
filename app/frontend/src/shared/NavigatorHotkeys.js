@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useCallback } from 'react'
 import { node, bool, shape, instanceOf } from 'prop-types'
-import { GlobalHotKeys } from 'react-hotkeys'
 import { noop } from 'lodash'
 
-import { mapPlatformKeys, getJumpLines, findLineIndex } from '../lib/utils'
+import { getJumpLines, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
 import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
 import { useCurrentLines, useWindowFocus } from '../lib/hooks'
+
+import GlobalHotKeys from './GlobalHotKeys'
 
 /**
  * Hotkeys for controlling the navigator.
@@ -140,7 +141,7 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
   const settings = useContext( SettingsContext )
   const { local: { hotkeys } } = settings || {}
 
-  const keyMap = mapPlatformKeys( { ...hotkeys, ...numberKeyMap } )
+  const keyMap = { ...hotkeys, ...numberKeyMap }
 
   const windowFocused = useWindowFocus()
 

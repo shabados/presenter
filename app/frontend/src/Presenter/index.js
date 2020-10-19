@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useState, useContext, useRef } from 'react'
 import { useMount } from 'react-use'
 import { hot } from 'react-hot-loader/root'
-import { GlobalHotKeys } from 'react-hotkeys'
 import { Route, useHistory, useLocation } from 'react-router-dom'
 import IdleTimer from 'react-idle-timer'
 import queryString from 'qs'
@@ -14,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import controller from '../lib/controller'
-import { getUrlState, mapPlatformKeys } from '../lib/utils'
+import { getUrlState } from '../lib/utils'
 import { toggleFullscreen } from '../lib/electron-utils'
 import {
   CONTROLLER_URL,
@@ -34,6 +33,7 @@ import { useCurrentLines } from '../lib/hooks'
 
 import ThemeLoader from '../shared/ThemeLoader'
 import Loader from '../shared/Loader'
+import GlobalHotKeys from '../shared/GlobalHotKeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 import { withErrorFallback } from '../shared/ErrorFallback'
 import CopyHotkeys from '../shared/CopyHotkeys'
@@ -175,7 +175,7 @@ const Presenter = () => {
         />
       )}
 
-      <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>
+      <GlobalHotKeys keyMap={hotkeys} handlers={hotkeyHandlers}>
         <NavigatorHotKeys active={!isControllerOpen} mouseTargetRef={presenterRef}>
           <CopyHotkeys>
 
