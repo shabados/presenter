@@ -38,7 +38,7 @@
     "react-idle-timer": "^4.2.11",
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.4",
-    "react-scripts": "^3.2.0",
+    "react-scripts": "^3.4.3",
     "react-transition-group": "^4.3.0",
     "react-use": "^15.3.4",
     "reconnecting-websocket": "^4.2.0",
