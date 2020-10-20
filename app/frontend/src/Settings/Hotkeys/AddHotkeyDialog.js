@@ -4,7 +4,7 @@ import { recordKeyCombination } from 'react-hotkeys'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
 
 import { isMac } from '../../lib/consts'
-import { RESTRICTED_STROKES } from '../../lib/keyMap'
+import { LINE_HOTKEYS, RESTRICTED_STROKES } from '../../lib/keyMap'
 import { mapPlatformKey } from '../../lib/utils'
 
 import './HotkeyDialog.css'
@@ -34,6 +34,10 @@ const PAIRED_MODIFIERS = [ MODIFIER_MAP.Shift ]
 
 // Can be used without other modifiers
 const SINGLE_MODIFIERS = [ MODIFIER_MAP.Control, MODIFIER_MAP.Command, MODIFIER_MAP.Alt ]
+
+const containsHotkey = ( hotkey, needle ) => (
+  hotkey.match( `^${needle.replace( /[.*+\-?^${}()|[\]\\]/g, '\\$&' )}([ \\\\+].*)*$` ) || {}
+).index === 0
 
 const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
   const [ hotkey, setHotkey ] = useState( [] )
@@ -82,14 +86,26 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
       && !recorded.some( key => SINGLE_MODIFIERS.includes( key ) )
     )
 
-    // Check for any duplicated mappings
-    const duplicate = assigned[ hotkeySequence ]
+    // Check for any conflicting mappings
+    const [ subsequence, subsequenceName ] = Object
+      .entries( {
+        ...assigned,
+        // Include line hotkeys
+        ...LINE_HOTKEYS.reduce( ( acc, key ) => ( { ...acc, [ key ]: `Jump to ${key}` } ), {} ),
+      } )
+      .find( ( [ assignedKey ] ) => (
+        assignedKey.length >= hotkeySequence.length
+        // Entire sequence of added must not be subsequence of an existing hotkey
+          ? containsHotkey( assignedKey, hotkeySequence )
+        // Starting Subsequence of added must not be entire sequence of an existing hotkey
+          : containsHotkey( hotkeySequence, assignedKey )
+      ) ) || []
 
     const [ , errorMessage, continueRecording ] = [
       [ invalidKeystroke, `${invalidKeystroke} is a system-wide hotkey that cannot be reserved` ],
       [ shiftWithoutModifier, 'Shift must be combined with another modifier' ],
       [ modifersOnly, `You must combine another key with ${recorded[ 0 ]}` ],
-      [ duplicate, `Already mapped to ${duplicate}`, true ],
+      [ subsequence, `Sequence will conflict with ${subsequenceName} (${subsequence})`, true ],
     ].find( ( [ condition ] ) => condition ) || [ null, null, true ]
 
     //! recordKeyCombinations does not unmount and remount properly if done in same tick
