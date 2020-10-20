@@ -14,6 +14,13 @@ const decorateGroup = keymap => group => Object
 // Jump to navigation line ordered hot keys
 export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfg' )
 
+// Keys that are not assignable anywhere
+export const RESTRICTED_STROKES = [
+  'ctrl+a',
+  'ctrl+r',
+  'ctrl+q',
+]
+
 // Global hotkeys
 export const GLOBAL_SHORTCUTS = decorateGroup( {
   toggleFullscreen: {
@@ -177,11 +184,13 @@ export const NAVIGATOR_SHORTCUTS = decorateGroup( {
     description: 'Go to main line without changing position of next jump line.',
     name: 'Skip to Main Line',
     sequences: [ 'shift+,' ],
+    required: true,
   },
   goJumpLine: {
     name: 'Skip to Jump Line',
     description: 'Go to the non-main, jump line.',
     sequences: [ 'shift+.' ],
+    required: true,
   },
 } )( 'Navigator' )
 

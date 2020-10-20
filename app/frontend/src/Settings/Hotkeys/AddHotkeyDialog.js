@@ -4,18 +4,10 @@ import { recordKeyCombination } from 'react-hotkeys'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
 
 import { isMac } from '../../lib/consts'
+import { RESTRICTED_STROKES } from '../../lib/keyMap'
 import { mapPlatformKey } from '../../lib/utils'
 
 import './HotkeyDialog.css'
-
-const RESTRICTED_STROKES = [
-  'ctrl+a',
-  'ctrl+-',
-  'ctrl+=',
-  'ctrl+0',
-  'ctrl+r',
-  'ctrl+shift+plus',
-].map( mapPlatformKey )
 
 const MODIFIER_MAP = {
   Control: 'ctrl',
@@ -74,7 +66,9 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
     const hotkeySequence = [ hotkeyStr, recordedStr ].join( ' ' ).trim()
 
     // Check for invalid keystrokes
-    const invalidKeystroke = RESTRICTED_STROKES.find( keys => hotkeySequence.includes( keys ) )
+    const invalidKeystroke = RESTRICTED_STROKES
+      .map( mapPlatformKey )
+      .find( keys => hotkeySequence.includes( keys ) )
 
     // Check if there are only modifiers
     const modifersOnly = recorded.every( key => [
