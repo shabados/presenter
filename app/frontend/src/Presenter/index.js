@@ -72,6 +72,13 @@ const Presenter = () => {
 
   const isControllerOpen = pathname.includes( CONTROLLER_URL )
 
+  const { local: localSettings } = useContext( SettingsContext )
+  const {
+    theme: { themeName },
+    layout: { controllerZoom: zoom },
+    hotkeys,
+  } = localSettings
+
   /**
    * Sets the query string parameters, retaining any currently present.
    * @param params The query string parameters.
@@ -102,6 +109,11 @@ const Presenter = () => {
     pathname: CONTROLLER_URL,
     search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
   } )
+
+  const setZoom = controllerZoom => controller.setSettings( { layout: { controllerZoom } } )
+  const zoomInController = () => setZoom( zoom + 0.1 )
+  const zoomOutController = () => setZoom( zoom - 0.1 )
+  const zoomResetController = () => setZoom( 1 )
 
   /**
    * Toggles the given query string parameter.
@@ -138,6 +150,9 @@ const Presenter = () => {
 
   // Global Hotkey Handlers
   const hotkeyHandlers = preventDefault( {
+    [ GLOBAL_SHORTCUTS.zoomInController.name ]: zoomInController,
+    [ GLOBAL_SHORTCUTS.zoomOutController.name ]: zoomOutController,
+    [ GLOBAL_SHORTCUTS.zoomResetController.name ]: zoomResetController,
     [ GLOBAL_SHORTCUTS.toggleController.name ]: toggleController,
     [ GLOBAL_SHORTCUTS.newController.name ]: () => controller.openWindow( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, { alwaysOnTop: true } ),
     [ GLOBAL_SHORTCUTS.settings.name ]: () => controller.openWindow( SETTINGS_URL ),
@@ -154,9 +169,6 @@ const Presenter = () => {
   useMount( () => {
     if ( isMobile ) setFullscreenController()
   } )
-
-  const { local: localSettings } = useContext( SettingsContext )
-  const { theme: { themeName }, hotkeys } = localSettings
 
   // Required for mouse shortcuts
   const presenterRef = useRef( null )
@@ -183,7 +195,7 @@ const Presenter = () => {
               {!( isControllerOpen && controllerOnly ) && <Display settings={localSettings} />}
             </Suspense>
 
-            <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
+            <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )} style={{ zoom }}>
               <IconButton className="expand-icon" onClick={toggleController}>
                 <FontAwesomeIcon icon={faPlus} />
               </IconButton>

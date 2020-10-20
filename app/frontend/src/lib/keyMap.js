@@ -36,6 +36,21 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
     sequences: [ 'ctrl+h', 'ctrl+shift+h' ],
     required: true,
   },
+  zoomInController: {
+    name: 'Zoom Controller In',
+    sequences: [ 'ctrl++' ],
+    required: true,
+  },
+  zoomOutController: {
+    name: 'Zoom Controller Out',
+    sequences: [ 'ctrl+-' ],
+    required: true,
+  },
+  zoomResetController: {
+    name: 'Reset Controller Zoom',
+    sequences: [ 'ctrl+0' ],
+    required: true,
+  },
   search: {
     name: 'Search',
     sequences: [ 'ctrl+/' ],
