@@ -114,7 +114,6 @@ const Line = ( {
           </p>
         </CSSTransition>
 
-
         {translations.filter( isString ).map( ( [ name, translation, fontSize ] ) => (
           <CSSTransition key={translation} classNames="fade" timeout={0}>
             <p className={classNames( name, 'translation' )} style={{ fontSize: `${fontSize}em` }}>

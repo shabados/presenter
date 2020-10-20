@@ -72,14 +72,21 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     }
   }, [ lines, lineId ] )
 
-  const goNextLine = useCallback( ( { target: { className: targetClass, parentNode } } ) => {
+  const goNextLine = useCallback( ( {
+    target: { nodeName, className: targetClass, parentNode },
+  } ) => {
     const { current: mouseTarget } = mouseTargetRef
 
     /* Near the bottom of the screen the targetClass
     becomes 'controller-container` instead of presenter.
     In this case, we check the targetClass or its parent node's class
     (which if the target is controller container, will be presenter) */
-    if ( !lines || ![ targetClass, parentNode.className ].includes( mouseTarget.className ) ) return
+    if (
+      // No lines
+      !lines
+      // Or a hotkey didn't trigger it, and another active element was clicked on
+      || ( nodeName !== 'BODY' && ![ targetClass, parentNode.className ].includes( mouseTarget.className ) )
+    ) return
 
     const currentLineIndex = findLineIndex( lines, lineId )
     const { id } = lines[ currentLineIndex ] || {}
@@ -165,7 +172,6 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     </GlobalHotKeys>
   )
 }
-
 
 NavigatorHotKeys.propTypes = {
   active: bool,

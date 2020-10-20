@@ -22,7 +22,6 @@ const OverlaySettings = () => {
       .then( ( { addresses } ) => setAddresses( addresses ) )
   }, [] )
 
-
   return (
     <div className="overlay-settings">
 

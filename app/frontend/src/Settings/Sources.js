@@ -36,7 +36,6 @@ const Sources = ( { sources: currentSources, device } ) => {
     fetch( `${BACKEND_URL}/sources` ).then( res => res.json() ).then( setSources )
   }, [] )
 
-
   if ( !sources || !languages ) return <Loader />
 
   // Gets the current selected value of a language's translation, using the recommended otherwise.

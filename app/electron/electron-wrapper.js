@@ -7,7 +7,6 @@ import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWind
 import { setBeta, initUpdates, checkUpdates, UPDATER_ERRORS } from './updates'
 import { version } from '../package.json'
 
-
 let splashScreen
 
 app.on( 'ready', () => {
