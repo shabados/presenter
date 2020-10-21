@@ -117,7 +117,7 @@ const Line = ( {
       <TransitionGroup appear exit={false} component={null}>
 
         <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
-          <div className={inlineTransliteration ? 'withTransliterations source' : 'source'}>
+          <div className={inlineTransliteration ? 'source withTransliterations' : 'source'}>
             {partitionLine( gurmukhi, !vishraamCharacters )
               .map( ( line, lineIndex ) => (
                 <span key={lineIndex} className={partition ? 'block partition' : 'inline partition'}>
@@ -181,10 +181,10 @@ Line.propTypes = {
   punjabiTranslation: oneOfType( [ string, bool ] ),
   englishTranslation: oneOfType( [ string, bool ] ),
   spanishTranslation: oneOfType( [ string, bool ] ),
-  inlineTransliteration: oneOfType( [ string, bool ] ),
   englishTransliteration: oneOfType( [ string, bool ] ),
   hindiTransliteration: oneOfType( [ string, bool ] ),
   urduTransliteration: oneOfType( [ string, bool ] ),
+  inlineTransliteration: oneOfType( [ string, bool ] ),
   spacing: string,
   centerText: bool,
   justifyText: bool,
@@ -235,10 +235,10 @@ Line.defaultProps = {
   englishTranslation: null,
   spanishTranslation: null,
   punjabiTranslation: null,
-  inlineTransliteration: null,
   englishTransliteration: null,
   hindiTransliteration: null,
   urduTransliteration: null,
+  inlineTransliteration: null,
   spacing,
   centerText,
   justifyText,
