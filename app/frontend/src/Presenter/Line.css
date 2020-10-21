@@ -9,7 +9,8 @@
   justify-content: space-around;
 }
 
-.line.center-text {
+.line.center-text,
+.line.center-text.justify-text {
   text-align: center;
 }
 
@@ -17,18 +18,15 @@
   text-align: justify;
 }
 
-.line.center-text.justify-text {
-  text-align-last: center;
+.line.justify-text .source {
+  justify-content: start;
 }
 
-.line.justify-text .gurmukhi {
-  text-align: left;
-  text-align-last: left;
-}
-
-.line.center-text.justify-text .gurmukhi {
-  text-align: center;
-  text-align-last: center;
+.line.center-text .source,
+.line.center-text.justify-text .source,
+.line.center-text .source .partition,
+.line.center-text.justify-text .source .partition {
+  justify-content: center;
 }
 
 .line p {
@@ -59,7 +57,7 @@
 */
 
 .line .gurmukhi {
-  font-family: 'Open Gurbani Akhar';
+  font-family: "Open Gurbani Akhar";
   font-weight: 900;
   line-height: 1.4;
 }
@@ -68,7 +66,8 @@
   margin-bottom: -0.12em;
 }
 
-.line .english, .line .spanish {
+.line .english,
+.line .spanish {
   font-family: "Noto Sans", sans-serif;
   line-height: 1.89;
   line-height: 1.4;
@@ -94,7 +93,7 @@
   font-family: "Noto Sans Nastaliq Urdu";
   /* default line-height is 2.52 */
   line-height: 2.1;
-  word-spacing: .4em;
+  word-spacing: 0.4em;
   direction: rtl;
 }
 
@@ -106,12 +105,31 @@
   display: inline-block;
 }
 
-.partition:after {
-  content: "\200B\20"
+.source,
+.source .partition.block {
+  display: flex;
+  flex-wrap: wrap;
+}
+.source .partition.inline {
+  display: contents;
+}
+
+.source .partition .word span {
+  white-space: pre-wrap;
+}
+.partition:after,
+.word span:after {
+  content: "\200B\20";
+}
+
+.source .partition .word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .partition:last-child:after {
-  content: ""
+  content: "";
 }
 
 .line .gurmukhi .word:after,
@@ -119,35 +137,45 @@
   content: "\20";
 }
 
-.larivaar.line .word:after, .larivaar.line .partition + .partition:before {
+.larivaar.line .word:after,
+.larivaar.line .partition + .partition:before {
   content: "\200B";
 }
 
-.line.larivaar.assist .gurmukhi .partition:nth-child(odd) .word:nth-child(even),
-.line.larivaar.assist .gurmukhi .partition:nth-child(even) .word:nth-child(odd) {
+.line.larivaar.assist
+  .source
+  .partition:nth-child(odd)
+  .word:nth-child(even),
+.line.larivaar.assist
+  .source
+  .partition:nth-child(even)
+  .word:nth-child(odd) {
   color: var(--display-gurmukhi-larivaar-assist-color);
 }
 
 .larivaar.assist.line .transliteration .word:nth-child(2n) {
-  color: var(--display-transliteration-larivaar-assist-color);
+  color: var(
+    --display-transliteration-larivaar-assist-color
+  );
 }
 
-.heavy.vishraams.line .gurmukhi .word.heavy,
-.heavy.vishraams.line .transliteration .word.heavy {
+.heavy.vishraams.line .source .heavy,
+.heavy.vishraams.line .transliteration .heavy {
   color: var(--display-vishraam-heavy-color) !important;
 }
 
-.medium.vishraams.line .gurmukhi .word.medium,
-.medium.vishraams.line .transliteration .word.medium {
+.medium.vishraams.line .source .medium,
+.medium.vishraams.line .transliteration .medium {
   color: var(--display-vishraam-medium-color) !important;
 }
 
-.light.vishraams.line .gurmukhi .word.light,
-.light.vishraams.line .transliteration .word.light {
+.light.vishraams.line .source .light,
+.light.vishraams.line .transliteration .light {
   color: var(--display-vishraam-light-color) !important;
 }
 
-.next-line, .previous-line {
+.next-line,
+.previous-line {
   min-height: min-content;
 }
 

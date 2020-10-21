@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
+import { toEnglish, toHindi, toShahmukhi, toUnicode } from 'gurmukhi-utils'
 import { string, bool, number, oneOfType } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
@@ -48,6 +49,7 @@ const Line = ( {
   punjabiTranslation,
   englishTranslation,
   spanishTranslation,
+  inlineTransliteration,
   englishTransliteration,
   hindiTransliteration,
   urduTransliteration,
@@ -77,9 +79,24 @@ const Line = ( {
   ]
 
   const transliterations = [
-    [ LANGUAGE_NAMES[ LANGUAGES.english ], englishTransliteration, relativeEnglishFontSize ],
-    [ LANGUAGE_NAMES[ LANGUAGES.hindi ], hindiTransliteration, relativeHindiFontSize ],
-    [ LANGUAGE_NAMES[ LANGUAGES.urdu ], urduTransliteration, relativeUrduFontSize ],
+    [
+      LANGUAGE_NAMES[ LANGUAGES.english ],
+      englishTransliteration,
+      relativeEnglishFontSize,
+      toEnglish,
+    ],
+    [
+      LANGUAGE_NAMES[ LANGUAGES.hindi ],
+      hindiTransliteration,
+      relativeHindiFontSize,
+      toHindi,
+    ],
+    [
+      LANGUAGE_NAMES[ LANGUAGES.urdu ],
+      urduTransliteration,
+      relativeUrduFontSize,
+      toShahmukhi,
+    ],
   ]
 
   return (
@@ -100,18 +117,35 @@ const Line = ( {
       <TransitionGroup appear exit={false} component={null}>
 
         <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
-          <p
-            className="gurmukhi"
-            style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
-          >
+          <div className={inlineTransliteration ? 'withTransliterations source' : 'source'}>
             {partitionLine( gurmukhi, !vishraamCharacters )
               .map( ( line, lineIndex ) => (
-                <span key={lineIndex} className={classNames( { partition } )}>
-                  {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
+                <span key={lineIndex} className={partition ? 'block partition' : 'inline partition'}>
+                  {line.map( ( { word, type }, i ) => (
+                    <div
+                      key={`${word}-${type}-${i}`}
+                      className={classNames( type, 'word' )}
+                    >
+                      <span
+                        className="gurmukhi"
+                        style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
+                      >
+                        {word}
+                      </span>
+                      {inlineTransliteration ? transliterations.filter( isString )
+                        .map( ( [ name, , fontSize, dynamicallyTransliterate ] ) => (
+                          <span
+                            className={classNames( name )}
+                            style={{ fontSize: `${fontSize}em` }}
+                          >
+                            {`${dynamicallyTransliterate( toUnicode( word ) )}`}
+                          </span>
+                        ) ) : '' }
+                    </div>
+                  ) )}
                 </span>
               ) )}
-
-          </p>
+          </div>
         </CSSTransition>
 
         {translations.filter( isString ).map( ( [ name, translation, fontSize ] ) => (
@@ -122,18 +156,19 @@ const Line = ( {
           </CSSTransition>
         ) )}
 
-        {transliterations.filter( isString ).map( ( [ name, transliteration, fontSize ] ) => (
-          <CSSTransition key={transliteration} classNames="fade" timeout={0}>
-            <p
-              className={classNames( name, 'transliteration' )}
-              style={{ fontSize: `${fontSize}em` }}
-            >
-              {classifyWords( transliteration, !vishraamCharacters ).map(
-                ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
-              )}
-            </p>
-          </CSSTransition>
-        ) )}
+        {!inlineTransliteration ? transliterations.filter( isString )
+          .map( ( [ name, transliteration, fontSize ] ) => (
+            <CSSTransition key={transliteration} classNames="fade" timeout={0}>
+              <p
+                className={classNames( name, 'transliteration' )}
+                style={{ fontSize: `${fontSize}em` }}
+              >
+                {classifyWords( transliteration, !vishraamCharacters ).map(
+                  ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
+                )}
+              </p>
+            </CSSTransition>
+          ) ) : ''}
 
       </TransitionGroup>
     </div>
@@ -146,6 +181,7 @@ Line.propTypes = {
   punjabiTranslation: oneOfType( [ string, bool ] ),
   englishTranslation: oneOfType( [ string, bool ] ),
   spanishTranslation: oneOfType( [ string, bool ] ),
+  inlineTransliteration: oneOfType( [ string, bool ] ),
   englishTransliteration: oneOfType( [ string, bool ] ),
   hindiTransliteration: oneOfType( [ string, bool ] ),
   urduTransliteration: oneOfType( [ string, bool ] ),
@@ -199,6 +235,7 @@ Line.defaultProps = {
   englishTranslation: null,
   spanishTranslation: null,
   punjabiTranslation: null,
+  inlineTransliteration: null,
   englishTransliteration: null,
   hindiTransliteration: null,
   urduTransliteration: null,

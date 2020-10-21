@@ -33,6 +33,7 @@ import {
   faDesktop,
   faTags,
   faSearch,
+  faCompressAlt,
   faExpandArrowsAlt,
   faRemoveFormat,
 } from '@fortawesome/free-solid-svg-icons'
@@ -97,6 +98,7 @@ export const OPTIONS = {
   englishTranslation: { name: 'English Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   spanishTranslation: { name: 'Spanish Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   punjabiTranslation: { name: 'Punjabi Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  inlineTransliteration: { name: 'Inline Transliterations', icon: faCompressAlt, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   englishTransliteration: { name: 'English Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   hindiTransliteration: { name: 'Hindi Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   urduTransliteration: { name: 'Urdu Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -219,6 +221,7 @@ export const DEFAULT_OPTIONS = {
       englishTranslation: true,
       spanishTranslation: false,
       punjabiTranslation: false,
+      inlineTransliteration: false,
       englishTransliteration: true,
       hindiTransliteration: false,
       urduTransliteration: false,
