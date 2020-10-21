@@ -122,7 +122,8 @@ p {
 }
 
 .line .source,
-.line .partition.block {
+.line .partition.block,
+.line .transliteration {
   display: flex;
   flex-wrap: wrap;
 }
