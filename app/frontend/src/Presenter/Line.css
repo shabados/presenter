@@ -114,6 +114,13 @@
   display: contents;
 }
 
+.current-line
+  .source.withTransliterations
+  .partition
+  .word {
+  padding-bottom: 0.4em;
+}
+
 .source .partition .word span {
   white-space: pre-wrap;
 }
