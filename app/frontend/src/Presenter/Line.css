@@ -9,27 +9,47 @@
   justify-content: space-around;
 }
 
-.line.center-text,
-.line.center-text.justify-text {
+.line .partition {
+  display: contents;
+}
+
+.line .source,
+.line .partition {
+  justify-content: flex-start;
+}
+
+.line.center-text {
   text-align: center;
 }
 
-.line.justify-text {
-  text-align: justify;
-}
-
-.line.justify-text .source {
-  justify-content: start;
-}
-
 .line.center-text .source,
-.line.center-text.justify-text .source,
-.line.center-text .source .partition,
-.line.center-text.justify-text .source .partition {
+.line.center-text .partition {
   justify-content: center;
 }
 
-.line p {
+.line.justify-text:not(.center-text) {
+  text-align: justify;
+}
+
+.line.justify-text:not(.center-text) .source {
+  justify-content: start;
+}
+
+.line.justify-text:not(.center-text) .source {
+  justify-content: space-between;
+}
+
+.line.justify-text:not(.center-text) .partition:last-child,
+.line.justify-text:not(.center-text)
+  .partition:last-child
+  div:last-child {
+  flex-grow: 1;
+  align-items: flex-start;
+}
+
+/* add last partition last word span flex-grow 1 */
+
+p {
   margin: 0;
 }
 
@@ -101,16 +121,13 @@
   font-family: "Noto Sans", sans-serif;
 }
 
-.line .gurmukhi .partition {
-  display: inline-block;
-}
-
-.source,
-.source .partition.block {
+.line .source,
+.line .partition.block {
   display: flex;
   flex-wrap: wrap;
 }
-.source .partition.inline {
+
+.line .partition.inline {
   display: contents;
 }
 
@@ -124,7 +141,8 @@
 .source .partition .word span {
   white-space: pre-wrap;
 }
-.partition:after,
+
+.partition:before,
 .word span:after {
   content: "\200B\20";
 }
@@ -145,8 +163,9 @@
 }
 
 .larivaar.line .word:after,
+.larivaar.line .word span:after,
 .larivaar.line .partition + .partition:before {
-  content: "\200B";
+  content: "";
 }
 
 .line.larivaar.assist
