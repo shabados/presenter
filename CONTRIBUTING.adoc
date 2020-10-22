@@ -1,4 +1,4 @@
-:repo: desktop
+:repo: presenter
 :idprefix:
 :hide-uri-scheme:
 :numbered:
@@ -15,7 +15,7 @@ ifdef::env-github[]
 :warning-caption: :no_entry:
 endif::[]
 
-# Contributing to Shabad OS for Desktop
+# Contributing to Shabad OS Presenter
 
 Thank you for your interest to participate in Shabad OS projects!
 
