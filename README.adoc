@@ -1,4 +1,4 @@
-:repo: desktop
+:repo: presenter
 :idprefix:
 :hide-uri-scheme:
 :numbered:
@@ -6,7 +6,7 @@
 :icons: font
 :toc: macro
 :toclevels: 4
-:logo: https://raw.githubusercontent.com/ShabadOS/desktop/dev/resources/icon.png
+:logo: https://raw.githubusercontent.com/ShabadOS/presenter/dev/resources/icon.png
 :website: https://shabados.com
 :contributors-url: https://github.com/shabados/{repo}/graphs/contributors
 :cci-img: https://img.shields.io/circleci/project/github/ShabadOS/{repo}.svg?label=Build&logo=circleci
@@ -34,9 +34,9 @@ endif::[]
 
 image::{logo}[128,128,link="{website}"]
 
-# Shabad OS for Desktop
+# Shabad OS Presenter
 
-Software for searching, navigating, and presenting the Shabad OS database.
+Software for searching, navigating, and presenting the Shabad OS Database.
 
 image:{cci-img}[title=CircleCI, link="{cci-url}"] image:{download-img}[title=Github All Releases, link="{download-url}"] image:{license-img}[title=license, link="{license-url}"]
 
@@ -46,7 +46,7 @@ toc::[id="toc"]
 
 ## Introduction
 
-Shabad OS for Desktop is a GPL-licensed open source project with ongoing development, project management, and marketing made possible entirely by the support and dedication of unpaid volunteers.
+The Shabad OS Presenter is a GPL-licensed open source project with ongoing development, project management, and marketing made possible entirely by the support and dedication of unpaid volunteers.
 
 This app can be used to display bani & gurbani in the home or at the gurdwara. A server model allows multiple devices to act as a display or a controller. The same model enables live captions to be in sync with the projector / presentation device.
 
@@ -93,7 +93,7 @@ There are many ways in which people can participate in Shabad OS projects. For e
 * Review documentation and make pull requests for anything from typos to new content.
 * Give feedback on the onboarding process to make it easier for others to join the project.
 
-If you are interested in fixing issues and contributing directly to the desktop repo, please see the document link:CONTRIBUTING.adoc[How to Contribute], which covers the following:
+If you are interested in fixing issues and contributing directly to the presenter repo, please see the document link:CONTRIBUTING.adoc[How to Contribute], which covers the following:
 
 * link:CONTRIBUTING.adoc#Getting-Started[How to build and run from source]
 * link:CONTRIBUTING.adoc#Workflow[The development workflow]
@@ -111,7 +111,7 @@ And "Thank you!" to link:{contributors-url}[all the volunteers] who've already c
 
 ## Related Projects
 
-Projects in the Shabad OS ecosystem of free and open source software which interact with or are used by the desktop repo include:
+Projects in the Shabad OS ecosystem of free and open source software which interact with or are used by the presenter repo include:
 
 * link:https://github.com/ShabadOS/database[Database] as an npm module enables access to JS libs used for querying
 * link:https://github.com/ShabadOS/gurmukhi-utils[Gurmukhi Utils] is used to swap input/output between ascii/unicode gurmukhi
@@ -128,7 +128,7 @@ Please note that this project is released under the Contributor Covenant. By par
 
 ## License
 
-The desktop repo is under v3 of the link:LICENSE.adoc[GPL]. It is similar to the Golden Rule: do unto others as you would have them do unto you. In exchange for benefitting from the work completed in this repo, others must share their derivative work under v3 of the link:LICENSE.adoc[GPL].
+The presenter repo is under v3 of the link:LICENSE.adoc[GPL]. It is similar to the Golden Rule: do unto others as you would have them do unto you. In exchange for benefitting from the work completed in this repo, others must share their derivative work under v3 of the link:LICENSE.adoc[GPL].
 
 ****
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -140,4 +140,4 @@ You should have received a copy of the GNU General Public License along with thi
 
 ### Attribution/Credit
 
-Though the desktop repo has no database, it is strongly related with the Shabad OS database. To learn more about the licensing of the database, please refer to the link:https://github.com/ShabadOS/database#licenses[Database README.adoc]
+Though the presenter repo has no database, it is strongly related with the Shabad OS database. To learn more about the licensing of the database, please refer to the link:https://github.com/ShabadOS/database#licenses[Database README.adoc]

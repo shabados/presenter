@@ -1,15 +1,15 @@
 {
   "name": "@shabados/frontend",
   "version": "0.1.0",
-  "description": "Frontend component of Shabad OS Desktop (@shabados/desktop)",
+  "description": "Frontend component of Shabad OS Presenter (@shabados/presenter)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ShabadOS/desktop.git"
+    "url": "git+https://github.com/ShabadOS/presenter.git"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/ShabadOS/desktop/issues"
+    "url": "https://github.com/ShabadOS/presenter/issues"
   },
   "homepage": "/",
   "dependencies": {

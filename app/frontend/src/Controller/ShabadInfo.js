@@ -15,7 +15,7 @@ const popoverDisplay = {
   anchorOrigin: { vertical: 'top', horizontal: 'center' },
 }
 
-const getDbViewerUrl = lineId => `https://database.shabados.com/line/${lineId}`
+const getDbViewerUrl = lineId => `https://viewer.shabados.com/line/${lineId}`
 
 const ShabadInfo = () => {
   const iconButtonRef = useRef()
