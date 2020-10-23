@@ -37,18 +37,20 @@ const ShabadInfo = () => {
   // Icon changes when open
   const barIcon = isPopoverOpen ? faTimesCircle : faInfoCircle
 
-  const onCopyClick = () => {
-    const gurmukhi = lines.map( ( { gurmukhi } ) => gurmukhi ).join( ' ' )
-
-    copyToClipboard( stripVishraams( toUnicode( gurmukhi ) ) )
-  }
-
   const { sourceId, writerId, section } = shabad || line.shabad
   const { nameEnglish: sectionName } = bani || section
   const { id: lineId, sourcePage } = line
 
   const { nameEnglish: writerName } = writers[ writerId ]
   const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
+
+  const onCopyClick = () => {
+    const gurmukhi = lines.map( ( { gurmukhi } ) => gurmukhi ).join( ' ' )
+
+    copyToClipboard( stripVishraams( toUnicode( gurmukhi ) ) )
+  }
+
+  const openViewer = () => controller.openExternalUrl( getDbViewerUrl( lineId ) )
 
   return (
     <span>
@@ -76,21 +78,17 @@ const ShabadInfo = () => {
           <span className="writer-name">{writerName}</span>
           <br />
 
-          <div className="popver-buttons">
+          <div className="popover-buttons">
 
             <Tooltip title="Report a mistake">
-              <Button
-                className="db-viewer button"
-                size="small"
-                onClick={() => controller.openExternalUrl( getDbViewerUrl( lineId ) )}
-              >
-              Open Online
+              <Button className="db-viewer button" size="small" onClick={openViewer}>
+                Open Online
               </Button>
             </Tooltip>
 
             <Tooltip title="Click to copy this shabad">
               <Button className="copy-shabad button" size="small" disabled={!shabad} onClick={onCopyClick}>
-                  Copy
+                Copy
               </Button>
             </Tooltip>
 
