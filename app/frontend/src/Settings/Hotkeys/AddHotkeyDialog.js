@@ -119,21 +119,16 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
 
   return (
     <Dialog className="hotkey-dialog" open={open} onClose={() => onRecorded()}>
-      <DialogTitle>Record Hotkey</DialogTitle>
+      <DialogTitle>Add Hotkey</DialogTitle>
 
       <DialogContent>
-
         <DialogContentText color="inherit">
-          Press the desired keys to form a new hotkey for
-          <Typography display="inline" variant="caption">{` ${name}`}</Typography>
-          .
-          Sequences may be defined by pressing combinations in the desired order.
+          Press the desired hotkey. Create a sequence by pressing multiple hotkeys.
         </DialogContentText>
 
-        <Typography className="hotkey" variant="subtitle2">{hotkey.length ? hotkeyStr : 'Recording...'}</Typography>
+        <Typography className="hotkey" variant="subtitle2">{`${hotkeyStr} (${name})`}</Typography>
 
         {error && <Typography align="center" color="error">{error}</Typography>}
-
       </DialogContent>
 
       <DialogActions>
