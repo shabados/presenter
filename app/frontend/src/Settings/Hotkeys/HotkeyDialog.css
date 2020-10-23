@@ -11,3 +11,8 @@
 .hotkey-dialog .delete-button {
   color: red;
 }
+
+.hotkey-dialog .MuiButton-root:disabled {
+  color: var(--settings-text-color) !important;
+  opacity: 0.7;
+}
