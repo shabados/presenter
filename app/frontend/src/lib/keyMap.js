@@ -44,7 +44,7 @@ export const GLOBAL_SHORTCUTS = decorateGroup( {
   },
   zoomInController: {
     name: 'Zoom Controller In',
-    sequences: [ 'ctrl++' ],
+    sequences: [ 'ctrl++', 'ctrl+shift+=' ],
     required: true,
   },
   zoomOutController: {

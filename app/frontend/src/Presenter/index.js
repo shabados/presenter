@@ -30,6 +30,7 @@ import {
 import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
 import { SettingsContext } from '../lib/contexts'
 import { useCurrentLines } from '../lib/hooks'
+import { OPTIONS } from '../lib/options'
 
 import ThemeLoader from '../shared/ThemeLoader'
 import Loader from '../shared/Loader'
@@ -110,9 +111,10 @@ const Presenter = () => {
     search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
   } )
 
+  const { controllerZoom } = OPTIONS
   const setZoom = controllerZoom => controller.setSettings( { layout: { controllerZoom } } )
-  const zoomInController = () => setZoom( zoom + 0.1 )
-  const zoomOutController = () => setZoom( zoom - 0.1 )
+  const zoomInController = () => setZoom( Math.min( controllerZoom.max, zoom + 0.1 ) )
+  const zoomOutController = () => setZoom( Math.max( controllerZoom.min, zoom - 0.1 ) )
   const zoomResetController = () => setZoom( 1 )
 
   /**
