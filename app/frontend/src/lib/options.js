@@ -77,6 +77,7 @@ export const OPTIONS = {
   centerText: { name: 'Center Align', icon: faAlignCenter, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   justifyText: { name: 'Justify Multiple Lines', icon: faAlignJustify, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   inlineTransliteration: { name: 'Inline Transliterations', icon: faCompressAlt, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  inlineColumnGuides: { name: 'Inline Column Guides', icon: faCompressAlt, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   splitOnVishraam: { name: 'Primary Pause Wrap Gurbani', icon: faParagraph, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   spacing: {
     name: 'Current Line Spacing',
@@ -236,6 +237,7 @@ export const DEFAULT_OPTIONS = {
       centerText: true,
       justifyText: false,
       inlineTransliteration: false,
+      inlineColumnGuides: false,
       splitOnVishraam: true,
       spacing: OPTIONS.spacing.values[ 2 ].value,
     },

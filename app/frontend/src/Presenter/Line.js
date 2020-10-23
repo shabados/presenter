@@ -50,6 +50,7 @@ const Line = ( {
   englishTranslation,
   spanishTranslation,
   inlineTransliteration,
+  inlineColumnGuides,
   englishTransliteration,
   hindiTransliteration,
   urduTransliteration,
@@ -124,7 +125,7 @@ const Line = ( {
                   {line.map( ( { word, type }, i ) => (
                     <div
                       key={`${word}-${type}-${i}`}
-                      className={classNames( type, 'word' )}
+                      className={classNames( type, 'word', inlineColumnGuides ? 'withGuides' : '' )}
                     >
                       <span
                         className="gurmukhi"
@@ -184,7 +185,8 @@ Line.propTypes = {
   englishTransliteration: oneOfType( [ string, bool ] ),
   hindiTransliteration: oneOfType( [ string, bool ] ),
   urduTransliteration: oneOfType( [ string, bool ] ),
-  inlineTransliteration: oneOfType( [ string, bool ] ),
+  inlineTransliteration: bool,
+  inlineColumnGuides: bool,
   spacing: string,
   centerText: bool,
   justifyText: bool,
@@ -239,6 +241,7 @@ Line.defaultProps = {
   hindiTransliteration: null,
   urduTransliteration: null,
   inlineTransliteration: null,
+  inlineColumnGuides: null,
   spacing,
   centerText,
   justifyText,

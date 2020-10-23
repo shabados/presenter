@@ -136,7 +136,20 @@ p {
   .source.withTransliterations
   .partition
   .word {
-  padding-bottom: 0.4em;
+  padding-bottom: 0em;
+  margin-bottom: 0.4em;
+}
+
+.current-line .word.withGuides {
+  padding-left: 0.3em;
+  border-right: 0.1em double;
+  border-color: var(--display-dim-background-color);
+}
+
+.current-line
+  .partition:last-child
+  .word.withGuides:last-child {
+  border-right: none;
 }
 
 .source .partition .word span {
