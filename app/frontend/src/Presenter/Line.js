@@ -117,7 +117,7 @@ const Line = ( {
       <TransitionGroup appear exit={false} component={null}>
 
         <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
-          <div className={inlineTransliteration ? 'source withTransliterations' : 'source'}>
+          <p className={inlineTransliteration ? 'source withTransliterations' : 'source'}>
             {partitionLine( gurmukhi, !vishraamCharacters )
               .map( ( line, lineIndex ) => (
                 <span key={lineIndex} className={partition ? 'block partition' : 'inline partition'}>
@@ -145,7 +145,7 @@ const Line = ( {
                   ) )}
                 </span>
               ) )}
-          </div>
+          </p>
         </CSSTransition>
 
         {translations.filter( isString ).map( ( [ name, translation, fontSize ] ) => (
