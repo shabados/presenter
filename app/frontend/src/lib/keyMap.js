@@ -18,7 +18,6 @@ export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfg' )
 export const RESTRICTED_STROKES = [
   'ctrl+a',
   'ctrl+r',
-  'ctrl+q',
 ]
 
 // Global hotkeys
