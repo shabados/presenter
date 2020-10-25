@@ -2,65 +2,13 @@ import React, { useContext } from 'react'
 import classNames from 'classnames'
 import { ListItem, List } from '@material-ui/core'
 import { string, oneOfType, number, instanceOf, shape, arrayOf, func } from 'prop-types'
-import { firstLetters, stripVishraams, stripAccents, toUnicode, toAscii } from 'gurmukhi-utils'
 
 import controller from '../../lib/controller'
 import { getTranslation, getTransliteration, customiseLine } from '../../lib/utils'
 import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../../lib/contexts'
 import { SEARCH_TYPES, LANGUAGE_NAMES, SEARCH_ANCHORS, SOURCE_ABBREVIATIONS } from '../../lib/consts'
 
-const highlightFullWordMatches = ( line, query ) => {
-  const sanitisedQuery = query.trim()
-
-  const foundPosition = line.search( sanitisedQuery )
-  const matchStartPosition = line.lastIndexOf( ' ', foundPosition )
-
-  const wordEndPosition = line.indexOf( ' ', foundPosition + sanitisedQuery.length )
-  // If the match finishes in the last word, no space will be deteced, and wordEndPosition
-  // will be -1. In this case, we want to end at the last position in the line.
-  const matchEndPosition = wordEndPosition === -1 ? line.length - 1 : wordEndPosition
-
-  return [
-    line.substring( 0, matchStartPosition ),
-    line.substring( matchStartPosition, matchEndPosition ),
-    line.substring( matchEndPosition ),
-  ]
-}
-
-const highlightFirstLetterMatches = ( line, query ) => {
-  const baseLine = stripVishraams( line )
-
-  const letters = toAscii( firstLetters( stripAccents( toUnicode( baseLine ) ) ) )
-  const words = baseLine.split( ' ' )
-
-  const startPosition = letters.search( stripAccents( query ) )
-  const endPosition = startPosition + query.length
-
-  return [
-    `${words.slice( 0, startPosition ).join( ' ' )} `,
-    `${words.slice( startPosition, endPosition ).join( ' ' )} `,
-    `${words.slice( endPosition ).join( ' ' )} `,
-  ]
-}
-
-/**
- * Separates the line into words before the first match, the first match, and after the match.
- * @param value The full line.
- * @param input The string inputted by the user.
- * @param mode The type of search being performed, either first word or full word.
- * @return An array of [ beforeMatch, match, afterMatch ],
- *   with `match` being the highlighted section.`.
- */
-const highlightMatches = gurmukhi => ( value, input, mode ) => {
-  if ( !value ) return [ '', '', '' ]
-
-  //  Account for wildcard characters
-  const sanitizedInput = input.replace( new RegExp( '_', 'g' ), '.' )
-
-  return mode === SEARCH_TYPES.fullWord
-    ? highlightFullWordMatches( gurmukhi, sanitizedInput )
-    : highlightFirstLetterMatches( value, sanitizedInput )
-}
+import highlightMatches from './highlight-matches'
 
 const Result = ( { results, searchedValue, anchor, register, focused } ) => {
   const { local: {
@@ -149,41 +97,37 @@ const Result = ( { results, searchedValue, anchor, register, focused } ) => {
     return (
       <ListItem className={classNames( { focused } )} key={lineId} onClick={onClick} ref={ref}>
         <div className="result">
-
           <span className="gurmukhi text">
-            {beforeMatch ? <span className="words">{beforeMatch}</span> : null}
-            {match ? <span className="matched words">{match}</span> : null}
-            {afterMatch ? <span className="words">{afterMatch}</span> : null}
+            {beforeMatch && <span className="words">{beforeMatch}</span>}
+            {match && <span className="matched words">{match}</span>}
+            {afterMatch && <span className="words">{afterMatch}</span>}
           </span>
 
           <span className="secondary text">
-
             {translation && (
-            <div className={classNames( LANGUAGE_NAMES[ resultTranslationLanguage ], 'translation' )}>
-              {translation}
-            </div>
+              <div className={classNames( LANGUAGE_NAMES[ resultTranslationLanguage ], 'translation' )}>
+                {translation}
+              </div>
             )}
 
             {transliteration && (
-            <div className={classNames( LANGUAGE_NAMES[ resultTransliterationLanguage ], 'transliteration' )}>
-              {translitBeforeMatch ? <span className="translit">{translitBeforeMatch}</span> : null}
-              {translitMatch ? <span className="translit matched">{translitMatch}</span> : null}
-              {translitAfterMatch ? <span className="translit">{translitAfterMatch}</span> : null}
-            </div>
+              <div className={classNames( LANGUAGE_NAMES[ resultTransliterationLanguage ], 'transliteration' )}>
+                {translitBeforeMatch && <span className="translit">{translitBeforeMatch}</span>}
+                {translitMatch && <span className="translit matched">{translitMatch}</span>}
+                {translitAfterMatch && <span className="translit">{translitAfterMatch}</span>}
+              </div>
             )}
-
           </span>
 
           {showCitation && (
-          <span className="citation">
-            {[
-              getWriterName(),
-              SOURCE_ABBREVIATIONS[ sourceId ],
-              `${getPageName()} ${sourcePage}`,
-            ].reduce( ( prev, curr ) => [ prev, ' - ', curr ] )}
-          </span>
+            <span className="citation">
+              {[
+                getWriterName(),
+                SOURCE_ABBREVIATIONS[ sourceId ],
+                `${getPageName()} ${sourcePage}`,
+              ].reduce( ( prev, curr ) => [ prev, ' - ', curr ] )}
+            </span>
           )}
-
         </div>
       </ListItem>
     )
