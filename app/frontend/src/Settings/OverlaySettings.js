@@ -33,11 +33,11 @@ const OverlaySettings = () => {
           </Typography>
           <br />
           <Typography>
-              When a line is activated in the controller and seen on the presenter,
-              the same information is used to generate the overlay.
-              Choose what to display and how to display it with the options below.
-              You can choose from a variety of pre-configured overlays or
-              create your own using the theme tool.
+            When a line is activated in the controller and seen on the presenter,
+            the same information is used to generate the overlay.
+            Choose what to display and how to display it with the options below.
+            You can choose from a variety of pre-configured overlays or
+            create your own using the theme tool.
           </Typography>
         </Grid>
       </OptionGrid>
@@ -47,10 +47,10 @@ const OverlaySettings = () => {
 
           <Grid container justify="space-around">
             <TutorialButton className="tutorial-button" href="https://tutorials.shabados.com/tutorials/1.0.0/overlay/overlay.html">
-            Learn More
+              Learn More
             </TutorialButton>
             <TutorialButton className="theme-tool" href="https://themes.shabados.com">
-            Theme Tool
+              Theme Tool
             </TutorialButton>
           </Grid>
 
