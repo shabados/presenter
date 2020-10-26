@@ -5,7 +5,6 @@ import { Redirect, useLocation } from 'react-router-dom'
 import { string, func, bool } from 'prop-types'
 import classNames from 'classnames'
 import { invert } from 'lodash'
-import { GlobalHotKeys } from 'react-hotkeys'
 import { stripVishraams } from 'gurmukhi-utils'
 
 import List from '@material-ui/core/List'
@@ -28,6 +27,7 @@ import { LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext } from '../lib/contexts'
 import { useCurrentLines } from '../lib/hooks'
 
+import GlobalHotKeys from '../shared/GlobalHotKeys'
 import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 

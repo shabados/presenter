@@ -1,6 +1,5 @@
 import React, { PureComponent, lazy, Suspense } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
-import { configure } from 'react-hotkeys'
 import { hot } from 'react-hot-loader/root'
 import classNames from 'classnames'
 
@@ -39,32 +38,22 @@ class App extends PureComponent {
     [ Presenter, PRESENTER_URL ],
   ]
 
-  constructor( props ) {
-    super( props )
-
-    // Configure react-hotkeys
-    configure( {
-      ignoreTags: [],
-      ignoreKeymapAndHandlerChangesByDefault: false,
-    } )
-
-    this.state = {
-      connected: false,
-      connectedAt: null,
-      status: null,
-      banis: [],
-      bani: null,
-      lineId: null,
-      mainLineId: null,
-      nextLineId: null,
-      viewedLines: {},
-      transitionHistory: {},
-      latestLines: {},
-      shabad: null,
-      recommendedSources: {},
-      writers: {},
-      settings: loadSettings(),
-    }
+  state = {
+    connected: false,
+    connectedAt: null,
+    status: null,
+    banis: [],
+    bani: null,
+    lineId: null,
+    mainLineId: null,
+    nextLineId: null,
+    viewedLines: {},
+    transitionHistory: {},
+    latestLines: {},
+    shabad: null,
+    recommendedSources: {},
+    writers: {},
+    settings: loadSettings(),
   }
 
   componentDidMount() {
