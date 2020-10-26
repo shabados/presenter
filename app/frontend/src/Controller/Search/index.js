@@ -5,7 +5,7 @@ import { useLocation, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { stringify } from 'querystring'
-import { Input, InputAdornment, IconButton } from '@material-ui/core'
+import { Input, InputAdornment, IconButton, List } from '@material-ui/core'
 
 import { getUrlState } from '../../lib/utils'
 import { SettingsContext } from '../../lib/contexts'
@@ -18,7 +18,8 @@ import {
   MIN_SEARCH_CHARS,
 } from '../../lib/consts'
 
-import Result from './Results'
+import Result from './Result'
+import getHighlighter from './match-highlighter'
 import './index.css'
 
 // Generate the regex for capturing anchor chars, optionally
@@ -147,6 +148,10 @@ const Search = ( { updateFocus, register, focused } ) => {
 
   useEffect( () => { highlightSearch() }, [] )
 
+  // Get match highlighter for the current search mode
+  const searchMode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
+  const highlighter = getHighlighter( searchedValue, searchMode )
+
   return (
     <div className="search">
       <Input
@@ -174,13 +179,18 @@ const Search = ( { updateFocus, register, focused } ) => {
           autoComplete: 'off',
         }}
       />
-      <Result
-        results={results}
-        searchedValue={searchedValue}
-        anchor={anchor}
-        register={register}
-        focused={focused}
-      />
+
+      <List className="results">
+        {results && results.map( ( result, index ) => (
+          <Result
+            {...result}
+            key={result.id}
+            ref={ref => register( index, ref )}
+            focused={focused === index}
+            highlighter={highlighter}
+          />
+        ) )}
+      </List>
     </div>
   )
 }
