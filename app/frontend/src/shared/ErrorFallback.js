@@ -40,11 +40,11 @@ const ErrorFallback = ( { error, autoReset } ) => {
             it seems we&apos;ve never broken it quite like this.
           </span>
           <span>
-          Usage Analytics (if enabled in System Options), will send us a report.
-          A prompt investigation into what, why, and how this happened will ensue.
+            Usage Analytics (if enabled in System Options), will send us a report.
+            A prompt investigation into what, why, and how this happened will ensue.
           </span>
           <span>
-          If you wish to help, please send an email to team@shabados.com
+            If you wish to help, please send an email to team@shabados.com
           </span>
         </Typography>
       </Typography>

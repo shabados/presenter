@@ -65,14 +65,14 @@ const History = ( { register, focused } ) => {
         <ListItemIcon className="meta icon">
           <FontAwesomeIcon icon={faDownload} />
         </ListItemIcon>
-      Export
+        Export
       </ListItem>
 
       <ListItem onClick={controller.clearHistory}>
         <ListItemIcon className="meta icon">
           <FontAwesomeIcon icon={faTrash} />
         </ListItemIcon>
-      Clear History
+        Clear History
       </ListItem>
     </List>
   ), [ register, focused, transitionHistory, latestLines ] )

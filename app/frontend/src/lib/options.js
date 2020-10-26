@@ -36,6 +36,7 @@ import {
   faCompressAlt,
   faExpandArrowsAlt,
   faRemoveFormat,
+  faSearchPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -68,6 +69,7 @@ export const PRIVACY_TYPES = {
 
 // Option names and possible values
 export const OPTIONS = {
+  controllerZoom: { name: 'Controller Zoom', icon: faSearchPlus, type: OPTION_TYPES.slider, min: 0.1, max: 2.5, step: 0.1, privacy: PRIVACY_TYPES.local },
   presenterFontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, min: 3, max: 13, step: 0.1, privacy: PRIVACY_TYPES.local },
   relativeGurmukhiFontSize: { name: 'Relative Gurmukhi Font Size', icon: faPercentage, type: OPTION_TYPES.slider, min: 0.5, max: 1.5, step: 0.01, privacy: PRIVACY_TYPES.local },
   relativeEnglishFontSize: { name: 'Relative Latin Font Size', icon: faPercentage, type: OPTION_TYPES.slider, min: 0.5, max: 1.5, step: 0.01, privacy: PRIVACY_TYPES.local },
@@ -228,6 +230,7 @@ export const DEFAULT_OPTIONS = {
       lineEnding: true,
     },
     layout: {
+      controllerZoom: 1,
       presenterFontSize: 8,
       relativeGurmukhiFontSize: 1,
       relativeEnglishFontSize: 0.6,
