@@ -14,9 +14,10 @@ import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS } from '../../lib/consts'
  * @param {int} typeId The type id of line.
  * @param {string} lineId The id of the line.
  * @param {string} shabadId The id of the shabad.
- * @param {Component} ref The ref to the component.
  * @param {int} sourceId The id of source.
  * @param {Object} shabad The object containing section information and other metadata.
+ * @param {Boolean} focused Whether the line is focused or not.
+ * @param {Function} highlighter The match highlighter.
  * @param {int} sourcePage The page number of shabad in source.
  * @param {string} translations The translations of shabad line to display.
  * @param {string} transliterations The transliterations of shabad line to display.
