@@ -13,7 +13,7 @@
   display: contents;
 }
 
-.line .source,
+.line > p,
 .line .partition {
   justify-content: flex-start;
 }
@@ -22,7 +22,7 @@
   text-align: center;
 }
 
-.line.center-text .source,
+.line.center-text > p,
 .line.center-text .partition {
   justify-content: center;
 }
@@ -128,10 +128,6 @@ p {
   flex-wrap: wrap;
 }
 
-.line .partition.inline {
-  display: contents;
-}
-
 .current-line
   .source.with-transliterations
   .partition
@@ -152,30 +148,28 @@ p {
   border-right: none;
 }
 
-.source .partition .word span {
+.word,
+.word span {
   white-space: pre-wrap;
 }
 
-.partition:before,
-.word span:after {
-  content: "\200B\20";
-}
-
-.source .partition .word {
+.word {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.partition:last-child:after {
-  content: "";
+.transliteration .word {
+  flex-direction: row;
 }
 
-.line .gurmukhi .word:after,
-.line .transliteration .word:after {
-  content: "\20";
+.partition:before,
+.word span:after,
+.transliteration .word:after {
+  content: "\200B\20";
 }
 
+.partition:last-child:after,
 .larivaar.line .word:after,
 .larivaar.line .word span:after,
 .larivaar.line .partition + .partition:before {
