@@ -133,14 +133,14 @@ p {
 }
 
 .current-line
-  .source.withTransliterations
+  .source.with-transliterations
   .partition
   .word {
   padding-bottom: 0em;
   margin-bottom: 0.4em;
 }
 
-.current-line .word.withGuides {
+.current-line .word.with-guides {
   padding-left: 0.3em;
   border-right: 0.1em double;
   border-color: var(--display-dim-background-color);
@@ -148,7 +148,7 @@ p {
 
 .current-line
   .partition:last-child
-  .word.withGuides:last-child {
+  .word.with-guides:last-child {
   border-right: none;
 }
 

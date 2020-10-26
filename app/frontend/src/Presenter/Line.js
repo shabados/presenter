@@ -118,14 +118,14 @@ const Line = ( {
       <TransitionGroup appear exit={false} component={null}>
 
         <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
-          <p className={inlineTransliteration ? 'source withTransliterations' : 'source'}>
+          <p className={classNames( 'source', { 'with-transliterations': inlineTransliteration } )}>
             {partitionLine( gurmukhi, !vishraamCharacters )
               .map( ( line, lineIndex ) => (
-                <span key={lineIndex} className={partition ? 'block partition' : 'inline partition'}>
+                <span key={lineIndex} className={classNames( 'partition', partition ? 'block' : 'inline' )}>
                   {line.map( ( { word, type }, i ) => (
                     <div
                       key={`${word}-${type}-${i}`}
-                      className={classNames( type, 'word', inlineColumnGuides ? 'withGuides' : '' )}
+                      className={classNames( type, 'word', { 'with-guides': inlineColumnGuides } )}
                     >
                       <span
                         className="gurmukhi"
@@ -133,7 +133,7 @@ const Line = ( {
                       >
                         {word}
                       </span>
-                      {inlineTransliteration ? transliterations.filter( isString )
+                      {inlineTransliteration && transliterations.filter( isString )
                         .map( ( [ name, , fontSize, dynamicallyTransliterate ] ) => (
                           <span
                             className={classNames( name )}
@@ -141,7 +141,7 @@ const Line = ( {
                           >
                             {`${dynamicallyTransliterate( toUnicode( word ) )}`}
                           </span>
-                        ) ) : '' }
+                        ) ) }
                     </div>
                   ) )}
                 </span>
@@ -157,7 +157,7 @@ const Line = ( {
           </CSSTransition>
         ) )}
 
-        {!inlineTransliteration ? transliterations.filter( isString )
+        {!inlineTransliteration && transliterations.filter( isString )
           .map( ( [ name, transliteration, fontSize ] ) => (
             <CSSTransition key={transliteration} classNames="fade" timeout={0}>
               <p
@@ -169,7 +169,7 @@ const Line = ( {
                 )}
               </p>
             </CSSTransition>
-          ) ) : ''}
+          ) )}
 
       </TransitionGroup>
     </div>
