@@ -12,7 +12,7 @@ const fullWordMatches = query => ( { target, gurmukhi } ) => {
   const matchStartPosition = baseGurmukhi.lastIndexOf( ' ', foundPosition )
 
   const wordEndPosition = baseGurmukhi.indexOf( ' ', foundPosition + sanitisedQuery.length )
-  // If the match finishes in the last word, no space will be deteced, and wordEndPosition
+  // If the match finishes in the last word, no space will be detected, and wordEndPosition
   // will be -1. In this case, we want to end at the last position in the line.
   const matchEndPosition = wordEndPosition === -1 ? baseGurmukhi.length - 1 : wordEndPosition
 
