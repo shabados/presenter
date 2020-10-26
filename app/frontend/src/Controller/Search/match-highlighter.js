@@ -2,21 +2,32 @@ import { stripVishraams, toAscii, firstLetters, stripAccents, toUnicode } from '
 
 import { SEARCH_TYPES } from '../../lib/consts'
 
+/**
+ * Highlights a full word query against a matched line.
+ * Finds the position to highlight in the target string using the Gurmukhi matched line,
+ * and using the position of the highlighted words, highlights the same words in the target
+ * string.
+ */
 const fullWordMatches = query => ( { target, gurmukhi } ) => {
+  // Remove vishraams to prevent query from not matching
   const baseGurmukhi = stripVishraams( gurmukhi )
+  // Remove vishraams from target to prevent vishraams in output
   const baseTarget = stripVishraams( target )
 
+  // Trailing spaces can cause mismatches
   const sanitisedQuery = query.trim()
 
+  // Find the match position, and then backtrack to find the beginning of the word
   const foundPosition = baseGurmukhi.search( sanitisedQuery )
   const matchStartPosition = baseGurmukhi.lastIndexOf( ' ', foundPosition )
 
+  // Search forward to find the end of the match
   const wordEndPosition = baseGurmukhi.indexOf( ' ', foundPosition + sanitisedQuery.length )
   // If the match finishes in the last word, no space will be detected, and wordEndPosition
   // will be -1. In this case, we want to end at the last position in the line.
   const matchEndPosition = wordEndPosition === -1 ? baseGurmukhi.length - 1 : wordEndPosition
 
-  // Grab the word indexes in gurmukhi
+  // Grab the start index and length of the entire matching words
   const [ wordMatchStart, wordMatchLength ] = [
     gurmukhi.substring( 0, matchStartPosition ).trim().split( ' ' ).length - 1,
     gurmukhi.substring( matchStartPosition, matchEndPosition ).trim().split( ' ' ).length,
@@ -31,13 +42,22 @@ const fullWordMatches = query => ( { target, gurmukhi } ) => {
   ]
 }
 
+/**
+ * Highlights a first letter query against a matched line.
+ * Finds the words to match in the Gurmukhi string, and highlights
+ * the corresponding target string.
+ */
 const firstLetterMatches = query => ( { target, gurmukhi } ) => {
+  // Remove vishraams to prevent query from not matching
   const baseGurmukhi = stripVishraams( gurmukhi )
+  // Remove vishraams from target to prevent vishraams in output
   const baseLine = stripVishraams( target )
 
+  // Get only letters, so that simple first letters can be matched
   const letters = toAscii( firstLetters( stripAccents( toUnicode( baseGurmukhi ) ) ) )
   const words = baseLine.split( ' ' )
 
+  // Find the start and end positions of the match, including the entire end word
   const startPosition = letters.search( stripAccents( query ) )
   const endPosition = startPosition + query.length
 
@@ -48,6 +68,12 @@ const firstLetterMatches = query => ( { target, gurmukhi } ) => {
   ]
 }
 
+/**
+ * Supported search mode match highlighters.
+ * Highlighters must support highlighting against a 1-1 transliteration or gurmukhi string.
+ * Highlighters all receive the same parameters.
+ * Highlights must return a tuple of [ beforeMatch, match, afterMatch ]
+ */
 const highlighters = {
   [ SEARCH_TYPES.fullWord ]: fullWordMatches,
   [ SEARCH_TYPES.firstLetter ]: firstLetterMatches,
