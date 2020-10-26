@@ -68,7 +68,7 @@ const getHighlighter = ( searchQuery, searchMode ) => context => target => {
   // Account for wildcard characters
   const sanitizedQuery = searchQuery.replace( new RegExp( '_', 'g' ), '.' )
 
-  // Select the right higlighter
+  // Select the right highlighter
   const highlight = highlighters[ searchMode ]
 
   return highlight( sanitizedQuery )( { target, ...context } )
