@@ -9,7 +9,7 @@
     "lint:backend": "cd app && npm run lint",
     "lint:frontend": "cd app/frontend && npm run lint",
     "test": "echo \"No tests\"",
-    "start": "npm-run-all -l -p start:*",
+    "start": "npm-run-all -l -p start:backend start:frontend",
     "start:backend": "cd app && npm run start",
     "start:frontend": "cd app/frontend && npm start",
     "start:electron": "cd app && electron electron/esm-wrapper electron-wrapper",
