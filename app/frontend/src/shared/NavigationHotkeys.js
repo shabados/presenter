@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { instanceOf } from 'prop-types'
 
-import { GlobalHotKeys } from 'react-hotkeys'
-
-import { scrollIntoCenter, debounceHotKey, mapPlatformKeys } from '../lib/utils'
+import { scrollIntoCenter, debounceHotKey } from '../lib/utils'
 import { LINE_HOTKEYS } from '../lib/keyMap'
+
+import GlobalHotKeys from './GlobalHotKeys'
 
 const isInput = element => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
 
@@ -176,7 +176,7 @@ export const withNavigationHotkeys = ( {
         enter: this.simulateClick,
       }
 
-      keymap = mapPlatformKeys( {
+      keymap = {
         next: [ 'down', 'right', 'tab', 'PageDown', 'l' ],
         previous: [ 'up', 'left', 'shift+tab', 'PageUp', 'j' ],
         ...( !clickOnFocus && { enter: [ 'enter', 'return' ] } ),
@@ -187,7 +187,7 @@ export const withNavigationHotkeys = ( {
           [ hotkey ]: [ hotkey ],
         } ), {} ) ),
         ...keymap,
-      } )
+      }
 
       render() {
         const { forwardedRef, ...rest } = this.props
