@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/ShabadOS/presenter/dev/resources/icon.png" width="128" alt="Shabad OS">
+<img src="https://raw.githubusercontent.com/shabados/presenter/dev/resources/icon.png" width="128" alt="Shabad OS">
 
 # Presenter
 
@@ -88,10 +88,10 @@ The current lead maintainer is Harjot Singh ([@harjot1singh](https://github.com/
 
 Projects in the Shabad OS ecosystem of free and open source software include:
 
-- [Database](https://github.com/ShabadOS/database)
-- [Viewer](https://github.com/ShabadOS/viewer)
-- [Mobile](https://github.com/ShabadOS/mobile)
-- [Gurmukhi Utils](https://github.com/ShabadOS/gurmukhi-utils)
+- [Database](https://github.com/shabados/database)
+- [Viewer](https://github.com/shabados/viewer)
+- [Mobile](https://github.com/shabados/mobile)
+- [Gurmukhi Utils](https://github.com/shabados/gurmukhi-utils)
 
 ## Code of Conduct
 
@@ -126,7 +126,7 @@ This project is under v3 of the [GPL](LICENSE.md). It is similar to the Golden R
 [twitter-url]: https://www.twitter.com/shabad_os/
 [chat-image]: https://img.shields.io/badge/Chat-Public%20Slack%20Channels-1264a3.svg?logo=slack
 [chat-url]: https://chat.shabados.com
-[new-issue-url]: https://github.com/ShabadOS/presenter/issues/new
+[new-issue-url]: https://github.com/shabados/presenter/issues/new
 [contributor-url]: https://github.com/shabados/presenter/graphs/contributors
-[upvote-tracker-url]: https://github.com/ShabadOS/presenter/issues?q=is%3Aopen+is%3Aissue+label%3A%22Type%3A+Feature%2FEnhancement%22+sort%3Areactions-%2B1-desc
+[upvote-tracker-url]: https://github.com/shabados/presenter/issues?q=is%3Aopen+is%3Aissue+label%3A%22Type%3A+Feature%2FEnhancement%22+sort%3Areactions-%2B1-desc
 [contributor-covenant-url]: https://www.contributor-covenant.org/version/2/0/code_of_conduct/

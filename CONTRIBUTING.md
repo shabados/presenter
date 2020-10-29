@@ -2,7 +2,7 @@
 
 Thank you for your interest in participating!
 
-There are many ways to contribute, beyond writing code or programming, by: logging bugs, reporting issues, and creating suggestions. To do so, please [create a ticket](https://github.com/ShabadOS/presenter/issues/new) in our issue tracker. (See other ways to [Contribute](README.md#Contributing) or give [Feedback](README.md#Feedback).
+There are many ways to contribute, beyond writing code or programming, by: logging bugs, reporting issues, and creating suggestions. To do so, please [create a ticket](https://github.com/shabados/presenter/issues/new) in our issue tracker. (See other ways to [Contribute](README.md#Contributing) or give [Feedback](README.md#Feedback).
 
 This document is for developers or programmers contributing to the source code of Presenter.
 
@@ -121,17 +121,17 @@ The backend is using proposed ES+ modules with the `esm` shim module.
 
 ## Workflow
 
-The workflow of development (or Git Flow) is to [choose/create an issue](https://github.com/ShabadOS/presenter/issues) to work on, [create a feature branch](https://github.com/ShabadOS/.github/wiki/How-to-Contribute#branches), and [submit a pull request](https://github.com/ShabadOS/.github/wiki/How-to-Contribute#pull-requests).
+The workflow of development (or Git Flow) is to [choose/create an issue](https://github.com/shabados/presenter/issues) to work on, [create a feature branch](https://github.com/shabados/.github/wiki/How-to-Contribute#branches), and [submit a pull request](https://github.com/shabados/.github/wiki/How-to-Contribute#pull-requests).
 
-**PROTIP**: Read more about our workflow (issue tracking, branching, and pull requests) in the [How To Contribute wiki article](https://github.com/ShabadOS/.github/wiki/How-to-Contribute).
+**PROTIP**: Read more about our workflow (issue tracking, branching, and pull requests) in the [How To Contribute wiki article](https://github.com/shabados/.github/wiki/How-to-Contribute).
 
 ### Coding Guidelines
 
-Please see the [wiki](https://github.com/ShabadOS/.github/wiki/How-to-Contribute#coding-guidelines) for Coding Guidelines ([Names](https://github.com/ShabadOS/.github/wiki/How-to-Contribute#41-names), [Comments](https://github.com/ShabadOS/.github/wiki/How-to-Contribute#42-comments), [Style](https://github.com/ShabadOS/.github/wiki/How-to-Contribute#43-style), [Linting](https://github.com/ShabadOS/.github/wiki/How-to-Contribute#44-linting), and [Commit Messages](https://github.com/ShabadOS/.github/wiki/How-to-Contribute#45-commit-messages)).
+Please see the [wiki](https://github.com/shabados/.github/wiki/How-to-Contribute#coding-guidelines) for Coding Guidelines ([Names](https://github.com/shabados/.github/wiki/How-to-Contribute#41-names), [Comments](https://github.com/shabados/.github/wiki/How-to-Contribute#42-comments), [Style](https://github.com/shabados/.github/wiki/How-to-Contribute#43-style), [Linting](https://github.com/shabados/.github/wiki/How-to-Contribute#44-linting), and [Commit Messages](https://github.com/shabados/.github/wiki/How-to-Contribute#45-commit-messages)).
 
 ### Scope
 
-To be used in [commit messages](https://github.com/ShabadOS/.github/wiki/How-to-Contribute#45-commit-messages).
+To be used in [commit messages](https://github.com/shabados/.github/wiki/How-to-Contribute#45-commit-messages).
 
 Usage:
 
