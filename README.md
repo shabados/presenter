@@ -113,8 +113,6 @@ This project is under v3 of the [GPL](LICENSE.md). It is similar to the Golden R
 >
 > You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-![CircleCI]()
-
 [release-image]: https://img.shields.io/circleci/build/github/shabados/presenter/master.svg?label=release
 [release-url]: https://app.circleci.com/pipelines/github/shabados/presenter?branch=master
 [next-image]: https://img.shields.io/circleci/build/github/shabados/presenter/dev.svg?label=next%20release
