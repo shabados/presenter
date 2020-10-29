@@ -53,6 +53,9 @@ const OverlaySettings = () => {
             Theme Tool
           </TutorialButton>
         </Grid>
+        <Grid item {...slotSizes.single} className="buttons">
+          <Button className="folder-button" disabled={!isElectron} variant="contained" onClick={() => controller.action( 'open-overlay-folder' )}>Open Overlay Folder</Button>
+        </Grid>
       </OptionGrid>
 
       <OptionGrid container>
@@ -66,13 +69,6 @@ const OverlaySettings = () => {
       </OptionGrid>
 
       <DynamicOptions device="global" group="overlay" />
-
-      <OptionGrid container align="center">
-        <Grid item {...slotSizes.single}>
-          <Button className="folder-button" disabled={!isElectron} variant="contained" onClick={() => controller.action( 'open-overlay-folder' )}>Open Overlay Folder</Button>
-        </Grid>
-      </OptionGrid>
-
     </div>
   )
 }
