@@ -24,14 +24,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ShabadOS/presenter.git"
+    "url": "git+https://github.com/shabados/presenter.git"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/ShabadOS/presenter/issues"
+    "url": "https://github.com/shabados/presenter/issues"
   },
-  "homepage": "https://github.com/ShabadOS/presenter#readme",
+  "homepage": "https://github.com/shabados/presenter#readme",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "conventional-changelog-cli": "^2.0.34",

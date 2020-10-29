@@ -19,7 +19,7 @@ ifdef::env-github[]
 endif::[]
 
 [discrete]
-# https://github.com/ShabadOS/{repo}/blob/master/release-notes/{semver}.adoc[{release} (SemVer {semver})]
+# https://github.com/shabados/{repo}/blob/master/release-notes/{semver}.adoc[{release} (SemVer {semver})]
 
 Welcome to the {release} release of {repo-title}. There are a number of updates we hope you will like, some of the key highlights include:
 
