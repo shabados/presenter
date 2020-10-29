@@ -36,24 +36,24 @@ const OverlaySettings = () => {
             When a line is activated in the controller and seen on the presenter,
             the same information is used to generate the overlay.
             Choose what to display and how to display it with the options below.
-            You can choose from a variety of pre-configured overlays or
-            create your own using the theme tool.
+            For added customization, create an overlay with the theme tool.
           </Typography>
         </Grid>
       </OptionGrid>
 
       <OptionGrid container align="center">
-        <Grid item {...slotSizes.single}>
-
-          <Grid container justify="space-around">
-            <TutorialButton className="tutorial-button" href="https://tutorials.shabados.com/tutorials/1.0.0/overlay/overlay.html">
-              Learn More
-            </TutorialButton>
-            <TutorialButton className="theme-tool" href="https://themes.shabados.com">
-              Theme Tool
-            </TutorialButton>
-          </Grid>
-
+        <Grid item {...slotSizes.single} className="buttons">
+          <TutorialButton className="tutorial-button" href="https://tutorials.shabados.com/tutorials/1.0.0/overlay/overlay.html">
+            Learn More
+          </TutorialButton>
+        </Grid>
+        <Grid item {...slotSizes.single} className="buttons">
+          <TutorialButton className="theme-tool" href="https://themes.shabados.com">
+            Theme Tool
+          </TutorialButton>
+        </Grid>
+        <Grid item {...slotSizes.single} className="buttons">
+          <Button className="folder-button" disabled={!isElectron} variant="contained" onClick={() => controller.action( 'open-overlay-folder' )}>Open Overlay Folder</Button>
         </Grid>
       </OptionGrid>
 
@@ -68,13 +68,6 @@ const OverlaySettings = () => {
       </OptionGrid>
 
       <DynamicOptions device="global" group="overlay" />
-
-      <OptionGrid container align="center">
-        <Grid item {...slotSizes.single}>
-          <Button className="folder-button" disabled={!isElectron} variant="contained" onClick={() => controller.action( 'open-overlay-folder' )}>Open Overlay Folder</Button>
-        </Grid>
-      </OptionGrid>
-
     </div>
   )
 }
