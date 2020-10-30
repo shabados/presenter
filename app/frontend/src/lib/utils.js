@@ -9,8 +9,11 @@ import deepmerge from 'deepmerge'
 import queryString from 'qs'
 import { find, findIndex, findLastIndex, debounce, invert } from 'lodash'
 import memoize from 'memoizee'
+import { stripVishraams, stripEndings } from 'gurmukhi-utils'
 
-import { PAUSE_CHARS, STATES, isMac, BANIS } from './consts'
+import vishraams from 'gurmukhi-utils/lib/vishraams.json'
+
+import { STATES, isMac, BANIS, LINE_TYPES } from './consts'
 
 /**
  * Merges the source object into the destination, replacing arrays.
@@ -24,10 +27,19 @@ export const merge = ( source, destination ) => deepmerge(
 )
 
 /**
- * Removes the pause characters from the string.
- * @param line The line to remove the pause characters from.
+ *
+ * @param {string} line The line to modify.
+ * @param {Object} settings Different boolean values for transformations.
+ * @returns {string} With different transformations applied.
  */
-export const stripPauses = line => line.replace( new RegExp( `[${Object.values( PAUSE_CHARS )}]`, 'g' ), '' )
+export const customiseLine = ( line, { lineEnding, typeId } ) => [
+  [ lineEnding, stripEndings ],
+]
+  .filter( ( [ predicate ] ) => predicate )
+  .reduce( ( line, [ , fn ] ) => (
+    // Skip stripEndings for Sirlekh
+    typeId === LINE_TYPES.sirlekh ? line : fn( line || '' )
+  ), line )
 
 /**
  * Classifies the pause for a single word, returning an object of the word and type.
@@ -35,9 +47,9 @@ export const stripPauses = line => line.replace( new RegExp( `[${Object.values( 
  * @param strip Whether or not to strip the vishraam character.
  */
 export const classifyWord = ( word, strip = true ) => ( {
-  word: strip ? stripPauses( word ) : word,
+  word: strip ? stripVishraams( word ) : word,
   type: Object
-    .entries( { ...PAUSE_CHARS } )
+    .entries( vishraams )
     .reduce( ( type, [ pauseType, pauseChar ] ) => (
       // Check if last char in word is the current pause char, and return that type if so
       word.slice( -1 ) === pauseChar ? pauseType : type ), null ),
@@ -66,7 +78,6 @@ export const partitionLine = ( line, strip = true ) => classifyWords( line, stri
     // If it's a heavy pause, start a new array after it for the next words
     return type === 'heavy' ? [ ...nextWords, [] ] : nextWords
   }, [ [] ] )
-
 
 /**
  * Scrolls an element into the center, given a ref.
@@ -113,9 +124,11 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
 
   if ( !translationId ) return null
 
-  return line.translations.find( (
+  const { translation } = line.translations.find( (
     ( { translationSourceId: id } ) => translationId === id
-  ) ).translation
+  ) )
+
+  return translation
 }
 
 /**
@@ -123,11 +136,17 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
  * @param {Object} line The current line.
  * @param {number} languageId The identifier of the language.
  */
-export const getTransliteration = ( line, languageId ) => line.transliterations.find( (
-  ( { languageId: id } ) => languageId === id
-) ).transliteration
+export const getTransliteration = ( { transliterations }, languageId ) => {
+  const { transliteration: translit } = transliterations.find( (
+    ( { languageId: id } ) => languageId === id
+  ) )
+
+  return translit
+}
 
 export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
+
+export const mapPlatformKey = key => ( isMac ? key.replace( 'ctrl', 'cmd' ) : key )
 
 /**
  * Maps ctrl to cmd in keyMap if on Mac.
@@ -136,7 +155,7 @@ export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
 export const mapPlatformKeys = keyMap => ( isMac
   ? Object.entries( keyMap ).reduce( ( keyMap, [ name, sequences ] ) => ( {
     ...keyMap,
-    [ name ]: sequences ? sequences.map( sequence => sequence.replace( 'ctrl', 'cmd' ) ) : null,
+    [ name ]: sequences ? sequences.map( mapPlatformKey ) : null,
   } ), {} )
   : keyMap
 )
@@ -201,7 +220,6 @@ export const getJumpLines = memoize( ( { shabad, bani } ) => {
     } ),
   } ), { jumpIndex: 0, jumpLines: {} } )
 
-
   return jumpLines
 }, {
   primitive: true,
@@ -211,7 +229,6 @@ export const getJumpLines = memoize( ( { shabad, bani } ) => {
     baniId: ( bani ? bani.id : null ),
   } ),
 } )
-
 
 export const getBaniNextJumpLine = ( { bani, lineId } ) => {
   const { lines } = bani

@@ -1,5 +1,6 @@
 import React, { useMemo, useContext } from 'react'
 import { func, number } from 'prop-types'
+import { stripVishraams } from 'gurmukhi-utils'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -14,7 +15,6 @@ import {
 
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import { HISTORY_DOWNLOAD_URL } from '../lib/consts'
-import { stripPauses } from '../lib/utils'
 import controller from '../lib/controller'
 import { HistoryContext } from '../lib/contexts'
 
@@ -53,7 +53,7 @@ const History = ( { register, focused } ) => {
               onClick={onClick}
             >
               <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
-              <span className="gurmukhi text">{bani ? bani.nameGurmukhi : stripPauses( gurmukhi )}</span>
+              <span className="gurmukhi text">{bani ? bani.nameGurmukhi : stripVishraams( gurmukhi )}</span>
               <span className="timestamp meta">
                 {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit', hour12: false } )}
               </span>
@@ -65,14 +65,14 @@ const History = ( { register, focused } ) => {
         <ListItemIcon className="meta icon">
           <FontAwesomeIcon icon={faDownload} />
         </ListItemIcon>
-      Export
+        Export
       </ListItem>
 
       <ListItem onClick={controller.clearHistory}>
         <ListItemIcon className="meta icon">
           <FontAwesomeIcon icon={faTrash} />
         </ListItemIcon>
-      Clear History
+        Clear History
       </ListItem>
     </List>
   ), [ register, focused, transitionHistory, latestLines ] )

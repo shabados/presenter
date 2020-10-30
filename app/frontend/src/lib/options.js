@@ -33,6 +33,9 @@ import {
   faDesktop,
   faTags,
   faSearch,
+  faExpandArrowsAlt,
+  faRemoveFormat,
+  faSearchPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -41,13 +44,12 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-regular-svg-icons'
 
-import { LANGUAGES } from './consts'
+import { LANGUAGES, BACKEND_URL } from './consts'
 import SHORTCUTS from './keyMap'
 
 /**
  * Options for settings.
  */
-
 
 // Unique symbols for each option type
 export const OPTION_TYPES = {
@@ -55,6 +57,7 @@ export const OPTION_TYPES = {
   toggle: Symbol( 'Toggle' ),
   slider: Symbol( 'Slider' ),
   colorPicker: Symbol( 'Color Picker' ),
+  urlDropdown: Symbol( 'URL Dropdown' ),
 }
 
 export const PRIVACY_TYPES = {
@@ -65,6 +68,7 @@ export const PRIVACY_TYPES = {
 
 // Option names and possible values
 export const OPTIONS = {
+  controllerZoom: { name: 'Controller Zoom', icon: faSearchPlus, type: OPTION_TYPES.slider, min: 0.1, max: 2.5, step: 0.1, privacy: PRIVACY_TYPES.local },
   presenterFontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, min: 3, max: 13, step: 0.1, privacy: PRIVACY_TYPES.local },
   relativeGurmukhiFontSize: { name: 'Relative Gurmukhi Font Size', icon: faPercentage, type: OPTION_TYPES.slider, min: 0.5, max: 1.5, step: 0.01, privacy: PRIVACY_TYPES.local },
   relativeEnglishFontSize: { name: 'Relative Latin Font Size', icon: faPercentage, type: OPTION_TYPES.slider, min: 0.5, max: 1.5, step: 0.01, privacy: PRIVACY_TYPES.local },
@@ -98,6 +102,7 @@ export const OPTIONS = {
   englishTransliteration: { name: 'English Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   hindiTransliteration: { name: 'Hindi Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   urduTransliteration: { name: 'Urdu Transliteration', icon: farClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  lineEnding: { name: 'Hide Line Ending', icon: faRemoveFormat, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   themeName: { name: 'Theme Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.local },
   simpleGraphics: { name: 'Remove Visual Effects', icon: faLowVision, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   backgroundImage: { name: 'Background Image', icon: faImage, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -107,12 +112,12 @@ export const OPTIONS = {
   vishraamMedium: { name: 'Secondary Pause', icon: faPauseCircle, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamLight: { name: 'Tertiary Pause', icon: faPauseCircle, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   vishraamCharacters: { name: 'Show Symbols', icon: faSubscript, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamColors: { name: 'Gurmukhi Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
-  vishraamTransliterationColors: { name: 'Transliteration Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  vishraamColors: { name: 'Show Colors', icon: faFill, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   displayAnalytics: { name: 'Display Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   private: { name: 'Private Settings', icon: faLock, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.private },
   launchOnStartup: { name: 'Launch On Startup', icon: faDoorOpen, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
-  multipleDisplays: { name: 'All Displays', icon: faDesktop, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  multipleDisplays: { name: 'Launch on All Displays', icon: faDesktop, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
+  fullscreenOnLaunch: { name: 'Launch In Fullscreen', icon: faExpandArrowsAlt, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   serverAnalytics: { name: 'Server Usage Analytics', icon: faChartPie, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   automaticUpdates: { name: 'Automatic Updates', icon: faSync, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
   betaOptIn: { name: 'Beta Updates', icon: faFlask, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.global },
@@ -145,7 +150,7 @@ export const OPTIONS = {
       { name: 'Urdu', value: LANGUAGES.urdu },
     ],
   },
-  overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.dropdown, values: [], privacy: PRIVACY_TYPES.global },
+  overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.urlDropdown, values: [], url: `${BACKEND_URL}/overlay/themes`, privacy: PRIVACY_TYPES.global },
 }
 
 // Possible options groups
@@ -219,8 +224,10 @@ export const DEFAULT_OPTIONS = {
       englishTransliteration: true,
       hindiTransliteration: false,
       urduTransliteration: false,
+      lineEnding: true,
     },
     layout: {
+      controllerZoom: 1,
       presenterFontSize: 8,
       relativeGurmukhiFontSize: 1,
       relativeEnglishFontSize: 0.6,
@@ -244,7 +251,6 @@ export const DEFAULT_OPTIONS = {
       vishraamMedium: true,
       vishraamLight: true,
       vishraamColors: true,
-      vishraamTransliterationColors: true,
       vishraamCharacters: false,
     },
     sources: {},
@@ -260,6 +266,7 @@ export const DEFAULT_OPTIONS = {
       resultTranslationLanguage: OPTIONS.resultTranslationLanguage.values[ 0 ].value,
       resultTransliterationLanguage: OPTIONS.resultTransliterationLanguage.values[ 0 ].value,
       showResultCitations: false,
+      lineEnding: true,
     },
   },
   // Special serverside settings
@@ -269,6 +276,7 @@ export const DEFAULT_OPTIONS = {
       //! Currently not implemented
       // launchOnStartup: false,
       multipleDisplays: true,
+      fullscreenOnLaunch: false,
       serverAnalytics: true,
       automaticUpdates: true,
       betaOptIn: false,
@@ -289,6 +297,7 @@ export const DEFAULT_OPTIONS = {
       englishTransliteration: false,
       hindiTransliteration: false,
       urduTransliteration: false,
+      lineEnding: true,
     },
   },
 }

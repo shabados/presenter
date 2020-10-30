@@ -1,27 +1,41 @@
 @font-face {
-    font-family: "Noto Sans Medium";
+    font-family: "Noto Sans";
     font-style: normal;
-    font-weight: normal;
-    src: url("./NotoSans-Medium.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Noto Sans Regular";
-    font-style: normal;
-    font-weight: normal;
+    font-weight: 400;
     src: url("./NotoSans-Regular.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: "Noto Sans Devanagari Semi Bold";
+    font-family: "Noto Sans";
     font-style: normal;
-    font-weight: normal;
+    font-weight: 500;
+    src: url("./NotoSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 600;
+    src: url("./NotoSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 700;
+    src: url("./NotoSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Noto Sans Devanagari";
+    font-style: normal;
+    font-weight: 600;
     src: url("./NotoSansDevanagariUI-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Noto Sans Nastaliq Urdu";
     font-style: normal;
-    font-weight: normal;
+    font-weight: 400;
     src: url("./NotoNastaliqUrdu-Regular.ttf") format("truetype");
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { shape, objectOf, string, number, func } from 'prop-types'
+import { shape, objectOf, string, number } from 'prop-types'
 
 import {
   ExpansionPanel,
@@ -14,6 +14,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 import Loader from '../shared/Loader'
 import { BACKEND_URL } from '../lib/consts'
+import controller from '../lib/controller'
 
 import { ResetButton } from './DynamicOptions'
 import { Dropdown as Select } from './SettingComponents'
@@ -23,7 +24,7 @@ import './Sources.css'
 /**
  * View to configure source content, such as translations.
  */
-const Sources = ( { sources: currentSources, setSettings } ) => {
+const Sources = ( { sources: currentSources, device } ) => {
   const [ languages, setLanguages ] = useState()
   const [ { sources, recommended }, setSources ] = useState( {} )
 
@@ -34,7 +35,6 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
   useEffect( () => {
     fetch( `${BACKEND_URL}/sources` ).then( res => res.json() ).then( setSources )
   }, [] )
-
 
   if ( !sources || !languages ) return <Loader />
 
@@ -92,7 +92,7 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
                               values={translationSources[ id ].map( (
                                 ( { nameEnglish: name, id: value } ) => ( { name, value } )
                               ) )}
-                              onChange={( { target: { value } } ) => setSettings( {
+                              onChange={( { target: { value } } ) => controller.setSettings( {
                                 sources: {
                                   [ sourceId ]: {
                                     translationSources: {
@@ -102,7 +102,7 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
                                     },
                                   },
                                 },
-                              } )}
+                              }, device )}
                             />
                           ) : (
                             <Typography variant="body2">{translationSources[ id ][ 0 ].nameEnglish}</Typography>
@@ -125,6 +125,7 @@ const Sources = ( { sources: currentSources, setSettings } ) => {
 }
 
 Sources.propTypes = {
+  device: string.isRequired,
   sources: objectOf( shape( {
     nameEnglish: string.isRequired,
     nameGurmukhi: string.isRequired,
@@ -133,7 +134,6 @@ Sources.propTypes = {
       nameEnglish: string.isRequired,
     } ) ),
   } ) ).isRequired,
-  setSettings: func.isRequired,
 }
 
 export default Sources

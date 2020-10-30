@@ -1,6 +1,5 @@
 import React, { PureComponent, lazy, Suspense } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
-import { configure } from 'react-hotkeys'
 import { hot } from 'react-hot-loader/root'
 import classNames from 'classnames'
 
@@ -29,6 +28,8 @@ const ScreenReader = lazy( () => import( './ScreenReader' ) )
 const Presenter = lazy( () => import( './Presenter' ) )
 const Settings = lazy( () => import( './Settings' ) )
 
+const loadSettings = () => merge( { local: controller.readSettings() }, DEFAULT_OPTIONS )
+
 class App extends PureComponent {
   components = [
     [ Overlay, OVERLAY_URL ],
@@ -37,32 +38,22 @@ class App extends PureComponent {
     [ Presenter, PRESENTER_URL ],
   ]
 
-  constructor( props ) {
-    super( props )
-
-    // Configure react-hotkeys
-    configure( {
-      ignoreTags: [],
-      ignoreKeymapAndHandlerChangesByDefault: false,
-    } )
-
-    this.state = {
-      connected: false,
-      connectedAt: null,
-      status: null,
-      banis: [],
-      bani: null,
-      lineId: null,
-      mainLineId: null,
-      nextLineId: null,
-      viewedLines: {},
-      transitionHistory: {},
-      latestLines: {},
-      shabad: null,
-      recommendedSources: {},
-      writers: {},
-      settings: merge( { local: controller.readSettings() }, DEFAULT_OPTIONS ),
-    }
+  state = {
+    connected: false,
+    connectedAt: null,
+    status: null,
+    banis: [],
+    bani: null,
+    lineId: null,
+    mainLineId: null,
+    nextLineId: null,
+    viewedLines: {},
+    transitionHistory: {},
+    latestLines: {},
+    shabad: null,
+    recommendedSources: {},
+    writers: {},
+    settings: loadSettings(),
   }
 
   componentDidMount() {
@@ -87,7 +78,8 @@ class App extends PureComponent {
       .then( ( { recommended: recommendedSources } ) => {
         //* Update default options and settings with fetched recommended sources
         DEFAULT_OPTIONS.local.sources = recommendedSources
-        this.setState( ( { settings } ) => ( { recommendedSources, settings } ) )
+        //! Re-load settings since we've modified DEFAULT_OPTIONS directly
+        this.setState( { recommendedSources, settings: loadSettings() } )
       } )
 
     // Get writers

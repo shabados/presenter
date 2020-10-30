@@ -2,6 +2,7 @@
   "system": {
     "launchOnStartup": false,
     "multipleDisplays": true,
+    "fullscreenOnLaunch": false,
     "serverAnalytics": true,
     "automaticUpdates": true,
     "betaOptIn": false
@@ -21,6 +22,7 @@
     "punjabiTranslation": false,
     "englishTransliteration": false,
     "hindiTransliteration": false,
-    "urduTransliteration": false
+    "urduTransliteration": false,
+    "lineEnding":true
   }
 }

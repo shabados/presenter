@@ -2,10 +2,11 @@ import React from 'react'
 import { hot } from 'react-hot-loader/root'
 import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
+import { mapValues } from 'lodash'
 
 import { LANGUAGES } from '../lib/consts'
 import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines } from '../lib/hooks'
-
+import { customiseLine } from '../lib/utils'
 import Line from './Line'
 
 import './Display.css'
@@ -29,10 +30,12 @@ const Display = ( { settings } ) => {
     },
   } = settings
 
+  const { lineEnding } = display
 
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
   const [ line, lineIndex ] = useCurrentLine()
+  const { typeId } = line || {}
 
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display
@@ -41,17 +44,23 @@ const Display = ( { settings } ) => {
     : []
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
-  const translations = useTranslations( line && [
-    display.englishTranslation && LANGUAGES.english,
-    display.punjabiTranslation && LANGUAGES.punjabi,
-    display.spanishTranslation && LANGUAGES.spanish,
-  ] )
+  const translations = mapValues(
+    useTranslations( line && [
+      display.englishTranslation && LANGUAGES.english,
+      display.punjabiTranslation && LANGUAGES.punjabi,
+      display.spanishTranslation && LANGUAGES.spanish,
+    ] ),
+    line => customiseLine( line, { lineEnding, typeId } ),
+  )
 
-  const transliterations = useTransliterations( line && [
-    display.englishTransliteration && LANGUAGES.english,
-    display.hindiTransliteration && LANGUAGES.hindi,
-    display.urduTransliteration && LANGUAGES.urdu,
-  ] )
+  const transliterations = mapValues(
+    useTransliterations( line && [
+      display.englishTransliteration && LANGUAGES.english,
+      display.hindiTransliteration && LANGUAGES.hindi,
+      display.urduTransliteration && LANGUAGES.urdu,
+    ] ),
+    line => customiseLine( line, { lineEnding, typeId } ),
+  )
 
   return (
     <div className={classNames( { simple, background }, 'display' )}>

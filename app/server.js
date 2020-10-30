@@ -23,6 +23,7 @@ import {
   FRONTEND_THEMES_FOLDER,
   FRONTEND_OVERLAY_THEMES_FOLDER,
   isDev,
+  LOG_FOLDER,
 } from './lib/consts'
 import { ensureRequiredDirs, copyExampleThemes, sendToElectron } from './lib/utils'
 
@@ -33,6 +34,7 @@ const actions = [
   [ 'open-overlay-folder', () => open( CUSTOM_OVERLAY_THEMES_FOLDER ) ],
   [ 'open-external-url', url => open( url ) ],
   [ 'open-window', payload => sendToElectron( 'open-window', payload ) ],
+  [ 'open-logs-folder', () => open( LOG_FOLDER ) ],
 ]
 
 // Search types and handlers
@@ -119,7 +121,6 @@ async function main() {
 
   // Register Bani list requests on socket connection
   socket.on( 'connection', async client => client.sendJSON( 'banis:list', await getBanis() ) )
-
 
   // Start the server
   server.listen( PORT, () => {

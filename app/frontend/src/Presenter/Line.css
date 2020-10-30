@@ -59,7 +59,8 @@
 */
 
 .line .gurmukhi {
-  font-family: "Open Gurbani Akhar Black", sans-serif;
+  font-family: 'Open Gurbani Akhar';
+  font-weight: 900;
   line-height: 1.4;
 }
 
@@ -68,14 +69,15 @@
 }
 
 .line .english, .line .spanish {
-  font-family: "Noto Sans Medium", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   line-height: 1.89;
   line-height: 1.4;
   font-weight: 700;
 }
 
 .line .punjabi {
-  font-family: "Open Anmol Uni Bold", sans-serif;
+  font-family: "Open Anmol Uni", sans-serif;
+  font-weight: 900;
   line-height: 2.025;
   line-height: 1.75;
   line-height: 1.5;
@@ -83,7 +85,8 @@
 }
 
 .line .hindi {
-  font-family: "Noto Sans Devanagari Semi Bold";
+  font-family: "Noto Sans Devanagari";
+  font-weight: 600;
   line-height: 1.48;
 }
 
@@ -96,7 +99,7 @@
 }
 
 .line .english.transliteration {
-  font-family: "Noto Sans Regular", sans-serif;
+  font-family: "Noto Sans", sans-serif;
 }
 
 .line .gurmukhi .partition {
@@ -130,17 +133,17 @@
 }
 
 .heavy.vishraams.line .gurmukhi .word.heavy,
-.heavy.vishraams.line .vishraams.transliteration .word.heavy {
+.heavy.vishraams.line .transliteration .word.heavy {
   color: var(--display-vishraam-heavy-color) !important;
 }
 
 .medium.vishraams.line .gurmukhi .word.medium,
-.medium.vishraams.line .vishraams.transliteration .word.medium {
+.medium.vishraams.line .transliteration .word.medium {
   color: var(--display-vishraam-medium-color) !important;
 }
 
 .light.vishraams.line .gurmukhi .word.light,
-.light.vishraams.line .vishraams.transliteration .word.light {
+.light.vishraams.line .transliteration .word.light {
   color: var(--display-vishraam-light-color) !important;
 }
 

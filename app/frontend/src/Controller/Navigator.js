@@ -5,7 +5,7 @@ import { Redirect, useLocation } from 'react-router-dom'
 import { string, func, bool } from 'prop-types'
 import classNames from 'classnames'
 import { invert } from 'lodash'
-import { GlobalHotKeys } from 'react-hotkeys'
+import { stripVishraams } from 'gurmukhi-utils'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -21,12 +21,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import { SEARCH_URL } from '../lib/consts'
-import { stripPauses, getJumpLines, getNextJumpLine, findLineIndex } from '../lib/utils'
+import { getJumpLines, getNextJumpLine, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext } from '../lib/contexts'
 import { useCurrentLines } from '../lib/hooks'
 
+import GlobalHotKeys from '../shared/GlobalHotKeys'
 import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 
@@ -34,7 +35,6 @@ import ToolbarButton from './ToolbarButton'
 import ShabadInfo from './ShabadInfo'
 
 import './Navigator.css'
-
 
 /**
 * Line component that attaches click handlers.
@@ -72,7 +72,7 @@ const NavigatorLine = ( {
         {next && <FontAwesomeIcon icon={faAngleDoubleRight} />}
       </span>
 
-      <span className="gurmukhi text">{stripPauses( gurmukhi )}</span>
+      <span className="gurmukhi text">{stripVishraams( gurmukhi )}</span>
 
       <span className="timestamp meta">
         {timestamp && (
@@ -178,6 +178,10 @@ const NavigatorNavigationHotkeys = withNavigationHotkeys( {
   lineKeys: true,
   clickOnFocus: true,
   wrapAround: false,
+  keymap: {
+    first: null,
+    last: null,
+  },
 } )( Navigator )
 
 // Wrap NavigationHotkeys first so that it takes precedence
@@ -262,6 +266,7 @@ export const Bar = ( { onHover } ) => {
     <div className="navigator-controls">
       <ToolbarButton
         name="Up"
+        className="arrow"
         icon={faChevronUp}
         onMouseEnter={() => onHover( 'Previous Line' )}
         onMouseLeave={resetHover}
@@ -272,6 +277,7 @@ export const Bar = ( { onHover } ) => {
 
       <ToolbarButton
         name="Down"
+        className="arrow"
         icon={faChevronDown}
         onMouseEnter={() => onHover( 'Next Line' )}
         onMouseLeave={resetHover}

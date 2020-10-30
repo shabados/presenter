@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useCallback } from 'react'
 import { node, bool, shape, instanceOf } from 'prop-types'
-import { GlobalHotKeys } from 'react-hotkeys'
 import { noop } from 'lodash'
 
-import { mapPlatformKeys, getJumpLines, findLineIndex } from '../lib/utils'
+import { getJumpLines, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
 import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
-import { useCurrentLines } from '../lib/hooks'
+import { useCurrentLines, useWindowFocus } from '../lib/hooks'
+
+import GlobalHotKeys from './GlobalHotKeys'
 
 /**
  * Hotkeys for controlling the navigator.
@@ -72,8 +73,21 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     }
   }, [ lines, lineId ] )
 
-  const goNextLine = useCallback( () => {
-    if ( !lines ) return
+  const goNextLine = useCallback( ( {
+    target: { nodeName, className: targetClass, parentNode },
+  } ) => {
+    const { current: mouseTarget } = mouseTargetRef
+
+    /* Near the bottom of the screen the targetClass
+    becomes 'controller-container` instead of presenter.
+    In this case, we check the targetClass or its parent node's class
+    (which if the target is controller container, will be presenter) */
+    if (
+      // No lines
+      !lines
+      // Or a hotkey didn't trigger it, and another active element was clicked on
+      || ( nodeName !== 'BODY' && ![ targetClass, parentNode.className ].includes( mouseTarget.className ) )
+    ) return
 
     const currentLineIndex = findLineIndex( lines, lineId )
     const { id } = lines[ currentLineIndex ] || {}
@@ -81,7 +95,7 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     if ( id && currentLineIndex < lines.length - 1 ) {
       controller.line( lines[ currentLineIndex + 1 ].id )
     }
-  }, [ lines, lineId ] )
+  }, [ lines, lineId, mouseTargetRef ] )
 
   const goToIndex = index => {
     if ( !lines ) return
@@ -127,13 +141,15 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
   const settings = useContext( SettingsContext )
   const { local: { hotkeys } } = settings || {}
 
-  const keyMap = mapPlatformKeys( { ...hotkeys, ...numberKeyMap } )
+  const keyMap = { ...hotkeys, ...numberKeyMap }
+
+  const windowFocused = useWindowFocus()
 
   // Register mouse shortcuts
   useEffect( () => {
     const { current: mouseTarget } = mouseTargetRef
 
-    if ( !active || !mouseTarget ) return () => {}
+    if ( !active || !mouseTarget || !windowFocused ) return noop
 
     const events = [
       [ 'click', goNextLine ],
@@ -149,7 +165,7 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     return () => events.forEach(
       ( [ event, handler ] ) => mouseTarget.removeEventListener( event, handler ),
     )
-  }, [ mouseTargetRef, active, goNextLine, goPreviousLine, autoToggle ] )
+  }, [ mouseTargetRef, active, goNextLine, goPreviousLine, autoToggle, windowFocused ] )
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={active ? hotKeyHandlers : {}}>
@@ -157,7 +173,6 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     </GlobalHotKeys>
   )
 }
-
 
 NavigatorHotKeys.propTypes = {
   active: bool,

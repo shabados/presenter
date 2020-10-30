@@ -26,7 +26,7 @@
 .controller .middle {
   text-align: center;
   flex: 1 auto;
-  font-family: "Noto Sans Regular", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-weight: 600;
   text-transform: capitalize;
   font-size: 1em;
@@ -62,7 +62,8 @@
   padding: 0;
   text-decoration: none;
   color: var(--controller-text-color);
-  font-family: "Noto Sans Medium", sans-serif;
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 500;
   font-size: 1.1em;
   transition: 0.3s all;
 }
@@ -115,7 +116,7 @@
   font-weight: normal;
   font-size: 0.75em;
   text-transform: uppercase;
-  font-family: "Noto Sans Regular", sans-serif;
+  font-family: "Noto Sans", sans-serif;
 }
 
 .controller .timestamp.meta {
@@ -124,7 +125,7 @@
   font-weight: normal;
   font-size: 0.6em;
   text-transform: uppercase;
-  font-family: "Noto Sans Regular", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   width: 3.5em;
 }
 
@@ -134,7 +135,8 @@
 }
 
 .controller .content .gurmukhi.text {
-  font-family: "Open Gurbani Akhar Bold", sans-serif;
+  font-family: "Open Gurbani Akhar", sans-serif;
+  font-weight: bold;
   font-size: 1.1em;
   height: auto;
   color: var(--controller-text-color);

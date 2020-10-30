@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useState, useContext, useRef } from 'react'
 import { useMount } from 'react-use'
 import { hot } from 'react-hot-loader/root'
-import { GlobalHotKeys } from 'react-hotkeys'
 import { Route, useHistory, useLocation } from 'react-router-dom'
 import IdleTimer from 'react-idle-timer'
 import queryString from 'qs'
@@ -14,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import controller from '../lib/controller'
-import { getUrlState, mapPlatformKeys } from '../lib/utils'
+import { getUrlState } from '../lib/utils'
 import { toggleFullscreen } from '../lib/electron-utils'
 import {
   CONTROLLER_URL,
@@ -30,9 +29,12 @@ import {
 } from '../lib/consts'
 import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
 import { SettingsContext } from '../lib/contexts'
+import { useCurrentLines } from '../lib/hooks'
+import { OPTIONS } from '../lib/options'
 
 import ThemeLoader from '../shared/ThemeLoader'
 import Loader from '../shared/Loader'
+import GlobalHotKeys from '../shared/GlobalHotKeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 import { withErrorFallback } from '../shared/ErrorFallback'
 import CopyHotkeys from '../shared/CopyHotkeys'
@@ -67,7 +69,16 @@ const Presenter = () => {
   const onIdle = () => setIdle( true )
   const onActive = () => setIdle( false )
 
+  const lines = useCurrentLines()
+
   const isControllerOpen = pathname.includes( CONTROLLER_URL )
+
+  const { local: localSettings } = useContext( SettingsContext )
+  const {
+    theme: { themeName },
+    layout: { controllerZoom: zoom },
+    hotkeys,
+  } = localSettings
 
   /**
    * Sets the query string parameters, retaining any currently present.
@@ -99,6 +110,12 @@ const Presenter = () => {
     pathname: CONTROLLER_URL,
     search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
   } )
+
+  const { controllerZoom } = OPTIONS
+  const setZoom = controllerZoom => controller.setSettings( { layout: { controllerZoom } } )
+  const zoomInController = () => setZoom( Math.min( controllerZoom.max, zoom + 0.1 ) )
+  const zoomOutController = () => setZoom( Math.max( controllerZoom.min, zoom - 0.1 ) )
+  const zoomResetController = () => setZoom( 1 )
 
   /**
    * Toggles the given query string parameter.
@@ -135,13 +152,16 @@ const Presenter = () => {
 
   // Global Hotkey Handlers
   const hotkeyHandlers = preventDefault( {
+    [ GLOBAL_SHORTCUTS.zoomInController.name ]: zoomInController,
+    [ GLOBAL_SHORTCUTS.zoomOutController.name ]: zoomOutController,
+    [ GLOBAL_SHORTCUTS.zoomResetController.name ]: zoomResetController,
     [ GLOBAL_SHORTCUTS.toggleController.name ]: toggleController,
     [ GLOBAL_SHORTCUTS.newController.name ]: () => controller.openWindow( `${CONTROLLER_URL}?${STATES.controllerOnly}=true`, { alwaysOnTop: true } ),
     [ GLOBAL_SHORTCUTS.settings.name ]: () => controller.openWindow( SETTINGS_URL ),
     [ GLOBAL_SHORTCUTS.search.name ]: () => go( SEARCH_URL ),
     [ GLOBAL_SHORTCUTS.history.name ]: () => go( HISTORY_URL ),
     [ GLOBAL_SHORTCUTS.bookmarks.name ]: () => go( BOOKMARKS_URL ),
-    [ GLOBAL_SHORTCUTS.navigator.name ]: () => go( NAVIGATOR_URL ),
+    [ GLOBAL_SHORTCUTS.navigator.name ]: () => lines.length && go( NAVIGATOR_URL ),
     [ GLOBAL_SHORTCUTS.clearDisplay.name ]: controller.clear,
     [ GLOBAL_SHORTCUTS.toggleFullscreenController.name ]: toggleFullscreenController,
     [ GLOBAL_SHORTCUTS.toggleFullscreen.name ]: toggleFullscreen,
@@ -151,9 +171,6 @@ const Presenter = () => {
   useMount( () => {
     if ( isMobile ) setFullscreenController()
   } )
-
-  const { local: localSettings } = useContext( SettingsContext )
-  const { theme: { themeName }, hotkeys } = localSettings
 
   // Required for mouse shortcuts
   const presenterRef = useRef( null )
@@ -172,16 +189,15 @@ const Presenter = () => {
         />
       )}
 
-      <GlobalHotKeys keyMap={mapPlatformKeys( hotkeys )} handlers={hotkeyHandlers}>
+      <GlobalHotKeys keyMap={hotkeys} handlers={hotkeyHandlers}>
         <NavigatorHotKeys active={!isControllerOpen} mouseTargetRef={presenterRef}>
           <CopyHotkeys>
 
-
             <Suspense fallback={<Loader />}>
-              {!controllerOnly && <Display settings={localSettings} />}
+              {!( isControllerOpen && controllerOnly ) && <Display settings={localSettings} />}
             </Suspense>
 
-            <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )}>
+            <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )} style={{ zoom }}>
               <IconButton className="expand-icon" onClick={toggleController}>
                 <FontAwesomeIcon icon={faPlus} />
               </IconButton>

@@ -35,7 +35,6 @@ const isString = ( [ , arg ] ) => typeof arg === 'string'
  * @param {boolean} larivaarGurbani Whether Gurbani should be continuous or not.
  * @param {boolean} larivaarAssist If `larivaarGurbani`, whether alternate words should be coloured.
  * @param {boolean} vishraamColors Enables colors for vishraams.
- * @param {boolean} vishraamTransliterationColors Enables colors for vishraams in transliteration.
  * @param {boolean} vishraamCharacters Enables display of vishraam characters.
  * @param {boolean} vishraamLight Enables colors for light vishraams.
  * @param {boolean} vishraamMedium Enables colors for medium vishraams.
@@ -64,7 +63,6 @@ const Line = ( {
   larivaarGurbani: larivaar,
   larivaarAssist,
   vishraamColors: vishraams,
-  vishraamTransliterationColors,
   vishraamCharacters,
   vishraamLight,
   vishraamMedium,
@@ -116,7 +114,6 @@ const Line = ( {
           </p>
         </CSSTransition>
 
-
         {translations.filter( isString ).map( ( [ name, translation, fontSize ] ) => (
           <CSSTransition key={translation} classNames="fade" timeout={0}>
             <p className={classNames( name, 'translation' )} style={{ fontSize: `${fontSize}em` }}>
@@ -128,7 +125,7 @@ const Line = ( {
         {transliterations.filter( isString ).map( ( [ name, transliteration, fontSize ] ) => (
           <CSSTransition key={transliteration} classNames="fade" timeout={0}>
             <p
-              className={classNames( { vishraams: vishraams && vishraamTransliterationColors }, name, 'transliteration' )}
+              className={classNames( name, 'transliteration' )}
               style={{ fontSize: `${fontSize}em` }}
             >
               {classifyWords( transliteration, !vishraamCharacters ).map(
@@ -158,7 +155,6 @@ Line.propTypes = {
   larivaarGurbani: bool,
   larivaarAssist: bool,
   vishraamColors: bool,
-  vishraamTransliterationColors: bool,
   vishraamCharacters: bool,
   vishraamLight: bool,
   vishraamMedium: bool,
@@ -181,7 +177,6 @@ const {
     larivaarAssist,
     larivaarGurbani,
     vishraamColors,
-    vishraamTransliterationColors,
     vishraamCharacters,
     vishraamHeavy,
     vishraamMedium,
@@ -213,7 +208,6 @@ Line.defaultProps = {
   larivaarGurbani,
   larivaarAssist,
   vishraamColors,
-  vishraamTransliterationColors,
   vishraamCharacters,
   vishraamHeavy,
   vishraamMedium,

@@ -2,12 +2,11 @@ import React, { useContext, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { Typography, Popover, IconButton, Button, Tooltip } from '@material-ui/core'
-import { toUnicode } from 'gurmukhi-utils'
+import { toUnicode, stripVishraams } from 'gurmukhi-utils'
 
 import { ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
 import { useCurrentLine, useCurrentLines, useCopyToClipboard } from '../lib/hooks'
 import controller from '../lib/controller'
-import { stripPauses } from '../lib/utils'
 
 import './ShabadInfo.css'
 
@@ -16,7 +15,7 @@ const popoverDisplay = {
   anchorOrigin: { vertical: 'top', horizontal: 'center' },
 }
 
-const getDbViewerUrl = lineId => `https://database.shabados.com/line/${lineId}`
+const getDbViewerUrl = lineId => `https://viewer.shabados.com/line/${lineId}`
 
 const ShabadInfo = () => {
   const iconButtonRef = useRef()
@@ -38,18 +37,20 @@ const ShabadInfo = () => {
   // Icon changes when open
   const barIcon = isPopoverOpen ? faTimesCircle : faInfoCircle
 
-  const onCopyClick = () => {
-    const gurmukhi = lines.map( ( { gurmukhi } ) => gurmukhi ).join( ' ' )
-
-    copyToClipboard( stripPauses( toUnicode( gurmukhi ) ) )
-  }
-
   const { sourceId, writerId, section } = shabad || line.shabad
   const { nameEnglish: sectionName } = bani || section
   const { id: lineId, sourcePage } = line
 
   const { nameEnglish: writerName } = writers[ writerId ]
   const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
+
+  const onCopyClick = () => {
+    const gurmukhi = lines.map( ( { gurmukhi } ) => gurmukhi ).join( ' ' )
+
+    copyToClipboard( stripVishraams( toUnicode( gurmukhi ) ) )
+  }
+
+  const openViewer = () => controller.openExternalUrl( getDbViewerUrl( lineId ) )
 
   return (
     <span>
@@ -77,21 +78,17 @@ const ShabadInfo = () => {
           <span className="writer-name">{writerName}</span>
           <br />
 
-          <div className="popver-buttons">
+          <div className="popover-buttons">
 
             <Tooltip title="Report a mistake">
-              <Button
-                className="db-viewer button"
-                size="small"
-                onClick={() => controller.openExternalUrl( getDbViewerUrl( lineId ) )}
-              >
-              Open Online
+              <Button className="db-viewer button" size="small" onClick={openViewer}>
+                Open Online
               </Button>
             </Tooltip>
 
             <Tooltip title="Click to copy this shabad">
               <Button className="copy-shabad button" size="small" disabled={!shabad} onClick={onCopyClick}>
-                  Copy
+                Copy
               </Button>
             </Tooltip>
 

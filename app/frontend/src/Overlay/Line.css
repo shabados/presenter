@@ -18,25 +18,28 @@
 }
 
 .overlay-line .gurmukhi {
-  font-family: "Open Gurbani Akhar Black", sans-serif;
+  font-family: 'Open Gurbani Akhar';
+  font-weight: 900;
   color: var(--overlay-primary-font-color);
   font-size: var(--overlay-primary-font-size);
   text-shadow: 2px 2px 2px rgba(var(--overlay-primary-drop-color), 1.00);
 }
 
 .overlay-line .english, .overlay-line .spanish {
-  font-family: "Noto Sans Medium", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-weight: 700;
   font-size: var(--overlay-secondary-font-size);
   text-shadow:  2px 2px 2px rgba(var(--overlay-secondary-drop-color), 1.00);
 }
 
 .overlay-line .punjabi {
-  font-family: "Open Anmol Uni Bold", sans-serif;
+  font-family: "Open Anmol Uni", sans-serif;
+  font-weight: 900;
 }
 
 .overlay-line .hindi {
-  font-family: "Noto Sans Devanagari Semi Bold";
+  font-family: "Noto Sans Devanagari";
+  font-weight: 600;
   line-height: 1.48;
 }
 
