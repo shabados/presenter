@@ -7,7 +7,7 @@ import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesCont
 import { customiseLine } from '../lib/utils'
 import { COPY_SHORTCUTS } from '../lib/keyMap'
 import { useCopyToClipboard, useCurrentLine, useTranslations, useTransliterations, useCurrentLines } from '../lib/hooks'
-import { LANGUAGES } from '../lib/consts'
+import { LANGUAGES, SOURCE_ABBREVIATIONS } from '../lib/consts'
 
 import GlobalHotKeys from './GlobalHotKeys'
 
@@ -48,10 +48,10 @@ const CopyHotkeys = ( { children } ) => {
     const { sourceId, writerId } = shabad || line.shabad
     const { sourcePage } = line
 
-    const { nameEnglish: sourceName, pageNameEnglish: pageName } = recommendedSources[ sourceId ]
+    const { pageNameEnglish: pageName } = recommendedSources[ sourceId ]
     const { nameEnglish: writerName } = writers[ writerId ]
 
-    return `${writerName} - ${sourceName} - ${pageName} ${sourcePage}`
+    return `${writerName} - ${SOURCE_ABBREVIATIONS[ sourceId ]} - ${pageName} ${sourcePage}`
   }
 
   const getAllLines = () => lines.map( ( { gurmukhi } ) => gurmukhi ).join( ' ' )
