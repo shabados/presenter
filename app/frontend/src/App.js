@@ -114,7 +114,7 @@ class App extends PureComponent {
 
   onDisconnected = () => this.setState( { connected: false } )
 
-  onShabad = shabad => this.setState( { shabad, bani: null } )
+  onShabad = shabad => this.setState( { shabad, bani: null, lineId: null } )
 
   onLine = lineId => this.setState( { lineId } )
 
@@ -132,7 +132,7 @@ class App extends PureComponent {
 
   onBanis = banis => this.setState( { banis } )
 
-  onBani = bani => this.setState( { bani, shabad: null } )
+  onBani = bani => this.setState( { bani, shabad: null, lineId: null } )
 
   onSettings = ( { global = {}, local = {}, ...settings } ) => this.setState( state => ( {
     settings: {
