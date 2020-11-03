@@ -54,6 +54,7 @@ class App extends PureComponent {
     recommendedSources: {},
     writers: {},
     settings: loadSettings(),
+    next: {},
   }
 
   componentDidMount() {
@@ -114,9 +115,9 @@ class App extends PureComponent {
 
   onDisconnected = () => this.setState( { connected: false } )
 
-  onShabad = shabad => this.setState( { shabad, bani: null } )
+  onShabad = shabad => this.setState( { next: { shabad, bani: null } } )
 
-  onLine = lineId => this.setState( { lineId } )
+  onLine = lineId => this.setState( ( { next } ) => ( { lineId, ...next, next: {} } ) )
 
   onViewedLines = viewedLines => this.setState( { viewedLines } )
 
@@ -132,7 +133,7 @@ class App extends PureComponent {
 
   onBanis = banis => this.setState( { banis } )
 
-  onBani = bani => this.setState( { bani, shabad: null } )
+  onBani = bani => this.setState( { next: { bani, shabad: null } } )
 
   onSettings = ( { global = {}, local = {}, ...settings } ) => this.setState( state => ( {
     settings: {
