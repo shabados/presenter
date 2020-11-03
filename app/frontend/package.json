@@ -4,12 +4,12 @@
   "description": "Frontend component of Shabad OS Presenter (@shabados/presenter)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ShabadOS/presenter.git"
+    "url": "git+https://github.com/shabados/presenter.git"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/ShabadOS/presenter/issues"
+    "url": "https://github.com/shabados/presenter/issues"
   },
   "homepage": "/",
   "dependencies": {
