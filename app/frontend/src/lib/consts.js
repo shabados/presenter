@@ -1,5 +1,7 @@
+import { invert } from 'lodash'
 import { detect } from 'detect-browser'
 import detectMobile from 'is-mobile'
+import { toEnglish, toHindi, toShahmukhi, toUnicode } from 'gurmukhi-utils'
 
 /**
  * Application Constants
@@ -95,13 +97,32 @@ export const LANGUAGES = {
   urdu: 5,
 }
 
-export const LANGUAGE_NAMES = {
-  [ LANGUAGES.english ]: 'english',
-  [ LANGUAGES.punjabi ]: 'punjabi',
-  [ LANGUAGES.spanish ]: 'spanish',
-  [ LANGUAGES.hindi ]: 'hindi',
-  [ LANGUAGES.urdu ]: 'urdu',
-}
+// Languages by keyed by IDs
+export const LANGUAGE_NAMES = invert( LANGUAGES )
+
+// The transliterator functions for each language, presuming ascii input
+export const TRANSLITERATORS = Object.entries( {
+  [ LANGUAGES.english ]: toEnglish,
+  [ LANGUAGES.hindi ]: toHindi,
+  [ LANGUAGES.urdu ]: toShahmukhi,
+} ).reduce( ( transliterators, [ language, fn ] ) => ( {
+  ...transliterators,
+  [ language ]: ascii => fn( toUnicode( ascii ) ),
+} ), {} )
+
+// The order of translations
+export const TRANSLATION_ORDER = [
+  LANGUAGES.english,
+  LANGUAGES.punjabi,
+  LANGUAGES.spanish,
+].reduce( ( acc, language, index ) => ( { ...acc, [ language ]: index } ), {} )
+
+// The order of transliterations
+export const TRANSLITERATION_ORDER = [
+  LANGUAGES.english,
+  LANGUAGES.hindi,
+  LANGUAGES.urdu,
+].reduce( ( acc, language, index ) => ( { ...acc, [ language ]: index } ), {} )
 
 //! Until ShabadOS/database#1767 is resolved
 export const SOURCE_ABBREVIATIONS = {

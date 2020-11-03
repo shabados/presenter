@@ -4,9 +4,9 @@ import { toUnicode, stripVishraams } from 'gurmukhi-utils'
 import { mapValues } from 'lodash'
 
 import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
-import { customiseLine } from '../lib/utils'
+import { customiseLine, getTransliterators } from '../lib/utils'
 import { COPY_SHORTCUTS } from '../lib/keyMap'
-import { useCopyToClipboard, useCurrentLine, useTranslations, useTransliterations, useCurrentLines } from '../lib/hooks'
+import { useCopyToClipboard, useCurrentLine, useTranslations, useCurrentLines } from '../lib/hooks'
 import { LANGUAGES } from '../lib/consts'
 
 import GlobalHotKeys from './GlobalHotKeys'
@@ -24,7 +24,7 @@ const CopyHotkeys = ( { children } ) => {
 
   // Get all translations
   const translations = mapValues(
-    useTranslations( line && [
+    useTranslations( [
       LANGUAGES.english,
       LANGUAGES.punjabi,
       LANGUAGES.spanish,
@@ -32,14 +32,14 @@ const CopyHotkeys = ( { children } ) => {
     line => customiseLine( line, { lineEnding, typeId } ),
   )
 
-  // Get all transliterations
-  const transliterations = mapValues(
-    useTransliterations( line && [
+  // Get all transliterators
+  const transliterators = mapValues(
+    getTransliterators( [
       LANGUAGES.english,
       LANGUAGES.hindi,
       LANGUAGES.urdu,
     ] ),
-    line => customiseLine( line, { lineEnding, typeId } ),
+    transliterate => () => transliterate( customiseLine( line.gurmukhi, { lineEnding, typeId } ) ),
   )
 
   const getAuthor = () => {
@@ -64,12 +64,12 @@ const CopyHotkeys = ( { children } ) => {
     [ COPY_SHORTCUTS.copyGurmukhiUnicode.name, () => stripVishraams( toUnicode( line.gurmukhi ) ), 'gurmukhi' ],
     [ COPY_SHORTCUTS.copyAllLinesAscii.name, () => stripVishraams( getAllLines() ), 'lines' ],
     [ COPY_SHORTCUTS.copyAllLinesUnicode.name, () => stripVishraams( toUnicode( getAllLines() ) ), 'lines' ],
-    [ COPY_SHORTCUTS.copyEnglishTranslation.name, () => translations.english, 'english translation' ],
-    [ COPY_SHORTCUTS.copyPunjabiTranslation.name, () => translations.punjabi, 'punjabi translation' ],
-    [ COPY_SHORTCUTS.copySpanishTranslation.name, () => translations.spanish, 'spanish translation' ],
-    [ COPY_SHORTCUTS.copyEnglishTransliteration.name, () => stripVishraams( transliterations.english ), 'english transliteration' ],
-    [ COPY_SHORTCUTS.copyHindiTransliteration.name, () => stripVishraams( transliterations.hindi ), 'hindi transliteration' ],
-    [ COPY_SHORTCUTS.copyUrduTransliteration.name, () => stripVishraams( transliterations.urdu ), 'urdu transliteration' ],
+    [ COPY_SHORTCUTS.copyEnglishTranslation.name, () => translations[ LANGUAGES.english ], 'english translation' ],
+    [ COPY_SHORTCUTS.copyPunjabiTranslation.name, () => translations[ LANGUAGES.punjabi ], 'punjabi translation' ],
+    [ COPY_SHORTCUTS.copySpanishTranslation.name, () => translations[ LANGUAGES.spanish ], 'spanish translation' ],
+    [ COPY_SHORTCUTS.copyEnglishTransliteration.name, () => stripVishraams( transliterators[ LANGUAGES.english ]() ), 'english transliteration' ],
+    [ COPY_SHORTCUTS.copyHindiTransliteration.name, () => stripVishraams( transliterators[ LANGUAGES.hindi ]() ), 'hindi transliteration' ],
+    [ COPY_SHORTCUTS.copyUrduTransliteration.name, () => stripVishraams( transliterators[ LANGUAGES.urdu ]() ), 'urdu transliteration' ],
     [ COPY_SHORTCUTS.copyCitation.name, () => getAuthor(), 'citation' ],
   ].reduce( ( hotkeys, [ name, getContent, fieldName ] ) => ( {
     ...hotkeys,

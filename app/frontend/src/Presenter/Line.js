@@ -1,29 +1,24 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
-import { toEnglish, toHindi, toShahmukhi, toUnicode } from 'gurmukhi-utils'
-import { string, bool, number, oneOfType } from 'prop-types'
+import { string, bool, number, objectOf, func } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 
 import { partitionLine, classifyWords } from '../lib/utils'
 import { DEFAULT_OPTIONS } from '../lib/options'
-import { LANGUAGES, LANGUAGE_NAMES } from '../lib/consts'
+import { LANGUAGES, LANGUAGE_NAMES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/consts'
 
 import './Line.css'
 
-const isString = ( [ , arg ] ) => typeof arg === 'string'
+const sortBy = sorter => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
 
 /**
  * Line Component.
  * Renders the various aspects of a single line.
  * @param {string} className An optional class name to append.
  * @param {string} gurmukhi The Gurmukhi of the line to render.
- * @param {string} punjabiTranslation The Punjabi translation of the line to render.
- * @param {string} englishTranslation The English translation of the line to render.
- * @param {string} spanishTranslation The Spanish translation of the line to render.
- * @param {string} englishTransliteration The English transliteration of the line to render.
- * @param {string} hindiTransliteration The Hindi transliteration of the line to render.
- * @param {string} urduTransliteration The Urdu transliteration of the line to render.
+ * @param {string} translations The Punjabi translation of the line to render.
+ * @param {string} transliterators The Punjabi translation of the line to render.
  * @param {string} spacing The justify content value for spacing between the lines.
  * @param {boolean} centerText Whether to center text.
  * @param {boolean} justifyText Whether to justify (edge to edge) wrapped text (2+ lines long).
@@ -46,14 +41,10 @@ const isString = ( [ , arg ] ) => typeof arg === 'string'
 const Line = ( {
   className,
   gurmukhi,
-  punjabiTranslation,
-  englishTranslation,
-  spanishTranslation,
+  translations,
+  transliterators,
   inlineTransliteration,
   inlineColumnGuides,
-  englishTransliteration,
-  hindiTransliteration,
-  urduTransliteration,
   spacing,
   centerText,
   justifyText,
@@ -73,32 +64,13 @@ const Line = ( {
   splitOnVishraam: partition,
   simpleGraphics: simple,
 } ) => {
-  const translations = [
-    [ LANGUAGE_NAMES[ LANGUAGES.english ], englishTranslation, relativeEnglishFontSize ],
-    [ LANGUAGE_NAMES[ LANGUAGES.punjabi ], punjabiTranslation, relativePunjabiFontSize ],
-    [ LANGUAGE_NAMES[ LANGUAGES.spanish ], spanishTranslation, relativeEnglishFontSize ],
-  ]
-
-  const transliterations = [
-    [
-      LANGUAGE_NAMES[ LANGUAGES.english ],
-      englishTransliteration,
-      relativeEnglishFontSize,
-      toEnglish,
-    ],
-    [
-      LANGUAGE_NAMES[ LANGUAGES.hindi ],
-      hindiTransliteration,
-      relativeHindiFontSize,
-      toHindi,
-    ],
-    [
-      LANGUAGE_NAMES[ LANGUAGES.urdu ],
-      urduTransliteration,
-      relativeUrduFontSize,
-      toShahmukhi,
-    ],
-  ]
+  const fontSizes = {
+    [ LANGUAGES.english ]: relativeEnglishFontSize,
+    [ LANGUAGES.spanish ]: relativeEnglishFontSize,
+    [ LANGUAGES.punjabi ]: relativePunjabiFontSize,
+    [ LANGUAGES.hindi ]: relativeHindiFontSize,
+    [ LANGUAGES.urdu ]: relativeUrduFontSize,
+  }
 
   return (
     <div
@@ -113,64 +85,67 @@ const Line = ( {
         'center-text': centerText,
         'justify-text': justifyText,
       }, 'line' )}
-      style={{ justifyContent: spacing, fontSize: `${presenterFontSize}Vh` }}
+      style={{ justifyContent: spacing, fontSize: `${presenterFontSize}vh` }}
     >
       <TransitionGroup appear exit={false} component={null}>
-
         <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
           <p className={classNames( 'source', { 'with-transliterations': inlineTransliteration } )}>
-            {partitionLine( gurmukhi, !vishraamCharacters )
-              .map( ( line, lineIndex ) => (
-                <span key={lineIndex} className={classNames( 'partition', partition ? 'block' : 'inline' )}>
-                  {line.map( ( { word, type }, i ) => (
-                    <div
-                      key={`${word}-${type}-${i}`}
-                      className={classNames( type, 'word', { 'with-guides': inlineColumnGuides } )}
-                    >
-                      <span
-                        className="gurmukhi"
-                        style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
-                      >
-                        {word}
-                      </span>
-                      {inlineTransliteration && transliterations.filter( isString )
-                        .map( ( [ name, , fontSize, dynamicallyTransliterate ] ) => (
-                          <span
-                            className={classNames( name )}
-                            style={{ fontSize: `${fontSize}em` }}
-                          >
-                            {`${dynamicallyTransliterate( toUnicode( word ) )}`}
-                          </span>
-                        ) ) }
-                    </div>
-                  ) )}
-                </span>
-              ) )}
+            {partitionLine( gurmukhi, !vishraamCharacters ).map( ( line, lineIndex ) => (
+              <span key={lineIndex} className={classNames( 'partition', partition ? 'block' : 'inline' )}>
+                {line.map( ( { word, type }, i ) => (
+                  <span
+                    key={`${word}-${type}-${i}`}
+                    className={classNames( type, 'word', { 'with-guides': inlineColumnGuides } )}
+                  >
+                    <span className="gurmukhi" style={{ fontSize: `${relativeGurmukhiFontSize}em` }}>
+                      {word}
+                    </span>
+
+                    {inlineTransliteration && Object
+                      .entries( transliterators )
+                      .sort( sortBy( TRANSLITERATION_ORDER ) )
+                      .map( ( [ languageId, transliterate ] ) => (
+                        <span
+                          key={`${word}-${type}-${i}-${languageId}-transliteration`}
+                          className={classNames( LANGUAGE_NAMES[ languageId ] )}
+                          style={{ fontSize: `${fontSizes[ languageId ]}em` }}
+                        >
+                          {transliterate( word )}
+                        </span>
+                      ) )}
+                  </span>
+                ) )}
+              </span>
+            ) )}
           </p>
         </CSSTransition>
 
-        {translations.filter( isString ).map( ( [ name, translation, fontSize ] ) => (
-          <CSSTransition key={translation} classNames="fade" timeout={0}>
-            <p className={classNames( name, 'translation' )} style={{ fontSize: `${fontSize}em` }}>
-              {translation}
-            </p>
-          </CSSTransition>
-        ) )}
+        {Object
+          .entries( translations )
+          .sort( sortBy( TRANSLATION_ORDER ) )
+          .map( ( [ languageId, translation ] ) => (
+            <CSSTransition key={`${gurmukhi}-${languageId}-translation`} classNames="fade" timeout={0}>
+              <p className={classNames( LANGUAGE_NAMES[ languageId ], 'translation' )} style={{ fontSize: `${fontSizes[ languageId ]}em` }}>
+                {translation}
+              </p>
+            </CSSTransition>
+          ) )}
 
-        {!inlineTransliteration && transliterations.filter( isString )
-          .map( ( [ name, transliteration, fontSize ] ) => (
-            <CSSTransition key={transliteration} classNames="fade" timeout={0}>
+        {!inlineTransliteration && Object
+          .entries( transliterators )
+          .sort( sortBy( TRANSLITERATION_ORDER ) )
+          .map( ( [ languageId, transliterate ] ) => (
+            <CSSTransition key={`${gurmukhi}-${languageId}-transliteration`} classNames="fade" timeout={0}>
               <p
-                className={classNames( name, 'transliteration' )}
-                style={{ fontSize: `${fontSize}em` }}
+                className={classNames( LANGUAGE_NAMES[ languageId ], 'transliteration' )}
+                style={{ fontSize: `${fontSizes[ languageId ]}em` }}
               >
-                {classifyWords( transliteration, !vishraamCharacters ).map(
+                {classifyWords( transliterate( gurmukhi ), !vishraamCharacters ).map(
                   ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
                 )}
               </p>
             </CSSTransition>
           ) )}
-
       </TransitionGroup>
     </div>
   )
@@ -179,12 +154,8 @@ const Line = ( {
 Line.propTypes = {
   className: string,
   gurmukhi: string.isRequired,
-  punjabiTranslation: oneOfType( [ string, bool ] ),
-  englishTranslation: oneOfType( [ string, bool ] ),
-  spanishTranslation: oneOfType( [ string, bool ] ),
-  englishTransliteration: oneOfType( [ string, bool ] ),
-  hindiTransliteration: oneOfType( [ string, bool ] ),
-  urduTransliteration: oneOfType( [ string, bool ] ),
+  translations: objectOf( string ),
+  transliterators: objectOf( func ),
   inlineTransliteration: bool,
   inlineColumnGuides: bool,
   spacing: string,
@@ -212,6 +183,8 @@ const {
     spacing,
     centerText,
     justifyText,
+    inlineTransliteration,
+    inlineColumnGuides,
     larivaarAssist,
     larivaarGurbani,
     vishraamColors,
@@ -234,14 +207,8 @@ const {
 
 Line.defaultProps = {
   className: null,
-  englishTranslation: null,
-  spanishTranslation: null,
-  punjabiTranslation: null,
-  englishTransliteration: null,
-  hindiTransliteration: null,
-  urduTransliteration: null,
-  inlineTransliteration: null,
-  inlineColumnGuides: null,
+  inlineTransliteration,
+  inlineColumnGuides,
   spacing,
   centerText,
   justifyText,
@@ -260,6 +227,8 @@ Line.defaultProps = {
   relativePunjabiFontSize,
   relativeHindiFontSize,
   relativeUrduFontSize,
+  translations: {},
+  transliterators: {},
 }
 
 export default Line
