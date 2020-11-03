@@ -137,9 +137,13 @@ p {
 }
 
 .current-line .word.with-guides {
-  padding-left: 0.3em;
+  padding-right: 0.35em;
   border-right: 0.1em double;
   border-color: var(--display-dim-background-color);
+}
+
+.larivaar.current-line .word.with-guides {
+  padding: 0;
 }
 
 .current-line
