@@ -96,8 +96,9 @@ const Line = ( {
                   <span
                     key={`${word}-${type}-${i}`}
                     className={classNames( type, 'word', { 'with-guides': inlineColumnGuides } )}
+                    style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
                   >
-                    <span className="gurmukhi" style={{ fontSize: `${relativeGurmukhiFontSize}em` }}>
+                    <span className="gurmukhi" >
                       {word}
                     </span>
 

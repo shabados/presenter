@@ -163,17 +163,12 @@ p {
   flex-direction: row;
 }
 
-.partition:before,
-.word span:after,
-.transliteration .word:after {
-  content: "\200B\20";
+.word {
+  margin-right: 0.35em;
 }
 
-.partition:last-child:after,
-.larivaar.line .word:after,
-.larivaar.line .word span:after,
-.larivaar.line .partition + .partition:before {
-  content: "";
+.larivaar .word {
+  margin-right: 0;
 }
 
 .line.larivaar.assist
