@@ -5,8 +5,8 @@ import classNames from 'classnames'
 import { mapValues } from 'lodash'
 
 import { LANGUAGES } from '../lib/consts'
-import { useTranslations, useTransliterations, useCurrentLine, useCurrentLines } from '../lib/hooks'
-import { customiseLine } from '../lib/utils'
+import { useTranslations, useCurrentLine, useCurrentLines } from '../lib/hooks'
+import { customiseLine, getTransliterators } from '../lib/utils'
 import Line from './Line'
 
 import './Display.css'
@@ -45,7 +45,7 @@ const Display = ( { settings } ) => {
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
   const translations = mapValues(
-    useTranslations( line && [
+    useTranslations( [
       display.englishTranslation && LANGUAGES.english,
       display.punjabiTranslation && LANGUAGES.punjabi,
       display.spanishTranslation && LANGUAGES.spanish,
@@ -53,13 +53,13 @@ const Display = ( { settings } ) => {
     line => customiseLine( line, { lineEnding, typeId } ),
   )
 
-  const transliterations = mapValues(
-    useTransliterations( line && [
+  const transliterators = mapValues(
+    getTransliterators( [
       display.englishTransliteration && LANGUAGES.english,
       display.hindiTransliteration && LANGUAGES.hindi,
       display.urduTransliteration && LANGUAGES.urdu,
     ] ),
-    line => customiseLine( line, { lineEnding, typeId } ),
+    transliterate => text => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
   )
 
   return (
@@ -81,20 +81,16 @@ const Display = ( { settings } ) => {
       </div>
 
       {line && (
-      <Line
-        className={classNames( { highlight }, 'current-line' )}
-        {...layout}
-        {...display}
-        {...vishraams}
-        gurmukhi={line.gurmukhi}
-        englishTranslation={translations.english}
-        punjabiTranslation={translations.punjabi}
-        spanishTranslation={translations.spanish}
-        englishTransliteration={transliterations.english}
-        hindiTransliteration={transliterations.hindi}
-        urduTransliteration={transliterations.urdu}
-        simpleGraphics={simple}
-      />
+        <Line
+          className={classNames( { highlight }, 'current-line' )}
+          {...layout}
+          {...display}
+          {...vishraams}
+          gurmukhi={line.gurmukhi}
+          translations={translations}
+          transliterators={transliterators}
+          simpleGraphics={simple}
+        />
       )}
 
       <div className={classNames( { dim }, 'next-lines' )}>

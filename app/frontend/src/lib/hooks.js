@@ -1,13 +1,10 @@
 import { useContext, useState, useEffect } from 'react'
-import { invert } from 'lodash'
 import copy from 'copy-to-clipboard'
 import { useSnackbar } from 'notistack'
 
-import { getTranslation, getTransliteration, findLineIndex } from './utils'
+import { getTranslation, findLineIndex } from './utils'
 import { ContentContext, RecommendedSourcesContext, SettingsContext } from './contexts'
-import { isMac, LANGUAGES } from './consts'
-
-const languagesById = invert( LANGUAGES )
+import { isMac } from './consts'
 
 export const useCurrentLines = () => {
   const { shabad, bani } = useContext( ContentContext )
@@ -35,25 +32,13 @@ export const useTranslations = languageIds => {
   const recommendedSources = useContext( RecommendedSourcesContext )
   const { local: { sources } = {} } = useContext( SettingsContext )
 
-  return ( languageIds || [] ).filter( x => x ).reduce( ( translations, languageId ) => ( {
-    ...translations,
-    [ languagesById[ languageId ] ]: line && getTranslation( {
-      shabad,
-      line,
-      sources,
-      recommendedSources,
-      languageId,
-    } ),
-  } ), {} )
-}
+  if ( !line ) return {}
 
-export const useTransliterations = languageIds => {
-  const [ line ] = useCurrentLine()
+  return ( languageIds || [] ).filter( x => x ).reduce( ( translations, languageId ) => {
+    const translation = getTranslation( { shabad, line, sources, recommendedSources, languageId } )
 
-  return ( languageIds || [] ).filter( x => x ).reduce( ( translations, languageId ) => ( {
-    ...translations,
-    [ languagesById[ languageId ] ]: line && getTransliteration( line, languageId ),
-  } ), {} )
+    return translation ? { ...translations, [  languageId ]: translation } : translations
+  }, {} )
 }
 
 export const useCopyToClipboard = () => {
