@@ -52,7 +52,6 @@ export const getShabad = shabadId => Shabads
   .query()
   .where( 'shabads.id', shabadId )
   .eager( '[lines, section]' )
-  .withTransliterations()
   .withTranslations()
   .then( ( [ shabad ] ) => shabad )
 
@@ -66,7 +65,6 @@ export const getShabadByOrderId = orderId => Shabads
   .query()
   .where( 'shabads.order_id', orderId )
   .eager( '[lines, section]' )
-  .withTransliterations()
   .withTranslations()
   .then( ( [ shabad ] ) => shabad )
 
@@ -89,7 +87,6 @@ export const getBaniLines = baniId => Banis
   .orderBy( [ 'line_group', 'l.order_id' ] )
   .where( 'banis.id', baniId )
   .withTranslations()
-  .withTransliterations()
   .eagerOptions( { minimize: false, aliases: { lines: 'l' } } )
   .then( ( [ bani ] ) => bani )
 

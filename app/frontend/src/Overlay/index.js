@@ -7,8 +7,8 @@ import ThemeLoader from './ThemeLoader'
 
 import { SettingsContext, StatusContext } from '../lib/contexts'
 import { LANGUAGES } from '../lib/consts'
-import { useTranslations, useTransliterations, useCurrentLine } from '../lib/hooks'
-import { customiseLine } from '../lib/utils'
+import { useTranslations, useCurrentLine } from '../lib/hooks'
+import { customiseLine, getTransliterators } from '../lib/utils'
 
 import './index.css'
 
@@ -17,19 +17,14 @@ const Overlay = () => {
   const { connected } = useContext( StatusContext )
 
   const { global: globalSettings } = settings || {}
-  const { overlay: {
-    overlayName,
-    larivaarGurbani,
-    larivaarAssist,
-    ...overlay
-  } } = globalSettings || {}
+  const { overlay: { overlayName, ...overlay } } = globalSettings || {}
 
   const [ line ] = useCurrentLine()
   const { typeId } = line || {}
   const { lineEnding } = overlay
 
   const translations = mapValues(
-    useTranslations( line && [
+    useTranslations( [
       overlay.englishTranslation && LANGUAGES.english,
       overlay.punjabiTranslation && LANGUAGES.punjabi,
       overlay.spanishTranslation && LANGUAGES.spanish,
@@ -37,34 +32,25 @@ const Overlay = () => {
     line => customiseLine( line, { lineEnding, typeId } ),
   )
 
-  const transliterations = mapValues(
-    useTransliterations( line && [
+  const transliterators = mapValues(
+    getTransliterators( [
       overlay.englishTransliteration && LANGUAGES.english,
       overlay.hindiTransliteration && LANGUAGES.hindi,
       overlay.urduTransliteration && LANGUAGES.urdu,
     ] ),
-    line => customiseLine( line, { lineEnding, typeId } ),
+    transliterate => text => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
   )
 
   return connected && (
-    <div className={classNames( {
-      empty: !line,
-    }, 'overlay' )}
-    >
+    <div className={classNames( { empty: !line }, 'overlay' )}>
       <ThemeLoader name={overlayName} />
+
       <Line
+        {...overlay}
         simpleGraphics
         gurmukhi={line ? line.gurmukhi : ''}
-        {...( line && {
-          larivaarGurbani,
-          larivaarAssist,
-          englishTranslation: translations.english,
-          punjabiTranslation: translations.punjabi,
-          spanishTranslation: translations.spanish,
-          englishTransliteration: transliterations.english,
-          hindiTransliteration: transliterations.hindi,
-          urduTransliteration: transliterations.urdu,
-        } )}
+        translations={translations}
+        transliterators={transliterators}
       />
     </div>
   )

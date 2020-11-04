@@ -13,7 +13,7 @@ import { stripVishraams, stripEndings } from 'gurmukhi-utils'
 
 import vishraams from 'gurmukhi-utils/lib/vishraams.json'
 
-import { STATES, isMac, BANIS, LINE_TYPES } from './consts'
+import { STATES, isMac, BANIS, LINE_TYPES, TRANSLITERATORS } from './consts'
 
 /**
  * Merges the source object into the destination, replacing arrays.
@@ -132,17 +132,14 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
 }
 
 /**
- * Returns the corresponding transliteration for a given line.
- * @param {Object} line The current line.
- * @param {number} languageId The identifier of the language.
+ * Returns the corresponding transliteration functions, mapped by language id.
  */
-export const getTransliteration = ( { transliterations }, languageId ) => {
-  const { transliteration: translit } = transliterations.find( (
-    ( { languageId: id } ) => languageId === id
-  ) )
-
-  return translit
-}
+export const getTransliterators = languageIds => ( languageIds || [] )
+  .filter( id => id && TRANSLITERATORS[ id ] )
+  .reduce( ( translations, languageId ) => ( {
+    ...translations,
+    [ languageId ]: TRANSLITERATORS[ languageId ],
+  } ), {} )
 
 export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
 

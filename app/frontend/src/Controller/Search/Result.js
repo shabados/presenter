@@ -1,12 +1,12 @@
 import React, { forwardRef, useContext } from 'react'
-import { string, number, shape, bool, func } from 'prop-types'
+import { string, number, shape, bool, func, arrayOf } from 'prop-types'
 import classNames from 'classnames'
 import { ListItem } from '@material-ui/core'
 
 import controller from '../../lib/controller'
-import { getTranslation, getTransliteration, customiseLine } from '../../lib/utils'
+import { getTranslation, customiseLine } from '../../lib/utils'
 import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../../lib/contexts'
-import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS } from '../../lib/consts'
+import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '../../lib/consts'
 
 /**
  * Renders a single result, highlighting the match.
@@ -33,7 +33,6 @@ const Result = forwardRef( ( {
   highlighter,
   sourcePage,
   translations,
-  transliterations,
 }, ref ) => {
   const { local: {
     sources,
@@ -48,11 +47,8 @@ const Result = forwardRef( ( {
   const writers = useContext( WritersContext )
   const recommendedSources = useContext( RecommendedSourcesContext )
 
-  const transliteration = resultTransliterationLanguage && transliterations && customiseLine(
-    getTransliteration(
-      { transliterations },
-      resultTransliterationLanguage,
-    ),
+  const transliteration = resultTransliterationLanguage && customiseLine(
+    TRANSLITERATORS[ resultTransliterationLanguage ]( gurmukhi ),
     { lineEnding, typeId },
   )
 
@@ -123,15 +119,14 @@ const Result = forwardRef( ( {
 Result.propTypes = {
   gurmukhi: string.isRequired,
   id: string.isRequired,
-  typeId: string.isRequired,
+  typeId: number.isRequired,
   shabadId: string.isRequired,
   focused: bool.isRequired,
   highlighter: func.isRequired,
   sourceId: number.isRequired,
   shabad: shape( { } ).isRequired,
   sourcePage: number.isRequired,
-  translations: string.isRequired,
-  transliterations: string.isRequired,
+  translations: arrayOf( shape( { translation: string.isRequired } ) ).isRequired,
 }
 
 export default Result
