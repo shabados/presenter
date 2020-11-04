@@ -98,7 +98,7 @@ const Line = ( {
                     className={classNames( type, 'word', { 'with-guides': inlineColumnGuides } )}
                     style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
                   >
-                    <span className="gurmukhi" >
+                    <span className="gurmukhi">
                       {word}
                     </span>
 
