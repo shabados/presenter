@@ -37,6 +37,8 @@ import {
   faExpandArrowsAlt,
   faRemoveFormat,
   faSearchPlus,
+  faCalculator,
+  faBalanceScale,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -99,6 +101,8 @@ export const OPTIONS = {
   nextLines: { name: 'Next Lines', icon: faAlignJustify, type: OPTION_TYPES.slider, max: 5, step: 1, privacy: PRIVACY_TYPES.local },
   larivaarGurbani: { name: 'Larivaar', icon: faTextWidth, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   larivaarAssist: { name: 'Larivaar Assist', icon: faMarker, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  syllabicWeights: { name: 'Syllabic Weights', icon: faBalanceScale, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
+  syllableCount: { name: 'Syllable Count', icon: faCalculator, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   englishTranslation: { name: 'English Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   spanishTranslation: { name: 'Spanish Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
   punjabiTranslation: { name: 'Punjabi Translation', icon: faClosedCaptioning, type: OPTION_TYPES.toggle, privacy: PRIVACY_TYPES.local },
@@ -221,6 +225,8 @@ export const DEFAULT_OPTIONS = {
       nextLines: 1,
       larivaarGurbani: false,
       larivaarAssist: false,
+      syllabicWeights: false,
+      syllableCount: false,
       englishTranslation: true,
       spanishTranslation: false,
       punjabiTranslation: false,
