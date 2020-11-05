@@ -123,6 +123,7 @@ const Line = ( {
                 ) )}
               </span>
             ) )}
+
             {syllableCount && ( <span className="syllable-count">{countSyllables( gurmukhi )}</span> )}
           </p>
         </CSSTransition>
