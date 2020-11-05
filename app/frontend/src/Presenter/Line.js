@@ -3,6 +3,7 @@ import React from 'react'
 import { string, bool, number, objectOf, func } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
+import { countSyllables, toSyllabicSymbols } from 'gurmukhi-utils'
 
 import { partitionLine, classifyWords } from '../lib/utils'
 import { DEFAULT_OPTIONS } from '../lib/options'
@@ -43,6 +44,8 @@ const Line = ( {
   gurmukhi,
   translations,
   transliterators,
+  syllabicWeights,
+  syllableCount,
   inlineTransliteration,
   inlineColumnGuides,
   spacing,
@@ -89,18 +92,20 @@ const Line = ( {
     >
       <TransitionGroup appear exit={false} component={null}>
         <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
-          <p className={classNames( 'source', { 'with-transliterations': inlineTransliteration } )}>
+          <p className="source">
             {partitionLine( gurmukhi, !vishraamCharacters ).map( ( line, lineIndex ) => (
               <span key={lineIndex} className={classNames( 'partition', partition ? 'block' : 'inline' )}>
                 {line.map( ( { word, type }, i ) => (
                   <span
                     key={`${word}-${type}-${i}`}
-                    className={classNames( type, 'word', { 'with-guides': inlineColumnGuides } )}
+                    className={classNames( type, 'word', { 'with-guides': inlineColumnGuides, 'with-rows': inlineTransliteration || syllabicWeights || inlineColumnGuides } )}
                     style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
                   >
                     <span className="gurmukhi">
                       {word}
                     </span>
+
+                    {syllabicWeights && ( <span className="syllabic-weights">{toSyllabicSymbols( word )}</span> )}
 
                     {inlineTransliteration && Object
                       .entries( transliterators )
@@ -118,6 +123,8 @@ const Line = ( {
                 ) )}
               </span>
             ) )}
+
+            {syllableCount && ( <span className="syllable-count">{countSyllables( gurmukhi )}</span> )}
           </p>
         </CSSTransition>
 
@@ -157,6 +164,8 @@ Line.propTypes = {
   gurmukhi: string.isRequired,
   translations: objectOf( string ),
   transliterators: objectOf( func ),
+  syllabicWeights: bool,
+  syllableCount: bool,
   inlineTransliteration: bool,
   inlineColumnGuides: bool,
   spacing: string,
@@ -184,6 +193,8 @@ const {
     spacing,
     centerText,
     justifyText,
+    syllabicWeights,
+    syllableCount,
     inlineTransliteration,
     inlineColumnGuides,
     larivaarAssist,
@@ -208,6 +219,8 @@ const {
 
 Line.defaultProps = {
   className: null,
+  syllabicWeights,
+  syllableCount,
   inlineTransliteration,
   inlineColumnGuides,
   spacing,

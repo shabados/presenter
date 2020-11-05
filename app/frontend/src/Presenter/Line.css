@@ -82,6 +82,23 @@ p {
   line-height: 1.4;
 }
 
+.line .syllabic-weights {
+  font-size: 0.5em;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+}
+
+.line .syllable-count {
+  font-size: 0.5em;
+  background: var(--display-dim-background-color);
+  height: 1.5em;
+  min-width: 1.5em;
+  border-radius: 0.3em;
+  top: 0.55em;
+  position: relative;
+  margin-bottom: 0.5em;
+}
+
 .current-line .gurmukhi {
   margin-bottom: -0.12em;
 }
@@ -128,28 +145,20 @@ p {
   flex-wrap: wrap;
 }
 
-.current-line
-  .source.with-transliterations
-  .partition
-  .word {
+.current-line .word.with-rows {
   padding-bottom: 0em;
   margin-bottom: 0.4em;
 }
 
-.current-line .word.with-guides {
-  padding-right: 0.35em;
-  border-right: 0.1em double;
+.current-line .partition ~ .partition .word.with-guides,
+.current-line .word.with-guides ~ .word.with-guides {
+  padding-left: 0.35em;
+  border-left: 0.1em double;
   border-color: var(--display-dim-background-color);
 }
 
 .larivaar.current-line .word.with-guides {
   padding: 0;
-}
-
-.current-line
-  .partition:last-child
-  .word.with-guides:last-child {
-  border-right: none;
 }
 
 .word,
