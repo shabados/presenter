@@ -1,9 +1,8 @@
 import React from 'react'
 
-import { Grid, TextField, Typography } from '@material-ui/core'
-import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
+import { Grid, Typography } from '@material-ui/core'
 
-import { slotSizes, IconSlot, OptionGrid } from './DynamicOptions'
+import DynamicOptions, { slotSizes, OptionGrid } from './DynamicOptions'
 
 const LivestreamSettings = () => (
   <div className="livestream-settings">
@@ -16,13 +15,7 @@ const LivestreamSettings = () => (
       </Grid>
     </OptionGrid>
 
-    <OptionGrid container>
-      <IconSlot icon={faShareSquare} />
-      <Grid item {...slotSizes.name}><Typography>Zoom API Token</Typography></Grid>
-      <Grid item {...slotSizes.option} align="center">
-        <TextField />
-      </Grid>
-    </OptionGrid>
+    <DynamicOptions device="global" group="livestream" />
 
   </div>
 )

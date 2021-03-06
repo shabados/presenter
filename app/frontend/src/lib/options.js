@@ -41,6 +41,7 @@ import {
   faBalanceScale,
   faWindowMaximize,
   faHeadphones,
+  faShareSquare,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -73,8 +74,7 @@ export const PRIVACY_TYPES = {
 }
 
 // Option names and possible values
-export const OPTIONS = {
-  controllerZoom: { name: 'Controller Zoom', icon: faSearchPlus, type: OPTION_TYPES.slider, min: 0.1, max: 2.5, step: 0.1, privacy: PRIVACY_TYPES.local },
+export const OPTIONS = { controllerZoom: { name: 'Controller Zoom', icon: faSearchPlus, type: OPTION_TYPES.slider, min: 0.1, max: 2.5, step: 0.1, privacy: PRIVACY_TYPES.local },
   presenterFontSize: { name: 'Font Size', icon: faFont, type: OPTION_TYPES.slider, min: 3, max: 13, step: 0.1, privacy: PRIVACY_TYPES.local },
   relativeGurmukhiFontSize: { name: 'Relative Gurmukhi Font Size', icon: faPercentage, type: OPTION_TYPES.slider, min: 0.5, max: 1.5, step: 0.01, privacy: PRIVACY_TYPES.local },
   relativeEnglishFontSize: { name: 'Relative Latin Font Size', icon: faPercentage, type: OPTION_TYPES.slider, min: 0.5, max: 1.5, step: 0.01, privacy: PRIVACY_TYPES.local },
@@ -161,7 +161,7 @@ export const OPTIONS = {
     ],
   },
   overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.urlDropdown, values: [], url: `${BACKEND_URL}/overlay/themes`, privacy: PRIVACY_TYPES.global },
-}
+  zoomApiToken: { name: 'Zoom API Token', icon: faShareSquare, type: OPTION_TYPES.TextInput, privacy: PRIVACY_TYPES.global } }
 
 // Possible options groups
 export const OPTION_GROUPS = {
