@@ -40,6 +40,7 @@ import {
   faCalculator,
   faBalanceScale,
   faWindowMaximize,
+  faHeadphones,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -221,6 +222,10 @@ export const OPTION_GROUPS = {
       name: 'Overlay',
       icon: faWindowMaximize,
     },
+    livestream: {
+      name: 'Live Stream',
+      icon: faHeadphones,
+    },
   },
 }
 
@@ -321,6 +326,9 @@ export const DEFAULT_OPTIONS = {
       hindiTransliteration: false,
       urduTransliteration: false,
       lineEnding: true,
+    },
+    livestream: {
+      zoomApiToken: null,
     },
   },
 }

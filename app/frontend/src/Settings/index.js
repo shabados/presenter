@@ -47,6 +47,7 @@ import About from './About'
 import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
 import DynamicOptions from './DynamicOptions'
+import LivestreamSettings from './LivestreamSettings'
 
 import './index.css'
 
@@ -219,6 +220,7 @@ const Settings = () => {
 
           {/* Tool Routes */}
           <Route path={`${SETTINGS_TOOLS_URL}/overlay`} component={OverlaySettings} />
+          <Route path={`${SETTINGS_TOOLS_URL}/livestream`} component={LivestreamSettings} />
 
           <Redirect to={defaultUrl} />
         </Switch>
