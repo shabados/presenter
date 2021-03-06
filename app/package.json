@@ -42,6 +42,7 @@
     "helmet": "^3.21.1",
     "import-fresh": "^3.1.0",
     "lodash": "^4.17.20",
+    "node-fetch": "^2.6.1",
     "open": "^7.0.0",
     "pacote": "^9.5.8",
     "pino": "^5.13.4",
