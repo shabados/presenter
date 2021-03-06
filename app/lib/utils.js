@@ -3,13 +3,11 @@
  * @ignore
  */
 
-import fetch from 'node-fetch'
 import { hostname, networkInterfaces } from 'os'
 import { reverse } from 'dns'
 import { ensureDir, readdir, chmod, copy } from 'fs-extra'
 import { promisify } from 'util'
 import { extname, join } from 'path'
-import { toUnicode, stripVishraams } from 'gurmukhi-utils'
 
 import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts'
 
@@ -103,17 +101,3 @@ export const sendToElectron = ( event, payload ) => process.send && process.send
   payload,
 } )
 
-/**
- * Post line to Zoom for closed captions.
- * @param {string} apiKey Zoom api key.
- * @param {string} line Gurmukhi line data to send.
- * @param {number} seq Seq number for line.
- * @returns Promise.
- */
-export const postToZoom = async ( apiKey, line, seq ) => fetch( `${apiKey}&seq=${seq}`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'text/plain',
-  },
-  body: stripVishraams( toUnicode( line ) ),
-} )

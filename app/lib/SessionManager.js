@@ -10,7 +10,7 @@ import logger from './logger'
 import settingsManager from './settings'
 import History from './History'
 import { getShabad, getBaniLines, getShabadByOrderId, getShabadRange } from './db'
-import { postToZoom } from './utils'
+import { postToZoom } from './zoom'
 
 /**
  * Returns settings for the devices which do not have the private value set.
@@ -48,6 +48,7 @@ class SessionManager {
       settings: {},
       status: null,
       seqCounter: 0,
+      zoomApiToken: null,
     }
 
     // Send all the current data on connection from a new client
@@ -215,13 +216,15 @@ class SessionManager {
     const { mainLineId, nextLineId } = this.session
     history.update( { line, bani, shabad, mainLineId, nextLineId }, isTransition )
 
-    const apiKey = 'https://us04wmcc.zoom.us/closedcaption?id=74852124895&ns=U2FpaGFqcHJlZXQgU2luZ2gncyBab29tIE1lZXRp&expire=86400&sparams=id%2Cns%2Cexpire&signature=M7xtGqw4JVBx5gB3P8jzoJjc5TIYevqXacqq93VcjrI.AG.WB5ziPGnuvjpop_lgj815zwJ_55nuh25OfGivwU4DsTAGuQ3td6H_CKGtjrCuiHtppcnOwdSe-YSx7fiB0I-Yr8Yhj09bWq7O_P-43FDDcLfNSpJRZ1wvZPu.MMXoiTyzQRRg3C7nnJNJag.PuVreu_wn5Y-m7zz'
+    const { zoomApiToken } = this.session
 
-    postToZoom( apiKey, line.gurmukhi, this.session.seqCounter ).then( res => {
-      if ( res.status === 200 ) {
-        this.session.seqCounter += 1
-      }
-    } )
+    if ( zoomApiToken ) {
+      postToZoom( zoomApiToken, line.gurmukhi, this.session.seqCounter ).then( res => {
+        if ( res.status === 200 ) {
+          this.session.seqCounter += 1
+        }
+      } )
+    }
 
     // Update the latest lines
     this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
@@ -345,6 +348,9 @@ class SessionManager {
 
     // Strip out private settings
     const publicSettings = getPublicSettings( newSettings )
+
+    // Store zoom token in session
+    this.session.zoomApiToken = settingsManager.get( 'livestream' ).zoomApiToken
 
     // Rebroadcast all settings, transforming fields appropriately
     this.socket.forEach( client => client.sendJSON( 'settings:all', this.getClientSettings( client, publicSettings ) ) )
