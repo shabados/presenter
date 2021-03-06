@@ -63,6 +63,7 @@ export const OPTION_TYPES = {
   slider: Symbol( 'Slider' ),
   colorPicker: Symbol( 'Color Picker' ),
   urlDropdown: Symbol( 'URL Dropdown' ),
+  TextInput: Symbol( 'Text Input' ),
 }
 
 export const PRIVACY_TYPES = {

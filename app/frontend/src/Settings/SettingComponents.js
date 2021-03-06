@@ -9,6 +9,7 @@ import {
   MenuItem,
   Slider as MaterialSlider,
   Button as MaterialButton,
+  TextField,
 } from '@material-ui/core'
 
 import { OPTION_TYPES } from '../lib/options'
@@ -124,11 +125,18 @@ UrlDropdown.propTypes = {
   url: string.isRequired,
 }
 
+export const TextInput = ( { value, ...props } ) => <TextField {...props} value={value} />
+
+TextInput.propTypes = {
+  value: string.isRequired,
+}
+
 const typeComponents = {
   [ OPTION_TYPES.dropdown ]: GeneralSettingEvent( Dropdown ),
   [ OPTION_TYPES.toggle ]: GeneralSettingParam( Toggle ),
   [ OPTION_TYPES.slider ]: GeneralSettingParam( Slider ),
   [ OPTION_TYPES.urlDropdown ]: GeneralSettingEvent( UrlDropdown ),
+  [ OPTION_TYPES.TextInput ]: GeneralSettingEvent( TextInput ),
 }
 
 export default type => typeComponents[ type ]
