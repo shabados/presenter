@@ -39,6 +39,7 @@ import {
   faSearchPlus,
   faCalculator,
   faBalanceScale,
+  faWindowMaximize,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -210,6 +211,16 @@ export const OPTION_GROUPS = {
       name: 'System Options',
       icon: faWrench,
     },
+    about: {
+      name: 'About',
+      icon: faWrench,
+    },
+  },
+  tools: {
+    overlay: {
+      name: 'Overlay',
+      icon: faWindowMaximize,
+    },
   },
 }
 
@@ -298,6 +309,7 @@ export const DEFAULT_OPTIONS = {
       downloadEvents: true,
       downloadedEvents: true,
     },
+    about: null,
     overlay: {
       overlayName: 'Floating Top Captions',
       larivaarGurbani: false,

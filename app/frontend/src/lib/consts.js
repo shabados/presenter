@@ -50,7 +50,6 @@ export const SETTINGS_SERVER_URL = `${SETTINGS_URL}/server`
 
 export const SETTINGS_ABOUT_URL = `${SETTINGS_SERVER_URL}/about`
 export const SETTINGS_TOOLS_URL = `${SETTINGS_URL}/tools`
-export const SETTINGS_OVERLAY_URL = `${SETTINGS_TOOLS_URL}/overlay`
 
 export const OVERLAY_URL = '/overlay'
 export const SCREEN_READER_URL = '/screenreader'
