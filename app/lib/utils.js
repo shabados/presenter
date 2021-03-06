@@ -100,4 +100,3 @@ export const sendToElectron = ( event, payload ) => process.send && process.send
   event,
   payload,
 } )
-
