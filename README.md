@@ -31,8 +31,8 @@ Helpful features were added over years of production-ready use.
 See:
 
 - [Our Website][website-url]
-- [How to install](https://tutorials.shabados.com/tutorials/1.0.0/basics/install.html)
-- [How to add live stream captions](https://tutorials.shabados.com/tutorials/1.0.0/overlay/add-live-streaming-captioning.html)
+- [How to install](https://docs.shabados.com/presenter/guides/installing-shabad-os-presenter)
+- [How to add live stream captions](https://docs.shabados.com/presenter/guides/configuring-live-stream-captions)
 
 ### Features
 
