@@ -38,7 +38,8 @@
   background-color: var(--settings-setting-shadow) !important;
 }
 
-.slider .MuiSlider-thumb:hover, .slider .MuiSlider-thumb.MuiSlider-active {
+.slider .MuiSlider-thumb:hover,
+.slider .MuiSlider-thumb.MuiSlider-active {
   box-shadow: 0px 0px 0px 8px var(--settings-setting-shadow) !important;
 }
 
@@ -70,4 +71,12 @@
 .button:hover {
   color: var(--settings-background-color) !important;
   background-color: var(--settings-setting-on-color) !important;
+}
+
+.option {
+  align-items: center;
+}
+
+.MuiOutlinedInput-input {
+  padding: 10.5px 14px !important;
 }

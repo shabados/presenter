@@ -125,7 +125,7 @@ UrlDropdown.propTypes = {
   url: string.isRequired,
 }
 
-export const TextInput = ( { value, ...props } ) => <TextField {...props} value={value} />
+export const TextInput = ( { value, ...props } ) => <TextField variant="outlined" {...props} value={value} />
 
 TextInput.propTypes = {
   value: string.isRequired,
