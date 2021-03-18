@@ -121,17 +121,17 @@ The backend is using proposed ES+ modules with the `esm` shim module.
 
 ## Workflow
 
-The workflow of development (or Git Flow) is to [choose/create an issue](https://github.com/shabados/presenter/issues) to work on, [create a feature branch](https://github.com/shabados/.github/wiki/How-to-Contribute#branches), and [submit a pull request](https://github.com/shabados/.github/wiki/How-to-Contribute#pull-requests).
+The workflow of development (or Git Flow) is to [choose/create an issue](https://github.com/shabados/presenter/issues) to work on, [create a feature branch](https://docs.shabados.com/community/how-to-contribute#branches), and [submit a pull request](https://docs.shabados.com/community/how-to-contribute#pull-requests).
 
 **PROTIP**: Read more about our workflow (issue tracking, branching, and pull requests) in the [How To Contribute wiki article](https://github.com/shabados/.github/wiki/How-to-Contribute).
 
 ### Coding Guidelines
 
-Please see the [wiki](https://github.com/shabados/.github/wiki/How-to-Contribute#coding-guidelines) for Coding Guidelines ([Names](https://github.com/shabados/.github/wiki/How-to-Contribute#41-names), [Comments](https://github.com/shabados/.github/wiki/How-to-Contribute#42-comments), [Style](https://github.com/shabados/.github/wiki/How-to-Contribute#43-style), [Linting](https://github.com/shabados/.github/wiki/How-to-Contribute#44-linting), and [Commit Messages](https://github.com/shabados/.github/wiki/How-to-Contribute#45-commit-messages)).
+Please see the [docs](https://docs.shabados.com/community/coding-guidelines) for Coding Guidelines ([Names](https://docs.shabados.com/community/coding-guidelines#names), [Comments](https://docs.shabados.com/community/coding-guidelines#comments), [Style](https://docs.shabados.com/community/coding-guidelines#style), [Linting](https://docs.shabados.com/community/coding-guidelines#linting), and [Commit Messages](https://docs.shabados.com/community/coding-guidelines#commit-messages)).
 
 ### Scope
 
-To be used in [commit messages](https://github.com/shabados/.github/wiki/How-to-Contribute#45-commit-messages).
+To be used in [commit messages](https://docs.shabados.com/community/coding-guidelines#commit-messages).
 
 Usage:
 

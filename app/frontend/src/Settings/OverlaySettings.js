@@ -43,7 +43,7 @@ const OverlaySettings = () => {
 
       <OptionGrid container align="center">
         <Grid item {...slotSizes.single} className="buttons">
-          <TutorialButton className="tutorial-button" href="https://tutorials.shabados.com/tutorials/1.0.0/overlay/overlay.html">
+          <TutorialButton className="tutorial-button" href="https://docs.shabados.com/tutorials/overlay">
             Learn More
           </TutorialButton>
         </Grid>
