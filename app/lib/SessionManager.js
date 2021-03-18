@@ -315,6 +315,9 @@ class SessionManager {
   getClientSettings( client, publicSettings ) {
     const { host } = client
 
+    // Store zoom token in session
+    this.session.zoomApiToken = settingsManager.get( 'livestream' ).zoomApiToken || null
+
     return {
       ...publicSettings,
       [ host ]: undefined, // Remove entry for own host
@@ -348,9 +351,6 @@ class SessionManager {
 
     // Strip out private settings
     const publicSettings = getPublicSettings( newSettings )
-
-    // Store zoom token in session
-    this.session.zoomApiToken = settingsManager.get( 'livestream' ).zoomApiToken
 
     // Rebroadcast all settings, transforming fields appropriately
     this.socket.forEach( client => client.sendJSON( 'settings:all', this.getClientSettings( client, publicSettings ) ) )
