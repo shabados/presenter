@@ -224,7 +224,7 @@ export const OPTION_GROUPS = {
       icon: faWindowMaximize,
     },
     livestream: {
-      name: 'Live Stream',
+      name: 'Closed Captioning',
       icon: faHeadphones,
     },
   },
