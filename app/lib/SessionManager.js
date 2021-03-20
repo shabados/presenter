@@ -316,7 +316,7 @@ class SessionManager {
     const { host } = client
 
     // Store zoom token in session
-    this.session.zoomApiToken = settingsManager.get( 'livestream' ).zoomApiToken || null
+    this.session.zoomApiToken = settingsManager.get( 'closedCaptioning' ).zoomApiToken
 
     return {
       ...publicSettings,
