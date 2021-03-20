@@ -136,7 +136,7 @@ const typeComponents = {
   [ OPTION_TYPES.toggle ]: GeneralSettingParam( Toggle ),
   [ OPTION_TYPES.slider ]: GeneralSettingParam( Slider ),
   [ OPTION_TYPES.urlDropdown ]: GeneralSettingEvent( UrlDropdown ),
-  [ OPTION_TYPES.TextInput ]: GeneralSettingEvent( TextInput ),
+  [ OPTION_TYPES.textInput ]: GeneralSettingEvent( TextInput ),
 }
 
 export default type => typeComponents[ type ]

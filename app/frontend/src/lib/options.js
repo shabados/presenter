@@ -64,7 +64,7 @@ export const OPTION_TYPES = {
   slider: Symbol( 'Slider' ),
   colorPicker: Symbol( 'Color Picker' ),
   urlDropdown: Symbol( 'URL Dropdown' ),
-  TextInput: Symbol( 'Text Input' ),
+  textInput: Symbol( 'Text Input' ),
 }
 
 export const PRIVACY_TYPES = {
@@ -161,7 +161,7 @@ export const OPTIONS = { controllerZoom: { name: 'Controller Zoom', icon: faSear
     ],
   },
   overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.urlDropdown, values: [], url: `${BACKEND_URL}/overlay/themes`, privacy: PRIVACY_TYPES.global },
-  zoomApiToken: { name: 'Zoom API Token', icon: faShareSquare, type: OPTION_TYPES.TextInput, privacy: PRIVACY_TYPES.global } }
+  zoomApiToken: { name: 'Zoom API Token', icon: faShareSquare, type: OPTION_TYPES.textInput, privacy: PRIVACY_TYPES.global } }
 
 // Possible options groups
 export const OPTION_GROUPS = {
