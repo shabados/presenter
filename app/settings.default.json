@@ -23,6 +23,9 @@
     "englishTransliteration": false,
     "hindiTransliteration": false,
     "urduTransliteration": false,
-    "lineEnding":true
+    "lineEnding": true
+  },
+  "closedCaptioning": {
+    "zoomApiToken": null
   }
 }
