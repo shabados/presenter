@@ -132,13 +132,12 @@ const Settings = () => {
             ) )}
         </Select>
 
-        {menuItems.map( ( [ sectionName, settingsGroup, settings, url ] ) => (
+        {menuItems.map( ( [ sectionName, settingsGroup, , url ] ) => (
           <>
 
             {sectionName && <Typography key={sectionName} className="category-title">{sectionName}</Typography>}
 
-            {Object.keys( settings )
-              .filter( name => settingsGroup[ name ] )
+            {Object.keys( settingsGroup )
               .map( name => (
                 <Item
                   key={name}

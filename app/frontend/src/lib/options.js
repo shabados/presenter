@@ -316,7 +316,6 @@ export const DEFAULT_OPTIONS = {
       downloadEvents: true,
       downloadedEvents: true,
     },
-    about: null,
     overlay: {
       overlayName: 'Floating Top Captions',
       larivaarGurbani: false,
