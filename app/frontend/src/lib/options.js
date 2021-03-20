@@ -42,6 +42,7 @@ import {
   faWindowMaximize,
   faHeadphones,
   faShareSquare,
+  faInfo,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -215,7 +216,7 @@ export const OPTION_GROUPS = {
     },
     about: {
       name: 'About',
-      icon: faWrench,
+      icon: faInfo,
     },
   },
   tools: {
