@@ -10,7 +10,7 @@ import logger from './logger'
 import settingsManager from './settings'
 import History from './History'
 import { getShabad, getBaniLines, getShabadByOrderId, getShabadRange } from './db'
-import { postToZoom } from './zoom'
+import zoom from './zoom'
 
 /**
  * Returns settings for the devices which do not have the private value set.
@@ -47,8 +47,6 @@ class SessionManager {
       history: new History(),
       settings: {},
       status: null,
-      seqCounter: 0,
-      zoomApiToken: null,
     }
 
     // Send all the current data on connection from a new client
@@ -216,18 +214,12 @@ class SessionManager {
     const { mainLineId, nextLineId } = this.session
     history.update( { line, bani, shabad, mainLineId, nextLineId }, isTransition )
 
-    const { zoomApiToken } = this.session
-
-    if ( zoomApiToken ) {
-      postToZoom( zoomApiToken, line.gurmukhi, this.session.seqCounter ).then( res => {
-        if ( res.status === 200 ) {
-          this.session.seqCounter += 1
-        }
-      } )
-    }
-
     // Update the latest lines
     this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
+
+    //! It would be nice to refactor this class into a generic event bus, integrations can
+    //! take place at a higher level, with sockets, zoom, and anything else.
+    zoom.sendLine( line )
   }
 
   /**
@@ -314,9 +306,6 @@ class SessionManager {
 
   getClientSettings( client, publicSettings ) {
     const { host } = client
-
-    // Store zoom token in session
-    this.session.zoomApiToken = settingsManager.get( 'closedCaptioning' ).zoomApiToken
 
     return {
       ...publicSettings,

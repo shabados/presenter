@@ -28,6 +28,7 @@ import {
 import { ensureRequiredDirs, copyExampleThemes, sendToElectron } from './lib/utils'
 
 import { version } from './package.json'
+import zoom from './lib/zoom'
 
 // Action handlers
 const actions = [
@@ -130,6 +131,9 @@ async function main() {
 
   // When settings change, notify Electron
   settings.on( 'change', settings => sendToElectron( 'settings', settings ) )
+
+  // Set zoom api token
+  settings.on( 'change', ( { closedCaptioning: { zoomApiToken } } ) => zoom.setApiKey( zoomApiToken ) )
 
   // Check for updates every 5 minutes, in production only
   if ( !isDev ) initialiseUpdater( sessionManager )

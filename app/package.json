@@ -46,6 +46,7 @@
     "open": "^7.0.0",
     "pacote": "^9.5.8",
     "pino": "^5.13.4",
+    "url-parse": "^1.5.1",
     "ws": "^7.1.2"
   },
   "devDependencies": {
