@@ -7,7 +7,7 @@ import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesCont
 import { customiseLine, getTransliterators } from '../lib/line'
 import { COPY_SHORTCUTS } from '../lib/keyMap'
 import { useCopyToClipboard, useCurrentLine, useTranslations, useCurrentLines } from '../lib/hooks'
-import { LANGUAGES, SOURCE_ABBREVIATIONS } from '../lib/consts'
+import { LANGUAGES, SOURCE_ABBREVIATIONS } from '../lib/data'
 
 import GlobalHotKeys from './GlobalHotKeys'
 

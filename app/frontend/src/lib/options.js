@@ -51,7 +51,8 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-regular-svg-icons'
 
-import { LANGUAGES, BACKEND_URL } from './consts'
+import { BACKEND_URL } from './consts'
+import { LANGUAGES } from './data'
 import SHORTCUTS from './keyMap'
 
 /**
@@ -332,6 +333,14 @@ export const DEFAULT_OPTIONS = {
     },
     closedCaptioning: {
       zoomApiToken: null,
+      larivaarGurbani: false,
+      englishTranslation: true,
+      spanishTranslation: false,
+      punjabiTranslation: false,
+      englishTransliteration: false,
+      hindiTransliteration: false,
+      urduTransliteration: false,
+      lineEnding: true,
     },
   },
 }

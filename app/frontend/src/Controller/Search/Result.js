@@ -5,7 +5,7 @@ import { ListItem } from '@material-ui/core'
 
 import controller from '../../lib/controller'
 import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../../lib/contexts'
-import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '../../lib/consts'
+import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '../../lib/data'
 import { customiseLine, getTranslation } from '../../lib/line'
 
 /**

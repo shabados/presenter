@@ -7,7 +7,7 @@ import { countSyllables, toSyllabicSymbols } from 'gurmukhi-utils'
 
 import { partitionLine, classifyWords } from '../lib/line'
 import { DEFAULT_OPTIONS } from '../lib/options'
-import { LANGUAGES, LANGUAGE_NAMES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/consts'
+import { LANGUAGES, LANGUAGE_NAMES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/data'
 
 import './Line.css'
 

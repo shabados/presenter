@@ -1,7 +1,7 @@
 import { find, findIndex, findLastIndex, invert } from 'lodash'
 import memoize from 'memoizee'
 
-import { BANIS } from './consts'
+import { BANIS } from './data'
 import { findLineIndex } from './line'
 
 const isBaniJumpLine = ( baniId, lines ) => (

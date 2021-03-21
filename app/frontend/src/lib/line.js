@@ -5,7 +5,7 @@
 import vishraams from 'gurmukhi-utils/lib/vishraams.json'
 import { stripVishraams, stripEndings } from 'gurmukhi-utils'
 import memoize from 'memoizee'
-import { LINE_TYPES, TRANSLITERATORS } from './consts'
+import { LINE_TYPES, TRANSLITERATORS } from './data'
 
 /**
  * Produces a map of the line hotkey that corresponds to the line index.
