@@ -132,9 +132,6 @@ async function main() {
   // When settings change, notify Electron
   settings.on( 'change', settings => sendToElectron( 'settings', settings ) )
 
-  // Set zoom api token
-  settings.on( 'change', ( { closedCaptioning: { zoomApiToken } } ) => zoom.setApiKey( zoomApiToken ) )
-
   // Check for updates every 5 minutes, in production only
   if ( !isDev ) initialiseUpdater( sessionManager )
 
