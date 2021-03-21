@@ -21,11 +21,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import { SEARCH_URL } from '../lib/consts'
-import { getJumpLines, getNextJumpLine, findLineIndex } from '../lib/utils'
 import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import { ContentContext, HistoryContext } from '../lib/contexts'
 import { useCurrentLines } from '../lib/hooks'
+import { getJumpLines, getNextJumpLine } from '../lib/auto-jump'
+import { findLineIndex } from '../lib/line'
 
 import GlobalHotKeys from '../shared/GlobalHotKeys'
 import { withNavigationHotkeys } from '../shared/NavigationHotkeys'

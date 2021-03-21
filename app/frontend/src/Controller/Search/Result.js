@@ -4,9 +4,9 @@ import classNames from 'classnames'
 import { ListItem } from '@material-ui/core'
 
 import controller from '../../lib/controller'
-import { getTranslation, customiseLine } from '../../lib/utils'
 import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../../lib/contexts'
 import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '../../lib/consts'
+import { customiseLine, getTranslation } from '../../lib/line'
 
 /**
  * Renders a single result, highlighting the match.

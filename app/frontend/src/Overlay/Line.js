@@ -4,7 +4,7 @@ import { string, bool, objectOf, func } from 'prop-types'
 import classNames from 'classnames'
 
 import { LANGUAGE_NAMES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/consts'
-import { partitionLine, classifyWords } from '../lib/utils'
+import { partitionLine, classifyWords } from '../lib/line'
 
 import './Line.css'
 

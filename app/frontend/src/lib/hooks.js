@@ -2,9 +2,9 @@ import { useContext, useState, useEffect } from 'react'
 import copy from 'copy-to-clipboard'
 import { useSnackbar } from 'notistack'
 
-import { getTranslation, findLineIndex } from './utils'
 import { ContentContext, RecommendedSourcesContext, SettingsContext } from './contexts'
 import { isMac } from './consts'
+import { findLineIndex, getTranslation } from './line'
 
 export const useCurrentLines = () => {
   const { shabad, bani } = useContext( ContentContext )

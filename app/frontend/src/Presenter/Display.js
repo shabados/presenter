@@ -6,7 +6,7 @@ import { mapValues } from 'lodash'
 
 import { LANGUAGES } from '../lib/consts'
 import { useTranslations, useCurrentLine, useCurrentLines } from '../lib/hooks'
-import { customiseLine, getTransliterators } from '../lib/utils'
+import { customiseLine, getTransliterators } from '../lib/line'
 import Line from './Line'
 
 import './Display.css'
