@@ -125,10 +125,12 @@ UrlDropdown.propTypes = {
   url: string.isRequired,
 }
 
-export const TextInput = ( { className, value, ...props } ) => (
+export const TextInput = ( { className, value, onChange, ...props } ) => (
   <TextField
+    key={value}
     className={classNames( className, 'text-input' )}
     variant="outlined"
+    onBlur={onChange}
     {...props}
     defaultValue={value}
   />
@@ -136,11 +138,13 @@ export const TextInput = ( { className, value, ...props } ) => (
 
 TextInput.propTypes = {
   className: string,
+  onChange: func,
   value: string.isRequired,
 }
 
 TextInput.defaultProps = {
   className: null,
+  onChange: () => {},
 }
 
 const typeComponents = {
