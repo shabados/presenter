@@ -46,6 +46,7 @@ import Sources from './Sources'
 import About from './About'
 import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
+import ClosedCaptionSettings from './ClosedCaptionSettings'
 import DynamicOptions from './DynamicOptions'
 
 import './index.css'
@@ -218,6 +219,7 @@ const Settings = () => {
 
           {/* Tool Routes */}
           <Route path={`${SETTINGS_TOOLS_URL}/overlay`} component={OverlaySettings} />
+          <Route path={`${SETTINGS_TOOLS_URL}/closedCaptioning`} component={ClosedCaptionSettings} />
           <Route path={`${SETTINGS_TOOLS_URL}/*`} render={() => <DynamicOptions device="global" group={group} />} />
 
           <Redirect to={defaultUrl} />

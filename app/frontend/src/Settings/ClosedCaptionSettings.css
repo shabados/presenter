@@ -1,0 +1,12 @@
+.closed-caption-settings {
+  display: flex;
+  flex-direction: column;
+}
+
+.closed-caption-settings .buttons {
+  margin: 30px 0;
+}
+
+.closed-caption-settings + .buttons {
+  margin-top: 0px;
+}
