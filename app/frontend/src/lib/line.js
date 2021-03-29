@@ -98,6 +98,16 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
   return translation
 }
 
+export const getTranslations = ( { languageIds, line, ...rest } ) => {
+  if ( !line ) return {}
+
+  return ( languageIds || [] ).filter( x => x ).reduce( ( translations, languageId ) => {
+    const translation = getTranslation( { languageId, line, ...rest } )
+
+    return translation ? { ...translations, [  languageId ]: translation } : translations
+  }, {} )
+}
+
 /**
  * Returns the corresponding transliteration functions, mapped by language id.
  */

@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack'
 
 import { ContentContext, RecommendedSourcesContext, SettingsContext } from './contexts'
 import { isMac } from './consts'
-import { findLineIndex, getTranslation } from './line'
+import { findLineIndex, getTranslations } from './line'
 
 export const useCurrentLines = () => {
   const { shabad, bani } = useContext( ContentContext )
@@ -32,13 +32,7 @@ export const useTranslations = languageIds => {
   const recommendedSources = useContext( RecommendedSourcesContext )
   const { local: { sources } = {} } = useContext( SettingsContext )
 
-  if ( !line ) return {}
-
-  return ( languageIds || [] ).filter( x => x ).reduce( ( translations, languageId ) => {
-    const translation = getTranslation( { shabad, line, sources, recommendedSources, languageId } )
-
-    return translation ? { ...translations, [  languageId ]: translation } : translations
-  }, {} )
+  return getTranslations( { shabad, line, recommendedSources, sources, languageIds } )
 }
 
 export const useCopyToClipboard = () => {
