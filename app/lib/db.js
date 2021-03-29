@@ -111,7 +111,7 @@ export const getSources = () => Sources
     } ) ), {} ) )
   .then( sources => ( {
     sources,
-    recommended: Object.entries( sources ).reduce( (
+    recommendedSources: Object.entries( sources ).reduce( (
       ( acc, [ id, { translationSources, ...source } ] ) => ( {
         ...acc,
         [ id ]: {
