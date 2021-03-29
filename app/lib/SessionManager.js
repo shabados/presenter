@@ -315,11 +315,11 @@ class SessionManager {
    * ! This will not work for any clients that have the hostnames of `local` or `global`.
    * @param {WebSocket} client The socket client that sent the settings update.
    */
-  onSettings( client, { local = {}, global = {}, ...rest } ) {
+  async onSettings( client, { local, global, ...rest } ) {
     const { host } = client
 
     // Save global server settings
-    settingsManager.merge( global )
+    if ( global ) await settingsManager.saveSettings( global )
 
     const { settings } = this.session
 
@@ -328,7 +328,7 @@ class SessionManager {
       ...settings,
       // Only accept setting changes for public devices
       ...getPublicSettings( rest ),
-      [ host ]: local,
+      ...( local && { [ host ]: local } ),
     }
 
     this.session = { ...this.session, settings: newSettings }
