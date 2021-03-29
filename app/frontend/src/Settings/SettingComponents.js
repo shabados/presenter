@@ -125,8 +125,9 @@ UrlDropdown.propTypes = {
   url: string.isRequired,
 }
 
-export const TextInput = ( { value, ...props } ) => (
+export const TextInput = ( { className, value, ...props } ) => (
   <TextField
+    className={classNames( className, 'text-input' )}
     variant="outlined"
     {...props}
     defaultValue={value}
@@ -134,7 +135,12 @@ export const TextInput = ( { value, ...props } ) => (
 )
 
 TextInput.propTypes = {
+  className: string,
   value: string.isRequired,
+}
+
+TextInput.defaultProps = {
+  className: null,
 }
 
 const typeComponents = {

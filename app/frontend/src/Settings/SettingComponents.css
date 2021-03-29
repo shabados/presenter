@@ -77,6 +77,22 @@
   align-items: center;
 }
 
-.MuiOutlinedInput-input {
-  padding: 10.5px 14px !important;
+.text-input input {
+  color: var(--settings-text-color);
+  padding: 10.5px 14px;
+  background-color: var(--settings-setting-off-color);
+}
+
+.text-input fieldset {
+  border-color: var(--settings-text-color) !important;
+  opacity: 0.5;
+}
+
+.text-input .Mui-focused input {
+  background-color: var(--settings-setting-off-color);
+}
+
+.text-input .Mui-focused fieldset {
+  border-color: var(--settings-setting-on-color) !important;
+  opacity: 1;
 }
