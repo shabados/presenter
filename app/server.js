@@ -26,9 +26,9 @@ import {
   LOG_FOLDER,
 } from './lib/consts'
 import { ensureRequiredDirs, copyExampleThemes, sendToElectron } from './lib/utils'
+import zoom from './lib/zoom'
 
 import { version } from './package.json'
-import zoom from './lib/zoom'
 
 // Action handlers
 const actions = [
@@ -137,6 +137,9 @@ async function main() {
 
   // Copy example themes for user
   copyExampleThemes()
+
+  // Initialise zoom controller
+  zoom.init()
 }
 
 process.on( 'uncaughtException', handleError() )

@@ -219,7 +219,7 @@ class SessionManager {
 
     //! It would be nice to refactor this class into a generic event bus, integrations can
     //! take place at a higher level, with sockets, zoom, and anything else.
-    zoom.sendLine( line )
+    zoom.sendLine( { ...this.session, line } )
   }
 
   /**

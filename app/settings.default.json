@@ -26,6 +26,14 @@
     "lineEnding": true
   },
   "closedCaptioning": {
-    "zoomApiToken": null
+    "zoomApiToken": null,
+    "larivaarGurbani": false,
+    "englishTranslation": true,
+    "spanishTranslation": false,
+    "punjabiTranslation": false,
+    "englishTransliteration": false,
+    "hindiTransliteration": false,
+    "urduTransliteration": false,
+    "lineEnding": true
   }
 }
