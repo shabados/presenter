@@ -24,7 +24,11 @@ const prepareCaptionWith = ( { recommendedSources } ) => ( { shabad, line } ) =>
   const { typeId } = line
   const lineEnding = settings.get( 'closedCaptioning.lineEnding' )
 
-  const gurmukhi = stripVishraams( line.gurmukhi )
+  const gurmukhi = stripVishraams(
+    settings.get( 'closedCaptioning.larivaarGurbani' )
+      ? line.gurmukhi.replaceAll( ' ', '' )
+      : line.gurmukhi,
+  )
 
   const transliterations = mapValues(
     getTransliterators( [
@@ -52,7 +56,7 @@ const prepareCaptionWith = ( { recommendedSources } ) => ( { shabad, line } ) =>
   )
 
   return [
-    toUnicode( settings.get( 'closedCaptioning.larivaarGurbani' ) ? gurmukhi.replaceAll( ' ', '' ) : gurmukhi ),
+    toUnicode( gurmukhi ),
     prepareSecondary( translations, TRANSLATION_ORDER ),
     prepareSecondary( transliterations, TRANSLITERATION_ORDER ),
   ].filter( x => x ).join( '\n' )
