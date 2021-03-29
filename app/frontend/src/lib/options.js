@@ -227,8 +227,8 @@ export const OPTION_GROUPS = {
       name: 'Overlay',
       icon: faWindowMaximize,
     },
-    closedCaptioning: {
-      name: 'Closed Captioning',
+    closedCaptions: {
+      name: 'Closed Captions',
       icon: faHeadphones,
     },
   },
@@ -331,7 +331,7 @@ export const DEFAULT_OPTIONS = {
       urduTransliteration: false,
       lineEnding: true,
     },
-    closedCaptioning: {
+    closedCaptions: {
       zoomApiToken: null,
       larivaarGurbani: false,
       englishTranslation: true,

@@ -25,7 +25,7 @@
     "urduTransliteration": false,
     "lineEnding": true
   },
-  "closedCaptioning": {
+  "closedCaptions": {
     "zoomApiToken": null,
     "larivaarGurbani": false,
     "englishTranslation": true,

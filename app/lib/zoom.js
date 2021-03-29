@@ -10,7 +10,7 @@ import { getSources } from './db'
 import fetch from './fetch'
 import settings from './settings'
 
-const getApiKey = () => settings.get( 'closedCaptioning.zoomApiToken' )
+const getApiKey = () => settings.get( 'closedCaptions.zoomApiToken' )
 
 const prepareSecondary = ( data, sorter ) => Object
   .entries( data )
@@ -22,19 +22,19 @@ const prepareCaptionWith = ( { recommendedSources } ) => ( { shabad, line } ) =>
   if ( !line ) return ''
 
   const { typeId } = line
-  const lineEnding = settings.get( 'closedCaptioning.lineEnding' )
+  const lineEnding = settings.get( 'closedCaptions.lineEnding' )
 
   const gurmukhi = stripVishraams(
-    settings.get( 'closedCaptioning.larivaarGurbani' )
+    settings.get( 'closedCaptions.larivaarGurbani' )
       ? line.gurmukhi.replaceAll( ' ', '' )
       : line.gurmukhi,
   )
 
   const transliterations = mapValues(
     getTransliterators( [
-      settings.get( 'closedCaptioning.englishTransliteration' ) && LANGUAGES.english,
-      settings.get( 'closedCaptioning.hindiTransliteration' ) && LANGUAGES.hindi,
-      settings.get( 'closedCaptioning.urduTransliteration' ) && LANGUAGES.urdu,
+      settings.get( 'closedCaptions.englishTransliteration' ) && LANGUAGES.english,
+      settings.get( 'closedCaptions.hindiTransliteration' ) && LANGUAGES.hindi,
+      settings.get( 'closedCaptions.urduTransliteration' ) && LANGUAGES.urdu,
     ] ),
     transliterate => transliterate( customiseLine( gurmukhi, { lineEnding, typeId } ) ),
   )
@@ -42,9 +42,9 @@ const prepareCaptionWith = ( { recommendedSources } ) => ( { shabad, line } ) =>
   const translations = mapValues(
     getTranslations( {
       languageIds: [
-        settings.get( 'closedCaptioning.englishTranslation' ) && LANGUAGES.english,
-        settings.get( 'closedCaptioning.punjabiTranslation' ) && LANGUAGES.punjabi,
-        settings.get( 'closedCaptioning.spanishTranslation' ) && LANGUAGES.spanish,
+        settings.get( 'closedCaptions.englishTranslation' ) && LANGUAGES.english,
+        settings.get( 'closedCaptions.punjabiTranslation' ) && LANGUAGES.punjabi,
+        settings.get( 'closedCaptions.spanishTranslation' ) && LANGUAGES.spanish,
       ],
       shabad,
       line,

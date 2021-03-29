@@ -219,7 +219,7 @@ const Settings = () => {
 
           {/* Tool Routes */}
           <Route path={`${SETTINGS_TOOLS_URL}/overlay`} component={OverlaySettings} />
-          <Route path={`${SETTINGS_TOOLS_URL}/closedCaptioning`} component={ClosedCaptionSettings} />
+          <Route path={`${SETTINGS_TOOLS_URL}/closedCaptions`} component={ClosedCaptionSettings} />
           <Route path={`${SETTINGS_TOOLS_URL}/*`} render={() => <DynamicOptions device="global" group={group} />} />
 
           <Redirect to={defaultUrl} />

@@ -33,7 +33,7 @@ const ClosedCaptionSettings = () => (
       </Grid>
     </OptionGrid>
 
-    <DynamicOptions device="global" group="closedCaptioning" />
+    <DynamicOptions device="global" group="closedCaptions" />
   </div>
 )
 
