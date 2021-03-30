@@ -77,6 +77,38 @@
   align-items: center;
 }
 
+.text-input {
+  position: relative;
+  width: fit-content;
+}
+
+.text-input .status-icon {
+  position: absolute;
+  right: -1.75em;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.text-input .status-icon {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.text-input .status-icon.focused,
+.text-input .status-icon.changed,
+.text-input .status-icon.saved {
+  opacity: 1;
+}
+
+.text-input .status-icon.saved {
+  color: var(--settings-setting-on-color) !important;
+}
+
+.text-input .status-icon.changed {
+  color: var(--settings-text-color) !important;
+}
+
 .text-input input {
   color: var(--settings-text-color);
   padding: 10.5px 14px;

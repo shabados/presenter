@@ -3,6 +3,8 @@ import { string, func, any, arrayOf, number, bool } from 'prop-types'
 
 import classNames from 'classnames'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import {
   Switch,
   Select,
@@ -125,16 +127,38 @@ UrlDropdown.propTypes = {
   url: string.isRequired,
 }
 
-export const TextInput = ( { className, value, onChange, ...props } ) => (
-  <TextField
-    key={value}
-    className={classNames( className, 'text-input' )}
-    variant="outlined"
-    onBlur={onChange}
-    {...props}
-    defaultValue={value}
-  />
-)
+export const TextInput = ( { className, value, onChange, ...props } ) => {
+  const [ isChanged, setChanged ] = useState()
+  const [ isFocused, setFocused ] = useState()
+  const [ isSaved, setSaved ] = useState()
+
+  const onBlur = ( ...params ) => {
+    onChange( ...params )
+
+    if ( isChanged ) setSaved( isChanged )
+    setFocused( false )
+    setChanged( false )
+  }
+
+  return (
+    <div key={value} className={classNames( className, 'text-input' )}>
+      <TextField
+        className="text-field"
+        variant="outlined"
+        {...props}
+        onBlur={onBlur}
+        onChange={() => setChanged( true )}
+        onFocus={() => setFocused( true )}
+        defaultValue={value}
+      />
+
+      <FontAwesomeIcon
+        className={classNames( 'status-icon', { changed: isChanged, focused: isFocused, saved: isSaved } )}
+        icon={faCheck}
+      />
+    </div>
+  )
+}
 
 TextInput.propTypes = {
   className: string,
