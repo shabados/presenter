@@ -12,15 +12,9 @@ const ClosedCaptionSettings = () => (
     <OptionGrid container>
       <Grid item {...slotSizes.single}>
         <Typography>
-          Closed Captioning provides a convenient way of integrating content
-          into 3rd party services, typically during a livestream.
-          Zoom is currently supported.
-        </Typography>
-        <br />
-        <Typography>
-          When a line is activated in the controller and seen on the presenter,
-          the same information is sent to the closed captioning services.
-          Choose what to display and how to display it with the options below.
+          Closed captioning integrates the currently active line of Shabad OS
+          into 3rd party services, such as YouTube, Facebook, or Zoom.
+          Currently only Zoom meetings are supported.
         </Typography>
       </Grid>
     </OptionGrid>
@@ -28,7 +22,7 @@ const ClosedCaptionSettings = () => (
     <OptionGrid container align="center">
       <Grid item {...slotSizes.single} className="buttons">
         <TutorialButton href="https://docs.shabados.com/presenter/guides/integrating-closed-captioning-in-zoom-meetings">
-          Learn More (Zoom)
+          Learn More
         </TutorialButton>
       </Grid>
     </OptionGrid>
