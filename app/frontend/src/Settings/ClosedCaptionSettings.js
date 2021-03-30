@@ -12,9 +12,9 @@ const ClosedCaptionSettings = () => (
     <OptionGrid container>
       <Grid item {...slotSizes.single}>
         <Typography>
-          Closed captioning integrates the currently active line of Shabad OS
-          into 3rd party services, such as YouTube, Facebook, or Zoom.
-          Currently only Zoom meetings are supported.
+          Closed captioning integrates the currently active line of Shabad OS into the built-in
+          subtitle features of 3rd party services, such as YouTube, Facebook, or Zoom. Currently
+          only Zoom meetings are supported.
         </Typography>
       </Grid>
     </OptionGrid>
