@@ -45,10 +45,17 @@ export const OptionSlot = ( { children } ) => (
 )
 OptionSlot.propTypes = { children: node.isRequired }
 
-export const ResetButton = ( { group, disabled } ) => (
+export const ResetButton = ( { group, disabled, device } ) => (
   <OptionGrid container align="center">
     <Grid item {...slotSizes.single}>
-      <Button className="reset-button" disabled={disabled} variant="contained" onClick={() => controller.resetSettingGroup( group )}>Reset to defaults</Button>
+      <Button
+        className="reset-button"
+        disabled={disabled}
+        variant="contained"
+        onClick={() => controller.resetSettingGroup( group, device )}
+      >
+        Reset to defaults
+      </Button>
     </Grid>
   </OptionGrid>
 )
@@ -56,6 +63,7 @@ export const ResetButton = ( { group, disabled } ) => (
 ResetButton.propTypes = {
   group: string.isRequired,
   disabled: bool,
+  device: string.isRequired,
 }
 
 ResetButton.defaultProps = {
@@ -113,7 +121,7 @@ const DynamicOptions = ( { device, group } ) => {
     <>
       {renderOptions()}
 
-      <ResetButton disabled={isGroupDisabled} group={group} />
+      <ResetButton disabled={isGroupDisabled} group={group} device={device} />
     </>
   )
 }
