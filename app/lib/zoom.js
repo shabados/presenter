@@ -26,7 +26,7 @@ const prepareCaptionWith = ( { recommendedSources } ) => ( { shabad, line } ) =>
 
   const gurmukhi = stripVishraams(
     settings.get( 'closedCaptions.larivaarGurbani' )
-      ? line.gurmukhi.replaceAll( ' ', '' )
+      ? line.gurmukhi.replace( / /g, '' )
       : line.gurmukhi,
   )
 
