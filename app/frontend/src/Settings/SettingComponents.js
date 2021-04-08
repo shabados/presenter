@@ -132,6 +132,11 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
   const [ isFocused, setFocused ] = useState()
   const [ isSaved, setSaved ] = useState()
 
+  const onFocus = event => {
+    event.target.select()
+    setFocused( true )
+  }
+
   const onBlur = ( ...params ) => {
     onChange( ...params )
 
@@ -148,7 +153,7 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
         {...props}
         onBlur={onBlur}
         onChange={() => setChanged( true )}
-        onFocus={() => setFocused( true )}
+        onFocus={onFocus}
         defaultValue={value}
       />
 
