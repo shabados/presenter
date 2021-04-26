@@ -102,7 +102,7 @@
 }
 
 .text-input .status-icon.saved {
-  color: var(--settings-setting-on-color) !important;
+  color: green !important;
 }
 
 .text-input .status-icon.changed {

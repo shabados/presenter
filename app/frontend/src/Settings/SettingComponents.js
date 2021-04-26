@@ -137,6 +137,14 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
     setFocused( true )
   }
 
+  useEffect( () => {
+    const timer = setTimeout( () => {
+      setSaved( false )
+    }, 3000 )
+
+    return () => clearTimeout( timer )
+  }, [ isSaved ] )
+
   const onBlur = ( ...params ) => {
     onChange( ...params )
 
