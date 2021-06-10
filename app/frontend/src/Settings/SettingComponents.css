@@ -92,17 +92,12 @@
 
 .text-input .status-icon {
   opacity: 0;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.5s ease-in-out 125ms;
 }
 
-.text-input .status-icon.focused,
 .text-input .status-icon.changed,
 .text-input .status-icon.saved {
   opacity: 1;
-}
-
-.text-input .status-icon.saved {
-  color: green !important;
 }
 
 .text-input .status-icon.changed {

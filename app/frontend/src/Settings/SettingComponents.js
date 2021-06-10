@@ -129,12 +129,10 @@ UrlDropdown.propTypes = {
 
 export const TextInput = ( { className, value, onChange, ...props } ) => {
   const [ isChanged, setChanged ] = useState()
-  const [ isFocused, setFocused ] = useState()
   const [ isSaved, setSaved ] = useState()
 
   const onFocus = event => {
     event.target.select()
-    setFocused( true )
   }
 
   useEffect( () => {
@@ -148,8 +146,11 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
   const onBlur = ( ...params ) => {
     onChange( ...params )
 
-    if ( isChanged ) setSaved( isChanged )
-    setFocused( false )
+    if ( isChanged ) {
+      setTimeout( () => {
+        setSaved( isChanged )
+      }, 4000 )
+    }
     setChanged( false )
   }
 
@@ -166,7 +167,7 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
       />
 
       <FontAwesomeIcon
-        className={classNames( 'status-icon', { changed: isChanged, focused: isFocused, saved: isSaved } )}
+        className={classNames( 'status-icon', { saved: isSaved } )}
         icon={faCheck}
       />
     </div>
