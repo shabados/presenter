@@ -1,6 +1,6 @@
 {
   "name": "@shabados/backend",
-  "version": "2.10.1",
+  "version": "2.11.0",
   "description": "Desktop app for presenting the Shabad OS Database on projectors, TVs, and live streams",
   "main": "electron/esm-wrapper.js",
   "scripts": {
