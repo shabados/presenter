@@ -149,7 +149,7 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
     if ( isChanged ) {
       setTimeout( () => {
         setSaved( isChanged )
-      }, 4000 )
+      }, 500 )
     }
     setChanged( false )
   }
