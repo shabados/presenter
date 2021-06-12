@@ -7,9 +7,11 @@ import ReconnectingWebSocket from 'reconnecting-websocket'
 import EventEmitter from 'event-emitter'
 
 import { DEFAULT_OPTIONS } from './options'
-import { merge, getNextJumpLine, findLineIndex } from './utils'
 import { WS_URL, isElectron, isDev } from './consts'
 import analytics from './analytics'
+import { findLineIndex } from './line'
+import { getNextJumpLine } from './auto-jump'
+import { merge } from './utils'
 
 class Controller extends EventEmitter {
   constructor() {

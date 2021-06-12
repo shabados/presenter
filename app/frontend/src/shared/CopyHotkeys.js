@@ -4,10 +4,10 @@ import { toUnicode, stripVishraams } from 'gurmukhi-utils'
 import { mapValues } from 'lodash'
 
 import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
-import { customiseLine, getTransliterators } from '../lib/utils'
+import { customiseLine, getTransliterators } from '../lib/line'
 import { COPY_SHORTCUTS } from '../lib/keyMap'
 import { useCopyToClipboard, useCurrentLine, useTranslations, useCurrentLines } from '../lib/hooks'
-import { LANGUAGES, SOURCE_ABBREVIATIONS } from '../lib/consts'
+import { LANGUAGES, SOURCE_ABBREVIATIONS } from '../lib/data'
 
 import GlobalHotKeys from './GlobalHotKeys'
 

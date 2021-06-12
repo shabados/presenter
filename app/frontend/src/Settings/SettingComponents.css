@@ -38,7 +38,8 @@
   background-color: var(--settings-setting-shadow) !important;
 }
 
-.slider .MuiSlider-thumb:hover, .slider .MuiSlider-thumb.MuiSlider-active {
+.slider .MuiSlider-thumb:hover,
+.slider .MuiSlider-thumb.MuiSlider-active {
   box-shadow: 0px 0px 0px 8px var(--settings-setting-shadow) !important;
 }
 
@@ -70,4 +71,55 @@
 .button:hover {
   color: var(--settings-background-color) !important;
   background-color: var(--settings-setting-on-color) !important;
+}
+
+.option {
+  align-items: center;
+}
+
+.text-input {
+  position: relative;
+  width: fit-content;
+}
+
+.text-input .status-icon {
+  position: absolute;
+  right: -1.75em;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.text-input .status-icon {
+  opacity: 0;
+  transition: all 200ms ease-in-out;
+}
+
+.text-input .status-icon.changed,
+.text-input .status-icon.saved {
+  opacity: 1;
+}
+
+.text-input .status-icon.changed {
+  color: var(--settings-text-color) !important;
+}
+
+.text-input input {
+  color: var(--settings-text-color);
+  padding: 10.5px 14px;
+  background-color: var(--settings-setting-off-color);
+}
+
+.text-input fieldset {
+  border-color: var(--settings-text-color) !important;
+  opacity: 0.5;
+}
+
+.text-input .Mui-focused input {
+  background-color: var(--settings-setting-off-color);
+}
+
+.text-input .Mui-focused fieldset {
+  border-color: var(--settings-setting-on-color) !important;
+  opacity: 1;
 }

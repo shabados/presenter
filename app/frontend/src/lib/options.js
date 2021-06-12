@@ -39,6 +39,10 @@ import {
   faSearchPlus,
   faCalculator,
   faBalanceScale,
+  faWindowMaximize,
+  faHeadphones,
+  faShareSquare,
+  faInfo,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faKeyboard,
@@ -47,7 +51,8 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-regular-svg-icons'
 
-import { LANGUAGES, BACKEND_URL } from './consts'
+import { BACKEND_URL } from './consts'
+import { LANGUAGES } from './data'
 import SHORTCUTS from './keyMap'
 
 /**
@@ -61,6 +66,7 @@ export const OPTION_TYPES = {
   slider: Symbol( 'Slider' ),
   colorPicker: Symbol( 'Color Picker' ),
   urlDropdown: Symbol( 'URL Dropdown' ),
+  textInput: Symbol( 'Text Input' ),
 }
 
 export const PRIVACY_TYPES = {
@@ -158,6 +164,7 @@ export const OPTIONS = {
     ],
   },
   overlayName: { name: 'Overlay Name', icon: faPalette, type: OPTION_TYPES.urlDropdown, values: [], url: `${BACKEND_URL}/overlay/themes`, privacy: PRIVACY_TYPES.global },
+  zoomApiToken: { name: 'Zoom API Token', icon: faShareSquare, type: OPTION_TYPES.textInput, privacy: PRIVACY_TYPES.global },
 }
 
 // Possible options groups
@@ -209,6 +216,20 @@ export const OPTION_GROUPS = {
     system: {
       name: 'System Options',
       icon: faWrench,
+    },
+    about: {
+      name: 'About',
+      icon: faInfo,
+    },
+  },
+  tools: {
+    overlay: {
+      name: 'Overlay',
+      icon: faWindowMaximize,
+    },
+    closedCaptions: {
+      name: 'Closed Captions',
+      icon: faHeadphones,
     },
   },
 }
@@ -302,6 +323,17 @@ export const DEFAULT_OPTIONS = {
       overlayName: 'Floating Top Captions',
       larivaarGurbani: false,
       larivaarAssist: false,
+      englishTranslation: true,
+      spanishTranslation: false,
+      punjabiTranslation: false,
+      englishTransliteration: false,
+      hindiTransliteration: false,
+      urduTransliteration: false,
+      lineEnding: true,
+    },
+    closedCaptions: {
+      zoomApiToken: null,
+      larivaarGurbani: false,
       englishTranslation: true,
       spanishTranslation: false,
       punjabiTranslation: false,

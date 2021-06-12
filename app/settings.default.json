@@ -23,6 +23,17 @@
     "englishTransliteration": false,
     "hindiTransliteration": false,
     "urduTransliteration": false,
-    "lineEnding":true
+    "lineEnding": true
+  },
+  "closedCaptions": {
+    "zoomApiToken": null,
+    "larivaarGurbani": false,
+    "englishTranslation": true,
+    "spanishTranslation": false,
+    "punjabiTranslation": false,
+    "englishTransliteration": false,
+    "hindiTransliteration": false,
+    "urduTransliteration": false,
+    "lineEnding": true
   }
 }

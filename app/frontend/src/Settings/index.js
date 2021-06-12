@@ -25,15 +25,15 @@ import {
 } from '@material-ui/core'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faWindowMaximize, faInfo } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 import {
   BACKEND_URL,
   SETTINGS_URL,
   SETTINGS_DEVICE_URL,
   SETTINGS_SERVER_URL,
-  SETTINGS_OVERLAY_URL,
   SETTINGS_ABOUT_URL,
+  SETTINGS_TOOLS_URL,
 } from '../lib/consts'
 import { OPTIONS, OPTION_GROUPS, FLAT_OPTION_GROUPS } from '../lib/options'
 import SHORTCUTS from '../lib/keyMap'
@@ -46,6 +46,7 @@ import Sources from './Sources'
 import About from './About'
 import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
+import ClosedCaptionSettings from './ClosedCaptionSettings'
 import DynamicOptions from './DynamicOptions'
 
 import './index.css'
@@ -107,6 +108,7 @@ const Settings = () => {
       [ null, OPTION_GROUPS.none, selectedDeviceSettings, SETTINGS_DEVICE_URL ],
       [ 'Activities', OPTION_GROUPS.activities, selectedDeviceSettings, SETTINGS_DEVICE_URL ],
       [ 'Server', OPTION_GROUPS.server, settings.global, SETTINGS_SERVER_URL ],
+      [ 'Tools', OPTION_GROUPS.tools, settings.global, SETTINGS_TOOLS_URL ],
     ]
 
     return (
@@ -130,13 +132,12 @@ const Settings = () => {
             ) )}
         </Select>
 
-        {menuItems.map( ( [ sectionName, settingsGroup, settings, url ] ) => (
+        {menuItems.map( ( [ sectionName, settingsGroup, , url ] ) => (
           <>
 
             {sectionName && <Typography key={sectionName} className="category-title">{sectionName}</Typography>}
 
-            {Object.keys( settings )
-              .filter( name => settingsGroup[ name ] )
+            {Object.keys( settingsGroup )
               .map( name => (
                 <Item
                   key={name}
@@ -148,11 +149,6 @@ const Settings = () => {
 
           </>
         ) ) }
-
-        <Item name="About" icon={faInfo} url={SETTINGS_ABOUT_URL} selected={group === 'about'} />
-
-        <Typography className="category-title">Tools</Typography>
-        <Item name="Overlay" icon={faWindowMaximize} url={SETTINGS_OVERLAY_URL} selected={group === 'overlay'} />
       </List>
     )
   }
@@ -222,7 +218,9 @@ const Settings = () => {
           <Route path={`${SETTINGS_SERVER_URL}/*`} render={() => <DynamicOptions device="global" group={group} />} />
 
           {/* Tool Routes */}
-          <Route path={SETTINGS_OVERLAY_URL} component={OverlaySettings} />
+          <Route path={`${SETTINGS_TOOLS_URL}/overlay`} component={OverlaySettings} />
+          <Route path={`${SETTINGS_TOOLS_URL}/closedCaptions`} component={ClosedCaptionSettings} />
+          <Route path={`${SETTINGS_TOOLS_URL}/*`} render={() => <DynamicOptions device="global" group={group} />} />
 
           <Redirect to={defaultUrl} />
         </Switch>

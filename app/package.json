@@ -42,9 +42,12 @@
     "helmet": "^3.21.1",
     "import-fresh": "^3.1.0",
     "lodash": "^4.17.20",
+    "memoizee": "^0.4.15",
+    "node-fetch": "^2.6.1",
     "open": "^7.0.0",
     "pacote": "^9.5.8",
     "pino": "^5.13.4",
+    "url-parse": "^1.5.1",
     "ws": "^7.1.2"
   },
   "devDependencies": {

@@ -4,9 +4,9 @@ import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
 
-import { LANGUAGES } from '../lib/consts'
+import { LANGUAGES } from '../lib/data'
 import { useTranslations, useCurrentLine, useCurrentLines } from '../lib/hooks'
-import { customiseLine, getTransliterators } from '../lib/utils'
+import { customiseLine, getTransliterators } from '../lib/line'
 import Line from './Line'
 
 import './Display.css'

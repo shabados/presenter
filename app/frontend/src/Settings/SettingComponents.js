@@ -3,12 +3,15 @@ import { string, func, any, arrayOf, number, bool } from 'prop-types'
 
 import classNames from 'classnames'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import {
   Switch,
   Select,
   MenuItem,
   Slider as MaterialSlider,
   Button as MaterialButton,
+  TextField,
 } from '@material-ui/core'
 
 import { OPTION_TYPES } from '../lib/options'
@@ -124,11 +127,70 @@ UrlDropdown.propTypes = {
   url: string.isRequired,
 }
 
+export const TextInput = ( { className, value, onChange, ...props } ) => {
+  const [ isChanged, setChanged ] = useState()
+  const [ isSaved, setSaved ] = useState()
+
+  const onFocus = event => {
+    event.target.select()
+  }
+
+  useEffect( () => {
+    const timer = setTimeout( () => {
+      setSaved( false )
+    }, 3000 )
+
+    return () => clearTimeout( timer )
+  }, [ isSaved ] )
+
+  const onBlur = ( ...params ) => {
+    onChange( ...params )
+
+    if ( isChanged ) {
+      setTimeout( () => {
+        setSaved( isChanged )
+      }, 500 )
+    }
+    setChanged( false )
+  }
+
+  return (
+    <div key={value} className={classNames( className, 'text-input' )}>
+      <TextField
+        className="text-field"
+        variant="outlined"
+        {...props}
+        onBlur={onBlur}
+        onChange={() => setChanged( true )}
+        onFocus={onFocus}
+        defaultValue={value}
+      />
+
+      <FontAwesomeIcon
+        className={classNames( 'status-icon', { saved: isSaved } )}
+        icon={faCheck}
+      />
+    </div>
+  )
+}
+
+TextInput.propTypes = {
+  className: string,
+  onChange: func,
+  value: string.isRequired,
+}
+
+TextInput.defaultProps = {
+  className: null,
+  onChange: () => {},
+}
+
 const typeComponents = {
   [ OPTION_TYPES.dropdown ]: GeneralSettingEvent( Dropdown ),
   [ OPTION_TYPES.toggle ]: GeneralSettingParam( Toggle ),
   [ OPTION_TYPES.slider ]: GeneralSettingParam( Slider ),
   [ OPTION_TYPES.urlDropdown ]: GeneralSettingEvent( UrlDropdown ),
+  [ OPTION_TYPES.textInput ]: GeneralSettingEvent( TextInput ),
 }
 
 export default type => typeComponents[ type ]

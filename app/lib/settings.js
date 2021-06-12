@@ -6,6 +6,7 @@
 import { EventEmitter } from 'events'
 import { readJSON, writeJSON, ensureFile } from 'fs-extra'
 import merge from 'deepmerge'
+import { get } from 'lodash'
 
 import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts'
 import logger from './logger'
@@ -72,7 +73,7 @@ class Settings extends EventEmitter {
    */
   get( path ) {
     return path
-      ? path.split( '.' ).reduce( ( settings, key ) => settings[ key ], this.settings )
+      ? get( this.settings, path )
       : this.settings
   }
 

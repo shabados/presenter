@@ -10,6 +10,7 @@ import logger from './logger'
 import settingsManager from './settings'
 import History from './History'
 import { getShabad, getBaniLines, getShabadByOrderId, getShabadRange } from './db'
+import zoom from './zoom'
 
 /**
  * Returns settings for the devices which do not have the private value set.
@@ -215,6 +216,10 @@ class SessionManager {
 
     // Update the latest lines
     this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
+
+    //! It would be nice to refactor this class into a generic event bus, integrations can
+    //! take place at a higher level, with sockets, zoom, and anything else.
+    zoom.sendLine( { ...this.session, line } )
   }
 
   /**

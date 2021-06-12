@@ -6,9 +6,9 @@ import Line from './Line'
 import ThemeLoader from './ThemeLoader'
 
 import { SettingsContext, StatusContext } from '../lib/contexts'
-import { LANGUAGES } from '../lib/consts'
+import { LANGUAGES } from '../lib/data'
 import { useTranslations, useCurrentLine } from '../lib/hooks'
-import { customiseLine, getTransliterators } from '../lib/utils'
+import { customiseLine, getTransliterators } from '../lib/line'
 
 import './index.css'
 

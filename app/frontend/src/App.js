@@ -76,7 +76,7 @@ class App extends PureComponent {
     // Get recommended sources and set as settings, if there are none
     fetch( `${BACKEND_URL}/sources` )
       .then( res => res.json() )
-      .then( ( { recommended: recommendedSources } ) => {
+      .then( ( { recommendedSources } ) => {
         //* Update default options and settings with fetched recommended sources
         DEFAULT_OPTIONS.local.sources = recommendedSources
         //! Re-load settings since we've modified DEFAULT_OPTIONS directly
