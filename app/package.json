@@ -38,7 +38,7 @@
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
     "get-value": "^3.0.1",
-    "gurmukhi-utils": "^3.2.0",
+    "gurmukhi-utils": "^3.2.1",
     "helmet": "^3.21.1",
     "import-fresh": "^3.1.0",
     "lodash": "^4.17.20",
