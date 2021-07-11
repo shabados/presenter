@@ -170,16 +170,12 @@ jobs:
 ## Workflow
 
 build-workflow: &build-workflow
-  requires:
-    - lint
   filters:
     branches:
       ignore:
         - master
 
 publish-workflow: &publish-workflow
-  requires:
-    - lint
   filters:
     branches:
       only:
