@@ -44,11 +44,12 @@ publish: &publish
 
 orbs:
   windows: circleci/windows@2.4.0
+  node: circleci/node@4.5.1
 
 jobs:
   lint:
     docker:
-      - image: node:12
+      - image: node:16
     working_directory: ~/shabad-os
     steps:
       - checkout
@@ -62,7 +63,7 @@ jobs:
   build-mac:
     <<: *build
     macos:
-      xcode: "11.2.0"
+      xcode: "13.0.0"
     environment:
       PLATFORM_FLAG: "m"
 
@@ -85,7 +86,7 @@ jobs:
 
   print-changelog:
     docker:
-      - image: node:12
+      - image: node:16
     working_directory: ~/shabad-os
     steps:
       - checkout
@@ -98,7 +99,7 @@ jobs:
 
   upload-changelog:
     docker:
-      - image: node:12
+      - image: node:16
     working_directory: ~/shabad-os
     steps:
       - checkout
@@ -125,7 +126,7 @@ jobs:
   publish-mac:
     <<: *publish
     macos:
-      xcode: "11.2.0"
+      xcode: "13.0.0"
     environment:
       PLATFORM_FLAG: "m"
 
@@ -190,11 +191,13 @@ workflows:
       - build-windows:
           <<: *build-workflow
           pre-steps:
-            - run: npm install --global --production windows-build-tools --vs2015
+            - run: nvm use 16
       - build-mac:
           <<: *build-workflow
           pre-steps:
             - run: sudo xcode-select -r
+            - node/install:
+                node-version: "16"
       - build-linux:
           <<: *build-workflow
       - print-changelog:
@@ -207,11 +210,13 @@ workflows:
       - publish-windows:
           <<: *publish-workflow
           pre-steps:
-            - run: npm install --global --production windows-build-tools --vs2015
+            - run: nvm use 16
       - publish-mac:
           <<: *publish-workflow
           pre-steps:
             - run: sudo xcode-select -r
+            - node/install:
+                node-version: "16"
       - publish-linux:
           <<: *publish-workflow
 
