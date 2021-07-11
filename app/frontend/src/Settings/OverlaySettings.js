@@ -37,7 +37,7 @@ const OverlaySettings = () => {
 
       <OptionGrid container align="center">
         <Grid item {...slotSizes.single} className="buttons">
-          <TutorialButton className="tutorial-button" href="https://docs.shabados.com/tutorials/overlay">
+          <TutorialButton className="tutorial-button" href="https://docs.shabados.com/presenter/guides/configuring-live-stream-captions">
             Learn More
           </TutorialButton>
         </Grid>
