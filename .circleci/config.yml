@@ -66,13 +66,14 @@ jobs:
       xcode: "13.0.0"
     environment:
       PLATFORM_FLAG: "m"
+      USE_HARD_LINKS: "false"
 
   build-linux:
     <<: *build
     docker:
       - image: electronuserland/builder
     environment:
-      USE_HARD_LINKS: false
+      USE_HARD_LINKS: "false"
       PLATFORM_FLAG: "l"
 
   build-windows:
@@ -81,7 +82,7 @@ jobs:
       name: windows/default
       shell: bash.exe
     environment:
-      USE_HARD_LINKS: false
+      USE_HARD_LINKS: "false"
       PLATFORM_FLAG: "w"
 
   print-changelog:
@@ -129,13 +130,14 @@ jobs:
       xcode: "13.0.0"
     environment:
       PLATFORM_FLAG: "m"
+      USE_HARD_LINKS: "false"
 
   publish-linux:
     <<: *publish
     docker:
       - image: electronuserland/builder
     environment:
-      USE_HARD_LINKS: false
+      USE_HARD_LINKS: "false"
       PLATFORM_FLAG: "l"
 
   publish-windows:
@@ -144,7 +146,7 @@ jobs:
       name: windows/default
       shell: bash.exe
     environment:
-      USE_HARD_LINKS: false
+      USE_HARD_LINKS: "false"
       PLATFORM_FLAG: "w"
 
   tag-sentry:
