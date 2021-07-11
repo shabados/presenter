@@ -43,7 +43,7 @@ publish: &publish
         destination: artifacts
 
 orbs:
-  windows: circleci/windows@2.1.0
+  windows: circleci/windows@2.4.0
 
 jobs:
   lint:
