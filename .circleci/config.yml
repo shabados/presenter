@@ -43,12 +43,13 @@ publish: &publish
         destination: artifacts
 
 orbs:
-  windows: circleci/windows@2.1.0
+  windows: circleci/windows@2.4.0
+  node: circleci/node@4.5.1
 
 jobs:
   lint:
     docker:
-      - image: node:12
+      - image: node:16
     working_directory: ~/shabad-os
     steps:
       - checkout
@@ -62,16 +63,17 @@ jobs:
   build-mac:
     <<: *build
     macos:
-      xcode: "11.2.0"
+      xcode: "13.0.0"
     environment:
       PLATFORM_FLAG: "m"
+      USE_HARD_LINKS: "false"
 
   build-linux:
     <<: *build
     docker:
       - image: electronuserland/builder
     environment:
-      USE_HARD_LINKS: false
+      USE_HARD_LINKS: "false"
       PLATFORM_FLAG: "l"
 
   build-windows:
@@ -80,12 +82,12 @@ jobs:
       name: windows/default
       shell: bash.exe
     environment:
-      USE_HARD_LINKS: false
+      USE_HARD_LINKS: "false"
       PLATFORM_FLAG: "w"
 
   print-changelog:
     docker:
-      - image: node:12
+      - image: node:16
     working_directory: ~/shabad-os
     steps:
       - checkout
@@ -98,7 +100,7 @@ jobs:
 
   upload-changelog:
     docker:
-      - image: node:12
+      - image: node:16
     working_directory: ~/shabad-os
     steps:
       - checkout
@@ -125,16 +127,17 @@ jobs:
   publish-mac:
     <<: *publish
     macos:
-      xcode: "11.2.0"
+      xcode: "13.0.0"
     environment:
       PLATFORM_FLAG: "m"
+      USE_HARD_LINKS: "false"
 
   publish-linux:
     <<: *publish
     docker:
       - image: electronuserland/builder
     environment:
-      USE_HARD_LINKS: false
+      USE_HARD_LINKS: "false"
       PLATFORM_FLAG: "l"
 
   publish-windows:
@@ -143,7 +146,7 @@ jobs:
       name: windows/default
       shell: bash.exe
     environment:
-      USE_HARD_LINKS: false
+      USE_HARD_LINKS: "false"
       PLATFORM_FLAG: "w"
 
   tag-sentry:
@@ -170,16 +173,12 @@ jobs:
 ## Workflow
 
 build-workflow: &build-workflow
-  requires:
-    - lint
   filters:
     branches:
       ignore:
         - master
 
 publish-workflow: &publish-workflow
-  requires:
-    - lint
   filters:
     branches:
       only:
@@ -194,11 +193,13 @@ workflows:
       - build-windows:
           <<: *build-workflow
           pre-steps:
-            - run: npm install --global --production windows-build-tools --vs2015
+            - run: nvm use 16
       - build-mac:
           <<: *build-workflow
           pre-steps:
             - run: sudo xcode-select -r
+            - node/install:
+                node-version: "16"
       - build-linux:
           <<: *build-workflow
       - print-changelog:
@@ -211,11 +212,13 @@ workflows:
       - publish-windows:
           <<: *publish-workflow
           pre-steps:
-            - run: npm install --global --production windows-build-tools --vs2015
+            - run: nvm use 16
       - publish-mac:
           <<: *publish-workflow
           pre-steps:
             - run: sudo xcode-select -r
+            - node/install:
+                node-version: "16"
       - publish-linux:
           <<: *publish-workflow
 
