@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "commander": "^4.0.1",
-    "electron": "^7.3.3",
+    "electron": "13.1.2",
     "electron-devtools-installer": "^2.2.4",
     "nodemon": "^1.19.3",
     "pino-pretty": "^3.2.1"
