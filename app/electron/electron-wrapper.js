@@ -5,6 +5,7 @@ import logger from '../lib/logger'
 import { isDev } from '../lib/consts'
 import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window'
 import { setBeta, initUpdates, checkUpdates, UPDATER_ERRORS } from './updates'
+import initMenu from './menu'
 import { version } from '../package.json'
 
 let splashScreen
@@ -37,7 +38,8 @@ const onSettingsChange = ( { system } ) => {
 const onServerReady = server => {
   // Set up the update loop
   initUpdates( server )
-
+  // Setup menu - fixes macos global hotkey issue
+  initMenu()
   // Create the main window
   createMainWindow()
   // Close splashscreen when the main window has been shown
