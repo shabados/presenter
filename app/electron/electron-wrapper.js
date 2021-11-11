@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 
+import * as remote from '@electron/remote/main'
 import logger from '../lib/logger'
 import { isDev } from '../lib/consts'
 import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window'
@@ -9,6 +10,8 @@ import initMenu from './menu'
 import { version } from '../package.json'
 
 let splashScreen
+
+remote.initialize()
 
 app.on( 'ready', () => {
   logger.info( 'Starting Electron Shell' )

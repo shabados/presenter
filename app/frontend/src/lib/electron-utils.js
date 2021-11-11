@@ -1,7 +1,7 @@
 import { isElectron } from './consts'
 
 // eslint-disable-next-line global-require, import/no-extraneous-dependencies
-const electron = () => window.require( 'electron' ).remote
+const electron = () => window.require( '@electron/remote' )
 
 export const toggleFullscreen = isElectron
   ? () => {
