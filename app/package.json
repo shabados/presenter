@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/shabados/presenter#readme",
   "dependencies": {
+    "@electron/remote": "^2.0.1",
     "@sentry/node": "^5.6.2",
     "@shabados/database": "^4.7.0",
     "appdata-path": "^1.0.0",

@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow, screen, Menu } from 'electron'
 import { omit } from 'lodash'
+import * as remote from '@electron/remote/main'
 
 import { PORT, isDev } from '../lib/consts'
 
@@ -18,9 +19,10 @@ const fullScreenOnShow = window => window.maximize()
 export const createWindow = ( url, windowParams, onBeforeShow = () => {} ) => {
   const window = new BrowserWindow( {
     show: false,
-    webPreferences: { nodeIntegration: true },
+    webPreferences: { nodeIntegration: true, contextIsolation: false },
     ...windowParams,
   } )
+  remote.enable( window.webContents )
   window.setMenuBarVisibility( isDev )
 
   window.loadURL( url )
