@@ -15,7 +15,8 @@
     "url": "git+https://github.com/shabados/presenter.git"
   },
   "engines": {
-    "node": ">= 12.0.0"
+    "node": ">= 16.0.0",
+    "npm": ">= 8"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0",
