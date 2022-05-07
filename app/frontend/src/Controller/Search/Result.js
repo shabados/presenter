@@ -1,10 +1,10 @@
-import React, { forwardRef, useContext } from 'react'
-import { string, number, shape, bool, func, arrayOf } from 'prop-types'
-import classNames from 'classnames'
 import { ListItem } from '@material-ui/core'
+import classNames from 'classnames'
+import { arrayOf, bool, func, number, shape, string } from 'prop-types'
+import { forwardRef, useContext } from 'react'
 
+import { RecommendedSourcesContext, SettingsContext, WritersContext } from '../../lib/contexts'
 import controller from '../../lib/controller'
-import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../../lib/contexts'
 import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '../../lib/data'
 import { customiseLine, getTranslation } from '../../lib/line'
 

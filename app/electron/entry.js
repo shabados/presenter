@@ -31,7 +31,7 @@ const loadServer = () => { require( '../server' ) }
 /**
  * Function to load the electron wrapper for frontend.
  */
-const loadElectron = server => { require( './electron-wrapper' )( server ) }
+const loadElectron = ( server ) => { require( './electron-wrapper' )( server ) }
 
 // Load either Electron shell or backend server depending on flag
 const [ , processFlag ] = argv
@@ -60,7 +60,7 @@ if ( processFlag === LAUNCH_FLAG ) {
   const ensureQuitApp = () => app.quit()
 
   process.on( 'SIGINT', ensureQuitApp )
-  process.on( 'uncaughtException', err => logger.error( err ) || ensureQuitApp() )
+  process.on( 'uncaughtException', ( err ) => logger.error( err ) || ensureQuitApp() )
   process.on( 'exit', ensureQuitApp )
 
   loadElectron( server )

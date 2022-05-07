@@ -1,15 +1,14 @@
-import React from 'react'
-import { hot } from 'react-hot-loader/root'
-import { shape, bool } from 'prop-types'
+import './Display.css'
+
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
+import { bool, shape } from 'prop-types'
+import { hot } from 'react-hot-loader/root'
 
 import { LANGUAGES } from '../lib/data'
-import { useTranslations, useCurrentLine, useCurrentLines } from '../lib/hooks'
+import { useCurrentLine, useCurrentLines, useTranslations } from '../lib/hooks'
 import { customiseLine, getTransliterators } from '../lib/line'
 import Line from './Line'
-
-import './Display.css'
 
 /**
  * Display Component.
@@ -50,7 +49,7 @@ const Display = ( { settings } ) => {
       display.punjabiTranslation && LANGUAGES.punjabi,
       display.spanishTranslation && LANGUAGES.spanish,
     ] ),
-    line => customiseLine( line, { lineEnding, typeId } ),
+    ( line ) => customiseLine( line, { lineEnding, typeId } ),
   )
 
   const transliterators = mapValues(
@@ -59,7 +58,7 @@ const Display = ( { settings } ) => {
       display.hindiTransliteration && LANGUAGES.hindi,
       display.urduTransliteration && LANGUAGES.urdu,
     ] ),
-    transliterate => text => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
+    ( transliterate ) => ( text ) => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
   )
 
   return (

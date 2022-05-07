@@ -1,16 +1,15 @@
-import { EventEmitter } from 'events'
-import { readJSON, remove, move } from 'fs-extra'
-import { join } from 'path'
-import { manifest, extract } from 'pacote'
-import importFresh from 'import-fresh'
 import { knex } from '@shabados/database'
+import { EventEmitter } from 'events'
+import { move, readJSON, remove } from 'fs-extra'
+import importFresh from 'import-fresh'
+import { extract, manifest } from 'pacote'
+import { join } from 'path'
 
 import { dependencies } from '../package.json'
-
+import { DATABASE_FOLDER, electronVersion } from './consts'
 import logger from './logger'
 import settings from './settings'
-import { DATABASE_FOLDER, electronVersion } from './consts'
-import { sendToElectron } from './utils.js'
+import { sendToElectron } from './utils'
 
 const databasePackage = `@shabados/database@${dependencies[ '@shabados/database' ]}`
 
@@ -32,8 +31,8 @@ class Updater extends EventEmitter {
   // Set up application update events via IPC
   initElectronUpdates() {
     const events = {
-      'update-available': info => this.emit( 'application-update', info ),
-      'update-downloaded': info => this.emit( 'application-updated', info ),
+      'update-available': ( info ) => this.emit( 'application-update', info ),
+      'update-downloaded': ( info ) => this.emit( 'application-updated', info ),
       'update-checked': () => this.emit( 'update-checked' ),
     }
 
@@ -44,7 +43,7 @@ class Updater extends EventEmitter {
    * Executes electron-autoupdater's checker via IPC to the electron shell.
    */
   static checkApplicationUpdates() {
-    return new Promise( resolve => {
+    return new Promise( ( resolve ) => {
       sendToElectron( 'update-check' )
 
       this.once( 'update-checked', () => {
@@ -127,7 +126,7 @@ class Updater extends EventEmitter {
 
     const fn = enabled ? updateFunction : () => Promise.resolve()
 
-    await fn().catch( error => logger.error( error ) )
+    await fn().catch( ( error ) => logger.error( error ) )
     setTimeout( () => this.updateLoop( updateFunction ), this.interval )
   }
 }

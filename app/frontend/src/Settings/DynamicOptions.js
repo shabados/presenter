@@ -1,13 +1,11 @@
-import React, { useContext } from 'react'
-import { string, shape, node, bool } from 'prop-types'
-
-import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Grid, Typography } from '@material-ui/core'
+import { bool, node, shape, string } from 'prop-types'
+import { useContext } from 'react'
 
-import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, FLAT_OPTION_GROUPS } from '../lib/options'
-import controller from '../lib/controller'
 import { SettingsContext } from '../lib/contexts'
-
+import controller from '../lib/controller'
+import { DEFAULT_OPTIONS, FLAT_OPTION_GROUPS, OPTIONS, PRIVACY_TYPES } from '../lib/options'
 import SettingComponentFactory, { Button } from './SettingComponents'
 
 export const slotSizes = {

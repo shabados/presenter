@@ -1,11 +1,9 @@
-import React from 'react'
-import { string, func } from 'prop-types'
+import './CopyButton.css'
 
 import { Button, Tooltip } from '@material-ui/core'
+import { func, string } from 'prop-types'
 
 import { useCopyToClipboard } from '../lib/hooks'
-
-import './CopyButton.css'
 
 const CopyButton = ( { copyText, onClick: originalOnClick, ...props } ) => {
   const copyToClipboard = useCopyToClipboard()

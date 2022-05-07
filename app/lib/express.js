@@ -3,12 +3,11 @@
  * @ignore
  */
 
-import http from 'http'
-
+import bodyParser from 'body-parser'
+import compression from 'compression'
 import express from 'express'
 import helmet from 'helmet'
-import compression from 'compression'
-import bodyParser from 'body-parser'
+import http from 'http'
 
 import logger from './logger'
 
@@ -29,7 +28,7 @@ export const setupExpress = ( mounts = [], middleware = [] ) => {
   const server = http.createServer( app )
 
   // Register middleware
-  allMiddleware.forEach( m => app.use( m ) )
+  allMiddleware.forEach( ( m ) => app.use( m ) )
   logger.info( 'Loaded all middleware' )
 
   // Serve any passed in directories

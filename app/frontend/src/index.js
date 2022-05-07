@@ -2,13 +2,11 @@
 import 'react-hot-loader'
 
 /* App entry point */
-import React from 'react'
 import ReactDOM from 'react-dom'
 
+import App from './App'
 import analytics from './lib/analytics'
 import controller from './lib/controller'
-
-import App from './App'
 
 // Setup analytics
 const { security: { displayAnalytics } = {} } = controller.readSettings()

@@ -1,8 +1,6 @@
-import React from 'react'
-import { string, func, shape } from 'prop-types'
-
-import IconButton from '@material-ui/core/IconButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import IconButton from '@material-ui/core/IconButton'
+import { func, shape, string } from 'prop-types'
 
 /**
  * Renders an individual icon button, setting the state with the name on hover and click.

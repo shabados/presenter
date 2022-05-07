@@ -1,14 +1,13 @@
-import React, { useContext } from 'react'
-import { node } from 'prop-types'
-import { toUnicode, stripVishraams } from 'gurmukhi-utils'
+import { stripVishraams, toUnicode } from 'gurmukhi-utils'
 import { mapValues } from 'lodash'
+import { node } from 'prop-types'
+import { useContext } from 'react'
 
-import { SettingsContext, ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
-import { customiseLine, getTransliterators } from '../lib/line'
-import { COPY_SHORTCUTS } from '../lib/keyMap'
-import { useCopyToClipboard, useCurrentLine, useTranslations, useCurrentLines } from '../lib/hooks'
+import { ContentContext, RecommendedSourcesContext, SettingsContext, WritersContext } from '../lib/contexts'
 import { LANGUAGES, SOURCE_ABBREVIATIONS } from '../lib/data'
-
+import { useCopyToClipboard, useCurrentLine, useCurrentLines, useTranslations } from '../lib/hooks'
+import { COPY_SHORTCUTS } from '../lib/keyMap'
+import { customiseLine, getTransliterators } from '../lib/line'
 import GlobalHotKeys from './GlobalHotKeys'
 
 const CopyHotkeys = ( { children } ) => {
@@ -29,7 +28,7 @@ const CopyHotkeys = ( { children } ) => {
       LANGUAGES.punjabi,
       LANGUAGES.spanish,
     ] ),
-    line => customiseLine( line, { lineEnding, typeId } ),
+    ( line ) => customiseLine( line, { lineEnding, typeId } ),
   )
 
   // Get all transliterators
@@ -39,7 +38,9 @@ const CopyHotkeys = ( { children } ) => {
       LANGUAGES.hindi,
       LANGUAGES.urdu,
     ] ),
-    transliterate => () => transliterate( customiseLine( line.gurmukhi, { lineEnding, typeId } ) ),
+    ( transliterate ) => () => transliterate(
+      customiseLine( line.gurmukhi, { lineEnding, typeId } ),
+    ),
   )
 
   const getAuthor = () => {

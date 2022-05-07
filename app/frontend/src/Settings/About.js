@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { number } from 'prop-types'
-
 import {
-  List,
-  ListItem,
   CircularProgress,
   Grid,
+  List,
+  ListItem,
   Typography,
 } from '@material-ui/core'
+import { number } from 'prop-types'
+import { useEffect, useState } from 'react'
 
-import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
+import { BACKEND_PORT, BACKEND_URL, isElectron } from '../lib/consts'
 import controller from '../lib/controller'
-
 import CopyButton from './CopyButton'
 import { Button } from './SettingComponents'
 
@@ -30,7 +28,7 @@ const About = ( { connected } ) => {
 
   useEffect( () => {
     fetch( `${BACKEND_URL}/about` )
-      .then( res => res.json() )
+      .then( ( res ) => res.json() )
       .then( setAbout )
   }, [] )
 

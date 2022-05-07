@@ -1,11 +1,10 @@
-import React, { Component, useState, useEffect } from 'react'
-import { string, bool } from 'prop-types'
+import './ErrorFallback.css'
 
-import { Typography, Button, Grid } from '@material-ui/core'
+import { Button, Grid, Typography } from '@material-ui/core'
+import { bool, string } from 'prop-types'
+import { Component, useEffect, useState } from 'react'
 
 import controller from '../lib/controller'
-
-import './ErrorFallback.css'
 
 const RELOAD_COUNTDOWN = 10 // 10 second countdown before automatic reload
 
@@ -84,7 +83,7 @@ ErrorFallback.defaultProps = {
 
 export default ErrorFallback
 
-export const withErrorFallback = Comp => class WithErrorFallback extends Component {
+export const withErrorFallback = ( Comp ) => class WithErrorFallback extends Component {
   state = { error: null }
 
   static getDerivedStateFromError( error ) {

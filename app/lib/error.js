@@ -1,5 +1,5 @@
-import logger from './logger'
 import analytics from './analytics'
+import logger from './logger'
 import { sendToElectron } from './utils'
 
 const portOccupied = () => {
@@ -14,7 +14,7 @@ const knownErrors = {
 }
 
 // Handle any errors by logging and sending it to Sentry
-export const handleError = ( exitIfUnknown = true ) => async error => {
+export const handleError = ( exitIfUnknown = true ) => async ( error ) => {
   // If error is known, handle it differently
   const knownError = knownErrors[ error.code ]
   if ( knownError ) {

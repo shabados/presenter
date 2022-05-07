@@ -1,24 +1,22 @@
-import React, { useState, useEffect } from 'react'
-
-import { Grid, Typography } from '@material-ui/core'
-import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
-
-import { BACKEND_URL, OVERLAY_PORT, isElectron } from '../lib/consts'
-import controller from '../lib/controller'
-
-import CopyButton from './CopyButton'
-import TutorialButton from './TutorialButton'
-import DynamicOptions, { slotSizes, IconSlot, OptionGrid } from './DynamicOptions'
-import { Button } from './SettingComponents'
-
 import './OverlaySettings.css'
+
+import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
+import { Grid, Typography } from '@material-ui/core'
+import { useEffect, useState } from 'react'
+
+import { BACKEND_URL, isElectron, OVERLAY_PORT } from '../lib/consts'
+import controller from '../lib/controller'
+import CopyButton from './CopyButton'
+import DynamicOptions, { IconSlot, OptionGrid, slotSizes } from './DynamicOptions'
+import { Button } from './SettingComponents'
+import TutorialButton from './TutorialButton'
 
 const OverlaySettings = () => {
   const [ addresses, setAddresses ] = useState( [] )
 
   useEffect( () => {
     fetch( `${BACKEND_URL}/about` )
-      .then( res => res.json() )
+      .then( ( res ) => res.json() )
       .then( ( { addresses } ) => setAddresses( addresses ) )
   }, [] )
 

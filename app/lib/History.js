@@ -1,12 +1,12 @@
-import { createWriteStream } from 'fs'
 import * as CSV from 'csv-string'
+import { createWriteStream } from 'fs'
 import { omit } from 'lodash'
 
 import { HISTORY_FILE } from './consts'
 
 // Fields to store in the history CSV file
 const CSV_FIELDS = [
-  [ 'timestamp', t => t.toISOString() ],
+  [ 'timestamp', ( t ) => t.toISOString() ],
   [ 'line.gurmukhi' ],
   [ 'line.translation' ],
   [ 'line.transliteration' ],
@@ -35,10 +35,10 @@ class History {
     this.fields = fields.map( ( [ field, transform ] ) => [ field.split( '.' ), transform ] )
 
     // Write headers the first time this is called
-    this.append = data => {
+    this.append = ( data ) => {
       this.writeStream = createWriteStream( HISTORY_FILE, { encoding: 'utf8' } )
       // Re-bind function
-      this.append = data => this.appendLine( this.pluckFields( data ) )
+      this.append = ( data ) => this.appendLine( this.pluckFields( data ) )
 
       // Append header separately
       this.appendLine( fields.map( ( [ field ] ) => field ) )
@@ -142,7 +142,7 @@ class History {
    * @returns {Array} A list of filtered data rows.
    */
   pluckFields( data ) {
-    return this.fields.reduce( ( final, [ field, transform = x => x ] ) => [
+    return this.fields.reduce( ( final, [ field, transform = ( x ) => x ] ) => [
       ...final,
       field.reduce( ( curr, field ) => ( curr ? transform( curr[ field ] ) : curr ), data ),
     ], [] )

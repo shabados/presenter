@@ -1,8 +1,8 @@
-import React, { createContext } from 'react'
+import { createContext } from 'react'
 
-export const withContext = Context => Component => props => (
+export const withContext = ( Context ) => ( Component ) => ( props ) => (
   <Context.Consumer>
-    {context => <Component {...context} {...props} />}
+    {( context ) => <Component {...context} {...props} />}
   </Context.Consumer>
 )
 

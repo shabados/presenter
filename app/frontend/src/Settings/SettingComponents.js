@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { string, func, any, arrayOf, number, bool } from 'prop-types'
+import './SettingComponents.css'
 
-import classNames from 'classnames'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  Switch,
-  Select,
-  MenuItem,
-  Slider as MaterialSlider,
   Button as MaterialButton,
+  MenuItem,
+  Select,
+  Slider as MaterialSlider,
+  Switch,
   TextField,
 } from '@material-ui/core'
+import classNames from 'classnames'
+import { any, arrayOf, bool, func, number, string } from 'prop-types'
+import { useEffect, useState } from 'react'
 
 import { OPTION_TYPES } from '../lib/options'
-
-import './SettingComponents.css'
 
 const generalPropTypes = {
   option: string.isRequired,
@@ -27,7 +25,7 @@ const generalDefaultProps = {
   onChange: () => {},
 }
 
-const GeneralSettingEvent = Component => {
+const GeneralSettingEvent = ( Component ) => {
   const HOC = ( { option, onChange, ...props } ) => (
     <Component {...props} onChange={( { target: { value } } ) => onChange( option, value )} />
   )
@@ -38,7 +36,7 @@ const GeneralSettingEvent = Component => {
   return HOC
 }
 
-const GeneralSettingParam = Component => {
+const GeneralSettingParam = ( Component ) => {
   const HOC = ( { option, onChange, ...props } ) => (
     <Component {...props} onChange={( _, value ) => onChange( option, value )} />
   )
@@ -77,7 +75,9 @@ export const Dropdown = ( { value, values, onChange, ...props } ) => (
 )
 
 Dropdown.propTypes = {
-  value: any.isRequired, // eslint-disable-line react/forbid-prop-types
+  // eslint-disable-next-line react/forbid-prop-types
+  value: any.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   values: arrayOf( any ).isRequired,
   onChange: func,
 }
@@ -108,8 +108,8 @@ export const UrlDropdown = ( { url, ...props } ) => {
 
   useEffect( () => {
     fetch( url )
-      .then( res => res.json() )
-      .then( values => values.map( value => ( { name: value, value } ) ) )
+      .then( ( res ) => res.json() )
+      .then( ( values ) => values.map( ( value ) => ( { name: value, value } ) ) )
       .then( setValues )
   }, [ setValues, isOpen, url ] )
 
@@ -131,7 +131,7 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
   const [ isChanged, setChanged ] = useState()
   const [ isSaved, setSaved ] = useState()
 
-  const onFocus = event => {
+  const onFocus = ( event ) => {
     event.target.select()
   }
 
@@ -193,4 +193,4 @@ const typeComponents = {
   [ OPTION_TYPES.textInput ]: GeneralSettingEvent( TextInput ),
 }
 
-export default type => typeComponents[ type ]
+export default ( type ) => typeComponents[ type ]

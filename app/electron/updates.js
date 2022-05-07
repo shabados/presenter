@@ -7,13 +7,13 @@ import logger from '../lib/logger'
 let updateChannelSet = false
 let installOnQuit = false
 
-export const initUpdates = server => {
+export const initUpdates = ( server ) => {
   autoUpdater.logger = logger
   autoUpdater.autoInstallOnAppQuit = false
 
-  autoUpdater.on( 'update-available', info => server.send( { event: 'update-available', payload: info } ) )
+  autoUpdater.on( 'update-available', ( info ) => server.send( { event: 'update-available', payload: info } ) )
 
-  autoUpdater.on( 'update-downloaded', info => {
+  autoUpdater.on( 'update-downloaded', ( info ) => {
     server.send( { event: 'update-downloaded', payload: info } )
 
     // Do not register the will-quit event handler more than once
@@ -26,7 +26,7 @@ export const initUpdates = server => {
   } )
 }
 
-export const checkUpdates = async server => {
+export const checkUpdates = async ( server ) => {
   // Wait until the channel has been configured
   if ( !updateChannelSet ) {
     setTimeout( () => checkUpdates( server ), 1000 )
@@ -35,12 +35,12 @@ export const checkUpdates = async server => {
 
   logger.info( 'Checking for app updates, beta:', autoUpdater.allowPrerelease )
 
-  await autoUpdater.checkForUpdates().catch( error => logger.error( 'Failed to check for update:', error ) )
+  await autoUpdater.checkForUpdates().catch( ( error ) => logger.error( 'Failed to check for update:', error ) )
 
   server.send( { event: 'update-checked' } )
 }
 
-export const setBeta = beta => {
+export const setBeta = ( beta ) => {
   autoUpdater.allowPrerelease = beta
   updateChannelSet = true
 }

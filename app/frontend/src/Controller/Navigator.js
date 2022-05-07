@@ -1,41 +1,37 @@
 /* eslint-disable react/no-multi-comp */
 
-import React, { useState, useEffect, useMemo, useContext, useCallback } from 'react'
-import { Redirect, useLocation } from 'react-router-dom'
-import { string, func, bool } from 'prop-types'
-import classNames from 'classnames'
-import { invert } from 'lodash'
-import { stripVishraams } from 'gurmukhi-utils'
+import './Navigator.css'
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faChevronUp,
-  faChevronDown,
   faAngleDoubleLeft,
   faAngleDoubleRight,
-  faExchangeAlt,
   faCheck,
+  faChevronDown,
+  faChevronUp,
+  faExchangeAlt,
 } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import classNames from 'classnames'
+import { stripVishraams } from 'gurmukhi-utils'
+import { invert } from 'lodash'
+import { bool, func, string } from 'prop-types'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { Redirect, useLocation } from 'react-router-dom'
 
-import { SEARCH_URL } from '../lib/consts'
-import controller from '../lib/controller'
-import { LINE_HOTKEYS } from '../lib/keyMap'
-import { ContentContext, HistoryContext } from '../lib/contexts'
-import { useCurrentLines } from '../lib/hooks'
 import { getJumpLines, getNextJumpLine } from '../lib/auto-jump'
+import { SEARCH_URL } from '../lib/consts'
+import { ContentContext, HistoryContext } from '../lib/contexts'
+import controller from '../lib/controller'
+import { useCurrentLines } from '../lib/hooks'
+import { LINE_HOTKEYS } from '../lib/keyMap'
 import { findLineIndex } from '../lib/line'
-
 import GlobalHotKeys from '../shared/GlobalHotKeys'
 import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 import NavigatorHotKeys from '../shared/NavigatorHotkeys'
-
-import ToolbarButton from './ToolbarButton'
 import ShabadInfo from './ShabadInfo'
-
-import './Navigator.css'
+import ToolbarButton from './ToolbarButton'
 
 /**
 * Line component that attaches click handlers.
@@ -57,7 +53,7 @@ const NavigatorLine = ( {
   const onClick = () => controller.line( id )
 
   // Register the reference to the line with the NavigationHotKey HOC
-  const registerLine = line => register( id, line, true )
+  const registerLine = ( line ) => register( id, line, true )
 
   return (
     <ListItem
@@ -120,7 +116,7 @@ const Navigator = ( { updateFocus, register, focused } ) => {
   // Set the focus to the active line when it changes
   useEffect( () => { updateFocus( lineId, false ) }, [ lineId, updateFocus ] )
 
-  const goToIndex = useCallback( index => {
+  const goToIndex = useCallback( ( index ) => {
     const jumpLines = getJumpLines( { shabad, bani } )
     updateFocus( jumpLines[ index ] )
   }, [ updateFocus, shabad, bani ] )
@@ -146,8 +142,8 @@ const Navigator = ( { updateFocus, register, focused } ) => {
 
   return (
     <GlobalHotKeys keyMap={numberKeyMap} handlers={hotKeyHandlers}>
-      <List className="navigator" onKeyDown={e => e.preventDefault()}>
-        {lines.map( line => (
+      <List className="navigator" onKeyDown={( e ) => e.preventDefault()}>
+        {lines.map( ( line ) => (
           <NavigatorLine
             key={line.id}
             {...line}
@@ -186,7 +182,7 @@ const NavigatorNavigationHotkeys = withNavigationHotkeys( {
 } )( Navigator )
 
 // Wrap NavigationHotkeys first so that it takes precedence
-const NavigatorWithAllHotKeys = props => (
+const NavigatorWithAllHotKeys = ( props ) => (
   <NavigatorHotKeys {...props} active>
     <NavigatorNavigationHotkeys {...props} />
   </NavigatorHotKeys>

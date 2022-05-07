@@ -3,10 +3,10 @@
  * @ignore
  */
 
-import pino from 'pino'
 import { createWriteStream } from 'fs-extra'
-import { PassThrough } from 'stream'
+import pino from 'pino'
 import { stdout } from 'process'
+import { PassThrough } from 'stream'
 
 import { electronVersion, isDev, LOG_FILE, LOG_FOLDER } from './consts'
 import { ensureRequiredDir } from './utils'

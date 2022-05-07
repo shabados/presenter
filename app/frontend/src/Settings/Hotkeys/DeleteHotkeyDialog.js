@@ -1,8 +1,7 @@
-import React from 'react'
-import { bool, func, string } from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
-
 import './HotkeyDialog.css'
+
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@material-ui/core'
+import { bool, func, string } from 'prop-types'
 
 const DeleteHotkeyDialog = ( { open, keyName, name, onClose } ) => (
   <Dialog className="hotkey-dialog" open={open} onClose={() => onClose( false )}>

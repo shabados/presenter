@@ -1,8 +1,8 @@
 /**
  *! Shared with backend. To be refactored into shared location.
  */
-import { invert } from 'lodash'
 import { toEnglish, toHindi, toShahmukhi, toUnicode } from 'gurmukhi-utils'
+import { invert } from 'lodash'
 
 // Bani IDs
 export const BANIS = {
@@ -28,7 +28,7 @@ export const TRANSLITERATORS = Object.entries( {
   [ LANGUAGES.urdu ]: toShahmukhi,
 } ).reduce( ( transliterators, [ language, fn ] ) => ( {
   ...transliterators,
-  [ language ]: ascii => fn( toUnicode( ascii ) ),
+  [ language ]: ( ascii ) => fn( toUnicode( ascii ) ),
 } ), {} )
 
 // The order of translations

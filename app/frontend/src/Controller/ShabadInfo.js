@@ -1,21 +1,21 @@
-import React, { useContext, useState, useRef } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import { Typography, Popover, IconButton, Button, Tooltip } from '@material-ui/core'
-import { toUnicode, stripVishraams } from 'gurmukhi-utils'
-
-import { ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
-import { useCurrentLine, useCurrentLines, useCopyToClipboard } from '../lib/hooks'
-import controller from '../lib/controller'
-
 import './ShabadInfo.css'
+
+import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Button, IconButton, Popover, Tooltip, Typography } from '@material-ui/core'
+import { stripVishraams, toUnicode } from 'gurmukhi-utils'
+import { useContext, useRef, useState } from 'react'
+
+import { ContentContext, RecommendedSourcesContext, WritersContext } from '../lib/contexts'
+import controller from '../lib/controller'
+import { useCopyToClipboard, useCurrentLine, useCurrentLines } from '../lib/hooks'
 
 const popoverDisplay = {
   transformOrigin: { vertical: 'bottom', horizontal: 'center' },
   anchorOrigin: { vertical: 'top', horizontal: 'center' },
 }
 
-const getDbViewerUrl = lineId => `https://viewer.shabados.com/line/${lineId}`
+const getDbViewerUrl = ( lineId ) => `https://viewer.shabados.com/line/${lineId}`
 
 const ShabadInfo = () => {
   const iconButtonRef = useRef()

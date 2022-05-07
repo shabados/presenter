@@ -4,7 +4,7 @@
  * Adds a group to a given keymap.
  * @param {*} keymap The keymap to decorate.
  */
-const decorateGroup = keymap => group => Object
+const decorateGroup = ( keymap ) => ( group ) => Object
   .entries( keymap )
   .reduce( ( obj, [ name, content ] ) => ( {
     ...obj,

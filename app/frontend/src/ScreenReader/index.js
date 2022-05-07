@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import './index.css'
+
+import { useContext } from 'react'
 import { hot } from 'react-hot-loader/root'
 
 import { ContentContext } from '../lib/contexts'
-
-import './index.css'
 
 const ScreenReader = () => {
   const { shabad, bani } = useContext( ContentContext )

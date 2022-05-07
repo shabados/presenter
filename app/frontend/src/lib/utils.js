@@ -3,13 +3,13 @@
  * @ignore
  */
 
+import deepmerge from 'deepmerge'
+import { debounce } from 'lodash'
+import queryString from 'qs'
 import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
-import deepmerge from 'deepmerge'
-import queryString from 'qs'
-import { debounce } from 'lodash'
 
-import { STATES, isMac } from './consts'
+import { isMac, STATES } from './consts'
 
 /**
  * Merges the source object into the destination, replacing arrays.
@@ -38,7 +38,7 @@ export const scrollIntoCenter = ( ref, options ) => scrollIntoView( findDOMNode(
  * @param search The search component of the window location.
  * @returns {Object} Key-value pairs of the state and values.
  */
-export const getUrlState = search => {
+export const getUrlState = ( search ) => {
   const params = queryString.parse( search, { ignoreQueryPrefix: true } )
 
   return Object
@@ -49,15 +49,15 @@ export const getUrlState = search => {
     } : acc ), {} )
 }
 
-export const debounceHotKey = fn => debounce( fn, 300, { leading: true } )
+export const debounceHotKey = ( fn ) => debounce( fn, 300, { leading: true } )
 
-export const mapPlatformKey = key => ( isMac ? key.replace( 'ctrl', 'cmd' ) : key )
+export const mapPlatformKey = ( key ) => ( isMac ? key.replace( 'ctrl', 'cmd' ) : key )
 
 /**
  * Maps ctrl to cmd in keyMap if on Mac.
  * @param {*} keyMap An object of all the keys and mapped values.
  */
-export const mapPlatformKeys = keyMap => ( isMac
+export const mapPlatformKeys = ( keyMap ) => ( isMac
   ? Object.entries( keyMap ).reduce( ( keyMap, [ name, sequences ] ) => ( {
     ...keyMap,
     [ name ]: sequences ? sequences.map( mapPlatformKey ) : null,

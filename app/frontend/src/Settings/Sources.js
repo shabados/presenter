@@ -1,25 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { shape, objectOf, string, number } from 'prop-types'
+import './Sources.css'
 
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  Typography,
   Grid,
+  Typography,
 } from '@material-ui/core'
+import { number, objectOf, shape, string } from 'prop-types'
+import { useEffect, useState } from 'react'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
-
-import Loader from '../shared/Loader'
 import { BACKEND_URL } from '../lib/consts'
 import controller from '../lib/controller'
-
+import Loader from '../shared/Loader'
 import { ResetButton } from './DynamicOptions'
 import { Dropdown as Select } from './SettingComponents'
-
-import './Sources.css'
 
 /**
  * View to configure source content, such as translations.
@@ -29,11 +26,11 @@ const Sources = ( { sources: currentSources, device } ) => {
   const [ { sources, recommended }, setSources ] = useState( {} )
 
   useEffect( () => {
-    fetch( `${BACKEND_URL}/languages` ).then( res => res.json() ).then( ( { languages } ) => setLanguages( languages ) )
+    fetch( `${BACKEND_URL}/languages` ).then( ( res ) => res.json() ).then( ( { languages } ) => setLanguages( languages ) )
   }, [] )
 
   useEffect( () => {
-    fetch( `${BACKEND_URL}/sources` ).then( res => res.json() ).then( setSources )
+    fetch( `${BACKEND_URL}/sources` ).then( ( res ) => res.json() ).then( setSources )
   }, [] )
 
   if ( !sources || !languages ) return <Loader />

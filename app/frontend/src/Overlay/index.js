@@ -1,16 +1,15 @@
-import React, { useContext } from 'react'
+import './index.css'
+
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
-
-import Line from './Line'
-import ThemeLoader from './ThemeLoader'
+import { useContext } from 'react'
 
 import { SettingsContext, StatusContext } from '../lib/contexts'
 import { LANGUAGES } from '../lib/data'
-import { useTranslations, useCurrentLine } from '../lib/hooks'
+import { useCurrentLine, useTranslations } from '../lib/hooks'
 import { customiseLine, getTransliterators } from '../lib/line'
-
-import './index.css'
+import Line from './Line'
+import ThemeLoader from './ThemeLoader'
 
 const Overlay = () => {
   const settings = useContext( SettingsContext )
@@ -29,7 +28,7 @@ const Overlay = () => {
       overlay.punjabiTranslation && LANGUAGES.punjabi,
       overlay.spanishTranslation && LANGUAGES.spanish,
     ] ),
-    line => customiseLine( line, { lineEnding, typeId } ),
+    ( line ) => customiseLine( line, { lineEnding, typeId } ),
   )
 
   const transliterators = mapValues(
@@ -38,7 +37,7 @@ const Overlay = () => {
       overlay.hindiTransliteration && LANGUAGES.hindi,
       overlay.urduTransliteration && LANGUAGES.urdu,
     ] ),
-    transliterate => text => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
+    ( transliterate ) => ( text ) => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
   )
 
   return connected && (

@@ -1,40 +1,39 @@
-import { join } from 'path'
 import cors from 'cors'
 import open from 'open'
+import { join } from 'path'
 
 import analytics from './lib/analytics'
-import { setupExpress } from './lib/express'
 import api from './lib/api'
-import SessionManager from './lib/SessionManager'
-import Socket from './lib/Sockets'
-import { firstLetterSearch, fullWordSearch, getBanis } from './lib/db'
-import Updater from './lib/Updater'
-import settings from './lib/settings'
-import logger from './lib/logger'
-import { handleError } from './lib/error'
 import {
-  PORT,
-  CUSTOM_THEMES_FOLDER,
   CUSTOM_OVERLAY_THEMES_FOLDER,
-  HISTORY_FILE,
-  UPDATE_TMP_FOLDER,
-  UPDATE_CHECK_INTERVAL,
+  CUSTOM_THEMES_FOLDER,
   FRONTEND_BUILD_FOLDER,
-  FRONTEND_THEMES_FOLDER,
   FRONTEND_OVERLAY_THEMES_FOLDER,
+  FRONTEND_THEMES_FOLDER,
+  HISTORY_FILE,
   isDev,
   LOG_FOLDER,
+  PORT,
+  UPDATE_CHECK_INTERVAL,
+  UPDATE_TMP_FOLDER,
 } from './lib/consts'
-import { ensureRequiredDirs, copyExampleThemes, sendToElectron } from './lib/utils'
+import { firstLetterSearch, fullWordSearch, getBanis } from './lib/db'
+import { handleError } from './lib/error'
+import { setupExpress } from './lib/express'
+import logger from './lib/logger'
+import SessionManager from './lib/SessionManager'
+import settings from './lib/settings'
+import Socket from './lib/Sockets'
+import Updater from './lib/Updater'
+import { copyExampleThemes, ensureRequiredDirs, sendToElectron } from './lib/utils'
 import zoom from './lib/zoom'
-
 import { version } from './package.json'
 
 // Action handlers
 const actions = [
   [ 'open-overlay-folder', () => open( CUSTOM_OVERLAY_THEMES_FOLDER ) ],
-  [ 'open-external-url', url => open( url ) ],
-  [ 'open-window', payload => sendToElectron( 'open-window', payload ) ],
+  [ 'open-external-url', ( url ) => open( url ) ],
+  [ 'open-window', ( payload ) => sendToElectron( 'open-window', payload ) ],
   [ 'open-logs-folder', () => open( LOG_FOLDER ) ],
 ]
 
@@ -48,7 +47,7 @@ const searches = [
  * Sets up updates.
  * @param {SessionManager} sessionManager An instance of sessionManager.
  */
-const initialiseUpdater = sessionManager => {
+const initialiseUpdater = ( sessionManager ) => {
   const updater = new Updater( {
     tempFolder: UPDATE_TMP_FOLDER,
     interval: UPDATE_CHECK_INTERVAL,
@@ -121,7 +120,7 @@ async function main() {
   )
 
   // Register Bani list requests on socket connection
-  socket.on( 'connection', async client => client.sendJSON( 'banis:list', await getBanis() ) )
+  socket.on( 'connection', async ( client ) => client.sendJSON( 'banis:list', await getBanis() ) )
 
   // Start the server
   server.listen( PORT, () => {
@@ -130,7 +129,7 @@ async function main() {
   } )
 
   // When settings change, notify Electron
-  settings.on( 'change', settings => sendToElectron( 'settings', settings ) )
+  settings.on( 'change', ( settings ) => sendToElectron( 'settings', settings ) )
 
   // Check for updates every 5 minutes, in production only
   if ( !isDev ) initialiseUpdater( sessionManager )

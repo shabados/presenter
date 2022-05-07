@@ -6,7 +6,7 @@
 /* eslint-disable class-methods-use-this */
 import * as Sentry from '@sentry/browser'
 
-import { SENTRY_DSN, isDev, SENTRY_PROJECT, BACKEND_URL } from './consts'
+import { BACKEND_URL, isDev, SENTRY_DSN, SENTRY_PROJECT } from './consts'
 
 /**
  * Analytics class for tracking events and providing error reporting.
@@ -30,7 +30,7 @@ class Analytics {
     console.log( 'Enabling Sentry error reporting' )
 
     // Set the sentry release
-    const { version } = await fetch( `${BACKEND_URL}/about` ).then( res => res.json() )
+    const { version } = await fetch( `${BACKEND_URL}/about` ).then( ( res ) => res.json() )
     const release = `${SENTRY_PROJECT}@${version}`
     console.log( `Using sentry release ${release}` )
 
@@ -38,7 +38,7 @@ class Analytics {
   }
 
   updateSettings( settings ) {
-    Sentry.configureScope( scope => {
+    Sentry.configureScope( ( scope ) => {
       scope.setExtra( 'settings', settings )
     } )
   }

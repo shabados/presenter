@@ -4,11 +4,10 @@
  */
 
 import EventEmitter from 'events'
-
 import WebSocket from 'ws'
 
-import { getHost } from './utils'
 import logger from './logger'
+import { getHost } from './utils'
 
 /**
  * Wrapper for WebSockets with convenience methods.
@@ -55,7 +54,7 @@ class Socket extends EventEmitter {
       socket.on( 'pong', () => socket.isAlive = true )
 
       // Parse the JSON sent, before emitting it
-      socket.on( 'message', data => {
+      socket.on( 'message', ( data ) => {
         const { event, payload } = JSON.parse( data )
         this.emit( event, socket, payload )
       } )
@@ -74,7 +73,11 @@ class Socket extends EventEmitter {
    * @param {WebSocket[]} excludedClients The clients to exclude from the transmission.
    */
   broadcast( event, payload, excludedClients = [] ) {
-    this.forEach( client => client.sendJSON && client.sendJSON( event, payload ), excludedClients )
+    this.forEach( ( client ) => {
+      if ( !client.sendJSON ) return
+
+      client.sendJSON( event, payload )
+    }, excludedClients )
   }
 
   /**
@@ -92,7 +95,7 @@ class Socket extends EventEmitter {
   * @param {WebSocket[]} excludedClients Any excluded clients.
   */
   forEach( fn, excludedClients = [] ) {
-    this.getClients().forEach( client => {
+    this.getClients().forEach( ( client ) => {
       if ( !client.sendJSON ) return
 
       // Only include non-excluded clients and open connections
@@ -106,7 +109,7 @@ class Socket extends EventEmitter {
    * Terminates any broken connections, by checking if they responded to the heartbeat.
    */
   closeBrokenConnections() {
-    this.getClients().forEach( socket => {
+    this.getClients().forEach( ( socket ) => {
       // Terminate any dead sockets
       if ( !socket.isAlive ) {
         socket.terminate()

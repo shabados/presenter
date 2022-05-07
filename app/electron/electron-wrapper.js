@@ -1,13 +1,13 @@
+import * as remote from '@electron/remote/main'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 
-import * as remote from '@electron/remote/main'
-import logger from '../lib/logger'
 import { isDev } from '../lib/consts'
-import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window'
-import { setBeta, initUpdates, checkUpdates, UPDATER_ERRORS } from './updates'
-import initMenu from './menu'
+import logger from '../lib/logger'
 import { version } from '../package.json'
+import initMenu from './menu'
+import { checkUpdates, initUpdates, setBeta, UPDATER_ERRORS } from './updates'
+import { closeNonMainWindows, createMainWindow, createNonMainWindows, createSplashScreen, createWindow, getDisplayWindows, getMainWindow } from './window'
 
 let splashScreen
 
@@ -26,7 +26,7 @@ app.on( 'ready', () => {
 const onSettingsChange = ( { system } ) => {
   // Fullscreen any display windows on start, if set
   const windows = getDisplayWindows()
-  Object.values( windows ).forEach( window => window.once( 'ready-to-show', () => {
+  Object.values( windows ).forEach( ( window ) => window.once( 'ready-to-show', () => {
     window.setSimpleFullScreen( system.fullscreenOnLaunch )
   } ) )
 
@@ -38,7 +38,7 @@ const onSettingsChange = ( { system } ) => {
   setBeta( system.betaOptIn )
 }
 
-const onServerReady = server => {
+const onServerReady = ( server ) => {
   // Set up the update loop
   initUpdates( server )
   // Setup menu - fixes macos global hotkey issue
@@ -71,21 +71,21 @@ if ( isDev ) {
 
 // Handlers for server IPC events
 const handlers = {
-  ready: server => () => ( app.isReady() ? onServerReady( server ) : app.on( 'ready,', () => onServerReady( server ) ) ),
+  ready: ( server ) => () => ( app.isReady() ? onServerReady( server ) : app.on( 'ready,', () => onServerReady( server ) ) ),
   settings: () => onSettingsChange,
-  'update-check': server => () => checkUpdates( server ),
+  'update-check': ( server ) => () => checkUpdates( server ),
   'open-window': () => ( { url, ...params } ) => url && createWindow( url, params ),
 }
 
 // Register handlers from server IPC
-module.exports = server => {
+export default ( server ) => {
   server.on( 'message', ( { event, payload } ) => {
     const handler = handlers[ event ] || ( () => () => {} )
     handler( server )( payload )
   } )
 }
 
-process.on( 'uncaughtException', error => {
+process.on( 'uncaughtException', ( error ) => {
   logger.error( error )
 
   if ( UPDATER_ERRORS.includes( error.message ) ) return
