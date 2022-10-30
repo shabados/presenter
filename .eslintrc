@@ -1,3 +1,6 @@
 {
-  "extends": "@shabados/eslint-config"
+  "extends": ["@shabados/eslint-config", "@shabados/eslint-config/typescript"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  }
 }

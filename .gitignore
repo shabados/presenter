@@ -18,6 +18,7 @@ node_modules
 tmp/
 settings.json
 dist/
+build/
 .nyc_output/
 coverage/
 !.vscode/extensions.json

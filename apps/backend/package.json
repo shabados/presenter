@@ -1,0 +1,63 @@
+{
+  "name": "@presenter/backend",
+  "version": "2.11.3",
+  "description": "Desktop app for presenting the Shabad OS Database on projectors, TVs, and live streams",
+  "scripts": {
+    "start": "nodemon --ignore frontend/ --ignore electron/ -L --exec npm run start:production",
+    "start:production": "node -r esm server",
+    "replay-log": "node -r esm scripts/replay-log",
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8"
+  },
+  "homepage": "https://github.com/shabados/presenter#readme",
+  "dependencies": {
+    "@electron/remote": "^2.0.8",
+    "@presenter/contract": "file:/../../packages/contract",
+    "@presenter/node": "file:/../../packages/node",
+    "@sentry/node": "^6.19.7",
+    "@shabados/database": "^4.8.6",
+    "body-parser": "^1.20.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "csv-string": "^4.1.0",
+    "deepmerge": "^4.2.2",
+    "electron-fetch": "^1.7.4",
+    "electron-updater": "^5.0.1",
+    "esm": "^3.2.25",
+    "express": "^4.18.1",
+    "fp-ts": "^2.12.2",
+    "gurmukhi-utils": "^3.2.1",
+    "helmet": "^5.0.2",
+    "import-fresh": "^3.3.0",
+    "lodash": "^4.17.21",
+    "memoizee": "^0.4.15",
+    "node-fetch": "^3.2.4",
+    "open": "^8.4.0",
+    "pacote": "^13.3.0",
+    "url-parse": "^1.5.10",
+    "ws": "^8.8.1"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/compression": "^1.7.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/lodash": "^4.14.182",
+    "@types/node": "^18.8.5",
+    "@types/pacote": "^11.1.5",
+    "@types/primus": "^7.3.6",
+    "@types/url-parse": "^1.4.8",
+    "@types/ws": "^8.5.3",
+    "commander": "^9.2.0",
+    "electron": "18.2.0",
+    "electron-devtools-installer": "^3.2.0",
+    "nodemon": "^2.0.16"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.6",
+    "utf-8-validate": "^5.0.9"
+  }
+}

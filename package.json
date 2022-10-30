@@ -1,103 +1,33 @@
 {
   "name": "@shabados/presenter",
   "version": "0.0.1",
-  "description": "Electron wrapper around Shabad OS backend and frontend",
-  "main": "app/electron/esm-wrapper.js",
   "scripts": {
+    "test": "jest",
     "changelog": "sh get-changelog.sh",
-    "lint": "npm-run-all -l -p lint:*",
-    "lint:backend": "cd app && npm run lint",
-    "lint:frontend": "cd app/frontend && npm run lint",
-    "test": "echo \"No tests\"",
-    "start": "npm-run-all -l -p start:backend start:frontend",
-    "start:backend": "cd app && npm run start",
-    "start:frontend": "cd app/frontend && npm start",
-    "start:electron": "cd app && electron electron/esm-wrapper electron-wrapper",
-    "build": "cd app/frontend && npm run build",
-    "install-deps": "npm run install-deps:backend && npm run install-deps:frontend",
-    "install-deps:backend": "cd app && npm install",
-    "install-deps:frontend": "cd app/frontend && npm install",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "release": "electron-builder",
-    "postinstall": "npm run install-deps && electron-builder install-app-deps"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shabados/presenter.git"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --color"
   },
   "author": "Shabad OS Team <team@shabados.com>",
+  "repository": "https://github.com/shabados/presenter",
   "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/shabados/presenter/issues"
-  },
-  "homepage": "https://github.com/shabados/presenter#readme",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "devDependencies": {
-    "@shabados/eslint-config": "^0.4.0",
-    "conventional-changelog-cli": "^2.0.34",
-    "electron": "13.1.2",
-    "jest": "^28.1.0",
-    "npm-run-all": "^4.1.5"
-  },
-  "build": {
-    "appId": "com.shabados.desktop",
-    "asar": false,
-    "afterSign": "./hooks/after-sign.js",
-    "directories": {
-      "buildResources": "resources"
-    },
-    "productName": "Shabad OS",
-    "extraMetadata": {
-      "name": "Shabad OS"
-    },
-    "publish": {
-      "provider": "github",
-      "releaseType": "release"
-    },
-    "win": {
-      "artifactName": "Shabad.OS-Setup-${version}.${ext}",
-      "sign": "./hooks/sign-windows.js",
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
-    },
-    "mac": {
-      "artifactName": "Shabad.OS-${version}.${ext}",
-      "target": [
-        "dmg",
-        "zip"
-      ],
-      "entitlements": "./resources/entitlements.mac.plist",
-      "entitlementsInherit": "./resources/entitlements.mac.plist"
-    },
-    "linux": {
-      "artifactName": "Shabad.OS-${version}_${arch}.${ext}",
-      "target": [
-        {
-          "target": "AppImage",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        },
-        {
-          "target": "deb",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
-    }
+    "@shabados/eslint-config": "^0.8.0",
+    "@swc/core": "^1.3.8",
+    "@swc/jest": "^0.2.23",
+    "@types/jest": "^29.1.2",
+    "conventional-changelog-cli": "^2.2.2",
+    "jest": "^29.2.0",
+    "jest-extended": "^3.1.0",
+    "npm-run-all": "^4.1.5",
+    "type-fest": "^3.1.0",
+    "typescript": "^4.8.4"
   },
   "dependencies": {
-    "electron-builder": "^22.8.0",
-    "electron-notarize": "^0.1.1"
+    "deepmerge": "^4.2.2",
+    "eventemitter3": "^4.0.7",
+    "make-error": "^1.3.6"
   }
 }

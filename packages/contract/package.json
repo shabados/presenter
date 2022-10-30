@@ -1,0 +1,10 @@
+{
+  "name": "@presenter/contract",
+  "version": "0.0.0",
+  "author": "Shabad OS Team <team@shabados.com>",
+  "private": true,
+  "main": "src",
+  "devDependencies": {
+    "@shabados/database": "^4.8.6"
+  }
+}
