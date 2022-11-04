@@ -1,18 +1,17 @@
-import { rename, rm } from 'node:fs/promises'
-import { join } from 'node:path'
-
 import { getLogger, isProductionElectron } from '@presenter/node'
 import { knex } from '@shabados/database'
 import { EventEmitter } from 'eventemitter3'
 import importFresh from 'import-fresh'
+import { rename, rm } from 'node:fs/promises'
+import { join } from 'node:path'
 import { extract, manifest } from 'pacote'
 import type { PackageJson } from 'type-fest'
 
 import { dependencies } from '../../package.json'
 import { DATABASE_FOLDER } from '../helpers/consts'
 import { readJSON } from '../helpers/files'
-import ipc from './ipc'
 import settings from '../settings'
+import ipc from './ipc'
 
 const log = getLogger( 'updater' )
 
@@ -43,9 +42,9 @@ const isLatestDatabase = async () => {
 }
 
 type UpdateEvent = 'database:updating'
-  | 'database:updated'
-  | 'application:updating'
-  | 'application:updated'
+| 'database:updated'
+| 'application:updating'
+| 'application:updated'
 
 type UpdaterOptions = {
   tempFolder: string,

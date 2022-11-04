@@ -2,7 +2,6 @@ import { createWriteStream } from 'node:fs'
 import { dirname } from 'node:path'
 import { stdout } from 'node:process'
 import { PassThrough } from 'node:stream'
-
 import pino from 'pino'
 
 import { isProductionElectron, isTest } from './environment'
