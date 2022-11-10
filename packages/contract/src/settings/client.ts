@@ -43,6 +43,7 @@ export type ClientSettings = {
     vishraamColors: boolean,
     vishraamCharacters: boolean,
   },
+  // TODO: add
   sources: {},
   hotkeys: {},
   security: {

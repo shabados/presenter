@@ -17,7 +17,7 @@ export const DATABASE_FOLDER = join( APP_FOLDER, 'node_modules', '@shabados', 'd
 export const MAX_RESULTS = 50
 
 // Backend port
-export const PORT = !isProduction ? 1699 : 42425
+export const PORT = isProduction ? 1699 : 42425
 
 // Sentry Data Source Name
 export const SENTRY_DSN = 'https://bd6e4bbf9db44f5b8e9cb8f0eeaa950a@sentry.io/1363382'

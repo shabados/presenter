@@ -7,7 +7,7 @@ import { mapValues } from 'lodash'
 import Url from 'url-parse'
 
 import fetch from '../helpers/fetch'
-import { mutableCounter, mutableValue } from '../../../../packages/node/src/mutable-value'
+import { mutableCounter, mutableValue } from '@presenter/node/src/mutable-value'
 import { getSources, GetSourcesResult } from './database'
 import settings from '../settings'
 

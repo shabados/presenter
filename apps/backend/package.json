@@ -2,11 +2,13 @@
   "name": "@presenter/backend",
   "version": "2.11.3",
   "description": "Desktop app for presenting the Shabad OS Database on projectors, TVs, and live streams",
+  "main": "src",
   "scripts": {
-    "start": "nodemon --ignore frontend/ --ignore electron/ -L --exec npm run start:production",
-    "start:production": "node -r esm server",
+    "start": "tsx watch src",
+    "listen": "tsx scripts/socket-listener",
     "replay-log": "node -r esm scripts/replay-log",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "jest"
   },
   "engines": {
     "node": ">= 16.0.0",
@@ -54,7 +56,8 @@
     "commander": "^9.2.0",
     "electron": "18.2.0",
     "electron-devtools-installer": "^3.2.0",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "tsx": "^3.12.1"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",

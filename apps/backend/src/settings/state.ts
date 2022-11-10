@@ -1,30 +1,29 @@
 import { ManyClientSettings, Settings } from '@presenter/contract'
 import { mutableValue, readOnly, subscribable } from '@presenter/node'
+import { omit, omitBy } from 'lodash'
 
-import createGlobalSettings from './global'
-
-const omitPrivateClients = ( allSettings: ManyClientSettings ) => Object
-  .entries( allSettings )
-  .reduce( ( acc, [ id, settings ] ) => ( {
-    ...acc,
-    ...( !settings.security.private && { [ id ]: settings } ),
-  } ), {} as ManyClientSettings )
+import { GlobalSettings } from '../services/global-settings'
 
 type SettingsStateOptions = {
-  globalSettings: ReturnType<typeof createGlobalSettings>,
+  globalSettings: GlobalSettings,
 }
 
 const createSettingsState = ( { globalSettings }: SettingsStateOptions ) => {
   const manyClientSettings = subscribable<ManyClientSettings>( mutableValue( {} ) )
   const publicSettings = subscribable( mutableValue<ManyClientSettings>( {} ) )
 
-  const setSettings = ( id: string, { local, global, ...rest }: Settings ) => {
+  const omitPrivateClients = ( allSettings: ManyClientSettings ) => omitBy(
+    allSettings,
+    ( _, id ) => manyClientSettings.get()[ id ]?.security.private
+  )
+
+  const setSettings = ( id: string, { local, global, clients }: Partial<Settings> ) => {
     if ( global ) globalSettings.save( global )
 
     const newSettings = {
       ...manyClientSettings.get(),
       // Only accept setting changes for public devices
-      ...omitPrivateClients( rest ),
+      ...( clients && omitPrivateClients( clients ) ),
       ...( local && { [ id ]: local } ),
     }
 
@@ -32,12 +31,11 @@ const createSettingsState = ( { globalSettings }: SettingsStateOptions ) => {
   }
 
   const getClientSettings = ( id: string ): Settings => {
-    // Remove settings for id so that we can map it to local
-    const { [ id ]: _, ...existing } = publicSettings.get()
+    const clients = omit( publicSettings.get(), id )
     const local = manyClientSettings.get()[ id ]
     const global = globalSettings.get()
 
-    return { ...existing, local, global }
+    return { clients, local, global }
   }
 
   manyClientSettings.onChange( ( all ) => publicSettings.set( omitPrivateClients( all ) ) )

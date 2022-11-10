@@ -1,4 +1,5 @@
 import { EventEmitter } from 'eventemitter3'
+import { debounce } from 'lodash'
 
 export type ReadOnlyMutable<T> = { get: () => T }
 export type WriteOnlyMutable<T> = { set: ( value: T ) => void }
@@ -32,9 +33,11 @@ export const subscribable = <T>( { get, set }: Mutable<T> ) => {
 
   const onChange = ( fn: ( value: T ) => any ) => emitter.on( 'change', fn )
 
+  const emit = debounce( () => emitter.emit( 'change', get() ) )
+
   const setWithEmit = ( value: T ) => {
     set( value )
-    emitter.emit( 'change', value )
+    emit()
   }
 
   return { get, set: setWithEmit, onChange }

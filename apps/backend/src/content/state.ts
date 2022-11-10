@@ -2,9 +2,9 @@ import { Content, Line, Shabad } from '@presenter/contract'
 import { getLogger, mutableValue, readOnly, subscribable } from '@presenter/node'
 import { clamp } from 'lodash'
 
-import { getBaniLines, getShabad, getShabadByOrderId, getShabadRange } from '../database'
+import { getBaniLines, getShabad, getShabadByOrderId, getShabadRange } from '../services/database'
 
-const log = getLogger( 'state:contents' )
+const log = getLogger( 'content' )
 
 const indexLines = ( lines: Line[] ) => lines.reduce( ( acc, line ) => {
   const { byId, byOrderId } = acc
@@ -17,7 +17,7 @@ const indexLines = ( lines: Line[] ) => lines.reduce( ( acc, line ) => {
   return acc
 }, { byId: {}, byOrderId: {} } as { byId: Record<string, Line>, byOrderId: Record<number, Line> } )
 
-const createContentState = () => {
+const createState = () => {
   const content = subscribable( mutableValue<Content | null>( null ) )
 
   const lineId = subscribable( mutableValue<string | null>( null ) )
@@ -85,7 +85,6 @@ const createContentState = () => {
     mainLineId.set( null )
     nextLineId.set( null )
     content.set( shabad )
-    viewedLines.set( history.getViewedLinesFor( shabad.id ) )
 
     // Try to use previous history values
     const { mainLineIdd, nextLineId: prevNextLineId } = history.getLatestFor( shabad.id ) || {}
@@ -97,10 +96,6 @@ const createContentState = () => {
     // Next line is either first line, or line after
     const { id: nextLineIdd } = lines[ 0 ].id === newLineId ? lines[ 1 ] : lines[ 0 ]
     nextLineId.set( prevNextLineId ?? nextLineIdd )
-
-    // Rebroadcast history
-    // this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
-    // this.socket.broadcast( 'history:latest-lines', history.getLatestLines() )
   }
 
   const setShabadId = async ( id: string, lineId: string ) => {
@@ -146,8 +141,6 @@ const createContentState = () => {
     const { lines: [ firstLine ] } = bani
     const id = lineId ?? firstLine.id
 
-    viewedLines.set( history.getViewedLinesFor( bani.id ) )
-
     content.set( bani )
     mainLineId.set( null )
     nextLineId.set( null )
@@ -155,9 +148,6 @@ const createContentState = () => {
     // Use last line navigated to of shabad, if exists
     const { line } = history.getLatestFor( bani.id ) ?? {}
     setLine( { lineId: line ? line.id : id }, true )
-
-    // ?? Rebroadcast history
-    this.socket.broadcast( 'history:transitions', history.getTransitionsOnly() )
   }
 
   return {
@@ -176,4 +166,4 @@ const createContentState = () => {
   }
 }
 
-export default createContentState
+export default createState

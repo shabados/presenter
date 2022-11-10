@@ -1,24 +1,29 @@
-import createSocketServer from '../services/socket-server'
-import createGlobalSettings from './global'
+import { GlobalSettings } from '../services/global-settings'
+import { SocketServer } from '../services/socket-server'
 import createSettingsState from './state'
 
 type SettingsModuleOptions = {
-  socketServer: ReturnType<typeof createSocketServer>,
+  socketServer: SocketServer,
+  globalSettings: GlobalSettings,
 }
 
-const createSettingsModule = ( { socketServer }: SettingsModuleOptions ) => {
-  const globalSettings = createGlobalSettings()
+const createSettingsModule = ( { socketServer, globalSettings }: SettingsModuleOptions ) => {
   const state = createSettingsState( { globalSettings } )
 
-  const { getClientSettings, publicSettings } = state
+  const { getClientSettings, publicSettings, setSettings } = state
 
   socketServer.on( 'connection:ready', ( { sendJSON, host } ) => sendJSON( 'settings:all', getClientSettings( host ) ) )
 
-  socketServer.on( 'settings:all', state.setSettings )
+  const broadcastSettings = () => socketServer.broadcast( 'settings:all', ( { host } ) => getClientSettings( host ) )
 
-  publicSettings.onChange( () => socketServer.broadcast( 'settings:all', ( { host } ) => getClientSettings( host ) ) )
+  publicSettings.onChange( broadcastSettings )
+  globalSettings.onChange( broadcastSettings )
+
+  socketServer.on( 'settings:all', ( settings, client ) => setSettings( client.host, settings ) )
 
   return state
 }
+
+export type SettingsModule = Awaited<ReturnType<typeof createSettingsModule>>
 
 export default createSettingsModule

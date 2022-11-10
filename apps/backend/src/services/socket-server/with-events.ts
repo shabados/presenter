@@ -2,12 +2,24 @@
 import { ClientEvent, ClientEventParameters, ServerEvent, ServerEventParameters } from '@presenter/contract'
 import { Server, WebSocket } from 'ws'
 
-import { ConnectionReadyServer, ReadySocket } from './with-connection-state'
+import { ConnectionEventsServer, ConnectionEventsSocket } from './with-connection-state'
 
-export type EventsServer = {
+const withDedupe = <T>( fn: ( event: string, payload: T ) => boolean ) => {
+  const previousEvents = new Map()
+
+  return ( event: string, payload: T ) => {
+    if ( previousEvents.get( event ) === payload ) return
+
+    const success = fn( event, payload )
+
+    if ( success ) previousEvents.set( event, payload )
+  }
+}
+
+export type EventsServer<Socket extends WebSocket> = {
   on: <Event extends ServerEvent>(
     event: Event,
-    callback: ( data: ServerEventParameters[Event] ) => void
+    callback: ( data: ServerEventParameters[Event], client: Socket ) => void
   ) => void,
 }
 
@@ -19,17 +31,18 @@ export type EventsSocket = WebSocket & {
 }
 
 const withEvents = <
-  Socket extends ReadySocket
+  Socket extends ConnectionEventsSocket
 >() => ( socketServer: Server<Socket> ) => {
     type AugmentedSocket = Socket & EventsSocket
-    const server = socketServer as Server<AugmentedSocket> & ConnectionReadyServer<AugmentedSocket>
+    const server = socketServer as Server<AugmentedSocket> & ConnectionEventsServer<AugmentedSocket>
 
     server.onConnection( ( client ) => {
-      client.sendJSON = ( event, payload ) => {
-        if ( client.readyState !== WebSocket.OPEN || !client.isReady ) return
+      client.sendJSON = withDedupe( ( event, payload ) => {
+        if ( client.readyState !== WebSocket.OPEN || !client.isReady ) return false
 
         client.send( JSON.stringify( { event, payload } ) )
-      }
+        return true
+      } )
 
       client.on( 'message', ( data: string ) => {
         const { event, payload } = JSON.parse( data ) as { event: string, payload?: unknown }

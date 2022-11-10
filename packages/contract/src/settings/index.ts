@@ -5,7 +5,8 @@ export * from './client'
 export * from './server'
 
 export type ManyClientSettings = { [id: string]: ClientSettings }
-export type Settings = ManyClientSettings & {
+export type Settings = {
   global: ServerSettings,
   local: ClientSettings,
+  clients: ManyClientSettings,
 }

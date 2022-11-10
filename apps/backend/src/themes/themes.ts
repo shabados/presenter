@@ -3,7 +3,7 @@ import { copyFile, readdir } from 'node:fs/promises'
 import { CUSTOM_OVERLAY_THEMES_FOLDER, CUSTOM_THEMES_FOLDER } from '@presenter/node'
 import { basename, extname, join } from 'path'
 
-import { FRONTEND_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER } from './consts'
+import { FRONTEND_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER } from '../helpers/consts'
 
 const listCSSFiles = ( path: string ) => readdir( path )
   .then( ( files ) => files.map( extname ).filter( ( extension ) => extension === '.css' ) )

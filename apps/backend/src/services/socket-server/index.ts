@@ -26,7 +26,7 @@ export type SocketServer = ReturnType<typeof createSocketServer>
 const createSocketServer = ( { httpServer }: SocketServerOptions ) => {
   type SocketServer = ConnectionEventsServer<SocketClient>
     & BroadcastServer<SocketClient>
-    & EventsServer
+    & EventsServer<SocketClient>
 
   log.info( 'Setting up WebSocket server' )
 
@@ -39,13 +39,7 @@ const createSocketServer = ( { httpServer }: SocketServerOptions ) => {
     withHostInformation(),
   ) as SocketServer & Server<SocketClient>
 
-  server.on( 'connection:ready', ( client ) => {
-    log.info( `${client.host} connected` )
-
-    //! todo is this necessary?
-    client.sendJSON( 'connection:ready', undefined )
-  } )
-
+  server.on( 'connection:ready', ( client ) => log.info( `${client.host} connected` ) )
   server.on( 'disconnection', ( client ) => log.info( `${client.host} disconnected` ) )
 
   return omit( server, [ 'onConnection' ] )

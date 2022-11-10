@@ -1,5 +1,3 @@
-import createState from '.'
-
 describe( 'state', () => {
   describe( 'content', () => {
     describe( 'when a line is set', () => {
@@ -38,20 +36,5 @@ describe( 'state', () => {
     it.todo( 'should get the settings for a client' )
     it.todo( 'should exclude settings from private clients' )
     it.todo( 'should' )
-  } )
-
-  describe( 'status', () => {
-    describe( 'when a status is set', () => {
-      it( 'should set the status back to null after a duration', () => {
-        const { status, notifyStatus } = createState()
-        jest.useFakeTimers()
-
-        notifyStatus( 'test' )
-
-        expect( status.get() ).toBe( 'test' )
-        jest.runAllTimers()
-        expect( status.get() ).toBeNull()
-      } )
-    } )
   } )
 } )

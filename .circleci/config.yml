@@ -59,22 +59,22 @@ jobs:
       - run:
           name: Run ESLint on Frontend & Backend
           command: npm run lint
-  
+
   build-mac:
     <<: *build
     macos:
-      xcode: "13.0.0"
+      xcode: '13.0.0'
     environment:
-      PLATFORM_FLAG: "m"
-      USE_HARD_LINKS: "false"
+      PLATFORM_FLAG: 'm'
+      USE_HARD_LINKS: 'false'
 
   build-linux:
     <<: *build
     docker:
       - image: electronuserland/builder
     environment:
-      USE_HARD_LINKS: "false"
-      PLATFORM_FLAG: "l"
+      USE_HARD_LINKS: 'false'
+      PLATFORM_FLAG: 'l'
 
   build-windows:
     <<: *build
@@ -82,8 +82,8 @@ jobs:
       name: windows/default
       shell: bash.exe
     environment:
-      USE_HARD_LINKS: "false"
-      PLATFORM_FLAG: "w"
+      USE_HARD_LINKS: 'false'
+      PLATFORM_FLAG: 'w'
 
   print-changelog:
     docker:
@@ -123,22 +123,22 @@ jobs:
             TAG=$(git describe --tags --abbrev=0)
             VERSION=$(echo $TAG | cut -c2-)
             GITHUB_TOKEN=$GITHUB_TOKEN ./hub release edit -m $VERSION -m "$CHANGELOG" v$VERSION
-            
+
   publish-mac:
     <<: *publish
     macos:
-      xcode: "13.0.0"
+      xcode: '13.0.0'
     environment:
-      PLATFORM_FLAG: "m"
-      USE_HARD_LINKS: "false"
+      PLATFORM_FLAG: 'm'
+      USE_HARD_LINKS: 'false'
 
   publish-linux:
     <<: *publish
     docker:
       - image: electronuserland/builder
     environment:
-      USE_HARD_LINKS: "false"
-      PLATFORM_FLAG: "l"
+      USE_HARD_LINKS: 'false'
+      PLATFORM_FLAG: 'l'
 
   publish-windows:
     <<: *publish
@@ -146,8 +146,8 @@ jobs:
       name: windows/default
       shell: bash.exe
     environment:
-      USE_HARD_LINKS: "false"
-      PLATFORM_FLAG: "w"
+      USE_HARD_LINKS: 'false'
+      PLATFORM_FLAG: 'w'
 
   tag-sentry:
     docker:
@@ -199,7 +199,7 @@ workflows:
           pre-steps:
             - run: sudo xcode-select -r
             - node/install:
-                node-version: "16"
+                node-version: '16'
       - build-linux:
           <<: *build-workflow
       - print-changelog:
@@ -207,7 +207,6 @@ workflows:
             - build-windows
             - build-linux
             - build-mac
-
 
       - publish-windows:
           <<: *publish-workflow
@@ -218,10 +217,9 @@ workflows:
           pre-steps:
             - run: sudo xcode-select -r
             - node/install:
-                node-version: "16"
+                node-version: '16'
       - publish-linux:
           <<: *publish-workflow
-
 
       - upload-changelog:
           requires:

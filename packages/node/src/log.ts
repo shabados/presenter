@@ -2,9 +2,10 @@ import { createWriteStream } from 'node:fs'
 import { dirname } from 'node:path'
 import { stdout } from 'node:process'
 import { PassThrough } from 'node:stream'
+
 import pino from 'pino'
 
-import { isProductionElectron, isTest } from './environment'
+import { isProductionElectron } from './environment'
 import { ensureFolder, LOG_FILE } from './paths'
 
 const prettyPrintSettings = {
@@ -14,17 +15,17 @@ const prettyPrintSettings = {
 }
 
 type LogOptions = {
-  logFile: string,
-  isProduction?: boolean,
+  logFile?: string,
+  prettyPrint?: boolean,
 }
 
 const Log = ( {
-  isProduction,
+  prettyPrint,
   logFile,
 }: LogOptions ) => {
   const logThrough = new PassThrough()
   const log = pino( {
-    ...( !isProduction && !isTest && {
+    ...( prettyPrint && {
       transport: { target: 'pino-pretty', options: prettyPrintSettings },
     } ),
   }, logThrough )
@@ -38,7 +39,7 @@ const Log = ( {
   }
   const attachStdoutStream = () => logThrough.pipe( stdout )
 
-  if ( isProduction ) attachFileStream()
+  if ( logFile ) attachFileStream()
   else attachStdoutStream()
 
   const getLogger = ( module: string ) => log.child( { module } )
@@ -47,6 +48,9 @@ const Log = ( {
 }
 
 export const { getLogger } = Log( {
-  isProduction: isProductionElectron,
-  logFile: LOG_FILE,
+  prettyPrint: true,
+  ...( isProductionElectron && {
+    logFile: LOG_FILE,
+    prettyPrint: false,
+  } ),
 } )

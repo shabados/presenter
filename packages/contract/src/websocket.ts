@@ -1,6 +1,7 @@
 import type { Merge } from 'type-fest'
 
 import { BaniList, Content, Line, ViewedLines } from './data'
+import { SearchQuery } from './search'
 import { Settings } from './settings'
 
 type DefineParameters<
@@ -29,6 +30,10 @@ export type ServerEventParameters = DefineParameters<ServerEvent, {
   'lines:current': { lineId: string, lineOrderId: string, transition?: boolean },
   'lines:main': string,
   'lines:next': string,
+  'settings:all': Partial<Settings>,
+  'search:full-word': SearchQuery,
+  'search:first-letter': SearchQuery,
+  'action:open-external-url': string,
 }>
 
 export const clientEvents = [
@@ -43,8 +48,7 @@ export const clientEvents = [
   'history:transitions',
   'history:latest-lines',
   'settings:all',
-  'results',
-  'connection:ready',
+  'search:results',
 ] as const
 
 export type ClientEvent = typeof clientEvents[number]
@@ -59,6 +63,5 @@ export type ClientEventParameters = DefineParameters<ClientEvent, {
   // 'history:transitions',
   // 'history:latest-lines',
   'settings:all': Settings,
-  'results': Line[],
-  // 'connection:ready',
+  'search:results': Line[],
 }>

@@ -23,13 +23,13 @@ const readSettings = () => ( readJSON<PartialSettings>( SETTINGS_FILE ) )
 const createGlobalSettings = () => {
   const settings = subscribable( mutableValue( {} as ReadonlyDeep<ServerSettings> ) )
 
-  settings.onChange( writeSettings )
-
   const load = () => {
     log.info( `Loading settings from ${SETTINGS_FILE}` )
 
     return readSettings().then( settings.set )
   }
+
+  settings.onChange( writeSettings )
 
   const save = ( changed: PartialSettings = {} ) => settings.set(
     merge( settings.get(), changed ) as ServerSettings
@@ -37,5 +37,7 @@ const createGlobalSettings = () => {
 
   return { load, save, get: settings.get, onChange: settings.onChange }
 }
+
+export type GlobalSettings = ReturnType<typeof createGlobalSettings>
 
 export default createGlobalSettings

@@ -1,7 +1,7 @@
 import { Language, Source, TranslationSource } from '@presenter/contract'
 import { Banis, Languages, Lines, LinesBuilder, Model, Shabads, Sources, UnwrapModel, Writers } from '@shabados/database'
 import { stripAccents } from 'gurmukhi-utils'
-import { groupBy, keyBy, last } from 'lodash'
+import { groupBy, last } from 'lodash'
 import type { AsyncReturnType } from 'type-fest'
 
 import { MAX_RESULTS } from '../helpers/consts'
@@ -118,7 +118,6 @@ export const getLanguages = (): Promise<Language[]> => Languages.query().then( t
 export const getWriters = () => Writers
   .query()
   .then( toJSON )
-  .then( ( writers ) => keyBy( writers, 'id' ) )
 
 export const getShabadRange = () => Shabads
   .query()

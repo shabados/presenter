@@ -1,7 +1,7 @@
 import { getLogger } from '@presenter/node'
 
-import analytics from '../services/analytics'
-import ipc from '../services/ipc'
+import analytics from './services/analytics'
+import ipc from './services/ipc'
 
 const logger = getLogger( 'error' )
 
@@ -22,7 +22,7 @@ type HandlerErrorOptions = {
 }
 
 // Handle any errors by logging and sending it to Sentry
-export const handleError = ( { exitIfUnknown = true }: HandlerErrorOptions ) => async ( error ) => {
+export const handleError = ( { exitIfUnknown = true }: HandlerErrorOptions ) => async ( error: Error ) => {
   // If error is known, handle it differently
   const knownError = knownErrors[ error.code ]
   if ( knownError ) {

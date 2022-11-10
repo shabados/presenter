@@ -1,16 +1,17 @@
-import { getLogger, isProductionElectron } from '@presenter/node'
+import { rename, rm } from 'node:fs/promises'
+import { join } from 'node:path'
+
+import { getLogger, isProductionElectron, UPDATE_TMP_FOLDER } from '@presenter/node'
 import { knex } from '@shabados/database'
 import { EventEmitter } from 'eventemitter3'
 import importFresh from 'import-fresh'
-import { rename, rm } from 'node:fs/promises'
-import { join } from 'node:path'
 import { extract, manifest } from 'pacote'
 import type { PackageJson } from 'type-fest'
 
 import { dependencies } from '../../package.json'
 import { DATABASE_FOLDER } from '../helpers/consts'
 import { readJSON } from '../helpers/files'
-import settings from '../settings'
+import { GlobalSettings } from './global-settings'
 import ipc from './ipc'
 
 const log = getLogger( 'updater' )
@@ -41,17 +42,22 @@ const isLatestDatabase = async () => {
   return localPackage.version === remotePackage.version
 }
 
-type UpdateEvent = 'database:updating'
+export type UpdateEvent = 'database:updating'
 | 'database:updated'
 | 'application:updating'
 | 'application:updated'
 
 type UpdaterOptions = {
-  tempFolder: string,
-  interval: number,
+  tempFolder?: string,
+  interval?: number,
+  globalSettings: GlobalSettings,
 }
 
-const createUpdater = ( { tempFolder, interval }: UpdaterOptions ) => {
+const createUpdater = ( {
+  globalSettings,
+  tempFolder = UPDATE_TMP_FOLDER,
+  interval = 1000 * 60 * 5,
+}: UpdaterOptions ) => {
   const emitter = new EventEmitter<UpdateEvent>()
 
   ipc.on( 'electron-update:available', () => emitter.emit( 'application:updating' ) )
@@ -90,7 +96,7 @@ const createUpdater = ( { tempFolder, interval }: UpdaterOptions ) => {
   }
 
   const updateLoop = async ( updateFunction: () => Promise<void> ) => {
-    const enabled = settings.get().system.automaticUpdates
+    const enabled = globalSettings.get().system.automaticUpdates
 
     const fn = enabled ? updateFunction : () => Promise.resolve()
 
@@ -100,10 +106,9 @@ const createUpdater = ( { tempFolder, interval }: UpdaterOptions ) => {
   }
 
   const start = () => {
-    updateLoop( checkDatabase ).catch( ( err: Error ) => log.error( { err }, 'Database update failed' ) )
-
     if ( !isProductionElectron ) return
 
+    updateLoop( checkDatabase ).catch( ( err: Error ) => log.error( { err }, 'Database update failed' ) )
     updateLoop( checkApplication ).catch( ( err: Error ) => log.error( { err }, 'Application update failed' ) )
   }
 
@@ -111,5 +116,7 @@ const createUpdater = ( { tempFolder, interval }: UpdaterOptions ) => {
 
   return { start, on }
 }
+
+export type Updater = ReturnType<typeof createUpdater>
 
 export default createUpdater
