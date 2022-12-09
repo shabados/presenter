@@ -1,5 +1,7 @@
 import { ComponentType, Context, createContext } from 'react'
-import {SettingsState } from './options'
+
+import { Line } from '../types/api'
+import { SettingsState } from './options'
 
 export const withContext = <T,>( Context: Context<T> ) => ( Component: ComponentType ) => ( props: T ) => (
   <Context.Consumer>
@@ -10,8 +12,8 @@ export const withContext = <T,>( Context: Context<T> ) => ( Component: Component
 export const SettingsContext = createContext( {} as SettingsState )
 
 type Content = {
-  bani: { lines: any[] } | null,
-  shabad: { lines: any[] } | null,
+  bani: { lines: Line[] } | null,
+  shabad: { lines: Line[] } | null,
   lineId: string | null,
 }
 
@@ -39,4 +41,6 @@ type Status = {
   status: string | null,
 }
 
-export const StatusContext = createContext<Status>( { connected: false, connectedAt: null, status: null } )
+export const StatusContext = createContext<Status>( {
+  connected: false, connectedAt: null, status: null,
+} )
