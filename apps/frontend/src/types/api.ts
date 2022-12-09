@@ -7,7 +7,7 @@ export type Line = {
   vishraamFirstLetters: string,
   gurmukhi: string,
   pronunciation: string,
-  pronunctiationInformation: string,
+  pronunciationInformation: string,
   typeId: number,
   orderId: number,
 }
