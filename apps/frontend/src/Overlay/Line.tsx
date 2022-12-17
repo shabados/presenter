@@ -2,25 +2,36 @@
 import './Line.css'
 
 import classNames from 'classnames'
-import { bool, func, objectOf, string } from 'prop-types'
 
 import { LANGUAGE_NAMES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/data'
 import { classifyWords, partitionLine } from '../lib/line'
 
 const sortBy = ( sorter ) => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
 
+type LineProps = {
+  className?: string,
+  gurmukhi: string,
+  translations: {
+    [key: string]: string,
+  },
+  transliterators: {
+    [key: string]: () => unknown,
+  },
+  larivaarGurbani?: boolean,
+  larivaarAssist?: boolean,
+}
 /**
  * Overlay Line Component.
  * Renders the various aspects of a single line.
  */
 const Line = ( {
-  className,
+  className = '',
   gurmukhi,
-  larivaarGurbani: larivaar,
-  larivaarAssist,
+  larivaarGurbani: larivaar = false,
+  larivaarAssist = false,
   translations,
   transliterators,
-} ) => (
+}: LineProps ) => (
   <div className={classNames( className, {
     larivaar,
     assist: larivaar && larivaarAssist,
@@ -63,20 +74,5 @@ const Line = ( {
 
   </div>
 )
-
-Line.propTypes = {
-  className: string,
-  gurmukhi: string.isRequired,
-  translations: objectOf( string ).isRequired,
-  transliterators: objectOf( func ).isRequired,
-  larivaarGurbani: bool,
-  larivaarAssist: bool,
-}
-
-Line.defaultProps = {
-  className: null,
-  larivaarAssist: false,
-  larivaarGurbani: false,
-}
 
 export default Line
