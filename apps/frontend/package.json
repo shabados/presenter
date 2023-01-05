@@ -56,6 +56,7 @@
     "@types/scroll-into-view": "^1.16.0",
     "@vitejs/plugin-react": "^1.3.2",
     "source-map-explorer": "^2.5.2",
-    "vite": "^2.9.8"
+    "vite": "^2.9.8",
+    "@presenter/contract": "file:/../../packages/contract"
   }
 }
