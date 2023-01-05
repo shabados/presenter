@@ -2,6 +2,7 @@
  ** Currently shared with backend! Should be refactored.
  */
 
+import type { Line } from '@presenter/contract'
 import { stripEndings, stripVishraams } from 'gurmukhi-utils'
 import vishraams from 'gurmukhi-utils/lib/vishraams.json'
 import memoize from 'memoizee'
@@ -13,7 +14,7 @@ import { LINE_TYPES, TRANSLITERATORS } from './data'
  * @param {*} An Object containing a shabad or bani, which contains lines.
  */
 export const findLineIndex = memoize(
-  ( lines, lineId ) => lines.findIndex( ( { id } ) => id === lineId ),
+  ( lines: Line[], lineId: string ) => lines.findIndex( ( { id } ) => id === lineId ),
   {
     primitive: true,
     max: 5,
@@ -21,19 +22,22 @@ export const findLineIndex = memoize(
   },
 )
 
+type CustomiseLineParams = { lineEnding: boolean, typeId: number }
+type LineTransformer = [boolean, ( text: string ) => string]
+
 /**
  *
  * @param {string} line The line to modify.
  * @param {Object} settings Different boolean values for transformations.
  * @returns {string} With different transformations applied.
  */
-export const customiseLine = ( line, { lineEnding, typeId } ) => [
+export const customiseLine = ( line: string, { lineEnding, typeId }: CustomiseLineParams ) => ( [
   [ lineEnding, stripEndings ],
-]
+] as LineTransformer[] )
   .filter( ( [ predicate ] ) => predicate )
   .reduce( ( line, [ , fn ] ) => (
     // Skip stripEndings for Sirlekh
-    typeId === LINE_TYPES.sirlekh ? line : fn( line || '' )
+    typeId === LINE_TYPES.sirlekh ? line : fn( line )
   ), line )
 
 /**
