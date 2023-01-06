@@ -45,11 +45,12 @@ export const customiseLine = ( line: string, { lineEnding, typeId }: CustomiseLi
  * @param word The word to classify.
  * @param strip Whether or not to strip the vishraam character.
  */
-export const classifyWord = ( word: string, strip: boolean = true ) => ( {
+export const classifyWord = ( word: string, strip = true ) => ( {
   word: strip ? stripVishraams( word ) : word,
   type: Object
     .entries( vishraams )
-    .reduce( ( type, [ pauseType, pauseChar ] ) => (
+    // TODO: Do we want type to be null or a blank string?
+    .reduce( ( type: string | null, [ pauseType, pauseChar ] ) => (
       // Check if last char in word is the current pause char, and return that type if so
       word.slice( -1 ) === pauseChar ? pauseType : type ), null ),
 } )
@@ -59,17 +60,18 @@ export const classifyWord = ( word: string, strip: boolean = true ) => ( {
  * @param line The line to process.
  * @param strip Whether or not to strip vishraam characters.
  */
-export const classifyWords = ( line: string, strip: boolean = true ) => line.split( ' ' ).map( ( word ) => classifyWord( word, strip ) )
+export const classifyWords = ( line: string, strip = true ) => line.split( ' ' ).map( ( word ) => classifyWord( word, strip ) )
 
+type ClassifiedWords = { type: string | null, word: string }
 /**
  * Partitions the line by heavy pause into arrays.
  * @param line The line to partition.
  * @param strip Whether or not to strip vishraam chars from the word.
  */
-export const partitionLine = ( line, strip = true ) => classifyWords( line, strip )
-  .reduce( ( words, { type, word } ) => {
+export const partitionLine = ( line: string, strip = true ) => classifyWords( line, strip )
+  .reduce( ( words: ClassifiedWords[][], { type, word } ) => {
   // Get last list of words, removing it from the words list
-    const lastWords = words.pop()
+    const lastWords = words.pop() || []
 
     // Add the words to the last list of words
     const nextWords = [ ...words, [ ...lastWords, { type, word } ] ]
