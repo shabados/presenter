@@ -6,17 +6,17 @@
 import get from 'get-value'
 import { clamp, omit } from 'lodash'
 
-import { getBaniLines, getShabad, getShabadByOrderId, getShabadRange } from './db'
-import History from './History'
 import logger from './logger'
 import settingsManager from './settings'
+import History from './History'
+import { getShabad, getBaniLines, getShabadByOrderId, getShabadRange } from './db'
 import zoom from './zoom'
 
 /**
  * Returns settings for the devices which do not have the private value set.
  * @param {Object} allSettings All settings of every device.
  */
-const getPublicSettings = ( allSettings ) => Object
+const getPublicSettings = allSettings => Object
   .entries( allSettings )
   .reduce( ( acc, [ host, settings ] ) => ( {
     ...acc,
@@ -104,13 +104,13 @@ class SessionManager {
     if ( settingsManager.get( 'notifications.disconnectionEvents' ) ) this.notify( `${host} disconnected`, 1000 * 3 )
 
     // Remove the settings of the client only if there are no other connections
-    if ( !this.socket.getClients().some( ( client ) => client.host === host ) ) {
+    if ( !this.socket.getClients().some( client => client.host === host ) ) {
       this.session = { ...this.session, settings: omit( this.session.settings, host ) }
     }
 
     // Rebroadcast settings on disconnection
     const { settings } = this.session
-    this.socket.forEach( ( client ) => client.sendJSON( 'settings:all', this.getClientSettings( client, getPublicSettings( settings ) ) ) )
+    this.socket.forEach( client => client.sendJSON( 'settings:all', this.getClientSettings( client, getPublicSettings( settings ) ) ) )
   }
 
   /**
@@ -342,7 +342,7 @@ class SessionManager {
     const publicSettings = getPublicSettings( newSettings )
 
     // Rebroadcast all settings, transforming fields appropriately
-    this.socket.forEach( ( client ) => client.sendJSON( 'settings:all', this.getClientSettings( client, publicSettings ) ) )
+    this.socket.forEach( client => client.sendJSON( 'settings:all', this.getClientSettings( client, publicSettings ) ) )
   }
 
   /**

@@ -1,13 +1,14 @@
+import React, { useContext, useEffect, useCallback } from 'react'
+import { node, bool, shape, instanceOf } from 'prop-types'
 import { noop } from 'lodash'
-import { bool, instanceOf, node, shape } from 'prop-types'
-import { useCallback, useContext, useEffect } from 'react'
 
-import { getJumpLines } from '../lib/auto-jump'
-import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { useCurrentLines, useWindowFocus } from '../lib/hooks'
-import { LINE_HOTKEYS, NAVIGATOR_SHORTCUTS } from '../lib/keyMap'
 import { findLineIndex } from '../lib/line'
+import { getJumpLines } from '../lib/auto-jump'
+import controller from '../lib/controller'
+import { NAVIGATOR_SHORTCUTS, LINE_HOTKEYS } from '../lib/keyMap'
+import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
+import { useCurrentLines, useWindowFocus } from '../lib/hooks'
+
 import GlobalHotKeys from './GlobalHotKeys'
 
 /**
@@ -97,7 +98,7 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
     }
   }, [ lines, lineId, mouseTargetRef ] )
 
-  const goToIndex = ( index ) => {
+  const goToIndex = index => {
     if ( !lines ) return
 
     const jumpLines = getJumpLines( { shabad, bani } )
@@ -110,10 +111,10 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
    * Prevents the default action from occurring for each handler.
    * @param events An object containing the event names and corresponding handlers.
    */
-  const preventDefault = ( events ) => Object.entries( events )
+  const preventDefault = events => Object.entries( events )
     .reduce( ( events, [ name, handler ] ) => ( {
       ...events,
-      [ name ]: ( event ) => event.preventDefault() || handler( event ),
+      [ name ]: event => event.preventDefault() || handler( event ),
     } ), {} )
 
   // Navigation Hotkey Handlers
@@ -153,7 +154,7 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
 
     const events = [
       [ 'click', goNextLine ],
-      [ 'contextmenu', ( event ) => event.preventDefault() ],
+      [ 'contextmenu', event => event.preventDefault() ],
       [ 'auxclick', ( { button } ) => ( ( {
         2: goPreviousLine,
         1: autoToggle,

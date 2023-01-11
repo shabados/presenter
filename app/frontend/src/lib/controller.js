@@ -3,14 +3,14 @@
  * @ignore
  */
 
-import EventEmitter from 'event-emitter'
 import ReconnectingWebSocket from 'reconnecting-websocket'
+import EventEmitter from 'event-emitter'
 
-import analytics from './analytics'
-import { getNextJumpLine } from './auto-jump'
-import { isDev, isElectron, WS_URL } from './consts'
-import { findLineIndex } from './line'
 import { DEFAULT_OPTIONS } from './options'
+import { WS_URL, isElectron, isDev } from './consts'
+import analytics from './analytics'
+import { findLineIndex } from './line'
+import { getNextJumpLine } from './auto-jump'
 import { merge } from './utils'
 
 class Controller extends EventEmitter {
@@ -96,7 +96,7 @@ class Controller extends EventEmitter {
     this.emit( event, payload )
   }
 
-  onSettings = ( settings ) => {
+  onSettings = settings => {
     this.settings = settings
     this.emit( 'settings', settings )
   }
@@ -113,15 +113,15 @@ class Controller extends EventEmitter {
    * Convenience method for setting the line.
    * @param lineId The line id to change the display to.
    */
-  line = ( lineId ) => this.sendJSON( 'lines:current', { lineId } )
+  line = lineId => this.sendJSON( 'lines:current', { lineId } )
 
   /**
    * Convenience method for setting the main line.
    * @param lineId The line id to change the display to.
    */
-  mainLine = ( lineId ) => this.sendJSON( 'lines:main', lineId )
+  mainLine = lineId => this.sendJSON( 'lines:main', lineId )
 
-  nextJumpLine = ( lineId ) => this.sendJSON( 'lines:next', lineId )
+  nextJumpLine = lineId => this.sendJSON( 'lines:next', lineId )
 
   /**
    * Convenience method for setting the current shabad.
@@ -179,7 +179,7 @@ class Controller extends EventEmitter {
     } else this.line( nextLineId )
   }
 
-  autoToggleBani = ( params ) => {
+  autoToggleBani = params => {
     const nextLineId = getNextJumpLine( params )
     if ( !nextLineId ) return
 
@@ -210,7 +210,7 @@ class Controller extends EventEmitter {
   /**
    * Reads the settings from local storage, and combines with default settings.
    */
-  static readSettings = ( onlyOverrides ) => {
+  readSettings = onlyOverrides => {
     try {
       const localSettings = JSON.parse( localStorage.getItem( 'settings' ) )
       return onlyOverrides ? localSettings : merge( DEFAULT_OPTIONS.local, localSettings )
@@ -252,11 +252,11 @@ class Controller extends EventEmitter {
 
   openWindow = isElectron && !isDev
     ? ( url, params ) => this.action( 'open-window', { url: `${window.location.origin}${url}`, ...params } )
-    : ( url ) => window.open( url )
+    : url => window.open( url )
 
   openExternalUrl = isElectron
-    ? ( url ) => this.action( 'open-external-url', url )
-    : ( url ) => window.open( url )
+    ? url => this.action( 'open-external-url', url )
+    : url => window.open( url )
 
   resetSettings = ( host = 'local' ) => {
     localStorage.setItem( 'settings', '{}' )

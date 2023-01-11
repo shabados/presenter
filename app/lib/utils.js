@@ -3,13 +3,13 @@
  * @ignore
  */
 
-import { reverse } from 'dns'
-import { chmod, copy, ensureDir, readdir } from 'fs-extra'
 import { hostname, networkInterfaces } from 'os'
-import { extname, join } from 'path'
+import { reverse } from 'dns'
+import { ensureDir, readdir, chmod, copy } from 'fs-extra'
 import { promisify } from 'util'
+import { extname, join } from 'path'
 
-import { CUSTOM_OVERLAY_THEMES_FOLDER, CUSTOM_THEMES_FOLDER, DATA_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER, HISTORY_FOLDER, LOG_FOLDER, TMP_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts'
 
 const asyncReverse = promisify( reverse )
 
@@ -29,7 +29,7 @@ const timeoutPromise = ( ms, promise ) => Promise.race( [
  * @async
  * @returns {string} The resolved hostname.
  */
-export const getHost = async ( hybridIP ) => {
+export const getHost = async hybridIP => {
   // Remove the IPv6 compoonent, if the address is a hybrid v4-v6
   const ip = hybridIP.replace( /^.*:/, '' )
 
@@ -60,12 +60,12 @@ export const getNetworkedAddresses = () => Object.entries( networkInterfaces() )
  * @param {string} path The path to list all CSS files in.
  * @returns {Promise} An array of the listed CSS files.
  */
-export const listCSSFiles = async ( path ) => {
+export const listCSSFiles = async path => {
   const files = await readdir( path )
-  return files.filter( ( file ) => extname( file ) === '.css' )
+  return files.filter( file => extname( file ) === '.css' )
 }
 
-export const ensureRequiredDir = ( dir ) => ensureDir( dir, { mode: 0o2775 } ).then( () => chmod( dir, '755' ) )
+export const ensureRequiredDir = dir => ensureDir( dir, { mode: 0o2775 } ).then( () => chmod( dir, '755' ) )
 
 /*
  * Creates required filesystem directories for the app to work.

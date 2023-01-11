@@ -1,11 +1,12 @@
-import './StatusToast.css'
-
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
 import { string } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 import { StatusContext, withContext } from '../lib/contexts'
+
+import './StatusToast.css'
 
 const StatusToast = ( { status } ) => (
   <TransitionGroup component={null}>

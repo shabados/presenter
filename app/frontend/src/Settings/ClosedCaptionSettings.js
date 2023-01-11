@@ -1,9 +1,11 @@
-import './ClosedCaptionSettings.css'
+import React from 'react'
 
 import { Grid, Typography } from '@material-ui/core'
 
-import DynamicOptions, { OptionGrid, slotSizes } from './DynamicOptions'
 import TutorialButton from './TutorialButton'
+import DynamicOptions, { slotSizes, OptionGrid } from './DynamicOptions'
+
+import './ClosedCaptionSettings.css'
 
 const ClosedCaptionSettings = () => (
   <div className="closed-caption-settings">

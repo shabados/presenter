@@ -1,4 +1,4 @@
-import { firstLetters, stripAccents, stripVishraams, toAscii, toUnicode } from 'gurmukhi-utils'
+import { stripVishraams, toAscii, firstLetters, stripAccents, toUnicode } from 'gurmukhi-utils'
 
 import { SEARCH_TYPES } from '../../lib/consts'
 
@@ -8,7 +8,7 @@ import { SEARCH_TYPES } from '../../lib/consts'
  * and using the position of the highlighted words, highlights the same words in the target
  * string.
  */
-const fullWordMatches = ( query ) => ( { target, gurmukhi } ) => {
+const fullWordMatches = query => ( { target, gurmukhi } ) => {
   // Remove vishraams to prevent query from not matching
   const baseGurmukhi = stripVishraams( gurmukhi )
   // Remove vishraams from target to prevent vishraams in output
@@ -47,7 +47,7 @@ const fullWordMatches = ( query ) => ( { target, gurmukhi } ) => {
  * Finds the words to match in the Gurmukhi string, and highlights
  * the corresponding target string.
  */
-const firstLetterMatches = ( query ) => ( { target, gurmukhi } ) => {
+const firstLetterMatches = query => ( { target, gurmukhi } ) => {
   // Remove vishraams to prevent query from not matching
   const baseGurmukhi = stripVishraams( gurmukhi )
   // Remove vishraams from target to prevent vishraams in output
@@ -79,8 +79,6 @@ const highlighters = {
   [ SEARCH_TYPES.firstLetter ]: firstLetterMatches,
 }
 
-const UNDERSCORE_REGEX = /_/g
-
 /**
  * Separates the line into words before the first match, the first match, and after the match.
  * @param target The text to highlight.
@@ -90,11 +88,11 @@ const UNDERSCORE_REGEX = /_/g
  * @return An array of [ beforeMatch, match, afterMatch ],
  *   with `match` being the highlighted section.`.
  */
-const getHighlighter = ( searchQuery, searchMode ) => ( context ) => ( target ) => {
+const getHighlighter = ( searchQuery, searchMode ) => context => target => {
   if ( !target ) return [ '', '', '' ]
 
   // Account for wildcard characters
-  const sanitizedQuery = searchQuery.replace( UNDERSCORE_REGEX, '.' )
+  const sanitizedQuery = searchQuery.replace( new RegExp( '_', 'g' ), '.' )
 
   // Select the right highlighter
   const highlight = highlighters[ searchMode ]

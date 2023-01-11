@@ -1,9 +1,9 @@
+import { useContext, useState, useEffect } from 'react'
 import copy from 'copy-to-clipboard'
 import { useSnackbar } from 'notistack'
-import { useContext, useEffect, useState } from 'react'
 
-import { isMac } from './consts'
 import { ContentContext, RecommendedSourcesContext, SettingsContext } from './contexts'
+import { isMac } from './consts'
 import { findLineIndex, getTranslations } from './line'
 
 export const useCurrentLines = () => {
@@ -25,7 +25,7 @@ export const useCurrentLine = () => {
   return [ line, lineIndex ]
 }
 
-export const useTranslations = ( languageIds ) => {
+export const useTranslations = languageIds => {
   const { shabad } = useContext( ContentContext )
   const [ line ] = useCurrentLine()
 
@@ -36,7 +36,7 @@ export const useTranslations = ( languageIds ) => {
 }
 
 export const useCopyToClipboard = () => {
-  const truncate = ( input ) => ( input.length > 30 ? `${input.substring( 0, 30 )}...` : input )
+  const truncate = input => ( input.length > 30 ? `${input.substring( 0, 30 )}...` : input )
 
   const { enqueueSnackbar } = useSnackbar()
   return ( text, fallback = 'No text to copy' ) => {

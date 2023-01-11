@@ -1,4 +1,5 @@
-import { instanceOf, string } from 'prop-types'
+import React from 'react'
+import { string, instanceOf } from 'prop-types'
 
 import { OVERLAY_THEMES_URL } from '../lib/consts'
 import { StatusContext, withContext } from '../lib/contexts'

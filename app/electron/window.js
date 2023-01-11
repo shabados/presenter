@@ -1,9 +1,9 @@
-import * as remote from '@electron/remote/main'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { app, BrowserWindow, Menu, screen } from 'electron'
+import { app, BrowserWindow, screen, Menu } from 'electron'
 import { omit } from 'lodash'
+import * as remote from '@electron/remote/main'
 
-import { isDev, PORT } from '../lib/consts'
+import { PORT, isDev } from '../lib/consts'
 
 const BASE_URL = !isDev ? `http://localhost:${PORT}` : `http://localhost:${3000}`
 
@@ -13,7 +13,7 @@ let mainWindow = null
 // Hide default menu in prod
 if ( !isDev ) Menu.setApplicationMenu( null )
 
-const fullScreenOnShow = ( window ) => window.maximize()
+const fullScreenOnShow = window => window.maximize()
 
 // Creates any browser window
 export const createWindow = ( url, windowParams, onBeforeShow = () => {} ) => {

@@ -2,9 +2,9 @@
  * Constants file.
  * @ignore
  */
-import { getAppDataPath } from 'appdata-path'
-import { platform } from 'os'
 import { join } from 'path'
+import { platform } from 'os'
+import { getAppDataPath } from 'appdata-path'
 
 // Dev environment
 export const isDev = process.env.NODE_ENV !== 'production'

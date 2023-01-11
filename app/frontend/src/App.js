@@ -1,26 +1,28 @@
-import './App.css'
-
-import classNames from 'classnames'
-import { SnackbarProvider } from 'notistack'
-import { lazy, PureComponent, Suspense } from 'react'
+import React, { PureComponent, lazy, Suspense } from 'react'
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { hot } from 'react-hot-loader/root'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import classNames from 'classnames'
 
-import { BACKEND_URL, isDesktop, isMobile, isTablet, OVERLAY_URL, PRESENTER_URL, SCREEN_READER_URL, SETTINGS_URL } from './lib/consts'
-import {
-  BookmarksContext,
-  ContentContext,
-  HistoryContext,
-  RecommendedSourcesContext,
-  SettingsContext,
-  StatusContext,
-  WritersContext,
-} from './lib/contexts'
-import controller from './lib/controller'
+import { SnackbarProvider } from 'notistack'
+
+import { OVERLAY_URL, SCREEN_READER_URL, SETTINGS_URL, PRESENTER_URL, BACKEND_URL, isMobile, isTablet, isDesktop } from './lib/consts'
 import { DEFAULT_OPTIONS } from './lib/options'
 import { merge } from './lib/utils'
+import controller from './lib/controller'
+import {
+  ContentContext,
+  StatusContext,
+  SettingsContext,
+  HistoryContext,
+  BookmarksContext,
+  RecommendedSourcesContext,
+  WritersContext,
+} from './lib/contexts'
+
 import Overlay from './Overlay'
 import Loader from './shared/Loader'
+
+import './App.css'
 
 const ScreenReader = lazy( () => import( './ScreenReader' ) )
 const Presenter = lazy( () => import( './Presenter' ) )
@@ -73,7 +75,7 @@ class App extends PureComponent {
 
     // Get recommended sources and set as settings, if there are none
     fetch( `${BACKEND_URL}/sources` )
-      .then( ( res ) => res.json() )
+      .then( res => res.json() )
       .then( ( { recommendedSources } ) => {
         //* Update default options and settings with fetched recommended sources
         DEFAULT_OPTIONS.local.sources = recommendedSources
@@ -83,7 +85,7 @@ class App extends PureComponent {
 
     // Get writers
     fetch( `${BACKEND_URL}/writers` )
-      .then( ( res ) => res.json() )
+      .then( res => res.json() )
       .then( ( { writers } ) => this.setState( { writers } ) )
   }
 
@@ -113,27 +115,27 @@ class App extends PureComponent {
 
   onDisconnected = () => this.setState( { connected: false } )
 
-  onShabad = ( shabad ) => this.setState( { next: { shabad, bani: null } } )
+  onShabad = shabad => this.setState( { next: { shabad, bani: null } } )
 
-  onLine = ( lineId ) => this.setState( ( { next } ) => ( { lineId, ...next, next: {} } ) )
+  onLine = lineId => this.setState( ( { next } ) => ( { lineId, ...next, next: {} } ) )
 
-  onViewedLines = ( viewedLines ) => this.setState( { viewedLines } )
+  onViewedLines = viewedLines => this.setState( { viewedLines } )
 
-  onMainLine = ( mainLineId ) => this.setState( { mainLineId } )
+  onMainLine = mainLineId => this.setState( { mainLineId } )
 
-  onNextLine = ( nextLineId ) => this.setState( { nextLineId } )
+  onNextLine = nextLineId => this.setState( { nextLineId } )
 
-  onTransitionHistory = ( transitionHistory ) => this.setState( { transitionHistory } )
+  onTransitionHistory = transitionHistory => this.setState( { transitionHistory } )
 
-  onLatestLineHistory = ( latestLines ) => this.setState( { latestLines } )
+  onLatestLineHistory = latestLines => this.setState( { latestLines } )
 
-  onStatus = ( status ) => this.setState( { status } )
+  onStatus = status => this.setState( { status } )
 
-  onBanis = ( banis ) => this.setState( { banis } )
+  onBanis = banis => this.setState( { banis } )
 
-  onBani = ( bani ) => this.setState( { next: { bani, shabad: null } } )
+  onBani = bani => this.setState( { next: { bani, shabad: null } } )
 
-  onSettings = ( { global = {}, local = {}, ...settings } ) => this.setState( ( state ) => ( {
+  onSettings = ( { global = {}, local = {}, ...settings } ) => this.setState( state => ( {
     settings: {
       ...Object
         .entries( settings )
@@ -176,11 +178,11 @@ class App extends PureComponent {
       [ RecommendedSourcesContext.Provider, recommendedSources ],
       [ ContentContext.Provider, { bani, shabad, lineId, mainLineId, nextLineId } ],
       [ SnackbarProvider ],
-    ].reduce( ( withContexts, [ Provider, value ] ) => ( children ) => withContexts(
+    ].reduce( ( withContexts, [ Provider, value ] ) => children => withContexts(
       <Provider value={value}>
         {children}
       </Provider>,
-    ), ( context ) => context )
+    ), context => context )
 
     return withContexts(
       <div className={classNames( { mobile: isMobile, tablet: isTablet, desktop: isDesktop }, 'app' )}>
