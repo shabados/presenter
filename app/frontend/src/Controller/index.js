@@ -1,6 +1,15 @@
-import './index.css'
+import React, { useState, useEffect, useContext } from 'react'
+import { useEffectOnce, usePrevious } from 'react-use'
+import { hot } from 'react-hot-loader/root'
+import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom'
+import { string, func } from 'prop-types'
 
-import { faStar } from '@fortawesome/free-regular-svg-icons'
+import classNames from 'classnames'
+import queryString from 'qs'
+
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+
 import {
   faCog,
   faHistory,
@@ -8,38 +17,33 @@ import {
   faSearch,
   faSignOutAlt,
   faVideoSlash,
-  faWindowMaximize,
   faWindowMinimize,
+  faWindowMaximize,
 } from '@fortawesome/free-solid-svg-icons'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import classNames from 'classnames'
-import { func, string } from 'prop-types'
-import queryString from 'qs'
-import { useContext, useEffect, useState } from 'react'
-import { hot } from 'react-hot-loader/root'
-import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom'
-import { useEffectOnce, usePrevious } from 'react-use'
+import { faStar } from '@fortawesome/free-regular-svg-icons'
 
+import controller from '../lib/controller'
 import {
   BOOKMARKS_URL,
   CONTROLLER_URL,
   HISTORY_URL,
   NAVIGATOR_URL,
-  PRESENTER_URL,
   SEARCH_URL,
   SETTINGS_URL,
   STATES,
+  PRESENTER_URL,
 } from '../lib/consts'
-import { ContentContext, SettingsContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { useCurrentLines } from '../lib/hooks'
 import { getUrlState } from '../lib/utils'
-import Bookmarks from './Bookmarks'
-import History from './History'
-import Navigator, { Bar as NavigatorBar } from './Navigator'
-import Search from './Search'
+import { ContentContext, SettingsContext } from '../lib/contexts'
+import { useCurrentLines } from '../lib/hooks'
+
 import ToolbarButton from './ToolbarButton'
+import Search from './Search'
+import Navigator, { Bar as NavigatorBar } from './Navigator'
+import History from './History'
+import Bookmarks from './Bookmarks'
+
+import './index.css'
 
 /**
  * Renders the top navigation bar, showing the current path in the URL, and the hover state.
@@ -134,7 +138,7 @@ const BottomBar = ( { renderContent, onHover } ) => {
 
   const lines = useCurrentLines()
 
-  const go = ( pathname ) => () => history.push( { ...location, pathname } )
+  const go = pathname => () => history.push( { ...location, pathname } )
   const resetHover = () => onHover( null )
 
   return (
@@ -188,7 +192,7 @@ BottomBar.defaultProps = {
 /**
  * Controller controls the display and configures settings.
  */
-const Controller = ( props ) => {
+const Controller = props => {
   const { shabad, bani } = useContext( ContentContext )
   const lines = useCurrentLines()
 
@@ -215,7 +219,7 @@ const Controller = ( props ) => {
     // Redirect to navigator tab if on one of the redirectable pages
     const isTransition = lines.length && lines !== previousLines
 
-    if ( isTransition && redirects.some( ( route ) => pathname.includes( route ) ) ) {
+    if ( isTransition && redirects.some( route => pathname.includes( route ) ) ) {
       history.push( { ...location, pathname: NAVIGATOR_URL } )
     }
   }, [ history, lines, previousLines, location ] )
@@ -236,7 +240,7 @@ const Controller = ( props ) => {
         <Route
           key={route}
           path={route}
-          render={( routerProps ) => (
+          render={routerProps => (
             <div className={classNames( { simple }, 'controller' )}>
               <TopBar
                 {...routerProps}

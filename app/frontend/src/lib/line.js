@@ -2,10 +2,9 @@
  ** Currently shared with backend! Should be refactored.
  */
 
-import { stripEndings, stripVishraams } from 'gurmukhi-utils'
 import vishraams from 'gurmukhi-utils/lib/vishraams.json'
+import { stripVishraams, stripEndings } from 'gurmukhi-utils'
 import memoize from 'memoizee'
-
 import { LINE_TYPES, TRANSLITERATORS } from './data'
 
 /**
@@ -55,7 +54,7 @@ export const classifyWord = ( word, strip = true ) => ( {
  * @param line The line to process.
  * @param strip Whether or not to strip vishraam characters.
  */
-export const classifyWords = ( line, strip = true ) => line.split( ' ' ).map( ( word ) => classifyWord( word, strip ) )
+export const classifyWords = ( line, strip = true ) => line.split( ' ' ).map( word => classifyWord( word, strip ) )
 
 /**
  * Partitions the line by heavy pause into arrays.
@@ -102,7 +101,7 @@ export const getTranslation = ( { shabad, line, sources, recommendedSources, lan
 export const getTranslations = ( { languageIds, line, ...rest } ) => {
   if ( !line ) return {}
 
-  return ( languageIds || [] ).filter( ( x ) => x ).reduce( ( translations, languageId ) => {
+  return ( languageIds || [] ).filter( x => x ).reduce( ( translations, languageId ) => {
     const translation = getTranslation( { languageId, line, ...rest } )
 
     return translation ? { ...translations, [  languageId ]: translation } : translations
@@ -112,8 +111,8 @@ export const getTranslations = ( { languageIds, line, ...rest } ) => {
 /**
  * Returns the corresponding transliteration functions, mapped by language id.
  */
-export const getTransliterators = ( languageIds ) => ( languageIds || [] )
-  .filter( ( id ) => id && TRANSLITERATORS[ id ] )
+export const getTransliterators = languageIds => ( languageIds || [] )
+  .filter( id => id && TRANSLITERATORS[ id ] )
   .reduce( ( translations, languageId ) => ( {
     ...translations,
     [ languageId ]: TRANSLITERATORS[ languageId ],

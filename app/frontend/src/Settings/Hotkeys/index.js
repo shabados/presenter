@@ -1,19 +1,22 @@
-import './index.css'
-
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button, Grid, List, ListItem, Tooltip, Typography } from '@material-ui/core'
-import classNames from 'classnames'
+import React, { useState } from 'react'
+import { objectOf, arrayOf, string, shape } from 'prop-types'
 import { groupBy } from 'lodash'
-import { arrayOf, objectOf, shape, string } from 'prop-types'
-import { useState } from 'react'
+import classNames from 'classnames'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
+
+import { Button, Tooltip, ListItem, List, Grid, Typography } from '@material-ui/core'
 
 import controller from '../../lib/controller'
 import keyMap from '../../lib/keyMap'
 import { mapPlatformKeys } from '../../lib/utils'
+
 import { ResetButton } from '../DynamicOptions'
 import AddHotkeyDialog from './AddHotkeyDialog'
 import DeleteHotkeyDialog from './DeleteHotkeyDialog'
+
+import './index.css'
 
 const REQUIRED_KEYS = Object
   .values( keyMap )
@@ -36,7 +39,7 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
 
   const mappedKeys = mapPlatformKeys( keys )
 
-  const setRecorded = ( hotkey ) => {
+  const setRecorded = hotkey => {
     setEditing( null )
 
     if ( !hotkey ) return
@@ -54,7 +57,7 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
     controller.setSettings( { hotkeys: { [ editing ]: hotkeys } } )
   }
 
-  const onDelete = ( confirmed ) => {
+  const onDelete = confirmed => {
     setDeleting( {} )
 
     if ( !confirmed ) return
@@ -70,7 +73,7 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
     const hotkeys = Array.from( new Set( [
       ...( required ? sequences : [] ),
       ...mappedKeys[ name ],
-    ] ) ).filter( ( key ) => key !== keyName )
+    ] ) ).filter( key => key !== keyName )
 
     controller.setSettings( { hotkeys: { [ name ]: hotkeys } } )
   }
@@ -122,7 +125,7 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
                       </Grid>
 
                       <Grid className={classNames( { editable }, 'keys' )} item xs={6}>
-                        {mappedKeys[ name ].map( ( key ) => (
+                        {mappedKeys[ name ].map( key => (
                           <Button
                             key={key}
                             className={classNames( 'key', { removable: !REQUIRED_KEYS[ key ] } )}

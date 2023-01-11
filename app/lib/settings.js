@@ -3,17 +3,17 @@
  * @ignore
  */
 
-import merge from 'deepmerge'
 import { EventEmitter } from 'events'
-import { ensureFile, readJSON, writeJSON } from 'fs-extra'
+import { readJSON, writeJSON, ensureFile } from 'fs-extra'
+import merge from 'deepmerge'
 import { get } from 'lodash'
 
-import { DEFAULT_SETTINGS_FILE, SETTINGS_FILE } from './consts'
+import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts'
 import logger from './logger'
 
 const readDefaultSettings = () => readJSON( DEFAULT_SETTINGS_FILE )
 
-const readSettings = async ( onlyOverrides ) => {
+const readSettings = async onlyOverrides => {
   try {
     // Load settings file
     const settings = await readJSON( SETTINGS_FILE )
@@ -56,7 +56,7 @@ class Settings extends EventEmitter {
   /**
    * Saves the settings back to disk.
    */
-  async saveSettings( changed = {}, combine = false ) {
+  async saveSettings( changed = {}, combine ) {
     this.settings = merge(
       combine ? await readSettings( true ) : this.defaultSettings,
       changed,

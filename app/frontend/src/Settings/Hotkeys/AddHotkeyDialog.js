@@ -1,13 +1,13 @@
-import './HotkeyDialog.css'
-
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@material-ui/core'
-import { bool, func, objectOf, string } from 'prop-types'
-import { useCallback, useEffect, useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { bool, func, string, objectOf } from 'prop-types'
 import { recordKeyCombination } from 'react-hotkeys'
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
 
 import { isMac } from '../../lib/consts'
 import { LINE_HOTKEYS, RESTRICTED_STROKES } from '../../lib/keyMap'
 import { mapPlatformKey } from '../../lib/utils'
+
+import './HotkeyDialog.css'
 
 const MODIFIER_MAP = {
   Control: 'ctrl',
@@ -57,9 +57,9 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
     const recorded = Array.from( new Set( Object
       .keys( keys )
       // Map any modifiers to readable names
-      .map( ( key ) => MODIFIER_MAP[ key ] || key )
+      .map( key => MODIFIER_MAP[ key ] || key )
       // Make all lowercase
-      .map( ( key ) => key.toLowerCase() )
+      .map( key => key.toLowerCase() )
       // Sort by modifiers first
       .sort( ( keyA, keyB ) => (
         ( MODIFIER_ORDER[ keyA ] || keyA.charCodeAt( 0 ) )
@@ -72,18 +72,18 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
     // Check for invalid keystrokes
     const invalidKeystroke = RESTRICTED_STROKES
       .map( mapPlatformKey )
-      .find( ( keys ) => hotkeySequence.includes( keys ) )
+      .find( keys => hotkeySequence.includes( keys ) )
 
     // Check if there are only modifiers
-    const modifersOnly = recorded.every( ( key ) => [
+    const modifersOnly = recorded.every( key => [
       ...SINGLE_MODIFIERS,
       ...PAIRED_MODIFIERS,
     ].includes( key ) )
 
     // Check if there is a shift key without another modify
     const shiftWithoutModifier = (
-      recorded.some( ( key ) => PAIRED_MODIFIERS.includes( key ) )
-      && !recorded.some( ( key ) => SINGLE_MODIFIERS.includes( key ) )
+      recorded.some( key => PAIRED_MODIFIERS.includes( key ) )
+      && !recorded.some( key => SINGLE_MODIFIERS.includes( key ) )
     )
 
     // Check for any conflicting mappings

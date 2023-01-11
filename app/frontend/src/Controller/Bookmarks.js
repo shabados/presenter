@@ -1,13 +1,15 @@
-import './Bookmarks.css'
+import React, { useContext } from 'react'
+import { func, number } from 'prop-types'
 
 import { List, ListItem } from '@material-ui/core'
-import { func, number } from 'prop-types'
-import { useContext } from 'react'
 
-import { BookmarksContext } from '../lib/contexts'
-import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
+import controller from '../lib/controller'
+import { BookmarksContext } from '../lib/contexts'
+
 import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
+
+import './Bookmarks.css'
 
 const Bookmarks = ( { register, focused } ) => {
   const bookmarks = useContext( BookmarksContext )
@@ -18,7 +20,7 @@ const Bookmarks = ( { register, focused } ) => {
         <ListItem
           className={focused === index ? 'focused' : ''}
           key={id}
-          ref={( ref ) => register( index, ref )}
+          ref={ref => register( index, ref )}
           onClick={() => controller.bani( { baniId: id } )}
         >
           <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>

@@ -1,31 +1,31 @@
-import './index.css'
-
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconButton, Input, InputAdornment, List } from '@material-ui/core'
+import React, { useRef, useState, useEffect, useCallback, useContext } from 'react'
 import classNames from 'classnames'
-import { func, number, oneOfType, string } from 'prop-types'
+import { func, string, oneOfType, number } from 'prop-types'
+import { useLocation, useHistory } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { stringify } from 'querystring'
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { Input, InputAdornment, IconButton, List } from '@material-ui/core'
 
-import {
-  MIN_SEARCH_CHARS,
-  SEARCH_ANCHORS,
-  SEARCH_CHARS,
-  SEARCH_TYPES,
-} from '../../lib/consts'
+import { getUrlState } from '../../lib/utils'
 import { SettingsContext } from '../../lib/contexts'
 import controller from '../../lib/controller'
-import { getUrlState } from '../../lib/utils'
 import { withNavigationHotkeys } from '../../shared/NavigationHotkeys'
-import getHighlighter from './match-highlighter'
+import {
+  SEARCH_TYPES,
+  SEARCH_CHARS,
+  SEARCH_ANCHORS,
+  MIN_SEARCH_CHARS,
+} from '../../lib/consts'
+
 import Result from './Result'
+import getHighlighter from './match-highlighter'
+import './index.css'
 
 // Generate the regex for capturing anchor chars, optionally
-const searchRegex = new RegExp( `^([${Object.keys( SEARCH_ANCHORS ).map( ( anchor ) => `\\${anchor}` ).join( '' )}])?(.*)` )
+const searchRegex = new RegExp( `^([${Object.keys( SEARCH_ANCHORS ).map( anchor => `\\${anchor}` ).join( '' )}])?(.*)` )
 
-const getSearchParams = ( searchQuery ) => {
+const getSearchParams = searchQuery => {
   // Extract anchors and search query
   const [ , anchor, query ] = searchQuery.match( searchRegex )
 
@@ -76,7 +76,7 @@ const Search = ( { updateFocus, register, focused } ) => {
    * Set the received results and update the searched vale.
    * @param {Object[]} results An array of the returned results.
    */
-  const onResults = useCallback( ( results ) => {
+  const onResults = useCallback( results => {
     setSearchedValue( inputValue.current )
     setResults( results )
 
@@ -118,7 +118,7 @@ const Search = ( { updateFocus, register, focused } ) => {
     showResultCitations,
   ] )
 
-  const filterInputKeys = ( event ) => {
+  const filterInputKeys = event => {
     const ignoreKeys = [ 'ArrowUp', 'ArrowDown' ]
 
     if ( ignoreKeys.includes( event.key ) ) event.preventDefault()
@@ -185,7 +185,7 @@ const Search = ( { updateFocus, register, focused } ) => {
           <Result
             {...result}
             key={result.id}
-            ref={( ref ) => register( index, ref )}
+            ref={ref => register( index, ref )}
             focused={focused === index}
             highlighter={highlighter}
           />

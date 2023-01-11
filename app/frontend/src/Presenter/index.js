@@ -1,43 +1,47 @@
-import './index.css'
+import React, { lazy, Suspense, useState, useContext, useRef } from 'react'
+import { useMount } from 'react-use'
+import { hot } from 'react-hot-loader/root'
+import { Route, useHistory, useLocation } from 'react-router-dom'
+import IdleTimer from 'react-idle-timer'
+import queryString from 'qs'
+import classNames from 'classnames'
 
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import IconButton from '@material-ui/core/IconButton'
-import classNames from 'classnames'
-import queryString from 'qs'
-import { lazy, Suspense, useContext, useRef, useState } from 'react'
-import { hot } from 'react-hot-loader/root'
-import IdleTimer from 'react-idle-timer'
-import { Route, useHistory, useLocation } from 'react-router-dom'
-import { useMount } from 'react-use'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+
+import controller from '../lib/controller'
+import { getUrlState } from '../lib/utils'
+import { toggleFullscreen } from '../lib/electron-utils'
 import {
-  BOOKMARKS_URL,
   CONTROLLER_URL,
-  HISTORY_URL,
-  IDLE_TIMEOUT,
-  isDesktop,
-  isMobile,
-  NAVIGATOR_URL,
   SEARCH_URL,
+  HISTORY_URL,
+  NAVIGATOR_URL,
+  BOOKMARKS_URL,
   SETTINGS_URL,
   STATES,
+  isMobile,
+  IDLE_TIMEOUT,
+  isDesktop,
 } from '../lib/consts'
-import { SettingsContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { toggleFullscreen } from '../lib/electron-utils'
-import { useCurrentLines } from '../lib/hooks'
 import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
+import { SettingsContext } from '../lib/contexts'
+import { useCurrentLines } from '../lib/hooks'
 import { OPTIONS } from '../lib/options'
-import { getUrlState } from '../lib/utils'
-import CopyHotkeys from '../shared/CopyHotkeys'
-import { withErrorFallback } from '../shared/ErrorFallback'
-import GlobalHotKeys from '../shared/GlobalHotKeys'
-import Loader from '../shared/Loader'
-import NavigatorHotKeys from '../shared/NavigatorHotkeys'
+
 import ThemeLoader from '../shared/ThemeLoader'
+import Loader from '../shared/Loader'
+import GlobalHotKeys from '../shared/GlobalHotKeys'
+import NavigatorHotKeys from '../shared/NavigatorHotkeys'
+import { withErrorFallback } from '../shared/ErrorFallback'
+import CopyHotkeys from '../shared/CopyHotkeys'
+
 import StatusToast from './StatusToast'
+
+import './index.css'
 
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
@@ -80,7 +84,7 @@ const Presenter = () => {
    * Sets the query string parameters, retaining any currently present.
    * @param params The query string parameters.
    */
-  const setQueryParams = ( params ) => history.push( {
+  const setQueryParams = params => history.push( {
     ...location,
     search: queryString.stringify( { ...getUrlState( search ), ...params } ),
   } )
@@ -89,7 +93,7 @@ const Presenter = () => {
    * More concise form to navigate to URLs, retaining query params.
    * @param pathname The path to navigate to.
    */
-  const go = ( pathname ) => history.push( { ...location, pathname } )
+  const go = pathname => history.push( { ...location, pathname } )
 
   /**
    * Toggles the controller.
@@ -108,7 +112,7 @@ const Presenter = () => {
   } )
 
   const { controllerZoom } = OPTIONS
-  const setZoom = ( controllerZoom ) => controller.setSettings( { layout: { controllerZoom } } )
+  const setZoom = controllerZoom => controller.setSettings( { layout: { controllerZoom } } )
   const zoomInController = () => setZoom( Math.min( controllerZoom.max, zoom + 0.1 ) )
   const zoomOutController = () => setZoom( Math.max( controllerZoom.min, zoom - 0.1 ) )
   const zoomResetController = () => setZoom( 1 )
@@ -117,7 +121,7 @@ const Presenter = () => {
    * Toggles the given query string parameter.
    * @param query The query string parameter to toggle.
    */
-  const toggleQuery = ( query ) => {
+  const toggleQuery = query => {
     const parsed = getUrlState( search )
 
     setQueryParams( {
@@ -140,10 +144,10 @@ const Presenter = () => {
    * Prevents the default action from occurring for each handler.
    * @param events An object containing the event names and corresponding handlers.
    */
-  const preventDefault = ( events ) => Object.entries( events )
+  const preventDefault = events => Object.entries( events )
     .reduce( ( events, [ name, handler ] ) => ( {
       ...events,
-      [ name ]: ( event ) => event.preventDefault() || handler( event ),
+      [ name ]: event => event.preventDefault() || handler( event ),
     } ), {} )
 
   // Global Hotkey Handlers

@@ -1,22 +1,26 @@
-import './History.css'
+import React, { useMemo, useContext } from 'react'
+import { func, number } from 'prop-types'
+import { stripVishraams } from 'gurmukhi-utils'
+
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {
   faDownload,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import { stripVishraams } from 'gurmukhi-utils'
-import { func, number } from 'prop-types'
-import { useContext, useMemo } from 'react'
 
-import { HISTORY_DOWNLOAD_URL } from '../lib/consts'
-import { HistoryContext } from '../lib/contexts'
-import controller from '../lib/controller'
 import { LINE_HOTKEYS } from '../lib/keyMap'
+import { HISTORY_DOWNLOAD_URL } from '../lib/consts'
+import controller from '../lib/controller'
+import { HistoryContext } from '../lib/contexts'
+
 import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
+
+import './History.css'
 
 const History = ( { register, focused } ) => {
   const { transitionHistory, latestLines } = useContext( HistoryContext )
@@ -45,7 +49,7 @@ const History = ( { register, focused } ) => {
             <ListItem
               className={focused === index ? 'focused' : ''}
               key={timestamp}
-              ref={( ref ) => register( index, ref )}
+              ref={ref => register( index, ref )}
               onClick={onClick}
             >
               <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>

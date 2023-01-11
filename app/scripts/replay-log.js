@@ -4,17 +4,16 @@ import { readFile } from 'fs-extra'
 import WebSocket from 'ws'
 
 const extractors = [
-  [ 'lines:current', /Line ID to (.*)/, ( lineId ) => ( { lineId } ) ],
-  [ 'shabads:current', /Shabad ID to (.*)/, ( shabadId ) => ( { shabadId } ) ],
-  [ 'banis:current', /Bani ID to (.*)/, ( baniId ) => ( { baniId } ) ],
-  [ 'lines:main', /mainLineId to (.*)/, ( mainLineId ) => mainLineId ],
-  [ 'lines:next', /nextLineId to (.*)/, ( nextLineId ) => nextLineId ],
+  [ 'lines:current', /Line ID to (.*)/, lineId => ( { lineId } ) ],
+  [ 'shabads:current', /Shabad ID to (.*)/, shabadId => ( { shabadId } ) ],
+  [ 'banis:current', /Bani ID to (.*)/, baniId => ( { baniId } ) ],
+  [ 'lines:main', /mainLineId to (.*)/, mainLineId => mainLineId ],
+  [ 'lines:next', /nextLineId to (.*)/, nextLineId => nextLineId ],
 ]
 
-const getEntryAction = ( entry ) => {
+const getEntryAction = entry => {
   const { time, msg } = entry
 
-  // eslint-disable-next-line no-restricted-syntax
   for ( const [ event, expression, transformer ] of extractors ) {
     const match = msg.match( expression )
 
@@ -31,15 +30,15 @@ const getEntryAction = ( entry ) => {
   return []
 }
 
-const logToActions = ( log ) => log.reduce( ( actions, entry ) => [
+const logToActions = log => log.reduce( ( actions, entry ) => [
   ...actions,
   ...getEntryAction( entry ),
 ], [] )
 
-const readLog = async ( logFile ) => ( await readFile( logFile, 'utf8' ) )
+const readLog = async logFile => ( await readFile( logFile, 'utf8' ) )
   .split( '\n' )
-  .filter( ( line ) => line.length )
-  .map( ( line ) => JSON.parse( line ) )
+  .filter( line => line.length )
+  .map( line => JSON.parse( line ) )
 
 const simulateActions = async ( actions, trueTime, port ) => new Promise( ( resolve, reject ) => {
   // Connect to the backend
@@ -49,7 +48,7 @@ const simulateActions = async ( actions, trueTime, port ) => new Promise( ( reso
     JSON.stringify( { event, payload: transformer( value ) } ),
   )
 
-  const actionLoop = async ( actionIndex ) => {
+  const actionLoop = async actionIndex => {
     const { timestamp, ...action } = actions[ actionIndex ]
     console.log( `Replaying action ${actionIndex + 1}/${actions.length} (${action.event}, ${action.value})` )
 
@@ -100,4 +99,4 @@ const main = async () => {
 
 main()
   .then( () => process.exit( 0 ) )
-  .catch( ( e ) => console.error( e ) || process.exit( 1 ) )
+  .catch( e => console.error( e ) || process.exit( 1 ) )

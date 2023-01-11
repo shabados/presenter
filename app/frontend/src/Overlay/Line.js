@@ -1,13 +1,14 @@
 /* eslint-disable react/no-array-index-key */
-import './Line.css'
-
+import React from 'react'
+import { string, bool, objectOf, func } from 'prop-types'
 import classNames from 'classnames'
-import { bool, func, objectOf, string } from 'prop-types'
 
 import { LANGUAGE_NAMES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/data'
-import { classifyWords, partitionLine } from '../lib/line'
+import { partitionLine, classifyWords } from '../lib/line'
 
-const sortBy = ( sorter ) => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
+import './Line.css'
+
+const sortBy = sorter => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
 
 /**
  * Overlay Line Component.

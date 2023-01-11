@@ -1,16 +1,17 @@
 /* eslint-disable react/no-array-index-key */
-import './Line.css'
-
+import React from 'react'
+import { string, bool, number, objectOf, func } from 'prop-types'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 import { countSyllables, toSyllabicSymbols } from 'gurmukhi-utils'
-import { bool, func, number, objectOf, string } from 'prop-types'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { LANGUAGE_NAMES, LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/data'
-import { classifyWords, partitionLine } from '../lib/line'
+import { partitionLine, classifyWords } from '../lib/line'
 import { DEFAULT_OPTIONS } from '../lib/options'
+import { LANGUAGES, LANGUAGE_NAMES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/data'
 
-const sortBy = ( sorter ) => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
+import './Line.css'
+
+const sortBy = sorter => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
 
 /**
  * Line Component.

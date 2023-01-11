@@ -1,9 +1,10 @@
+import { toUnicode, stripVishraams } from 'gurmukhi-utils'
+import { mapValues } from 'lodash'
+import Url from 'url-parse'
+
 //! To be refactored into shared utilities
 import { LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../frontend/src/lib/data'
 import { customiseLine, getTranslations, getTransliterators } from '../frontend/src/lib/line'
-import { stripVishraams, toUnicode } from 'gurmukhi-utils'
-import { mapValues } from 'lodash'
-import Url from 'url-parse'
 
 import { getSources } from './db'
 import fetch from './fetch'
@@ -35,7 +36,7 @@ const prepareCaptionWith = ( { recommendedSources } ) => ( { shabad, line } ) =>
       settings.get( 'closedCaptions.hindiTransliteration' ) && LANGUAGES.hindi,
       settings.get( 'closedCaptions.urduTransliteration' ) && LANGUAGES.urdu,
     ] ),
-    ( transliterate ) => transliterate( customiseLine( gurmukhi, { lineEnding, typeId } ) ),
+    transliterate => transliterate( customiseLine( gurmukhi, { lineEnding, typeId } ) ),
   )
 
   const translations = mapValues(
@@ -51,14 +52,14 @@ const prepareCaptionWith = ( { recommendedSources } ) => ( { shabad, line } ) =>
       sources: recommendedSources,
       recommendedSources,
     } ),
-    ( translation ) => customiseLine( translation, { lineEnding, typeId } ),
+    translation => customiseLine( translation, { lineEnding, typeId } ),
   )
 
   return [
     toUnicode( gurmukhi ),
     prepareSecondary( translations, TRANSLATION_ORDER ),
     prepareSecondary( transliterations, TRANSLITERATION_ORDER ),
-  ].filter( ( x ) => x ).join( '\n' )
+  ].filter( x => x ).join( '\n' )
 }
 
 class ZoomController {
@@ -66,7 +67,7 @@ class ZoomController {
 
   prepareCaption = null
 
-  isReady = () => [ getApiKey(), this.prepareCaption ].every( ( x ) => x )
+  isReady = () => [ getApiKey(), this.prepareCaption ].every( x => x )
 
   async init() {
     this.prepareCaption = prepareCaptionWith( await getSources() )

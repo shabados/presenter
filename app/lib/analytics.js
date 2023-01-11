@@ -5,12 +5,13 @@
 
 /* eslint-disable class-methods-use-this */
 import * as Sentry from '@sentry/node'
-import { cpus, freemem, networkInterfaces, platform, release, totalmem } from 'os'
+import { cpus, freemem, totalmem, platform, release, networkInterfaces } from 'os'
 
 import { version } from '../package.json'
-import { isDev, SENTRY_DSN, SENTRY_PROJECT } from './consts'
+
 import logger from './logger'
 import settings from './settings'
+import { SENTRY_DSN, isDev, SENTRY_PROJECT } from './consts'
 
 /**
  * Analytics class for tracking events and providing error reporting.
@@ -43,7 +44,7 @@ class Analytics {
   }
 
   sendException( error ) {
-    Sentry.withScope( ( scope ) => {
+    Sentry.withScope( scope => {
       scope.setExtra( 'settings', settings.get() )
       scope.setExtra( 'system', {
         cpus: cpus(),

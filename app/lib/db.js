@@ -3,9 +3,9 @@
  * @ignore
  */
 
-import { Banis, Languages, Lines, Shabads, Sources, Writers } from '@shabados/database'
+import { groupBy, last, keyBy } from 'lodash'
+import { Lines, Shabads, Banis, Sources, Languages, Writers } from '@shabados/database'
 import { stripAccents } from 'gurmukhi-utils'
-import { groupBy, keyBy, last } from 'lodash'
 
 import { MAX_RESULTS } from './consts'
 
@@ -13,10 +13,10 @@ import { MAX_RESULTS } from './consts'
  * Decorates a query function with the ability to accept modifier options.
  * @param {*} queryFn A query function that returns a knex instance.
  */
-const withSearchOptions = ( queryFn ) => ( query, options = {} ) => [
-  [ options.transliterations, ( model ) => model.withTransliterations() ],
-  [ options.translations, ( model ) => model.eager( 'shabad' ).withTranslations() ],
-  [ options.citations, ( model ) => model.eager( 'shabad.section' ) ],
+const withSearchOptions = queryFn => ( query, options = {} ) => [
+  [ options.transliterations, model => model.withTransliterations() ],
+  [ options.translations, model => model.eager( 'shabad' ).withTranslations() ],
+  [ options.citations, model => model.eager( 'shabad.section' ) ],
 ].reduce(
   ( model, [ option, modifier ] ) => ( option ? modifier( model ) : model ),
   queryFn( query ).limit( MAX_RESULTS ),
@@ -29,7 +29,7 @@ const withSearchOptions = ( queryFn ) => ( query, options = {} ) => [
  * @returns {Array} A list of lines with the provided first letters of each word.
  */
 export const firstLetterSearch = withSearchOptions(
-  ( letters ) => Lines.query().firstLetters( stripAccents( letters ) ),
+  letters => Lines.query().firstLetters( stripAccents( letters ) ),
 )
 
 /**
@@ -39,7 +39,7 @@ export const firstLetterSearch = withSearchOptions(
  * @returns {Array} A list of lines containing the full word.
  */
 export const fullWordSearch = withSearchOptions(
-  ( words ) => Lines.query().fullWord( words ),
+  words => Lines.query().fullWord( words ),
 )
 
 /**
@@ -48,7 +48,7 @@ export const fullWordSearch = withSearchOptions(
  * @async
  * @returns {Object} The Shabad with the given `shabadId`.
  */
-export const getShabad = ( shabadId ) => Shabads
+export const getShabad = shabadId => Shabads
   .query()
   .where( 'shabads.id', shabadId )
   .eager( '[lines, section]' )
@@ -61,7 +61,7 @@ export const getShabad = ( shabadId ) => Shabads
  * @async
  * @returns {Object} The Shabad with the given `shabadId`.
  */
-export const getShabadByOrderId = ( orderId ) => Shabads
+export const getShabadByOrderId = orderId => Shabads
   .query()
   .where( 'shabads.order_id', orderId )
   .eager( '[lines, section]' )
@@ -81,7 +81,7 @@ export const getBanis = () => Banis.query()
  * @async
  * @returns {Array} A list of all lines with translations and transliterations.
  */
-export const getBaniLines = ( baniId ) => Banis
+export const getBaniLines = baniId => Banis
   .query()
   .joinEager( 'lines.shabad' )
   .orderBy( [ 'line_group', 'l.order_id' ] )
@@ -98,7 +98,7 @@ export const getBaniLines = ( baniId ) => Banis
 export const getSources = () => Sources
   .query()
   .eager( 'translationSources' )
-  .then( ( sources ) => sources.reduce( (
+  .then( sources => sources.reduce( (
     ( acc, { translationSources, id, ...source } ) => ( {
       ...acc,
       [ id ]: {
@@ -109,7 +109,7 @@ export const getSources = () => Sources
         ),
       },
     } ) ), {} ) )
-  .then( ( sources ) => ( {
+  .then( sources => ( {
     sources,
     recommendedSources: Object.entries( sources ).reduce( (
       ( acc, [ id, { translationSources, ...source } ] ) => ( {

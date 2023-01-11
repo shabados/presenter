@@ -1,10 +1,12 @@
-import './TutorialButton.css'
-
-import classNames from 'classnames'
+import React from 'react'
 import { node, string } from 'prop-types'
+import classNames from 'classnames'
 
 import controller from '../lib/controller'
+
 import { Button } from './SettingComponents'
+
+import './TutorialButton.css'
 
 const TutorialButton = ( { className, href, children, ...props } ) => (
   <Button

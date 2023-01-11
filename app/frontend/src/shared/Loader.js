@@ -1,6 +1,7 @@
-import './Loader.css'
-
+import React from 'react'
 import { string } from 'prop-types'
+
+import './Loader.css'
 
 const Loader = ( { size: fontSize } ) => (
   <div className="loader">

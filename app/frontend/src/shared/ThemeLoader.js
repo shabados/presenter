@@ -1,7 +1,9 @@
-import { instanceOf, string } from 'prop-types'
+import React from 'react'
+import { string, instanceOf } from 'prop-types'
 
 import { THEMES_URL } from '../lib/consts'
-import { StatusContext, withContext } from '../lib/contexts'
+import { withContext, StatusContext } from '../lib/contexts'
+
 import defaultTheme from '../Presenter/themes/Day.css'
 
 /**
