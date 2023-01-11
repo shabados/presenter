@@ -1,6 +1,6 @@
 //! To be refactored into shared utilities
-import { LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '@shabados/frontend/src/lib/data'
-import { customiseLine, getTranslations, getTransliterators } from '@shabados/frontend/src/lib/line'
+import { LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../frontend/src/lib/data'
+import { customiseLine, getTranslations, getTransliterators } from '../frontend/src/lib/line'
 import { stripVishraams, toUnicode } from 'gurmukhi-utils'
 import { mapValues } from 'lodash'
 import Url from 'url-parse'
