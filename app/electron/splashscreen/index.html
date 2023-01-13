@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Shabad OS</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Shabad OS</title>
-  <link rel="stylesheet" href="index.css">
-</head>
-
-<body>
+  <body>
     <div class="logo">
       <img src="logo.png" width="64px" />
       <span>Shabad OS</span>
@@ -18,10 +17,12 @@
       <span id="start-message">Starting</span>
     </div>
     <script>
-      const electron = require( 'electron' )
-      const { globals: { version } } = electron.remote.getCurrentWindow();
-      document.getElementById('start-message').innerHTML = `Starting v${version}`
+      const {
+        globals: { version },
+      } = require('@electron/remote').getCurrentWindow();
+      document.getElementById(
+        'start-message'
+      ).innerHTML = `Starting v${version}`;
     </script>
-</body>
-
+  </body>
 </html>
