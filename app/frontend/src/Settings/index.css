@@ -53,12 +53,11 @@
 
 .settings main {
   display: flex;
-  min-height: fit-content;
   flex-direction: column;
+  flex-grow: 1;
   padding: 25px;
   background-color: var(--settings-background-color);
   color: var(--settings-text-color);
-  height: 100%;
   transition: 0.3s all;
 }
 
