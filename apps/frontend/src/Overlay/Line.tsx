@@ -5,18 +5,15 @@ import classNames from 'classnames'
 
 import { LANGUAGE_NAMES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/data'
 import { classifyWords, partitionLine } from '../lib/line'
+import {Translations, Transliterators } from '../lib/data';
 
-const sortBy = ( sorter ) => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
+const sortBy = ( sortOrder: Record<string, number> ) => ( [ languageA ]: [string, any], [ languageB ]: [string, any] ) => sortOrder[ languageA ] - sortOrder[ languageB ]
 
 type LineProps = {
   className?: string,
   gurmukhi: string,
-  translations: {
-    [key: string]: string,
-  },
-  transliterators: {
-    [key: string]: () => unknown,
-  },
+  translations: Translations,
+  transliterators: Transliterators,
   larivaarGurbani?: boolean,
   larivaarAssist?: boolean,
 }
