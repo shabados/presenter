@@ -17,5 +17,13 @@
     "sourceMap": true,
     "noImplicitAny": true
   },
-  "include": ["apps", "packages", "*.ts", "*.js", "__mocks__", "__utils__"]
+  "include": [
+    "apps",
+    "packages",
+    "*.ts",
+    "*.tsx",
+    "*.js",
+    "__mocks__",
+    "__utils__"
+  ]
 }
