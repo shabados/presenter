@@ -3,7 +3,6 @@ import './Line.css'
 
 import classNames from 'classnames'
 import { countSyllables, toSyllabicSymbols } from 'gurmukhi-utils'
-import { bool, func, number, objectOf, string } from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { LANGUAGE_NAMES, LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/data'
@@ -11,6 +10,39 @@ import { classifyWords, partitionLine } from '../lib/line'
 import { DEFAULT_OPTIONS } from '../lib/options'
 
 const sortBy = ( sorter ) => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
+
+type LineProps = {
+  className?: string,
+  gurmukhi: string,
+  translations?: {
+    [key: string]: string,
+  },
+  transliterators?: {
+    [key: string]: () => any,
+  },
+  syllabicWeights?: boolean,
+  syllableCount?: boolean,
+  inlineTransliteration?: boolean,
+  inlineColumnGuides?: boolean,
+  spacing?: string,
+  centerText?: boolean,
+  justifyText?: boolean,
+  larivaarGurbani?: boolean,
+  larivaarAssist?: boolean,
+  vishraamColors?: boolean,
+  vishraamCharacters?: boolean,
+  vishraamLight?: boolean,
+  vishraamMedium?: boolean,
+  vishraamHeavy?: boolean,
+  splitOnVishraam?: boolean,
+  simpleGraphics?: boolean,
+  presenterFontSize?: number,
+  relativeGurmukhiFontSize?: number,
+  relativeEnglishFontSize?: number,
+  relativePunjabiFontSize?: number,
+  relativeHindiFontSize?: number,
+  relativeUrduFontSize?: number,
+}
 
 /**
  * Line Component.
@@ -39,10 +71,10 @@ const sortBy = ( sorter ) => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
  * @param {boolean} simpleGraphics Disables transitions and other intensive effects.
  */
 const Line = ( {
-  className,
+  className = undefined,
   gurmukhi,
-  translations,
-  transliterators,
+  translations = {},
+  transliterators = {},
   syllabicWeights,
   syllableCount,
   inlineTransliteration,
@@ -50,7 +82,7 @@ const Line = ( {
   spacing,
   centerText,
   justifyText,
-  presenterFontSize,
+  presenterFontSize = 0,
   relativeGurmukhiFontSize,
   relativeEnglishFontSize,
   relativePunjabiFontSize,
@@ -65,7 +97,7 @@ const Line = ( {
   vishraamHeavy,
   splitOnVishraam: partition,
   simpleGraphics: simple,
-} ) => {
+}: LineProps ) => {
   const fontSizes = {
     [ LANGUAGES.english ]: relativeEnglishFontSize,
     [ LANGUAGES.spanish ]: relativeEnglishFontSize,
@@ -77,15 +109,15 @@ const Line = ( {
   return (
     <div
       className={classNames( className, {
-        assist: larivaar && larivaarAssist,
-        light: vishraams && vishraamLight,
-        medium: vishraams && vishraamMedium,
-        heavy: vishraams && vishraamHeavy,
-        vishraams,
-        larivaar,
-        simple,
-        'center-text': centerText,
-        'justify-text': justifyText,
+          assist: larivaar && larivaarAssist,
+          light: vishraams && vishraamLight,
+          medium: vishraams && vishraamMedium,
+          heavy: vishraams && vishraamHeavy,
+          vishraams,
+          larivaar,
+          simple,
+          'center-text': centerText,
+          'justify-text': justifyText,
       }, 'line' )}
       style={{ justifyContent: spacing, fontSize: `${presenterFontSize}vh` }}
     >
@@ -94,33 +126,33 @@ const Line = ( {
           <p className="source">
             {partitionLine( gurmukhi, !vishraamCharacters ).map( ( line, lineIndex ) => (
               <span key={lineIndex} className={classNames( 'partition', partition ? 'block' : 'inline' )}>
-                {line.map( ( { word, type }, i ) => (
-                  <span
-                    key={`${word}-${type}-${i}`}
+                  {line.map( ( { word, type }, i ) => (
+                    <span
+                      key={`${word}-${type}-${i}`}
                     className={classNames( type, 'word', { 'with-guides': inlineColumnGuides, 'with-rows': inlineTransliteration || syllabicWeights || inlineColumnGuides } )}
-                    style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
-                  >
+                      style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
+                    >
                     <span className="gurmukhi">
                       {word}
-                    </span>
+                        </span>
 
                     {syllabicWeights && ( <span className="syllabic-weights">{toSyllabicSymbols( word )}</span> )}
 
                     {inlineTransliteration && Object
                       .entries( transliterators )
-                      .sort( sortBy( TRANSLITERATION_ORDER ) )
-                      .map( ( [ languageId, transliterate ] ) => (
-                        <span
-                          key={`${word}-${type}-${i}-${languageId}-transliteration`}
-                          className={classNames( LANGUAGE_NAMES[ languageId ] )}
-                          style={{ fontSize: `${fontSizes[ languageId ]}em` }}
-                        >
-                          {transliterate( word )}
-                        </span>
-                      ) )}
-                  </span>
-                ) )}
-              </span>
+                          .sort( sortBy( TRANSLITERATION_ORDER ) )
+                          .map( ( [ languageId, transliterate ] ) => (
+                            <span
+                              key={`${word}-${type}-${i}-${languageId}-transliteration`}
+                              className={classNames( LANGUAGE_NAMES[ languageId ] )}
+                              style={{ fontSize: `${fontSizes[ languageId ]}em` }}
+                            >
+                              {transliterate( word )}
+                            </span>
+                          ) )}
+                    </span>
+                  ) )}
+                </span>
             ) )}
 
             {syllableCount && ( <span className="syllable-count">{countSyllables( gurmukhi )}</span> )}
@@ -140,53 +172,23 @@ const Line = ( {
 
         {!inlineTransliteration && Object
           .entries( transliterators )
-          .sort( sortBy( TRANSLITERATION_ORDER ) )
-          .map( ( [ languageId, transliterate ] ) => (
+            .sort( sortBy( TRANSLITERATION_ORDER ) )
+            .map( ( [ languageId, transliterate ] ) => (
             <CSSTransition key={`${gurmukhi}-${languageId}-transliteration`} classNames="fade" timeout={0}>
-              <p
+                <p
                 className={classNames( LANGUAGE_NAMES[ languageId ], 'transliteration' )}
-                style={{ fontSize: `${fontSizes[ languageId ]}em` }}
-              >
+                  style={{ fontSize: `${fontSizes[ languageId ]}em` }}
+                >
                 {classifyWords( transliterate( gurmukhi ), !vishraamCharacters ).map(
                   ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
                 )}
-              </p>
-            </CSSTransition>
-          ) )}
+                </p>
+              </CSSTransition>
+            ) )}
       </TransitionGroup>
     </div>
   )
 }
-
-Line.propTypes = {
-  className: string,
-  gurmukhi: string.isRequired,
-  translations: objectOf( string ),
-  transliterators: objectOf( func ),
-  syllabicWeights: bool,
-  syllableCount: bool,
-  inlineTransliteration: bool,
-  inlineColumnGuides: bool,
-  spacing: string,
-  centerText: bool,
-  justifyText: bool,
-  larivaarGurbani: bool,
-  larivaarAssist: bool,
-  vishraamColors: bool,
-  vishraamCharacters: bool,
-  vishraamLight: bool,
-  vishraamMedium: bool,
-  vishraamHeavy: bool,
-  splitOnVishraam: bool,
-  simpleGraphics: bool,
-  presenterFontSize: number,
-  relativeGurmukhiFontSize: number,
-  relativeEnglishFontSize: number,
-  relativePunjabiFontSize: number,
-  relativeHindiFontSize: number,
-  relativeUrduFontSize: number,
-}
-
 const {
   layout: {
     spacing,
@@ -215,33 +217,5 @@ const {
     simpleGraphics,
   },
 } = DEFAULT_OPTIONS.local
-
-Line.defaultProps = {
-  className: null,
-  syllabicWeights,
-  syllableCount,
-  inlineTransliteration,
-  inlineColumnGuides,
-  spacing,
-  centerText,
-  justifyText,
-  larivaarGurbani,
-  larivaarAssist,
-  vishraamColors,
-  vishraamCharacters,
-  vishraamHeavy,
-  vishraamMedium,
-  vishraamLight,
-  splitOnVishraam,
-  simpleGraphics,
-  presenterFontSize,
-  relativeGurmukhiFontSize,
-  relativeEnglishFontSize,
-  relativePunjabiFontSize,
-  relativeHindiFontSize,
-  relativeUrduFontSize,
-  translations: {},
-  transliterators: {},
-}
 
 export default Line
