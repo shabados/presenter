@@ -2,12 +2,25 @@ import './Display.css'
 
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
-import { bool, shape } from 'prop-types'
 
 import { LANGUAGES } from '../lib/data'
 import { useCurrentLine, useCurrentLines, useTranslations } from '../lib/hooks'
 import { customiseLine, getTransliterators } from '../lib/line'
 import Line from './Line'
+
+type DisplayProps = {
+  settings: {
+    layout: unknown,
+    display: unknown,
+    vishraams: unknown,
+    theme?: {
+      simpleGraphics: boolean,
+      backgroundImage: boolean,
+      highlightCurrentLine: boolean,
+      dimNextAndPrevLines: boolean,
+    },
+  },
+}
 
 /**
  * Display Component.
@@ -15,7 +28,7 @@ import Line from './Line'
  * @param shabad The Shabad to render.
  * @param lineId The current line in the Shabad.
  */
-const Display = ( { settings } ) => {
+const Display = ( { settings }: DisplayProps ) => {
   const {
     layout,
     display,
@@ -32,7 +45,7 @@ const Display = ( { settings } ) => {
 
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
-  const [ line, lineIndex ] = useCurrentLine()
+  const [ line = [], lineIndex ] = useCurrentLine()
   const { typeId } = line || {}
 
   // Get the next lines
@@ -107,17 +120,6 @@ const Display = ( { settings } ) => {
 
     </div>
   )
-}
-
-Display.propTypes = {
-  settings: shape( {
-    theme: shape( {
-      simpleGraphics: bool,
-      backgroundImage: bool,
-      highlightCurrentLine: bool,
-      dimNextAndPrevLines: bool,
-    } ),
-  } ).isRequired,
 }
 
 export default Display
