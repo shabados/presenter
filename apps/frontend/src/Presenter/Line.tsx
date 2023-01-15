@@ -5,7 +5,12 @@ import classNames from 'classnames'
 import { countSyllables, toSyllabicSymbols } from 'gurmukhi-utils'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { LANGUAGE_NAMES, LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/data'
+import {
+  LANGUAGE_NAMES,
+  LANGUAGES,
+  TRANSLATION_ORDER,
+  TRANSLITERATION_ORDER,
+} from '../lib/data'
 import { classifyWords, partitionLine } from '../lib/line'
 import { DEFAULT_OPTIONS } from '../lib/options'
 
@@ -108,7 +113,9 @@ const Line = ( {
 
   return (
     <div
-      className={classNames( className, {
+      className={classNames(
+        className,
+        {
           assist: larivaar && larivaarAssist,
           light: vishraams && vishraamLight,
           medium: vishraams && vishraamMedium,
@@ -118,28 +125,45 @@ const Line = ( {
           simple,
           'center-text': centerText,
           'justify-text': justifyText,
-      }, 'line' )}
+        },
+        'line'
+      )}
       style={{ justifyContent: spacing, fontSize: `${presenterFontSize}vh` }}
     >
       <TransitionGroup appear exit={false} component={null}>
         <CSSTransition key={gurmukhi} classNames="fade" timeout={0}>
           <p className="source">
-            {partitionLine( gurmukhi, !vishraamCharacters ).map( ( line, lineIndex ) => (
-              <span key={lineIndex} className={classNames( 'partition', partition ? 'block' : 'inline' )}>
+            {partitionLine( gurmukhi, !vishraamCharacters ).map(
+              ( line, lineIndex ) => (
+                <span
+                  key={lineIndex}
+                  className={classNames(
+                    'partition',
+                    partition ? 'block' : 'inline'
+                  )}
+                >
                   {line.map( ( { word, type }, i ) => (
                     <span
                       key={`${word}-${type}-${i}`}
-                    className={classNames( type, 'word', { 'with-guides': inlineColumnGuides, 'with-rows': inlineTransliteration || syllabicWeights || inlineColumnGuides } )}
+                      className={classNames( type, 'word', {
+                        'with-guides': inlineColumnGuides,
+                        'with-rows':
+                          inlineTransliteration
+                          || syllabicWeights
+                          || inlineColumnGuides,
+                      } )}
                       style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
                     >
-                    <span className="gurmukhi">
-                      {word}
+                      <span className="gurmukhi">{word}</span>
+
+                      {syllabicWeights && (
+                        <span className="syllabic-weights">
+                          {toSyllabicSymbols( word )}
                         </span>
+                      )}
 
-                    {syllabicWeights && ( <span className="syllabic-weights">{toSyllabicSymbols( word )}</span> )}
-
-                    {inlineTransliteration && Object
-                      .entries( transliterators )
+                      {inlineTransliteration
+                        && Object.entries( transliterators )
                           .sort( sortBy( TRANSLITERATION_ORDER ) )
                           .map( ( [ languageId, transliterate ] ) => (
                             <span
@@ -153,35 +177,62 @@ const Line = ( {
                     </span>
                   ) )}
                 </span>
-            ) )}
+              )
+            )}
 
-            {syllableCount && ( <span className="syllable-count">{countSyllables( gurmukhi )}</span> )}
+            {syllableCount && (
+              <span className="syllable-count">{countSyllables( gurmukhi )}</span>
+            )}
           </p>
         </CSSTransition>
 
-        {Object
-          .entries( translations )
+        {Object.entries( translations )
           .sort( sortBy( TRANSLATION_ORDER ) )
           .map( ( [ languageId, translation ] ) => (
-            <CSSTransition key={`${gurmukhi}-${languageId}-translation`} classNames="fade" timeout={0}>
-              <p className={classNames( LANGUAGE_NAMES[ languageId ], 'translation' )} style={{ fontSize: `${fontSizes[ languageId ]}em` }}>
+            <CSSTransition
+              key={`${gurmukhi}-${languageId}-translation`}
+              classNames="fade"
+              timeout={0}
+            >
+              <p
+                className={classNames(
+                  LANGUAGE_NAMES[ languageId ],
+                  'translation'
+                )}
+                style={{ fontSize: `${fontSizes[ languageId ]}em` }}
+              >
                 {translation}
               </p>
             </CSSTransition>
           ) )}
 
-        {!inlineTransliteration && Object
-          .entries( transliterators )
+        {!inlineTransliteration
+          && Object.entries( transliterators )
             .sort( sortBy( TRANSLITERATION_ORDER ) )
             .map( ( [ languageId, transliterate ] ) => (
-            <CSSTransition key={`${gurmukhi}-${languageId}-transliteration`} classNames="fade" timeout={0}>
+              <CSSTransition
+                key={`${gurmukhi}-${languageId}-transliteration`}
+                classNames="fade"
+                timeout={0}
+              >
                 <p
-                className={classNames( LANGUAGE_NAMES[ languageId ], 'transliteration' )}
+                  className={classNames(
+                    LANGUAGE_NAMES[ languageId ],
+                    'transliteration'
+                  )}
                   style={{ fontSize: `${fontSizes[ languageId ]}em` }}
                 >
-                {classifyWords( transliterate( gurmukhi ), !vishraamCharacters ).map(
-                  ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
-                )}
+                  {classifyWords(
+                    transliterate( gurmukhi ),
+                    !vishraamCharacters
+                  ).map( ( { word, type }, i ) => (
+                    <span
+                      key={`${word}-${type}-${i}`}
+                      className={classNames( type, 'word' )}
+                    >
+                      {word}
+                    </span>
+                  ) )}
                 </p>
               </CSSTransition>
             ) )}
@@ -213,9 +264,7 @@ const {
     relativeHindiFontSize,
     relativeUrduFontSize,
   },
-  theme: {
-    simpleGraphics,
-  },
+  theme: { simpleGraphics },
 } = DEFAULT_OPTIONS.local
 
 export default Line
