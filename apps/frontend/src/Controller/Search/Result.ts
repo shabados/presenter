@@ -1,12 +1,24 @@
 import { ListItem } from '@mui/material'
 import classNames from 'classnames'
-import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 import { forwardRef, useContext } from 'react'
 
 import { RecommendedSourcesContext, SettingsContext, WritersContext } from '../../lib/contexts'
 import controller from '../../lib/controller'
 import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '../../lib/data'
 import { customiseLine, getTranslation } from '../../lib/line'
+
+type ResultProps = {
+  gurmukhi: string;
+  id: string;
+  typeId: number;
+  shabadId: string;
+  focused: boolean;
+  highlighter: () => any;
+  sourceId: number;
+  shabad: Record<string, any>;
+  sourcePage: number;
+  translations: {[translation: string]: string }[]};
+}
 
 /**
  * Renders a single result, highlighting the match.
@@ -33,7 +45,7 @@ const Result = forwardRef( ( {
   highlighter,
   sourcePage,
   translations,
-}, ref ) => {
+}: ResultProps, ref ) => {
   const { local: {
     sources,
     search: {
@@ -115,18 +127,5 @@ const Result = forwardRef( ( {
     </ListItem>
   )
 } )
-
-Result.propTypes = {
-  gurmukhi: string.isRequired,
-  id: string.isRequired,
-  typeId: number.isRequired,
-  shabadId: string.isRequired,
-  focused: bool.isRequired,
-  highlighter: func.isRequired,
-  sourceId: number.isRequired,
-  shabad: shape( { } ).isRequired,
-  sourcePage: number.isRequired,
-  translations: arrayOf( shape( { translation: string.isRequired } ) ).isRequired,
-}
 
 export default Result
