@@ -9,7 +9,9 @@ import {
   LANGUAGE_NAMES,
   LANGUAGES,
   TRANSLATION_ORDER,
+  Translations,
   TRANSLITERATION_ORDER,
+  Transliterators,
 } from '../lib/data'
 import { classifyWords, partitionLine, sortBy } from '../lib/line'
 import { DEFAULT_OPTIONS } from '../lib/options'
@@ -17,12 +19,8 @@ import { DEFAULT_OPTIONS } from '../lib/options'
 type LineProps = {
   className?: string,
   gurmukhi: string,
-  translations?: {
-    [key: string]: string,
-  },
-  transliterators?: {
-    [key: string]: ( input: string ) => string,
-  },
+  translations?: Translations,
+  transliterators?: Transliterators,
   syllabicWeights?: boolean,
   syllableCount?: boolean,
   inlineTransliteration?: boolean,
@@ -46,6 +44,33 @@ type LineProps = {
   relativeHindiFontSize?: number,
   relativeUrduFontSize?: number,
 }
+
+const {
+  layout: {
+    spacing: defaultSpacing,
+    centerText,
+    justifyText,
+    syllabicWeights,
+    syllableCount,
+    inlineTransliteration,
+    inlineColumnGuides,
+    larivaarAssist,
+    larivaarGurbani,
+    vishraamColors,
+    vishraamCharacters,
+    vishraamHeavy,
+    vishraamMedium,
+    vishraamLight,
+    splitOnVishraam,
+    presenterFontSize,
+    relativeGurmukhiFontSize,
+    relativeEnglishFontSize,
+    relativePunjabiFontSize,
+    relativeHindiFontSize,
+    relativeUrduFontSize,
+  },
+  theme: { simpleGraphics },
+} = DEFAULT_OPTIONS.local
 
 /**
  * Line Component.
@@ -82,7 +107,7 @@ const Line = ( {
   syllableCount,
   inlineTransliteration,
   inlineColumnGuides,
-  spacing,
+  spacing = defaultSpacing,
   centerText,
   justifyText,
   presenterFontSize = 0,
@@ -243,31 +268,5 @@ const Line = ( {
     </div>
   )
 }
-const {
-  layout: {
-    spacing,
-    centerText,
-    justifyText,
-    syllabicWeights,
-    syllableCount,
-    inlineTransliteration,
-    inlineColumnGuides,
-    larivaarAssist,
-    larivaarGurbani,
-    vishraamColors,
-    vishraamCharacters,
-    vishraamHeavy,
-    vishraamMedium,
-    vishraamLight,
-    splitOnVishraam,
-    presenterFontSize,
-    relativeGurmukhiFontSize,
-    relativeEnglishFontSize,
-    relativePunjabiFontSize,
-    relativeHindiFontSize,
-    relativeUrduFontSize,
-  },
-  theme: { simpleGraphics },
-} = DEFAULT_OPTIONS.local
 
 export default Line
