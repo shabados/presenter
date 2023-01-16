@@ -22,12 +22,12 @@ export const LANGUAGES = {
 export const LANGUAGE_NAMES = invert( LANGUAGES )
 
 export type Transliterators = {
-  [language: string]: (ascii: string) => string
+  [language: string]: ( ascii: string ) => string,
 }
 
 // The transliterator functions for each language, presuming ascii input
 export const TRANSLITERATORS = Object.entries( {
-  [ LANGUAGES.english ] : toEnglish,
+  [ LANGUAGES.english ]: toEnglish,
   [ LANGUAGES.hindi ]: toHindi,
   [ LANGUAGES.urdu ]: toShahmukhi,
 } ).reduce( ( transliterators, [ language, fn ] ) => ( {
@@ -36,7 +36,7 @@ export const TRANSLITERATORS = Object.entries( {
 } ), {} as Transliterators )
 
 export type Translations = {
-  [language: string]: string
+  [language: string]: string,
 }
 
 // The order of translations
@@ -44,7 +44,7 @@ export const TRANSLATION_ORDER = [
   LANGUAGES.english,
   LANGUAGES.punjabi,
   LANGUAGES.spanish,
-].reduce( ( acc, language, index ) => ( { ...acc, [ language ]: index } ), {} as Translations)
+].reduce( ( acc, language, index ) => ( { ...acc, [ language ]: index } ), {} as Translations )
 
 // The order of transliterations
 export const TRANSLITERATION_ORDER = [
