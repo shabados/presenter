@@ -21,7 +21,7 @@ type LineProps = {
     [key: string]: string,
   },
   transliterators?: {
-    [key: string]: () => any,
+    [key: string]: ( input: string ) => string,
   },
   syllabicWeights?: boolean,
   syllableCount?: boolean,
@@ -107,6 +107,8 @@ const Line = ( {
     [ LANGUAGES.punjabi ]: relativePunjabiFontSize,
     [ LANGUAGES.hindi ]: relativeHindiFontSize,
     [ LANGUAGES.urdu ]: relativeUrduFontSize,
+  } as {
+    [languageId: string] : number | undefined,
   }
 
   return (
@@ -141,8 +143,11 @@ const Line = ( {
                   )}
                 >
                   {line.map( ( { word, type }, i ) => (
+                    // TODO: If classifyWord's type type can be changed
+                    // to string instead of string | null,
+                    // then we won't have to || the type value here in the template string
                     <span
-                      key={`${word}-${type}-${i}`}
+                      key={`${word}-${type || ''}-${i}`}
                       className={classNames( type, 'word', {
                         'with-guides': inlineColumnGuides,
                         'with-rows':
@@ -150,7 +155,7 @@ const Line = ( {
                           || syllabicWeights
                           || inlineColumnGuides,
                       } )}
-                      style={{ fontSize: `${relativeGurmukhiFontSize}em` }}
+                      style={relativeGurmukhiFontSize ? { fontSize: `${relativeGurmukhiFontSize}em` } : {}}
                     >
                       <span className="gurmukhi">{word}</span>
 
@@ -165,9 +170,9 @@ const Line = ( {
                           .sort( sortBy( TRANSLITERATION_ORDER ) )
                           .map( ( [ languageId, transliterate ] ) => (
                             <span
-                              key={`${word}-${type}-${i}-${languageId}-transliteration`}
+                              key={`${word}-${type || ''}-${i}-${languageId}-transliteration`}
                               className={classNames( LANGUAGE_NAMES[ languageId ] )}
-                              style={{ fontSize: `${fontSizes[ languageId ]}em` }}
+                              style={fontSizes[ languageId ] ? { fontSize: `${fontSizes[ languageId ]}em` } : {}}
                             >
                               {transliterate( word )}
                             </span>
@@ -225,7 +230,7 @@ const Line = ( {
                     !vishraamCharacters
                   ).map( ( { word, type }, i ) => (
                     <span
-                      key={`${word}-${type}-${i}`}
+                      key={`${word}-${type || ''}-${i}`}
                       className={classNames( type, 'word' )}
                     >
                       {word}
