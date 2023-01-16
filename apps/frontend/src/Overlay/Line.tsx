@@ -3,11 +3,8 @@ import './Line.css'
 
 import classNames from 'classnames'
 
-import { LANGUAGE_NAMES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../lib/data'
-import { classifyWords, partitionLine } from '../lib/line'
-import {Translations, Transliterators } from '../lib/data';
-
-const sortBy = ( sortOrder: Record<string, number> ) => ( [ languageA ]: [string, any], [ languageB ]: [string, any] ) => sortOrder[ languageA ] - sortOrder[ languageB ]
+import { LANGUAGE_NAMES, TRANSLATION_ORDER, Translations, TRANSLITERATION_ORDER, Transliterators } from '../lib/data'
+import { classifyWords, partitionLine, sortBy } from '../lib/line'
 
 type LineProps = {
   className?: string,
