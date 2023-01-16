@@ -36,7 +36,7 @@ const Line = ( {
         {partitionLine( gurmukhi )
           .map( ( line, lineIndex ) => (
             <span key={lineIndex}>
-              {line.map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
+              {line.map( ( { word, type }, i ) => <span key={`${word}-${type || ''}-${i}`} className={classNames( type, 'word' )}>{word}</span> )}
             </span>
           ) )}
       </span>
@@ -60,7 +60,7 @@ const Line = ( {
         <p key={`${gurmukhi}-${languageId}-transliteration`} className={classNames( LANGUAGE_NAMES[ languageId ], 'transliteration' )}>
           <span className="text">
             {classifyWords( transliterate( gurmukhi ), true ).map(
-              ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
+              ( { word, type }, i ) => <span key={`${word}-${type || ''}-${i}`} className={classNames( type, 'word' )}>{word}</span>,
             )}
           </span>
         </p>
