@@ -11,10 +11,8 @@ import {
   TRANSLATION_ORDER,
   TRANSLITERATION_ORDER,
 } from '../lib/data'
-import { classifyWords, partitionLine } from '../lib/line'
+import { classifyWords, partitionLine, sortBy } from '../lib/line'
 import { DEFAULT_OPTIONS } from '../lib/options'
-
-const sortBy = ( sorter ) => ( [ n1 ], [ n2 ] ) => sorter[ n1 ] - sorter[ n2 ]
 
 type LineProps = {
   className?: string,
