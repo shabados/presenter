@@ -14,13 +14,13 @@ export const SettingsContext = createContext( {} as SettingsState )
 type Content = {
   bani: { lines: Line[] } | null,
   shabad: { lines: Line[] } | null,
-  lineId: string | null,
+  lineId: string,
 }
 
 export const ContentContext = createContext<Content>( {
   bani: null,
   shabad: null,
-  lineId: null,
+  lineId: '',
 } )
 
 export const HistoryContext = createContext( {
