@@ -1,5 +1,6 @@
 import './Display.css'
 
+import { Display as DisplayType, Layout, Vishraams } from '@presenter/contract/src'
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
 
@@ -10,10 +11,10 @@ import Line from './Line'
 
 type DisplayProps = {
   settings: {
-    layout: unknown,
-    display: unknown,
-    vishraams: unknown,
-    theme?: {
+    layout: Layout,
+    display: DisplayType,
+    vishraams: Vishraams,
+    theme: {
       simpleGraphics: boolean,
       backgroundImage: boolean,
       highlightCurrentLine: boolean,
