@@ -53,9 +53,9 @@ const ErrorFallback = ( { error, autoReset = true }: ErrorFallbackProps ) => {
       </Typography>
 
       {!!countdown && (
-      <Typography variant="subtitle2" align="center">
-        {`Reloading in ${countdown}...`}
-      </Typography>
+        <Typography variant="subtitle2" align="center">
+          {`Reloading in ${countdown}...`}
+        </Typography>
       )}
 
       {showError && ( <div className="error">{error ? error.toString() : 'Unknown error'}</div> )}
@@ -77,17 +77,18 @@ const ErrorFallback = ( { error, autoReset = true }: ErrorFallbackProps ) => {
 
 export default ErrorFallback
 
-export const withErrorFallback = ( Comp: ComponentType ) => ( class WithErrorFallback extends Component {
-  state = { error: null }
+export const withErrorFallback = ( Comp: ComponentType ) => (
+  class WithErrorFallback extends Component {
+    state = { error: null }
 
-  static getDerivedStateFromError( error: string ) {
-    return { error }
-  }
+    static getDerivedStateFromError( error: string ) {
+      return { error }
+    }
 
-  render() {
-    const { error } = this.state
-    if ( error ) return <ErrorFallback error={error} />
+    render() {
+      const { error } = this.state
+      if ( error ) return <ErrorFallback error={error} />
 
-    return <Comp {...this.props} />
-  }
-} )
+      return <Comp {...this.props} />
+    }
+  } )
