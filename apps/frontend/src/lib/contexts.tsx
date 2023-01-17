@@ -1,6 +1,6 @@
+import { Line } from '@presenter/contract/src/data'
 import { ComponentType, Context, createContext } from 'react'
 
-import { Line } from '../types/api'
 import { SettingsState } from './options'
 
 export const withContext = <T,>( Context: Context<T> ) => ( Component: ComponentType ) => ( props: T ) => (
