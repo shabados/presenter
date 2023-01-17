@@ -43,7 +43,7 @@ const getSearchParams = ( searchQuery ) => {
 type SearchProps = {
   updateFocus?: () => any,
   register?: () => any,
-  focused?: string | number | undefined,
+  focused?: string | number,
 }
 
 /**
