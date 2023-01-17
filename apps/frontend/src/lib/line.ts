@@ -122,6 +122,9 @@ export const getTranslation = (
  type GetTranslationsParams = {
    languageIds: number[],
    line: Line,
+   shabad: Shabad,
+   sources: Source,
+   recommendedSources: Source,
  }
 
 export const getTranslations = ( { languageIds, line, ...rest }: GetTranslationsParams ) => {
