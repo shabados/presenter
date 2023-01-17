@@ -19,7 +19,7 @@ const Overlay = () => {
   const { overlay: { overlayName, ...overlay } } = globalSettings || {}
 
   const [ line ] = useCurrentLine()
-  const { typeId } = line || {}
+  const typeId = line?.typeId || -1
   const { lineEnding } = overlay
 
   const translations = mapValues(
@@ -40,7 +40,6 @@ const Overlay = () => {
     ( transliterate ) => ( text ) => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
   )
 
-  if (!connected) return null
 
   return (
     <div className={classNames( { empty: !line }, 'overlay' )}>
