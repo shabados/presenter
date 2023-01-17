@@ -13,6 +13,29 @@ const preventDefault = ( fn ) => ( event ) => {
   fn( event )
 }
 
+NavigationHotkeys.propTypes = {
+  forwardedRef: instanceOf( NavigationHotkeys ),
+}
+
+NavigationHotkeys.defaultProps = {
+  forwardedRef: null,
+}
+
+type WithNavigationHotkeysProps = {
+  arrowKeys?: boolean,
+  lineKeys?: boolean,
+  clickOnFocus?: boolean,
+  keymap?: Keymap,
+  wrapAround?: boolean,
+}
+
+type Keymap = {
+  next: string[],
+  previous: string[],
+  first: string[] | null,
+  last: string[] | null,
+}
+
 /**
  * HOC to automatically add navigational key bindings to child elements.
  * @param {boolean} arrowKeys Navigate with arrow keys to the next and previous DOM elements.
@@ -27,9 +50,9 @@ export const withNavigationHotkeys = ( {
   clickOnFocus,
   keymap,
   wrapAround = true,
-} ) => ( WrappedComponent ) => {
+}: WithNavigationHotkeysProps ) => ( WrappedComponent ) => {
   class NavigationHotkeys extends Component {
-    constructor( props ) {
+    constructor( props: NavigationHotkeysProps ) {
       super( props )
 
       this.state = { focusedIndex: 0 }
@@ -207,14 +230,6 @@ export const withNavigationHotkeys = ( {
         </GlobalHotKeys>
       )
     }
-  }
-
-  NavigationHotkeys.propTypes = {
-    forwardedRef: instanceOf( NavigationHotkeys ),
-  }
-
-  NavigationHotkeys.defaultProps = {
-    forwardedRef: null,
   }
 
   return forwardRef( ( props, ref ) => <NavigationHotkeys {...props} forwardedRef={ref} /> )
