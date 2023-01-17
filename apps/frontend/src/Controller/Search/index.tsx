@@ -4,7 +4,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton, Input, InputAdornment, List } from '@mui/material'
 import classNames from 'classnames'
-import { func, number, oneOfType, string } from 'prop-types'
 import { stringify } from 'querystring'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -41,12 +40,18 @@ const getSearchParams = ( searchQuery ) => {
   return { anchor, value, type }
 }
 
+type SearchProps = {
+  updateFocus?: () => any,
+  register?: () => any,
+  focused?: string | number | undefined,
+}
+
 /**
  * Search Component.
  * Converts ASCII to unicode on input.
  * Displays results.
  */
-const Search = ( { updateFocus, register, focused } ) => {
+const Search = ( { updateFocus, register, focused }: SearchProps ) => {
   const { local: {
     search: {
       showResultCitations,
@@ -197,16 +202,6 @@ const Search = ( { updateFocus, register, focused } ) => {
       </List>
     </div>
   )
-}
-
-Search.propTypes = {
-  focused: oneOfType( [ string, number ] ),
-  register: func.isRequired,
-  updateFocus: func.isRequired,
-}
-
-Search.defaultProps = {
-  focused: undefined,
 }
 
 export default withNavigationHotkeys( {
