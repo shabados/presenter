@@ -3,11 +3,14 @@ import { ComponentType, Context, createContext } from 'react'
 
 import { SettingsState } from './options'
 
-export const withContext = <T,>( Context: Context<T> ) => ( Component: ComponentType ) => ( props: T ) => (
-  <Context.Consumer>
-    {( context ) => <Component {...context} {...props} />}
-  </Context.Consumer>
-)
+export const
+  withContext = <T extends JSX.IntrinsicAttributes,>( Context: Context<T> ) => (
+    Component: ComponentType
+  ) => ( props: T ) => (
+    <Context.Consumer>
+      {( context ) => <Component {...context} {...props} />}
+    </Context.Consumer>
+  )
 
 export const SettingsContext = createContext( {} as SettingsState )
 
