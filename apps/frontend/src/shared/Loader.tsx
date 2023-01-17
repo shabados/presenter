@@ -1,10 +1,10 @@
 import './Loader.css'
 
-type LoaderProps = { 
+type LoaderProps = {
   size?: string,
 }
 
-const Loader = ( { size: fontSize = '100px' }: LoaderProps) => (
+const Loader = ( { size: fontSize = '100px' }: LoaderProps ) => (
   <div className="loader">
     <div className="lds-ring" style={{ fontSize }}>
       <div />
