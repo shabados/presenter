@@ -7,7 +7,7 @@ import { stripEndings, stripVishraams } from 'gurmukhi-utils'
 import vishraams from 'gurmukhi-utils/lib/vishraams.json'
 import memoize from 'memoizee'
 
-import { LINE_TYPES, TRANSLITERATORS } from './data'
+import { LINE_TYPES, TRANSLITERATORS, Transliterators } from './data'
 
 export const sortBy = (
   sortOrder: Record<string, number>
@@ -145,4 +145,4 @@ export const getTransliterators = ( languageIds: number[] ) => ( languageIds || 
   .reduce( ( translations, languageId ) => ( {
     ...translations,
     [ languageId ]: TRANSLITERATORS[ languageId ],
-  } ), {} )
+  } ), {} as Transliterators )
