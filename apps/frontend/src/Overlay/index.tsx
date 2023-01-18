@@ -50,7 +50,6 @@ const Overlay = () => {
 
       <Line
         {...overlay}
-        simpleGraphics
         gurmukhi={line ? line.gurmukhi : ''}
         translations={translations}
         transliterators={transliterators}
