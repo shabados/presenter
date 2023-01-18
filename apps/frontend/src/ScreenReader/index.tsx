@@ -68,7 +68,7 @@ const ScreenReader = () => {
       <div className="lines">
         {lines.map( ( { gurmukhi, id } ) => (
           <p
-            key={id}
+            key={id as string}
             className={classNames( 'line', { title: isTitle( gurmukhi ), 'end-of-pauri': isEndOfPauri( gurmukhi ) } )}
           >
             { /* eslint-disable-next-line react/no-array-index-key */ }
