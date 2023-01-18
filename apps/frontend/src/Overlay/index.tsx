@@ -27,8 +27,8 @@ const Overlay = () => {
       overlay.englishTranslation && LANGUAGES.english,
       overlay.punjabiTranslation && LANGUAGES.punjabi,
       overlay.spanishTranslation && LANGUAGES.spanish,
-    ] ),
-    ( line ) => customiseLine( line, { lineEnding, typeId } ),
+    ].filter( ( item ) => item ) as number[] ),
+    ( line ) => customiseLine( line, { lineEnding, typeId } )
   )
 
   const transliterators = mapValues(
@@ -36,10 +36,11 @@ const Overlay = () => {
       overlay.englishTransliteration && LANGUAGES.english,
       overlay.hindiTransliteration && LANGUAGES.hindi,
       overlay.urduTransliteration && LANGUAGES.urdu,
-    ] ),
+    ].filter( ( item ) => item ) as number[] ),
     ( transliterate ) => ( text ) => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
   )
 
+  if ( !connected ) return null
 
   return (
     <div className={classNames( { empty: !line }, 'overlay' )}>
