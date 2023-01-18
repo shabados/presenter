@@ -29,10 +29,10 @@ export const merge = <T1, T2>( source: Partial<T1>, destination: Partial<T2> ) =
  * @param options Any options for the scroll function.
  */
 // eslint-disable-next-line react/no-find-dom-node
-export const scrollIntoCenter = ( ref: any, options?: __ScrollIntoView.Settings ) => scrollIntoView( 
-    findDOMNode( ref ) as any, 
+export const scrollIntoCenter = ( ref: any, options?: __ScrollIntoView.Settings ) => scrollIntoView(
+  findDOMNode( ref ) as any,
    {  time: 200,  ...options } 
-  )
+)
 
 /**
  * Returns the current query state of the URL, based on the defined states.
@@ -65,3 +65,7 @@ export const mapPlatformKeys = ( keyMap: { [key: string]: string[] } ) => ( isMa
   } ), {} )
   : keyMap
 )
+
+export const filterFalsyValues = <T>(
+  valuesToFilter: Array<T>
+) => valuesToFilter.filter( ( item ) => item )
