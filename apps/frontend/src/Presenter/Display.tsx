@@ -1,12 +1,13 @@
 import './Display.css'
 
-import { Display as DisplayType, Layout, Vishraams } from '@presenter/contract/src'
+import { Display as DisplayType, Layout, Vishraams } from '@presenter/contract'
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
 
 import { LANGUAGES } from '../lib/data'
 import { useCurrentLine, useCurrentLines, useTranslations } from '../lib/hooks'
 import { customiseLine, getTransliterators } from '../lib/line'
+import { filterFalsyValues } from '../lib/utils'
 import Line from './Line'
 
 type DisplayProps = {
@@ -47,7 +48,7 @@ const Display = ( { settings }: DisplayProps ) => {
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
   const [ line = [], lineIndex ] = useCurrentLine()
-  const { typeId } = line || {}
+  const typeId = line?.typeId as number || -1
 
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display
@@ -57,21 +58,23 @@ const Display = ( { settings }: DisplayProps ) => {
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
   const translations = mapValues(
-    useTranslations( [
+    useTranslations( filterFalsyValues( [
       display.englishTranslation && LANGUAGES.english,
       display.punjabiTranslation && LANGUAGES.punjabi,
       display.spanishTranslation && LANGUAGES.spanish,
-    ] ),
+    ] ) as number[] ),
     ( line ) => customiseLine( line, { lineEnding, typeId } ),
   )
 
   const transliterators = mapValues(
-    getTransliterators( [
+    getTransliterators( filterFalsyValues( [
       display.englishTransliteration && LANGUAGES.english,
       display.hindiTransliteration && LANGUAGES.hindi,
       display.urduTransliteration && LANGUAGES.urdu,
-    ] ),
-    ( transliterate ) => ( text ) => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
+    ] ) as number[] ),
+    ( transliterate ) => ( text: string ) => transliterate(
+      customiseLine( text, { lineEnding, typeId } )
+    ),
   )
 
   return (
@@ -81,13 +84,13 @@ const Display = ( { settings }: DisplayProps ) => {
       <div className={classNames( { dim }, 'previous-lines' )}>
         {line && previousLines.map( ( { id, gurmukhi } ) => (
           <Line
-            key={id}
+            key={id as string}
             className="previous-line"
             simpleGraphics={simple}
             {...layout}
             {...display}
             {...vishraams}
-            gurmukhi={gurmukhi}
+            gurmukhi={gurmukhi as string}
           />
         ) )}
       </div>
@@ -98,7 +101,7 @@ const Display = ( { settings }: DisplayProps ) => {
           {...layout}
           {...display}
           {...vishraams}
-          gurmukhi={line.gurmukhi}
+          gurmukhi={line.gurmukhi as string}
           translations={translations}
           transliterators={transliterators}
           simpleGraphics={simple}
@@ -108,13 +111,13 @@ const Display = ( { settings }: DisplayProps ) => {
       <div className={classNames( { dim }, 'next-lines' )}>
         {line && nextLines.map( ( { id, gurmukhi } ) => (
           <Line
-            key={id}
+            key={id as string}
             className="next-line"
             simpleGraphics={simple}
             {...layout}
             {...display}
             {...vishraams}
-            gurmukhi={gurmukhi}
+            gurmukhi={gurmukhi as string}
           />
         ) )}
       </div>
