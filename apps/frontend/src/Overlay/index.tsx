@@ -50,7 +50,7 @@ const Overlay = () => {
 
       <Line
         {...overlay}
-        gurmukhi={line ? line.gurmukhi : ''}
+        gurmukhi={line ? line.gurmukhi as string : ''}
         translations={translations}
         transliterators={transliterators}
       />
