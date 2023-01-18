@@ -9,7 +9,7 @@ const ScreenReader = () => {
 
   const { lines = [] } = shabad ?? bani ?? {}
 
-  return <>{lines.map( ( { gurmukhi, id } ) => <p key={id}>{gurmukhi}</p> )}</>
+  return <>{lines.map( ( { gurmukhi, id } ) => <p key={id as string}>{gurmukhi}</p> )}</>
 }
 
 export default ScreenReader
