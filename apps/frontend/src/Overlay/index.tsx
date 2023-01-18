@@ -8,6 +8,7 @@ import { SettingsContext, StatusContext } from '../lib/contexts'
 import { LANGUAGES } from '../lib/data'
 import { useCurrentLine, useTranslations } from '../lib/hooks'
 import { customiseLine, getTransliterators } from '../lib/line'
+import { filterFalsyValues } from '../lib/utils'
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
 
@@ -23,20 +24,20 @@ const Overlay = () => {
   const { lineEnding } = overlay
 
   const translations = mapValues(
-    useTranslations( [
+    useTranslations( filterFalsyValues( [
       overlay.englishTranslation && LANGUAGES.english,
       overlay.punjabiTranslation && LANGUAGES.punjabi,
       overlay.spanishTranslation && LANGUAGES.spanish,
-    ].filter( ( item ) => item ) as number[] ),
+    ] ) as number[] ),
     ( line ) => customiseLine( line, { lineEnding, typeId } )
   )
 
   const transliterators = mapValues(
-    getTransliterators( [
+    getTransliterators( filterFalsyValues( [
       overlay.englishTransliteration && LANGUAGES.english,
       overlay.hindiTransliteration && LANGUAGES.hindi,
       overlay.urduTransliteration && LANGUAGES.urdu,
-    ].filter( ( item ) => item ) as number[] ),
+    ] ) as number[] ),
     ( transliterate ) => ( text: string ) => transliterate(
       customiseLine( text, { lineEnding, typeId } )
     ),
