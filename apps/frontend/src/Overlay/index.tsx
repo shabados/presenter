@@ -37,7 +37,9 @@ const Overlay = () => {
       overlay.hindiTransliteration && LANGUAGES.hindi,
       overlay.urduTransliteration && LANGUAGES.urdu,
     ].filter( ( item ) => item ) as number[] ),
-    ( transliterate ) => ( text ) => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
+    ( transliterate ) => ( text: string ) => transliterate(
+      customiseLine( text, { lineEnding, typeId } )
+    ),
   )
 
   if ( !connected ) return null
