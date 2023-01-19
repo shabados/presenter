@@ -21,6 +21,14 @@ NavigationHotkeys.defaultProps = {
   forwardedRef: null,
 }
 
+type NavigationHotkeysProps = {
+  forwardedRef?: typeof NavigationHotkeys,
+}
+
+NavigationHotkeys.defaultProps = {
+  forwardedRef: null,
+}
+
 type WithNavigationHotkeysProps = {
   arrowKeys?: boolean,
   lineKeys?: boolean,
@@ -34,6 +42,10 @@ type Keymap = {
   previous: string[],
   first: string[] | null,
   last: string[] | null,
+}
+
+type State = {
+  focusedIndex: number,
 }
 
 /**
@@ -50,8 +62,10 @@ export const withNavigationHotkeys = ( {
   clickOnFocus,
   keymap,
   wrapAround = true,
-}: WithNavigationHotkeysProps ) => ( WrappedComponent ) => {
-  class NavigationHotkeys extends Component {
+}: WithNavigationHotkeysProps ) => ( WrappedComponent: Component ) => {
+  class NavigationHotkeys extends Component<NavigationHotkeysProps, State> {
+    nodes: Map<any, any>
+    handlers: any
     constructor( props: NavigationHotkeysProps ) {
       super( props )
 
