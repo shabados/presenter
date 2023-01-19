@@ -72,7 +72,7 @@ export const withNavigationHotkeys = ( {
       this.setFocus()
     }
 
-    componentDidUpdate( _, { focusedIndex: prevFocusedIndex } ) {
+    componentDidUpdate( _, { focusedIndex: prevFocusedIndex }: { focusedIndex: number } ) {
       const { focusedIndex } = this.state
 
       if ( prevFocusedIndex === focusedIndex ) return
