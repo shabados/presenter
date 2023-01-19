@@ -7,7 +7,7 @@ import GlobalHotKeys from './GlobalHotKeys'
 
 const isInput = ( element ) => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
 
-const preventDefault = ( fn ) => ( event ) => {
+const preventDefault = ( fn: ( event: Event ) => any ) => ( event: Event ) => {
   event.preventDefault()
   fn( event )
 }
@@ -54,7 +54,10 @@ export const withNavigationHotkeys = ( {
     nodes: Map<any, any>
     handlers: any
     constructor( props: NavigationHotkeysProps ) {
-      super( props )
+      let newProps = { ...props }
+
+      if ( !props.forwardedRef ) newProps = { ...props, forwardedRef: null }
+      super( newProps )
 
       this.state = { focusedIndex: 0 }
 
