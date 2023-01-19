@@ -1,4 +1,3 @@
-import { instanceOf } from 'prop-types'
 import { Component, forwardRef } from 'react'
 import { findDOMNode } from 'react-dom'
 
@@ -13,20 +12,8 @@ const preventDefault = ( fn ) => ( event ) => {
   fn( event )
 }
 
-NavigationHotkeys.propTypes = {
-  forwardedRef: instanceOf( NavigationHotkeys ),
-}
-
-NavigationHotkeys.defaultProps = {
-  forwardedRef: null,
-}
-
 type NavigationHotkeysProps = {
-  forwardedRef?: typeof NavigationHotkeys,
-}
-
-NavigationHotkeys.defaultProps = {
-  forwardedRef: null,
+  forwardedRef?: InstanceType<typeof NavigationHotkeys>,
 }
 
 type WithNavigationHotkeysProps = {
