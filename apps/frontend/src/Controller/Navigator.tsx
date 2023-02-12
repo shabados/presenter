@@ -16,7 +16,6 @@ import ListItem from '@mui/material/ListItem'
 import classNames from 'classnames'
 import { stripVishraams } from 'gurmukhi-utils'
 import { invert } from 'lodash'
-import { bool, func, string } from 'prop-types'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
@@ -83,27 +82,24 @@ const NavigatorLine = ( {
   )
 }
 
-NavigatorLine.propTypes = {
-  register: func.isRequired,
-  gurmukhi: string.isRequired,
-  focused: bool.isRequired,
-  next: bool.isRequired,
-  main: bool.isRequired,
-  id: string.isRequired,
-  hotkey: string,
-  timestamp: string,
-}
-
-NavigatorLine.defaultProps = {
-  hotkey: null,
-  timestamp: null,
+type NavigatorLineProps = {
+  register: () => any,
+  gurmukhi: string,
+  focused: boolean,
+  next: boolean,
+  main: boolean,
+  id: string,
+  hotkey?: string | null,
+  timestamp?: string | null,
 }
 
 /**
  * Navigator Component.
  * Displays lines from Shabad and allows navigation.
  */
-const Navigator = ( { updateFocus, register, focused } ) => {
+const Navigator = ( {
+  updateFocus, register, focused, hotkey = null, timestamp = null,
+}: NavigatorLineProps ) => {
   const location = useLocation()
 
   const { viewedLines } = useContext( HistoryContext )
