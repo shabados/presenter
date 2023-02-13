@@ -16,6 +16,7 @@ import ListItem from '@mui/material/ListItem'
 import classNames from 'classnames'
 import { stripVishraams } from 'gurmukhi-utils'
 import { invert } from 'lodash'
+import { string } from 'prop-types'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
@@ -32,6 +33,17 @@ import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 import ShabadInfo from './ShabadInfo'
 import ToolbarButton from './ToolbarButton'
 
+type NavigatorLineProps = {
+  register: () => any,
+  gurmukhi: string,
+  focused: boolean,
+  next: boolean,
+  main: boolean,
+  id: string,
+  hotkey?: string | null,
+  timestamp?: string | null,
+}
+
 /**
 * Line component that attaches click handlers.
 * @param gurmukhi The Gurmukhi for the line to render.
@@ -43,11 +55,11 @@ const NavigatorLine = ( {
   register,
   focused,
   gurmukhi,
-  hotkey,
+  hotkey = null,
   main,
   next,
-  timestamp,
-} ) => {
+  timestamp = null,
+}: NavigatorLineProps ) => {
   // Move to the line id on click
   const onClick = () => controller.line( id )
 
@@ -82,15 +94,10 @@ const NavigatorLine = ( {
   )
 }
 
-type NavigatorLineProps = {
+type NavigatorProps = {
+  updateFocus: () => any,
   register: () => any,
-  gurmukhi: string,
-  focused: boolean,
-  next: boolean,
-  main: boolean,
-  id: string,
-  hotkey?: string | null,
-  timestamp?: string | null,
+  focused?: string,
 }
 
 /**
@@ -98,8 +105,8 @@ type NavigatorLineProps = {
  * Displays lines from Shabad and allows navigation.
  */
 const Navigator = ( {
-  updateFocus, register, focused, hotkey = null, timestamp = null,
-}: NavigatorLineProps ) => {
+  updateFocus, register, focused,
+}: NavigatorProps ) => {
   const location = useLocation()
 
   const { viewedLines } = useContext( HistoryContext )
@@ -154,16 +161,6 @@ const Navigator = ( {
       </List>
     </GlobalHotKeys>
   )
-}
-
-Navigator.propTypes = {
-  updateFocus: func.isRequired,
-  register: func.isRequired,
-  focused: string,
-}
-
-Navigator.defaultProps = {
-  focused: undefined,
 }
 
 const NavigatorNavigationHotkeys = withNavigationHotkeys( {
