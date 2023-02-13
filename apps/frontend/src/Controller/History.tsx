@@ -19,7 +19,7 @@ import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 
 type HistoryProps = {
   focused?: number,
-  register: (index: number, ref: HTMLElement) => void,
+  register: ( index: number, ref: HTMLElement ) => void,
 }
 
 const History = ( { register, focused = 0 }: HistoryProps ) => {
