@@ -1,11 +1,17 @@
 import './CopyButton.css'
 
 import { Button, Tooltip } from '@mui/material'
-import { func, string } from 'prop-types'
 
 import { useCopyToClipboard } from '../lib/hooks'
 
-const CopyButton = ( { copyText, onClick: originalOnClick, ...props } ) => {
+type CopyButtonProps = {
+  copyText: string,
+  onClick: () => Record<string, any>,
+}
+
+const CopyButton = (
+  { copyText, onClick: originalOnClick = () => ( {} ), ...props }: CopyButtonProps
+) => {
   const copyToClipboard = useCopyToClipboard()
 
   const onClick = () => {
@@ -18,16 +24,6 @@ const CopyButton = ( { copyText, onClick: originalOnClick, ...props } ) => {
       <Button className="copy-button" {...props} onClick={onClick} />
     </Tooltip>
   )
-}
-
-CopyButton.propTypes = {
-  copyText: string,
-  onClick: func,
-}
-
-CopyButton.defaultProps = {
-  copyText: null,
-  onClick: () => {},
 }
 
 export default CopyButton
