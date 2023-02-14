@@ -5,7 +5,6 @@ import {
   ListItem,
   Typography,
 } from '@mui/material'
-import { number } from 'prop-types'
 import { useEffect, useState } from 'react'
 
 import { BACKEND_PORT, BACKEND_URL, isElectron } from '../lib/consts'
@@ -23,7 +22,11 @@ const aboutFields = [
   [ 'cpus', 'CPU(s)' ],
 ]
 
-const About = ( { connected } ) => {
+type AboutProps = {
+  connected: number
+};
+
+const About = ( { connected }: AboutProps ) => {
   const [ about, setAbout ] = useState( null )
 
   useEffect( () => {
@@ -71,10 +74,6 @@ const About = ( { connected } ) => {
 
     </List>
   )
-}
-
-About.propTypes = {
-  connected: number.isRequired,
 }
 
 export default About
