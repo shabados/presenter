@@ -4,6 +4,7 @@
 */
 import './index.css'
 
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -22,7 +23,6 @@ import {
   Typography,
 } from '@mui/material'
 import classNames from 'classnames'
-import { bool, func, shape, string } from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
@@ -46,7 +46,15 @@ import Hotkeys from './Hotkeys'
 import OverlaySettings from './OverlaySettings'
 import Sources from './Sources'
 
-const Item = ( { name, icon, selected, url = SETTINGS_URL, onClick } ) => (
+type ItemProps = {
+  name: string,
+  icon: IconProp,
+  selected?: boolean,
+  url: string,
+  onClick?: () => any,
+}
+
+const Item = ( { name, icon, selected = false, url = SETTINGS_URL, onClick }: ItemProps ) => (
   <Link to={url} onClick={onClick}>
     <ListItem disableRipple selected={selected} className="item" key={name} button>
       <ListItemIcon>
@@ -56,18 +64,6 @@ const Item = ( { name, icon, selected, url = SETTINGS_URL, onClick } ) => (
     </ListItem>
   </Link>
 )
-
-Item.propTypes = {
-  name: string.isRequired,
-  icon: shape( { name: string } ).isRequired,
-  selected: bool,
-  url: string.isRequired,
-  onClick: func,
-}
-
-Item.defaultProps = {
-  selected: false,
-}
 
 const Settings = () => {
   const { pathname } = useLocation()
@@ -128,7 +124,7 @@ const Settings = () => {
         <>
           {sectionName && <Typography key={sectionName} className="category-title">{sectionName}</Typography>}
 
-          {Object.keys( settingsGroup )
+          {settingsGroup && Object.keys( settingsGroup )
             .map( ( name ) => (
               <Item
                 key={name}
@@ -144,7 +140,7 @@ const Settings = () => {
   )
 
   const { theme: { simpleGraphics } } = settings.local
-  const { theme: { themeName } = {}, hotkeys } = selectedDeviceSettings
+  const { theme: { themeName = '' } = {}, hotkeys } = selectedDeviceSettings
 
   const defaultUrl = `${SETTINGS_DEVICE_URL}/${Object.keys( selectedDeviceSettings )[ 0 ]}`
 
