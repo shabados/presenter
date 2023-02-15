@@ -11,49 +11,44 @@ import {
   TextField,
 } from '@mui/material'
 import classNames from 'classnames'
-import { any, arrayOf, bool, func, number, string } from 'prop-types'
 import { useEffect, useState } from 'react'
 
 import { OPTION_TYPES } from '../lib/options'
 
-const generalPropTypes = {
-  option: string.isRequired,
-  onChange: func,
+type GeneralProps = {
+  option: string,
+  onChange?: ( option: any, value: any ) => any,
 }
 
-const generalDefaultProps = {
-  onChange: () => {},
-}
+const onChangeDefault = () => {}
 
 const GeneralSettingEvent = ( Component ) => {
-  const HOC = ( { option, onChange, ...props } ) => (
+  const HOC = ( { option, onChange = onChangeDefault, ...props }: GeneralProps ) => (
     <Component {...props} onChange={( { target: { value } } ) => onChange( option, value )} />
   )
-
-  HOC.propTypes = generalPropTypes
-  HOC.defaultProps = generalDefaultProps
 
   return HOC
 }
 
 const GeneralSettingParam = ( Component ) => {
-  const HOC = ( { option, onChange, ...props } ) => (
+  const HOC = ( { option, onChange = onChangeDefault, ...props }: GeneralProps ) => (
     <Component {...props} onChange={( _, value ) => onChange( option, value )} />
   )
-
-  HOC.propTypes = generalPropTypes
-  HOC.defaultProps = generalDefaultProps
 
   return HOC
 }
 
-export const Toggle = ( { value, ...props } ) => <Switch className={classNames( 'toggle', { checked: value } )} checked={value} {...props} />
-
-Toggle.propTypes = {
-  value: bool.isRequired,
+type ToggleProps = {
+  value: boolean,
 }
 
-export const Slider = ( { value, ...props } ) => (
+export const Toggle = ( { value, ...props }: ToggleProps ) => <Switch className={classNames( 'toggle', { checked: value } )} checked={value} {...props} />
+
+type SliderProps = {
+  value: number,
+}
+
+export const Slider = ( { value, ...props }: SliderProps ) => (
   <MaterialSlider
     className="slider"
     valueLabelDisplay="auto"
@@ -62,11 +57,17 @@ export const Slider = ( { value, ...props } ) => (
   />
 )
 
-Slider.propTypes = {
-  value: number.isRequired,
+type DropdownProps = {
+  // eslint-disable-next-line react/forbid-prop-types
+  value: any,
+  // eslint-disable-next-line react/forbid-prop-types
+  values: any[],
+  onChange?: () => any,
+  onOpen?: () => any,
+  onClose?: () => any,
 }
 
-export const Dropdown = ( { value, values, onChange, ...props } ) => (
+export const Dropdown = ( { value, values, onChange = () => {}, ...props }: DropdownProps ) => (
   <Select className="select" MenuProps={{ className: 'select-menu' }} value={value} onChange={onChange} {...props}>
     {values.map(
       ( { name, value } ) => <MenuItem key={value} value={value}>{name || value}</MenuItem>,
@@ -74,19 +75,11 @@ export const Dropdown = ( { value, values, onChange, ...props } ) => (
   </Select>
 )
 
-Dropdown.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  value: any.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  values: arrayOf( any ).isRequired,
-  onChange: func,
+type ButtonProps = {
+  className?: string | null,
 }
 
-Dropdown.defaultProps = {
-  onChange: () => {},
-}
-
-export const Button = ( { className, ...props } ) => (
+export const Button = ( { className = null, ...props }: ButtonProps ) => (
   <MaterialButton
     variant="contained"
     className={classNames( className, 'button' )}
@@ -94,15 +87,11 @@ export const Button = ( { className, ...props } ) => (
   />
 )
 
-Button.propTypes = {
-  className: string,
+type UrlDropdownProps = {
+  url: string,
 }
 
-Button.defaultProps = {
-  className: null,
-}
-
-export const UrlDropdown = ( { url, ...props } ) => {
+export const UrlDropdown = ( { url, ...props }: UrlDropdownProps ) => {
   const [ isOpen, setOpen ] = useState( false )
   const [ values, setValues ] = useState( [] )
 
@@ -123,15 +112,19 @@ export const UrlDropdown = ( { url, ...props } ) => {
   )
 }
 
-UrlDropdown.propTypes = {
-  url: string.isRequired,
+type TextInputProps = {
+  className?: string | null,
+  onChange?: () => any,
+  value: string,
 }
 
-export const TextInput = ( { className, value, onChange, ...props } ) => {
-  const [ isChanged, setChanged ] = useState()
-  const [ isSaved, setSaved ] = useState()
+export const TextInput = (
+  { className = null, value, onChange = () => {}, ...props }: TextInputProps
+) => {
+  const [ isChanged, setChanged ] = useState<boolean>()
+  const [ isSaved, setSaved ] = useState<boolean>()
 
-  const onFocus = ( event ) => {
+  const onFocus = ( event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement> ) => {
     event.target.select()
   }
 
@@ -143,7 +136,7 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
     return () => clearTimeout( timer )
   }, [ isSaved ] )
 
-  const onBlur = ( ...params ) => {
+  const onBlur = ( ...params: any[] ) => {
     onChange( ...params )
 
     if ( isChanged ) {
@@ -172,17 +165,6 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
       />
     </div>
   )
-}
-
-TextInput.propTypes = {
-  className: string,
-  onChange: func,
-  value: string.isRequired,
-}
-
-TextInput.defaultProps = {
-  className: null,
-  onChange: () => {},
 }
 
 const typeComponents = {
