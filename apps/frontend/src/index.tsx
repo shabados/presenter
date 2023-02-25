@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
 
+import App from './App'
 import analytics from './lib/analytics'
 import controller from './lib/controller'
 
@@ -12,7 +12,7 @@ if ( settings?.security?.displayAnalytics ) {
   analytics.updateSettings( controller.readSettings( true ) )
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot( document.getElementById( 'root' )! ).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
