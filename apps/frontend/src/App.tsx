@@ -181,11 +181,12 @@ class App extends PureComponent {
       [ RecommendedSourcesContext.Provider, recommendedSources ],
       [ ContentContext.Provider, { bani, shabad, lineId, mainLineId, nextLineId } ],
       [ SnackbarProvider ],
-    ] as [ElementType, any][] ).reduce( ( withContexts, [ Provider, value ] ) => ( children ) => withContexts(
-      <Provider value={value}>
-        {children}
-      </Provider>,
-    ), ( context: ReactNode ) => context )
+    ] as [ElementType, any][] )
+      .reduce( ( withContexts, [ Provider, value ] ) => ( children ) => withContexts(
+        <Provider value={value}>
+          {children}
+        </Provider>,
+      ), ( context: ReactNode ) => context )
 
     return withContexts(
       <div className={classNames( { mobile: isMobile, tablet: isTablet, desktop: isDesktop }, 'app' )}>
