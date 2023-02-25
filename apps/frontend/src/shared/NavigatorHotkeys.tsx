@@ -1,6 +1,5 @@
 import { noop } from 'lodash'
-import { bool, instanceOf, node, shape } from 'prop-types'
-import { useCallback, useContext, useEffect } from 'react'
+import { ElementType, useCallback, useContext, useEffect } from 'react'
 
 import { getJumpLines } from '../lib/auto-jump'
 import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
@@ -10,10 +9,18 @@ import { LINE_HOTKEYS, NAVIGATOR_SHORTCUTS } from '../lib/keyMap'
 import { findLineIndex } from '../lib/line'
 import GlobalHotKeys from './GlobalHotKeys'
 
+type NavigatorHotKeysProps = {
+  active?: boolean,
+  children?: React.ReactNode | null,
+  mouseTargetRef?: { current: ElementType | null },
+}
+
 /**
  * Hotkeys for controlling the navigator.
  */
-const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
+const NavigatorHotKeys = (
+  { active = false, children = null, mouseTargetRef = { current: null } }: NavigatorHotKeysProps
+) => {
   const { viewedLines } = useContext( HistoryContext )
 
   const content = useContext( ContentContext )
@@ -172,18 +179,6 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
       {children}
     </GlobalHotKeys>
   )
-}
-
-NavigatorHotKeys.propTypes = {
-  active: bool,
-  children: node,
-  mouseTargetRef: shape( { current: instanceOf( Element ) } ),
-}
-
-NavigatorHotKeys.defaultProps = {
-  active: false,
-  children: null,
-  mouseTargetRef: { current: null },
 }
 
 export default NavigatorHotKeys
