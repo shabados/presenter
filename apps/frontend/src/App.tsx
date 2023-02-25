@@ -114,7 +114,9 @@ class App extends PureComponent {
 
   onShabad = ( shabad: any ) => this.setState( { next: { shabad, bani: null } } )
 
-  onLine = ( lineId: string ) => this.setState( ( { next }: any ) => ( { lineId, ...next, next: {} } ) )
+  onLine = ( lineId: string ) => this.setState(
+    ( { next }: any ) => ( { lineId, ...next, next: {} } )
+  )
 
   onViewedLines = ( viewedLines: any[] ) => this.setState( { viewedLines } )
 
