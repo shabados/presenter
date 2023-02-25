@@ -8,7 +8,7 @@ import controller from './lib/controller'
 const settings = controller.readSettings()
 
 if ( settings?.security?.displayAnalytics ) {
-  analytics.initialise()
+  analytics.initialise().then( () => {}, () => {} )
   analytics.updateSettings( controller.readSettings( true ) )
 }
 
