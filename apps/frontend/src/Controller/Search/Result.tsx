@@ -13,7 +13,6 @@ type ResultProps = {
   typeId: number;
   shabadId: string;
   focused: boolean;
-  highlighter: () => any;
   sourceId: number;
   shabad: Record<string, any>;
   sourcePage: number;
