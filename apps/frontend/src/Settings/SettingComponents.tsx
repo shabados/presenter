@@ -175,4 +175,4 @@ const typeComponents = {
   [ OPTION_TYPES.textInput ]: GeneralSettingEvent( TextInput ),
 }
 
-export default ( type ) => typeComponents[ type ]
+export default ( type: symbol ) => typeComponents[ type ]
