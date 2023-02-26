@@ -1,4 +1,4 @@
-import { Line } from '@presenter/contract/src/data'
+import { Line, Shabad, Bani } from '@presenter/contract'
 import { ComponentType, Context, createContext } from 'react'
 
 import { SettingsState } from './options'
@@ -15,8 +15,8 @@ export const
 export const SettingsContext = createContext( {} as SettingsState )
 
 type Content = {
-  bani: { lines: Line[] } | null,
-  shabad: { lines: Line[] } | null,
+  bani: Bani | null,
+  shabad: Shabad | null,
   lineId: string,
 }
 
@@ -26,13 +26,21 @@ export const ContentContext = createContext<Content>( {
   lineId: '',
 } )
 
+type TransitionHistory = {
+  length: number,
+}
+
 export const HistoryContext = createContext( {
-  transitionHistory: {},
+  transitionHistory: {} as TransitionHistory,
   latestLines: {},
   viewedLines: {},
 } )
 
-export const RecommendedSourcesContext = createContext( {} )
+type RecommendedSources = {
+  pageNameEnglish: string,
+}
+
+export const RecommendedSourcesContext = createContext( {} as RecommendedSources )
 
 export const WritersContext = createContext( {} )
 
