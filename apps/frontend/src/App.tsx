@@ -71,7 +71,7 @@ class App extends PureComponent {
     controller.on( 'settings', this.onSettings )
 
     // Get recommended sources and set as settings, if there are none
-    fetch( `${BACKEND_URL}/sources` )
+    void fetch( `${BACKEND_URL}/sources` )
       .then( ( res ) => res.json() )
       .then( ( { recommendedSources } ) => {
         //* Update default options and settings with fetched recommended sources
@@ -81,7 +81,7 @@ class App extends PureComponent {
       } )
 
     // Get writers
-    fetch( `${BACKEND_URL}/writers` )
+    void fetch( `${BACKEND_URL}/writers` )
       .then( ( res ) => res.json() )
       .then( ( { writers } ) => this.setState( { writers } ) )
   }
