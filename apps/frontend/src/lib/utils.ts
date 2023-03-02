@@ -54,11 +54,13 @@ export const debounceHotKey = ( fn: () => void ) => debounce( fn, 300, { leading
 
 export const mapPlatformKey = ( key: string ) => ( isMac ? key.replace( 'ctrl', 'cmd' ) : key )
 
+export type KeyMap = { [key: string]: string[] }
+
 /**
  * Maps ctrl to cmd in keyMap if on Mac.
  * @param {*} keyMap An object of all the keys and mapped values.
  */
-export const mapPlatformKeys = ( keyMap: { [key: string]: string[] } ) => ( isMac
+export const mapPlatformKeys = ( keyMap: KeyMap ) => ( isMac
   ? Object.entries( keyMap ).reduce( ( keyMap, [ name, sequences ] ) => ( {
     ...keyMap,
     [ name ]: sequences ? sequences.map( mapPlatformKey ) : null,
