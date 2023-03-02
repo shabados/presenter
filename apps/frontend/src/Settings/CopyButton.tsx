@@ -6,7 +6,9 @@ import { useCopyToClipboard } from '../lib/hooks'
 
 type CopyButtonProps = {
   copyText: string,
-  onClick: () => Record<string, any>,
+  onClick?: () => Record<string, any>,
+  children: React.ReactNode,
+  style?: Record<string, any>,
 }
 
 const CopyButton = (
