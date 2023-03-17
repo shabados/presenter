@@ -10,11 +10,12 @@ type DefineParameters<
 > = Merge<Record<Name, undefined>, Parameters>
 
 export const serverEvents = [
-  'shabads:current',
-  'banis:current',
-  'lines:current',
-  'lines:main',
-  'lines:next',
+  'content:shabad:next',
+  'content:shabad:previous',
+  'content:banis:current',
+  'content:lines:current',
+  'content:line:main',
+  'content:line:next',
   'history:clear',
   'settings:all',
   'search:first-letter',
@@ -27,6 +28,7 @@ export const serverEvents = [
 
 export type ServerEvent = typeof serverEvents[number]
 export type ServerEventParameters = DefineParameters<ServerEvent, {
+  'content:open-line': { lineId: string, type: 'shabad' | 'bani' },
   'lines:current': { lineId: string, lineOrderId: string, transition?: boolean },
   'lines:main': string,
   'lines:next': string,

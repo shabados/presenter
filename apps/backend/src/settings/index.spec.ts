@@ -1,11 +1,14 @@
 import { ClientSettings, ServerSettings } from '@presenter/contract/src'
 import { SETTINGS_FILE } from '@presenter/node/src'
 import type { PartialDeep } from 'type-fest'
+import waitForExpect from 'wait-for-expect'
 
 import { createServer, createSocketClient } from '../../test/utils/socket'
-import { readJSON } from '../helpers/files'
+import { writeJSON } from '../helpers/files'
 import createGlobalSettings from '../services/global-settings'
 import createSettingsModule from '.'
+
+jest.mock( '../helpers/files' )
 
 const getClientSettings = ( settings: PartialDeep<ClientSettings> = {} ) => ( {
   display: {},
@@ -35,7 +38,7 @@ const setup = () => {
 
   const module = createSettingsModule( { socketServer, globalSettings } )
 
-  const createClient = createSocketClient( {httpServer} )
+  const createClient = createSocketClient( { httpServer } )
 
   return { module, createClient }
 }
@@ -136,11 +139,11 @@ describe( 'Settings', () => {
     it( 'should save the global settings to file', async () => {
       const { createClient } = setup()
       const client = createClient()
+      const global = getGlobalSettings( { system: { multipleDisplays: true } } )
 
-      await client.sendEvent( 'settings:all', { global: getGlobalSettings( { system: { multipleDisplays: true } } ) } )
+      await client.sendEvent( 'settings:all', { global } )
 
-      const serverSettings = await readJSON<ServerSettings>( SETTINGS_FILE )
-      expect( serverSettings.system.multipleDisplays ).toBe( true )
+      await waitForExpect( () => expect( writeJSON ).toHaveBeenCalledWith( SETTINGS_FILE, global ) )
     } )
   } )
 } )

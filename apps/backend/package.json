@@ -4,8 +4,8 @@
   "description": "Desktop app for presenting the Shabad OS Database on projectors, TVs, and live streams",
   "main": "src",
   "scripts": {
-    "start": "tsx watch src",
-    "listen": "tsx scripts/socket-listener",
+    "dev": "tsx watch src",
+    "connect": "tsx scripts/socket-listener",
     "replay-log": "node -r esm scripts/replay-log",
     "lint": "eslint .",
     "test": "jest"
