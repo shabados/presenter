@@ -50,6 +50,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
+    "@testing-library/react": "^14.0.0",
     "@types/lodash": "^4.14.182",
     "@types/memoizee": "^0.4.8",
     "@types/qs": "^6.9.7",
