@@ -15,6 +15,7 @@ import {
 } from '../lib/data'
 import { classifyWords, partitionLine, sortBy } from '../lib/line'
 import { DEFAULT_OPTIONS } from '../lib/options'
+import { filterFalsyObjectValues } from '../lib/utils'
 
 type LineProps = {
   className?: string,
@@ -111,11 +112,11 @@ const Line = ( {
   centerText,
   justifyText,
   presenterFontSize = 0,
-  relativeGurmukhiFontSize,
-  relativeEnglishFontSize,
-  relativePunjabiFontSize,
-  relativeHindiFontSize,
-  relativeUrduFontSize,
+  relativeGurmukhiFontSize = 1,
+  relativeEnglishFontSize = 1,
+  relativePunjabiFontSize = 1,
+  relativeHindiFontSize = 1,
+  relativeUrduFontSize = 1,
   larivaarGurbani: larivaar,
   larivaarAssist,
   vishraamColors: vishraams,
@@ -126,15 +127,13 @@ const Line = ( {
   splitOnVishraam: partition,
   simpleGraphics: simple,
 }: LineProps ) => {
-  const fontSizes = {
+  const fontSizes = filterFalsyObjectValues( {
     [ LANGUAGES.english ]: relativeEnglishFontSize,
     [ LANGUAGES.spanish ]: relativeEnglishFontSize,
     [ LANGUAGES.punjabi ]: relativePunjabiFontSize,
     [ LANGUAGES.hindi ]: relativeHindiFontSize,
     [ LANGUAGES.urdu ]: relativeUrduFontSize,
-  } as {
-    [languageId: string] : number | undefined,
-  }
+  } )
 
   return (
     <div
@@ -197,7 +196,7 @@ const Line = ( {
                             <span
                               key={`${word}-${type || ''}-${i}-${languageId}-transliteration`}
                               className={classNames( LANGUAGE_NAMES[ languageId ] )}
-                              style={fontSizes[ languageId ] ? { fontSize: `${fontSizes[ languageId ]}em` } : {}}
+                              style={fontSizes[ Number( languageId ) ] ? { fontSize: `${fontSizes[ Number( languageId ) ]}em` } : {}}
                             >
                               {transliterate( word )}
                             </span>
@@ -227,7 +226,7 @@ const Line = ( {
                   LANGUAGE_NAMES[ languageId ],
                   'translation'
                 )}
-                style={{ fontSize: `${fontSizes[ languageId ]}em` }}
+                style={{ fontSize: `${fontSizes[ Number( languageId ) ]}em` }}
               >
                 {translation}
               </p>
@@ -248,7 +247,7 @@ const Line = ( {
                     LANGUAGE_NAMES[ languageId ],
                     'transliteration'
                   )}
-                  style={{ fontSize: `${fontSizes[ languageId ]}em` }}
+                  style={{ fontSize: `${fontSizes[ Number( languageId ) ]}em` }}
                 >
                   {classifyWords(
                     transliterate( gurmukhi ),
