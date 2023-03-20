@@ -71,3 +71,9 @@ export const mapPlatformKeys = ( keyMap: KeyMap ) => ( isMac
 export const filterFalsyValues = <T>(
   valuesToFilter: Array<T>
 ) => valuesToFilter.filter( ( item ) => item )
+
+export const filterFalsyObjectValues = <K extends string | number | symbol, T>(
+  valuesToFilter: Record<K, T>
+) => Object.fromEntries(
+  Object.entries( valuesToFilter ).filter( ( [ _, value ] ) => value )
+) as Record<K, T>
