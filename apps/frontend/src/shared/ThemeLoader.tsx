@@ -16,7 +16,7 @@ const ThemeLoader = ( { name = 'Day' }: ThemeLoaderProps ) => {
 
   return (
     <link
-    key={`${name}-${connectedAt}`}
+      key={`${name}-${connectedAt?.toDateString() || ''}`}
       rel="stylesheet"
       href={name ? `${THEMES_URL}/${name}.css` : defaultTheme}
     />
