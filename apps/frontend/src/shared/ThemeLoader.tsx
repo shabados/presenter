@@ -12,7 +12,7 @@ type ThemeLoaderProps = { name?: string }
  * @constructor
  */
 const ThemeLoader = ( { name = 'Day' }: ThemeLoaderProps ) => {
-  const { connectedAt } = useContext(StatusContext)   
+  const { connectedAt } = useContext( StatusContext )
 
   return (
     <link
