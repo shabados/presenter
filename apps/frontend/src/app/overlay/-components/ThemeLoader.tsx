@@ -5,7 +5,7 @@ import { StatusContext } from '~/helpers/contexts'
 
 const OVERLAY_THEMES_URL = `${API_URL}/themes/overlay`
 
-type ThemeLoaderProps = { name: string }
+type ThemeLoaderProps = { name?: string }
 
 const ThemeLoader = ( { name }: ThemeLoaderProps ) => {
   const { connectedAt } = useContext( StatusContext )
