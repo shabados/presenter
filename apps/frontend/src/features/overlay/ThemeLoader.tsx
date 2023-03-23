@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { OVERLAY_THEMES_URL } from '~/helpers/consts'
 import { StatusContext } from '~/helpers/contexts'
 
-type ThemeLoaderProps = { name: string }
+type ThemeLoaderProps = { name?: string }
 
 /**
  * Component to load a theme using a `<link>` tag.
