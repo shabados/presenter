@@ -4,12 +4,20 @@ module.exports = {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
-  overrides: [ {
-    // Targeting route files
-    files: [ '**/*/app/**/*.ts?(x)' ],
-    rules: {
-      // Referencing the exported route leads to a use before define in components, but it's fine
-      '@typescript-eslint/no-use-before-define': 'off',
+  overrides: [
+    {
+      // Targeting route files
+      files: [ '**/*/app/**/*.ts?(x)' ],
+      rules: {
+        // Referencing the exported route leads to a use before define in components, but it's fine
+        '@typescript-eslint/no-use-before-define': 'off',
+      },
     },
-  } ],
+    {
+      files: [ 'apps/frontend/setupTests.ts' ],
+      rules: {
+        'import/no-extraneous-dependencies': 0,
+      },
+    },
+  ],
 }

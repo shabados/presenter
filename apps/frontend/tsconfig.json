@@ -8,5 +8,6 @@
       "~/*": ["src/*"]
     }
   },
+  "include": ["*.ts", "*.js", "*.tsx", "*.jsx", "__mocks__", "__utils__"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
