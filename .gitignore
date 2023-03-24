@@ -22,3 +22,4 @@ build/
 .nyc_output/
 coverage/
 !.vscode/extensions.json
+*.tsbuildinfo
