@@ -4,6 +4,6 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/types/vite-env.d.ts"],
+  "include": ["*.ts", "*.js", "*.tsx", "*.jsx", "__mocks__", "__utils__"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
