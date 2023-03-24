@@ -28,16 +28,16 @@ const main = async () => {
 
   const updater = createUpdater( { globalSettings } )
 
-  const { httpServer, app, listen } = createExpress()
+  const { httpServer, api, listen } = createExpress()
   const socketServer = createSocketServer( { httpServer } )
 
   createSettingsModule( { socketServer, globalSettings } )
   createSearchModule( { socketServer } )
   createActionsModule( { socketServer } )
   createStatusModule( { socketServer, globalSettings, updater } )
-  await createThemesModule( { app } )
-  createDiagnosticsModule( { app } )
-  createContentModule( { app, socketServer } )
+  await createThemesModule( { api } )
+  createDiagnosticsModule( { api } )
+  createContentModule( { api, socketServer } )
 
   listen()
 

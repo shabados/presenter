@@ -24,10 +24,15 @@ const timer = ( () => {
   return { start, end, log, getElapsed }
 } )()
 
+const responses = {} as Record<string, unknown>
+
 client.on( 'message', ( m: string ) => {
   timer.end()
 
-  console.log( JSON.parse( m ), `${timer.getElapsed()}ms` )
+  const response = JSON.parse( m )
+  console.log( response, `${timer.getElapsed()}ms` )
+
+  responses[ response.event ] = response.payload
 } )
 
 const send = <Event extends ServerEvent>(
@@ -40,6 +45,7 @@ const send = <Event extends ServerEvent>(
 
 const methods = {
   send,
+  responses,
   openWindow: () => send( 'action:open-window', undefined ),
   openExternalUrl: ( url: string ) => send( 'action:open-external-url', url ),
   openLogsFolder: () => send( 'action:open-logs-folder', undefined ),

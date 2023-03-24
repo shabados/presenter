@@ -1,7 +1,7 @@
 import { arch, cpus, hostname, platform, release } from 'node:os'
 import { join } from 'node:path'
 
-import { Application, Router } from 'express'
+import { Application } from 'express'
 import type { PackageJson } from 'type-fest'
 
 import { APP_FOLDER, DATABASE_FOLDER } from './helpers/consts'
@@ -9,12 +9,10 @@ import { readJSON } from './helpers/files'
 import { getNetworkedAddresses } from './helpers/network'
 
 type DiagnosticsModuleOptions = {
-  app: Application,
+  api: Application,
 }
 
-const createDiagnosticsModule = ( { app }: DiagnosticsModuleOptions ) => {
-  const api = Router()
-
+const createDiagnosticsModule = ( { api }: DiagnosticsModuleOptions ) => {
   api.get( '/about', ( _, res ) => void Promise.all( [
     readJSON<PackageJson>( join( APP_FOLDER, 'package.json' ) ),
     readJSON<PackageJson>( join( DATABASE_FOLDER, 'package.json' ) ),
@@ -28,8 +26,6 @@ const createDiagnosticsModule = ( { app }: DiagnosticsModuleOptions ) => {
     release: release(),
     addresses: getNetworkedAddresses(),
   } ) ) )
-
-  app.use( api )
 }
 
 export default createDiagnosticsModule

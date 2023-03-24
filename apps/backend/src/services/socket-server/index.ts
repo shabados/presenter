@@ -34,9 +34,9 @@ const createSocketServer = ( { httpServer }: SocketServerOptions ) => {
     new WebSocket.Server<SocketClient>( { server: httpServer } ),
     withConnectionEvents(),
     withHeartbeat(),
+    withHostInformation(),
     withClientJSON(),
     withBroadcast(),
-    withHostInformation(),
   ) as SocketServer & Server<SocketClient>
 
   server.on( 'connection:ready', ( client ) => log.info( `${client.host} connected` ) )

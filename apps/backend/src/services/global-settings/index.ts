@@ -12,7 +12,7 @@ type PartialSettings = PartialDeep<ServerSettings>
 
 const writeSettings = ( settings: ServerSettings ) => writeJSON( SETTINGS_FILE, settings )
 
-const readSettings = () => ( readJSON<PartialSettings>( SETTINGS_FILE ) )
+const readSettings = () => readJSON<PartialSettings>( SETTINGS_FILE )
   .then( ( settings ) => merge( settings, defaults ) as ServerSettings )
   .catch( () => {
     log.warn( 'Settings file is corrupt or non-existent. Recreating', SETTINGS_FILE )

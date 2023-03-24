@@ -24,14 +24,15 @@ const mounts = [
 ] as const
 
 type ThemesModuleOptions = {
-  app: Application,
+  api: Application,
 }
 
-const createThemesModule = async ( { app }: ThemesModuleOptions ) => {
-  mounts.forEach( ( [ prefix, dir ] ) => app.use( prefix, express.static( dir ) ) )
+const createThemesModule = async ( { api }: ThemesModuleOptions ) => {
+  mounts.forEach( ( [ prefix, dir ] ) => api.use( prefix, express.static( dir ) ) )
 
-  app.use( createApi() )
+  api.use( createApi() )
 
+  // TODO: uncomment when we have a way to copy example themes
   // await copyExampleThemes()
 }
 

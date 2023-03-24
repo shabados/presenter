@@ -1,8 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { ClientEvent, ClientEventParameters, ServerEvent, ServerEventParameters } from '@presenter/contract'
+import { getLogger } from '@presenter/node/src'
 import { Server, WebSocket } from 'ws'
 
 import { ConnectionEventsServer, ConnectionEventsSocket } from './with-connection-state'
+import { HostInformationSocket } from './with-host-information'
+
+const logger = getLogger( 'socket' )
 
 const withDedupe = <T>( fn: ( event: string, payload: T ) => boolean ) => {
   const previousEvents = new Map()
@@ -31,7 +35,7 @@ export type EventsSocket = WebSocket & {
 }
 
 const withEvents = <
-  Socket extends ConnectionEventsSocket
+  Socket extends HostInformationSocket & ConnectionEventsSocket
 >() => ( socketServer: Server<Socket> ) => {
     type AugmentedSocket = Socket & EventsSocket
     const server = socketServer as Server<AugmentedSocket> & ConnectionEventsServer<AugmentedSocket>
@@ -41,6 +45,8 @@ const withEvents = <
         if ( client.readyState !== WebSocket.OPEN || !client.isReady ) return false
 
         client.send( JSON.stringify( { event, payload } ) )
+        logger.debug( { payload }, `Sent ${event} to ${client.host}` )
+
         return true
       } )
 

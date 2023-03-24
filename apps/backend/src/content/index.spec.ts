@@ -7,14 +7,14 @@ import { createServer, createSocketClient } from '../../test/utils/socket'
 import createContentModule from '.'
 
 const setup = () => {
-  const app = express()
-  const httpServer = http.createServer( app )
+  const api = express()
+  const httpServer = http.createServer( api )
   const { socketServer } = createServer( { httpServer } )
 
   const client = createSocketClient( { httpServer } )()
   const fetch = fetchApi( { httpServer } )
 
-  createContentModule( { app, socketServer } )
+  createContentModule( { api, socketServer } )
 
   return { client, fetch }
 }

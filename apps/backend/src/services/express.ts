@@ -14,10 +14,10 @@ const log = getLogger( 'express' )
 const middleware = [ helmet(), compression(), bodyParser.json(), cors() ]
 
 const createExpress = () => {
-  const app = express()
-  const httpServer = http.createServer( app )
+  const api = express()
+  const httpServer = http.createServer( api )
 
-  middleware.forEach( ( m ) => app.use( m ) )
+  middleware.forEach( ( m ) => api.use( m ) )
   log.info( 'Loaded all middleware' )
 
   const listen = () => httpServer.listen( PORT, () => {
@@ -25,7 +25,7 @@ const createExpress = () => {
     log.info( `Listening for socket connections and API calls on port ${PORT}` )
   } )
 
-  return { app, httpServer, listen }
+  return { api, httpServer, listen }
 }
 
 export default createExpress

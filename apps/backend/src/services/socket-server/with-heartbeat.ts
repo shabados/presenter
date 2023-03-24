@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Server, WebSocket } from 'ws'
 
-import { ConnectionReadyServer } from './with-connection-state'
+import { ConnectionEventsServer } from './with-connection-state'
 
 const KEEP_ALIVE_INTERVAL = 1000 * 30
 
@@ -11,7 +11,7 @@ export type HeartbeatSocket = WebSocket & {
 
 const withHeartbeat = <Socket extends WebSocket>() => ( socketServer: Server<Socket> ) => {
   type AugmentedSocket = Socket & HeartbeatSocket
-  const server = socketServer as Server<AugmentedSocket> & ConnectionReadyServer<AugmentedSocket>
+  const server = socketServer as Server<AugmentedSocket> & ConnectionEventsServer<AugmentedSocket>
 
   server.onConnection( ( client ) => {
     client.isAlive = true

@@ -1,3 +1,4 @@
+import { ensureAppFolders } from '@presenter/node/src'
 import { EventEmitter } from 'eventemitter3'
 
 import { createServer, createSocketClient } from '../../test/utils/socket'
@@ -33,6 +34,7 @@ const setup = async ( {
 }
 
 describe( 'Status', () => {
+  beforeAll( ensureAppFolders )
   beforeEach( jest.useRealTimers )
 
   it( 'should expire any status message', async () => {

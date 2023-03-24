@@ -17,17 +17,20 @@ const prettyPrintSettings = {
 type LogOptions = {
   logFile?: string,
   prettyPrint?: boolean,
+  level?: pino.Level,
 }
 
 const Log = ( {
   prettyPrint,
   logFile,
+  level = 'info',
 }: LogOptions ) => {
   const logThrough = new PassThrough()
   const log = pino( {
     ...( prettyPrint && {
       transport: { target: 'pino-pretty', options: prettyPrintSettings },
     } ),
+    level,
   }, logThrough )
 
   const attachFileStream = () => {
@@ -53,4 +56,5 @@ export const { getLogger } = Log( {
     logFile: LOG_FILE,
     prettyPrint: false,
   } ),
+  level: process.env.LOG_LEVEL as pino.Level | undefined,
 } )

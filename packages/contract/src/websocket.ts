@@ -13,7 +13,7 @@ export const serverEvents = [
   'content:shabad:next',
   'content:shabad:previous',
   'content:banis:current',
-  'content:lines:current',
+  'content:line:current',
   'content:line:main',
   'content:line:next',
   'history:clear',
@@ -28,10 +28,12 @@ export const serverEvents = [
 
 export type ServerEvent = typeof serverEvents[number]
 export type ServerEventParameters = DefineParameters<ServerEvent, {
-  'content:open-line': { lineId: string, type: 'shabad' | 'bani' },
-  'lines:current': { lineId: string, lineOrderId: string, transition?: boolean },
-  'lines:main': string,
-  'lines:next': string,
+  'content:line:open': { id: string, type: 'shabad' | 'bani' },
+  'content:shabad:open': { id: string },
+  'content:bani:open': { id: string },
+  'content:line:current': { transition?: boolean } & ( { id: string | null } | { orderId: number } ),
+  'content:line:main': string,
+  'content:line:next': string,
   'settings:all': Partial<Settings>,
   'search:full-word': SearchQuery,
   'search:first-letter': SearchQuery,
@@ -39,13 +41,12 @@ export type ServerEventParameters = DefineParameters<ServerEvent, {
 }>
 
 export const clientEvents = [
-  'shabads:current',
-  'banis:current',
-  'banis:list',
-  'lines:current',
+  'content:current',
+  'content:bani:list',
+  'content:line:current',
+  'content:line:main',
+  'content:line:next',
   'history:viewed-lines',
-  'lines:main',
-  'lines:next',
   'status',
   'history:transitions',
   'history:latest-lines',
@@ -56,10 +57,10 @@ export const clientEvents = [
 export type ClientEvent = typeof clientEvents[number]
 export type ClientEventParameters = DefineParameters<ClientEvent, {
   'content:current': Content | null,
-  'banis:list': BaniList[],
-  'lines:current': string | null,
-  'lines:main': string | null,
-  'lines:next': string | null,
+  'content:bani:list': BaniList[],
+  'content:line:current': string | null,
+  'content:line:main': string | null,
+  'content:line:next': string | null,
   'status': string | null,
   'history:viewed-lines': ViewedLines,
   // 'history:transitions',
