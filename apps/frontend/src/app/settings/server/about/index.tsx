@@ -22,7 +22,7 @@ type AboutProps = {
   connected: number,
 }
 
-const About = ( { connected }: AboutProps ) => {
+export const About = ( { connected }: AboutProps ) => {
   const { about } = Route.useLoaderData()
 
   if ( !about ) return <CircularProgress style={{ alignSelf: 'center' }} />
