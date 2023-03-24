@@ -4,4 +4,12 @@ module.exports = {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
+  overrides: [
+    {
+      files: ['apps/frontend/setupTests.ts'],
+      rules: {
+        'import/no-extraneous-dependencies': 0,
+      },
+    },
+  ],
 }
