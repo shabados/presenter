@@ -1,10 +1,26 @@
-const base = require('../../jest.config')
-
 module.exports = {
-  ...base,
+  transform: {
+    '^.+\\.(t|j)sx?$': [ '@swc/jest',
+      {
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            tsx: true,
+          },
+          transform: {
+            react: {
+              runtime: 'automatic',
+            },
+          },
+        },
+      },
+    ],
+  },
   testEnvironment: 'jsdom',
+  moduleNameMapper: {
+    '\\.css$': '<rootDir>/src/__mocks__/styleMock.ts',
+  },
   setupFilesAfterEnv: [
-    '<rootDir>/apps/frontend/setupTests.ts',
-    // '<rootDir>/setupTests.ts',
+    '<rootDir>/setupTests.ts',
   ],
 }

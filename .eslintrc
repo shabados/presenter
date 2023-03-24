@@ -2,5 +2,14 @@
   "extends": ["@shabados/eslint-config", "@shabados/eslint-config/typescript"],
   "parserOptions": {
     "project": "./tsconfig.json"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["apps/frontend/setupTests.ts"],
+
+      "rules": {
+        "import/no-extraneous-dependencies": 0
+      }
+    } 
+  ]
 }
