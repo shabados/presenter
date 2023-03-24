@@ -17,3 +17,4 @@ dist/
 build/
 .nyc_output/
 coverage/
+*.tsbuildinfo
