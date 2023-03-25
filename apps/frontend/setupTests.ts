@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 
-jest.mock( './src/lib/consts' )
+jest.mock( 'detect-browser' )
 
 global.fetch = jest.fn().mockResolvedValue( {
   json: () => Promise.resolve( {} ),
