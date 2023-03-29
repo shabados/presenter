@@ -77,6 +77,9 @@ export const Dropdown = ( { value, values, onChange = () => {}, ...props }: Drop
 
 type ButtonProps = {
   className?: string | null,
+  children?: React.ReactNode,
+  disabled?: boolean,
+  onClick?: () => void,
 }
 
 export const Button = ( { className = null, ...props }: ButtonProps ) => (
