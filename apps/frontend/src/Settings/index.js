@@ -181,7 +181,7 @@ const Settings = () => {
 
       <main onClick={closeMobileMenu}>
         <Routes>
-          <Route path={SETTINGS_DEVICE_URL} render={() => <Navigate to={defaultUrl} />} />
+          <Route path={SETTINGS_DEVICE_URL} render={() => <Navigate to={defaultUrl} replace />} />
 
           {/* Device setting routes */}
           <Route
@@ -203,7 +203,7 @@ const Settings = () => {
           <Route path={`${SETTINGS_TOOLS_URL}/closedCaptions`} component={ClosedCaptionSettings} />
           <Route path={`${SETTINGS_TOOLS_URL}/*`} render={() => <DynamicOptions device="global" group={group} />} />
 
-          <Route render={() => <Navigate to={defaultUrl} />} />
+          <Route render={() => <Navigate to={defaultUrl} replace />} />
         </Routes>
       </main>
     </div>
