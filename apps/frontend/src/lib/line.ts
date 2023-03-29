@@ -14,7 +14,7 @@ export const sortBy = (
 ) => (
   [ languageA ]: [string, any],
   [ languageB ]: [string, any]
-) => Number( sortOrder[ languageA ] ) - Number( sortOrder[ languageB ] )
+) => sortOrder[ languageA ] - sortOrder[ languageB ]
 
 /**
   * Produces a map of the line hotkey that corresponds to the line index.
