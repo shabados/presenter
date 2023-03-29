@@ -2,16 +2,19 @@
  ** Currently shared with backend! Should be refactored.
  */
 
-import type { Line, Shabad, Source, Translation } from '@presenter/contract'
+import type { Line, RecommendedSources, Shabad, Translation } from '@presenter/contract'
 import { stripEndings, stripVishraams } from 'gurmukhi-utils'
 import vishraams from 'gurmukhi-utils/lib/vishraams.json'
 import memoize from 'memoizee'
 
-import { LINE_TYPES, TRANSLITERATORS, Transliterators } from './data'
+import { LINE_TYPES, Translations, TRANSLITERATORS, Transliterators } from './data'
 
 export const sortBy = (
-  sortOrder: Record<string, number>
-) => ( [ languageA ]: [string, any], [ languageB ]: [string, any] ) => sortOrder[ languageA ] - sortOrder[ languageB ]
+  sortOrder: Record<string, string>
+) => (
+  [ languageA ]: [string, any],
+  [ languageB ]: [string, any]
+) => Number( sortOrder[ languageA ] ) - Number( sortOrder[ languageB ] )
 
 /**
   * Produces a map of the line hotkey that corresponds to the line index.
@@ -122,9 +125,9 @@ export const getTranslation = (
  type GetTranslationsParams = {
    languageIds: number[],
    line: Line,
-   shabad: Shabad,
-   sources: Source,
-   recommendedSources: Source,
+   shabad: Shabad | null,
+   sources: RecommendedSources['sources'],
+   recommendedSources: RecommendedSources['recommendedSources'],
  }
 
 export const getTranslations = ( { languageIds, line, ...rest }: GetTranslationsParams ) => {
@@ -133,8 +136,8 @@ export const getTranslations = ( { languageIds, line, ...rest }: GetTranslations
   return ( languageIds || [] ).filter( ( x ) => x ).reduce( ( translations, languageId ) => {
     const translation = getTranslation( { languageId, line, ...rest } )
 
-    return translation ? { ...translations, [  languageId ]: translation } : translations
-  }, {} )
+    return translation ? { ...translations, [ languageId ]: translation } : translations
+  }, {} as Translations )
 }
 
 /**
