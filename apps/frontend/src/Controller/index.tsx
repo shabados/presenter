@@ -17,7 +17,7 @@ import classNames from 'classnames'
 import { func, string } from 'prop-types'
 import queryString from 'qs'
 import { useContext, useEffect, useState } from 'react'
-import { Redirect, Route, Routes, useHistory, useLocation } from 'react-router-dom'
+import { Redirect, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 import {
   BOOKMARKS_URL,
@@ -49,7 +49,7 @@ const TopBar = ( { title, onHover } ) => {
 
   const location = useLocation()
   const { search, pathname } = location
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const state = getUrlState( search )
 
@@ -66,7 +66,7 @@ const TopBar = ( { title, onHover } ) => {
       <ToolbarButton
         name="Minimize"
         icon={faWindowMinimize}
-        onClick={() => history.push( PRESENTER_URL )}
+        onClick={() => navigate( PRESENTER_URL )}
         onMouseEnter={() => onHover( 'Hide Controller' )}
         onMouseLeave={resetHover}
       />
@@ -75,7 +75,7 @@ const TopBar = ( { title, onHover } ) => {
           name="Minimize Controller"
           icon={faWindowMaximize}
           flip="vertical"
-          onClick={() => history.push( {
+          onClick={() => navigate( {
             ...location,
             search: queryString.stringify( { ...state, [ STATES.controllerOnly ]: undefined } ),
           } )}
@@ -86,7 +86,7 @@ const TopBar = ( { title, onHover } ) => {
         <ToolbarButton
           name="Maximize Controller"
           icon={faWindowMaximize}
-          onClick={() => history.push( {
+          onClick={() => navigate( {
             ...location,
             search: queryString.stringify( { ...state, [ STATES.controllerOnly ]: true } ),
           } )}
@@ -100,7 +100,7 @@ const TopBar = ( { title, onHover } ) => {
           const popOutQuery = queryString.stringify( { ...state, [ STATES.controllerOnly ]: true } )
 
           controller.openWindow( `${pathname}?${popOutQuery}`, { alwaysOnTop: true } )
-          history.push( PRESENTER_URL )
+          navigate( PRESENTER_URL )
         }}
         onMouseEnter={() => onHover( 'Pop Out Controller' )}
         onMouseLeave={resetHover}
@@ -127,12 +127,12 @@ TopBar.defaultProps = {
  * @param onHover Fired on hover with name.
  */
 const BottomBar = ( { renderContent, onHover } ) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
 
   const lines = useCurrentLines()
 
-  const go = ( pathname: string ) => () => history.push( { ...location, pathname } )
+  const go = ( pathname: string ) => () => navigate( { ...location, pathname } )
   const resetHover = () => onHover( null )
 
   return (
@@ -154,13 +154,13 @@ const BottomBar = ( { renderContent, onHover } ) => {
       />
       <div className="middle">{renderContent()}</div>
       {!!lines.length && (
-      <ToolbarButton
-        name="Navigator"
-        icon={faMap}
-        onClick={go( NAVIGATOR_URL )}
-        onMouseEnter={() => onHover( 'Navigator' )}
-        onMouseLeave={resetHover}
-      />
+        <ToolbarButton
+          name="Navigator"
+          icon={faMap}
+          onClick={go( NAVIGATOR_URL )}
+          onMouseEnter={() => onHover( 'Navigator' )}
+          onMouseLeave={resetHover}
+        />
       )}
       <ToolbarButton
         name="Clear"
@@ -197,7 +197,7 @@ const Controller = ( props ) => {
   const location = useLocation()
   const { search } = location
 
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const [ lastUrl, setLastUrl ] = useState( `${NAVIGATOR_URL}${search}` )
 
@@ -214,7 +214,7 @@ const Controller = ( props ) => {
     const isTransition = lines.length && lines !== previousLines
 
     if ( isTransition && redirects.some( ( route ) => pathname.includes( route ) ) ) {
-      history.push( { ...location, pathname: NAVIGATOR_URL } )
+      navigate( { ...location, pathname: NAVIGATOR_URL } )
     }
   }, [ history, lines, previousLines, location ] )
 
@@ -249,10 +249,10 @@ const Controller = ( props ) => {
                 {...props}
                 onHover={setHovered}
                 renderContent={() => BarComponent && (
-                <BarComponent
-                  {...props}
-                  onHover={setHovered}
-                />
+                  <BarComponent
+                    {...props}
+                    onHover={setHovered}
+                  />
                 )}
               />
             </div>
