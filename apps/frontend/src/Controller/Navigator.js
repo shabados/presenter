@@ -18,7 +18,7 @@ import { stripVishraams } from 'gurmukhi-utils'
 import { invert } from 'lodash'
 import { bool, func, string } from 'prop-types'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { Redirect, useLocation } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 
 import { getJumpLines, getNextJumpLine } from '../lib/auto-jump'
 import { SEARCH_URL } from '../lib/consts'
@@ -135,7 +135,7 @@ const Navigator = ( { updateFocus, register, focused } ) => {
   } ), {} ), [] )
 
   // If there's no Shabad to show, go back to the controller
-  if ( !lines.length ) return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
+  if ( !lines.length ) return <Navigate to={{ ...location, pathname: SEARCH_URL }} />
 
   const jumpLines = invert( getJumpLines( content ) )
   const nextLineId = getNextJumpLine( content )
