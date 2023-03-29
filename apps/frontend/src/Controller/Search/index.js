@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { func, number, oneOfType, string } from 'prop-types'
 import { stringify } from 'querystring'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
   MIN_SEARCH_CHARS,
@@ -56,7 +56,7 @@ const Search = ( { updateFocus, register, focused } ) => {
   } = {} } = useContext( SettingsContext )
 
   // Set the initial search query from URL
-  const history = useHistory()
+  const navigate = useNavigate()
   const { search } = useLocation()
   const { query = '' } = getUrlState( search )
 
@@ -106,12 +106,12 @@ const Search = ( { updateFocus, register, focused } ) => {
     setAnchor( anchor )
 
     // Update URL with search
-    history.push( { search: `?${stringify( {
+    navigate( { search: `?${stringify( {
       ...getUrlState( search ),
       query: value,
     } )}` } )
   }, [
-    history,
+    navigate,
     search,
     resultTranslationLanguage,
     resultTransliterationLanguage,
@@ -166,15 +166,15 @@ const Search = ( { updateFocus, register, focused } ) => {
         disableUnderline
         autoFocus
         endAdornment={inputValue.current && (
-        <InputAdornment>
-          <IconButton
-            className="clear"
-            onClick={() => onChange( { target: { value: '' } } )}
-            size="large"
-          >
-            <FontAwesomeIcon icon={faTimes} />
-          </IconButton>
-        </InputAdornment>
+          <InputAdornment>
+            <IconButton
+              className="clear"
+              onClick={() => onChange( { target: { value: '' } } )}
+              size="large"
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </IconButton>
+          </InputAdornment>
         )}
         inputProps={{
           spellCheck: false,
