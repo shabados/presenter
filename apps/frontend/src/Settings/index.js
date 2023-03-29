@@ -24,7 +24,7 @@ import {
 import classNames from 'classnames'
 import { bool, func, shape, string } from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
-import { Link, Redirect, Route, Routes, useLocation } from 'react-router-dom'
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 import {
   BACKEND_URL,
@@ -181,7 +181,7 @@ const Settings = () => {
 
       <main onClick={closeMobileMenu}>
         <Routes>
-          <Route path={SETTINGS_DEVICE_URL} render={() => <Redirect to={defaultUrl} />} />
+          <Route path={SETTINGS_DEVICE_URL} render={() => <Navigate to={defaultUrl} />} />
 
           {/* Device setting routes */}
           <Route
@@ -203,7 +203,7 @@ const Settings = () => {
           <Route path={`${SETTINGS_TOOLS_URL}/closedCaptions`} component={ClosedCaptionSettings} />
           <Route path={`${SETTINGS_TOOLS_URL}/*`} render={() => <DynamicOptions device="global" group={group} />} />
 
-          <Route render={() => <Redirect to={defaultUrl} />} />
+          <Route render={() => <Navigate to={defaultUrl} />} />
         </Routes>
       </main>
     </div>
