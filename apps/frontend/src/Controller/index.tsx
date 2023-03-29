@@ -17,7 +17,7 @@ import classNames from 'classnames'
 import { func, string } from 'prop-types'
 import queryString from 'qs'
 import { useContext, useEffect, useState } from 'react'
-import { Redirect, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 import {
   BOOKMARKS_URL,
@@ -260,7 +260,7 @@ const Controller = ( props ) => {
         />
       ) )}
 
-      <Route element={<Redirect to={lastUrl} />} />
+      <Route element={<Navigate to={lastUrl} replace />} />
     </Routes>
   )
 }
