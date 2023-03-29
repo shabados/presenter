@@ -36,7 +36,7 @@ export const TRANSLITERATORS = Object.entries( {
 } ), {} as Transliterators )
 
 export type Translations = {
-  [language: string]: string,
+  [language: string]: number,
 }
 
 // The order of translations

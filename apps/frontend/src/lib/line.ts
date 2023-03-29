@@ -10,7 +10,7 @@ import memoize from 'memoizee'
 import { LINE_TYPES, Translations, TRANSLITERATORS, Transliterators } from './data'
 
 export const sortBy = (
-  sortOrder: Record<string, string>
+  sortOrder: Record<string, number>
 ) => (
   [ languageA ]: [string, any],
   [ languageB ]: [string, any]
