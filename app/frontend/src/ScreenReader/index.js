@@ -10,9 +10,9 @@ const VishraamJsx = word => {
     case ';':
       return <span className="heavy">{word.slice( 0, -1 )}</span>
     case ',':
-      return <span className="heavy">{word.slice( 0, -1 )}</span>
+      return <span className="medium">{word.slice( 0, -1 )}</span>
     case '.':
-      return <span className="heavy">{word.slice( 0, -1 )}</span>
+      return <span className="light">{word.slice( 0, -1 )}</span>
     default:
       return <>{word}</>
   }
