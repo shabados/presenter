@@ -62,7 +62,7 @@ const pauriEndingRegex = /][\d]+]/
 
 const isEndOfPauri = str => {
   // if there is a line ending (॥੧॥) or ardas
-  if ( pauriEndingRegex.test( str ) || str.indexOf( 'bolo jI vwihgurU [' ) >= 0 ) {
+  if ( pauriEndingRegex.test( str ) || str.includes( 'bolo jI vwihgurU [' ) ) {
     return 'end-of-pauri'
   }
   return ''
