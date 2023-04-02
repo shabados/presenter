@@ -27,7 +27,7 @@
   "dependencies": {
     "@electron/remote": "^2.0.1",
     "@sentry/node": "^5.6.2",
-    "@shabados/database": "^4.7.0",
+    "@shabados/database": "^4.8.7",
     "appdata-path": "^1.0.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
