@@ -5,6 +5,19 @@ import { ContentContext } from '../lib/contexts'
 
 import './index.css'
 
+const VishraamJsx = word => {
+  switch ( word.slice( -1 ) ) {
+    case ';':
+      return <span className="heavy">{word.slice( 0, -1 )}</span>
+    case ',':
+      return <span className="heavy">{word.slice( 0, -1 )}</span>
+    case '.':
+      return <span className="heavy">{word.slice( 0, -1 )}</span>
+    default:
+      return <>{word}</>
+  }
+}
+
 const ScreenReader = () => {
   const { shabad, bani } = useContext( ContentContext )
 
@@ -59,8 +72,10 @@ const ScreenReader = () => {
         {lines.map( ( { gurmukhi, id } ) => {
           const isTitle = titlesFuzzy.some( ele => gurmukhi.indexOf( ele ) >= 0 )
             || titlesExact.some( ele => ele === gurmukhi )
+
           const isEndOfPauri = /][\d]+]/.test( gurmukhi )
             || gurmukhi.indexOf( 'bolo jI vwihgurU [' ) >= 0
+
           return (
             <p
               key={id}
@@ -70,34 +85,10 @@ const ScreenReader = () => {
             >
               {gurmukhi.split( ' ' ).map( ( word, index ) => {
                 const betweenWords = index === 0 ? '' : ' '
-                if ( word.endsWith( ';' ) ) {
-                  return (
-                    <>
-                      {betweenWords}
-                      <span className="heavy">{word.slice( 0, -1 )}</span>
-                    </>
-                  )
-                }
-                if ( word.endsWith( ',' ) ) {
-                  return (
-                    <>
-                      {betweenWords}
-                      <span className="medium">{word.slice( 0, -1 )}</span>
-                    </>
-                  )
-                }
-                if ( word.endsWith( '.' ) ) {
-                  return (
-                    <>
-                      {betweenWords}
-                      <span className="light">{word.slice( 0, -1 )}</span>
-                    </>
-                  )
-                }
                 return (
                   <>
                     {betweenWords}
-                    {word}
+                    {VishraamJsx( word )}
                   </>
                 )
               } )}
