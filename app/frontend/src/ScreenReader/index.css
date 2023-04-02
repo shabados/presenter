@@ -1,0 +1,62 @@
+:root {
+  --display-vishraam-heavy-color: #ad0028;
+  --display-vishraam-medium-color: #00603c;
+  --display-vishraam-light-color: #005583;
+}
+
+.lines-container {
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+  background-color: #f0ede9;
+  display: grid;
+}
+
+.lines {
+  width: fit-content;
+  place-self: center;
+  padding: 5rem;
+}
+
+.line {
+  font-family: 'Open Gurbani Akhar', sans-serif;
+  font-weight: bold;
+  font-size: 2em;
+  margin: 0em;
+  line-height: 1.6;
+}
+
+.title {
+  display: block;
+  font-size: 2.5em;
+}
+
+.line:not(.title) + .title {
+  margin-top: 2.4em;
+}
+
+.title + .line:not(.title)::before {
+  content: '\A';
+  white-space: pre;
+  font-size: 1em;
+  display: block;
+}
+
+.end-of-pauri:after {
+  content: '\A\A';
+  white-space: pre;
+  font-size: 0.5em;
+  display: block;
+}
+
+.heavy {
+  color: var(--display-vishraam-heavy-color) !important;
+}
+
+.medium {
+  color: var(--display-vishraam-medium-color) !important;
+}
+
+.light {
+  color: var(--display-vishraam-light-color) !important;
+}
