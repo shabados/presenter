@@ -51,16 +51,18 @@ const titlesExact = [
 ]
 
 const isTitle = str => {
-  if ( titlesFuzzy.some( subtitle => str.indexOf( subtitle ) >= 0 )
+  if ( titlesFuzzy.some( subtitle => str.includes( subtitle ) )
     || titlesExact.some( title => title === str ) ) {
     return 'title'
   }
   return ''
 }
 
+const pauriEndingRegex = /][\d]+]/
+
 const isEndOfPauri = str => {
   // if there is a line ending (॥੧॥) or ardas
-  if ( /][\d]+]/.test( str ) || str.indexOf( 'bolo jI vwihgurU [' ) >= 0 ) {
+  if ( pauriEndingRegex.test( str ) || str.indexOf( 'bolo jI vwihgurU [' ) >= 0 ) {
     return 'end-of-pauri'
   }
   return ''
