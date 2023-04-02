@@ -79,7 +79,8 @@ const ScreenReader = () => {
             key={id}
             className={`line ${isTitle( gurmukhi )} ${isEndOfPauri( gurmukhi )}`}
           >
-            {classifyWords( gurmukhi ).map( ( { word, type } ) => <span key={`${word}-${type}`} className={`word ${type}`}>{word}</span> )}
+            { /* eslint-disable-next-line react/no-array-index-key */ }
+            {classifyWords( gurmukhi ).map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={`word ${type}`}>{word}</span> )}
           </p>
         ) )}
       </div>
