@@ -51,23 +51,13 @@ const titlesExact = [
   'rhrwis swihb',
 ]
 
-const isTitle = str => {
-  if ( titlesFuzzy.some( subtitle => str.includes( subtitle ) )
-    || titlesExact.some( title => title === str ) ) {
-    return true
-  }
-  return false
-}
+const isTitle = str => ( titlesFuzzy.some( subtitle => str.includes( subtitle ) )
+|| titlesExact.some( title => title === str ) )
 
 const pauriEndingRegex = /][\d]+]/
 
-const isEndOfPauri = str => {
-  // if there is a line ending (॥੧॥) or ardas
-  if ( pauriEndingRegex.test( str ) || str.includes( 'bolo jI vwihgurU [' ) ) {
-    return true
-  }
-  return false
-}
+// if there is a line ending (॥੧॥) or ardas
+const isEndOfPauri = str => ( pauriEndingRegex.test( str ) || str.includes( 'bolo jI vwihgurU [' ) )
 
 const ScreenReader = () => {
   const { shabad, bani } = useContext( ContentContext )
@@ -80,7 +70,7 @@ const ScreenReader = () => {
         {lines.map( ( { gurmukhi, id } ) => (
           <p
             key={id}
-            className={classNames( 'line', { title: isTitle( gurmukhi ) }, { 'end-of-pauri': isEndOfPauri( gurmukhi ) } )}
+            className={classNames( 'line', { title: isTitle( gurmukhi ), 'end-of-pauri': isEndOfPauri( gurmukhi ) } )}
           >
             { /* eslint-disable-next-line react/no-array-index-key */ }
             {classifyWords( gurmukhi ).map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={`word ${type}`}>{word}</span> )}
