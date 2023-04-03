@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React, { useContext } from 'react'
 import { hot } from 'react-hot-loader/root'
 
@@ -53,9 +54,9 @@ const titlesExact = [
 const isTitle = str => {
   if ( titlesFuzzy.some( subtitle => str.includes( subtitle ) )
     || titlesExact.some( title => title === str ) ) {
-    return 'title'
+    return true
   }
-  return ''
+  return false
 }
 
 const pauriEndingRegex = /][\d]+]/
@@ -63,9 +64,9 @@ const pauriEndingRegex = /][\d]+]/
 const isEndOfPauri = str => {
   // if there is a line ending (॥੧॥) or ardas
   if ( pauriEndingRegex.test( str ) || str.includes( 'bolo jI vwihgurU [' ) ) {
-    return 'end-of-pauri'
+    return true
   }
-  return ''
+  return false
 }
 
 const ScreenReader = () => {
@@ -79,7 +80,7 @@ const ScreenReader = () => {
         {lines.map( ( { gurmukhi, id } ) => (
           <p
             key={id}
-            className={`line ${isTitle( gurmukhi )} ${isEndOfPauri( gurmukhi )}`}
+            className={classNames( 'line', { title: isTitle( gurmukhi ) }, { 'end-of-pauri': isEndOfPauri( gurmukhi ) } )}
           >
             { /* eslint-disable-next-line react/no-array-index-key */ }
             {classifyWords( gurmukhi ).map( ( { word, type }, i ) => <span key={`${word}-${type}-${i}`} className={`word ${type}`}>{word}</span> )}
