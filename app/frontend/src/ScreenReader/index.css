@@ -1,0 +1,82 @@
+:root {
+  --display-vishraam-heavy-color: #ad0028;
+  --display-vishraam-medium-color: #00603c;
+  --display-vishraam-light-color: #005583;
+}
+
+body {
+  background-color: #f0ede9;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0px,
+    black 4em calc(100% - 4em),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 4em calc(100% - 4em),
+    transparent 100%
+  );
+}
+
+.lines-container {
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+  display: grid;
+}
+
+.lines {
+  width: fit-content;
+  place-self: center;
+  padding: 2.5em;
+}
+
+.line {
+  font-family: 'Open Gurbani Akhar', sans-serif;
+  font-weight: bold;
+  font-size: 2em;
+  margin: 0em;
+  line-height: 1.6;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.3em;
+}
+
+.word {
+  display: inline-block;
+}
+
+.title {
+  font-size: 2.5em;
+  margin-top: 2em;
+}
+
+.title:first-child {
+  margin-top: 0;
+}
+
+.title + .title {
+  margin-top: 0;
+}
+
+.title + .line:not(.title) {
+  margin-top: 0.4em;
+}
+
+.end-of-pauri + .line:not(.title) {
+  margin-top: 0.8em;
+}
+
+.heavy {
+  color: var(--display-vishraam-heavy-color) !important;
+}
+
+.medium {
+  color: var(--display-vishraam-medium-color) !important;
+}
+
+.light {
+  color: var(--display-vishraam-light-color) !important;
+}
