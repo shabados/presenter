@@ -1,11 +1,5 @@
 import { Router } from 'express'
-import { arch, cpus, hostname, platform, release } from 'os'
-import { join } from 'path'
-import type { PackageJson } from 'type-fest'
 
-import { APP_FOLDER, DATABASE_FOLDER } from './helpers/consts'
-import { readJSON } from './helpers/files'
-import { getNetworkedAddresses } from './helpers/network'
 import { getLanguages, getSources, getWriters } from './services/database'
 
 const api = Router()

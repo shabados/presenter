@@ -1,4 +1,5 @@
 import { Application } from 'express'
+import { clearLine } from 'readline'
 
 import { getBanis } from '../services/database'
 import { SocketServer } from '../services/socket-server'
@@ -14,40 +15,46 @@ const createContentModule = ( { api, socketServer }: ContentModuleOptions ) => {
   api.use( createApi() )
 
   const state = createState()
-  const { content,
+  const {
+    content,
     lineId,
-    mainLineId,
-    nextLineId,
-    setMainLine,
+    trackerMainLineId,
+    trackerNextLineId,
+    setTrackerMainLine,
+    setTrackerNextLine,
+    setLine,
+    setShabad,
+    setNextShabad,
+    setPreviousShabad,
     setNextLine,
-    setLineId,
-    setLineOrderId } = state
+    setPreviousLine,
+    setBookmark,
+    clearLine,
+  } = state
 
-  // add parameter types to these functions
-  const broadcast = ( event ) => ( data ) => socketServer.broadcast( event, () => data )
-  const broadcastBanis = () => void getBanis().then( broadcast( 'content:bani:list' ) )
+  content.onChange( socketServer.broadcast( 'content:current' ) )
+  lineId.onChange( socketServer.broadcast( 'content:line:current' ) )
+  trackerMainLineId.onChange( socketServer.broadcast( 'content:tracker:main-line' ) )
+  trackerNextLineId.onChange( socketServer.broadcast( 'content:tracker:next-line' ) )
 
-  content.onChange( broadcast( 'content:current' ) )
-  lineId.onChange( broadcast( 'content:line:current' ) )
-  mainLineId.onChange( broadcast( 'content:line:main' ) )
-  nextLineId.onChange( broadcast( 'content:line:next' ) )
-
-  socketServer.on( 'connection:ready', () => {
-    broadcastBanis()
-
-    broadcast( 'content:current' )( content.get() )
-    broadcast( 'content:line:current' )( lineId.get() )
-    broadcast( 'content:line:main' )( mainLineId.get() )
-    broadcast( 'content:line:next' )( nextLineId.get() )
+  socketServer.on( 'connection:ready', ( { sendJSON } ) => {
+    void getBanis().then( ( banis ) => sendJSON( 'content:bookmark:list', banis ) )
+    sendJSON( 'content:current', content.get() )
+    sendJSON( 'content:line:current', lineId.get() )
+    sendJSON( 'content:tracker:main-line', trackerMainLineId.get() )
+    sendJSON( 'content:tracker:next-line', trackerNextLineId.get() )
   } )
 
-  socketServer.on( 'content:line:main', setMainLine )
-  socketServer.on( 'content:line:next', setNextLine )
-  socketServer.on( 'content:line:current', ( { transition, ...rest } ) => {
-    // What is transition? It's not used anywhere. Do we need to infer it, or is it something that's explicitly passed in?
-    if ( 'id' in rest ) setLineId( rest.id )
-    if ( 'orderId' in rest ) setLineOrderId( rest.orderId )
-  } )
+  socketServer.on( 'content:tracker:set-main-line', setTrackerMainLine )
+  socketServer.on( 'content:tracker:set-next-line', setTrackerNextLine )
+  socketServer.on( 'content:line:clear', clearLine )
+  socketServer.on( 'content:line:set-current', setLine )
+  socketServer.on( 'content:line:set-next', setNextLine )
+  socketServer.on( 'content:line:set-previous', setPreviousLine )
+  socketServer.on( 'content:shabad:set-current', setShabad )
+  socketServer.on( 'content:shabad:set-next', setNextShabad )
+  socketServer.on( 'content:shabad:set-previous', setPreviousShabad )
+  socketServer.on( 'content:bookmark:set', setBookmark )
 
   return state
 }

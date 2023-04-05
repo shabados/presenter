@@ -37,7 +37,7 @@ const main = async () => {
   createStatusModule( { socketServer, globalSettings, updater } )
   await createThemesModule( { api } )
   createDiagnosticsModule( { api } )
-  createContentModule( { api, socketServer } )
+   createContentModule( { api, socketServer } )
 
   listen()
 

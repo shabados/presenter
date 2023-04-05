@@ -16,7 +16,7 @@ const createStatusModule = ( {
 }: StatusModuleOptions ) => {
   const { status, notifyStatus } = createStatusState()
 
-  status.onChange( ( status ) => socketServer.broadcast( 'status', () => status ) )
+  status.onChange( socketServer.broadcast( 'status' ) )
 
   socketServer.on( 'connection:ready', ( client ) => {
     if ( !globalSettings.get().notifications.connectionEvents ) return

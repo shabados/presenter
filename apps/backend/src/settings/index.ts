@@ -14,7 +14,7 @@ const createSettingsModule = ( { socketServer, globalSettings }: SettingsModuleO
 
   socketServer.on( 'connection:ready', ( { sendJSON, host } ) => sendJSON( 'settings:all', getClientSettings( host ) ) )
 
-  const broadcastSettings = () => socketServer.broadcast( 'settings:all', ( { host } ) => getClientSettings( host ) )
+  const broadcastSettings = () => socketServer.broadcast( 'settings:all' )( ( { host } ) => getClientSettings( host ) )
 
   publicSettings.onChange( broadcastSettings )
   globalSettings.onChange( broadcastSettings )

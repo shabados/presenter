@@ -10,12 +10,16 @@ type DefineParameters<
 > = Merge<Record<Name, undefined>, Parameters>
 
 export const serverEvents = [
-  'content:shabad:next',
-  'content:shabad:previous',
-  'content:banis:current',
-  'content:line:current',
-  'content:line:main',
-  'content:line:next',
+  'content:shabad:open',
+  'content:shabad:open-previous',
+  'content:shabad:open-next',
+  'content:bookmark:open',
+  'content:line:set-current',
+  'content:line:set-next',
+  'content:line:set-previous',
+  'content:line:clear',
+  'content:tracker:set-next-line',
+  'content:tracker:set-main-line',
   'history:clear',
   'settings:all',
   'search:first-letter',
@@ -28,12 +32,11 @@ export const serverEvents = [
 
 export type ServerEvent = typeof serverEvents[number]
 export type ServerEventParameters = DefineParameters<ServerEvent, {
-  'content:line:open': { id: string, type: 'shabad' | 'bani' },
-  'content:shabad:open': { id: string },
-  'content:bani:open': { id: string },
-  'content:line:current': { transition?: boolean } & ( { id: string | null } | { orderId: number } ),
-  'content:line:main': string,
-  'content:line:next': string,
+  'content:shabad:open': { id: string, lineId?: string },
+  'content:bookmark:open': { id: number },
+  'content:line:set-current': { transition?: boolean, id: string },
+  'content:tracker:set-main-line': string,
+  'content:tracker:set-next-line': string,
   'settings:all': Partial<Settings>,
   'search:full-word': SearchQuery,
   'search:first-letter': SearchQuery,
@@ -42,10 +45,10 @@ export type ServerEventParameters = DefineParameters<ServerEvent, {
 
 export const clientEvents = [
   'content:current',
-  'content:bani:list',
+  'content:bookmark:list',
   'content:line:current',
-  'content:line:main',
-  'content:line:next',
+  'content:tracker:main-line',
+  'content:tracker:next-line',
   'history:viewed-lines',
   'status',
   'history:transitions',
@@ -57,10 +60,10 @@ export const clientEvents = [
 export type ClientEvent = typeof clientEvents[number]
 export type ClientEventParameters = DefineParameters<ClientEvent, {
   'content:current': Content | null,
-  'content:bani:list': BaniList[],
+  'content:bookmark:list': BaniList[],
   'content:line:current': string | null,
-  'content:line:main': string | null,
-  'content:line:next': string | null,
+  'content:tracker:main-line': string | null,
+  'content:tracker:next-line': string | null,
   'status': string | null,
   'history:viewed-lines': ViewedLines,
   // 'history:transitions',
