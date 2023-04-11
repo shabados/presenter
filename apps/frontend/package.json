@@ -51,15 +51,16 @@
     "types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@testing-library/react": "^14.0.0",
     "@testing-library/jest-dom": "^5.16.5",
-    "@types/testing-library__jest-dom": "^5.14.5",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/lodash": "^4.14.182",
     "@types/memoizee": "^0.4.8",
     "@types/qs": "^6.9.7",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
     "@types/scroll-into-view": "^1.16.0",
+    "@types/testing-library__jest-dom": "^5.14.5",
     "@vitejs/plugin-react": "^1.3.2",
     "jest-environment-jsdom": "^29.5.0",
     "source-map-explorer": "^2.5.2",
