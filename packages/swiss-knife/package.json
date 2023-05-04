@@ -1,0 +1,7 @@
+{
+  "name": "@presenter/swiss-knife",
+  "version": "0.0.0",
+  "author": "Shabad OS Team <team@shabados.com>",
+  "private": true,
+  "main": "src"
+}

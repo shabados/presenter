@@ -51,10 +51,10 @@ const createContentModule = ( { api, socketServer }: ContentModuleOptions ) => {
   socketServer.on( 'content:line:set-current', setLine )
   socketServer.on( 'content:line:set-next', setNextLine )
   socketServer.on( 'content:line:set-previous', setPreviousLine )
-  socketServer.on( 'content:shabad:set-current', setShabad )
-  socketServer.on( 'content:shabad:set-next', setNextShabad )
-  socketServer.on( 'content:shabad:set-previous', setPreviousShabad )
-  socketServer.on( 'content:bookmark:set', setBookmark )
+  // socketServer.on( 'content:shabad:set-current', setShabad )
+  // socketServer.on( 'content:shabad:set-next', setNextShabad )
+  // socketServer.on( 'content:shabad:set-previous', setPreviousShabad )
+  // socketServer.on( 'content:bookmark:set', setBookmark )
 
   return state
 }

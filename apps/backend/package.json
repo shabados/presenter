@@ -17,8 +17,9 @@
   "homepage": "https://github.com/shabados/presenter#readme",
   "dependencies": {
     "@electron/remote": "^2.0.8",
-    "@presenter/contract": "file:/../../packages/contract",
-    "@presenter/node": "file:/../../packages/node",
+    "@presenter/contract": "file:../../packages/contract",
+    "@presenter/node": "file:../../packages/node",
+    "@presenter/swiss-knife": "file:../../packages/swiss-knife",
     "@sentry/node": "^6.19.7",
     "@shabados/database": "^4.8.7",
     "body-parser": "^1.20.0",

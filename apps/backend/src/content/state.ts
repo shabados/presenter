@@ -1,21 +1,28 @@
-import { Content, Line, Shabad } from '@presenter/contract'
+import { Content, Line } from '@presenter/contract'
 import { getLogger, mutableValue, readOnly, subscribable } from '@presenter/node'
+import { first, last } from '@presenter/swiss-knife'
 import { clamp } from 'lodash'
 
 import { getBaniLines, getShabad, getShabadByOrderId, getShabadRange } from '../services/database'
 
 const log = getLogger( 'content' )
 
-const indexLines = ( lines: Line[] ) => lines.reduce( ( acc, line ) => {
-  const { byId, byOrderId } = acc
+const indexLines = ( lines: Line[] ) => lines.reduce(
+  ( acc, line, index ) => {
+    const { byId, byIndex } = acc
 
-  // eslint-disable-next-line no-param-reassign
-  byId[ line.id ] = line
-  // eslint-disable-next-line no-param-reassign
-  byOrderId[ line.orderId ] = line
+    // eslint-disable-next-line no-param-reassign
+    byId[ line.id ] = line
+    // eslint-disable-next-line no-param-reassign
+    byIndex.set( line, index )
 
-  return acc
-}, { byId: {}, byOrderId: {} } as { byId: Record<string, Line>, byOrderId: Record<number, Line> } )
+    return acc
+  },
+  {
+    byId: {},
+    byIndex: new WeakMap<Line, number>(),
+  } as { byId: Record<string, Line>, byIndex: WeakMap<Line, number> }
+)
 
 const createState = () => {
   const content = subscribable( mutableValue<Content | null>( null ) )
@@ -25,17 +32,17 @@ const createState = () => {
   const trackerNextLineId = subscribable( mutableValue<string | null>( null ) )
 
   const linesById = mutableValue<Record<string, Line>>( {} )
-  const linesByOrderId = mutableValue<Record<number, Line>>( {} )
+  const linesByIndex = mutableValue<WeakMap<Line, number>>( new WeakMap() )
 
   const shabadRangePromise = getShabadRange()
 
   content.onChange( ( content ) => {
     if ( !content ) return
 
-    const { byId, byOrderId } = indexLines( content.lines as Line[] )
+    const { byId, byIndex } = indexLines( content.lines as Line[] )
 
     linesById.set( byId )
-    linesByOrderId.set( byOrderId )
+    linesByIndex.set( byIndex )
   } )
 
   const clearLine = () => {
@@ -55,29 +62,49 @@ const createState = () => {
     log.info( 'Set Line ID to %s', id )
   }
 
-  const setLineOrderId = ( id: number ) => {
+  const setNextLine = () => {
     const contentData = content.get()
-    if ( !contentData ) return
+    const currentLineId = lineId.get()
+    if ( !contentData || !currentLineId ) return
 
     const { lines } = contentData
 
-    // Clamp line order IDs that exceed the Shabad's range of lines, if specified
-    //! Invalid order IDs are possible in Banis, since the lines are not always continguous
-    const [ lowerOrderId, upperOrderId ] = [
-      lines[ 0 ],
-      lines[ lines.length - 1 ],
-    ].map( ( { orderId } ) => orderId )
-
-    const clampedOrderId = clamp( id, lowerOrderId, upperOrderId )
-
-    const lineId = linesByOrderId.get()[ clampedOrderId ].id
-
-    if ( !lineId ) {
-      log.error( 'Line ID by order ID %d (clamped %d) not found', id, clampedOrderId )
+    const currentLine = linesById.get()[ currentLineId ]
+    const currentLineIndex = linesByIndex.get().get( currentLine )
+    if ( currentLineIndex === undefined ) {
+      log.error( 'Line ID %s not found in current content', currentLineId )
       return
     }
 
-    setLine( lineId )
+    const nextLine = lines[ currentLineIndex + 1 ]
+    if ( !nextLine ) {
+      log.error( 'Line ID %s is the last line in the shabad', currentLineId )
+      return
+    }
+
+    setLine( nextLine.id )
+  }
+
+  const setPreviousLine = () => {
+    const contentData = content.get()
+    const currentLineId = lineId.get()
+    if ( !contentData || !currentLineId ) return
+
+    const { lines } = contentData
+
+    const currentLineIndex = linesByIndex.get().get( linesById.get()[ currentLineId ] )
+    if ( currentLineIndex === undefined ) {
+      log.error( 'Line ID %s not found in current content', currentLineId )
+      return
+    }
+
+    const previousLine = lines[ currentLineIndex - 1 ]
+    if ( !previousLine ) {
+      log.error( 'Line ID %s is the first line in the shabad', currentLineId )
+      return
+    }
+
+    setLine( previousLine.id )
   }
 
   type SetContentOptions = {
@@ -89,7 +116,7 @@ const createState = () => {
     id: number,
   }
 
-  const setShabad = async ( { id, type, lineId }: SetContentOptions ) => {
+  const setShabadContent = async ( { id, type, lineId }: SetContentOptions ) => {
     log.info( `Setting shabad ID to ${id}` )
 
     const shabad = getShabad( id )
@@ -129,7 +156,7 @@ const createState = () => {
     const id = lineId ?? firstLine.id
 
     content.set( bani )
-    lineId.s( id )
+    lineId.set( id )
     trackerMainLineId.set( null )
     trackerNextLineId.set( null )
 
@@ -170,7 +197,8 @@ const createState = () => {
     trackerNextLineId: readOnly( trackerNextLineId ),
     setBookmark,
     setLine,
-    setLineOrderId,
+    setPreviousLine,
+    setNextLine,
     setShabad,
     setShabadOrderId,
     setTrackerMainLine,
