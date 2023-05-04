@@ -24,4 +24,19 @@ describe( 'utils', () => {
       expect( mapPlatformKey( 'ctrl+D' ) ).toBe( 'ctrl+D' )
     } )
   } )
+
+  describe( 'mapPlatformKeys', () => {
+    it( 'should not fail if passed an empty object', () => {
+      const result = mapPlatformKeys( {} )
+
+      expect( result ).toEqual( {} )
+    } )
+
+    it( 'should return the keyMap argument as-is if not on Mac', () => {
+      isMacMockGetter.mockReturnValue( false )
+      mapPlatformKeys( {} )
+    } )
+
+    it.todo( 'should transform ctrl to cmd in key bindings if on Mac' )
+  } )
 } )
