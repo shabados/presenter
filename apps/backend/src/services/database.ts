@@ -1,4 +1,4 @@
-import { Language, Source, TranslationSource } from '@presenter/contract'
+import { Bani, Language, Shabad, Source, TranslationSource } from '@presenter/contract'
 import { Banis, Languages, Lines, LinesBuilder, Model, Shabads, Sources, UnwrapModel, Writers } from '@shabados/database'
 import { stripAccents } from 'gurmukhi-utils'
 import { groupBy, last } from 'lodash'
@@ -45,7 +45,7 @@ export const getShabad = ( shabadId: string ) => Shabads
   .withGraphJoined( '[lines, section]' )
   .withTranslations()
   .then( toJSON )
-  .then( ( [ shabad ] ) => shabad )
+  .then( ( [ shabad ] ) => shabad as Shabad )
 
 export const getShabadByOrderId = ( orderId: number ) => ( Shabads
   .query()
@@ -53,7 +53,7 @@ export const getShabadByOrderId = ( orderId: number ) => ( Shabads
   .withGraphJoined( '[lines, section]' ) )
   .withTranslations()
   .then( toJSON )
-  .then( ( [ shabad ] ) => shabad )
+  .then( ( [ shabad ] ) => shabad as Shabad )
 
 export const getBanis = () => Banis.query().then( toJSON )
 
@@ -64,7 +64,7 @@ export const getBaniLines = ( baniId: number ) => Banis
   .where( 'banis.id', baniId )
   .withTranslations()
   .then( toJSON )
-  .then( ( [ bani ] ) => bani )
+  .then( ( [ bani ] ) => bani as Bani )
 
 const groupTranslationSources = <Result>(
   acc: Result,
@@ -118,11 +118,3 @@ export const getLanguages = (): Promise<Language[]> => Languages.query().then( t
 export const getWriters = () => Writers
   .query()
   .then( toJSON )
-
-export const getShabadRange = () => Shabads
-  .query()
-  .min( 'order_id AS min' )
-  .max( 'order_id AS max' )
-  .first()
-  .castTo<{ max: number, min: number }>()
-  .then( ( { min, max } ) => [ min, max ] as const )

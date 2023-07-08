@@ -6,7 +6,7 @@ import WebSocket, { Server } from 'ws'
 
 import withBroadcast, { BroadcastServer } from './with-broadcast'
 import withConnectionEvents, { ConnectionEventsServer, ConnectionEventsSocket } from './with-connection-state'
-import withClientJSON, { EventsServer, EventsSocket } from './with-events'
+import withEvents, { EventsServer, EventsSocket } from './with-events'
 import withHeartbeat, { HeartbeatSocket } from './with-heartbeat'
 import withHostInformation, { HostInformationSocket } from './with-host-information'
 
@@ -24,7 +24,8 @@ type SocketServerOptions = {
 export type SocketServer = ReturnType<typeof createSocketServer>
 
 const createSocketServer = ( { httpServer }: SocketServerOptions ) => {
-  type SocketServer = ConnectionEventsServer<SocketClient>
+  type SocketServer =
+    ConnectionEventsServer<SocketClient>
     & BroadcastServer<SocketClient>
     & EventsServer<SocketClient>
 
@@ -35,7 +36,7 @@ const createSocketServer = ( { httpServer }: SocketServerOptions ) => {
     withConnectionEvents(),
     withHeartbeat(),
     withHostInformation(),
-    withClientJSON(),
+    withEvents(),
     withBroadcast(),
   ) as SocketServer & Server<SocketClient>
 

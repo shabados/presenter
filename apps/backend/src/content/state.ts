@@ -3,7 +3,7 @@ import { getLogger, mutableValue, readOnly, subscribable } from '@presenter/node
 import { first, last } from '@presenter/swiss-knife'
 import { clamp } from 'lodash'
 
-import { getBaniLines, getShabad, getShabadByOrderId, getShabadRange } from '../services/database'
+import { getBaniLines, getShabad, getShabadByOrderId } from '../services/database'
 
 const log = getLogger( 'content' )
 
@@ -33,8 +33,6 @@ const createState = () => {
 
   const linesById = mutableValue<Record<string, Line>>( {} )
   const linesByIndex = mutableValue<WeakMap<Line, number>>( new WeakMap() )
-
-  const shabadRangePromise = getShabadRange()
 
   content.onChange( ( content ) => {
     if ( !content ) return
@@ -107,74 +105,65 @@ const createState = () => {
     setLine( previousLine.id )
   }
 
-  type SetContentOptions = {
-    type: 'shabad',
-    id: string,
-    lineId?: string,
-  } | {
-    type: 'bookmark',
+  type SetBookmarkOptions = {
     id: number,
+    lineId?: string,
   }
 
-  const setShabadContent = async ( { id, type, lineId }: SetContentOptions ) => {
-    log.info( `Setting shabad ID to ${id}` )
+  const setBookmark = async ( options: SetBookmarkOptions ) => {
+    log.info( `Setting Bani ID to ${options.id}` )
 
-    const shabad = getShabad( id )
+    const bani = await getBaniLines( options.id )
+
+    if ( !bani ) {
+      log.error( `Bani ID ${options.id} does not exist` )
+      return
+    }
+
+    content.set( bani )
+
+    const { lines: [ firstLine ] } = bani
+    lineId.set( options.lineId ?? firstLine.id )
+
+    // Use last line navigated to of shabad, if exists
+    // const { line } = history.getLatestFor( bani.id ) ?? {}
+    // setLine( { lineId: line ? line.id : id }, true )
+  }
+
+  type SetShabad = {
+    id: string,
+    lineId?: string,
+  }
+
+  const setShabad = async ( options: SetShabad ) => {
+    log.info( `Setting shabad ID to ${options.id}` )
+
+    const shabad = await getShabad( options.id )
+
+    if ( !shabad ) {
+      log.error( `Shabad ID ${options.id} does not exist` )
+      return
+    }
 
     trackerMainLineId.set( null )
     trackerNextLineId.set( null )
     content.set( shabad )
 
+    const { lines: [ firstLine ] } = shabad
+    lineId.set( options.lineId ?? firstLine.id )
+
     // Try to use previous history values
-    const { mainLineIdd, nextLineId: prevNextLineId } = history.getLatestFor( shabad.id ) || {}
+    // const { mainLineIdd, nextLineId: prevNextLineId } = history.getLatestFor( shabad.id ) || {}
 
-    trackerMainLineId.set( mainLineIdd ?? id )
+    // trackerMainLineId.set( mainLineIdd ?? id )
+    // trackerMainLineId.set( id )
 
-    const { lines } = shabad
+    // const { lines } = shabad
 
     // Next line is either first line, or line after
-    const { id: nextLineIdd } = lines[ 0 ].id === newLineId ? lines[ 1 ] : lines[ 0 ]
-    trackerNextLineId.set( prevNextLineId ?? nextLineIdd )
+    // const { id: nextLineId } = lines[ 0 ].id === newLineId ? lines[ 1 ] : lines[ 0 ]
+    // trackerNextLineId.set( nextLineId )
   }
-
-  type SetBookmarkOptions = {
-    baniId: number,
-    lineId?: string,
-  }
-
-  const setBookmark = async ( { baniId, lineId }: SetBookmarkOptions ) => {
-    log.info( `Setting the Bani ID to ${baniId}` )
-
-    const bani = await getBaniLines( baniId )
-
-    if ( !bani.lines?.length ) {
-      log.error( `Bani ID ${baniId} is empty` )
-      return
-    }
-
-    const { lines: [ firstLine ] } = bani
-    const id = lineId ?? firstLine.id
-
-    content.set( bani )
-    lineId.set( id )
-    trackerMainLineId.set( null )
-    trackerNextLineId.set( null )
-
-    // Use last line navigated to of shabad, if exists
-    const { line } = history.getLatestFor( bani.id ) ?? {}
-    setLine( { lineId: line ? line.id : id }, true )
-  }
-
-  const setShabad = async ( id: string, lineId: string ) => {
-    const shabad = await getShabad( id )
-
-    return setShabad( shabad, lineId )
-  }
-
-  const setShabadOrderId = ( orderId: number ) => shabadRangePromise
-    .then( ( range ) => clamp( orderId, ...range ) )
-    .then( getShabadByOrderId )
-    .then( setShabad )
 
   const setTrackerMainLine = ( id: string ) => {
     if ( !content.get() ) return
@@ -200,11 +189,9 @@ const createState = () => {
     setPreviousLine,
     setNextLine,
     setShabad,
-    setShabadOrderId,
     setTrackerMainLine,
     setTrackerNextLine,
     clearLine,
-    openLine,
   }
 }
 

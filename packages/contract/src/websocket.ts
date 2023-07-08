@@ -33,7 +33,7 @@ export const serverEvents = [
 export type ServerEvent = typeof serverEvents[number]
 export type ServerEventParameters = DefineParameters<ServerEvent, {
   'content:shabad:open': { id: string, lineId?: string },
-  'content:bookmark:open': { id: number },
+  'content:bookmark:open': { id: number, lineId?: string },
   'content:line:set-current': { transition?: boolean, id: string },
   'content:tracker:set-main-line': string,
   'content:tracker:set-next-line': string,
