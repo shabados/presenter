@@ -1,7 +1,7 @@
-import './index.css';
+import './index.css'
 
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   Button,
   Grid,
@@ -9,11 +9,11 @@ import {
   ListItem,
   Tooltip,
   Typography,
-} from '@mui/material';
-import classNames from 'classnames';
-import { groupBy } from 'lodash';
-import { arrayOf, objectOf, shape, string } from 'prop-types';
-import { useState } from 'react';
+} from '@mui/material'
+import classNames from 'classnames'
+import { groupBy } from 'lodash'
+import { arrayOf, objectOf, shape, string } from 'prop-types'
+import { useState } from 'react'
 
 import controller from '../../lib/controller'
 import keyMap from '../../lib/keyMap'
@@ -26,7 +26,7 @@ const REQUIRED_KEYS = Object
   .values( keyMap )
   .filter( ( { required } ) => required )
   .reduce( ( acc, { sequences, name } ) => ( {
-      ...acc,
+    ...acc,
     ...sequences.reduce( ( acc, key ) => ( { ...acc, [ key ]: name } ), {} ),
   } ), {} )
 
