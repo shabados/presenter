@@ -40,11 +40,11 @@ const Sources = ( { sources: currentSources, device }: SourcesProps ) => {
   const [ { sources, recommended }, setSources ] = useState<Source>( {} as Source )
 
   useEffect( () => {
-    fetch( `${BACKEND_URL}/languages` ).then( ( res ) => res.json() ).then( ( { languages } ) => setLanguages( languages ) )
+    void fetch( `${BACKEND_URL}/languages` ).then( ( res ) => res.json() ).then( ( { languages } ) => setLanguages( languages ) )
   }, [] )
 
   useEffect( () => {
-    fetch( `${BACKEND_URL}/sources` ).then( ( res ) => res.json() ).then( setSources )
+    void fetch( `${BACKEND_URL}/sources` ).then( ( res ) => res.json() ).then( setSources )
   }, [] )
 
   if ( !sources || !languages ) return <Loader />
