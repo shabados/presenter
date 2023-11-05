@@ -30,7 +30,7 @@ const About = ( { connected }: AboutProps ) => {
   const [ about, setAbout ] = useState( null )
 
   useEffect( () => {
-    fetch( `${BACKEND_URL}/about` )
+    void fetch( `${BACKEND_URL}/about` )
       .then( ( res ) => res.json() )
       .then( setAbout )
   }, [] )
