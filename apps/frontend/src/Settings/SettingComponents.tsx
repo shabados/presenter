@@ -99,7 +99,7 @@ export const UrlDropdown = ( { url, ...props }: UrlDropdownProps ) => {
   const [ values, setValues ] = useState( [] )
 
   useEffect( () => {
-    fetch( url )
+    void fetch( url )
       .then( ( res ) => res.json() )
       .then( ( values ) => values.map( ( value ) => ( { name: value, value } ) ) )
       .then( setValues )
