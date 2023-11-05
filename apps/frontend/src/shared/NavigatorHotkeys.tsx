@@ -1,5 +1,5 @@
 import { noop } from 'lodash'
-import { ElementType, useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 
 import { getJumpLines } from '../lib/auto-jump'
 import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
@@ -12,7 +12,7 @@ import GlobalHotKeys from './GlobalHotKeys'
 type NavigatorHotKeysProps = {
   active?: boolean,
   children?: React.ReactNode | null,
-  mouseTargetRef?: { current: ElementType | null },
+  mouseTargetRef?: { current: EventTarget | null },
 }
 
 /**
@@ -158,14 +158,17 @@ const NavigatorHotKeys = (
 
     if ( !active || !mouseTarget || !windowFocused ) return noop
 
+    type CustomEvent =
+      [eventName: string, handler: any]
+
     const events = [
       [ 'click', goNextLine ],
-      [ 'contextmenu', ( event ) => event.preventDefault() ],
+      [ 'contextmenu', ( event: Event ) => event.preventDefault() ],
       [ 'auxclick', ( { button } ) => ( ( {
         2: goPreviousLine,
         1: autoToggle,
       } )[ button ] || noop )() ],
-    ]
+    ] as CustomEvent[]
 
     events.forEach( ( [ event, handler ] ) => mouseTarget.addEventListener( event, handler ) )
 
