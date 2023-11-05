@@ -1,11 +1,11 @@
-import { Component, forwardRef } from 'react'
+import { Component, forwardRef, ReactInstance } from 'react'
 import { findDOMNode } from 'react-dom'
 
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import { debounceHotKey, scrollIntoCenter } from '../lib/utils'
 import GlobalHotKeys from './GlobalHotKeys'
 
-const isInput = ( element ) => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
+const isInput = ( element: Element ) => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
 
 const preventDefault = ( fn: ( event: Event ) => any ) => ( event: Event ) => {
   event.preventDefault()
@@ -51,7 +51,7 @@ export const withNavigationHotkeys = ( {
   wrapAround = true,
 }: WithNavigationHotkeysProps ) => ( WrappedComponent: Component ) => {
   class NavigationHotkeys extends Component<NavigationHotkeysProps, State> {
-    nodes: Map<any, any>
+    nodes: Map<string, ReactInstance>
     handlers: any
     constructor( props: NavigationHotkeysProps ) {
       let newProps = { ...props }
@@ -114,7 +114,7 @@ export const withNavigationHotkeys = ( {
       // eslint-disable-next-line react/no-find-dom-node
       const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
       if ( node ) {
-        node.click()
+        ( node as HTMLElement ).click()
       }
     } )
 
@@ -123,7 +123,7 @@ export const withNavigationHotkeys = ( {
        * @param name The name of the element.
        * @param click Trigger the click.
        */
-    jumpToName = ( name, click = true ) => this.jumpTo(
+    jumpToName = ( name: string, click = true ) => this.jumpTo(
       [ ...this.nodes.keys() ].findIndex( ( key ) => key === name ),
       click,
     )
