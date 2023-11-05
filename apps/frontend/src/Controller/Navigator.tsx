@@ -16,7 +16,6 @@ import ListItem from '@mui/material/ListItem'
 import classNames from 'classnames'
 import { stripVishraams } from 'gurmukhi-utils'
 import { invert } from 'lodash'
-import { string } from 'prop-types'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
@@ -34,7 +33,7 @@ import ShabadInfo from './ShabadInfo'
 import ToolbarButton from './ToolbarButton'
 
 type NavigatorLineProps = {
-  register: () => any,
+  register: ( id, line, ) => any,
   gurmukhi: string,
   focused: boolean,
   next: boolean,
@@ -183,10 +182,14 @@ const NavigatorWithAllHotKeys = ( props ) => (
 
 export default NavigatorWithAllHotKeys
 
+type BarProps = {
+  onHover: ( text: string | null ) => Record<string, any>,
+}
+
 /**
  * Used by Menu parent to render content in the bottom bar.
  */
-export const Bar = ( { onHover } ) => {
+export const Bar = ( { onHover }: BarProps ) => {
   const [ autoSelectHover, setAutoSelectHover ] = useState( false )
 
   const content = useContext( ContentContext )
@@ -284,12 +287,4 @@ export const Bar = ( { onHover } ) => {
       />
     </div>
   )
-}
-
-Bar.propTypes = {
-  onHover: func,
-}
-
-Bar.defaultProps = {
-  onHover: () => {},
 }
