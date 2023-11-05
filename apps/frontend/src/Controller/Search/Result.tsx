@@ -8,15 +8,16 @@ import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '../../lib
 import { customiseLine, getTranslation } from '../../lib/line'
 
 type ResultProps = {
-  gurmukhi: string;
-  id: string;
-  typeId: number;
-  shabadId: string;
-  focused: boolean;
-  sourceId: number;
-  shabad: Record<string, any>;
-  sourcePage: number;
-  translations: {[translation: string]: string }[]};
+  gurmukhi: string,
+  id: string,
+  typeId: number,
+  shabadId: string,
+  focused: boolean,
+  highlighter: ( {}: { gurmukhi: string } ) => any,
+  sourceId: number,
+  shabad: Record<string, any>,
+  sourcePage: number,
+  translations: { [translation: string]: string }[],
 }
 
 /**
