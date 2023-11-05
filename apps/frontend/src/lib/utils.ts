@@ -6,7 +6,6 @@
 import deepmerge from 'deepmerge'
 import { debounce } from 'lodash'
 import queryString from 'qs'
-import { Ref } from 'react'
 import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
 
@@ -31,9 +30,10 @@ export const merge = <T1, T2>( source: Partial<T1>, destination: Partial<T2> ) =
 // eslint-disable-next-line react/no-find-dom-node
 export const scrollIntoCenter = ( ref: any, options?: __ScrollIntoView.Settings ) => scrollIntoView(
   findDOMNode( ref ) as any,
-   {  time: 200,  ...options } 
+  { time: 200, ...options }
 )
 
+type UrlState = Record<string, any>
 /**
  * Returns the current query state of the URL, based on the defined states.
  * @param search The search component of the window location.
@@ -47,7 +47,7 @@ export const getUrlState = ( search: string ) => {
     .reduce( ( acc, [ key, name ] ) => ( params[ name ] ? {
       ...acc,
       [ key ]: params[ name ],
-    } : acc ), {} )
+    } : acc ), {} as UrlState )
 }
 
 export const debounceHotKey = ( fn: () => void ) => debounce( fn, 300, { leading: true } )
