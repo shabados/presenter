@@ -45,7 +45,8 @@
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "types": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
