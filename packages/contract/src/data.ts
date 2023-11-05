@@ -14,12 +14,12 @@ import type {
 } from '@shabados/database'
 import type { SetNonNullable } from 'type-fest'
 
-export type Line = SetNonNullable<UnwrapModel<Lines>, 'translations' | 'transliterations'>
-export type Shabad = SetNonNullable<UnwrapModel<Shabads>, 'lines' | 'section'>
-export type BaniList = UnwrapModel<Banis & { id: number }>
+export type Line = SetNonNullable<Lines, 'translations' | 'transliterations'>
+export type Shabad = SetNonNullable<Shabads, 'lines' | 'section'>
+export type BaniList = Banis & { id: number }
 // TODO Bani.lines[].shabad should be NonNullable
 export type Bani = SetNonNullable<BaniList, 'lines'>
-export type Source = SetNonNullable<UnwrapModel<Sources>, 'translationSources'>
+export type Source = SetNonNullable<Sources, 'translationSources'>
 export type Language = UnwrapModel<Languages>
 export type Section = UnwrapModel<Sections>
 export type Subsection = UnwrapModel<Subsections>
