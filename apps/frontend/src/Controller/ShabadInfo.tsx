@@ -37,7 +37,7 @@ const ShabadInfo = () => {
   // Icon changes when open
   const barIcon = isPopoverOpen ? faTimesCircle : faInfoCircle
 
-  const { sourceId, writerId, section } = shabad || line.shabad
+  const { sourceId, writerId, section } = shabad || line?.shabad || { sourceId: '', writerId: '', section: '' }
   const { nameEnglish: sectionName } = bani || section
   const { id: lineId, sourcePage } = line
 
