@@ -50,6 +50,7 @@ import {
   faWindowMaximize,
   faWrench,
 } from '@fortawesome/free-solid-svg-icons'
+import type { RecommendedSources } from '@presenter/contract'
 
 import { BACKEND_URL } from './consts'
 import { LANGUAGES } from './data'
@@ -234,9 +235,68 @@ export const OPTION_GROUPS = {
   },
 }
 
+type FlatOptionGroups = {
+  display?: {
+    name: string,
+    icon: typeof faList,
+  },
+  layout?: {
+    name: string,
+    icon: typeof faArrowsAltH,
+  },
+  theme?: {
+    name: string,
+    icon: typeof faPaintBrush,
+  },
+  vishraams?: {
+    name: string,
+    icon: typeof faEllipsisH,
+  },
+  sources?: {
+    name: string,
+    icon: typeof faBook,
+  },
+  hotkeys?: {
+    name: string,
+    icon: typeof faKeyboard,
+  },
+  security?: {
+    name: string,
+    icon: typeof faShieldAlt,
+    privacy: symbol,
+  },
+
+  search?: {
+    name: string,
+    icon: typeof faSearch,
+  },
+
+  notifications?: {
+    name: string,
+    icon: typeof faBell,
+  },
+  system?: {
+    name: string,
+    icon: typeof faWrench,
+  },
+  about?: {
+    name: string,
+    icon: typeof faInfo,
+  },
+
+  overlay?: {
+    name: string,
+    icon: typeof faWindowMaximize,
+  },
+  closedCaptions?: {
+    name: string,
+    icon: typeof faHeadphones,
+  },
+}
+
 export const FLAT_OPTION_GROUPS = Object
   .values( OPTION_GROUPS )
-  .reduce( ( groups, section ) => ( { ...groups, ...section } ), {} )
+  .reduce( ( groups, section ) => ( { ...groups, ...section } ), {} as FlatOptionGroups )
 
 // Options with default values
 export const DEFAULT_OPTIONS = {
@@ -285,7 +345,7 @@ export const DEFAULT_OPTIONS = {
       vishraamColors: true,
       vishraamCharacters: false,
     },
-    sources: {},
+    sources: {} as RecommendedSources['sources'],
     hotkeys: Object.values( SHORTCUTS ).reduce( ( hotkeys, { name, sequences } ) => ( {
       ...hotkeys,
       [ name ]: sequences,
