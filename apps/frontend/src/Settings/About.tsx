@@ -23,8 +23,8 @@ const aboutFields = [
 ]
 
 type AboutProps = {
-  connected: number
-};
+  connected: number,
+}
 
 type AboutType = {
   addresses: string[],
