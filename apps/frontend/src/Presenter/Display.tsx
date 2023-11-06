@@ -48,7 +48,7 @@ const Display = ( { settings }: DisplayProps ) => {
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
   const [ line = [], lineIndex ] = useCurrentLine()
-  const typeId = line?.typeId as number || -1
+  const typeId = ( line && line.typeId as number ) || -1
 
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display
@@ -84,13 +84,13 @@ const Display = ( { settings }: DisplayProps ) => {
       <div className={classNames( { dim }, 'previous-lines' )}>
         {line && previousLines.map( ( { id, gurmukhi } ) => (
           <Line
-            key={id as string}
+            key={id}
             className="previous-line"
             simpleGraphics={simple}
             {...layout}
             {...display}
             {...vishraams}
-            gurmukhi={gurmukhi as string}
+            gurmukhi={gurmukhi}
           />
         ) )}
       </div>
@@ -111,13 +111,13 @@ const Display = ( { settings }: DisplayProps ) => {
       <div className={classNames( { dim }, 'next-lines' )}>
         {line && nextLines.map( ( { id, gurmukhi } ) => (
           <Line
-            key={id as string}
+            key={id}
             className="next-line"
             simpleGraphics={simple}
             {...layout}
             {...display}
             {...vishraams}
-            gurmukhi={gurmukhi as string}
+            gurmukhi={gurmukhi}
           />
         ) )}
       </div>
