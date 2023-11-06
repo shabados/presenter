@@ -26,8 +26,12 @@ type AboutProps = {
   connected: number
 };
 
+type AboutType = {
+  addresses: string[],
+}
+
 const About = ( { connected }: AboutProps ) => {
-  const [ about, setAbout ] = useState( null )
+  const [ about, setAbout ] = useState( {} as AboutType )
 
   useEffect( () => {
     void fetch( `${BACKEND_URL}/about` )
