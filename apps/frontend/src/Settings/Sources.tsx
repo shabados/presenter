@@ -29,7 +29,7 @@ type Source = {
 
 type SourcesProps = {
   device: string,
-  sources: Source
+  sources: Source,
 }
 
 /**
