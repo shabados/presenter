@@ -20,7 +20,7 @@ const Overlay = () => {
   const { overlay: { overlayName, ...overlay } } = globalSettings || {}
 
   const [ line ] = useCurrentLine()
-  const typeId = line?.typeId as number || -1
+  const { typeId } = line
   const { lineEnding } = overlay
 
   const translations = mapValues(
@@ -51,7 +51,7 @@ const Overlay = () => {
 
       <Line
         {...overlay}
-        gurmukhi={line ? line.gurmukhi as string : ''}
+        gurmukhi={line ? line.gurmukhi : ''}
         translations={translations}
         transliterators={transliterators}
       />
