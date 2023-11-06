@@ -1,6 +1,7 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Grid, Typography } from '@mui/material'
+import { ClientSettings, Settings } from '@presenter/contract/src'
 import { useContext } from 'react'
 
 import { SettingsContext } from '../lib/contexts'
@@ -17,6 +18,8 @@ export const slotSizes = {
 
 type OptionGridProps = {
   children: React.ReactNode,
+  container?: boolean,
+  align?: string,
 }
 
 export const OptionGrid = ( { children, ...props }: OptionGridProps ) => (
@@ -56,7 +59,7 @@ export const OptionSlot = ( { children }: OptionSlotProps ) => (
 )
 
 type ResetButtonProps = {
-  group: string,
+  group: keyof ClientSettings,
   disabled?: boolean,
   device: string,
 }
@@ -78,7 +81,7 @@ export const ResetButton = ( { group, disabled = false, device }: ResetButtonPro
 
 type DynamicOptionsProps = {
   device: string,
-  group: string,
+  group: keyof ClientSettings,
 }
 
 const DynamicOptions = ( { device, group }: DynamicOptionsProps ) => {
@@ -89,7 +92,8 @@ const DynamicOptions = ( { device, group }: DynamicOptionsProps ) => {
   const isGlobal = device === 'global'
   const defaultSettings = isGlobal ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
-  const setSettings = ( option, value ) => controller.setSettings(
+  const setSettings = <Option extends keyof Settings>
+  ( option: Option, value: Settings[typeof option] ) => controller.setSettings(
     { [ group ]: { [ option ]: value } },
     device,
   )
