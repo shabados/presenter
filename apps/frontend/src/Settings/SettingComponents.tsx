@@ -59,9 +59,9 @@ export const Slider = ( { value, ...props }: SliderProps ) => (
 
 type DropdownProps = {
   // eslint-disable-next-line react/forbid-prop-types
-  value: any,
+  value?: any,
   // eslint-disable-next-line react/forbid-prop-types
-  values: any[],
+  values?: any[],
   onChange?: () => any,
   onOpen?: () => any,
   onClose?: () => any,
