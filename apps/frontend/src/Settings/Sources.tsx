@@ -9,7 +9,6 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
-import { number, objectOf, shape, string } from 'prop-types'
 import { useEffect, useState } from 'react'
 
 import { BACKEND_URL } from '../lib/consts'
