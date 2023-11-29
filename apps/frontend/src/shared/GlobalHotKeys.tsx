@@ -22,7 +22,12 @@ configure( {
   ignoreTags: [],
 } )
 
-const GlobalHotKeys = ( { keyMap, handlers, ...props }: { keyMap: KeyMap, handlers: any } ) => (
+type GlobalHotKeysProps = {
+  keyMap: KeyMap,
+  handlers: any,
+}
+
+const GlobalHotKeys = ( { keyMap, handlers, ...props }: GlobalHotKeysProps ) => (
   <HotKeys
     keyMap={mapPlatformKeys( keyMap )}
     handlers={mapValues( handlers, clearHotKey )}
