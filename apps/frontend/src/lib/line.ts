@@ -21,11 +21,11 @@ export const sortBy = (
   * @param {*} An Object containing a shabad or bani, which contains lines.
   */
 export const findLineIndex = memoize(
-  ( lines: Line[], lineId = '' ) => lines.findIndex( ( { id } ) => id === lineId ),
+  ( lines: Line[], lineId: string ) => lines.findIndex( ( { id } ) => id === lineId ),
   {
     primitive: true,
     max: 5,
-    normalizer: ( [ , lineId ] ) => lineId as string,
+    normalizer: ( [ , lineId ] ) => lineId,
   },
 )
 
