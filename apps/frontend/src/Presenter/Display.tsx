@@ -1,27 +1,17 @@
 import './Display.css'
 
-import { Display as DisplayType, Layout, Vishraams } from '@presenter/contract'
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
 
 import { LANGUAGES } from '../lib/data'
 import { useCurrentLine, useCurrentLines, useTranslations } from '../lib/hooks'
 import { customiseLine, getTransliterators } from '../lib/line'
+import { ClientSettings } from '../lib/options'
 import { filterFalsyValues } from '../lib/utils'
 import Line from './Line'
 
 type DisplayProps = {
-  settings: {
-    layout: Layout,
-    display: DisplayType,
-    vishraams: Vishraams,
-    theme: {
-      simpleGraphics: boolean,
-      backgroundImage: boolean,
-      highlightCurrentLine: boolean,
-      dimNextAndPrevLines: boolean,
-    },
-  },
+  settings: Pick<ClientSettings, 'layout' | 'display' | 'vishraams' | 'theme'>,
 }
 
 /**
