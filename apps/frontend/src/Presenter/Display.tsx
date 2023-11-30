@@ -37,8 +37,8 @@ const Display = ( { settings }: DisplayProps ) => {
 
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
-  const [ line = [], lineIndex ] = useCurrentLine()
-  const typeId = ( line && line.typeId as number ) || -1
+  const [ line, lineIndex ] = useCurrentLine()
+  const typeId = ( line && line.typeId ) || -1
 
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display
@@ -91,7 +91,7 @@ const Display = ( { settings }: DisplayProps ) => {
           {...layout}
           {...display}
           {...vishraams}
-          gurmukhi={line.gurmukhi as string}
+          gurmukhi={line.gurmukhi}
           translations={translations}
           transliterators={transliterators}
           simpleGraphics={simple}
