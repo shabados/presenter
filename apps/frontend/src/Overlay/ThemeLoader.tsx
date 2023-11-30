@@ -16,7 +16,7 @@ const ThemeLoader = ( { name }: ThemeLoaderProps ) => {
   return (
     <link
       rel="stylesheet"
-      key={`${name}-${connectedAt?.toString() ?? ''}`}
+      key={`${name}-${connectedAt?.toDateString() ?? ''}`}
       href={`${OVERLAY_THEMES_URL}/${name}.css`}
     />
   )
