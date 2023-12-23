@@ -1,5 +1,4 @@
 import { Application } from 'express'
-import { clearLine } from 'readline'
 
 import { getBanis } from '../services/database'
 import { SocketServer } from '../services/socket-server'

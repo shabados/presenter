@@ -11,12 +11,13 @@ const setup = () => {
   const httpServer = http.createServer( api )
   const { socketServer } = createServer( { httpServer } )
 
-  const client = createSocketClient( { httpServer } )()
+  const clientA = createSocketClient( { httpServer } )()
+  const clientB = createSocketClient( { httpServer } )()
   const fetch = fetchApi( { httpServer } )
 
   createContentModule( { api, socketServer } )
 
-  return { client, fetch }
+  return { clientA, clientB, fetch }
 }
 
 describe( 'Content', () => {
@@ -53,8 +54,15 @@ describe( 'Content', () => {
 
   describe( 'when a line is set', () => {
     describe( 'given a line id', () => {
-      it.todo( 'should broadcast the line ID if valid' )
-      it.todo( 'should broadcast the line ID if null' )
+      it( 'should broadcast the line ID if valid', () => {
+        const { clientA, clientB } = setup()
+        const id = 'DMP'
+
+        clientA.sendEvent( 'content:line:set-current', { id } )
+        const receivedId = clientB.waitForEvent( 'content:line:current' )
+
+        expect( receivedId ).toBe( id )
+      } )
       it.todo( 'should ignore the line ID if not in the current content' )
     } )
 
@@ -68,8 +76,18 @@ describe( 'Content', () => {
     it.todo( 'should add the line to the history of transitions' )
   } )
 
-  describe( 'when a shabad is set', () => {
-    describe( 'given a shabad id', () => {} )
+  describe( 'when a shabad is opened', () => {
+    describe( 'given a shabad id', () => {
+      it( 'should broadcast the shabad if valid', () => {
+        const { clientA, clientB } = setup()
+        const id = '0NVY'
+
+        clientA.sendEvent( 'content:shabad:open', { id } )
+        const receivedId = clientB.waitForEvent( 'content:current' )
+
+        expect( receivedId ).toBe( id )
+      } )
+    } )
     describe( 'given a shabad order id', () => {} )
   } )
 

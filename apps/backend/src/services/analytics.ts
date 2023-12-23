@@ -3,8 +3,8 @@ import * as Sentry from '@sentry/node'
 import { cpus, freemem, networkInterfaces, platform, release, totalmem } from 'os'
 
 import { version } from '../../package.json'
-import createSettings from '../settings'
 import { SENTRY_DSN, SENTRY_PROJECT } from '../helpers/consts'
+import createSettings from '../settings'
 
 const log = getLogger( 'analytics' )
 
