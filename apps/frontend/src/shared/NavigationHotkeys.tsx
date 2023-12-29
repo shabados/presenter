@@ -1,16 +1,38 @@
-import { instanceOf } from 'prop-types'
-import { Component, forwardRef } from 'react'
+import { Component, forwardRef, ReactInstance } from 'react'
 import { findDOMNode } from 'react-dom'
 
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import { debounceHotKey, scrollIntoCenter } from '../lib/utils'
 import GlobalHotKeys from './GlobalHotKeys'
 
-const isInput = ( element ) => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
+const isInput = ( element: Element ) => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'
 
-const preventDefault = ( fn ) => ( event ) => {
+const preventDefault = ( fn: ( event: Event ) => any ) => ( event: Event ) => {
   event.preventDefault()
   fn( event )
+}
+
+type NavigationHotkeysProps = {
+  forwardedRef?: InstanceType<typeof NavigationHotkeys>,
+}
+
+type WithNavigationHotkeysProps = {
+  arrowKeys?: boolean,
+  lineKeys?: boolean,
+  clickOnFocus?: boolean,
+  keymap?: Keymap,
+  wrapAround?: boolean,
+}
+
+type Keymap = {
+  next: string[],
+  previous: string[],
+  first: string[] | null,
+  last: string[] | null,
+}
+
+type State = {
+  focusedIndex: number,
 }
 
 /**
@@ -27,10 +49,15 @@ export const withNavigationHotkeys = ( {
   clickOnFocus,
   keymap,
   wrapAround = true,
-} ) => ( WrappedComponent ) => {
-  class NavigationHotkeys extends Component {
-    constructor( props ) {
-      super( props )
+}: WithNavigationHotkeysProps ) => ( WrappedComponent: Component ) => {
+  class NavigationHotkeys extends Component<NavigationHotkeysProps, State> {
+    nodes: Map<string, ReactInstance>
+    handlers: any
+    constructor( props: NavigationHotkeysProps ) {
+      let newProps = { ...props }
+
+      if ( !props.forwardedRef ) newProps = { ...props, forwardedRef: null }
+      super( newProps )
 
       this.state = { focusedIndex: 0 }
 
@@ -49,7 +76,7 @@ export const withNavigationHotkeys = ( {
       this.setFocus()
     }
 
-    componentDidUpdate( _, { focusedIndex: prevFocusedIndex } ) {
+    componentDidUpdate( _, { focusedIndex: prevFocusedIndex }: State ) {
       const { focusedIndex } = this.state
 
       if ( prevFocusedIndex === focusedIndex ) return
@@ -87,7 +114,7 @@ export const withNavigationHotkeys = ( {
       // eslint-disable-next-line react/no-find-dom-node
       const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
       if ( node ) {
-        node.click()
+        ( node as HTMLElement ).click()
       }
     } )
 
@@ -96,7 +123,7 @@ export const withNavigationHotkeys = ( {
        * @param name The name of the element.
        * @param click Trigger the click.
        */
-    jumpToName = ( name, click = true ) => this.jumpTo(
+    jumpToName = ( name: string, click = true ) => this.jumpTo(
       [ ...this.nodes.keys() ].findIndex( ( key ) => key === name ),
       click,
     )
@@ -106,7 +133,7 @@ export const withNavigationHotkeys = ( {
        * @param focusedIndex The element index to jump to.
        * @param click Trigger the click.
        */
-    jumpTo = ( focusedIndex, click = true ) => {
+    jumpTo = ( focusedIndex: number, click = true ) => {
       this.setState( { focusedIndex } )
 
       // Click on navigation if set
@@ -207,14 +234,6 @@ export const withNavigationHotkeys = ( {
         </GlobalHotKeys>
       )
     }
-  }
-
-  NavigationHotkeys.propTypes = {
-    forwardedRef: instanceOf( NavigationHotkeys ),
-  }
-
-  NavigationHotkeys.defaultProps = {
-    forwardedRef: null,
   }
 
   return forwardRef( ( props, ref ) => <NavigationHotkeys {...props} forwardedRef={ref} /> )

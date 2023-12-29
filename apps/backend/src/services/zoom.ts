@@ -1,5 +1,6 @@
 //! To be refactored into shared utilities - @shabados/transformers?
 import { Line, Shabad } from '@presenter/contract'
+import { mutableCounter, mutableValue } from '@presenter/node/src/mutable-value'
 import { LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '@shabados/frontend/src/lib/data'
 import { customiseLine, getTranslations, getTransliterators } from '@shabados/frontend/src/lib/line'
 import { stripVishraams, toUnicode } from 'gurmukhi-utils'
@@ -7,9 +8,8 @@ import { mapValues } from 'lodash'
 import Url from 'url-parse'
 
 import fetch from '../helpers/fetch'
-import { mutableCounter, mutableValue } from '@presenter/node/src/mutable-value'
-import { getSources, GetSourcesResult } from './database'
 import settings from '../settings'
+import { getSources, GetSourcesResult } from './database'
 
 const prepareSecondary = ( data, sorter ) => Object
   .entries( data )

@@ -4,6 +4,7 @@
  */
 
 /* eslint-disable class-methods-use-this */
+import { About } from '@presenter/contract/src/about'
 import * as Sentry from '@sentry/browser'
 
 import { BACKEND_URL, isDev, SENTRY_DSN, SENTRY_PROJECT } from './consts'
@@ -30,7 +31,7 @@ class Analytics {
     console.log( 'Enabling Sentry error reporting' )
 
     // Set the sentry release
-    const { version } = await fetch( `${BACKEND_URL}/about` ).then( ( res ) => res.json() )
+    const { version } = await fetch( `${BACKEND_URL}/about` ).then( ( res ) => res.json() ) as About
     const release = `${SENTRY_PROJECT}@${version}`
     console.log( `Using sentry release ${release}` )
 

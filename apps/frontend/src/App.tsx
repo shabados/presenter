@@ -1,5 +1,6 @@
 import './App.css'
 
+import { RecommendedSources, Shabad, Writer } from '@presenter/contract'
 import classNames from 'classnames'
 import { SnackbarProvider } from 'notistack'
 import { ElementType, lazy, PureComponent, ReactNode, Suspense } from 'react'
@@ -48,7 +49,7 @@ class App extends PureComponent {
     transitionHistory: {},
     latestLines: {},
     shabad: null,
-    recommendedSources: {},
+    recommendedSources: {} as RecommendedSources['recommendedSources'],
     writers: {},
     settings: loadSettings(),
     next: {},
@@ -71,9 +72,9 @@ class App extends PureComponent {
     controller.on( 'settings', this.onSettings )
 
     // Get recommended sources and set as settings, if there are none
-    fetch( `${BACKEND_URL}/sources` )
+    void fetch( `${BACKEND_URL}/sources` )
       .then( ( res ) => res.json() )
-      .then( ( { recommendedSources } ) => {
+      .then( ( { recommendedSources }: { recommendedSources: RecommendedSources['recommendedSources'] } ) => {
         //* Update default options and settings with fetched recommended sources
         DEFAULT_OPTIONS.local.sources = recommendedSources
         //! Re-load settings since we've modified DEFAULT_OPTIONS directly
@@ -81,9 +82,9 @@ class App extends PureComponent {
       } )
 
     // Get writers
-    fetch( `${BACKEND_URL}/writers` )
+    void fetch( `${BACKEND_URL}/writers` )
       .then( ( res ) => res.json() )
-      .then( ( { writers } ) => this.setState( { writers } ) )
+      .then( ( { writers }: { writers: Writer[] } ) => this.setState( { writers } ) )
   }
 
   componentWillUnmount() {
@@ -112,9 +113,11 @@ class App extends PureComponent {
 
   onDisconnected = () => this.setState( { connected: false } )
 
-  onShabad = ( shabad: any ) => this.setState( { next: { shabad, bani: null } } )
+  onShabad = ( shabad: Shabad ) => this.setState( { next: { shabad, bani: null } } )
 
-  onLine = ( lineId: string ) => this.setState( ( { next }: any ) => ( { lineId, ...next, next: {} } ) )
+  onLine = ( lineId: string ) => this.setState(
+    ( { next }: any ) => ( { lineId, ...next, next: {} } )
+  )
 
   onViewedLines = ( viewedLines: any[] ) => this.setState( { viewedLines } )
 
@@ -179,11 +182,12 @@ class App extends PureComponent {
       [ RecommendedSourcesContext.Provider, recommendedSources ],
       [ ContentContext.Provider, { bani, shabad, lineId, mainLineId, nextLineId } ],
       [ SnackbarProvider ],
-    ] as [ElementType, any][] ).reduce( ( withContexts, [ Provider, value ] ) => ( children ) => withContexts(
-      <Provider value={value}>
-        {children}
-      </Provider>,
-    ), ( context: ReactNode ) => context )
+    ] as [ElementType, any][] )
+      .reduce( ( withContexts, [ Provider, value ] ) => ( children ) => withContexts(
+        <Provider value={value}>
+          {children}
+        </Provider>,
+      ), ( context: ReactNode ) => context )
 
     return withContexts(
       <div className={classNames( { mobile: isMobile, tablet: isTablet, desktop: isDesktop }, 'app' )}>

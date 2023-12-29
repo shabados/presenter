@@ -4,7 +4,7 @@ type Keymap = {
   name: string,
   description?: string,
   sequences: string[],
-  required?: boolean
+  required?: boolean,
 }
 
 /**
@@ -16,7 +16,7 @@ const decorateGroup = ( keymap: { [hotkey: string]: Keymap } ) => ( group: strin
   .reduce( ( obj, [ name, content ] ) => ( {
     ...obj,
     [ name ]: { group, ...content },
-  } ), {} as { [name: string]: Keymap & { group: string } } ) 
+  } ), {} as { [name: string]: Keymap & { group: string } } )
 
 // Jump to navigation line ordered hot keys
 export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfg' )

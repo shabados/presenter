@@ -1,6 +1,7 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Grid, Typography } from '@mui/material'
-import { bool, node, shape, string } from 'prop-types'
+import { ClientSettings, Settings } from '@presenter/contract/src'
 import { useContext } from 'react'
 
 import { SettingsContext } from '../lib/contexts'
@@ -15,35 +16,55 @@ export const slotSizes = {
   single: { xs: 12, sm: 11, md: 9, lg: 8 },
 }
 
-export const OptionGrid = ( { children, ...props } ) => (
+type OptionGridProps = {
+  children: React.ReactNode,
+  container?: boolean,
+  align?: string,
+}
+
+export const OptionGrid = ( { children, ...props }: OptionGridProps ) => (
   <Grid {...props} className="option" container>
     {children}
   </Grid>
 )
-OptionGrid.propTypes = { children: node.isRequired }
 
-export const IconSlot = ( { icon } ) => (
+type IconSlotProps = {
+  icon: IconProp,
+}
+
+export const IconSlot = ( { icon }: IconSlotProps ) => (
   <Grid item {...slotSizes.icon} center="center">
     <FontAwesomeIcon className="icon" icon={icon} />
   </Grid>
 )
-IconSlot.propTypes = { icon: shape( {} ).isRequired }
 
-export const NameSlot = ( { children } ) => (
+type NameSlotProps = {
+  children: string,
+}
+
+export const NameSlot = ( { children }: NameSlotProps ) => (
   <Grid item {...slotSizes.name}>
     <Typography>{children}</Typography>
   </Grid>
 )
-NameSlot.propTypes = { children: string.isRequired }
 
-export const OptionSlot = ( { children } ) => (
+type OptionSlotProps = {
+  children: React.ReactNode,
+}
+
+export const OptionSlot = ( { children }: OptionSlotProps ) => (
   <Grid align="center" item {...slotSizes.option}>
     {children}
   </Grid>
 )
-OptionSlot.propTypes = { children: node.isRequired }
 
-export const ResetButton = ( { group, disabled, device } ) => (
+type ResetButtonProps = {
+  group: keyof ClientSettings,
+  disabled?: boolean,
+  device: string,
+}
+
+export const ResetButton = ( { group, disabled = false, device }: ResetButtonProps ) => (
   <OptionGrid container align="center">
     <Grid item {...slotSizes.single}>
       <Button
@@ -58,17 +79,12 @@ export const ResetButton = ( { group, disabled, device } ) => (
   </OptionGrid>
 )
 
-ResetButton.propTypes = {
-  group: string.isRequired,
-  disabled: bool,
-  device: string.isRequired,
+type DynamicOptionsProps = {
+  device: string,
+  group: keyof ClientSettings,
 }
 
-ResetButton.defaultProps = {
-  disabled: false,
-}
-
-const DynamicOptions = ( { device, group } ) => {
+const DynamicOptions = ( { device, group }: DynamicOptionsProps ) => {
   const settings = useContext( SettingsContext )
 
   const selectedDeviceSettings = settings[ device ] || settings.local
@@ -76,7 +92,8 @@ const DynamicOptions = ( { device, group } ) => {
   const isGlobal = device === 'global'
   const defaultSettings = isGlobal ? DEFAULT_OPTIONS.global : DEFAULT_OPTIONS.local
 
-  const setSettings = ( option, value ) => controller.setSettings(
+  const setSettings = <Option extends keyof Settings>
+  ( option: Option, value: Settings[typeof option] ) => controller.setSettings(
     { [ group ]: { [ option ]: value } },
     device,
   )
@@ -122,11 +139,6 @@ const DynamicOptions = ( { device, group } ) => {
       <ResetButton disabled={isGroupDisabled} group={group} device={device} />
     </>
   )
-}
-
-DynamicOptions.propTypes = {
-  device: string.isRequired,
-  group: string.isRequired,
 }
 
 export default DynamicOptions

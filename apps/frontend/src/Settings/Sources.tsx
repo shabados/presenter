@@ -9,7 +9,6 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
-import { number, objectOf, shape, string } from 'prop-types'
 import { useEffect, useState } from 'react'
 
 import { BACKEND_URL } from '../lib/consts'
@@ -18,19 +17,33 @@ import Loader from '../shared/Loader'
 import { ResetButton } from './DynamicOptions'
 import { Dropdown as Select } from './SettingComponents'
 
+type Source = {
+  nameEnglish: string,
+  nameGurmukhi: string,
+  translationSources: {
+    id: number,
+    nameEnglish: string,
+  },
+}
+
+type SourcesProps = {
+  device: string,
+  sources: Source,
+}
+
 /**
  * View to configure source content, such as translations.
  */
-const Sources = ( { sources: currentSources, device } ) => {
+const Sources = ( { sources: currentSources, device }: SourcesProps ) => {
   const [ languages, setLanguages ] = useState()
-  const [ { sources, recommended }, setSources ] = useState( {} )
+  const [ { sources, recommended }, setSources ] = useState<Source>( {} as Source )
 
   useEffect( () => {
-    fetch( `${BACKEND_URL}/languages` ).then( ( res ) => res.json() ).then( ( { languages } ) => setLanguages( languages ) )
+    void fetch( `${BACKEND_URL}/languages` ).then( ( res ) => res.json() ).then( ( { languages } ) => setLanguages( languages ) )
   }, [] )
 
   useEffect( () => {
-    fetch( `${BACKEND_URL}/sources` ).then( ( res ) => res.json() ).then( setSources )
+    void fetch( `${BACKEND_URL}/sources` ).then( ( res ) => res.json() ).then( setSources )
   }, [] )
 
   if ( !sources || !languages ) return <Loader />
@@ -119,18 +132,6 @@ const Sources = ( { sources: currentSources, device } ) => {
       <ResetButton group="sources" />
     </div>
   )
-}
-
-Sources.propTypes = {
-  device: string.isRequired,
-  sources: objectOf( shape( {
-    nameEnglish: string.isRequired,
-    nameGurmukhi: string.isRequired,
-    translationSources: objectOf( shape( {
-      id: number.isRequired,
-      nameEnglish: string.isRequired,
-    } ) ),
-  } ) ).isRequired,
 }
 
 export default Sources

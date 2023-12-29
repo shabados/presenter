@@ -8,7 +8,7 @@ import classNames from 'classnames'
 import queryString from 'qs'
 import { lazy, Suspense, useContext, useRef, useState } from 'react'
 import IdleTimer from 'react-idle-timer'
-import { Route, useLocation, useNavigate } from 'react-router-dom'
+import { Route, useHistory, useLocation } from 'react-router-dom'
 
 import {
   BOOKMARKS_URL,
@@ -53,7 +53,7 @@ const DEFAULT_IDLE_EVENTS = [
 ]
 
 const Presenter = () => {
-  const navigate = useNavigate()
+  const history = useHistory()
   const location = useLocation()
   const { search, pathname } = location
   const { controllerOnly } = getUrlState( search )
@@ -78,7 +78,7 @@ const Presenter = () => {
    * Sets the query string parameters, retaining any currently present.
    * @param params The query string parameters.
    */
-  const setQueryParams = ( params ) => navigate( {
+  const setQueryParams = ( params ) => history.push( {
     ...location,
     search: queryString.stringify( { ...getUrlState( search ), ...params } ),
   } )
@@ -87,7 +87,7 @@ const Presenter = () => {
    * More concise form to navigate to URLs, retaining query params.
    * @param pathname The path to navigate to.
    */
-  const go = ( pathname ) => navigate( { ...location, pathname } )
+  const go = ( pathname ) => history.push( { ...location, pathname } )
 
   /**
    * Toggles the controller.
@@ -100,7 +100,7 @@ const Presenter = () => {
   /**
    * Always puts the controller in fullscreen.
    */
-  const setFullscreenController = () => navigate( {
+  const setFullscreenController = () => history.push( {
     pathname: CONTROLLER_URL,
     search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
   } )

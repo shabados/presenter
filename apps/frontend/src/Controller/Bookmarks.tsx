@@ -1,7 +1,6 @@
 import './Bookmarks.css'
 
 import { List, ListItem } from '@mui/material'
-import { func, number } from 'prop-types'
 import { useContext } from 'react'
 
 import { BookmarksContext } from '../lib/contexts'
@@ -11,7 +10,7 @@ import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 
 type BookmarkProps = {
   focused?: number,
-  register: (index: number, ref: HTMLElement) => void,
+  register: ( index: number, ref: HTMLElement | null ) => void,
 }
 
 const Bookmarks = ( { register, focused = 0 }: BookmarkProps ) => {

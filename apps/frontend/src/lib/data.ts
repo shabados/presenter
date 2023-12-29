@@ -21,6 +21,10 @@ export const LANGUAGES = {
 // Languages by keyed by IDs
 export const LANGUAGE_NAMES = invert( LANGUAGES )
 
+export type Transliterators = {
+  [language: string]: ( ascii: string ) => string,
+}
+
 // The transliterator functions for each language, presuming ascii input
 export const TRANSLITERATORS = Object.entries( {
   [ LANGUAGES.english ]: toEnglish,
@@ -29,14 +33,18 @@ export const TRANSLITERATORS = Object.entries( {
 } ).reduce( ( transliterators, [ language, fn ] ) => ( {
   ...transliterators,
   [ language ]: ( ascii: string ) => fn( toUnicode( ascii ) ),
-} ), {} )
+} ), {} as Transliterators )
+
+export type Translations = {
+  [language: string]: number,
+}
 
 // The order of translations
 export const TRANSLATION_ORDER = [
   LANGUAGES.english,
   LANGUAGES.punjabi,
   LANGUAGES.spanish,
-].reduce( ( acc, language, index ) => ( { ...acc, [ language ]: index } ), {} )
+].reduce( ( acc, language, index ) => ( { ...acc, [ language ]: index } ), {} as Translations )
 
 // The order of transliterations
 export const TRANSLITERATION_ORDER = [

@@ -9,7 +9,6 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import { stripVishraams } from 'gurmukhi-utils'
-import { func, number } from 'prop-types'
 import { useContext, useMemo } from 'react'
 
 import { HISTORY_DOWNLOAD_URL } from '../lib/consts'
@@ -20,7 +19,7 @@ import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
 
 type HistoryProps = {
   focused?: number,
-  register: (index: number, ref: HTMLElement) => void,
+  register: ( index: number, ref: HTMLElement ) => void,
 }
 
 const History = ( { register, focused = 0 }: HistoryProps ) => {

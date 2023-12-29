@@ -15,7 +15,7 @@ const OverlaySettings = () => {
   const [ addresses, setAddresses ] = useState( [] )
 
   useEffect( () => {
-    fetch( `${BACKEND_URL}/about` )
+    void fetch( `${BACKEND_URL}/about` )
       .then( ( res ) => res.json() )
       .then( ( { addresses } ) => setAddresses( addresses ) )
   }, [] )

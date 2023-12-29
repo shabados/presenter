@@ -8,6 +8,7 @@ import { SettingsContext, StatusContext } from '../lib/contexts'
 import { LANGUAGES } from '../lib/data'
 import { useCurrentLine, useTranslations } from '../lib/hooks'
 import { customiseLine, getTransliterators } from '../lib/line'
+import { filterFalsyValues } from '../lib/utils'
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
 
@@ -19,28 +20,30 @@ const Overlay = () => {
   const { overlay: { overlayName, ...overlay } } = globalSettings || {}
 
   const [ line ] = useCurrentLine()
-  const { typeId } = line || {}
+  const { typeId } = line
   const { lineEnding } = overlay
 
   const translations = mapValues(
-    useTranslations( [
+    useTranslations( filterFalsyValues( [
       overlay.englishTranslation && LANGUAGES.english,
       overlay.punjabiTranslation && LANGUAGES.punjabi,
       overlay.spanishTranslation && LANGUAGES.spanish,
-    ] ),
-    ( line ) => customiseLine( line, { lineEnding, typeId } ),
+    ] ) as number[] ),
+    ( line ) => customiseLine( line, { lineEnding, typeId } )
   )
 
   const transliterators = mapValues(
-    getTransliterators( [
+    getTransliterators( filterFalsyValues( [
       overlay.englishTransliteration && LANGUAGES.english,
       overlay.hindiTransliteration && LANGUAGES.hindi,
       overlay.urduTransliteration && LANGUAGES.urdu,
-    ] ),
-    ( transliterate ) => ( text ) => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
+    ] ) as number[] ),
+    ( transliterate ) => ( text: string ) => transliterate(
+      customiseLine( text, { lineEnding, typeId } )
+    ),
   )
 
-  if (!connected) return null
+  if ( !connected ) return null
 
   return (
     <div className={classNames( { empty: !line }, 'overlay' )}>
@@ -48,7 +51,6 @@ const Overlay = () => {
 
       <Line
         {...overlay}
-        simpleGraphics
         gurmukhi={line ? line.gurmukhi : ''}
         translations={translations}
         transliterators={transliterators}

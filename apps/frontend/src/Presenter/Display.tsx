@@ -2,12 +2,17 @@ import './Display.css'
 
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
-import { bool, shape } from 'prop-types'
 
 import { LANGUAGES } from '../lib/data'
 import { useCurrentLine, useCurrentLines, useTranslations } from '../lib/hooks'
 import { customiseLine, getTransliterators } from '../lib/line'
+import { ClientSettings } from '../lib/options'
+import { filterFalsyValues } from '../lib/utils'
 import Line from './Line'
+
+type DisplayProps = {
+  settings: Pick<ClientSettings, 'layout' | 'display' | 'vishraams' | 'theme'>,
+}
 
 /**
  * Display Component.
@@ -15,7 +20,7 @@ import Line from './Line'
  * @param shabad The Shabad to render.
  * @param lineId The current line in the Shabad.
  */
-const Display = ( { settings } ) => {
+const Display = ( { settings }: DisplayProps ) => {
   const {
     layout,
     display,
@@ -33,7 +38,7 @@ const Display = ( { settings } ) => {
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
   const [ line, lineIndex ] = useCurrentLine()
-  const { typeId } = line || {}
+  const typeId = ( line && line.typeId ) || -1
 
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display
@@ -43,21 +48,23 @@ const Display = ( { settings } ) => {
   const nextLines = line ? lines.slice( lineIndex + 1, lineIndex + nextLineCount + 1 ) : []
 
   const translations = mapValues(
-    useTranslations( [
+    useTranslations( filterFalsyValues( [
       display.englishTranslation && LANGUAGES.english,
       display.punjabiTranslation && LANGUAGES.punjabi,
       display.spanishTranslation && LANGUAGES.spanish,
-    ] ),
+    ] ) as number[] ),
     ( line ) => customiseLine( line, { lineEnding, typeId } ),
   )
 
   const transliterators = mapValues(
-    getTransliterators( [
+    getTransliterators( filterFalsyValues( [
       display.englishTransliteration && LANGUAGES.english,
       display.hindiTransliteration && LANGUAGES.hindi,
       display.urduTransliteration && LANGUAGES.urdu,
-    ] ),
-    ( transliterate ) => ( text ) => transliterate( customiseLine( text, { lineEnding, typeId } ) ),
+    ] ) as number[] ),
+    ( transliterate ) => ( text: string ) => transliterate(
+      customiseLine( text, { lineEnding, typeId } )
+    ),
   )
 
   return (
@@ -107,17 +114,6 @@ const Display = ( { settings } ) => {
 
     </div>
   )
-}
-
-Display.propTypes = {
-  settings: shape( {
-    theme: shape( {
-      simpleGraphics: bool,
-      backgroundImage: bool,
-      highlightCurrentLine: bool,
-      dimNextAndPrevLines: bool,
-    } ),
-  } ).isRequired,
 }
 
 export default Display

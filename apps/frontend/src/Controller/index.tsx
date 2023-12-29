@@ -14,7 +14,6 @@ import {
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import classNames from 'classnames'
-import { func, string } from 'prop-types'
 import queryString from 'qs'
 import { useContext, useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
@@ -39,12 +38,19 @@ import Navigator, { Bar as NavigatorBar } from './Navigator'
 import Search from './Search'
 import ToolbarButton from './ToolbarButton'
 
+type OnHover = ( message: string | null ) => Record<string, any>
+
+type TopBarProps = {
+  title?: string,
+  onHover?: OnHover,
+}
+
 /**
  * Renders the top navigation bar, showing the current path in the URL, and the hover state.
  * @param title The title text in the top bar.
  * @param onHover Fired on hover with name.
  */
-const TopBar = ( { title, onHover } ) => {
+const TopBar = ( { title = '', onHover = () => ( {} ) }: TopBarProps ) => {
   const resetHover = () => onHover( null )
 
   const location = useLocation()
@@ -109,14 +115,9 @@ const TopBar = ( { title, onHover } ) => {
   )
 }
 
-TopBar.propTypes = {
-  title: string,
-  onHover: func,
-}
-
-TopBar.defaultProps = {
-  title: '',
-  onHover: () => {},
+type BottomBarProps = {
+  onHover?: OnHover,
+  renderContent?: () => any,
 }
 
 /**
@@ -126,7 +127,7 @@ TopBar.defaultProps = {
  * @param location A `location` object.
  * @param onHover Fired on hover with name.
  */
-const BottomBar = ( { renderContent, onHover } ) => {
+const BottomBar = ( { renderContent = () => null, onHover = () => ( {} ) }: BottomBarProps ) => {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -171,16 +172,6 @@ const BottomBar = ( { renderContent, onHover } ) => {
       />
     </Toolbar>
   )
-}
-
-BottomBar.propTypes = {
-  onHover: func,
-  renderContent: func,
-}
-
-BottomBar.defaultProps = {
-  onHover: () => {},
-  renderContent: () => null,
 }
 
 /**

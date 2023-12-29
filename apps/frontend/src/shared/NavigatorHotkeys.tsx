@@ -1,5 +1,4 @@
 import { noop } from 'lodash'
-import { bool, instanceOf, node, shape } from 'prop-types'
 import { useCallback, useContext, useEffect } from 'react'
 
 import { getJumpLines } from '../lib/auto-jump'
@@ -10,10 +9,18 @@ import { LINE_HOTKEYS, NAVIGATOR_SHORTCUTS } from '../lib/keyMap'
 import { findLineIndex } from '../lib/line'
 import GlobalHotKeys from './GlobalHotKeys'
 
+type NavigatorHotKeysProps = {
+  active?: boolean,
+  children?: React.ReactNode | null,
+  mouseTargetRef?: { current: EventTarget | null },
+}
+
 /**
  * Hotkeys for controlling the navigator.
  */
-const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
+const NavigatorHotKeys = (
+  { active = false, children = null, mouseTargetRef = { current: null } }: NavigatorHotKeysProps
+) => {
   const { viewedLines } = useContext( HistoryContext )
 
   const content = useContext( ContentContext )
@@ -151,14 +158,17 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
 
     if ( !active || !mouseTarget || !windowFocused ) return noop
 
+    type CustomEvent =
+      [eventName: string, handler: any]
+
     const events = [
       [ 'click', goNextLine ],
-      [ 'contextmenu', ( event ) => event.preventDefault() ],
+      [ 'contextmenu', ( event: Event ) => event.preventDefault() ],
       [ 'auxclick', ( { button } ) => ( ( {
         2: goPreviousLine,
         1: autoToggle,
       } )[ button ] || noop )() ],
-    ]
+    ] as CustomEvent[]
 
     events.forEach( ( [ event, handler ] ) => mouseTarget.addEventListener( event, handler ) )
 
@@ -172,18 +182,6 @@ const NavigatorHotKeys = ( { active, children, mouseTargetRef } ) => {
       {children}
     </GlobalHotKeys>
   )
-}
-
-NavigatorHotKeys.propTypes = {
-  active: bool,
-  children: node,
-  mouseTargetRef: shape( { current: instanceOf( Element ) } ),
-}
-
-NavigatorHotKeys.defaultProps = {
-  active: false,
-  children: null,
-  mouseTargetRef: { current: null },
 }
 
 export default NavigatorHotKeys

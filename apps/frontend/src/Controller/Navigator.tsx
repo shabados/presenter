@@ -16,7 +16,6 @@ import ListItem from '@mui/material/ListItem'
 import classNames from 'classnames'
 import { stripVishraams } from 'gurmukhi-utils'
 import { invert } from 'lodash'
-import { bool, func, string } from 'prop-types'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
@@ -33,6 +32,17 @@ import NavigatorHotKeys from '../shared/NavigatorHotkeys'
 import ShabadInfo from './ShabadInfo'
 import ToolbarButton from './ToolbarButton'
 
+type NavigatorLineProps = {
+  register: ( id, line, ) => any,
+  gurmukhi: string,
+  focused: boolean,
+  next: boolean,
+  main: boolean,
+  id: string,
+  hotkey?: string | null,
+  timestamp?: string | null,
+}
+
 /**
 * Line component that attaches click handlers.
 * @param gurmukhi The Gurmukhi for the line to render.
@@ -44,11 +54,11 @@ const NavigatorLine = ( {
   register,
   focused,
   gurmukhi,
-  hotkey,
+  hotkey = null,
   main,
   next,
-  timestamp,
-} ) => {
+  timestamp = null,
+}: NavigatorLineProps ) => {
   // Move to the line id on click
   const onClick = () => controller.line( id )
 
@@ -83,27 +93,19 @@ const NavigatorLine = ( {
   )
 }
 
-NavigatorLine.propTypes = {
-  register: func.isRequired,
-  gurmukhi: string.isRequired,
-  focused: bool.isRequired,
-  next: bool.isRequired,
-  main: bool.isRequired,
-  id: string.isRequired,
-  hotkey: string,
-  timestamp: string,
-}
-
-NavigatorLine.defaultProps = {
-  hotkey: null,
-  timestamp: null,
+type NavigatorProps = {
+  updateFocus: () => any,
+  register: () => any,
+  focused?: string,
 }
 
 /**
  * Navigator Component.
  * Displays lines from Shabad and allows navigation.
  */
-const Navigator = ( { updateFocus, register, focused } ) => {
+const Navigator = ( {
+  updateFocus, register, focused,
+}: NavigatorProps ) => {
   const location = useLocation()
 
   const { viewedLines } = useContext( HistoryContext )
@@ -160,16 +162,6 @@ const Navigator = ( { updateFocus, register, focused } ) => {
   )
 }
 
-Navigator.propTypes = {
-  updateFocus: func.isRequired,
-  register: func.isRequired,
-  focused: string,
-}
-
-Navigator.defaultProps = {
-  focused: undefined,
-}
-
 const NavigatorNavigationHotkeys = withNavigationHotkeys( {
   arrowKeys: true,
   lineKeys: true,
@@ -190,10 +182,14 @@ const NavigatorWithAllHotKeys = ( props ) => (
 
 export default NavigatorWithAllHotKeys
 
+type BarProps = {
+  onHover: ( text: string | null ) => Record<string, any>,
+}
+
 /**
  * Used by Menu parent to render content in the bottom bar.
  */
-export const Bar = ( { onHover } ) => {
+export const Bar = ( { onHover }: BarProps ) => {
   const [ autoSelectHover, setAutoSelectHover ] = useState( false )
 
   const content = useContext( ContentContext )
@@ -291,12 +287,4 @@ export const Bar = ( { onHover } ) => {
       />
     </div>
   )
-}
-
-Bar.propTypes = {
-  onHover: func,
-}
-
-Bar.defaultProps = {
-  onHover: () => {},
 }
