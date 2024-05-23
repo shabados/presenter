@@ -1,0 +1,3 @@
+{
+  "extends": "@presenter/tsconfig"
+}

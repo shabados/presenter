@@ -1,0 +1,9 @@
+{
+  "extends": "@presenter/tsconfig",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx"
+  },
+  "include": ["src", "src/types/vite-env.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

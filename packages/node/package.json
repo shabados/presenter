@@ -1,0 +1,19 @@
+{
+  "name": "@presenter/node",
+  "version": "0.0.0",
+  "author": "Shabad OS Team <team@shabados.com>",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "appdata-path": "^1.0.0",
+    "eventemitter3": "^5.0.1",
+    "pino": "^9.1.0"
+  },
+  "devDependencies": {
+    "pino-pretty": "^11.0.0"
+  }
+}
