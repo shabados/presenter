@@ -1,11 +1,20 @@
 import { render, screen } from '@testing-library/react'
+import { beforeAll, describe, expect, it, Mock, vi } from 'vitest'
 
 import { About } from './'
 
-jest.mock( '../../../../../helpers/controller', jest.fn() )
+beforeAll( () => {
+  vi.mock( '../../../../../helpers/controller', () => ( {
+    default: () => ( {} ),
+  } ) )
+} )
 
 describe( '<About />', () => {
   it( 'should display a loading spinner when the page is loading', async () => {
+    ( fetch as Mock ).mockResolvedValueOnce( {
+      json: () => Promise.resolve( null ),
+    } )
+
     render( <About connected={0} /> )
 
     const loadingSpinner = await screen.findByRole( 'progressbar' )

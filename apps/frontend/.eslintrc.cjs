@@ -14,7 +14,7 @@ module.exports = {
       },
     },
     {
-      files: [ 'apps/frontend/tests/setupTests.ts' ],
+      files: [ 'tests/setupTests.ts' ],
       rules: {
         'import/no-extraneous-dependencies': 0,
       },
