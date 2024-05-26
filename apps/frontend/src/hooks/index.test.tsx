@@ -1,10 +1,11 @@
 import copy from 'copy-to-clipboard'
 import { useSnackbar } from 'notistack'
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 
 import { useCopyToClipboard } from '.'
 
-jest.mock( 'copy-to-clipboard', () => jest.fn() )
-jest.mock( 'notistack', () => ( { useSnackbar: jest.fn().mockReturnValue( { enqueueSnackbar: jest.fn() } ) } ) )
+vi.mock( 'copy-to-clipboard', () => ( { default: vi.fn() } ) )
+vi.mock( 'notistack', () => ( { useSnackbar: vi.fn().mockReturnValue( { enqueueSnackbar: vi.fn() } ) } ) )
 
 const TestHooksComponent = () => {
   const copyToClipboard = useCopyToClipboard()
@@ -23,7 +24,7 @@ describe( 'hooks', () => {
     } )
 
     afterEach( () => {
-      jest.clearAllMocks()
+      vi.clearAllMocks()
     } )
 
     it( 'should return a function to copy the given text to the clipboard', () => {

@@ -1,7 +1,7 @@
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig( {
   plugins: [
@@ -16,5 +16,10 @@ export default defineConfig( {
         ws: true,
       },
     },
+  },
+  test: {
+    environment: 'happy-dom',
+    setupFiles: [ 'tests/setupTests.ts' ],
+    clearMocks: true,
   },
 } )

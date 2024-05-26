@@ -1,8 +1,10 @@
-import { mapPlatformKey } from './utils'
+import { describe, expect, it, vi } from 'vitest'
 
-const isMacMockGetter = jest.fn()
+import { mapPlatformKey, mapPlatformKeys } from './utils'
 
-jest.mock( './consts', () => ( {
+const isMacMockGetter = vi.fn()
+
+vi.mock( './consts', () => ( {
   get isMac() {
     return isMacMockGetter()
   },
