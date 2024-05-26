@@ -12,6 +12,16 @@
     "url": "https://github.com/shabados/presenter/issues"
   },
   "homepage": "/",
+  "type": "module",
+  "scripts": {
+    "analyze": "source-map-explorer build/static/js/*.js",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+  },
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -51,20 +61,20 @@
     "types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
     "@types/lodash": "^4.14.182",
     "@types/memoizee": "^0.4.8",
     "@types/qs": "^6.9.7",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
     "@types/scroll-into-view": "^1.16.0",
-    "@types/testing-library__jest-dom": "^5.14.5",
-    "@vitejs/plugin-react": "^1.3.2",
-    "jest-environment-jsdom": "^29.5.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "@vitest/ui": "^1.6.0",
+    "happy-dom": "^14.11.0",
     "source-map-explorer": "^2.5.2",
-    "vite": "^2.9.8",
+    "vite": "^5.2.11",
     "@presenter/contract": "file:/../../packages/contract"
   }
 }
