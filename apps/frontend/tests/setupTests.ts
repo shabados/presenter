@@ -1,7 +1,7 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom/vitest'
 
-jest.mock( 'detect-browser' )
+import { vi } from 'vitest'
 
-global.fetch = jest.fn().mockResolvedValue( {
-  json: () => Promise.resolve( {} ),
-} )
+vi.mock( 'detect-browser' )
+
+global.fetch = vi.fn()

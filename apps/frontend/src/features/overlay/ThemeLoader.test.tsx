@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
 
 import { StatusContext } from '../lib/contexts'
 import ThemeLoader from '../../components/ThemeLoader'
