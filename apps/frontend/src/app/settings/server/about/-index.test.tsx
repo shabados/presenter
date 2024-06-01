@@ -1,13 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import { beforeAll, describe, expect, it, Mock, vi } from 'vitest'
+import { describe, expect, it, Mock, vi } from 'vitest'
 
-import { About } from './'
+import { About } from '.'
 
-beforeAll( () => {
-  vi.mock( '../../../../../helpers/controller', () => ( {
-    default: () => ( {} ),
-  } ) )
-} )
+vi.mock( '../../../../../helpers/controller', () => ( {
+  default: () => ( {} ),
+} ) )
 
 describe( '<About />', () => {
   it( 'should display a loading spinner when the page is loading', async () => {
