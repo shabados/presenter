@@ -9,11 +9,10 @@ vi.mock( '../../../../../helpers/controller', () => ( {
 
 describe( '<About />', () => {
   it( 'should display a loading spinner when the page is loading', async () => {
-    const mockedFetch = vi.mocked( global.fetch, { partial: true } )
-
-    mockedFetch.mockResolvedValueOnce( {
-      json: () => Promise.resolve( null ),
-    } )
+    vi.mocked( global.fetch, { partial: true } )
+      .mockResolvedValueOnce( {
+        json: () => Promise.resolve( null ),
+      } )
 
     render( <About connected={0} /> )
 
