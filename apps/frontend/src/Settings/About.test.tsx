@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it, Mock, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import About from './About'
 
@@ -9,7 +9,9 @@ vi.mock( '../lib/controller', () => ( {
 
 describe( '<About />', () => {
   it( 'should display a loading spinner when the page is loading', async () => {
-    vi.mocked( fetch, { partial: true } ).mockResolvedValueOnce( {
+    const mockedFetch = vi.mocked( global.fetch, { partial: true } )
+
+    mockedFetch.mockResolvedValueOnce( {
       json: () => Promise.resolve( null ),
     } )
 
