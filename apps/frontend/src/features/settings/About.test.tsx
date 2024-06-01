@@ -9,7 +9,7 @@ vi.mock( '../lib/controller', () => ( {
 
 describe( '<About />', () => {
   it( 'should display a loading spinner when the page is loading', async () => {
-    ( fetch as Mock ).mockResolvedValueOnce( {
+    vi.mocked( fetch, { partial: true } ).mockResolvedValueOnce( {
       json: () => Promise.resolve( null ),
     } )
 
