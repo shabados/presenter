@@ -1,6 +1,7 @@
 import { ensureAppFolders, getLogger } from '@presenter/node'
 
-import { version } from '../package.json'
+// eslint-disable-next-line import/no-relative-packages
+import { version } from '../../../package.json'
 import createActionsModule from './actions'
 import createContentModule from './content'
 import createDiagnosticsModule from './diagnostics'
