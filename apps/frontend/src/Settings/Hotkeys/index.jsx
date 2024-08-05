@@ -2,10 +2,9 @@ import './index.css'
 
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button, Grid, List, ListItem, Tooltip, Typography } from '@material-ui/core'
+import { Button, Grid, List, ListItem, Tooltip, Typography } from '@mui/material'
 import classNames from 'classnames'
 import { groupBy } from 'lodash'
-import { arrayOf, objectOf, shape, string } from 'prop-types'
 import { useState } from 'react'
 
 import controller from '../../lib/controller'
