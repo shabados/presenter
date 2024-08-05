@@ -6,15 +6,14 @@ import CssBaseline from '@mui/material/CssBaseline'
 import IconButton from '@mui/material/IconButton'
 import classNames from 'classnames'
 import queryString from 'qs'
-import { lazy, Suspense, useContext, useRef, useState } from 'react'
-import IdleTimer from 'react-idle-timer'
+import { lazy, Suspense, useContext, useRef } from 'react'
+import { EventsType, useIdleTimer } from 'react-idle-timer'
 import { Route, useHistory, useLocation } from 'react-router-dom'
 
 import {
   BOOKMARKS_URL,
   CONTROLLER_URL,
   HISTORY_URL,
-  IDLE_TIMEOUT,
   isDesktop,
   isMobile,
   NAVIGATOR_URL,
@@ -40,17 +39,18 @@ import StatusToast from './StatusToast'
 const Display = lazy( () => import( './Display' ) )
 const Controller = lazy( () => import( '../Controller' ) )
 
-const DEFAULT_IDLE_EVENTS = [
-  'mousemove',
+export const IDLE_TIMEOUT = 1000 * 3
+const IDLE_EVENTS = [
   'wheel',
   'DOMMouseScroll',
-  'mouseWheel',
+  'mousemove',
+  'mousewheel',
   'mousedown',
   'touchstart',
   'touchmove',
   'MSPointerDown',
   'MSPointerMove',
-]
+] as const satisfies EventsType[]
 
 const Presenter = () => {
   const history = useHistory()
@@ -58,10 +58,11 @@ const Presenter = () => {
   const { search, pathname } = location
   const { controllerOnly } = getUrlState( search )
 
-  const [ idle, setIdle ] = useState( false )
-
-  const onIdle = () => setIdle( true )
-  const onActive = () => setIdle( false )
+  const { isIdle } = useIdleTimer( {
+    timeout: IDLE_TIMEOUT,
+    events: IDLE_EVENTS,
+    disabled: !isDesktop,
+  } )
 
   const lines = useCurrentLines()
 
@@ -170,18 +171,9 @@ const Presenter = () => {
   const presenterRef = useRef( null )
 
   return (
-    <div ref={presenterRef} className={classNames( { idle }, 'presenter' )}>
+    <div ref={presenterRef} className={classNames( { idle: isIdle }, 'presenter' )}>
       <CssBaseline />
       <ThemeLoader name={themeName} />
-
-      {isDesktop && (
-        <IdleTimer
-          events={DEFAULT_IDLE_EVENTS}
-          onIdle={onIdle}
-          onActive={onActive}
-          timeout={IDLE_TIMEOUT}
-        />
-      )}
 
       <GlobalHotKeys keyMap={hotkeys} handlers={hotkeyHandlers}>
         <NavigatorHotKeys active={!isControllerOpen} mouseTargetRef={presenterRef}>
