@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
+    "@fontsource/roboto": "^5.0.14",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
@@ -26,8 +27,7 @@
     "react-router-dom": "^6.26.0",
     "react-transition-group": "^4.4.2",
     "reconnecting-websocket": "^4.4.0",
-    "scroll-into-view": "^1.16.0",
-    "typeface-roboto": "1.1.13"
+    "scroll-into-view": "^1.16.0"
   },
   "scripts": {
     "analyze": "source-map-explorer build/static/js/*.js",
@@ -38,6 +38,7 @@
     "types": "tsc --noEmit"
   },
   "devDependencies": {
+    "@presenter/contract": "*",
     "@types/lodash": "^4.17.7",
     "@types/memoizee": "^0.4.11",
     "@types/qs": "^6.9.15",
@@ -46,7 +47,6 @@
     "@types/scroll-into-view": "^1.16.0",
     "@vitejs/plugin-react": "^4.3.1",
     "source-map-explorer": "^2.5.2",
-    "vite": "^5.3.5",
-    "@presenter/contract": "*"
+    "vite": "^5.3.5"
   }
 }
