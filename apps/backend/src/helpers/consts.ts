@@ -1,5 +1,6 @@
+import { join } from 'node:path'
+
 import { isProduction } from '@presenter/node'
-import { join } from 'path'
 
 // Check every 5 minutes
 export const UPDATE_CHECK_INTERVAL = 5000 * 60
