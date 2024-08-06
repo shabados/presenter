@@ -6,7 +6,7 @@ import { basename, extname, join } from 'path'
 import { FRONTEND_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER } from '~/helpers/consts'
 
 const listCSSFiles = ( path: string ) => readdir( path )
-  .then( ( files ) => files.map( extname ).filter( ( extension ) => extension === '.css' ) )
+  .then( ( files ) => files.filter( ( path ) => extname( path ) === '.css' ) )
 
 const getThemeNames = ( folders: string[] ) => Promise
   .all( folders.map( listCSSFiles ) )
