@@ -4,7 +4,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconButton, Input, InputAdornment, List } from '@mui/material'
 import classNames from 'classnames'
-import { stringify } from 'querystring'
+import { stringify } from 'qs'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -138,7 +138,7 @@ const Search = ( { updateFocus, register, focused }: SearchProps ) => {
 
   useEffect( () => {
     controller.on( 'results', onResults )
-    return () => controller.off( 'results', onResults )
+    return () => { controller.off( 'results', onResults ) }
   }, [ onResults ] )
 
   useEffect( () => {
