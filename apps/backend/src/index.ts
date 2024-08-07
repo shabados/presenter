@@ -2,20 +2,20 @@ import { ensureAppFolders, getLogger } from '@presenter/node'
 
 // eslint-disable-next-line import/no-relative-packages
 import { version } from '../../../package.json'
-import createActionsModule from './actions'
-import createContentModule from './content'
-import createDiagnosticsModule from './diagnostics'
 import { handleError } from './error'
-import createHistoryModule from './history'
-import createSearchModule from './search'
+import createActionsModule from './features/actions'
+import createContentModule from './features/content'
+import createDiagnosticsModule from './features/diagnostics'
+import createHistoryModule from './features/history'
+import createSearchModule from './features/search'
+import createSettingsModule from './features/settings'
+import createStatusModule from './features/status'
+import createThemesModule from './features/themes'
 import createExpress from './services/express'
 import createGlobalSettings from './services/global-settings'
 import ipc from './services/ipc'
 import createUpdater from './services/updater'
 import createWebSocketServer from './services/websocket-server'
-import createSettingsModule from './settings'
-import createStatusModule from './status'
-import createThemesModule from './themes'
 
 const log = getLogger( 'main' )
 

@@ -9,7 +9,7 @@ import Url from 'url-parse'
 
 import fetch from '~/helpers/fetch'
 import { getSources, GetSourcesResult } from '~/services/database'
-import settings from '~/settings'
+import settings from '~/features/settings'
 
 const prepareSecondary = ( data, sorter ) => Object
   .entries( data )

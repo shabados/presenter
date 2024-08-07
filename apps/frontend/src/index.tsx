@@ -2,8 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import App from './App'
-import analytics from './lib/analytics'
-import controller from './lib/controller'
+import analytics from './services/analytics'
+import controller from './services/controller'
 
 const settings = controller.readSettings()
 

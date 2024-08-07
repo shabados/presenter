@@ -1,6 +1,6 @@
 import { Application } from 'express'
 
-import { HistoryModule } from '~/history'
+import { HistoryModule } from '~/features/history'
 import { getBanis } from '~/services/database'
 import { SocketServer } from '~/services/websocket-server'
 

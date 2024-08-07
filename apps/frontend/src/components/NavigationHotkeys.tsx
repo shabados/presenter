@@ -1,8 +1,8 @@
 import { Component, forwardRef, ReactInstance } from 'react'
 import { findDOMNode } from 'react-dom'
 
-import { LINE_HOTKEYS } from '../lib/keyMap'
-import { debounceHotKey, scrollIntoCenter } from '../lib/utils'
+import { LINE_HOTKEYS } from '../helpers/keyMap'
+import { debounceHotKey, scrollIntoCenter } from '../helpers/utils'
 import GlobalHotKeys from './GlobalHotKeys'
 
 const isInput = ( element: Element ) => element instanceof HTMLElement && element.tagName.toLowerCase() === 'input'

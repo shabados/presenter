@@ -1,5 +1,5 @@
-import { GlobalSettings } from '../services/global-settings'
-import { SocketServer } from '../services/websocket-server'
+import { GlobalSettings } from '../../services/global-settings'
+import { SocketServer } from '../../services/websocket-server'
 import createSettingsState from './state'
 
 type SettingsModuleOptions = {

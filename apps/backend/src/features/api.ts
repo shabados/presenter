@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { getLanguages, getSources, getWriters } from './services/database'
+import { getLanguages, getSources, getWriters } from '../services/database'
 
 const api = Router()
 

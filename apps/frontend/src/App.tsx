@@ -6,7 +6,8 @@ import { SnackbarProvider } from 'notistack'
 import { ElementType, lazy, PureComponent, ReactNode, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-import { BACKEND_URL, isDesktop, isMobile, isTablet, OVERLAY_URL, PRESENTER_URL, SCREEN_READER_URL, SETTINGS_URL } from './lib/consts'
+import Loader from './components/Loader'
+import { BACKEND_URL, isDesktop, isMobile, isTablet, OVERLAY_URL, PRESENTER_URL, SCREEN_READER_URL, SETTINGS_URL } from './helpers/consts'
 import {
   BookmarksContext,
   ContentContext,
@@ -15,14 +16,13 @@ import {
   SettingsContext,
   StatusContext,
   WritersContext,
-} from './lib/contexts'
-import controller from './lib/controller'
-import { DEFAULT_OPTIONS } from './lib/options'
-import { merge } from './lib/utils'
+} from './helpers/contexts'
+import { DEFAULT_OPTIONS } from './helpers/options'
+import { merge } from './helpers/utils'
 import Overlay from './Overlay'
-import Loader from './shared/Loader'
+import controller from './services/controller'
 
-const ScreenReader = lazy( () => import( './ScreenReader' ) )
+const ScreenReader = lazy( () => import( './screen-reader' ) )
 const Presenter = lazy( () => import( './Presenter' ) )
 const Settings = lazy( () => import( './Settings' ) )
 

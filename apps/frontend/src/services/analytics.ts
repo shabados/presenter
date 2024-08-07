@@ -7,7 +7,7 @@
 import { About } from '@presenter/contract/src/about'
 import * as Sentry from '@sentry/browser'
 
-import { BACKEND_URL, isDev, SENTRY_DSN, SENTRY_PROJECT } from './consts'
+import { BACKEND_URL, isDev, SENTRY_DSN, SENTRY_PROJECT } from '../helpers/consts'
 
 /**
  * Analytics class for tracking events and providing error reporting.

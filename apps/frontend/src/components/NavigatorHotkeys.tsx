@@ -1,12 +1,12 @@
 import { noop } from 'lodash'
 import { useCallback, useContext, useEffect } from 'react'
 
-import { getJumpLines } from '../lib/auto-jump'
-import { ContentContext, HistoryContext, SettingsContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { useCurrentLines, useWindowFocus } from '../lib/hooks'
-import { LINE_HOTKEYS, NAVIGATOR_SHORTCUTS } from '../lib/keyMap'
-import { findLineIndex } from '../lib/line'
+import { getJumpLines } from '../helpers/auto-jump'
+import { ContentContext, HistoryContext, SettingsContext } from '../helpers/contexts'
+import controller from '../services/controller'
+import { useCurrentLines, useWindowFocus } from '../hooks'
+import { LINE_HOTKEYS, NAVIGATOR_SHORTCUTS } from '../helpers/keyMap'
+import { findLineIndex } from '../helpers/line'
 import GlobalHotKeys from './GlobalHotKeys'
 
 type NavigatorHotKeysProps = {

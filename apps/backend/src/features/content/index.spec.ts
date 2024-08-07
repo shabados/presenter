@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 
 import { fetchApi } from '~/../test/utils/fetch'
 import { createServer, createSocketClient, SocketClient } from '~/../test/utils/socket'
-import createHistoryModule from '~/history'
+import createHistoryModule from '~/features/history'
 
 import createContentModule from '.'
 

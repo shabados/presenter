@@ -4,9 +4,9 @@ import { join } from 'node:path'
 import { Application } from 'express'
 import type { PackageJson } from 'type-fest'
 
-import { APP_FOLDER, DATABASE_FOLDER } from './helpers/consts'
-import { readJSON } from './helpers/files'
-import { getNetworkedAddresses } from './helpers/network'
+import { APP_FOLDER, DATABASE_FOLDER } from '../helpers/consts'
+import { readJSON } from '../helpers/files'
+import { getNetworkedAddresses } from '../helpers/network'
 
 type DiagnosticsModuleOptions = {
   api: Application,
