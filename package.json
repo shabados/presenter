@@ -18,7 +18,7 @@
     "@shabados/eslint-config": "^0.14.0",
     "@types/lodash-es": "^4.17.12",
     "type-fest": "^4.18.2",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.4",
     "undici": "^6.18.0",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.6.0",
