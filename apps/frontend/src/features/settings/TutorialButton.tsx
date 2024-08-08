@@ -2,7 +2,8 @@ import './TutorialButton.css'
 
 import classNames from 'classnames'
 
-import controller from '../lib/controller'
+import controller from '~/services/controller'
+
 import { Button } from './SettingComponents'
 
 type TutorialButtonProps = {

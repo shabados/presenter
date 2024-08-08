@@ -2,11 +2,12 @@ import { stripVishraams, toUnicode } from 'gurmukhi-utils'
 import { mapValues } from 'lodash'
 import { ReactNode, useContext } from 'react'
 
-import { ContentContext, RecommendedSourcesContext, SettingsContext, WritersContext } from '../helpers/contexts'
-import { LANGUAGES, SOURCE_ABBREVIATIONS } from '../helpers/data'
-import { useCopyToClipboard, useCurrentLine, useCurrentLines, useTranslations } from '../hooks'
-import { COPY_SHORTCUTS } from '../helpers/keyMap'
-import { customiseLine, getTransliterators } from '../helpers/line'
+import { ContentContext, RecommendedSourcesContext, SettingsContext, WritersContext } from '~/helpers/contexts'
+import { LANGUAGES, SOURCE_ABBREVIATIONS } from '~/helpers/data'
+import { COPY_SHORTCUTS } from '~/helpers/keyMap'
+import { customiseLine, getTransliterators } from '~/helpers/line'
+import { useCopyToClipboard, useCurrentLine, useCurrentLines, useTranslations } from '~/hooks'
+
 import GlobalHotKeys from './GlobalHotKeys'
 
 type CopyHotkeysProps = {

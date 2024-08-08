@@ -6,12 +6,12 @@
 import EventEmitter from 'eventemitter3'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
-import analytics from './analytics'
-import { getNextJumpLine } from '../helpers/auto-jump'
-import { isDev, isElectron, WS_URL } from '../helpers/consts'
-import { findLineIndex } from '../helpers/line'
-import { ClientSettings, DEFAULT_OPTIONS, SettingsState } from '../helpers/options'
-import { merge } from '../helpers/utils'
+import { getNextJumpLine } from '~/helpers/auto-jump'
+import { isDev, isElectron, WS_URL } from '~/helpers/consts'
+import { findLineIndex } from '~/helpers/line'
+import { ClientSettings, DEFAULT_OPTIONS, SettingsState } from '~/helpers/options'
+import { merge } from '~/helpers/utils'
+import analytics from '~/services/analytics'
 
 type ShabadOptions = {
   shabadId?: string,

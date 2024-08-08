@@ -5,9 +5,9 @@ import { bool, func, objectOf, string } from 'prop-types'
 import { useCallback, useEffect, useState } from 'react'
 import { recordKeyCombination } from 'react-hotkeys'
 
-import { isMac } from '../../lib/consts'
-import { LINE_HOTKEYS, RESTRICTED_STROKES } from '../../lib/keyMap'
-import { mapPlatformKey } from '../../lib/utils'
+import { isMac } from '~/helpers/consts'
+import { LINE_HOTKEYS, RESTRICTED_STROKES } from '~/helpers/keyMap'
+import { mapPlatformKey } from '~/helpers/utils'
 
 const MODIFIER_MAP = {
   Control: 'ctrl',

@@ -1,12 +1,13 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Grid, Typography } from '@mui/material'
-import { ClientSettings, Settings } from '@presenter/contract/src'
+import { ClientSettings, Settings } from '@presenter/contract'
 import { useContext } from 'react'
 
-import { SettingsContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { DEFAULT_OPTIONS, FLAT_OPTION_GROUPS, OPTIONS, PRIVACY_TYPES } from '../lib/options'
+import { SettingsContext } from '~/helpers/contexts'
+import { DEFAULT_OPTIONS, FLAT_OPTION_GROUPS, OPTIONS, PRIVACY_TYPES } from '~/helpers/options'
+import controller from '~/services/controller'
+
 import SettingComponentFactory, { Button } from './SettingComponents'
 
 export const slotSizes = {

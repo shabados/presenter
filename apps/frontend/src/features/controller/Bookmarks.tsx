@@ -3,10 +3,10 @@ import './Bookmarks.css'
 import { List, ListItem } from '@mui/material'
 import { useContext } from 'react'
 
-import { BookmarksContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { LINE_HOTKEYS } from '../lib/keyMap'
-import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
+import { withNavigationHotkeys } from '~/components/NavigationHotkeys'
+import { BookmarksContext } from '~/helpers/contexts'
+import { LINE_HOTKEYS } from '~/helpers/keyMap'
+import controller from '~/services/controller'
 
 type BookmarkProps = {
   focused?: number,

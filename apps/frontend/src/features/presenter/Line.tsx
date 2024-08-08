@@ -12,10 +12,10 @@ import {
   Translations,
   TRANSLITERATION_ORDER,
   Transliterators,
-} from '../lib/data'
-import { classifyWords, partitionLine, sortBy } from '../lib/line'
-import { DEFAULT_OPTIONS } from '../lib/options'
-import { filterFalsyObjectValues } from '../lib/utils'
+} from '~/helpers/data'
+import { classifyWords, partitionLine, sortBy } from '~/helpers/line'
+import { DEFAULT_OPTIONS } from '~/helpers/options'
+import { filterFalsyObjectValues } from '~/helpers/utils'
 
 type LineProps = {
   className?: string,

@@ -8,16 +8,17 @@ import { stringify } from 'qs'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { withNavigationHotkeys } from '~/components/NavigationHotkeys'
 import {
   MIN_SEARCH_CHARS,
   SEARCH_ANCHORS,
   SEARCH_CHARS,
   SEARCH_TYPES,
-} from '../../lib/consts'
-import { SettingsContext } from '../../lib/contexts'
-import controller from '../../lib/controller'
-import { getUrlState } from '../../lib/utils'
-import { withNavigationHotkeys } from '../../shared/NavigationHotkeys'
+} from '~/helpers/consts'
+import { SettingsContext } from '~/helpers/contexts'
+import { getUrlState } from '~/helpers/utils'
+import controller from '~/services/controller'
+
 import getHighlighter from './match-highlighter'
 import Result from './Result'
 

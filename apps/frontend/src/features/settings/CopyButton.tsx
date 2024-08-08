@@ -2,7 +2,7 @@ import './CopyButton.css'
 
 import { Button, Tooltip } from '@mui/material'
 
-import { useCopyToClipboard } from '../lib/hooks'
+import { useCopyToClipboard } from '~/hooks'
 
 type CopyButtonProps = {
   copyText: string,

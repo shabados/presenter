@@ -1,6 +1,6 @@
 import { firstLetters, stripAccents, stripVishraams, toAscii, toUnicode } from 'gurmukhi-utils'
 
-import { SEARCH_TYPES } from '../../lib/consts'
+import { SEARCH_TYPES } from '~/helpers/consts'
 
 type MatchOptions = {
   gurmukhi: string,
@@ -13,7 +13,7 @@ type MatchOptions = {
  * and using the position of the highlighted words, highlights the same words in the target
  * string.
  */
-const fullWordMatches = ( query: string ) => ( { target, gurmukhi }: MatchOptions) => {
+const fullWordMatches = ( query: string ) => ( { target, gurmukhi }: MatchOptions ) => {
   // Remove vishraams to prevent query from not matching
   const baseGurmukhi = stripVishraams( gurmukhi )
   // Remove vishraams from target to prevent vishraams in output
@@ -86,7 +86,7 @@ const highlighters = {
 
 const UNDERSCORE_REGEX = /_/g
 
-type SearchMode = (typeof SEARCH_TYPES)[keyof typeof SEARCH_TYPES]
+type SearchMode = ( typeof SEARCH_TYPES )[keyof typeof SEARCH_TYPES]
 
 /**
  * Separates the line into words before the first match, the first match, and after the match.

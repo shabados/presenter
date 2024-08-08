@@ -4,8 +4,9 @@ import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 import { Grid, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-import { BACKEND_URL, isElectron, OVERLAY_PORT } from '../lib/consts'
-import controller from '../lib/controller'
+import { BACKEND_URL, isElectron, OVERLAY_PORT } from '~/helpers/consts'
+import controller from '~/services/controller'
+
 import CopyButton from './CopyButton'
 import DynamicOptions, { IconSlot, OptionGrid, slotSizes } from './DynamicOptions'
 import { Button } from './SettingComponents'

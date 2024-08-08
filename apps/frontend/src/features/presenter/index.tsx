@@ -10,6 +10,12 @@ import { lazy, Suspense, useContext, useRef } from 'react'
 import { EventsType, useIdleTimer } from 'react-idle-timer'
 import { Route, useHistory, useLocation } from 'react-router-dom'
 
+import CopyHotkeys from '~/components/CopyHotkeys'
+import { withErrorFallback } from '~/components/ErrorFallback'
+import GlobalHotKeys from '~/components/GlobalHotKeys'
+import Loader from '~/components/Loader'
+import NavigatorHotKeys from '~/components/NavigatorHotkeys'
+import ThemeLoader from '~/components/ThemeLoader'
 import {
   BOOKMARKS_URL,
   CONTROLLER_URL,
@@ -20,24 +26,19 @@ import {
   SEARCH_URL,
   SETTINGS_URL,
   STATES,
-} from '../lib/consts'
-import { SettingsContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { toggleFullscreen } from '../lib/electron-utils'
-import { useCurrentLines, useMount } from '../lib/hooks'
-import { GLOBAL_SHORTCUTS } from '../lib/keyMap'
-import { OPTIONS } from '../lib/options'
-import { getUrlState } from '../lib/utils'
-import CopyHotkeys from '../shared/CopyHotkeys'
-import { withErrorFallback } from '../shared/ErrorFallback'
-import GlobalHotKeys from '../shared/GlobalHotKeys'
-import Loader from '../shared/Loader'
-import NavigatorHotKeys from '../shared/NavigatorHotkeys'
-import ThemeLoader from '../shared/ThemeLoader'
+} from '~/helpers/consts'
+import { SettingsContext } from '~/helpers/contexts'
+import { toggleFullscreen } from '~/helpers/electron-utils'
+import { GLOBAL_SHORTCUTS } from '~/helpers/keyMap'
+import { OPTIONS } from '~/helpers/options'
+import { getUrlState } from '~/helpers/utils'
+import { useCurrentLines, useMount } from '~/hooks'
+import controller from '~/services/controller'
+
 import StatusToast from './StatusToast'
 
 const Display = lazy( () => import( './Display' ) )
-const Controller = lazy( () => import( '../Controller' ) )
+const Controller = lazy( () => import( '~/features/controller' ) )
 
 export const IDLE_TIMEOUT = 1000 * 3
 const IDLE_EVENTS = [

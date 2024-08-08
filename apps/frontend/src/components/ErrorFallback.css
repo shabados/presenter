@@ -1,9 +1,9 @@
 .error-fallback {
   margin: auto auto;
   width: 600px;
-  color: #51504F;
-  background: #FFFFFF;
-  border-radius: .5em;
+  color: #51504f;
+  background: #ffffff;
+  border-radius: 0.5em;
   padding: 2em;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
@@ -16,8 +16,8 @@
   height: 100%;
   width: 100%;
   content: '';
-  background-color: #0000001A;
-  background-image: url('../Presenter/themes/images/logo-grayscale.png');
+  background-color: #0000001a;
+  background-image: url('../features/presenter/themes/images/logo-grayscale.png');
   background-size: 120%;
   background-position: center;
 }
@@ -25,17 +25,17 @@
 .error-fallback .header {
   font-weight: bold;
   font-size: 1.15em;
-  margin-bottom: .75em;
+  margin-bottom: 0.75em;
 }
 
 .error-fallback .header span {
   display: block;
-  margin-top: .33em;
+  margin-top: 0.33em;
   font-size: 0.95em;
 }
 
 .error-fallback h6 {
-  color: #1A191A;
+  color: #1a191a;
   font-size: 1.15em;
   margin: 0;
 }
@@ -49,9 +49,9 @@
   overflow: auto;
   margin: 20px auto;
   user-select: all;
-  background-color: rgba(255,255,255,.2);
+  background-color: rgba(255, 255, 255, 0.2);
   padding: 15px;
-  color: #C40233;
+  color: #c40233;
   font-family: 'Consolas', monospace;
   white-space: pre;
 }

@@ -2,10 +2,10 @@ import { ListItem } from '@mui/material'
 import classNames from 'classnames'
 import { forwardRef, useContext } from 'react'
 
-import { RecommendedSourcesContext, SettingsContext, WritersContext } from '../../lib/contexts'
-import controller from '../../lib/controller'
-import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '../../lib/data'
-import { customiseLine, getTranslation } from '../../lib/line'
+import { RecommendedSourcesContext, SettingsContext, WritersContext } from '~/helpers/contexts'
+import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '~/helpers/data'
+import { customiseLine, getTranslation } from '~/helpers/line'
+import controller from '~/services/controller'
 
 type ResultProps = {
   gurmukhi: string,
@@ -17,7 +17,7 @@ type ResultProps = {
   sourceId: number,
   shabad: Record<string, any>,
   sourcePage: number,
-  translations: { [translation: string]: string }[],
+  translations: Record<string, string>[],
 }
 
 /**
@@ -84,7 +84,7 @@ const Result = forwardRef( ( {
   const onClick = () => controller.shabad( { shabadId, lineId } )
 
   // Helper render functions for citation
-  const showCitation = showResultCitations && shabad && shabad.section
+  const showCitation = showResultCitations && shabad?.section
   const getEnglish = ( { nameEnglish } ) => nameEnglish
   const getWriterName = () => getEnglish( writers[ shabad.writerId ] )
   const getPageName = () => recommendedSources[ shabad.sourceId ].pageNameEnglish

@@ -3,9 +3,9 @@ import copy from 'copy-to-clipboard'
 import { useSnackbar } from 'notistack'
 import { useContext, useEffect, useRef, useState } from 'react'
 
-import { isMac } from '../helpers/consts'
-import { ContentContext, RecommendedSourcesContext, SettingsContext } from '../helpers/contexts'
-import { findLineIndex, getTranslations } from '../helpers/line'
+import { isMac } from '~/helpers/consts'
+import { ContentContext, RecommendedSourcesContext, SettingsContext } from '~/helpers/contexts'
+import { findLineIndex, getTranslations } from '~/helpers/line'
 
 export const useCurrentLines = () => {
   const { shabad, bani } = useContext( ContentContext )

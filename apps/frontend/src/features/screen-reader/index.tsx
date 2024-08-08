@@ -3,8 +3,8 @@ import './index.css'
 import classNames from 'classnames'
 import { useContext } from 'react'
 
-import { ContentContext } from '../lib/contexts'
-import { classifyWords } from '../lib/line'
+import { ContentContext } from '~/helpers/contexts'
+import { classifyWords } from '~/helpers/line'
 
 const titlesFuzzy = [
   '<>',
@@ -68,7 +68,7 @@ const ScreenReader = () => {
       <div className="lines">
         {lines.map( ( { gurmukhi, id } ) => (
           <p
-            key={id as string}
+            key={id}
             className={classNames( 'line', { title: isTitle( gurmukhi ), 'end-of-pauri': isEndOfPauri( gurmukhi ) } )}
           >
             { /* eslint-disable-next-line react/no-array-index-key */ }

@@ -13,7 +13,7 @@ import {
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 
-import { OPTION_TYPES } from '../lib/options'
+import { OPTION_TYPES } from '~/helpers/options'
 
 type GeneralProps = {
   option: string,

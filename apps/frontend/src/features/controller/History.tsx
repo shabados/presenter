@@ -11,11 +11,11 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import { stripVishraams } from 'gurmukhi-utils'
 import { useContext, useMemo } from 'react'
 
-import { HISTORY_DOWNLOAD_URL } from '../lib/consts'
-import { HistoryContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { LINE_HOTKEYS } from '../lib/keyMap'
-import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
+import { withNavigationHotkeys } from '~/components/NavigationHotkeys'
+import { HISTORY_DOWNLOAD_URL } from '~/helpers/consts'
+import { HistoryContext } from '~/helpers/contexts'
+import { LINE_HOTKEYS } from '~/helpers/keyMap'
+import controller from '~/services/controller'
 
 type HistoryProps = {
   focused?: number,

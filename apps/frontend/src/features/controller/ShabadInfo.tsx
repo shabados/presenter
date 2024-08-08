@@ -6,9 +6,9 @@ import { Button, IconButton, Popover, Tooltip, Typography } from '@mui/material'
 import { stripVishraams, toUnicode } from 'gurmukhi-utils'
 import { useContext, useRef, useState } from 'react'
 
-import { ContentContext, RecommendedSourcesContext, WritersContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { useCopyToClipboard, useCurrentLine, useCurrentLines } from '../lib/hooks'
+import { ContentContext, RecommendedSourcesContext, WritersContext } from '~/helpers/contexts'
+import { useCopyToClipboard, useCurrentLine, useCurrentLines } from '~/hooks'
+import controller from '~/services/controller'
 
 const popoverDisplay = {
   transformOrigin: { vertical: 'bottom', horizontal: 'center' },

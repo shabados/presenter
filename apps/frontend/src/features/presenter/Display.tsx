@@ -3,11 +3,12 @@ import './Display.css'
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
 
-import { LANGUAGES } from '../lib/data'
-import { useCurrentLine, useCurrentLines, useTranslations } from '../lib/hooks'
-import { customiseLine, getTransliterators } from '../lib/line'
-import { ClientSettings } from '../lib/options'
-import { filterFalsyValues } from '../lib/utils'
+import { LANGUAGES } from '~/helpers/data'
+import { customiseLine, getTransliterators } from '~/helpers/line'
+import { ClientSettings } from '~/helpers/options'
+import { filterFalsyValues } from '~/helpers/utils'
+import { useCurrentLine, useCurrentLines, useTranslations } from '~/hooks'
+
 import Line from './Line'
 
 type DisplayProps = {
@@ -38,7 +39,7 @@ const Display = ( { settings }: DisplayProps ) => {
   // Find the correct line in the Shabad
   const lines = useCurrentLines()
   const [ line, lineIndex ] = useCurrentLine()
-  const typeId = ( line && line.typeId ) || -1
+  const typeId = ( line?.typeId ) || -1
 
   // Get the next lines
   const { nextLines: nextLineCount, previousLines: previousLineCount } = display

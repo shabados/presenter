@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { StatusContext } from '../lib/contexts'
+import { StatusContext } from '~/helpers/contexts'
 
 const StatusToast = () => {
   const { status } = useContext( StatusContext )

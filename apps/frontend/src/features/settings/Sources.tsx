@@ -11,9 +11,10 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-import { BACKEND_URL } from '../lib/consts'
-import controller from '../lib/controller'
-import Loader from '../shared/Loader'
+import Loader from '~/components/Loader'
+import { BACKEND_URL } from '~/helpers/consts'
+import controller from '~/services/controller'
+
 import { ResetButton } from './DynamicOptions'
 import { Dropdown as Select } from './SettingComponents'
 

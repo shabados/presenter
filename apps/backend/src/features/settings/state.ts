@@ -2,7 +2,7 @@ import { ManyClientSettings, Settings } from '@presenter/contract'
 import { mutableValue, readOnly, subscribable } from '@presenter/node'
 import { omit, omitBy } from 'lodash-es'
 
-import { GlobalSettings } from '../../services/global-settings'
+import { GlobalSettings } from '~/services/global-settings'
 
 type SettingsStateOptions = {
   globalSettings: GlobalSettings,

@@ -27,11 +27,12 @@ import {
   SEARCH_URL,
   SETTINGS_URL,
   STATES,
-} from '../lib/consts'
-import { ContentContext, SettingsContext } from '../lib/contexts'
-import controller from '../lib/controller'
-import { useCurrentLines, useEffectOnce, usePrevious } from '../lib/hooks'
-import { getUrlState } from '../lib/utils'
+} from '~/helpers/consts'
+import { ContentContext, SettingsContext } from '~/helpers/contexts'
+import { getUrlState } from '~/helpers/utils'
+import { useCurrentLines, useEffectOnce, usePrevious } from '~/hooks'
+import controller from '~/services/controller'
+
 import Bookmarks from './Bookmarks'
 import History from './History'
 import Navigator, { Bar as NavigatorBar } from './Navigator'

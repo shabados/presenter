@@ -7,8 +7,9 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-import { BACKEND_PORT, BACKEND_URL, isElectron } from '../lib/consts'
-import controller from '../lib/controller'
+import { BACKEND_PORT, BACKEND_URL, isElectron } from '~/helpers/consts'
+import controller from '~/services/controller'
+
 import CopyButton from './CopyButton'
 import { Button } from './SettingComponents'
 

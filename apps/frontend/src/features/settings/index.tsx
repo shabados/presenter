@@ -26,6 +26,8 @@ import classNames from 'classnames'
 import { useContext, useEffect, useState } from 'react'
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
+import { withErrorFallback } from '~/components/ErrorFallback'
+import ThemeLoader from '~/components/ThemeLoader'
 import {
   BACKEND_URL,
   SETTINGS_ABOUT_URL,
@@ -33,12 +35,11 @@ import {
   SETTINGS_SERVER_URL,
   SETTINGS_TOOLS_URL,
   SETTINGS_URL,
-} from '../lib/consts'
-import { SettingsContext } from '../lib/contexts'
-import SHORTCUTS from '../lib/keyMap'
-import { FLAT_OPTION_GROUPS, OPTION_GROUPS, OPTIONS } from '../lib/options'
-import { withErrorFallback } from '../shared/ErrorFallback'
-import ThemeLoader from '../shared/ThemeLoader'
+} from '~/helpers/consts'
+import { SettingsContext } from '~/helpers/contexts'
+import SHORTCUTS from '~/helpers/keyMap'
+import { FLAT_OPTION_GROUPS, OPTION_GROUPS, OPTIONS } from '~/helpers/options'
+
 import About from './About'
 import ClosedCaptionSettings from './ClosedCaptionSettings'
 import DynamicOptions from './DynamicOptions'

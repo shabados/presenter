@@ -7,9 +7,10 @@ import classNames from 'classnames'
 import { groupBy } from 'lodash'
 import { useState } from 'react'
 
-import controller from '../../lib/controller'
-import keyMap from '../../lib/keyMap'
-import { mapPlatformKeys } from '../../lib/utils'
+import keyMap from '~/helpers/keyMap'
+import { mapPlatformKeys } from '~/helpers/utils'
+import controller from '~/services/controller'
+
 import { ResetButton } from '../DynamicOptions'
 import AddHotkeyDialog from './AddHotkeyDialog'
 import DeleteHotkeyDialog from './DeleteHotkeyDialog'

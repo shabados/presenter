@@ -6,8 +6,9 @@ import { SnackbarProvider } from 'notistack'
 import { ElementType, lazy, PureComponent, ReactNode, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-import Loader from './components/Loader'
-import { BACKEND_URL, isDesktop, isMobile, isTablet, OVERLAY_URL, PRESENTER_URL, SCREEN_READER_URL, SETTINGS_URL } from './helpers/consts'
+import Loader from '~/components/Loader'
+import Overlay from '~/features/overlay'
+import { BACKEND_URL, isDesktop, isMobile, isTablet, OVERLAY_URL, PRESENTER_URL, SCREEN_READER_URL, SETTINGS_URL } from '~/helpers/consts'
 import {
   BookmarksContext,
   ContentContext,
@@ -16,15 +17,14 @@ import {
   SettingsContext,
   StatusContext,
   WritersContext,
-} from './helpers/contexts'
-import { DEFAULT_OPTIONS } from './helpers/options'
-import { merge } from './helpers/utils'
-import Overlay from './Overlay'
-import controller from './services/controller'
+} from '~/helpers/contexts'
+import { DEFAULT_OPTIONS } from '~/helpers/options'
+import { merge } from '~/helpers/utils'
+import controller from '~/services/controller'
 
-const ScreenReader = lazy( () => import( './screen-reader' ) )
-const Presenter = lazy( () => import( './Presenter' ) )
-const Settings = lazy( () => import( './Settings' ) )
+const ScreenReader = lazy( () => import( '~/features/screen-reader' ) )
+const Presenter = lazy( () => import( '~/features/presenter' ) )
+const Settings = lazy( () => import( '~/features/settings' ) )
 
 const loadSettings = () => merge( { local: controller.readSettings() }, DEFAULT_OPTIONS )
 

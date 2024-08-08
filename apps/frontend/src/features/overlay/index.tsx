@@ -4,11 +4,12 @@ import classNames from 'classnames'
 import { mapValues } from 'lodash'
 import { useContext } from 'react'
 
-import { SettingsContext, StatusContext } from '../lib/contexts'
-import { LANGUAGES } from '../lib/data'
-import { useCurrentLine, useTranslations } from '../lib/hooks'
-import { customiseLine, getTransliterators } from '../lib/line'
-import { filterFalsyValues } from '../lib/utils'
+import { SettingsContext, StatusContext } from '~/helpers/contexts'
+import { LANGUAGES } from '~/helpers/data'
+import { customiseLine, getTransliterators } from '~/helpers/line'
+import { filterFalsyValues } from '~/helpers/utils'
+import { useCurrentLine, useTranslations } from '~/hooks'
+
 import Line from './Line'
 import ThemeLoader from './ThemeLoader'
 

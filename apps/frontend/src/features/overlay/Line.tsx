@@ -3,8 +3,8 @@ import './Line.css'
 
 import classNames from 'classnames'
 
-import { LANGUAGE_NAMES, TRANSLATION_ORDER, Translations, TRANSLITERATION_ORDER, Transliterators } from '../lib/data'
-import { classifyWords, partitionLine, sortBy } from '../lib/line'
+import { LANGUAGE_NAMES, TRANSLATION_ORDER, Translations, TRANSLITERATION_ORDER, Transliterators } from '~/helpers/data'
+import { classifyWords, partitionLine, sortBy } from '~/helpers/line'
 
 type LineProps = {
   className?: string,

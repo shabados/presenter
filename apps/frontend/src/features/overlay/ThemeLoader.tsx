@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 
-import { OVERLAY_THEMES_URL } from '../lib/consts'
-import { StatusContext } from '../lib/contexts'
+import { OVERLAY_THEMES_URL } from '~/helpers/consts'
+import { StatusContext } from '~/helpers/contexts'
 
 type ThemeLoaderProps = { name: string }
 
