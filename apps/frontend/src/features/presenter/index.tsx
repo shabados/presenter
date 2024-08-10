@@ -8,7 +8,7 @@ import classNames from 'classnames'
 import queryString from 'qs'
 import { lazy, Suspense, useContext, useRef } from 'react'
 import { EventsType, useIdleTimer } from 'react-idle-timer'
-import { Route, useHistory, useLocation } from 'react-router-dom'
+import { Route, useLocation, useNavigate } from 'react-router-dom'
 
 import CopyHotkeys from '~/components/CopyHotkeys'
 import { withErrorFallback } from '~/components/ErrorFallback'
@@ -54,7 +54,7 @@ const IDLE_EVENTS = [
 ] as const satisfies EventsType[]
 
 const Presenter = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const { search, pathname } = location
   const { controllerOnly } = getUrlState( search )
@@ -80,7 +80,7 @@ const Presenter = () => {
    * Sets the query string parameters, retaining any currently present.
    * @param params The query string parameters.
    */
-  const setQueryParams = ( params ) => history.push( {
+  const setQueryParams = ( params ) => navigate( {
     ...location,
     search: queryString.stringify( { ...getUrlState( search ), ...params } ),
   } )
@@ -89,7 +89,7 @@ const Presenter = () => {
    * More concise form to navigate to URLs, retaining query params.
    * @param pathname The path to navigate to.
    */
-  const go = ( pathname ) => history.push( { ...location, pathname } )
+  const go = ( pathname ) => navigate( { ...location, pathname } )
 
   /**
    * Toggles the controller.
@@ -102,7 +102,7 @@ const Presenter = () => {
   /**
    * Always puts the controller in fullscreen.
    */
-  const setFullscreenController = () => history.push( {
+  const setFullscreenController = () => navigate( {
     pathname: CONTROLLER_URL,
     search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
   } )
