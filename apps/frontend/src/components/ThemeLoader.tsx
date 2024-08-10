@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 
+import defaultTheme from '~/features/presenter/themes/Day.css?url'
 import { THEMES_URL } from '~/helpers/consts'
 import { StatusContext } from '~/helpers/contexts'
-import defaultTheme from '~/Presenter/themes/Day.css?url'
 
 type ThemeLoaderProps = { name: string }
 
