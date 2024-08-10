@@ -189,9 +189,10 @@ const Presenter = () => {
                 <FontAwesomeIcon icon={faPlus} />
               </IconButton>
 
-              <Route path={CONTROLLER_URL}>
-                {() => <Controller />}
-              </Route>
+              <Route
+                path={CONTROLLER_URL}
+                element={<Controller />}
+              />
             </div>
 
           </CopyHotkeys>
