@@ -8,7 +8,7 @@ import classNames from 'classnames'
 import queryString from 'qs'
 import { lazy, Suspense, useContext, useRef } from 'react'
 import { EventsType, useIdleTimer } from 'react-idle-timer'
-import { Route, useLocation, useNavigate } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 import CopyHotkeys from '~/components/CopyHotkeys'
 import { withErrorFallback } from '~/components/ErrorFallback'
@@ -189,10 +189,12 @@ const Presenter = () => {
                 <FontAwesomeIcon icon={faPlus} />
               </IconButton>
 
-              <Route
-                path={CONTROLLER_URL}
-                element={<Controller />}
-              />
+              <Routes>
+                <Route
+                  path={CONTROLLER_URL}
+                  element={<Controller />}
+                />
+              </Routes>
             </div>
 
           </CopyHotkeys>
