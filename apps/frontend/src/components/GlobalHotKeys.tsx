@@ -1,4 +1,5 @@
 import { mapValues } from 'lodash'
+import { ReactNode } from 'react'
 import { configure, GlobalHotKeys as HotKeys } from 'react-hotkeys/es'
 import KeyEventManager from 'react-hotkeys/es/lib/KeyEventManager'
 
@@ -35,4 +36,4 @@ const GlobalHotKeys = ( { keyMap, handlers, ...props }: GlobalHotKeysProps ) => 
   />
 )
 
-export default GlobalHotKeys
+export default ( { children }: { children: ReactNode } ) => children
