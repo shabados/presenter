@@ -32,9 +32,11 @@
 
 ## Frontend
 
-- [ ] Move off CRA to Vite
+- [x] Move off CRA to Vite
 - [ ] Separate out line jump into per file
-- [ ] Convert to TS
+- [x] Convert to TS
+- [ ] Refactor routing to be centralised (per feature)
+- [ ] Sort out `react-hotkeys` usage (error regarding no `parentId`)
 
 ## Electron
 
