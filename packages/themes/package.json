@@ -1,5 +1,12 @@
 {
   "name": "@presenter/themes",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./package.json",
+    "./overlay": "./overlay",
+    "./overlay/*": "./overlay/*",
+    "./presenter": "./presenter",
+    "./presenter/*": "./presenter/*"
+  }
 }

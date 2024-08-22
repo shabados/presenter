@@ -10,7 +10,7 @@
 - [ ] Bundle **compiled** code
 - [x] Get clear on paths
 - [x] ESLint root package dependency usage
-- [ ] Move themes to `packages/themes`
+- [x] Move themes to `packages/themes`
 
 ## Backend
 
@@ -48,3 +48,7 @@
 
 - [ ] Add Posthog
 - [ ] Add New relic
+
+## Migration Scripts
+
+- [ ] Migrate custom themes from `%APPDATA%/Shabad OS/themes` to `%APPDATA%/Shabad OS/themes/presenter` and `%APPDATA%/Shabad OS/themes/overlay`

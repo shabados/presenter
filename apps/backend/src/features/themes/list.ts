@@ -1,9 +1,9 @@
 import { readdir } from 'node:fs/promises'
 import { basename, extname } from 'node:path'
 
-import { CUSTOM_OVERLAY_THEMES_FOLDER, CUSTOM_THEMES_FOLDER } from '@presenter/node'
+import { USER_OVERLAY_THEMES_FOLDER, USER_PRESENTER_THEMES_FOLDER } from '@presenter/node'
 
-import { FRONTEND_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER } from '~/helpers/consts'
+import { OVERLAY_THEMES_FOLDER, PRESENTER_THEMES_FOLDER } from '~/helpers/consts'
 
 const listCSSFiles = ( path: string ) => readdir( path )
   .then( ( files ) => files.map( extname ).filter( ( extension ) => extension === '.css' ) )
@@ -14,11 +14,11 @@ const getThemeNames = ( folders: string[] ) => Promise
   .then( ( files ) => files.map( ( filename ) => basename( filename, '.css' ) ) )
 
 export const getPresenterThemeNames = () => getThemeNames( [
-  FRONTEND_THEMES_FOLDER,
-  CUSTOM_THEMES_FOLDER,
+  PRESENTER_THEMES_FOLDER,
+  USER_PRESENTER_THEMES_FOLDER,
 ] )
 
 export const getOverlayThemeNames = () => getThemeNames( [
-  FRONTEND_OVERLAY_THEMES_FOLDER,
-  CUSTOM_OVERLAY_THEMES_FOLDER,
+  OVERLAY_THEMES_FOLDER,
+  USER_OVERLAY_THEMES_FOLDER,
 ] )

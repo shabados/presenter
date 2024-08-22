@@ -1,27 +1,26 @@
 import { copyFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-import { CUSTOM_OVERLAY_THEMES_FOLDER, CUSTOM_THEMES_FOLDER } from '@presenter/node'
+import { USER_OVERLAY_THEMES_FOLDER, USER_PRESENTER_THEMES_FOLDER } from '@presenter/node'
 import express, { Application } from 'express'
 
-import { FRONTEND_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER } from '~/helpers/consts'
+import { OVERLAY_THEMES_FOLDER, PRESENTER_THEMES_FOLDER } from '~/helpers/consts'
 
-import createApi from './api'
+import { getOverlayThemeNames, getPresenterThemeNames } from './themes'
 
 const copyExampleThemes = () => Promise.all( [
-  [ FRONTEND_OVERLAY_THEMES_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER ],
-  [ FRONTEND_THEMES_FOLDER, CUSTOM_THEMES_FOLDER ],
+  [ OVERLAY_THEMES_FOLDER, USER_OVERLAY_THEMES_FOLDER ],
+  [ PRESENTER_THEMES_FOLDER, USER_PRESENTER_THEMES_FOLDER ],
 ].map( ( [ src, dest ] ) => copyFile(
   join( src, 'Example.template' ),
   join( dest, 'Example.css' ),
 ) ) )
 
 const mounts = [
-  [ '/presenter/themes', FRONTEND_THEMES_FOLDER ],
-  [ '/presenter/themes', CUSTOM_THEMES_FOLDER ],
-  [ '/presenter/themes/*', join( FRONTEND_OVERLAY_THEMES_FOLDER, 'Day.css' ) ],
-  [ '/overlay/themes', FRONTEND_OVERLAY_THEMES_FOLDER ],
-  [ '/overlay/themes/', CUSTOM_OVERLAY_THEMES_FOLDER ],
+  [ 'presenter', PRESENTER_THEMES_FOLDER ],
+  [ 'presenter', USER_PRESENTER_THEMES_FOLDER ],
+  [ 'overlay', OVERLAY_THEMES_FOLDER ],
+  [ 'overlay', USER_OVERLAY_THEMES_FOLDER ],
 ] as const
 
 type ThemesModuleOptions = {
@@ -29,12 +28,12 @@ type ThemesModuleOptions = {
 }
 
 const createThemesModule = async ( { api }: ThemesModuleOptions ) => {
-  mounts.forEach( ( [ prefix, dir ] ) => api.use( prefix, express.static( dir ) ) )
+  mounts.forEach( ( [ prefix, dir ] ) => api.use( `/themes/${prefix}`, express.static( dir ) ) )
 
-  api.use( createApi() )
+  api.get( '/themes/presenter', ( _, res ) => void getPresenterThemeNames().then( ( r ) => res.json( r ) ) )
+  api.get( '/themes/overlay', ( _, res ) => void getOverlayThemeNames().then( ( r ) => res.json( r ) ) )
 
-  // TODO: uncomment when we have a way to copy example themes
-  // await copyExampleThemes()
+  await copyExampleThemes()
 }
 
 export default createThemesModule

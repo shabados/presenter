@@ -1,11 +1,16 @@
 import { chmod, mkdir } from 'node:fs/promises'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import getAppDataPath from 'appdata-path'
 
+export const resolveModule = ( name: string ) => dirname( fileURLToPath(
+  import.meta.resolve( name )
+) )
+
 export const DATA_FOLDER = join( getAppDataPath(), 'Shabad OS' )
-export const CUSTOM_THEMES_FOLDER = join( DATA_FOLDER, 'themes' )
-export const CUSTOM_OVERLAY_THEMES_FOLDER = join( DATA_FOLDER, 'overlay' )
+export const USER_PRESENTER_THEMES_FOLDER = join( DATA_FOLDER, 'themes', 'presenter' )
+export const USER_OVERLAY_THEMES_FOLDER = join( DATA_FOLDER, 'themes', 'overlay' )
 export const HISTORY_FOLDER = join( DATA_FOLDER, 'history' )
 export const LOG_FOLDER = join( DATA_FOLDER, 'logs' )
 export const TMP_FOLDER = join( DATA_FOLDER, 'temp' )
@@ -13,8 +18,8 @@ export const UPDATE_TMP_FOLDER = join( TMP_FOLDER, '@shabados', 'database' )
 
 const REQUIRED_FOLDERS = [
   LOG_FOLDER,
-  CUSTOM_THEMES_FOLDER,
-  CUSTOM_OVERLAY_THEMES_FOLDER,
+  USER_PRESENTER_THEMES_FOLDER,
+  USER_OVERLAY_THEMES_FOLDER,
   HISTORY_FOLDER,
   TMP_FOLDER,
 ]

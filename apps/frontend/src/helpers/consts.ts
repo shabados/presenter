@@ -36,8 +36,8 @@ export const BOOKMARKS_URL = `${CONTROLLER_URL}/bookmarks`
 export const NAVIGATOR_URL = `${CONTROLLER_URL}/navigator`
 export const HISTORY_URL = `${CONTROLLER_URL}/history`
 export const HISTORY_DOWNLOAD_URL = `${BACKEND_URL}/history.csv`
-export const THEMES_URL = `${BACKEND_URL}/presenter/themes`
-export const OVERLAY_THEMES_URL = `${BACKEND_URL}/overlay/themes`
+export const PRESENTER_THEMES_URL = `${BACKEND_URL}/themes/presenter`
+export const OVERLAY_THEMES_URL = `${BACKEND_URL}/themes/overlay`
 
 export const SETTINGS_URL = '/settings'
 export const SETTINGS_DEVICE_URL = `${SETTINGS_URL}/device`

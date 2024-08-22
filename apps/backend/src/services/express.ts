@@ -11,7 +11,12 @@ import ipc from '~/services/ipc'
 
 const log = getLogger( 'express' )
 
-const middleware = [ helmet(), compression(), bodyParser.json(), cors() ]
+const middleware = [
+  helmet( { crossOriginResourcePolicy: false } ),
+  compression(),
+  bodyParser.json(),
+  cors(),
+]
 
 const createExpress = () => {
   const api = express()
