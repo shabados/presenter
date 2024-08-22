@@ -15,6 +15,12 @@ import { ResetButton } from '../DynamicOptions'
 import AddHotkeyDialog from './AddHotkeyDialog'
 import DeleteHotkeyDialog from './DeleteHotkeyDialog'
 
+type HotkeysProps = {
+  keys: Record<string, string[]>,
+  shortcuts: { name: string, group: string, description?: string }[],
+  device: string,
+}
+
 const REQUIRED_KEYS = Object
   .values( keyMap )
   .filter( ( { required } ) => required )
@@ -23,50 +29,41 @@ const REQUIRED_KEYS = Object
     ...sequences.reduce( ( acc, key ) => ( { ...acc, [ key ]: name } ), {} ),
   } ), {} )
 
-/**
- * Renders all hotkeys with descriptions.
- * @param {Object} keys The hotkeys themselves, correpsonding to a name.
- * @param {Object} shortcuts Which shortcuts in `keys` to actually render.
- */
-const Hotkeys = ( { keys, shortcuts, device } ) => {
+const Hotkeys = ( { keys, shortcuts, device }: HotkeysProps ) => {
   const editable = device === 'local'
 
-  const [ editing, setEditing ] = useState()
-  const [ deleting, setDeleting ] = useState( {} )
+  const [ editing, setEditing ] = useState<string | undefined>()
+  const [ deleting, setDeleting ] = useState<{ keyName: string, name: string } | {}>()
 
   const mappedKeys = mapPlatformKeys( keys )
 
-  const setRecorded = ( hotkey ) => {
+  const setRecorded = ( hotkey: string ) => {
     setEditing( null )
 
     if ( !hotkey ) return
 
-    // Get hotkeys for name from settings
     const { required, sequences } = Object.values( keyMap ).find( ( { name } ) => name === editing )
 
-    // Add the required sequences and filter out any duplicates
     const hotkeys = Array.from( new Set( [
       ...( required ? sequences : [] ),
-      ...keys[ editing ],
+      ...keys[ editing! ],
       hotkey,
     ] ) )
 
-    controller.setSettings( { hotkeys: { [ editing ]: hotkeys } } )
+    controller.setSettings( { hotkeys: { [ editing! ]: hotkeys } } )
   }
 
-  const onDelete = ( confirmed ) => {
+  const onDelete = ( confirmed: boolean ) => {
     setDeleting( {} )
 
     if ( !confirmed ) return
 
     const { name, keyName } = deleting
 
-    // Get hotkeys for name from settings
     const { required, sequences } = Object.values( keyMap ).find(
       ( { name: optionName } ) => optionName === name,
     )
 
-    // Add the required sequences and filter out any duplicates
     const hotkeys = Array.from( new Set( [
       ...( required ? sequences : [] ),
       ...mappedKeys[ name ],
@@ -75,7 +72,6 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
     controller.setSettings( { hotkeys: { [ name ]: hotkeys } } )
   }
 
-  // Map assigned keys to name
   const assignedKeys = Object
     .entries( mappedKeys )
     .reduce( ( acc, [ name, sequences ] ) => ( {
@@ -113,11 +109,11 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
 
                       <Grid item xs={1}>
                         {description && (
-                        <Tooltip title={description}>
-                          <span>
-                            <FontAwesomeIcon icon={faQuestionCircle} />
-                          </span>
-                        </Tooltip>
+                          <Tooltip title={description}>
+                            <span>
+                              <FontAwesomeIcon icon={faQuestionCircle} />
+                            </span>
+                          </Tooltip>
                         )}
                       </Grid>
 
@@ -159,16 +155,6 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
 
     </>
   )
-}
-
-Hotkeys.propTypes = {
-  device: string,
-  shortcuts: objectOf( shape( { name: string, group: string, description: string } ) ).isRequired,
-  keys: objectOf( arrayOf( string ) ).isRequired,
-}
-
-Hotkeys.defaultProps = {
-  device: null,
 }
 
 export default Hotkeys
