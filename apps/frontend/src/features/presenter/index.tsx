@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import IconButton from '@mui/material/IconButton'
 import classNames from 'classnames'
 import queryString from 'qs'
-import { lazy, Suspense, useContext, useRef } from 'react'
+import { lazy, Suspense, useContext, useRef, useState } from 'react'
 import { EventsType, useIdleTimer } from 'react-idle-timer'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
@@ -59,10 +59,14 @@ const Presenter = () => {
   const { search, pathname } = location
   const { controllerOnly } = getUrlState( search )
 
-  const { isIdle } = useIdleTimer( {
+  const [ isIdle, setIsIdle ] = useState( false )
+
+  useIdleTimer( {
     timeout: IDLE_TIMEOUT,
     events: IDLE_EVENTS,
     disabled: !isDesktop,
+    onIdle: () => setIsIdle( true ),
+    onActive: () => setIsIdle( false ),
   } )
 
   const lines = useCurrentLines()
