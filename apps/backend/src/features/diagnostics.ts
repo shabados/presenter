@@ -1,12 +1,15 @@
 import { arch, cpus, hostname, platform, release } from 'node:os'
 import { join } from 'node:path'
 
+import { getLogger } from '@presenter/node'
 import { Application } from 'express'
 import type { PackageJson } from 'type-fest'
 
 import { APP_FOLDER, DATABASE_FOLDER } from '~/helpers/consts'
 import { readJSON } from '~/helpers/files'
 import { getNetworkedAddresses } from '~/helpers/network'
+
+const log = getLogger( 'diagnostics' )
 
 type DiagnosticsModuleOptions = {
   api: Application,
@@ -25,7 +28,10 @@ const createDiagnosticsModule = ( { api }: DiagnosticsModuleOptions ) => {
     platform: platform(),
     release: release(),
     addresses: getNetworkedAddresses(),
-  } ) ) )
+  } ) )
+    .catch( ( err ) => {
+      log.error( err, 'Failed to read version JSON' )
+    } ) )
 }
 
 export default createDiagnosticsModule
