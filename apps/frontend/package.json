@@ -20,6 +20,16 @@
     "url": "https://github.com/shabados/presenter/issues"
   },
   "homepage": "/",
+  "type": "module",
+  "scripts": {
+    "analyze": "source-map-explorer build/static/js/*.js",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+  },
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
