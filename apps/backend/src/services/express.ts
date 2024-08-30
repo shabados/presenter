@@ -2,7 +2,7 @@ import { getLogger } from '@presenter/node'
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import cors from 'cors'
-import express from 'express'
+import express, { Router } from 'express'
 import helmet from 'helmet'
 import http from 'http'
 
@@ -30,7 +30,12 @@ const createExpress = () => {
     log.info( `Listening for socket connections and API calls on port ${PORT}` )
   } )
 
-  return { api, httpServer, listen }
+  const router = Router()
+  api.use( '/api', router )
+
+  return { api: router, httpServer, listen }
 }
+
+export type ExpressApi = ReturnType<typeof createExpress>
 
 export default createExpress

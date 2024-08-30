@@ -2,9 +2,10 @@ import { copyFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
 import { USER_OVERLAY_THEMES_FOLDER, USER_PRESENTER_THEMES_FOLDER } from '@presenter/node'
-import express, { Application } from 'express'
+import express from 'express'
 
 import { OVERLAY_THEMES_FOLDER, PRESENTER_THEMES_FOLDER } from '~/helpers/consts'
+import { ExpressApi } from '~/services/express'
 
 import { getOverlayThemeNames, getPresenterThemeNames } from './themes'
 
@@ -24,7 +25,7 @@ const mounts = [
 ] as const
 
 type ThemesModuleOptions = {
-  api: Application,
+  api: ExpressApi['api'],
 }
 
 const createThemesModule = async ( { api }: ThemesModuleOptions ) => {

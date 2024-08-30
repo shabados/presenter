@@ -1,14 +1,13 @@
-import { Application } from 'express'
-
 import { HistoryModule } from '~/features/history'
 import { getBanis } from '~/services/database'
+import { ExpressApi } from '~/services/express'
 import { SocketServer } from '~/services/websocket-server'
 
 import createApi from './api'
 import createState from './state'
 
 type ContentModuleOptions = {
-  api: Application,
+  api: ExpressApi['api'],
   socketServer: SocketServer,
   history: HistoryModule,
 }

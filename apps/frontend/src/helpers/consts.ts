@@ -17,11 +17,11 @@ export const isDesktop = !( isMobile || isTablet )
 
 /* Backend Info */
 // eslint-disable-next-line no-undef
-export const BACKEND_HOST = window.location.hostname || 'localhost'
-export const BACKEND_PORT = !isDev ? 1699 : 42425
-export const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`
-export const WS_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`
-export const OVERLAY_PORT = !isDev ? 1699 : 3000
+export const HOST = window.location.hostname || 'localhost'
+export const PORT = window.location.port
+export const BASE_URL = `${HOST}:${PORT}`
+export const API_URL = `http://${BASE_URL}/api`
+export const WS_URL = `ws://${BASE_URL}/api`
 
 /* Sentry Data Source Name */
 export const SENTRY_DSN = 'https://51b714c1e7544cba86efb2cad85152ff@sentry.io/1363390'

@@ -1,99 +1,99 @@
 :root {
-      /***********/
-     /* Display */
-    /***********/
+  /***********/
+  /* Display */
+  /***********/
 
-    /* Display background */
-    --display-background-color: #f0ede9;
-    --display-highlight-background-color: #FFD3009E;
-    --display-dim-background-color: #1a191a21;
-    --display-background-image: url('/presenter/themes/images/logo-avani.png');
-    --display-background-size: 121.5%;
+  /* Display background */
+  --display-background-color: #f0ede9;
+  --display-highlight-background-color: #ffd3009e;
+  --display-dim-background-color: #1a191a21;
+  --display-background-image: url('/api/themes/presenter/images/logo-avani.png');
+  --display-background-size: 121.5%;
 
-    /* Display line colours */
-    --display-line-1-color: #1A191A;
-    --display-line-2-color: #302E2C;
-    --display-line-3-color: #413F3E;
-    --display-line-4-color: #51504F;
-    --display-line-5-color: #5D5C59;
-    --display-line-6-color: #676565;
-    --display-line-7-color: #737271;
+  /* Display line colours */
+  --display-line-1-color: #1a191a;
+  --display-line-2-color: #302e2c;
+  --display-line-3-color: #413f3e;
+  --display-line-4-color: #51504f;
+  --display-line-5-color: #5d5c59;
+  --display-line-6-color: #676565;
+  --display-line-7-color: #737271;
 
-    --display-line-1-opacity: 1;
-    --display-line-2-opacity: var(--display-line-1-opacity);
-    --display-line-3-opacity: var(--display-line-1-opacity);
-    --display-line-4-opacity: var(--display-line-1-opacity);
-    --display-line-5-opacity: var(--display-line-1-opacity);
-    --display-line-6-opacity: var(--display-line-1-opacity);
-    --display-line-7-opacity: var(--display-line-1-opacity);
+  --display-line-1-opacity: 1;
+  --display-line-2-opacity: var(--display-line-1-opacity);
+  --display-line-3-opacity: var(--display-line-1-opacity);
+  --display-line-4-opacity: var(--display-line-1-opacity);
+  --display-line-5-opacity: var(--display-line-1-opacity);
+  --display-line-6-opacity: var(--display-line-1-opacity);
+  --display-line-7-opacity: var(--display-line-1-opacity);
 
-    --display-extra-line-1-color: var(--display-line-1-color);
-    --display-extra-line-2-color: var(--display-extra-line-1-color);
-    --display-extra-line-3-color: var(--display-extra-line-1-color);
-    --display-extra-line-4-color: var(--display-extra-line-1-color);
-    --display-extra-line-5-color: var(--display-extra-line-1-color);
+  --display-extra-line-1-color: var(--display-line-1-color);
+  --display-extra-line-2-color: var(--display-extra-line-1-color);
+  --display-extra-line-3-color: var(--display-extra-line-1-color);
+  --display-extra-line-4-color: var(--display-extra-line-1-color);
+  --display-extra-line-5-color: var(--display-extra-line-1-color);
 
-    --display-extra-line-1-opacity: .87;
-    --display-extra-line-2-opacity: .74;
-    --display-extra-line-3-opacity: .61;
-    --display-extra-line-4-opacity: .48;
-    --display-extra-line-5-opacity: .35;
+  --display-extra-line-1-opacity: 0.87;
+  --display-extra-line-2-opacity: 0.74;
+  --display-extra-line-3-opacity: 0.61;
+  --display-extra-line-4-opacity: 0.48;
+  --display-extra-line-5-opacity: 0.35;
 
-    --display-gurmukhi-larivaar-assist-color: #5D1C34;
-    --display-transliteration-larivaar-assist-color: #855C68;
+  --display-gurmukhi-larivaar-assist-color: #5d1c34;
+  --display-transliteration-larivaar-assist-color: #855c68;
 
-    /* Display line pause/vishraam colours */
-    --display-vishraam-heavy-color: #AD0028;
-    --display-vishraam-medium-color: #00603C;
-    --display-vishraam-light-color: #005583;
+  /* Display line pause/vishraam colours */
+  --display-vishraam-heavy-color: #ad0028;
+  --display-vishraam-medium-color: #00603c;
+  --display-vishraam-light-color: #005583;
 
-      /**************/
-     /* Controller */
-    /**************/
+  /**************/
+  /* Controller */
+  /**************/
 
-    /* Controller colors */
-    --controller-background-color: #e9e4e1; /* e3dbda at 50% opacity on f0ede9 bg */
-    --controller-text-color: #4A4C4E;
-    --controller-text-hover-color: #143649;
-    --controller-selected-color: #2D3134;
-    --controller-selected-background-color: #f0dfce;
-    --controller-hover-background-color: #ded9d3;
-    --controller-selected-hover-background-color: #e3d2c4;
+  /* Controller colors */
+  --controller-background-color: #e9e4e1; /* e3dbda at 50% opacity on f0ede9 bg */
+  --controller-text-color: #4a4c4e;
+  --controller-text-hover-color: #143649;
+  --controller-selected-color: #2d3134;
+  --controller-selected-background-color: #f0dfce;
+  --controller-hover-background-color: #ded9d3;
+  --controller-selected-hover-background-color: #e3d2c4;
 
-    /* Controller search colors */
-    --controller-search-background-color: transparent;
-    --controller-search-focused-background-color: #F6F5F2;
-    --controller-search-match-color: #005583;
+  /* Controller search colors */
+  --controller-search-background-color: transparent;
+  --controller-search-focused-background-color: #f6f5f2;
+  --controller-search-match-color: #005583;
 
-    /* Controller top and bottom bar colors */
-    --controller-bar-text-color: #A8A5A3;
-    --controller-bar-text-hover-color: #E1BCA0;
-    --controller-bar-background-color: #332A29;
+  /* Controller top and bottom bar colors */
+  --controller-bar-text-color: #a8a5a3;
+  --controller-bar-text-hover-color: #e1bca0;
+  --controller-bar-background-color: #332a29;
 
-      /*****************/
-     /* Settings      */
-    /*****************/
+  /*****************/
+  /* Settings      */
+  /*****************/
 
-    /* Settings Title */
-    --settings-title-background-color: var(--controller-bar-background-color);
-    --settings-title-text-color: var(--controller-bar-text-color);
+  /* Settings Title */
+  --settings-title-background-color: var(--controller-bar-background-color);
+  --settings-title-text-color: var(--controller-bar-text-color);
 
-    /* Settings Menu */
-    --settings-menu-background-color: var(--controller-bar-background-color);
-    --settings-menu-text-color: var(--controller-bar-text-color);
-    --settings-menu-icon-color: #898C90;
+  /* Settings Menu */
+  --settings-menu-background-color: var(--controller-bar-background-color);
+  --settings-menu-text-color: var(--controller-bar-text-color);
+  --settings-menu-icon-color: #898c90;
 
-    /* Settings Content */
-    --settings-background-color: var(--controller-background-color);
-    --settings-text-color: var(--controller-text-color);
-    --settings-setting-off-color: #F6F3EF;
-    --settings-setting-on-color: var(--controller-search-match-color);
-    --settings-setting-shadow: #00558331;
+  /* Settings Content */
+  --settings-background-color: var(--controller-background-color);
+  --settings-text-color: var(--controller-text-color);
+  --settings-setting-off-color: #f6f3ef;
+  --settings-setting-on-color: var(--controller-search-match-color);
+  --settings-setting-shadow: #00558331;
 
-      /*****************/
-     /* Miscellaneous */
-    /*****************/
+  /*****************/
+  /* Miscellaneous */
+  /*****************/
 
-    /* Scrollbar colour */
-    --scrollbar-color: rgba(141, 126, 116, 0.6);
+  /* Scrollbar colour */
+  --scrollbar-color: rgba(141, 126, 116, 0.6);
 }

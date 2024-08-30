@@ -69,6 +69,7 @@ const createWebSocketServer = ( { httpServer }: SocketServerOptions ) => {
 
   const server = new WebSocketServer( {
     server: httpServer,
+    path: '/api',
     WebSocket: Socket,
   } )
 
