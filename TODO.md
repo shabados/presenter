@@ -11,6 +11,7 @@
 - [x] Get clear on paths
 - [x] ESLint root package dependency usage
 - [x] Move themes to `packages/themes`
+- [ ] Separated server vs client settings + interface (new events?)
 
 ## Backend
 
@@ -35,8 +36,11 @@
 - [x] Move off CRA to Vite
 - [ ] Separate out line jump into per file
 - [x] Convert to TS
-- [ ] Refactor routing to be centralised (per feature)
 - [ ] Sort out `react-hotkeys` usage (error regarding no `parentId`)
+- [ ] Use new events from BE
+- [ ] Refactor into concept of `content`
+- [ ] Render navigator's bar extra icons in controller
+- [ ] Better settings management via hooks
 
 ## Electron
 

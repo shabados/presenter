@@ -36,14 +36,6 @@ type State = {
   focusedIndex: number,
 }
 
-/**
- * HOC to automatically add navigational key bindings to child elements.
- * @param {boolean} arrowKeys Navigate with arrow keys to the next and previous DOM elements.
- * @param {boolean} lineKeys Enable line jumping via hotkeys.
- * @param {boolean} clickOnFocus Simulate a click on the item that is newly focused.
- * @param {Object} keymap Keymap to combine with existing keymap.
- * @returns {Component} The decorated component.
- */
 export const withNavigationHotkeys = ( {
   arrowKeys = true,
   lineKeys,
@@ -86,16 +78,10 @@ export const withNavigationHotkeys = ( {
       this.setFocus()
     }
 
-    /**
-       * Sets the length of the nodes to the correct size.
-       */
     setNodeSize = () => this.nodes.forEach( ( value, key ) => ( (
       value || this.nodes.delete( key ) )
     ) )
 
-    /**
-       * Sets the focus in the DOM to the `focusedIndex`'th element of the children.
-       */
     setFocus = () => {
       const { focusedIndex } = this.state
 
@@ -105,9 +91,6 @@ export const withNavigationHotkeys = ( {
       if ( node ) scrollIntoCenter( node )
     }
 
-    /**
-       * Simulates a click on the focused component.
-       */
     simulateClick = debounceHotKey( () => {
       const { focusedIndex } = this.state
 
@@ -119,21 +102,11 @@ export const withNavigationHotkeys = ( {
       }
     } )
 
-    /**
-       * Jump to an item given it's name/identifier.
-       * @param name The name of the element.
-       * @param click Trigger the click.
-       */
     jumpToName = ( name: string, click = true ) => this.jumpTo(
       [ ...this.nodes.keys() ].findIndex( ( key ) => key === name ),
       click,
     )
 
-    /**
-       * Jumps to an element.
-       * @param focusedIndex The element index to jump to.
-       * @param click Trigger the click.
-       */
     jumpTo = ( focusedIndex: number, click = true ) => {
       this.setState( { focusedIndex } )
 
@@ -143,18 +116,12 @@ export const withNavigationHotkeys = ( {
       }
     }
 
-    /**
-       * Jumps to the first element, excluding inputs.
-       */
     jumpToFirst = () => {
       const index = [ ...this.nodes.values() ].findIndex( ( element ) => !isInput( element ) )
 
       this.jumpTo( index )
     }
 
-    /**
-       * Focuses the previous item in the list of elements.
-       */
     prevItem = () => {
       const { focusedIndex: prevIndex } = this.state
 
@@ -166,9 +133,6 @@ export const withNavigationHotkeys = ( {
       this.jumpTo( focusedIndex )
     }
 
-    /**
-       * Focuses the next item in the list of elements.
-       */
     nextItem = () => {
       const { focusedIndex: prevIndex } = this.state
 
@@ -180,16 +144,8 @@ export const withNavigationHotkeys = ( {
       this.jumpTo( focusedIndex )
     }
 
-    /**
-       * Registers the ref under the current list of nodes.
-       * @param name The name to identify the ref.
-       * @param ref The ref to store.
-       */
     registerRef = ( name, ref ) => this.nodes.set( name, ref )
 
-    /**
-       * Generates handlers for each of the nodes, using the keys from LINE HOTKEYS to jump to them.
-       */
     lineHandlers = LINE_HOTKEYS.reduce( ( handlers, key, i ) => ( {
       ...handlers,
       [ key ]: () => this.jumpTo( i ),

@@ -1,8 +1,10 @@
 import defaultTheme from '@presenter/themes/presenter/Day.css?url'
 import { useContext } from 'react'
 
-import { PRESENTER_THEMES_URL } from '~/helpers/consts'
+import { API_URL } from '~/helpers/consts'
 import { StatusContext } from '~/helpers/contexts'
+
+const PRESENTER_THEMES_URL = `${API_URL}/themes/presenter`
 
 type ThemeLoaderProps = { name: string }
 

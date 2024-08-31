@@ -7,16 +7,12 @@ type Keymap = {
   required?: boolean,
 }
 
-/**
- * Adds a group to a given keymap.
- * @param {*} keymap The keymap to decorate.
- */
-const decorateGroup = ( keymap: { [hotkey: string]: Keymap } ) => ( group: string ) => Object
+const decorateGroup = ( keymap: Record<string, Keymap> ) => ( group: string ) => Object
   .entries( keymap )
   .reduce( ( obj, [ name, content ] ) => ( {
     ...obj,
     [ name ]: { group, ...content },
-  } ), {} as { [name: string]: Keymap & { group: string } } )
+  } ), {} as Record<string, Keymap & { group: string }> )
 
 // Jump to navigation line ordered hot keys
 export const LINE_HOTKEYS = Array.from( '1234567890qwertyuiopasdfg' )

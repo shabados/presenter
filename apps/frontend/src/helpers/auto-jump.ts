@@ -26,10 +26,6 @@ const isBaniJumpLine = ( baniId, lines ) => (
   return filter()
 }
 
-/**
- * Produces a map of the line hotkey that corresponds to the line index.
- * @param {*} An Object containing a shabad or bani, which contains lines.
- */
 export const getJumpLines = memoize( ( { shabad, bani } ) => {
   if ( !( shabad || bani ) ) return {}
 
@@ -144,10 +140,6 @@ export const getBaniNextJumpLine = ( { bani, lineId } ) => {
   return baniNextLineId
 }
 
-/**
- * Gets the next jump line id for a shabad or bani.
- * @param {*} An Object containing a shabad or bani, which contains lines.
- */
 export const getNextJumpLine = ( { nextLineId, shabad, bani, lineId } ) => {
   if ( !( shabad || bani ) ) return null
 

@@ -16,9 +16,6 @@ type NavigatorHotKeysProps = {
   mouseTargetRef?: { current: EventTarget | null },
 }
 
-/**
- * Hotkeys for controlling the navigator.
- */
 const NavigatorHotKeys = (
   { active = false, children = null, mouseTargetRef = { current: null } }: NavigatorHotKeysProps
 ) => {
@@ -114,10 +111,6 @@ const NavigatorHotKeys = (
     controller.line( id )
   }
 
-  /**
-   * Prevents the default action from occurring for each handler.
-   * @param events An object containing the event names and corresponding handlers.
-   */
   const preventDefault = ( events ) => Object.entries( events )
     .reduce( ( events, [ name, handler ] ) => ( {
       ...events,

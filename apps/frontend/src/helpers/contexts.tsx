@@ -1,4 +1,4 @@
-import { Line, Shabad, Bani } from '@presenter/contract'
+import { Bani, Line, Shabad } from '@presenter/contract'
 import { ComponentType, Context, createContext } from 'react'
 
 import { SettingsState } from './options'

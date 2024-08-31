@@ -16,10 +16,6 @@ export const sortBy = (
   [ languageB ]: [string, any]
 ) => sortOrder[ languageA ] - sortOrder[ languageB ]
 
-/**
-  * Produces a map of the line hotkey that corresponds to the line index.
-  * @param {*} An Object containing a shabad or bani, which contains lines.
-  */
 export const findLineIndex = memoize(
   ( lines: Line[], lineId: string ) => lines.findIndex( ( { id } ) => id === lineId ),
   {
@@ -32,12 +28,6 @@ export const findLineIndex = memoize(
  type CustomiseLineParams = { lineEnding: boolean, typeId: number }
  type LineTransformer = [boolean, ( text: string ) => string]
 
-/**
-  *
-  * @param {string} line The line to modify.
-  * @param {Object} settings Different boolean values for transformations.
-  * @returns {string} With different transformations applied.
-  */
 export const customiseLine = ( line: string, { lineEnding, typeId }: CustomiseLineParams ) => ( [
   [ lineEnding, stripEndings ],
 ] as LineTransformer[] )
@@ -47,11 +37,6 @@ export const customiseLine = ( line: string, { lineEnding, typeId }: CustomiseLi
     typeId === LINE_TYPES.sirlekh ? line : fn( line )
   ), line )
 
-/**
-  * Classifies the pause for a single word, returning an object of the word and type.
-  * @param word The word to classify.
-  * @param strip Whether or not to strip the vishraam character.
-  */
 export const classifyWord = ( word: string, strip = true ) => ( {
   word: strip ? stripVishraams( word ) : word,
   type: Object
@@ -62,19 +47,10 @@ export const classifyWord = ( word: string, strip = true ) => ( {
       word.slice( -1 ) === pauseChar ? pauseType : type ), null ),
 } )
 
-/**
-  * Returns an array of objects with their text and pause type.
-  * @param line The line to process.
-  * @param strip Whether or not to strip vishraam characters.
-  */
 export const classifyWords = ( line: string, strip = true ) => line.split( ' ' ).map( ( word ) => classifyWord( word, strip ) )
 
- type ClassifiedWords = { type: string | null, word: string }
- /**
-  * Partitions the line by heavy pause into arrays.
-  * @param line The line to partition.
-  * @param strip Whether or not to strip vishraam chars from the word.
-  */
+type ClassifiedWords = { type: string | null, word: string }
+
 export const partitionLine = ( line: string, strip = true ) => classifyWords( line, strip )
   .reduce( ( words: ClassifiedWords[][], { type, word } ) => {
     // Get last list of words, removing it from the words list
@@ -94,20 +70,13 @@ export const partitionLine = ( line: string, strip = true ) => classifyWords( li
    recommendedSources: Source,
    languageId: number,
  }
- /**
-  * Returns the corresponding translation for a given line.
-  * @param {Object} [shabad] The current shabad.
-  * @param {Line} line The current line.
-  * @param {Source} sources Any sources.
-  * @param {Source} recommendedSources Any sources.
-  * @param {number} languageId The identifier of the language.
-  */
+
 export const getTranslation = (
   { shabad, line, sources, recommendedSources, languageId }: GetTranslationParams
 ) => {
   const { sourceId } = shabad || line.shabad
 
-  if ( !( sources && sources[ sourceId ] ) ) return null
+  if ( !( sources?.[ sourceId ] ) ) return null
 
   const { id: translationId } = sources[ sourceId ].translationSources[ languageId ]
      || recommendedSources[ sourceId ].translationSources[ languageId ]
@@ -140,9 +109,6 @@ export const getTranslations = ( { languageIds, line, ...rest }: GetTranslations
   }, {} as Translations )
 }
 
-/**
-  * Returns the corresponding transliteration functions, mapped by language id.
-  */
 export const getTransliterators = ( languageIds: number[] ) => ( languageIds || [] )
   .filter( ( id ) => id && TRANSLITERATORS[ id ] )
   .reduce( ( translations, languageId ) => ( {
