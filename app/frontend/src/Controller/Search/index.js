@@ -4,7 +4,7 @@ import { func, string, oneOfType, number } from 'prop-types'
 import { useLocation, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { stringify } from 'querystring'
+import { stringify } from 'qs'
 import { Input, InputAdornment, IconButton, List } from '@material-ui/core'
 
 import { getUrlState } from '../../lib/utils'
