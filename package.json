@@ -20,7 +20,7 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "release": "electron-builder",
-    "postinstall": "npm run install-deps && electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps &&npm run install-deps"
   },
   "repository": {
     "type": "git",

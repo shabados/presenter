@@ -38,7 +38,7 @@
     "react-idle-timer": "^4.2.11",
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.4",
-    "react-scripts": "^3.4.3",
+    "react-scripts": "^5.0.1",
     "react-transition-group": "^4.3.0",
     "react-use": "^15.3.4",
     "reconnecting-websocket": "^4.2.0",
@@ -55,7 +55,7 @@
   "devDependencies": {
     "@hot-loader/react-dom": "^16.13.0",
     "react-app-rewire-hot-loader": "^2.0.1",
-    "react-app-rewired": "^2.1.6",
+    "react-app-rewired": "^2.2.1",
     "source-map-explorer": "^2.1.0"
   },
   "proxy": "http://localhost:42425",
