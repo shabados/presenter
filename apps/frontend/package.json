@@ -55,20 +55,20 @@
     "@presenter/contract": "*",
     "@tanstack/router-devtools": "^1.49.2",
     "@tanstack/router-plugin": "^1.49.3",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
     "@types/lodash": "^4.17.7",
     "@types/memoizee": "^0.4.11",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@types/testing-library__jest-dom": "^5.14.5",
     "@types/scroll-into-view": "^1.16.0",
+    "@types/testing-library__jest-dom": "^5.14.5",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/ui": "^1.6.0",
+    "happy-dom": "^14.11.0",
     "jest-environment-jsdom": "^29.5.0",
     "source-map-explorer": "^2.5.2",
-    "vite": "^5.3.5",
-    "@testing-library/jest-dom": "^6.4.5",
-    "@testing-library/react": "^15.0.7",
-    "@testing-library/user-event": "^14.5.2",
-    "@vitest/ui": "^1.6.0",
-    "happy-dom": "^14.11.0"
+    "vite": "^5.3.5"
   }
 }
