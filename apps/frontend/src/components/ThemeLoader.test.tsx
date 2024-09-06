@@ -2,6 +2,7 @@ import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
 import { StatusContext } from '~/helpers/contexts'
+
 import ThemeLoader from './ThemeLoader'
 
 describe( 'ThemeLoader', () => {
