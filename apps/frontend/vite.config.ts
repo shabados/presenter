@@ -1,12 +1,15 @@
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
+/// <reference types="vitest" />
+import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { defineConfig } from 'vitest/config'
+
+const isTest = process.env.NODE_ENV === 'test'
 
 export default defineConfig( {
   plugins: [
     tsconfigPaths(),
-    TanStackRouterVite(),
+    !isTest && TanStackRouterVite(),
     react(),
   ],
   server: {
