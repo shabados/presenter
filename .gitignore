@@ -5,7 +5,6 @@ tmux*
 .file_tags.kaktmp
 .kak.tags.namecache
 tags
-.vscode/*
 nohup.out
 *.sass-cache*
 styles/main.css.*
@@ -14,9 +13,7 @@ styles/main.css.*
 node_modules
 *.sqlite
 tmp/
-settings.json
 dist/
 build/
 .nyc_output/
 coverage/
-!.vscode/extensions.json
