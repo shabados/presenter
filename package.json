@@ -2,7 +2,6 @@
   "name": "@shabados/presenter",
   "version": "2.11.3",
   "scripts": {
-    "test": "vitest",
     "changelog": "sh get-changelog.sh",
     "lint": "eslint ."
   },
