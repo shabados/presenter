@@ -18,6 +18,7 @@ import { Route as PresenterRouteImport } from './app/presenter/route'
 import { Route as IndexImport } from './app/index'
 import { Route as SettingsIndexImport } from './app/settings/index'
 import { Route as PresenterControllerRouteImport } from './app/presenter/controller/route'
+import { Route as PresenterIntroIndexImport } from './app/presenter/intro/index'
 import { Route as PresenterControllerIndexImport } from './app/presenter/controller/index'
 import { Route as SettingsServerCategoryImport } from './app/settings/server/$category'
 import { Route as SettingsClientCategoryImport } from './app/settings/client/$category'
@@ -72,6 +73,11 @@ const SettingsIndexRoute = SettingsIndexImport.update({
 
 const PresenterControllerRouteRoute = PresenterControllerRouteImport.update({
   path: '/controller',
+  getParentRoute: () => PresenterRouteRoute,
+} as any)
+
+const PresenterIntroIndexRoute = PresenterIntroIndexImport.update({
+  path: '/intro/',
   getParentRoute: () => PresenterRouteRoute,
 } as any)
 
@@ -218,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PresenterControllerIndexImport
       parentRoute: typeof PresenterControllerRouteImport
     }
+    '/presenter/intro/': {
+      id: '/presenter/intro/'
+      path: '/intro'
+      fullPath: '/presenter/intro'
+      preLoaderRoute: typeof PresenterIntroIndexImport
+      parentRoute: typeof PresenterRouteImport
+    }
     '/presenter/controller/bookmarks/': {
       id: '/presenter/controller/bookmarks/'
       path: '/bookmarks'
@@ -296,6 +309,7 @@ export const routeTree = rootRoute.addChildren({
       PresenterControllerNavigatorIndexRoute,
       PresenterControllerSearchIndexRoute,
     }),
+    PresenterIntroIndexRoute,
   }),
   SettingsRouteRoute: SettingsRouteRoute.addChildren({
     SettingsIndexRoute,
@@ -332,7 +346,8 @@ export const routeTree = rootRoute.addChildren({
     "/presenter": {
       "filePath": "presenter/route.tsx",
       "children": [
-        "/presenter/controller"
+        "/presenter/controller",
+        "/presenter/intro/"
       ]
     },
     "/settings": {
@@ -380,6 +395,10 @@ export const routeTree = rootRoute.addChildren({
     "/presenter/controller/": {
       "filePath": "presenter/controller/index.tsx",
       "parent": "/presenter/controller"
+    },
+    "/presenter/intro/": {
+      "filePath": "presenter/intro/index.tsx",
+      "parent": "/presenter"
     },
     "/presenter/controller/bookmarks/": {
       "filePath": "presenter/controller/bookmarks/index.tsx",
