@@ -49,7 +49,7 @@ const createUpdater = ( server: ChildProcess ) => {
 
   return { setBeta, check }
 }
-//! Errors to supress according to https://github.com/electron-userland/electron-builder/issues/2398#issuecomment-413117520
+//! Errors to suppress according to https://github.com/electron-userland/electron-builder/issues/2398#issuecomment-413117520
 export const UPDATER_ERRORS = [
   'net::ERR_INTERNET_DISCONNECTED',
   'net::ERR_PROXY_CONNECTION_FAILED',
