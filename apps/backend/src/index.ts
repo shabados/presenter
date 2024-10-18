@@ -11,6 +11,7 @@ import createSearchModule from './features/search'
 import createSettingsModule from './features/settings'
 import createStatusModule from './features/status'
 import createThemesModule from './features/themes'
+import createUpdatesModule from './features/update'
 import createExpress from './services/express'
 import createGlobalSettings from './services/global-settings'
 import ipc from './services/ipc'
@@ -39,6 +40,7 @@ const main = async () => {
   createActionsModule( { socketServer } )
   createStatusModule( { socketServer, globalSettings, updater } )
   await createThemesModule( { api } )
+  await createUpdatesModule( { api } )
   createDiagnosticsModule( { api } )
   const history = createHistoryModule( {} )
   createContentModule( { api, socketServer, history } )
