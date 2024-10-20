@@ -1,7 +1,7 @@
 import { rename, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 
-import { getLogger, isProductionElectron, UPDATE_TMP_FOLDER } from '@presenter/node'
+import { getLogger, isProductionElectron, UPDATE_TMP_FOLDER, UPDATES_FILE } from '@presenter/node'
 import { knex } from '@shabados/database'
 import { EventEmitter } from 'eventemitter3'
 import importFresh from 'import-fresh'
@@ -10,7 +10,7 @@ import type { PackageJson } from 'type-fest'
 
 import { dependencies } from '~/../package.json'
 import { DATABASE_FOLDER } from '~/helpers/consts'
-import { readJSON } from '~/helpers/files'
+import { readJSON, writeJSON } from '~/helpers/files'
 
 import { GlobalSettings } from './global-settings'
 import ipc from './ipc'
@@ -62,7 +62,15 @@ const createUpdater = ( {
   const emitter = new EventEmitter<UpdateEvent>()
 
   ipc.on( 'electron-update:available', () => emitter.emit( 'application:updating' ) )
-  ipc.on( 'electron-update:downloaded', () => emitter.emit( 'application:updated' ) )
+  ipc.on( 'electron-update:downloaded', () => {
+    void writeJSON(
+      UPDATES_FILE,
+      {
+        prevVersion: '1.1.1',
+      }
+    )
+    emitter.emit( 'application:updated' )
+  } )
 
   const updateDatabase = async () => {
     log.info( `Downloading database update to ${tempFolder}` )

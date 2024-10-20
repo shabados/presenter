@@ -34,3 +34,4 @@ const dateName = ( new Date() ).toISOString().replace( /T/, '_' ).replace( /:/g,
 export const { LOG_FILE = join( LOG_FOLDER, `${dateName}.log` ) } = process.env
 export const HISTORY_FILE = join( HISTORY_FOLDER, `${dateName}.csv` )
 export const SETTINGS_FILE = join( DATA_FOLDER, 'settings.json' )
+export const UPDATES_FILE = join( DATA_FOLDER, 'updates.json' )
