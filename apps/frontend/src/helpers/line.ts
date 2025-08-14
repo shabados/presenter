@@ -2,7 +2,7 @@
  ** Currently shared with backend! Should be refactored.
  */
 
-import type { Content, Line, RecommendedSources, Shabad, Source, Translation } from '@presenter/contract'
+import type { Line, Source, Translation } from '@presenter/contract'
 import { stripEndings, stripVishraams } from 'gurmukhi-utils'
 import vishraams from 'gurmukhi-utils/lib/vishraams.json'
 
@@ -11,8 +11,8 @@ import { LINE_TYPES, Translations, TRANSLITERATORS, Transliterators } from './da
 export const sortBy = (
   sortOrder: Record<string, number>
 ) => (
-  [ languageA ]: [string, any],
-  [ languageB ]: [string, any]
+  [ languageA ]: [string, unknown],
+  [ languageB ]: [string, unknown]
 ) => sortOrder[ languageA ] - sortOrder[ languageB ]
 
 type CustomiseLineParams = { lineEnding: boolean, typeId: number }
@@ -44,7 +44,7 @@ type ClassifiedWords = { type: string | null, word: string }
 export const partitionLine = ( line: string, strip = true ) => classifyWords( line, strip )
   .reduce( ( words: ClassifiedWords[][], { type, word } ) => {
     // Get last list of words, removing it from the words list
-    const lastWords = words.pop() || []
+    const lastWords = words.pop() ?? []
 
     // Add the words to the last list of words
     const nextWords = [ ...words, [ ...lastWords, { type, word } ] ]
@@ -53,48 +53,49 @@ export const partitionLine = ( line: string, strip = true ) => classifyWords( li
     return type === 'heavy' ? [ ...nextWords, [] ] : nextWords
   }, [ [] ] )
 
- type GetTranslationParams = {
-   content: Content,
-   line: Line,
-   sources: Source,
-   recommendedSources: Source,
-   languageId: number,
- }
-
-export const getTranslation = (
-  { content, line, sources, recommendedSources, languageId }: GetTranslationParams
-) => {
-  const { sourceId } = content.shabad || line.shabad
-
-  if ( !( sources?.[ sourceId ] ) ) return null
-
-  const { id: translationId } = sources[ sourceId ].translationSources[ languageId ]
-     || recommendedSources[ sourceId ].translationSources[ languageId ]
-     || {}
-
-  if ( !translationId ) return null
-
-  const { translation } = ( line.translations as Translation[] ).find( (
-    ( { translationSourceId: id }: { translationSourceId: number } ) => translationId === id
-  ) ) as { translation: string }
-
-  return translation
+type GetTranslationParams = {
+  line: Line,
+  sources: Record<number, Source>,
+  recommendedSources: Record<number, Source>,
+  languageId: number,
 }
 
- type GetTranslationsParams = {
-   languageIds: number[],
-   line: Line,
-   content: Content,
-   sources: RecommendedSources['sources'],
-   recommendedSources: RecommendedSources['recommendedSources'],
- }
+export const getTranslation = (
+  { line, sources, recommendedSources, languageId }: GetTranslationParams
+) => {
+  const { shabad } = line
+  if ( !shabad || typeof shabad.sourceId !== 'number' ) return null
+  const { sourceId } = shabad
+
+  const sourceObj = sources?.[ sourceId ]
+  const recommendedSourceObj = recommendedSources?.[ sourceId ]
+  if ( !sourceObj && !recommendedSourceObj ) return null
+
+  const translationSource = sourceObj?.translationSources?.[ languageId ]
+      ?? recommendedSourceObj?.translationSources?.[ languageId ]
+  const translationId = translationSource?.id
+  if ( !translationId ) return null
+
+  if ( !Array.isArray( line.translations ) ) return null
+  const found = ( line.translations as Translation[] ).find(
+    ( t ) => t.translationSourceId === translationId
+  )
+  if ( !found || typeof found.translation !== 'string' ) return null
+  return found.translation
+}
+
+type GetTranslationsParams = {
+  languageIds: number[],
+  line: Line,
+  sources: Record<number, Source>,
+  recommendedSources: Record<number, Source>,
+}
 
 export const getTranslations = ( { languageIds, line, ...rest }: GetTranslationsParams ) => {
   if ( !line ) return {}
 
-  return ( languageIds || [] ).filter( ( x ) => x ).reduce( ( translations, languageId ) => {
+  return ( languageIds ?? [] ).filter( ( x ) => x ).reduce( ( translations, languageId ) => {
     const translation = getTranslation( { languageId, line, ...rest } )
-
     return translation ? { ...translations, [ languageId ]: translation } : translations
   }, {} as Translations )
 }
