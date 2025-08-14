@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src",
+    "start": "tsx watch src",
     "connect": "tsx scripts/socket-listener",
     "replay-log": "node -r esm scripts/replay-log",
     "lint": "eslint .",
@@ -47,15 +47,15 @@
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
-    "@types/node": "^20.12.12",
+    "@types/node": "^22",
     "@types/pacote": "^11.1.8",
     "@types/primus": "^7.3.6",
     "@types/url-parse": "^1.4.8",
     "@types/ws": "^8.5.10",
     "commander": "^9.2.0",
-    "electron": "18.2.0",
+    "electron": "37.2.6",
     "electron-devtools-installer": "^3.2.0",
-    "nodemon": "^2.0.16",
+    "nodemon": "^3.1.10",
     "tsx": "^4.10.5"
   },
   "optionalDependencies": {

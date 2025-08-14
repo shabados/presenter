@@ -3,14 +3,19 @@
   "version": "2.11.3",
   "scripts": {
     "changelog": "sh get-changelog.sh",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start": "npm-run-all -l -p start:backend start:frontend",
+    "start:backend": "npm run start --workspace=apps/backend",
+    "start:frontend": "npm run start --workspace=apps/frontend"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "repository": "https://github.com/shabados/presenter",
   "license": "MIT",
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/backend",
+    "apps/electron",
+    "apps/frontend"
   ],
   "devDependencies": {
     "@presenter/tsconfig": "*",
