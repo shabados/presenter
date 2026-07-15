@@ -1,7 +1,6 @@
-import React, { useContext, useState, useRef } from 'react'
+import React, { useContext, useState, useRef, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import { Typography, Popover, IconButton, Button, Tooltip } from '@material-ui/core'
 import { toUnicode, stripVishraams } from 'gurmukhi-utils'
 
 import { ContentContext, WritersContext, RecommendedSourcesContext } from '../lib/contexts'
@@ -10,15 +9,11 @@ import controller from '../lib/controller'
 
 import './ShabadInfo.css'
 
-const popoverDisplay = {
-  transformOrigin: { vertical: 'bottom', horizontal: 'center' },
-  anchorOrigin: { vertical: 'top', horizontal: 'center' },
-}
-
 const getDbViewerUrl = lineId => `https://viewer.shabados.com/line/${lineId}`
 
 const ShabadInfo = () => {
   const iconButtonRef = useRef()
+  const popoverRef = useRef()
 
   const [ isPopoverOpen, setPopoverOpen ] = useState( false )
 
@@ -34,7 +29,24 @@ const ShabadInfo = () => {
 
   const copyToClipboard = useCopyToClipboard()
 
-  // Icon changes when open
+  useEffect( () => {
+    if ( !isPopoverOpen ) return undefined
+
+    const handler = e => {
+      if (
+        popoverRef.current
+        && !popoverRef.current.contains( e.target )
+        && e.target !== iconButtonRef.current
+        && !iconButtonRef.current?.contains( e.target )
+      ) {
+        onClose()
+      }
+    }
+
+    document.addEventListener( 'mousedown', handler )
+    return () => document.removeEventListener( 'mousedown', handler )
+  }, [ isPopoverOpen ] )
+
   const barIcon = isPopoverOpen ? faTimesCircle : faInfoCircle
 
   const { sourceId, writerId, section } = shabad || line.shabad
@@ -53,49 +65,53 @@ const ShabadInfo = () => {
   const openViewer = () => controller.openExternalUrl( getDbViewerUrl( lineId ) )
 
   return (
-    <span>
+    <span className="shabad-info">
 
-      <IconButton ref={iconButtonRef} variant="contained" onClick={onClick}>
+      <button ref={iconButtonRef} type="button" className="info-button" onClick={onClick}>
         <FontAwesomeIcon icon={barIcon} />
-      </IconButton>
+      </button>
 
-      <Popover
-        open={isPopoverOpen}
-        onClose={onClose}
-        {...popoverDisplay}
-        anchorEl={iconButtonRef.current}
-      >
-        <Typography className="popover-box-text">
+      {isPopoverOpen && (
+        <div ref={popoverRef} className="popover">
+          <div className="popover-box-text">
 
-          <span className="source-name">{sourceName}</span>
-          <span>, </span>
-          <span className="page-name">{pageName}</span>
-          <span> </span>
-          <span className="source-page">{sourcePage}</span>
-          <br />
-          <span className="section-name">{sectionName}</span>
-          <br />
-          <span className="writer-name">{writerName}</span>
-          <br />
+            <span className="source-name">{sourceName}</span>
+            <span>, </span>
+            <span className="page-name">{pageName}</span>
+            <span> </span>
+            <span className="source-page">{sourcePage}</span>
+            <br />
+            <span className="section-name">{sectionName}</span>
+            <br />
+            <span className="writer-name">{writerName}</span>
+            <br />
 
-          <div className="popover-buttons">
+            <div className="popover-buttons">
 
-            <Tooltip title="Report a mistake">
-              <Button className="db-viewer button" size="small" onClick={openViewer}>
+              <button
+                type="button"
+                className="db-viewer button"
+                title="Report a mistake"
+                onClick={openViewer}
+              >
                 Open Online
-              </Button>
-            </Tooltip>
+              </button>
 
-            <Tooltip title="Click to copy this shabad">
-              <Button className="copy-shabad button" size="small" disabled={!shabad} onClick={onCopyClick}>
+              <button
+                type="button"
+                className="copy-shabad button"
+                title="Click to copy this shabad"
+                disabled={!shabad}
+                onClick={onCopyClick}
+              >
                 Copy
-              </Button>
-            </Tooltip>
+              </button>
+
+            </div>
 
           </div>
-
-        </Typography>
-      </Popover>
+        </div>
+      )}
 
     </span>
   )

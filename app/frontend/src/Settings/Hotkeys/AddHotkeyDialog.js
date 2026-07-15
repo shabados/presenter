@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { bool, func, string, objectOf } from 'prop-types'
 import { recordKeyCombination } from 'react-hotkeys'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
 
+import Dialog from '../../shared/Dialog'
 import { isMac } from '../../lib/consts'
 import { LINE_HOTKEYS, RESTRICTED_STROKES } from '../../lib/keyMap'
 import { mapPlatformKey } from '../../lib/utils'
@@ -56,11 +56,8 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
   const recordHotkey = useCallback( ( { keys } ) => {
     const recorded = Array.from( new Set( Object
       .keys( keys )
-      // Map any modifiers to readable names
       .map( key => MODIFIER_MAP[ key ] || key )
-      // Make all lowercase
       .map( key => key.toLowerCase() )
-      // Sort by modifiers first
       .sort( ( keyA, keyB ) => (
         ( MODIFIER_ORDER[ keyA ] || keyA.charCodeAt( 0 ) )
         - ( MODIFIER_ORDER[ keyB ] || keyB.charCodeAt( 0 ) )
@@ -69,35 +66,28 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
     const recordedStr = recorded.join( '+' )
     const hotkeySequence = [ hotkeyStr, recordedStr ].join( ' ' ).trim()
 
-    // Check for invalid keystrokes
     const invalidKeystroke = RESTRICTED_STROKES
       .map( mapPlatformKey )
       .find( keys => hotkeySequence.includes( keys ) )
 
-    // Check if there are only modifiers
     const modifersOnly = recorded.every( key => [
       ...SINGLE_MODIFIERS,
       ...PAIRED_MODIFIERS,
     ].includes( key ) )
 
-    // Check if there is a shift key without another modify
     const shiftWithoutModifier = (
       recorded.some( key => PAIRED_MODIFIERS.includes( key ) )
       && !recorded.some( key => SINGLE_MODIFIERS.includes( key ) )
     )
 
-    // Check for any conflicting mappings
     const [ subsequence, subsequenceName ] = Object
       .entries( {
         ...assigned,
-        // Include line hotkeys
         ...LINE_HOTKEYS.reduce( ( acc, key ) => ( { ...acc, [ key ]: `Jump to ${key}` } ), {} ),
       } )
       .find( ( [ assignedKey ] ) => (
         assignedKey.length >= hotkeySequence.length
-        // Entire sequence of added must not be subsequence of an existing hotkey
           ? containsHotkey( assignedKey, hotkeySequence )
-        // Starting Subsequence of added must not be entire sequence of an existing hotkey
           : containsHotkey( hotkeySequence, assignedKey )
       ) ) || []
 
@@ -119,23 +109,21 @@ const AddHotkeyDialog = ( { open, name, onRecorded, assigned } ) => {
 
   return (
     <Dialog className="hotkey-dialog" open={open} onClose={() => onRecorded()}>
-      <DialogTitle>Add Hotkey</DialogTitle>
+      <div className="dialog-title"><h2>Add Hotkey</h2></div>
 
-      <DialogContent>
-        <DialogContentText color="inherit">
-          Press the desired hotkey. Create a sequence by pressing multiple hotkeys.
-        </DialogContentText>
+      <div className="dialog-content">
+        <p>Press the desired hotkey. Create a sequence by pressing multiple hotkeys.</p>
 
-        <Typography className="hotkey" variant="subtitle2">{`${hotkeyStr} (${name})`}</Typography>
+        <p className="hotkey subtitle2">{`${hotkeyStr} (${name})`}</p>
 
-        {error && <Typography align="center" color="error">{error}</Typography>}
-      </DialogContent>
+        {error && <p className="error center">{error}</p>}
+      </div>
 
-      <DialogActions>
-        <Button onClick={() => onRecorded()} color="inherit">Cancel</Button>
-        <Button onClick={resetHotkey} color="inherit">Reset</Button>
-        <Button disabled={!hotkey.length || !!error} onClick={() => onRecorded( hotkeyStr )} color="inherit">Save</Button>
-      </DialogActions>
+      <div className="dialog-actions">
+        <button type="button" onClick={() => onRecorded()}>Cancel</button>
+        <button type="button" onClick={resetHotkey}>Reset</button>
+        <button type="button" disabled={!hotkey.length || !!error} onClick={() => onRecorded( hotkeyStr )}>Save</button>
+      </div>
 
     </Dialog>
   )

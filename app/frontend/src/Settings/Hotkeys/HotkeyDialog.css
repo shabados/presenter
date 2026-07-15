@@ -1,6 +1,53 @@
-.hotkey-dialog div[role="dialog"] {
+.hotkey-dialog {
   background: var(--settings-menu-background-color);
   color: var(--settings-menu-text-color);
+  border: none;
+  border-radius: 4px;
+  padding: 0;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.hotkey-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hotkey-dialog .dialog-title {
+  padding: 16px 24px;
+}
+
+.hotkey-dialog .dialog-title h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.hotkey-dialog .dialog-content {
+  padding: 8px 24px 20px;
+}
+
+.hotkey-dialog .dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+  gap: 8px;
+}
+
+.hotkey-dialog .dialog-actions button {
+  color: var(--settings-menu-text-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.hotkey-dialog .dialog-actions button:hover {
+  background-color: rgba(128, 128, 128, 0.15);
 }
 
 .hotkey-dialog .hotkey {
@@ -9,10 +56,18 @@
 }
 
 .hotkey-dialog .delete-button {
+  color: red !important;
+}
+
+.hotkey-dialog button:disabled {
+  color: var(--settings-text-color) !important;
+  opacity: 0.7;
+}
+
+.hotkey-dialog .error {
   color: red;
 }
 
-.hotkey-dialog .MuiButton-root:disabled {
-  color: var(--settings-text-color) !important;
-  opacity: 0.7;
+.hotkey-dialog .center {
+  text-align: center;
 }

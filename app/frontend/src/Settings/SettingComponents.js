@@ -5,14 +5,6 @@ import classNames from 'classnames'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import {
-  Switch,
-  Select,
-  MenuItem,
-  Slider as MaterialSlider,
-  Button as MaterialButton,
-  TextField,
-} from '@material-ui/core'
 
 import { OPTION_TYPES } from '../lib/options'
 
@@ -49,61 +41,98 @@ const GeneralSettingParam = Component => {
   return HOC
 }
 
-export const Toggle = ( { value, ...props } ) => <Switch className={classNames( 'toggle', { checked: value } )} checked={value} {...props} />
+export const Toggle = ( { value, onChange, disabled } ) => (
+  <input
+    type="checkbox"
+    className={classNames( 'toggle', { checked: value } )}
+    checked={value}
+    disabled={disabled}
+    onChange={e => onChange && onChange( null, e.target.checked )}
+  />
+)
 
 Toggle.propTypes = {
   value: bool.isRequired,
+  onChange: func,
+  disabled: bool,
 }
 
-export const Slider = ( { value, ...props } ) => (
-  <MaterialSlider
+Toggle.defaultProps = {
+  onChange: undefined,
+  disabled: false,
+}
+
+export const Slider = ( { value, min, max, step, onChange, disabled } ) => (
+  <input
+    type="range"
     className="slider"
-    valueLabelDisplay="auto"
     value={value}
-    {...props}
+    min={min}
+    max={max}
+    step={step}
+    disabled={disabled}
+    onChange={e => onChange && onChange( null, Number( e.target.value ) )}
   />
 )
 
 Slider.propTypes = {
   value: number.isRequired,
+  min: number,
+  max: number,
+  step: number,
+  onChange: func,
+  disabled: bool,
 }
 
-export const Dropdown = ( { value, values, onChange, ...props } ) => (
-  <Select className="select" MenuProps={{ className: 'select-menu' }} value={value} onChange={onChange} {...props}>
+Slider.defaultProps = {
+  min: undefined,
+  max: undefined,
+  step: undefined,
+  onChange: undefined,
+  disabled: false,
+}
+
+export const Dropdown = ( { value, values, onChange, disabled } ) => (
+  <select className="select" value={value} disabled={disabled} onChange={onChange}>
     {values.map(
-      ( { name, value } ) => <MenuItem key={value} value={value}>{name || value}</MenuItem>,
+      ( { name, value } ) => <option key={value} value={value}>{name || value}</option>,
     )}
-  </Select>
+  </select>
 )
 
 Dropdown.propTypes = {
   value: any.isRequired, // eslint-disable-line react/forbid-prop-types
   values: arrayOf( any ).isRequired,
   onChange: func,
+  disabled: bool,
 }
 
 Dropdown.defaultProps = {
   onChange: () => {},
+  disabled: false,
 }
 
-export const Button = ( { className, ...props } ) => (
-  <MaterialButton
-    variant="contained"
+export const Button = ( { className, children, ...props } ) => (
+  <button
+    type="button"
     className={classNames( className, 'button' )}
     {...props}
-  />
+  >
+    {children}
+  </button>
 )
 
 Button.propTypes = {
   className: string,
+  children: any, // eslint-disable-line react/forbid-prop-types
 }
 
 Button.defaultProps = {
   className: null,
+  children: null,
 }
 
 export const UrlDropdown = ( { url, ...props } ) => {
-  const [ isOpen, setOpen ] = useState( false )
   const [ values, setValues ] = useState( [] )
 
   useEffect( () => {
@@ -111,16 +140,9 @@ export const UrlDropdown = ( { url, ...props } ) => {
       .then( res => res.json() )
       .then( values => values.map( value => ( { name: value, value } ) ) )
       .then( setValues )
-  }, [ setValues, isOpen, url ] )
+  }, [ url ] )
 
-  return (
-    <Dropdown
-      {...props}
-      values={values}
-      onOpen={() => setOpen( true )}
-      onClose={() => setOpen( false )}
-    />
-  )
+  return <Dropdown {...props} values={values} />
 }
 
 UrlDropdown.propTypes = {
@@ -156,9 +178,8 @@ export const TextInput = ( { className, value, onChange, ...props } ) => {
 
   return (
     <div key={value} className={classNames( className, 'text-input' )}>
-      <TextField
+      <input
         className="text-field"
-        variant="outlined"
         {...props}
         onBlur={onBlur}
         onChange={() => setChanged( true )}

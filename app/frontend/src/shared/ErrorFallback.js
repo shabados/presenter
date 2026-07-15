@@ -1,13 +1,11 @@
 import React, { Component, useState, useEffect } from 'react'
 import { string, bool } from 'prop-types'
 
-import { Typography, Button, Grid } from '@material-ui/core'
-
 import controller from '../lib/controller'
 
 import './ErrorFallback.css'
 
-const RELOAD_COUNTDOWN = 10 // 10 second countdown before automatic reload
+const RELOAD_COUNTDOWN = 10
 
 const ErrorFallback = ( { error, autoReset } ) => {
   const [ showError, setErrorVisible ] = useState( false )
@@ -32,9 +30,9 @@ const ErrorFallback = ( { error, autoReset } ) => {
 
   return (
     <div className="error-fallback">
-      <Typography className="header" variant="h5">
+      <h5 className="header">
         Have you tried turning it off and on again?
-        <Typography>
+        <p>
           <span>
             Though we&apos;ve broken Shabad OS plenty,
             it seems we&apos;ve never broken it quite like this.
@@ -46,28 +44,28 @@ const ErrorFallback = ( { error, autoReset } ) => {
           <span>
             If you wish to help, please send an email to team@shabados.com
           </span>
-        </Typography>
-      </Typography>
+        </p>
+      </h5>
 
       {!!countdown && (
-      <Typography variant="subtitle2" align="center">
-        {`Reloading in ${countdown}...`}
-      </Typography>
+        <p className="subtitle2" style={{ textAlign: 'center' }}>
+          {`Reloading in ${countdown}...`}
+        </p>
       )}
 
       {showError && ( <div className="error">{error ? error.toString() : 'Unknown error'}</div> )}
 
-      <Grid className="buttons" container justify="space-evenly">
-        <Button variant="outlined" onClick={onReloadClick}>
+      <div className="buttons">
+        <button type="button" onClick={onReloadClick}>
           {countdown ? 'Cancel reload' : 'Reload now'}
-        </Button>
+        </button>
 
-        <Button variant="outlined" onClick={() => controller.resetSettings()}>Reset Settings</Button>
+        <button type="button" onClick={() => controller.resetSettings()}>Reset Settings</button>
 
-        <Button variant="outlined" onClick={() => setErrorVisible( !showError )}>
+        <button type="button" onClick={() => setErrorVisible( !showError )}>
           {showError ? 'Hide Error' : 'Show Error'}
-        </Button>
-      </Grid>
+        </button>
+      </div>
     </div>
   )
 }

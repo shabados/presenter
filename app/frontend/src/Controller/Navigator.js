@@ -7,9 +7,6 @@ import classNames from 'classnames'
 import { invert } from 'lodash'
 import { stripVishraams } from 'gurmukhi-utils'
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChevronUp,
@@ -37,12 +34,6 @@ import ShabadInfo from './ShabadInfo'
 
 import './Navigator.css'
 
-/**
-* Line component that attaches click handlers.
-* @param gurmukhi The Gurmukhi for the line to render.
-* @param id The id of the line.
-* @param index The index of the line.
-*/
 const NavigatorLine = ( {
   id,
   register,
@@ -53,14 +44,11 @@ const NavigatorLine = ( {
   next,
   timestamp,
 } ) => {
-  // Move to the line id on click
   const onClick = () => controller.line( id )
-
-  // Register the reference to the line with the NavigationHotKey HOC
   const registerLine = line => register( id, line, true )
 
   return (
-    <ListItem
+    <li
       key={id}
       className={classNames( { focused } )}
       onClick={onClick}
@@ -83,7 +71,7 @@ const NavigatorLine = ( {
           </>
         )}
       </span>
-    </ListItem>
+    </li>
   )
 }
 
@@ -103,10 +91,6 @@ NavigatorLine.defaultProps = {
   timestamp: null,
 }
 
-/**
- * Navigator Component.
- * Displays lines from Shabad and allows navigation.
- */
 const Navigator = ( { updateFocus, register, focused } ) => {
   const location = useLocation()
 
@@ -117,7 +101,6 @@ const Navigator = ( { updateFocus, register, focused } ) => {
 
   const lines = useCurrentLines()
 
-  // Set the focus to the active line when it changes
   useEffect( () => { updateFocus( lineId, false ) }, [ lineId, updateFocus ] )
 
   const goToIndex = useCallback( index => {
@@ -125,7 +108,6 @@ const Navigator = ( { updateFocus, register, focused } ) => {
     updateFocus( jumpLines[ index ] )
   }, [ updateFocus, shabad, bani ] )
 
-  // Navigation Hotkey Handlers
   const hotKeyHandlers = useMemo( () => ( {
     ...LINE_HOTKEYS.reduce( ( handlers, key, i ) => ( {
       ...handlers,
@@ -138,7 +120,6 @@ const Navigator = ( { updateFocus, register, focused } ) => {
     [ hotkey ]: [ hotkey ],
   } ), {} ), [] )
 
-  // If there's no Shabad to show, go back to the controller
   if ( !lines.length ) return <Redirect to={{ ...location, pathname: SEARCH_URL }} />
 
   const jumpLines = invert( getJumpLines( content ) )
@@ -146,7 +127,7 @@ const Navigator = ( { updateFocus, register, focused } ) => {
 
   return (
     <GlobalHotKeys keyMap={numberKeyMap} handlers={hotKeyHandlers}>
-      <List className="navigator" onKeyDown={e => e.preventDefault()}>
+      <ul className="navigator" onKeyDown={e => e.preventDefault()}>
         {lines.map( line => (
           <NavigatorLine
             key={line.id}
@@ -159,7 +140,7 @@ const Navigator = ( { updateFocus, register, focused } ) => {
             timestamp={viewedLines[ line.id ]}
           />
         ) ) }
-      </List>
+      </ul>
     </GlobalHotKeys>
   )
 }
@@ -185,7 +166,6 @@ const NavigatorNavigationHotkeys = withNavigationHotkeys( {
   },
 } )( Navigator )
 
-// Wrap NavigationHotkeys first so that it takes precedence
 const NavigatorWithAllHotKeys = props => (
   <NavigatorHotKeys {...props} active>
     <NavigatorNavigationHotkeys {...props} />
@@ -194,9 +174,6 @@ const NavigatorWithAllHotKeys = props => (
 
 export default NavigatorWithAllHotKeys
 
-/**
- * Used by Menu parent to render content in the bottom bar.
- */
 export const Bar = ( { onHover } ) => {
   const [ autoSelectHover, setAutoSelectHover ] = useState( false )
 
@@ -215,7 +192,6 @@ export const Bar = ( { onHover } ) => {
     if ( !currentLine ) return
 
     const firstLine = lines[ 0 ]
-    // Go to the previous shabad if the first line is highlighted (but not for banis)
     if ( lineId === firstLine.id ) {
       if ( bani ) return
 
@@ -228,7 +204,6 @@ export const Bar = ( { onHover } ) => {
 
     const lastLine = lines[ lines.length - 1 ]
 
-    // Go to the previous shabad if the first line is highlighted (but not for banis)
     if ( lineId === lastLine.id ) {
       if ( bani ) return
 

@@ -82,7 +82,7 @@ class ZoomController {
     const nextSeq = this.previousSeq + 1
 
     const endpoint = new URL( getApiKey() )
-    endpoint.set( 'query', `${endpoint.query}&seq=${nextSeq}` )
+    endpoint.searchParams.set( 'seq', nextSeq )
 
     await fetch( endpoint, {
       method: 'POST',
@@ -95,7 +95,7 @@ class ZoomController {
 
   async fetchPreviousSeq() {
     const endpoint = new URL( getApiKey() )
-    endpoint.set( 'pathname', `${endpoint.pathname}/seq` )
+    endpoint.pathname = `${endpoint.pathname}/seq`
 
     this.previousSeq = await fetch( endpoint )
   }

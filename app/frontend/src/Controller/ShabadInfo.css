@@ -1,8 +1,33 @@
-.popover-box-text{
-    padding: 10px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-    color: var(--controller-text-color);
-    background-color: var(--controller-background-color);
+.shabad-info {
+  position: relative;
+  display: inline-block;
+}
+
+.info-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popover {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  white-space: nowrap;
+}
+
+.popover-box-text {
+  padding: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  color: var(--controller-text-color);
+  background-color: var(--controller-background-color);
 }
 
 .popover-buttons {
@@ -11,13 +36,18 @@
   justify-content: space-evenly;
 }
 
-.popover-buttons .copy-shabad.Mui-disabled {
+.popover-buttons .copy-shabad:disabled {
   background-color: #6e6b6b44;
 }
 
 .popover-buttons .button {
   color: var(--settings-text-color) !important;
   background-color: var(--settings-setting-off-color);
+  border: none;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.8125rem;
 }
 
 .popover-buttons .button:hover {

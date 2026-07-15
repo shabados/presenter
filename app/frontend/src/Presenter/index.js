@@ -5,8 +5,6 @@ import IdleTimer from 'react-idle-timer'
 import queryString from 'qs'
 import classNames from 'classnames'
 
-import CssBaseline from '@material-ui/core/CssBaseline'
-import IconButton from '@material-ui/core/IconButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -79,32 +77,18 @@ const Presenter = () => {
     hotkeys,
   } = localSettings
 
-  /**
-   * Sets the query string parameters, retaining any currently present.
-   * @param params The query string parameters.
-   */
   const setQueryParams = params => history.push( {
     ...location,
     search: queryString.stringify( { ...getUrlState( search ), ...params } ),
   } )
 
-  /**
-   * More concise form to navigate to URLs, retaining query params.
-   * @param pathname The path to navigate to.
-   */
   const go = pathname => history.push( { ...location, pathname } )
 
-  /**
-   * Toggles the controller.
-   */
   const toggleController = () => {
     const nextURL = pathname.includes( CONTROLLER_URL ) ? '/' : CONTROLLER_URL
     go( nextURL )
   }
 
-  /**
-   * Always puts the controller in fullscreen.
-   */
   const setFullscreenController = () => history.push( {
     pathname: CONTROLLER_URL,
     search: queryString.stringify( { [ STATES.controllerOnly ]: true } ),
@@ -116,10 +100,6 @@ const Presenter = () => {
   const zoomOutController = () => setZoom( Math.max( controllerZoom.min, zoom - 0.1 ) )
   const zoomResetController = () => setZoom( 1 )
 
-  /**
-   * Toggles the given query string parameter.
-   * @param query The query string parameter to toggle.
-   */
   const toggleQuery = query => {
     const parsed = getUrlState( search )
 
@@ -129,27 +109,18 @@ const Presenter = () => {
     } )
   }
 
-  /**
-   * Toggles the controller in fullscreen.
-   */
   const toggleFullscreenController = () => {
-    // Navigates to the controller first, if not there
     if ( !pathname.includes( CONTROLLER_URL ) ) toggleController()
 
     toggleQuery( STATES.controllerOnly )
   }
 
-  /**
-   * Prevents the default action from occurring for each handler.
-   * @param events An object containing the event names and corresponding handlers.
-   */
   const preventDefault = events => Object.entries( events )
     .reduce( ( events, [ name, handler ] ) => ( {
       ...events,
       [ name ]: event => event.preventDefault() || handler( event ),
     } ), {} )
 
-  // Global Hotkey Handlers
   const hotkeyHandlers = preventDefault( {
     [ GLOBAL_SHORTCUTS.zoomInController.name ]: zoomInController,
     [ GLOBAL_SHORTCUTS.zoomOutController.name ]: zoomOutController,
@@ -171,12 +142,10 @@ const Presenter = () => {
     if ( isMobile ) setFullscreenController()
   } )
 
-  // Required for mouse shortcuts
   const presenterRef = useRef( null )
 
   return (
     <div ref={presenterRef} className={classNames( { idle }, 'presenter' )}>
-      <CssBaseline />
       <ThemeLoader name={themeName} />
 
       {isDesktop && (
@@ -197,9 +166,9 @@ const Presenter = () => {
             </Suspense>
 
             <div className={classNames( 'controller-container', { fullscreen: controllerOnly } )} style={{ zoom }}>
-              <IconButton className="expand-icon" onClick={toggleController}>
+              <button type="button" className="expand-icon" onClick={toggleController}>
                 <FontAwesomeIcon icon={faPlus} />
-              </IconButton>
+              </button>
 
               <Route path={CONTROLLER_URL}>
                 {() => <Controller />}

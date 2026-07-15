@@ -1,18 +1,8 @@
 import React from 'react'
 import { string, func, shape } from 'prop-types'
 
-import IconButton from '@material-ui/core/IconButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-/**
- * Renders an individual icon button, setting the state with the name on hover and click.
- * @param {string} name The human-readable name of the icon.
- * @param {string} icon The font-awesome icon.
- * @param {Function} onClick Optional click handler.
- * @param {Function} onMouseEnter MouseEnter click handler.
- * @param {Function} onMouseLeave MouseLeave click handler.
- * @param {string} className Optional classname.
- */
 const ToolbarButton = ( {
   name,
   icon,
@@ -21,7 +11,8 @@ const ToolbarButton = ( {
   onMouseLeave,
   className,
 } ) => (
-  <IconButton
+  <button
+    type="button"
     key={name}
     className={className}
     tabIndex={-1}
@@ -30,7 +21,7 @@ const ToolbarButton = ( {
     onClick={onClick}
   >
     <FontAwesomeIcon icon={icon} />
-  </IconButton>
+  </button>
 )
 
 ToolbarButton.propTypes = {

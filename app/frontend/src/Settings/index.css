@@ -19,16 +19,64 @@
   color: var(--settings-title-text-color);
   text-transform: capitalize;
   transition: 0.3s all;
+  margin: 0;
   margin-left: 20px;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
-.menu .MuiDrawer-paper {
+.settings .toolbar {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  min-height: 56px;
+}
+
+.settings .menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--settings-title-text-color);
+}
+
+/* Nav/Menu */
+.settings .menu {
   background-color: var(--settings-menu-background-color);
+}
+
+.settings .menu .content {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   min-height: 100%;
 }
 
-.open.mobile.menu {
+.settings .mobile.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
   width: 200px;
+  z-index: 1200;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  display: none;
+}
+
+.settings .mobile.menu.open {
+  transform: translateX(0);
+}
+
+.settings .desktop.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 200px;
+  overflow-y: auto;
+  display: none;
 }
 
 .menu .icon, .menu.icon {
@@ -44,9 +92,33 @@
   text-transform: uppercase;
   font-size: 0.875rem !important;
   transition: 0.3s all;
+  display: block;
 }
 
-.item .text span {
+.menu .item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.menu .item.selected {
+  background-color: var(--controller-selected-background-color);
+}
+
+.menu .item:hover {
+  background-color: var(--controller-hover-background-color);
+}
+
+.menu .item .icon-container {
+  display: flex;
+  align-items: center;
+  width: 30px;
+  margin-right: 8px;
+}
+
+.item .text {
   color: var(--settings-menu-text-color);
   transition: 0.3s all;
 }
@@ -61,16 +133,9 @@
   transition: 0.3s all;
 }
 
-.settings .MuiListSubheader-root,
-.settings .MuiPaper-root,
 .settings main p,
 .settings main svg {
   color: var(--settings-text-color) !important;
-}
-
-.settings .MuiList-padding {
-  padding-top: 0px;
-  padding-bottom: 0px;
 }
 
 .settings main .option {
@@ -85,13 +150,103 @@
   transition: 0.3s all;
 }
 
+/* Grid columns for settings layout (replaces MUI Grid) */
+.option {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.col-icon {
+  flex: 0 0 calc(100% * 2 / 12);
+}
+
+.col-name {
+  flex: 0 0 calc(100% * 5 / 12);
+}
+
+.col-option {
+  flex: 0 0 calc(100% * 5 / 12);
+}
+
+.col-single {
+  flex: 0 0 100%;
+}
+
+/* About page layout */
+.about {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.about-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 0;
+  flex-wrap: wrap;
+}
+
+.about-center {
+  justify-content: center;
+}
+
+.about-label {
+  font-size: 0.875rem;
+  opacity: 0.7;
+  min-width: 200px;
+}
+
+@media only screen and (max-width: 599px) {
+  .settings .mobile.menu {
+    display: block;
+  }
+}
+
 @media only screen and (min-width: 600px) {
+  .settings .desktop.menu {
+    display: block;
+  }
+
   .settings main {
     margin-left: 200px;
   }
 
   .settings .title {
     margin-left: 240px;
+  }
+
+  .col-icon {
+    flex: 0 0 calc(100% / 12);
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .settings .menu-toggle {
+    display: none;
+  }
+
+  .col-name {
+    flex: 0 0 calc(100% * 4 / 12);
+  }
+
+  .col-option {
+    flex: 0 0 calc(100% * 4 / 12);
+  }
+
+  .col-single {
+    flex: 0 0 calc(100% * 9 / 12);
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .col-option {
+    flex: 0 0 calc(100% * 3 / 12);
+  }
+
+  .col-single {
+    flex: 0 0 calc(100% * 8 / 12);
   }
 }
 

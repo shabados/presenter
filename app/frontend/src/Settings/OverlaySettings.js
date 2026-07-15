@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 
-import { Grid, Typography } from '@material-ui/core'
 import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 
 import { BACKEND_URL, OVERLAY_PORT, isElectron } from '../lib/consts'
@@ -8,7 +7,7 @@ import controller from '../lib/controller'
 
 import CopyButton from './CopyButton'
 import TutorialButton from './TutorialButton'
-import DynamicOptions, { slotSizes, IconSlot, OptionGrid } from './DynamicOptions'
+import DynamicOptions, { IconSlot, OptionGrid } from './DynamicOptions'
 import { Button } from './SettingComponents'
 
 import './OverlaySettings.css'
@@ -25,40 +24,40 @@ const OverlaySettings = () => {
   return (
     <div className="overlay-settings">
 
-      <OptionGrid container>
-        <Grid item {...slotSizes.single}>
-          <Typography>
+      <OptionGrid>
+        <div className="col-single">
+          <p>
             Use overlays to set up captions for popular live stream software, such as OBS, Wirecast,
             and vMix. Or use them in full screened web browsers as an alternate presentation to the
             main display. It is also possible to create overlay themes using the theme tool.
-          </Typography>
-        </Grid>
+          </p>
+        </div>
       </OptionGrid>
 
-      <OptionGrid container align="center">
-        <Grid item {...slotSizes.single} className="buttons">
+      <OptionGrid>
+        <div className="col-single buttons">
           <TutorialButton className="tutorial-button" href="https://docs.shabados.com/presenter/guides/configuring-live-stream-captions">
             Learn More
           </TutorialButton>
-        </Grid>
-        <Grid item {...slotSizes.single} className="buttons">
+        </div>
+        <div className="col-single buttons">
           <TutorialButton className="theme-tool" href="https://themes.shabados.com">
             Theme Tool
           </TutorialButton>
-        </Grid>
-        <Grid item {...slotSizes.single} className="buttons">
-          <Button className="folder-button" disabled={!isElectron} variant="contained" onClick={() => controller.action( 'open-overlay-folder' )}>Open Overlay Folder</Button>
-        </Grid>
+        </div>
+        <div className="col-single buttons">
+          <Button className="folder-button" disabled={!isElectron} onClick={() => controller.action( 'open-overlay-folder' )}>Open Overlay Folder</Button>
+        </div>
       </OptionGrid>
 
-      <OptionGrid container>
+      <OptionGrid>
         <IconSlot icon={faShareSquare} />
-        <Grid item {...slotSizes.name}><Typography>Overlay URL</Typography></Grid>
-        <Grid item {...slotSizes.option} align="center">
+        <div className="col-name"><span>Overlay URL</span></div>
+        <div className="col-option">
           {Object.entries( addresses ).map( ( [ name, address ] ) => (
-            <CopyButton style={{ textAlign: 'center' }} copyText={`http://${address}:${OVERLAY_PORT}/overlay`}>{`${address}:${OVERLAY_PORT}/overlay (${name})`}</CopyButton>
+            <CopyButton key={name} style={{ textAlign: 'center' }} copyText={`http://${address}:${OVERLAY_PORT}/overlay`}>{`${address}:${OVERLAY_PORT}/overlay (${name})`}</CopyButton>
           ) )}
-        </Grid>
+        </div>
       </OptionGrid>
 
       <DynamicOptions device="global" group="overlay" />

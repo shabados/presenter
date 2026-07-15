@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { number } from 'prop-types'
 
-import {
-  List,
-  ListItem,
-  CircularProgress,
-  Grid,
-  Typography,
-} from '@material-ui/core'
-
+import Loader from '../shared/Loader'
 import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
 import controller from '../lib/controller'
 
@@ -34,44 +27,44 @@ const About = ( { connected } ) => {
       .then( setAbout )
   }, [] )
 
-  if ( !about ) return <CircularProgress style={{ alignSelf: 'center' }} />
+  if ( !about ) return <Loader />
 
   return (
-    <List className="about">
-      <ListItem>
-        <Grid container>
-          <Grid item xs={6}><Typography variant="body2">Server Address</Typography></Grid>
-          <Grid item xs={6}>
+    <ul className="about">
+      <li>
+        <div className="about-row">
+          <span className="about-label">Server Address</span>
+          <span>
             {Object.entries( about.addresses ).map( ( [ name, address ] ) => (
-              <CopyButton copyText={`http://${address}:${BACKEND_PORT}`}>{`${address}:${BACKEND_PORT} (${name})`}</CopyButton>
+              <CopyButton key={name} copyText={`http://${address}:${BACKEND_PORT}`}>{`${address}:${BACKEND_PORT} (${name})`}</CopyButton>
             ) )}
-          </Grid>
-        </Grid>
-      </ListItem>
+          </span>
+        </div>
+      </li>
 
       {aboutFields.map( ( [ key, name ] ) => (
-        <ListItem key={key}>
-          <Grid container>
-            <Grid item xs={6}><Typography variant="body2">{name}</Typography></Grid>
-            <Grid item xs={6}><Typography>{about[ key ]}</Typography></Grid>
-          </Grid>
-        </ListItem>
+        <li key={key}>
+          <div className="about-row">
+            <span className="about-label">{name}</span>
+            <span>{about[ key ]}</span>
+          </div>
+        </li>
       ) )}
 
-      <ListItem>
-        <Grid container>
-          <Grid item xs={6}><Typography variant="body2">Connected Devices</Typography></Grid>
-          <Grid item xs={6}><Typography>{connected}</Typography></Grid>
-        </Grid>
-      </ListItem>
+      <li>
+        <div className="about-row">
+          <span className="about-label">Connected Devices</span>
+          <span>{connected}</span>
+        </div>
+      </li>
 
-      <ListItem>
-        <Grid container justify="center">
-          <Button className="folder-button" disabled={!isElectron} variant="contained" onClick={() => controller.action( 'open-logs-folder' )}>Open Logs Folder</Button>
-        </Grid>
-      </ListItem>
+      <li>
+        <div className="about-row about-center">
+          <Button className="folder-button" disabled={!isElectron} onClick={() => controller.action( 'open-logs-folder' )}>Open Logs Folder</Button>
+        </div>
+      </li>
 
-    </List>
+    </ul>
   )
 }
 

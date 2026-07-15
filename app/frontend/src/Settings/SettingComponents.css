@@ -1,71 +1,74 @@
-/*! Warning: These styles assume the structure of Material-UI components and so maybe break when upgrading it */
-
 .select {
-  font-size: 0.9em !important;
-  color: var(--settings-text-color) !important;
+  font-size: 0.9em;
+  color: var(--settings-text-color);
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid currentColor;
+  cursor: pointer;
+  padding: 2px 4px;
 }
 
-.select::before {
-  display: none;
+.select:focus {
+  outline: none;
+  border-bottom-color: var(--settings-setting-on-color);
 }
 
-.select::after {
-  border-bottom: 2px solid var(--settings-setting-on-color) !important;
+/* select-menu is the device-selector in Settings nav */
+.select-menu {
+  background-color: transparent;
+  border: none;
+  width: calc(100% - 40px);
+  margin: 10px 20px;
 }
 
-.select-menu ul {
+/* Toggle (native checkbox styled as switch) */
+.toggle {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 34px;
+  height: 20px;
+  border-radius: 10px;
   background-color: var(--settings-setting-off-color);
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+  margin: 0;
 }
 
-.select-menu li {
-  color: var(--settings-text-color);
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s;
 }
 
-.select-menu .MuiSelect-icon {
-  color: var(--settings-text-color);
-}
-
-.checked.toggle > span,
-.slider {
-  color: var(--settings-setting-on-color) !important;
-}
-
-.checked.toggle > span:last-child {
+.checked.toggle {
   background-color: var(--settings-setting-on-color);
 }
 
-.checked.toggle > :hover {
-  background-color: var(--settings-setting-shadow) !important;
+.checked.toggle::after {
+  transform: translateX(14px);
 }
 
-.slider .MuiSlider-thumb:hover,
-.slider .MuiSlider-thumb.MuiSlider-active {
-  box-shadow: 0px 0px 0px 8px var(--settings-setting-shadow) !important;
-}
-
-.MuiPopover-paper .MuiListItem-root.Mui-selected {
-  background-color: var(--controller-selected-background-color);
-}
-
-.MuiPopover-paper .MuiListItem-button:hover {
-  background-color: var(--controller-hover-background-color);
-}
-
-.MuiPopover-paper .MuiListItem-root.Mui-selected:hover {
-  background-color: var(--controller-selected-hover-background-color);
-}
-
-.MuiInput-root .MuiSelect-select:focus {
-  background-color: transparent;
-}
-
-.MuiSwitch-switchBase {
-  color: var(--settings-setting-off-color) !important;
+/* Slider (native range input) */
+.slider {
+  cursor: pointer;
+  accent-color: var(--settings-setting-on-color);
 }
 
 .button {
   color: var(--settings-text-color) !important;
   background-color: var(--settings-setting-off-color) !important;
+  border: none;
+  cursor: pointer;
+  padding: 6px 16px;
+  border-radius: 4px;
 }
 
 .button:hover {
@@ -104,22 +107,15 @@
   color: var(--settings-text-color) !important;
 }
 
-.text-input input {
+.text-input .text-field {
   color: var(--settings-text-color);
   padding: 10.5px 14px;
   background-color: var(--settings-setting-off-color);
+  border: 1px solid rgba(var(--settings-text-color), 0.5);
+  border-radius: 4px;
 }
 
-.text-input fieldset {
-  border-color: var(--settings-text-color) !important;
-  opacity: 0.5;
-}
-
-.text-input .Mui-focused input {
-  background-color: var(--settings-setting-off-color);
-}
-
-.text-input .Mui-focused fieldset {
-  border-color: var(--settings-setting-on-color) !important;
-  opacity: 1;
+.text-input .text-field:focus {
+  outline: none;
+  border-color: var(--settings-setting-on-color);
 }

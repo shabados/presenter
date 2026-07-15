@@ -2,10 +2,6 @@ import React, { useMemo, useContext } from 'react'
 import { func, number } from 'prop-types'
 import { stripVishraams } from 'gurmukhi-utils'
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {
@@ -26,7 +22,7 @@ const History = ( { register, focused } ) => {
   const { transitionHistory, latestLines } = useContext( HistoryContext )
 
   return useMemo( () => (
-    <List className="history">
+    <ul className="history">
       {Object.entries( transitionHistory )
         .sort( ( [ t1 ], [ t2 ] ) => new Date( t2 ) - new Date( t1 ) )
         .map( ( [ , {
@@ -38,7 +34,6 @@ const History = ( { register, focused } ) => {
           const historyId = bani ? bani.id : shabad.id
           const { line: latestLine } = latestLines[ historyId ] || {}
 
-          // Use timestamp to get latest line for that navigation period
           const latestLineId = latestLine ? latestLine.id : lineId
 
           const onClick = () => ( bani
@@ -46,7 +41,7 @@ const History = ( { register, focused } ) => {
             : controller.shabad( { shabadId, lineId: latestLineId } ) )
 
           return (
-            <ListItem
+            <li
               className={focused === index ? 'focused' : ''}
               key={timestamp}
               ref={ref => register( index, ref )}
@@ -57,24 +52,24 @@ const History = ( { register, focused } ) => {
               <span className="timestamp meta">
                 {new Date( timestamp ).toLocaleTimeString( navigator.language, { hour: '2-digit', minute: '2-digit', hour12: false } )}
               </span>
-            </ListItem>
+            </li>
           )
         } ) }
 
-      <ListItem onClick={() => transitionHistory.length && window.open( HISTORY_DOWNLOAD_URL )}>
-        <ListItemIcon className="meta icon">
+      <li onClick={() => transitionHistory.length && window.open( HISTORY_DOWNLOAD_URL )}>
+        <span className="meta icon">
           <FontAwesomeIcon icon={faDownload} />
-        </ListItemIcon>
+        </span>
         Export
-      </ListItem>
+      </li>
 
-      <ListItem onClick={controller.clearHistory}>
-        <ListItemIcon className="meta icon">
+      <li onClick={controller.clearHistory}>
+        <span className="meta icon">
           <FontAwesomeIcon icon={faTrash} />
-        </ListItemIcon>
+        </span>
         Clear History
-      </ListItem>
-    </List>
+      </li>
+    </ul>
   ), [ register, focused, transitionHistory, latestLines ] )
 }
 

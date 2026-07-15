@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { string, shape, node, bool } from 'prop-types'
 
-import { Typography, Grid } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, FLAT_OPTION_GROUPS } from '../lib/options'
@@ -10,53 +9,45 @@ import { SettingsContext } from '../lib/contexts'
 
 import SettingComponentFactory, { Button } from './SettingComponents'
 
-export const slotSizes = {
-  icon: { xs: 2, sm: 1 },
-  name: { xs: 5, sm: 5, md: 4, lg: 4 },
-  option: { xs: 5, sm: 5, md: 4, lg: 3 },
-  single: { xs: 12, sm: 11, md: 9, lg: 8 },
-}
-
 export const OptionGrid = ( { children, ...props } ) => (
-  <Grid {...props} className="option" container>
+  <div {...props} className="option">
     {children}
-  </Grid>
+  </div>
 )
 OptionGrid.propTypes = { children: node.isRequired }
 
 export const IconSlot = ( { icon } ) => (
-  <Grid item {...slotSizes.icon} center="center">
+  <div className="col-icon">
     <FontAwesomeIcon className="icon" icon={icon} />
-  </Grid>
+  </div>
 )
 IconSlot.propTypes = { icon: shape( {} ).isRequired }
 
 export const NameSlot = ( { children } ) => (
-  <Grid item {...slotSizes.name}>
-    <Typography>{children}</Typography>
-  </Grid>
+  <div className="col-name">
+    <span>{children}</span>
+  </div>
 )
 NameSlot.propTypes = { children: string.isRequired }
 
 export const OptionSlot = ( { children } ) => (
-  <Grid align="center" item {...slotSizes.option}>
+  <div className="col-option">
     {children}
-  </Grid>
+  </div>
 )
 OptionSlot.propTypes = { children: node.isRequired }
 
 export const ResetButton = ( { group, disabled, device } ) => (
-  <OptionGrid container align="center">
-    <Grid item {...slotSizes.single}>
+  <OptionGrid>
+    <div className="col-single">
       <Button
         className="reset-button"
         disabled={disabled}
-        variant="contained"
         onClick={() => controller.resetSettingGroup( group, device )}
       >
         Reset to defaults
       </Button>
-    </Grid>
+    </div>
   </OptionGrid>
 )
 
@@ -94,17 +85,15 @@ const DynamicOptions = ( { device, group } ) => {
       const options = OPTIONS[ option ]
       const { type, privacy, name, icon, ...props } = options
 
-      // Determine if the component should be disabled
       const isDisabled = ( device !== 'local' && privacy === PRIVACY_TYPES.private ) || isGroupDisabled
 
-      // Get correct component
       const Option = SettingComponentFactory( type )
 
       return (
         <OptionGrid key={option}>
           <IconSlot icon={icon} />
           <NameSlot>{name}</NameSlot>
-          <OptionSlot alignItems="center">
+          <OptionSlot>
             <Option
               {...props}
               option={option}

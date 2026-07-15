@@ -38,7 +38,7 @@
   color: white;
 }
 
-.hotkeys .key.Mui-disabled {
+.hotkeys .key:disabled {
   color: var(--settings-background-color);
   opacity: 0.7;
 }

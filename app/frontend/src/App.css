@@ -1,7 +1,7 @@
 @import url("./fonts/noto-sans/index.css");
 @import url("./fonts/OpenGurbaniAkhar/index.css");
 @import url("./fonts/OpenAnmolUni/index.css");
-@import url("../node_modules/typeface-roboto/index.css");
+@import "@fontsource/roboto";
 
 /* Shared CSS constants */
 :root {

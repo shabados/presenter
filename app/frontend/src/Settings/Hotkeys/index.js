@@ -6,8 +6,6 @@ import classNames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
-import { Button, Tooltip, ListItem, List, Grid, Typography } from '@material-ui/core'
-
 import controller from '../../lib/controller'
 import keyMap from '../../lib/keyMap'
 import { mapPlatformKeys } from '../../lib/utils'
@@ -26,11 +24,6 @@ const REQUIRED_KEYS = Object
     ...sequences.reduce( ( acc, key ) => ( { ...acc, [ key ]: name } ), {} ),
   } ), {} )
 
-/**
- * Renders all hotkeys with descriptions.
- * @param {Object} keys The hotkeys themselves, correpsonding to a name.
- * @param {Object} shortcuts Which shortcuts in `keys` to actually render.
- */
 const Hotkeys = ( { keys, shortcuts, device } ) => {
   const editable = device === 'local'
 
@@ -44,10 +37,8 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
 
     if ( !hotkey ) return
 
-    // Get hotkeys for name from settings
     const { required, sequences } = Object.values( keyMap ).find( ( { name } ) => name === editing )
 
-    // Add the required sequences and filter out any duplicates
     const hotkeys = Array.from( new Set( [
       ...( required ? sequences : [] ),
       ...keys[ editing ],
@@ -64,12 +55,10 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
 
     const { name, keyName } = deleting
 
-    // Get hotkeys for name from settings
     const { required, sequences } = Object.values( keyMap ).find(
       ( { name: optionName } ) => optionName === name,
     )
 
-    // Add the required sequences and filter out any duplicates
     const hotkeys = Array.from( new Set( [
       ...( required ? sequences : [] ),
       ...mappedKeys[ name ],
@@ -78,7 +67,6 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
     controller.setSettings( { hotkeys: { [ name ]: hotkeys } } )
   }
 
-  // Map assigned keys to name
   const assignedKeys = Object
     .entries( mappedKeys )
     .reduce( ( acc, [ name, sequences ] ) => ( {
@@ -97,37 +85,36 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
       />
       <DeleteHotkeyDialog open={!!deleting.keyName} {...deleting} onClose={onDelete} />
 
-      <List className="hotkeys">
+      <ul className="hotkeys">
         {Object
           .entries( groupBy( shortcuts, ( { group } ) => group ) )
           .map( ( [ groupName, hotkeys ] ) => (
-            <ListItem key={groupName} className="group">
+            <li key={groupName} className="group">
 
-              <Typography className="name" variant="subtitle2">{groupName}</Typography>
+              <span className="name subtitle2">{groupName}</span>
 
               <div className="group-hotkeys">
                 {hotkeys.map( ( { name, description } ) => (
                   <div key={name} className="hotkey">
-                    <Grid container className="name" alignItems="center">
+                    <div className="hotkey-row name">
 
-                      <Grid item xs={4}>
-                        <Typography className="text">{name}</Typography>
-                      </Grid>
+                      <div className="col-hotkey-name">
+                        <span className="text">{name}</span>
+                      </div>
 
-                      <Grid item xs={1}>
+                      <div className="col-hotkey-icon">
                         {description && (
-                        <Tooltip title={description}>
-                          <span>
+                          <span title={description}>
                             <FontAwesomeIcon icon={faQuestionCircle} />
                           </span>
-                        </Tooltip>
                         )}
-                      </Grid>
+                      </div>
 
-                      <Grid className={classNames( { editable }, 'keys' )} item xs={6}>
+                      <div className={classNames( { editable }, 'keys col-hotkey-keys' )}>
                         {mappedKeys[ name ].map( key => (
-                          <Button
+                          <button
                             key={key}
+                            type="button"
                             className={classNames( 'key', { removable: !REQUIRED_KEYS[ key ] } )}
                             disabled={!!REQUIRED_KEYS[ key ]}
                             onClick={
@@ -135,30 +122,30 @@ const Hotkeys = ( { keys, shortcuts, device } ) => {
                             }
                           >
                             {key}
-                          </Button>
+                          </button>
                         ) )}
 
-                        <Button
-                          variant="outlined"
-                          className="new key"
+                        <button
+                          type="button"
+                          className="new key outlined"
                           onClick={() => setEditing( name )}
                         >
                           Add
-                        </Button>
+                        </button>
 
-                      </Grid>
+                      </div>
 
-                    </Grid>
+                    </div>
                   </div>
                 ) )}
               </div>
 
-            </ListItem>
+            </li>
           ) )}
 
         <ResetButton group="hotkeys" disabled={!editable} />
 
-      </List>
+      </ul>
 
     </>
   )

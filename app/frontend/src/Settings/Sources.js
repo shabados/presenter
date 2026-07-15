@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { shape, objectOf, string, number } from 'prop-types'
 
-import {
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary,
-  Typography,
-  Grid,
-} from '@material-ui/core'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
@@ -21,9 +13,6 @@ import { Dropdown as Select } from './SettingComponents'
 
 import './Sources.css'
 
-/**
- * View to configure source content, such as translations.
- */
 const Sources = ( { sources: currentSources, device } ) => {
   const [ languages, setLanguages ] = useState()
   const [ { sources, recommended }, setSources ] = useState( {} )
@@ -38,7 +27,6 @@ const Sources = ( { sources: currentSources, device } ) => {
 
   if ( !sources || !languages ) return <Loader />
 
-  // Gets the current selected value of a language's translation, using the recommended otherwise.
   const getCurrentValue = ( sourceId, languageId ) => {
     const currentSource = currentSources[ sourceId ]
 
@@ -60,32 +48,33 @@ const Sources = ( { sources: currentSources, device } ) => {
             nameGurmukhi,
             translationSources,
           } ] ) => (
-            <ExpansionPanel key={sourceId} className="source">
-              <ExpansionPanelSummary className="source-title" expandIcon={<FontAwesomeIcon size="sm" icon={faChevronDown} />}>
-                <Grid container>
-                  <Grid item xs={6} md={5}>
-                    <Typography variant="body2">{nameEnglish}</Typography>
-                  </Grid>
-                  <Grid item xs>
-                    <Typography className="gurmukhi">{nameGurmukhi}</Typography>
-                  </Grid>
-                </Grid>
-              </ExpansionPanelSummary>
+            <details key={sourceId} className="source">
+              <summary className="source-title">
+                <div className="source-summary-content">
+                  <div className="source-col-name">
+                    <span>{nameEnglish}</span>
+                  </div>
+                  <div className="source-col-gurmukhi">
+                    <span className="gurmukhi">{nameGurmukhi}</span>
+                  </div>
+                  <FontAwesomeIcon className="expand-icon" size="sm" icon={faChevronDown} />
+                </div>
+              </summary>
 
-              <ExpansionPanelDetails className="source-details">
-                <Grid container className="translations">
+              <div className="source-details">
+                <div className="translations">
 
-                  <Grid item xs={12}>
-                    <Typography className="source-heading">Translations</Typography>
-                  </Grid>
+                  <div className="translations-heading">
+                    <span className="source-heading">Translations</span>
+                  </div>
 
                   {languages
                     .filter( ( { id } ) => !!translationSources[ id ] )
                     .map( ( { id, nameEnglish } ) => (
-                      <Grid key={id} container item xs={12}>
-                        <Grid item xs={5} md={3}><Typography variant="overline">{nameEnglish}</Typography></Grid>
+                      <div key={id} className="translation-row">
+                        <div className="translation-lang"><span className="overline">{nameEnglish}</span></div>
 
-                        <Grid item xs>
+                        <div className="translation-select">
                           { translationSources[ id ].length > 1 ? (
                             <Select
                               value={getCurrentValue( sourceId, id )}
@@ -105,17 +94,17 @@ const Sources = ( { sources: currentSources, device } ) => {
                               }, device )}
                             />
                           ) : (
-                            <Typography variant="body2">{translationSources[ id ][ 0 ].nameEnglish}</Typography>
+                            <span>{translationSources[ id ][ 0 ].nameEnglish}</span>
                           ) }
-                        </Grid>
+                        </div>
 
-                      </Grid>
+                      </div>
                     ) )}
 
-                </Grid>
-              </ExpansionPanelDetails>
+                </div>
+              </div>
 
-            </ExpansionPanel>
+            </details>
           ) )}
       </div>
 

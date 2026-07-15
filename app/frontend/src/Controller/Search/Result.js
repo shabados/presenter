@@ -1,27 +1,12 @@
 import React, { forwardRef, useContext } from 'react'
 import { string, number, shape, bool, func, arrayOf } from 'prop-types'
 import classNames from 'classnames'
-import { ListItem } from '@material-ui/core'
 
 import controller from '../../lib/controller'
 import { WritersContext, RecommendedSourcesContext, SettingsContext } from '../../lib/contexts'
 import { LANGUAGE_NAMES, SOURCE_ABBREVIATIONS, TRANSLITERATORS } from '../../lib/data'
 import { customiseLine, getTranslation } from '../../lib/line'
 
-/**
- * Renders a single result, highlighting the match.
- * @param {string} gurmukhi The shabad line to display.
- * @param {int} typeId The type id of line.
- * @param {string} lineId The id of the line.
- * @param {string} shabadId The id of the shabad.
- * @param {int} sourceId The id of source.
- * @param {Object} shabad The object containing section information and other metadata.
- * @param {Boolean} focused Whether the line is focused or not.
- * @param {Function} highlighter The match highlighter.
- * @param {int} sourcePage The page number of shabad in source.
- * @param {string} translations The translations of shabad line to display.
- * @param {string} transliterations The transliterations of shabad line to display.
- */
 const Result = forwardRef( ( {
   gurmukhi,
   typeId,
@@ -63,22 +48,19 @@ const Result = forwardRef( ( {
     { lineEnding, typeId },
   )
 
-  // Separate the line into words before the match, the match, and after the match
   const highlight = highlighter( { gurmukhi } )
   const [ beforeMatch, match, afterMatch ] = highlight( gurmukhi )
   const [ translitBeforeMatch, translitMatch, translitAfterMatch ] = highlight( transliteration )
 
-  // Send the shabad id and line id to the server on click
   const onClick = () => controller.shabad( { shabadId, lineId } )
 
-  // Helper render functions for citation
   const showCitation = showResultCitations && shabad && shabad.section
   const getEnglish = ( { nameEnglish } ) => nameEnglish
   const getWriterName = () => getEnglish( writers[ shabad.writerId ] )
   const getPageName = () => recommendedSources[ shabad.sourceId ].pageNameEnglish
 
   return (
-    <ListItem ref={ref} className={classNames( { focused } )} onClick={onClick}>
+    <li ref={ref} className={classNames( { focused } )} onClick={onClick}>
       <div className="result">
         <span className="gurmukhi text">
           {beforeMatch && <span className="words">{beforeMatch}</span>}
@@ -112,7 +94,7 @@ const Result = forwardRef( ( {
           </span>
         )}
       </div>
-    </ListItem>
+    </li>
   )
 } )
 

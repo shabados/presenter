@@ -1,8 +1,6 @@
 import React, { useContext } from 'react'
 import { func, number } from 'prop-types'
 
-import { List, ListItem } from '@material-ui/core'
-
 import { LINE_HOTKEYS } from '../lib/keyMap'
 import controller from '../lib/controller'
 import { BookmarksContext } from '../lib/contexts'
@@ -15,9 +13,9 @@ const Bookmarks = ( { register, focused } ) => {
   const bookmarks = useContext( BookmarksContext )
 
   return (
-    <List className="bookmarks">
+    <ul className="bookmarks">
       {bookmarks.map( ( { id, nameGurmukhi }, index ) => (
-        <ListItem
+        <li
           className={focused === index ? 'focused' : ''}
           key={id}
           ref={ref => register( index, ref )}
@@ -25,9 +23,9 @@ const Bookmarks = ( { register, focused } ) => {
         >
           <span className="hotkey meta">{LINE_HOTKEYS[ index ]}</span>
           <span className="gurmukhi text">{nameGurmukhi}</span>
-        </ListItem>
+        </li>
       ) )}
-    </List>
+    </ul>
   )
 }
 

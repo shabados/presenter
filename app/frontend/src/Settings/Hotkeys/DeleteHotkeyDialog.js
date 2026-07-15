@@ -1,27 +1,23 @@
 import React from 'react'
 import { bool, func, string } from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from '@material-ui/core'
+
+import Dialog from '../../shared/Dialog'
 
 import './HotkeyDialog.css'
 
 const DeleteHotkeyDialog = ( { open, keyName, name, onClose } ) => (
   <Dialog className="hotkey-dialog" open={open} onClose={() => onClose( false )}>
-    <DialogTitle>Delete Hotkey</DialogTitle>
+    <div className="dialog-title"><h2>Delete Hotkey</h2></div>
 
-    <DialogContent>
+    <div className="dialog-content">
+      <p>Are you sure you want to delete this hotkey?</p>
+      <p className="hotkey subtitle2">{`${keyName} (${name})`}</p>
+    </div>
 
-      <DialogContentText color="inherit">
-        Are you sure you want to delete this hotkey?
-      </DialogContentText>
-
-      <Typography className="hotkey" variant="subtitle2">{`${keyName} (${name})`}</Typography>
-
-    </DialogContent>
-
-    <DialogActions>
-      <Button onClick={() => onClose( false )} color="inherit">Cancel</Button>
-      <Button className="delete-button" onClick={() => onClose( true )}>Delete</Button>
-    </DialogActions>
+    <div className="dialog-actions">
+      <button type="button" onClick={() => onClose( false )}>Cancel</button>
+      <button type="button" className="delete-button" onClick={() => onClose( true )}>Delete</button>
+    </div>
 
   </Dialog>
 )

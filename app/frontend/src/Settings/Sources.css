@@ -1,5 +1,16 @@
 .sources .source {
   background-color: var(--settings-setting-off-color);
+  margin-bottom: 4px;
+}
+
+.sources .source summary {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.sources .source summary::-webkit-details-marker {
+  display: none;
 }
 
 .sources .source .gurmukhi {
@@ -22,6 +33,56 @@
   opacity: 0.8;
 }
 
+.sources .source-summary-content {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 16px;
+}
+
+.sources .source-col-name {
+  flex: 1;
+}
+
+.sources .source-col-gurmukhi {
+  flex: 1;
+}
+
+.sources .expand-icon {
+  transition: transform 0.3s;
+}
+
+.sources .source[open] .expand-icon {
+  transform: rotate(180deg);
+}
+
 .sources .source .source-details {
   flex-direction: column;
+  padding: 0 16px 16px;
+}
+
+.sources .translation-row {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  gap: 16px;
+}
+
+.sources .translation-lang {
+  flex: 1;
+}
+
+.sources .translation-select {
+  flex: 1;
+}
+
+.sources .translations-heading {
+  padding: 8px 0 4px;
+}
+
+.sources .overline {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  letter-spacing: 0.08em;
 }

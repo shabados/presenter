@@ -7,22 +7,6 @@ import { string, bool, shape } from 'prop-types'
 import { Redirect, Link, Switch, Route, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Drawer,
-  SwipeableDrawer,
-  Hidden,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Select,
-  MenuItem,
-} from '@material-ui/core'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
@@ -68,7 +52,6 @@ const Settings = () => {
     if ( !devices.includes( device ) ) setDevice( 'local' )
   }, [ device, devices ] )
 
-  // Fetch list of themes from server
   useEffect( () => {
     fetch( `${BACKEND_URL}/presenter/themes` )
       .then( res => res.json() )
@@ -83,12 +66,12 @@ const Settings = () => {
   const renderMenuItems = () => {
     const Item = ( { name, icon, selected, url = SETTINGS_URL } ) => (
       <Link to={url} onClick={closeMobileMenu}>
-        <ListItem disableRipple selected={selected} className="item" key={name} button>
-          <ListItemIcon>
+        <li className={classNames( 'item', { selected } )} key={name}>
+          <span className="icon-container">
             <FontAwesomeIcon className="icon" icon={icon} />
-          </ListItemIcon>
-          <ListItemText className="text" primary={name} />
-        </ListItem>
+          </span>
+          <span className="text">{name}</span>
+        </li>
       </Link>
     )
 
@@ -111,30 +94,24 @@ const Settings = () => {
     ]
 
     return (
-      <List className="content">
-        <Select
+      <ul className="content">
+        <select
           className="select-menu device-selector category-title"
           onChange={( { target: { value } } ) => setDevice( value )}
           value={device}
-          disableUnderline
         >
-          <MenuItem value="local">This Device</MenuItem>
+          <option value="local">This Device</option>
           {Object.keys( settings )
             .filter( name => ![ 'local', 'global' ].includes( name ) )
             .map( device => (
-              <MenuItem
-                key={device}
-                value={device}
-              >
-                {device}
-              </MenuItem>
+              <option key={device} value={device}>{device}</option>
             ) )}
-        </Select>
+        </select>
 
         {menuItems.map( ( [ sectionName, settingsGroup, , url ] ) => (
           <>
 
-            {sectionName && <Typography key={sectionName} className="category-title">{sectionName}</Typography>}
+            {sectionName && <span key={sectionName} className="category-title">{sectionName}</span>}
 
             {Object.keys( settingsGroup )
               .map( name => (
@@ -148,41 +125,31 @@ const Settings = () => {
 
           </>
         ) ) }
-      </List>
+      </ul>
     )
   }
 
   const renderMenu = () => (
     <>
-      <Hidden smUp implementation="css">
-        <SwipeableDrawer
-          className={classNames( { open: mobileOpen }, 'mobile menu' )}
-          open={mobileOpen}
-          onOpen={openMobileMenu}
-          onClose={closeMobileMenu}
-          ModalProps={{ keepMounted: true }}
-        >
-          {renderMenuItems()}
-        </SwipeableDrawer>
-      </Hidden>
+      <nav className={classNames( 'mobile menu', { open: mobileOpen } )}>
+        {renderMenuItems()}
+      </nav>
 
-      <Hidden xsDown>
-        <Drawer className="desktop menu" variant="permanent" open>{renderMenuItems()}</Drawer>
-      </Hidden>
+      <nav className="desktop menu">
+        {renderMenuItems()}
+      </nav>
     </>
   )
 
   const renderTitlebar = () => (
-    <AppBar className="title-bar" position="static">
-      <Toolbar>
-        <Hidden mdUp>
-          <IconButton onClick={openMobileMenu}>
-            <FontAwesomeIcon className="menu icon" icon={faBars} />
-          </IconButton>
-        </Hidden>
-        <Typography className="title" align="center" variant="h6">{name}</Typography>
-      </Toolbar>
-    </AppBar>
+    <header className="title-bar">
+      <div className="toolbar">
+        <button type="button" className="menu-toggle" onClick={openMobileMenu}>
+          <FontAwesomeIcon className="menu icon" icon={faBars} />
+        </button>
+        <h6 className="title">{name}</h6>
+      </div>
+    </header>
   )
 
   const { theme: { simpleGraphics } } = settings.local

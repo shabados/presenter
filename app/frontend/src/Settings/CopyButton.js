@@ -1,8 +1,6 @@
 import React from 'react'
 import { string, func } from 'prop-types'
 
-import { Button, Tooltip } from '@material-ui/core'
-
 import { useCopyToClipboard } from '../lib/hooks'
 
 import './CopyButton.css'
@@ -16,9 +14,13 @@ const CopyButton = ( { copyText, onClick: originalOnClick, ...props } ) => {
   }
 
   return (
-    <Tooltip title="Click to copy">
-      <Button className="copy-button" {...props} onClick={onClick} />
-    </Tooltip>
+    <button
+      type="button"
+      className="copy-button"
+      title="Click to copy"
+      {...props}
+      onClick={onClick}
+    />
   )
 }
 

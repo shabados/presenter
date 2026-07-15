@@ -6,9 +6,6 @@ import { string, func } from 'prop-types'
 import classNames from 'classnames'
 import queryString from 'qs'
 
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-
 import {
   faCog,
   faHistory,
@@ -44,11 +41,6 @@ import Bookmarks from './Bookmarks'
 
 import './index.css'
 
-/**
- * Renders the top navigation bar, showing the current path in the URL, and the hover state.
- * @param title The title text in the top bar.
- * @param onHover Fired on hover with name.
- */
 const TopBar = ( { title, onHover } ) => {
   const resetHover = () => onHover( null )
 
@@ -59,7 +51,7 @@ const TopBar = ( { title, onHover } ) => {
   const state = getUrlState( search )
 
   return (
-    <Toolbar className="top bar">
+    <div className="top bar">
       <ToolbarButton
         name="Settings"
         icon={faCog}
@@ -67,7 +59,7 @@ const TopBar = ( { title, onHover } ) => {
         onMouseEnter={() => onHover( 'Settings' )}
         onMouseLeave={resetHover}
       />
-      <Typography className="name" type="title">{title}</Typography>
+      <span className="name">{title}</span>
       <ToolbarButton
         name="Minimize"
         icon={faWindowMinimize}
@@ -110,7 +102,7 @@ const TopBar = ( { title, onHover } ) => {
         onMouseEnter={() => onHover( 'Pop Out Controller' )}
         onMouseLeave={resetHover}
       />
-    </Toolbar>
+    </div>
   )
 }
 
@@ -124,13 +116,6 @@ TopBar.defaultProps = {
   onHover: () => {},
 }
 
-/**
- * Renders the bottom navigation bar.
- * @param history A `history` object.
- * @param renderContent A render prop for content in the bottom bar.
- * @param location A `location` object.
- * @param onHover Fired on hover with name.
- */
 const BottomBar = ( { renderContent, onHover } ) => {
   const history = useHistory()
   const location = useLocation()
@@ -141,7 +126,7 @@ const BottomBar = ( { renderContent, onHover } ) => {
   const resetHover = () => onHover( null )
 
   return (
-    <Toolbar className="bottom bar">
+    <div className="bottom bar">
       <ToolbarButton name="Search" icon={faSearch} onClick={go( SEARCH_URL )} onHover={onHover} />
       <ToolbarButton
         name="History"
@@ -174,7 +159,7 @@ const BottomBar = ( { renderContent, onHover } ) => {
         onMouseEnter={() => onHover( 'Clear' )}
         onMouseLeave={resetHover}
       />
-    </Toolbar>
+    </div>
   )
 }
 
@@ -188,9 +173,6 @@ BottomBar.defaultProps = {
   renderContent: () => null,
 }
 
-/**
- * Controller controls the display and configures settings.
- */
 const Controller = props => {
   const { shabad, bani } = useContext( ContentContext )
   const lines = useCurrentLines()
@@ -206,7 +188,6 @@ const Controller = props => {
 
   const [ lastUrl, setLastUrl ] = useState( `${NAVIGATOR_URL}${search}` )
 
-  // Save navigation to any subroutes by listening to history
   useEffectOnce( () => history.listen( ( { pathname, search } ) => {
     if ( pathname.match( `${CONTROLLER_URL}/.*` ) ) setLastUrl( `${pathname}${search}` )
   } ) )
@@ -215,7 +196,6 @@ const Controller = props => {
     const { pathname } = location
     const redirects = [ SEARCH_URL, HISTORY_URL, BOOKMARKS_URL ]
 
-    // Redirect to navigator tab if on one of the redirectable pages
     const isTransition = lines.length && lines !== previousLines
 
     if ( isTransition && redirects.some( route => pathname.includes( route ) ) ) {

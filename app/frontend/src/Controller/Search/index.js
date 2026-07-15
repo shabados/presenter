@@ -5,7 +5,6 @@ import { useLocation, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { stringify } from 'qs'
-import { Input, InputAdornment, IconButton, List } from '@material-ui/core'
 
 import { getUrlState } from '../../lib/utils'
 import { SettingsContext } from '../../lib/contexts'
@@ -22,16 +21,13 @@ import Result from './Result'
 import getHighlighter from './match-highlighter'
 import './index.css'
 
-// Generate the regex for capturing anchor chars, optionally
 const searchRegex = new RegExp( `^([${Object.keys( SEARCH_ANCHORS ).map( anchor => `\\${anchor}` ).join( '' )}])?(.*)` )
 
 const getSearchParams = searchQuery => {
-  // Extract anchors and search query
   const [ , anchor, query ] = searchQuery.match( searchRegex )
 
   const inputValue = query
 
-  // Get search type from anchor char, if any
   const type = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
 
   const value = type === SEARCH_TYPES.firstLetter
@@ -41,11 +37,6 @@ const getSearchParams = searchQuery => {
   return { anchor, value, type }
 }
 
-/**
- * Search Component.
- * Converts ASCII to unicode on input.
- * Displays results.
- */
 const Search = ( { updateFocus, register, focused } ) => {
   const { local: {
     search: {
@@ -55,7 +46,6 @@ const Search = ( { updateFocus, register, focused } ) => {
     },
   } = {} } = useContext( SettingsContext )
 
-  // Set the initial search query from URL
   const history = useHistory()
   const { search } = useLocation()
   const { query = '' } = getUrlState( search )
@@ -72,26 +62,16 @@ const Search = ( { updateFocus, register, focused } ) => {
 
   const inputRef = useRef( null )
 
-  /**
-   * Set the received results and update the searched vale.
-   * @param {Object[]} results An array of the returned results.
-   */
   const onResults = useCallback( results => {
     setSearchedValue( inputValue.current )
     setResults( results )
 
     updateFocus( 0 )
   }, [ updateFocus ] )
-  /**
-   * Run on change of value in the search box.
-   * Converts ascii to unicode if need be.
-   * Sends the search through to the controller.
-   * @param {string} value The new value of the search box.
-   */
+
   const onChange = useCallback( ( { target: { value } } ) => {
     const { anchor, type: searchType, value: searchValue } = getSearchParams( value )
 
-    // Search if enough letters
     const doSearch = searchValue.length >= MIN_SEARCH_CHARS
 
     if ( doSearch ) {
@@ -105,7 +85,6 @@ const Search = ( { updateFocus, register, focused } ) => {
     inputValue.current = searchValue
     setAnchor( anchor )
 
-    // Update URL with search
     history.push( { search: `?${stringify( {
       ...getUrlState( search ),
       query: value,
@@ -148,39 +127,40 @@ const Search = ( { updateFocus, register, focused } ) => {
 
   useEffect( () => { highlightSearch() }, [] )
 
-  // Get match highlighter for the current search mode
   const searchMode = SEARCH_ANCHORS[ anchor ] || SEARCH_TYPES.firstLetter
   const highlighter = getHighlighter( searchedValue, searchMode )
 
   return (
     <div className="search">
-      <Input
-        className={classNames( 'input', { 'input-focused': isInputFocused } )}
-        inputRef={inputRef}
-        onBlur={refocus}
-        onKeyDown={filterInputKeys}
-        onFocus={() => setInputFocused( true )}
-        onChange={onChange}
-        value={`${anchor || ''}${inputValue.current}`}
-        placeholder="Koj"
-        disableUnderline
-        autoFocus
-        endAdornment={inputValue.current && (
-        <InputAdornment>
-          <IconButton className="clear" onClick={() => onChange( { target: { value: '' } } )}>
+      <div className={classNames( 'input', { 'input-focused': isInputFocused } )}>
+        <input
+          ref={inputRef}
+          className="input-field"
+          onBlur={refocus}
+          onKeyDown={filterInputKeys}
+          onFocus={() => setInputFocused( true )}
+          onChange={onChange}
+          value={`${anchor || ''}${inputValue.current}`}
+          placeholder="Koj"
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
+          spellCheck={false}
+          autoCapitalize="off"
+          autoCorrect="off"
+          autoComplete="off"
+        />
+        {inputValue.current && (
+          <button
+            type="button"
+            className="clear"
+            onClick={() => onChange( { target: { value: '' } } )}
+          >
             <FontAwesomeIcon icon={faTimes} />
-          </IconButton>
-        </InputAdornment>
+          </button>
         )}
-        inputProps={{
-          spellCheck: false,
-          autoCapitalize: 'off',
-          autoCorrect: 'off',
-          autoComplete: 'off',
-        }}
-      />
+      </div>
 
-      <List className="results">
+      <ul className="results">
         {results && results.map( ( result, index ) => (
           <Result
             {...result}
@@ -190,7 +170,7 @@ const Search = ( { updateFocus, register, focused } ) => {
             highlighter={highlighter}
           />
         ) )}
-      </List>
+      </ul>
     </div>
   )
 }
