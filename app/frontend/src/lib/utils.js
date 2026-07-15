@@ -3,7 +3,6 @@
  * @ignore
  */
 
-import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view'
 import deepmerge from 'deepmerge'
 import queryString from 'qs'
@@ -27,8 +26,7 @@ export const merge = ( source, destination ) => deepmerge(
  * @param ref The reference to the element to scroll.
  * @param options Any options for the scroll function.
  */
-// eslint-disable-next-line react/no-find-dom-node
-export const scrollIntoCenter = ( ref, options ) => scrollIntoView( findDOMNode( ref ), ( {
+export const scrollIntoCenter = ( element, options ) => scrollIntoView( element, ( {
   time: 200,
   ...options,
 } ) )

@@ -1,7 +1,12 @@
 {
   "name": "@shabados/frontend",
   "version": "0.1.0",
+  "type": "module",
   "description": "Frontend component of Shabad OS Presenter (@shabados/presenter)",
+  "engines": {
+    "node": ">= 20.0.0",
+    "npm": ">= 10"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shabados/presenter.git"
@@ -28,17 +33,15 @@
     "is-mobile": "^2.1.0",
     "lodash": "^4.17.20",
     "memoizee": "^0.4.14",
-    "notistack": "^0.9.7",
+    "notistack": "^3.0.1",
     "prop-types": "^15.7.2",
     "qs": "^6.9.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-hot-loader": "^4.13.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-hotkeys": "^2.0.0",
-    "react-idle-timer": "^4.2.11",
+    "react-idle-timer": "^4.6.4",
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.4",
-    "react-scripts": "^5.0.1",
     "react-transition-group": "^4.3.0",
     "react-use": "^15.3.4",
     "reconnecting-websocket": "^4.2.0",
@@ -46,29 +49,13 @@
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
-    "analyze": "source-map-explorer build/static/js/*.js",
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@hot-loader/react-dom": "^16.13.0",
-    "react-app-rewire-hot-loader": "^2.0.1",
-    "react-app-rewired": "^2.2.1",
-    "source-map-explorer": "^2.1.0"
-  },
-  "proxy": "http://localhost:42425",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.3.5"
   }
 }

@@ -1,8 +1,9 @@
 /**
  *! Shared with backend. To be refactored into shared location.
  */
-import { invert } from 'lodash'
-import { toEnglish, toHindi, toShahmukhi, toUnicode } from 'gurmukhi-utils'
+import invert from 'lodash/invert.js'
+import gurmukhiUtils from 'gurmukhi-utils'
+const { toEnglish, toHindi, toShahmukhi, toUnicode } = gurmukhiUtils
 
 // Bani IDs
 export const BANIS = {

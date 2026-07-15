@@ -4,12 +4,13 @@
  */
 
 import pino from 'pino'
-import { createWriteStream } from 'fs-extra'
+import fsExtra from 'fs-extra'
+const { createWriteStream } = fsExtra
 import { PassThrough } from 'stream'
 import { stdout } from 'process'
 
-import { electronVersion, isDev, LOG_FILE, LOG_FOLDER } from './consts'
-import { ensureRequiredDir } from './utils'
+import { electronVersion, isDev, LOG_FILE, LOG_FOLDER } from './consts.js'
+import { ensureRequiredDir } from './utils.js'
 
 const logThrough = new PassThrough()
 

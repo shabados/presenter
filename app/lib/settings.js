@@ -4,12 +4,13 @@
  */
 
 import { EventEmitter } from 'events'
-import { readJSON, writeJSON, ensureFile } from 'fs-extra'
+import fsExtra from 'fs-extra'
+const { readJSON, writeJSON, ensureFile } = fsExtra
 import merge from 'deepmerge'
-import { get } from 'lodash'
+import get from 'lodash/get.js'
 
-import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts'
-import logger from './logger'
+import { SETTINGS_FILE, DEFAULT_SETTINGS_FILE } from './consts.js'
+import logger from './logger.js'
 
 const readDefaultSettings = () => readJSON( DEFAULT_SETTINGS_FILE )
 

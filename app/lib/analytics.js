@@ -7,11 +7,12 @@
 import * as Sentry from '@sentry/node'
 import { cpus, freemem, totalmem, platform, release, networkInterfaces } from 'os'
 
-import { version } from '../package.json'
+import pkg from '../package.json' with { type: 'json' }
+const { version } = pkg
 
-import logger from './logger'
-import settings from './settings'
-import { SENTRY_DSN, isDev, SENTRY_PROJECT } from './consts'
+import logger from './logger.js'
+import settings from './settings.js'
+import { SENTRY_DSN, isDev, SENTRY_PROJECT } from './consts.js'
 
 /**
  * Analytics class for tracking events and providing error reporting.

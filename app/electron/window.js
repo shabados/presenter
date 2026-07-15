@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow, screen, Menu } from 'electron'
-import { omit } from 'lodash'
+import omit from 'lodash/omit.js'
 import * as remote from '@electron/remote/main'
 
-import { PORT, isDev } from '../lib/consts'
+import { PORT, isDev } from '../lib/consts.js'
 
 const BASE_URL = !isDev ? `http://localhost:${PORT}` : `http://localhost:${3000}`
 
@@ -75,7 +75,7 @@ export const getMainWindow = () => mainWindow
 
 export const getDisplayWindows = () => displayWindows
 
-export const createSplashScreen = () => createWindow( `file://${__dirname}/splashscreen/index.html`, {
+export const createSplashScreen = () => createWindow( new URL( 'splashscreen/index.html', import.meta.url ).href, {
   width: 480,
   height: 270,
   frame: false,

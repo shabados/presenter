@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import program from 'commander'
-import { readFile } from 'fs-extra'
+import fsExtra from 'fs-extra'
+const { readFile } = fsExtra
 import WebSocket from 'ws'
 
 const extractors = [

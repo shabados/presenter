@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import React, { useContext } from 'react'
-import { hot } from 'react-hot-loader/root'
 
 import { ContentContext } from '../lib/contexts'
 
@@ -81,4 +80,4 @@ const ScreenReader = () => {
   )
 }
 
-export default hot( ScreenReader )
+export default ScreenReader

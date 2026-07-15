@@ -2,7 +2,7 @@
 import { app } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
-import logger from '../lib/logger'
+import logger from '../lib/logger.js'
 
 let updateChannelSet = false
 let installOnQuit = false

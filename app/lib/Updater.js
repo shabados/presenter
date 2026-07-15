@@ -1,15 +1,18 @@
 import { EventEmitter } from 'events'
-import { readJSON, remove, move } from 'fs-extra'
+import fsExtra from 'fs-extra'
+const { readJSON, remove, move } = fsExtra
 import { join } from 'path'
-import { manifest, extract } from 'pacote'
+import pacote from 'pacote'
+const { manifest, extract } = pacote
 import importFresh from 'import-fresh'
 import { knex } from '@shabados/database'
 
-import { dependencies } from '../package.json'
+import pkg from '../package.json' with { type: 'json' }
+const { dependencies } = pkg
 
-import logger from './logger'
-import settings from './settings'
-import { DATABASE_FOLDER, electronVersion } from './consts'
+import logger from './logger.js'
+import settings from './settings.js'
+import { DATABASE_FOLDER, electronVersion } from './consts.js'
 import { sendToElectron } from './utils.js'
 
 const databasePackage = `@shabados/database@${dependencies[ '@shabados/database' ]}`

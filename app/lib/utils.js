@@ -5,11 +5,12 @@
 
 import { hostname, networkInterfaces } from 'os'
 import { reverse } from 'dns'
-import { ensureDir, readdir, chmod, copy } from 'fs-extra'
+import fsExtra from 'fs-extra'
+const { ensureDir, readdir, chmod, copy } = fsExtra
 import { promisify } from 'util'
 import { extname, join } from 'path'
 
-import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts'
+import { CUSTOM_THEMES_FOLDER, DATA_FOLDER, HISTORY_FOLDER, TMP_FOLDER, LOG_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts.js'
 
 const asyncReverse = promisify( reverse )
 

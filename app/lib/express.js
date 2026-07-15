@@ -10,7 +10,7 @@ import helmet from 'helmet'
 import compression from 'compression'
 import bodyParser from 'body-parser'
 
-import logger from './logger'
+import logger from './logger.js'
 
 const DEFAULT_MIDDLEWARE = [ helmet(), compression(), bodyParser.json() ]
 

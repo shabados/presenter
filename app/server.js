@@ -2,16 +2,16 @@ import { join } from 'path'
 import cors from 'cors'
 import open from 'open'
 
-import analytics from './lib/analytics'
-import { setupExpress } from './lib/express'
-import api from './lib/api'
-import SessionManager from './lib/SessionManager'
-import Socket from './lib/Sockets'
-import { firstLetterSearch, fullWordSearch, getBanis } from './lib/db'
-import Updater from './lib/Updater'
-import settings from './lib/settings'
-import logger from './lib/logger'
-import { handleError } from './lib/error'
+import analytics from './lib/analytics.js'
+import { setupExpress } from './lib/express.js'
+import api from './lib/api.js'
+import SessionManager from './lib/SessionManager.js'
+import Socket from './lib/Sockets.js'
+import { firstLetterSearch, fullWordSearch, getBanis } from './lib/db.js'
+import Updater from './lib/Updater.js'
+import settings from './lib/settings.js'
+import logger from './lib/logger.js'
+import { handleError } from './lib/error.js'
 import {
   PORT,
   CUSTOM_THEMES_FOLDER,
@@ -24,11 +24,12 @@ import {
   FRONTEND_OVERLAY_THEMES_FOLDER,
   isDev,
   LOG_FOLDER,
-} from './lib/consts'
-import { ensureRequiredDirs, copyExampleThemes, sendToElectron } from './lib/utils'
-import zoom from './lib/zoom'
+} from './lib/consts.js'
+import { ensureRequiredDirs, copyExampleThemes, sendToElectron } from './lib/utils.js'
+import zoom from './lib/zoom.js'
 
-import { version } from './package.json'
+import pkg from './package.json' with { type: 'json' }
+const { version } = pkg
 
 // Action handlers
 const actions = [

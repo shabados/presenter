@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
 import { instanceOf } from 'prop-types'
 
 import { scrollIntoCenter, debounceHotKey } from '../lib/utils'
@@ -72,9 +71,7 @@ export const withNavigationHotkeys = ( {
       setFocus = () => {
         const { focusedIndex } = this.state
 
-        // Find the DOM node for the child to focus, and focus it
-        // eslint-disable-next-line react/no-find-dom-node
-        const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
+        const node = [ ...this.nodes.values() ][ focusedIndex ]
         if ( node ) scrollIntoCenter( node )
       }
 
@@ -84,9 +81,7 @@ export const withNavigationHotkeys = ( {
       simulateClick = debounceHotKey( () => {
         const { focusedIndex } = this.state
 
-        // Simulate a click on the focused element if possible
-        // eslint-disable-next-line react/no-find-dom-node
-        const node = findDOMNode( [ ...this.nodes.values() ][ focusedIndex ] )
+        const node = [ ...this.nodes.values() ][ focusedIndex ]
         if ( node ) {
           node.click()
         }

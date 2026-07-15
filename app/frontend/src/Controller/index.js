@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useEffectOnce, usePrevious } from 'react-use'
-import { hot } from 'react-hot-loader/root'
 import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom'
 import { string, func } from 'prop-types'
 
@@ -274,4 +273,4 @@ const Controller = props => {
   )
 }
 
-export default hot( Controller )
+export default Controller

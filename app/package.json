@@ -2,11 +2,12 @@
   "name": "@shabados/backend",
   "version": "2.11.3",
   "description": "Desktop app for presenting the Shabad OS Database on projectors, TVs, and live streams",
-  "main": "electron/esm-wrapper.js",
+  "type": "module",
+  "main": "electron/esm-wrapper.cjs",
   "scripts": {
     "start": "nodemon --ignore frontend/ --ignore electron/ -L --exec npm run start:production",
-    "start:production": "node -r esm server",
-    "replay-log": "node -r esm scripts/replay-log",
+    "start:production": "node server.js",
+    "replay-log": "node scripts/replay-log.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ."
   },
@@ -15,8 +16,8 @@
     "url": "git+https://github.com/shabados/presenter.git"
   },
   "engines": {
-    "node": ">= 16.0.0",
-    "npm": ">= 8"
+    "node": ">= 20.0.0",
+    "npm": ">= 10"
   },
   "author": "Shabad OS Team <team@shabados.com>",
   "license": "GPL-3.0",
@@ -36,7 +37,6 @@
     "deepmerge": "^4.0.0",
     "electron-fetch": "^1.7.3",
     "electron-updater": "^4.3.9",
-    "esm": "^3.2.25",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
     "get-value": "^3.0.1",

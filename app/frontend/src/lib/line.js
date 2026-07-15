@@ -2,10 +2,11 @@
  ** Currently shared with backend! Should be refactored.
  */
 
-import vishraams from 'gurmukhi-utils/lib/vishraams.json'
-import { stripVishraams, stripEndings } from 'gurmukhi-utils'
+import vishraams from 'gurmukhi-utils/lib/vishraams.json' with { type: 'json' }
+import gurmukhiUtils from 'gurmukhi-utils'
+const { stripVishraams, stripEndings } = gurmukhiUtils
 import memoize from 'memoizee'
-import { LINE_TYPES, TRANSLITERATORS } from './data'
+import { LINE_TYPES, TRANSLITERATORS } from './data.js'
 
 /**
  * Produces a map of the line hotkey that corresponds to the line index.

@@ -1,14 +1,15 @@
-import { toUnicode, stripVishraams } from 'gurmukhi-utils'
-import { mapValues } from 'lodash'
+import gurmukhiUtils from 'gurmukhi-utils'
+const { toUnicode, stripVishraams } = gurmukhiUtils
+import mapValues from 'lodash/mapValues.js'
 import Url from 'url-parse'
 
 //! To be refactored into shared utilities
-import { LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../frontend/src/lib/data'
-import { customiseLine, getTranslations, getTransliterators } from '../frontend/src/lib/line'
+import { LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../frontend/src/lib/data.js'
+import { customiseLine, getTranslations, getTransliterators } from '../frontend/src/lib/line.js'
 
-import { getSources } from './db'
-import fetch from './fetch'
-import settings from './settings'
+import { getSources } from './db.js'
+import fetch from './fetch.js'
+import settings from './settings.js'
 
 const getApiKey = () => settings.get( 'closedCaptions.zoomApiToken' )
 

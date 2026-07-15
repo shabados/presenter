@@ -1,6 +1,6 @@
-import logger from './logger'
-import analytics from './analytics'
-import { sendToElectron } from './utils'
+import logger from './logger.js'
+import analytics from './analytics.js'
+import { sendToElectron } from './utils.js'
 
 const portOccupied = () => {
   sendToElectron( 'ready' )

@@ -7,8 +7,8 @@ import EventEmitter from 'events'
 
 import WebSocket from 'ws'
 
-import { getHost } from './utils'
-import logger from './logger'
+import { getHost } from './utils.js'
+import logger from './logger.js'
 
 /**
  * Wrapper for WebSockets with convenience methods.

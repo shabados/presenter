@@ -1,11 +1,12 @@
 import { Router } from 'express'
 import { basename, join } from 'path'
 import { hostname, platform, release, arch, cpus } from 'os'
-import { readJSON } from 'fs-extra'
+import fsExtra from 'fs-extra'
+const { readJSON } = fsExtra
 
-import { CUSTOM_THEMES_FOLDER, APP_FOLDER, FRONTEND_THEMES_FOLDER, DATABASE_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts'
-import { listCSSFiles, getNetworkedAddresses } from './utils'
-import { getSources, getLanguages, getWriters } from './db'
+import { CUSTOM_THEMES_FOLDER, APP_FOLDER, FRONTEND_THEMES_FOLDER, DATABASE_FOLDER, CUSTOM_OVERLAY_THEMES_FOLDER, FRONTEND_OVERLAY_THEMES_FOLDER } from './consts.js'
+import { listCSSFiles, getNetworkedAddresses } from './utils.js'
+import { getSources, getLanguages, getWriters } from './db.js'
 
 const api = Router()
 

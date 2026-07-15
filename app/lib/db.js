@@ -3,11 +3,14 @@
  * @ignore
  */
 
-import { groupBy, last, keyBy } from 'lodash'
+import groupBy from 'lodash/groupBy.js'
+import last from 'lodash/last.js'
+import keyBy from 'lodash/keyBy.js'
 import { Lines, Shabads, Banis, Sources, Languages, Writers } from '@shabados/database'
-import { stripAccents } from 'gurmukhi-utils'
+import gurmukhiUtils from 'gurmukhi-utils'
+const { stripAccents } = gurmukhiUtils
 
-import { MAX_RESULTS } from './consts'
+import { MAX_RESULTS } from './consts.js'
 
 /**
  * Decorates a query function with the ability to accept modifier options.
@@ -15,8 +18,8 @@ import { MAX_RESULTS } from './consts'
  */
 const withSearchOptions = queryFn => ( query, options = {} ) => [
   [ options.transliterations, model => model.withTransliterations() ],
-  [ options.translations, model => model.eager( 'shabad' ).withTranslations() ],
-  [ options.citations, model => model.eager( 'shabad.section' ) ],
+  [ options.translations, model => model.withGraphFetched( 'shabad' ).withTranslations() ],
+  [ options.citations, model => model.withGraphFetched( 'shabad.section' ) ],
 ].reduce(
   ( model, [ option, modifier ] ) => ( option ? modifier( model ) : model ),
   queryFn( query ).limit( MAX_RESULTS ),
@@ -51,7 +54,7 @@ export const fullWordSearch = withSearchOptions(
 export const getShabad = shabadId => Shabads
   .query()
   .where( 'shabads.id', shabadId )
-  .eager( '[lines, section]' )
+  .withGraphFetched( '[lines, section]' )
   .withTranslations()
   .then( ( [ shabad ] ) => shabad )
 
@@ -64,7 +67,7 @@ export const getShabad = shabadId => Shabads
 export const getShabadByOrderId = orderId => Shabads
   .query()
   .where( 'shabads.order_id', orderId )
-  .eager( '[lines, section]' )
+  .withGraphFetched( '[lines, section]' )
   .withTranslations()
   .then( ( [ shabad ] ) => shabad )
 
@@ -83,11 +86,10 @@ export const getBanis = () => Banis.query()
  */
 export const getBaniLines = baniId => Banis
   .query()
-  .joinEager( 'lines.shabad' )
-  .orderBy( [ 'line_group', 'l.order_id' ] )
+  .withGraphJoined( 'lines.shabad' )
+  .orderBy( [ 'line_group', 'lines.order_id' ] )
   .where( 'banis.id', baniId )
   .withTranslations()
-  .eagerOptions( { minimize: false, aliases: { lines: 'l' } } )
   .then( ( [ bani ] ) => bani )
 
 /**
@@ -97,7 +99,7 @@ export const getBaniLines = baniId => Banis
  */
 export const getSources = () => Sources
   .query()
-  .eager( 'translationSources' )
+  .withGraphFetched( 'translationSources' )
   .then( sources => sources.reduce( (
     ( acc, { translationSources, id, ...source } ) => ( {
       ...acc,

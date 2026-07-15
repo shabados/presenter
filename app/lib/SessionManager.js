@@ -4,13 +4,14 @@
  */
 
 import get from 'get-value'
-import { clamp, omit } from 'lodash'
+import clamp from 'lodash/clamp.js'
+import omit from 'lodash/omit.js'
 
-import logger from './logger'
-import settingsManager from './settings'
-import History from './History'
-import { getShabad, getBaniLines, getShabadByOrderId, getShabadRange } from './db'
-import zoom from './zoom'
+import logger from './logger.js'
+import settingsManager from './settings.js'
+import History from './History.js'
+import { getShabad, getBaniLines, getShabadByOrderId, getShabadRange } from './db.js'
+import zoom from './zoom.js'
 
 /**
  * Returns settings for the devices which do not have the private value set.

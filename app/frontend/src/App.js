@@ -1,6 +1,5 @@
 import React, { PureComponent, lazy, Suspense } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
-import { hot } from 'react-hot-loader/root'
 import classNames from 'classnames'
 
 import { SnackbarProvider } from 'notistack'
@@ -202,4 +201,4 @@ class App extends PureComponent {
   }
 }
 
-export default hot( App )
+export default App

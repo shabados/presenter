@@ -1,5 +1,4 @@
 import React from 'react'
-import { hot } from 'react-hot-loader/root'
 import { shape, bool } from 'prop-types'
 import classNames from 'classnames'
 import { mapValues } from 'lodash'
@@ -122,4 +121,4 @@ Display.propTypes = {
   } ).isRequired,
 }
 
-export default hot( Display )
+export default Display

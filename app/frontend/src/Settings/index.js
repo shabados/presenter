@@ -4,7 +4,6 @@
 */
 import React, { useState, useEffect, useContext } from 'react'
 import { string, bool, shape } from 'prop-types'
-import { hot } from 'react-hot-loader/root'
 import { Redirect, Link, Switch, Route, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 
@@ -229,4 +228,4 @@ const Settings = () => {
   )
 }
 
-export default hot( withErrorFallback( Settings ) )
+export default withErrorFallback( Settings )

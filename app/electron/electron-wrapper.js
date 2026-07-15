@@ -2,12 +2,13 @@
 import { app } from 'electron'
 
 import * as remote from '@electron/remote/main'
-import logger from '../lib/logger'
-import { isDev } from '../lib/consts'
-import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window'
-import { setBeta, initUpdates, checkUpdates, UPDATER_ERRORS } from './updates'
-import initMenu from './menu'
-import { version } from '../package.json'
+import logger from '../lib/logger.js'
+import { isDev } from '../lib/consts.js'
+import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window.js'
+import { setBeta, initUpdates, checkUpdates, UPDATER_ERRORS } from './updates.js'
+import initMenu from './menu.js'
+import pkg from '../package.json' with { type: 'json' }
+const { version } = pkg
 
 let splashScreen
 
@@ -51,17 +52,14 @@ const onServerReady = server => {
 
 //! Random 5 second timeout before trying to connect to server
 if ( isDev ) {
-  app.on( 'ready', () => setTimeout( () => {
+  app.on( 'ready', () => setTimeout( async () => {
     onServerReady()
-    // eslint-disable-next-line import/no-extraneous-dependencies, global-require
-    const { default: installExtension, REACT_DEVELOPER_TOOLS } = require( 'electron-devtools-installer' )
+    const { default: installExtension, REACT_DEVELOPER_TOOLS } = await import( 'electron-devtools-installer' )
 
     installExtension( REACT_DEVELOPER_TOOLS )
 
-    // Pretend setting updates are sent over
     setInterval( async () => {
-      // eslint-disable-next-line global-require
-      const settings = require( '../lib/settings' ).default
+      const settings = ( await import( '../lib/settings.js' ) ).default
       await settings.loadSettings()
 
       onSettingsChange( settings.get() )
@@ -77,8 +75,7 @@ const handlers = {
   'open-window': () => ( { url, ...params } ) => url && createWindow( url, params ),
 }
 
-// Register handlers from server IPC
-module.exports = server => {
+export default server => {
   server.on( 'message', ( { event, payload } ) => {
     const handler = handlers[ event ] || ( () => () => {} )
     handler( server )( payload )

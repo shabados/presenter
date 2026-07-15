@@ -2,9 +2,11 @@
  * Constants file.
  * @ignore
  */
-import { join } from 'path'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
 import { platform } from 'os'
-import { getAppDataPath } from 'appdata-path'
+import appdataPath from 'appdata-path'
+const { getAppDataPath } = appdataPath
 
 // Dev environment
 export const isDev = process.env.NODE_ENV !== 'production'
@@ -20,6 +22,7 @@ export const isMac = platform() === 'darwin'
 export const UPDATE_CHECK_INTERVAL = 5000 * 60
 
 // App folder locations
+const __dirname = dirname( fileURLToPath( import.meta.url ) )
 export const APP_FOLDER = join( __dirname, '..' )
 export const FRONTEND_FOLDER = join( APP_FOLDER, 'frontend' )
 export const FRONTEND_SRC_FOLDER = join( FRONTEND_FOLDER, 'src' )

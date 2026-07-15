@@ -1,6 +1,5 @@
 import React, { lazy, Suspense, useState, useContext, useRef } from 'react'
 import { useMount } from 'react-use'
-import { hot } from 'react-hot-loader/root'
 import { Route, useHistory, useLocation } from 'react-router-dom'
 import IdleTimer from 'react-idle-timer'
 import queryString from 'qs'
@@ -216,4 +215,4 @@ const Presenter = () => {
   )
 }
 
-export default hot( withErrorFallback( Presenter ) )
+export default withErrorFallback( Presenter )

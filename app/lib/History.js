@@ -1,8 +1,8 @@
 import { createWriteStream } from 'fs'
 import * as CSV from 'csv-string'
-import { omit } from 'lodash'
+import omit from 'lodash/omit.js'
 
-import { HISTORY_FILE } from './consts'
+import { HISTORY_FILE } from './consts.js'
 
 // Fields to store in the history CSV file
 const CSV_FIELDS = [
