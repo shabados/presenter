@@ -1,5 +1,4 @@
-import React, { lazy, Suspense, useState, useContext, useRef } from 'react'
-import { useMount } from 'react-use'
+import React, { lazy, Suspense, useState, useContext, useRef, useEffect } from 'react'
 import { Route, useHistory, useLocation } from 'react-router-dom'
 import IdleTimer from 'react-idle-timer'
 import queryString from 'qs'
@@ -138,9 +137,9 @@ const Presenter = () => {
     [ GLOBAL_SHORTCUTS.quit.name ]: window.close,
   } )
 
-  useMount( () => {
+  useEffect( () => {
     if ( isMobile ) setFullscreenController()
-  } )
+  }, [] )
 
   const presenterRef = useRef( null )
 

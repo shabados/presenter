@@ -42,7 +42,7 @@
     "react-idle-timer": "^4.6.4",
     "react-router-dom": "^5.2.0",
     "react-transition-group": "^4.3.0",
-    "react-use": "^15.3.4",
+
     "reconnecting-websocket": "^4.2.0",
     "scroll-into-view": "^1.9.7"
   },

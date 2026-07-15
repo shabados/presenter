@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { useEffectOnce, usePrevious } from 'react-use'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom'
 import { string, func } from 'prop-types'
 
@@ -177,7 +176,9 @@ const Controller = props => {
   const { shabad, bani } = useContext( ContentContext )
   const lines = useCurrentLines()
 
-  const previousLines = usePrevious( lines )
+  const previousLinesRef = useRef( lines )
+  const previousLines = previousLinesRef.current
+  useEffect( () => { previousLinesRef.current = lines } )
 
   const [ hovered, setHovered ] = useState( null )
 
@@ -188,9 +189,9 @@ const Controller = props => {
 
   const [ lastUrl, setLastUrl ] = useState( `${NAVIGATOR_URL}${search}` )
 
-  useEffectOnce( () => history.listen( ( { pathname, search } ) => {
+  useEffect( () => history.listen( ( { pathname, search } ) => {
     if ( pathname.match( `${CONTROLLER_URL}/.*` ) ) setLastUrl( `${pathname}${search}` )
-  } ) )
+  } ), [] )
 
   useEffect( () => {
     const { pathname } = location
