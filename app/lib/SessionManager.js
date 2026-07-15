@@ -3,7 +3,6 @@
  * @ignore
  */
 
-import get from 'get-value'
 import clamp from 'lodash/clamp.js'
 import omit from 'lodash/omit.js'
 
@@ -21,7 +20,7 @@ const getPublicSettings = allSettings => Object
   .entries( allSettings )
   .reduce( ( acc, [ host, settings ] ) => ( {
     ...acc,
-    ...( !get( settings, 'security.private' ) && { [ host ]: settings } ),
+    ...( !settings?.security?.private && { [ host ]: settings } ),
   } ), {} )
 
 /**

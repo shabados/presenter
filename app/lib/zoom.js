@@ -1,7 +1,6 @@
 import gurmukhiUtils from 'gurmukhi-utils'
 const { toUnicode, stripVishraams } = gurmukhiUtils
 import mapValues from 'lodash/mapValues.js'
-import Url from 'url-parse'
 
 //! To be refactored into shared utilities
 import { LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../frontend/src/lib/data.js'
@@ -82,7 +81,7 @@ class ZoomController {
 
     const nextSeq = this.previousSeq + 1
 
-    const endpoint = new Url( getApiKey() )
+    const endpoint = new URL( getApiKey() )
     endpoint.set( 'query', `${endpoint.query}&seq=${nextSeq}` )
 
     await fetch( endpoint, {
@@ -95,7 +94,7 @@ class ZoomController {
   }
 
   async fetchPreviousSeq() {
-    const endpoint = new Url( getApiKey() )
+    const endpoint = new URL( getApiKey() )
     endpoint.set( 'pathname', `${endpoint.pathname}/seq` )
 
     this.previousSeq = await fetch( endpoint )

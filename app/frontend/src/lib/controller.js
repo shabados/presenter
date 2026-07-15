@@ -4,7 +4,7 @@
  */
 
 import ReconnectingWebSocket from 'reconnecting-websocket'
-import EventEmitter from 'event-emitter'
+import EventEmitter from 'eventemitter3'
 
 import { DEFAULT_OPTIONS } from './options'
 import { WS_URL, isElectron, isDev } from './consts'

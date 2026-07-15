@@ -1,5 +1,3 @@
-import fetch from 'node-fetch'
-
 const fetchJson = async ( url, params ) => {
   const response = await fetch( url, params )
 
