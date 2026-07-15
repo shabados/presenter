@@ -103,11 +103,10 @@ export const withNavigationHotkeys = ( {
        * @param click Trigger the click.
        */
       jumpTo = ( focusedIndex, click = true ) => {
-        this.setState( { focusedIndex } )
-
-        // Click on navigation if set
         if ( clickOnFocus && click ) {
-          this.simulateClick()
+          this.setState( { focusedIndex }, () => this.simulateClick() )
+        } else {
+          this.setState( { focusedIndex } )
         }
       }
 
