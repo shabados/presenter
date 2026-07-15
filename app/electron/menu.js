@@ -5,7 +5,7 @@ const initMenu = () => {
   if ( process.platform !== 'darwin' ) return
   const template = [
     {
-      label: app.getName(),
+      label: app.name,
       submenu: [
         { role: 'about' },
         { type: 'separator' },

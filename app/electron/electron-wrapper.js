@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 
-import * as remote from '@electron/remote/main'
+import * as remote from '@electron/remote/main/index.js'
 import logger from '../lib/logger.js'
 import { isDev } from '../lib/consts.js'
 import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window.js'
@@ -54,7 +54,7 @@ const onServerReady = server => {
 if ( isDev ) {
   app.on( 'ready', () => setTimeout( async () => {
     onServerReady()
-    const { default: installExtension, REACT_DEVELOPER_TOOLS } = await import( 'electron-devtools-installer' )
+    const { installExtension, REACT_DEVELOPER_TOOLS } = await import( 'electron-devtools-installer' )
 
     installExtension( REACT_DEVELOPER_TOOLS )
 
@@ -76,6 +76,7 @@ const handlers = {
 }
 
 export default server => {
+  if ( !server ) return
   server.on( 'message', ( { event, payload } ) => {
     const handler = handlers[ event ] || ( () => () => {} )
     handler( server )( payload )

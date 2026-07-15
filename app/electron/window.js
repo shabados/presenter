@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow, screen, Menu } from 'electron'
 import omit from 'lodash/omit.js'
-import * as remote from '@electron/remote/main'
+import * as remote from '@electron/remote/main/index.js'
 
 import { PORT, isDev } from '../lib/consts.js'
 

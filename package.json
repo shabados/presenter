@@ -2,7 +2,7 @@
   "name": "@shabados/presenter",
   "version": "0.0.1",
   "description": "Electron wrapper around Shabad OS backend and frontend",
-  "main": "app/electron/esm-wrapper.cjs",
+  "main": "app/electron/entry.js",
   "engines": {
     "node": ">= 20.0.0",
     "npm": ">= 10"
@@ -13,10 +13,10 @@
     "lint:backend": "cd app && npm run lint",
     "lint:frontend": "cd app/frontend && npm run lint",
     "test": "echo \"No tests\"",
-    "start": "npm-run-all -l -p start:backend start:frontend",
+    "start": "npm-run-all -l -p start:backend start:frontend start:electron",
     "start:backend": "cd app && npm run start",
     "start:frontend": "cd app/frontend && npm start",
-    "start:electron": "cd app && electron electron/esm-wrapper.cjs electron-wrapper",
+    "start:electron": "cd app && electron .",
     "build": "cd app/frontend && npm run build",
     "install-deps": "npm run install-deps:backend && npm run install-deps:frontend",
     "install-deps:backend": "cd app && npm install",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "conventional-changelog-cli": "^2.0.34",
-    "electron": "13.1.2",
+    "electron": "43.1.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
@@ -107,7 +107,7 @@
     }
   },
   "dependencies": {
-    "electron-builder": "^22.8.0",
-    "electron-notarize": "^0.1.1"
+    "@electron/notarize": "^3.1.1",
+    "electron-builder": "^26.15.3"
   }
 }
