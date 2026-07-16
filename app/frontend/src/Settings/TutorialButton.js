@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import controller from '../lib/controller'
 
-import { Button } from './SettingComponents'
+import { Button } from '../components/form'
 
 import './TutorialButton.css'
 

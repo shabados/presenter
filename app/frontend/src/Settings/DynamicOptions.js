@@ -7,7 +7,7 @@ import { OPTIONS, DEFAULT_OPTIONS, PRIVACY_TYPES, FLAT_OPTION_GROUPS } from '../
 import controller from '../lib/controller'
 import { SettingsContext } from '../lib/contexts'
 
-import SettingComponentFactory, { Button } from './SettingComponents'
+import SettingComponentFactory, { Button } from '../components/form'
 
 export const OptionGrid = ( { children, ...props } ) => (
   <div {...props} className="option">

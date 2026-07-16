@@ -6,7 +6,7 @@ import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
 import controller from '../lib/controller'
 
 import CopyButton from './CopyButton'
-import { Button } from './SettingComponents'
+import { Button } from '../components/form'
 
 const aboutFields = [
   [ 'version', 'Shabad OS Version' ],

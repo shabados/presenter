@@ -8,7 +8,7 @@ import controller from '../lib/controller'
 import CopyButton from './CopyButton'
 import TutorialButton from './TutorialButton'
 import DynamicOptions, { IconSlot, OptionGrid } from './DynamicOptions'
-import { Button } from './SettingComponents'
+import { Button } from '../components/form'
 
 import './OverlaySettings.css'
 

@@ -9,7 +9,7 @@ import { BACKEND_URL } from '../lib/consts'
 import controller from '../lib/controller'
 
 import { ResetButton } from './DynamicOptions'
-import { Dropdown as Select } from './SettingComponents'
+import { Dropdown as Select } from '../components/form'
 
 import './Sources.css'
 
