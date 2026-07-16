@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 
-import * as remote from '@electron/remote/main/index.js'
 import logger from '../lib/logger.js'
 import { isDev } from '../lib/consts.js'
 import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window.js'
@@ -12,16 +11,11 @@ const { version } = pkg
 
 let splashScreen
 
-remote.initialize()
-
 app.on( 'ready', () => {
   logger.info( 'Starting Electron Shell' )
 
   logger.info( 'Loading splashscreen' )
-  splashScreen = createSplashScreen()
-  splashScreen.globals = {
-    version,
-  }
+  splashScreen = createSplashScreen( version )
 } )
 
 const onSettingsChange = ( { system } ) => {

@@ -1,14 +1,22 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { app, BrowserWindow, screen, Menu } from 'electron'
+import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron'
+import { fileURLToPath } from 'url'
 import omit from 'lodash/omit.js'
-import * as remote from '@electron/remote/main/index.js'
 
 import { PORT, isDev } from '../lib/consts.js'
+
+const PRELOAD_PATH = fileURLToPath( new URL( 'preload.cjs', import.meta.url ) )
 
 const BASE_URL = !isDev ? `http://localhost:${PORT}` : `http://localhost:${3000}`
 
 let displayWindows = {}
 let mainWindow = null
+
+// Fullscreen toggle requested from the renderer via the preload bridge
+ipcMain.on( 'toggle-fullscreen', ( { sender } ) => {
+  const window = BrowserWindow.fromWebContents( sender )
+  if ( window ) window.setFullScreen( !window.isFullScreen() )
+} )
 
 // Hide default menu in prod
 if ( !isDev ) Menu.setApplicationMenu( null )
@@ -19,10 +27,9 @@ const fullScreenOnShow = window => window.maximize()
 export const createWindow = ( url, windowParams, onBeforeShow = () => {} ) => {
   const window = new BrowserWindow( {
     show: false,
-    webPreferences: { nodeIntegration: true, contextIsolation: false },
+    webPreferences: { contextIsolation: true, preload: PRELOAD_PATH },
     ...windowParams,
   } )
-  remote.enable( window.webContents )
   window.setMenuBarVisibility( isDev )
 
   window.loadURL( url )
@@ -75,7 +82,7 @@ export const getMainWindow = () => mainWindow
 
 export const getDisplayWindows = () => displayWindows
 
-export const createSplashScreen = () => createWindow( new URL( 'splashscreen/index.html', import.meta.url ).href, {
+export const createSplashScreen = version => createWindow( `${new URL( 'splashscreen/index.html', import.meta.url ).href}?version=${version}`, {
   width: 480,
   height: 270,
   frame: false,

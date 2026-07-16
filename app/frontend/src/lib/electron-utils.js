@@ -1,13 +1,8 @@
-import { isElectron } from './consts'
+// Bridge API exposed by the Electron preload script (see electron/preload.cjs)
+const electron = () => window.electron
 
-// eslint-disable-next-line global-require, import/no-extraneous-dependencies
-const electron = () => window.require( '@electron/remote' )
-
-export const toggleFullscreen = isElectron
-  ? () => {
-    const window = electron().getCurrentWindow()
-    window.setFullScreen( !window.isFullScreen() )
-  }
-  : () => ( document.fullscreenElement
+export const toggleFullscreen = () => ( electron()
+  ? electron().toggleFullscreen()
+  : ( document.fullscreenElement
     ? document.exitFullscreen()
-    : document.documentElement.requestFullscreen( document.fullscreenElement ) )
+    : document.documentElement.requestFullscreen() ) )

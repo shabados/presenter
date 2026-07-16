@@ -17,12 +17,12 @@
       <span id="start-message">Starting</span>
     </div>
     <script>
-      const {
-        globals: { version },
-      } = require('@electron/remote').getCurrentWindow();
+      const version = new URLSearchParams(window.location.search).get(
+        'version'
+      );
       document.getElementById(
         'start-message'
-      ).innerHTML = `Starting v${version}`;
+      ).textContent = `Starting v${version}`;
     </script>
   </body>
 </html>
