@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { number } from 'prop-types'
 
-import Loader from '../shared/Loader'
+import Loader from '../components/Loader'
 import { BACKEND_URL, BACKEND_PORT, isElectron } from '../lib/consts'
 import controller from '../lib/controller'
 

@@ -19,7 +19,7 @@ import {
 } from './lib/contexts'
 
 import Overlay from './Overlay'
-import Loader from './shared/Loader'
+import Loader from './components/Loader'
 
 import './App.css'
 

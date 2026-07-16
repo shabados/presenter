@@ -1,7 +1,7 @@
 import React from 'react'
 import { bool, func, string } from 'prop-types'
 
-import Dialog from '../../shared/Dialog'
+import Dialog from '../../components/Dialog'
 
 import './HotkeyDialog.css'
 

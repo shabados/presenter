@@ -4,7 +4,7 @@ import { shape, objectOf, string, number } from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
-import Loader from '../shared/Loader'
+import Loader from '../components/Loader'
 import { BACKEND_URL } from '../lib/consts'
 import controller from '../lib/controller'
 

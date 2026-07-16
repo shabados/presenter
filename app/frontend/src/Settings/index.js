@@ -22,8 +22,8 @@ import { OPTIONS, OPTION_GROUPS, FLAT_OPTION_GROUPS } from '../lib/options'
 import SHORTCUTS from '../lib/keyMap'
 import { SettingsContext } from '../lib/contexts'
 
-import ThemeLoader from '../shared/ThemeLoader'
-import { withErrorFallback } from '../shared/ErrorFallback'
+import ThemeLoader from '../components/ThemeLoader'
+import { withErrorFallback } from '../components/ErrorFallback'
 
 import Sources from './Sources'
 import About from './About'

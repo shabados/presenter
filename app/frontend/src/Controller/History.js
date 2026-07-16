@@ -14,7 +14,7 @@ import { HISTORY_DOWNLOAD_URL } from '../lib/consts'
 import controller from '../lib/controller'
 import { HistoryContext } from '../lib/contexts'
 
-import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
+import { withNavigationHotkeys } from '../hotkeys/NavigationHotkeys'
 
 import './History.css'
 

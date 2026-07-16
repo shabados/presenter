@@ -5,7 +5,7 @@ import { LINE_HOTKEYS } from '../lib/keyMap'
 import controller from '../lib/controller'
 import { BookmarksContext } from '../lib/contexts'
 
-import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
+import { withNavigationHotkeys } from '../hotkeys/NavigationHotkeys'
 
 import './Bookmarks.css'
 

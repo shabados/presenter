@@ -9,7 +9,7 @@ import { stringify } from 'qs'
 import { getUrlState } from '../../lib/utils'
 import { SettingsContext } from '../../lib/contexts'
 import controller from '../../lib/controller'
-import { withNavigationHotkeys } from '../../shared/NavigationHotkeys'
+import { withNavigationHotkeys } from '../../hotkeys/NavigationHotkeys'
 import {
   SEARCH_TYPES,
   SEARCH_CHARS,

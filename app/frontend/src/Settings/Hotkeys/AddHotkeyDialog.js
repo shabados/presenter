@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { bool, func, string, objectOf } from 'prop-types'
 import { recordKeyCombination } from 'react-hotkeys'
 
-import Dialog from '../../shared/Dialog'
+import Dialog from '../../components/Dialog'
 import { isMac } from '../../lib/consts'
 import { LINE_HOTKEYS, RESTRICTED_STROKES } from '../../lib/keyMap'
 import { mapPlatformKey } from '../../lib/utils'

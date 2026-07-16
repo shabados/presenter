@@ -28,12 +28,12 @@ import { SettingsContext } from '../lib/contexts'
 import { useCurrentLines } from '../lib/hooks'
 import { OPTIONS } from '../lib/options'
 
-import ThemeLoader from '../shared/ThemeLoader'
-import Loader from '../shared/Loader'
-import GlobalHotKeys from '../shared/GlobalHotKeys'
-import NavigatorHotKeys from '../shared/NavigatorHotkeys'
-import { withErrorFallback } from '../shared/ErrorFallback'
-import CopyHotkeys from '../shared/CopyHotkeys'
+import ThemeLoader from '../components/ThemeLoader'
+import Loader from '../components/Loader'
+import GlobalHotKeys from '../hotkeys/GlobalHotKeys'
+import NavigatorHotKeys from '../hotkeys/NavigatorHotkeys'
+import { withErrorFallback } from '../components/ErrorFallback'
+import CopyHotkeys from '../hotkeys/CopyHotkeys'
 
 import StatusToast from './StatusToast'
 

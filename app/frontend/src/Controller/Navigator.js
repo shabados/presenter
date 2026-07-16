@@ -25,9 +25,9 @@ import { useCurrentLines } from '../lib/hooks'
 import { getJumpLines, getNextJumpLine } from '../lib/auto-jump'
 import { findLineIndex } from '../lib/line'
 
-import GlobalHotKeys from '../shared/GlobalHotKeys'
-import { withNavigationHotkeys } from '../shared/NavigationHotkeys'
-import NavigatorHotKeys from '../shared/NavigatorHotkeys'
+import GlobalHotKeys from '../hotkeys/GlobalHotKeys'
+import { withNavigationHotkeys } from '../hotkeys/NavigationHotkeys'
+import NavigatorHotKeys from '../hotkeys/NavigatorHotkeys'
 
 import ToolbarButton from './ToolbarButton'
 import ShabadInfo from './ShabadInfo'
