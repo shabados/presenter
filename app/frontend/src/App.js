@@ -18,14 +18,14 @@ import {
   WritersContext,
 } from './lib/contexts'
 
-import Overlay from './Overlay'
+import Overlay from './routes/Overlay'
 import Loader from './components/Loader'
 
 import './App.css'
 
-const ScreenReader = lazy( () => import( './ScreenReader' ) )
-const Presenter = lazy( () => import( './Presenter' ) )
-const Settings = lazy( () => import( './Settings' ) )
+const ScreenReader = lazy( () => import( './routes/ScreenReader' ) )
+const Presenter = lazy( () => import( './routes/Presenter' ) )
+const Settings = lazy( () => import( './routes/Settings' ) )
 
 const loadSettings = () => merge( { local: controller.readSettings() }, DEFAULT_OPTIONS )
 
