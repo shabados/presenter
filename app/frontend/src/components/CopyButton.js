@@ -1,7 +1,7 @@
 import React from 'react'
 import { string, func } from 'prop-types'
 
-import { useCopyToClipboard } from '../../lib/hooks'
+import { useCopyToClipboard } from '../lib/hooks'
 
 import './CopyButton.css'
 

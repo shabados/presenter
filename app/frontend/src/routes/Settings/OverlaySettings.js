@@ -5,8 +5,8 @@ import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 import { BACKEND_URL, OVERLAY_PORT, isElectron } from '../../lib/consts'
 import controller from '../../lib/controller'
 
-import CopyButton from './CopyButton'
-import TutorialButton from './TutorialButton'
+import CopyButton from '../../components/CopyButton'
+import TutorialButton from '../../components/TutorialButton'
 import DynamicOptions, { IconSlot, OptionGrid } from './DynamicOptions'
 import { Button } from '../../components/form'
 

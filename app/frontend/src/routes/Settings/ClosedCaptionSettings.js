@@ -1,6 +1,6 @@
 import React from 'react'
 
-import TutorialButton from './TutorialButton'
+import TutorialButton from '../../components/TutorialButton'
 import DynamicOptions, { OptionGrid } from './DynamicOptions'
 
 import './ClosedCaptionSettings.css'

@@ -2,9 +2,9 @@ import React from 'react'
 import { node, string } from 'prop-types'
 import classNames from 'classnames'
 
-import controller from '../../lib/controller'
+import controller from '../lib/controller'
 
-import { Button } from '../../components/form'
+import { Button } from './form'
 
 import './TutorialButton.css'
 

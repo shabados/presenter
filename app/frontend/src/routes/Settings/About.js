@@ -5,7 +5,7 @@ import Loader from '../../components/Loader'
 import { BACKEND_URL, BACKEND_PORT, isElectron } from '../../lib/consts'
 import controller from '../../lib/controller'
 
-import CopyButton from './CopyButton'
+import CopyButton from '../../components/CopyButton'
 import { Button } from '../../components/form'
 
 const aboutFields = [
