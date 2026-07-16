@@ -3,8 +3,8 @@ const { toUnicode, stripVishraams } = gurmukhiUtils
 import mapValues from 'lodash/mapValues.js'
 
 //! To be refactored into shared utilities
-import { LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../frontend/src/lib/data.js'
-import { customiseLine, getTranslations, getTransliterators } from '../frontend/src/lib/line.js'
+import { LANGUAGES, TRANSLATION_ORDER, TRANSLITERATION_ORDER } from '../../frontend/src/lib/data.js'
+import { customiseLine, getTranslations, getTransliterators } from '../../frontend/src/lib/line.js'
 
 import { getSources } from './db.js'
 import fetch from './fetch.js'

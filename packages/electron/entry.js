@@ -2,8 +2,8 @@ import { spawn } from 'child_process'
 import { fileURLToPath } from 'url'
 import { app } from 'electron'
 
-import { LOG_FILE, isDev } from '../lib/consts.js'
-import logger from '../lib/logger.js'
+import { LOG_FILE, isDev } from '@shabados/backend/lib/consts.js'
+import logger from '@shabados/backend/lib/logger.js'
 
 const LAUNCH_FLAG = '--start-server'
 
@@ -20,7 +20,7 @@ const spawnServer = () => spawn( execPath, [ entryPath, LAUNCH_FLAG ], {
 } )
 
 if ( processFlag === LAUNCH_FLAG ) {
-  await import( '../server.js' )
+  await import( '@shabados/backend/server.js' )
 } else if ( isDev ) {
   // Dev: backend runs separately via npm start, no server spawn needed
   const { default: electronWrapper } = await import( './electron-wrapper.js' )

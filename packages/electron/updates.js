@@ -3,7 +3,7 @@ import { app } from 'electron'
 import electronUpdater from 'electron-updater'
 const { autoUpdater } = electronUpdater
 
-import logger from '../lib/logger.js'
+import logger from '@shabados/backend/lib/logger.js'
 
 let updateChannelSet = false
 let installOnQuit = false

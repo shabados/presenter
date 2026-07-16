@@ -1,4 +1,4 @@
-$(cat app/package.json | grep -Eq '"version". "[0-9]+\.[0-9]+\.[0-9]+-.*"') && IS_BETA=true
+$(cat packages/electron/package.json | grep -Eq '"version". "[0-9]+\.[0-9]+\.[0-9]+-.*"') && IS_BETA=true
 
 if [ $IS_BETA ]; then
     # If we are on a beta, only use the current version

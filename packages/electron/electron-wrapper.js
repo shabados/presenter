@@ -1,12 +1,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 
-import logger from '../lib/logger.js'
-import { isDev } from '../lib/consts.js'
+import logger from '@shabados/backend/lib/logger.js'
+import { isDev } from '@shabados/backend/lib/consts.js'
 import { createMainWindow, createNonMainWindows, closeNonMainWindows, createWindow, createSplashScreen, getMainWindow, getDisplayWindows } from './window.js'
 import { setBeta, initUpdates, checkUpdates, UPDATER_ERRORS } from './updates.js'
 import initMenu from './menu.js'
-import pkg from '../package.json' with { type: 'json' }
+import pkg from './package.json' with { type: 'json' }
 const { version } = pkg
 
 let splashScreen
@@ -53,7 +53,7 @@ if ( isDev ) {
     installExtension( REACT_DEVELOPER_TOOLS )
 
     setInterval( async () => {
-      const settings = ( await import( '../lib/settings.js' ) ).default
+      const settings = ( await import( '@shabados/backend/lib/settings.js' ) ).default
       await settings.loadSettings()
 
       onSettingsChange( settings.get() )

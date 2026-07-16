@@ -2,7 +2,10 @@
   "name": "@shabados/presenter",
   "version": "0.0.1",
   "description": "Electron wrapper around Shabad OS backend and frontend",
-  "main": "app/electron/entry.js",
+  "main": "packages/electron/entry.js",
+  "workspaces": [
+    "packages/*"
+  ],
   "engines": {
     "node": ">= 20.0.0",
     "npm": ">= 10"
@@ -10,21 +13,19 @@
   "scripts": {
     "changelog": "sh get-changelog.sh",
     "lint": "npm-run-all -l -p lint:*",
-    "lint:backend": "cd app && npm run lint",
-    "lint:frontend": "cd app/frontend && npm run lint",
+    "lint:backend": "npm run lint --workspace @shabados/backend",
+    "lint:electron": "npm run lint --workspace @shabados/electron",
+    "lint:frontend": "npm run lint --workspace @shabados/frontend",
     "test": "echo \"No tests\"",
     "start": "npm-run-all -l -p start:backend start:frontend start:electron",
-    "start:backend": "cd app && npm run start",
-    "start:frontend": "cd app/frontend && npm start",
-    "start:electron": "cd app && electron .",
-    "build": "cd app/frontend && npm run build",
-    "install-deps": "npm run install-deps:backend && npm run install-deps:frontend",
-    "install-deps:backend": "cd app && npm install",
-    "install-deps:frontend": "cd app/frontend && npm install",
+    "start:backend": "npm run start --workspace @shabados/backend",
+    "start:frontend": "npm run start --workspace @shabados/frontend",
+    "start:electron": "npm run start --workspace @shabados/electron",
+    "build": "npm run build --workspace @shabados/frontend",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "release": "electron-builder",
-    "postinstall": "electron-builder install-app-deps &&npm run install-deps"
+    "postinstall": "electron-builder install-app-deps"
   },
   "repository": {
     "type": "git",

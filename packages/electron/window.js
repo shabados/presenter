@@ -3,7 +3,7 @@ import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron'
 import { fileURLToPath } from 'url'
 import omit from 'lodash/omit.js'
 
-import { PORT, isDev } from '../lib/consts.js'
+import { PORT, isDev } from '@shabados/backend/lib/consts.js'
 
 const PRELOAD_PATH = fileURLToPath( new URL( 'preload.cjs', import.meta.url ) )
 

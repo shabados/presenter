@@ -4,6 +4,7 @@
  */
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { createRequire } from 'module'
 import { platform } from 'os'
 import appdataPath from 'appdata-path'
 const { getAppDataPath } = appdataPath
@@ -24,12 +25,12 @@ export const UPDATE_CHECK_INTERVAL = 5000 * 60
 // App folder locations
 const __dirname = dirname( fileURLToPath( import.meta.url ) )
 export const APP_FOLDER = join( __dirname, '..' )
-export const FRONTEND_FOLDER = join( APP_FOLDER, 'frontend' )
+export const FRONTEND_FOLDER = join( APP_FOLDER, '..', 'frontend' )
 export const FRONTEND_SRC_FOLDER = join( FRONTEND_FOLDER, 'src' )
 export const FRONTEND_BUILD_FOLDER = join( FRONTEND_FOLDER, 'build' )
 export const FRONTEND_OVERLAY_THEMES_FOLDER = join( FRONTEND_SRC_FOLDER, 'routes', 'Overlay', 'themes' )
 export const FRONTEND_THEMES_FOLDER = join( FRONTEND_SRC_FOLDER, 'routes', 'Presenter', 'themes' )
-export const DATABASE_FOLDER = join( APP_FOLDER, 'node_modules', '@shabados', 'database' )
+export const DATABASE_FOLDER = dirname( createRequire( import.meta.url ).resolve( '@shabados/database/package.json' ) )
 
 // Data folder locations
 export const DATA_FOLDER = join( getAppDataPath(), 'Shabad OS' )
