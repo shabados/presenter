@@ -1,3 +1,10 @@
+# Development has moved to [shabados/shabados](https://github.com/shabados/shabados)
+
+This repo has been archived in favor of the above monorepo.
+
+<details>
+<summary>Archived README</summary>
+
 # Presenter
 
 Software for searching, navigating, and presenting the Shabad OS Database
@@ -48,3 +55,5 @@ If you have a concern that doesn't warrant opening a GitHub issue, please reach 
 - Bhajneet S.K.: [@bhajneet](https://github.com/bhajneet)
 
 "Thank you!" to [all the volunteers](https://github.com/shabados/presenter/graphs/contributors) who've contributed to Presenter.
+
+</details>
