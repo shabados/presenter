@@ -1,8 +1,8 @@
 const { existsSync } = require( 'fs' )
 const { join } = require( 'path' )
-const { notarize } = require( 'electron-notarize' )
+const { notarize } = require( '@electron/notarize' )
 
-const { APPLE_ID: appleId, APPLE_PASSWORD: appleIdPassword } = process.env
+const { APPLE_ID: appleId, APPLE_PASSWORD: appleIdPassword, APPLE_TEAM_ID: teamId } = process.env
 const { build: { appId: appBundleId } } = require( '../package.json' )
 
 module.exports = async params => {
@@ -15,7 +15,7 @@ module.exports = async params => {
 
   console.log( `Notarizing ${appBundleId} found at ${appPath}` )
 
-  await notarize( { appBundleId, appPath, appleId, appleIdPassword } )
+  await notarize( { tool: 'notarytool', appBundleId, appPath, appleId, appleIdPassword, teamId } )
     .catch( error => console.error( error ) )
 
   console.log( `Done notarizing ${appBundleId}` )

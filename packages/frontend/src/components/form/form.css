@@ -1,0 +1,121 @@
+.select {
+  font-size: 0.9em;
+  color: var(--settings-text-color);
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid currentColor;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.select:focus {
+  outline: none;
+  border-bottom-color: var(--settings-setting-on-color);
+}
+
+/* select-menu is the device-selector in Settings nav */
+.select-menu {
+  background-color: transparent;
+  border: none;
+  width: calc(100% - 40px);
+  margin: 10px 20px;
+}
+
+/* Toggle (native checkbox styled as switch) */
+.toggle {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 34px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: var(--settings-setting-off-color);
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s;
+}
+
+.checked.toggle {
+  background-color: var(--settings-setting-on-color);
+}
+
+.checked.toggle::after {
+  transform: translateX(14px);
+}
+
+/* Slider (native range input) */
+.slider {
+  cursor: pointer;
+  accent-color: var(--settings-setting-on-color);
+}
+
+.button {
+  color: var(--settings-text-color) !important;
+  background-color: var(--settings-setting-off-color) !important;
+  border: none;
+  cursor: pointer;
+  padding: 6px 16px;
+  border-radius: 4px;
+}
+
+.button:hover {
+  color: var(--settings-background-color) !important;
+  background-color: var(--settings-setting-on-color) !important;
+}
+
+.option {
+  align-items: center;
+}
+
+.text-input {
+  position: relative;
+  width: fit-content;
+}
+
+.text-input .status-icon {
+  position: absolute;
+  right: -1.75em;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.text-input .status-icon {
+  opacity: 0;
+  transition: all 200ms ease-in-out;
+}
+
+.text-input .status-icon.changed,
+.text-input .status-icon.saved {
+  opacity: 1;
+}
+
+.text-input .status-icon.changed {
+  color: var(--settings-text-color) !important;
+}
+
+.text-input .text-field {
+  color: var(--settings-text-color);
+  padding: 10.5px 14px;
+  background-color: var(--settings-setting-off-color);
+  border: 1px solid rgba(var(--settings-text-color), 0.5);
+  border-radius: 4px;
+}
+
+.text-input .text-field:focus {
+  outline: none;
+  border-color: var(--settings-setting-on-color);
+}

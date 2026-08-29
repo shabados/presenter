@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Shabad OS</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+
+  <body>
+    <div class="logo">
+      <img src="logo.png" width="64px" />
+      <span>Shabad OS</span>
+    </div>
+    <div class="message">
+      <span id="start-message">Starting</span>
+    </div>
+    <script>
+      const version = new URLSearchParams(window.location.search).get(
+        'version'
+      );
+      document.getElementById(
+        'start-message'
+      ).textContent = `Starting v${version}`;
+    </script>
+  </body>
+</html>
